@@ -1,0 +1,10 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Completion response reflects the real NOT rule, including the unlit result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_night_narrative.gd:19)
+       [1] run (res://tests/test_night_narrative.gd:125)
+       [2] settle (res://tests/test_night_narrative.gd:23)
+TEMPORARY_ROUTE_CHECK: actual Prediction reopen exercised
+FAIL: night narrative controller integration (65 checks)

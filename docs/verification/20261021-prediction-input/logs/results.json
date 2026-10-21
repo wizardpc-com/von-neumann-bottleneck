@@ -1,0 +1,78 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/user_directory"
+    },
+    {
+      "name": "test_narrative_review",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_narrative_review.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/test_narrative_review"
+    },
+    {
+      "name": "test_prediction_goal_feedback",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_goal_feedback.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/test_prediction_goal_feedback"
+    },
+    {
+      "name": "test_prediction_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/test_prediction_navigation"
+    },
+    {
+      "name": "test_prediction_player_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_player_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/test_prediction_player_input"
+    },
+    {
+      "name": "test_prediction_record_source",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_record_source.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/test_prediction_record_source"
+    },
+    {
+      "name": "test_prediction_slice",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_slice.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/test_prediction_slice"
+    },
+    {
+      "name": "test_prediction_workbench_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_workbench_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T223046Z-4345fa2d/test_prediction_workbench_presentation"
+    }
+  ]
+}

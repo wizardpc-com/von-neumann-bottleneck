@@ -1,0 +1,13 @@
+extends "res://tests/test_chapter_return_input.gd"
+## One additional rendered checkpoint using the same real input route.
+func press(control: Control) -> void:
+	await super.press(control)
+	if control.name != "NearStore4Button": return
+	check(ui.current_cache_lines == 4, "The clicked four-line cache is applied.")
+	check(ui.instrument_host.get_global_rect().encloses(ui.instrument_windows[&"cache"].get_global_rect()), "The storage window remains within the desktop.")
+	await shot("cache-four-lines-applied")
+	print("Host: ",ui.instrument_host.get_global_rect())
+	print("Window: ",ui.instrument_windows[&"cache"].get_global_rect())
+	print("Applied cache lines: ",ui.current_cache_lines)
+	print(("PASS: " if failures.is_empty() else "FAIL: ") + "cache input capture")
+	quit(0 if failures.is_empty() else 1)

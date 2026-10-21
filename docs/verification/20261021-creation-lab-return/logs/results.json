@@ -1,0 +1,70 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T201939Z-bca57c31/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T201939Z-bca57c31/user_directory"
+    },
+    {
+      "name": "test_creation_lab_return_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_lab_return_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T201939Z-bca57c31/test_creation_lab_return_input"
+    },
+    {
+      "name": "test_creation_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T201939Z-bca57c31/test_creation_navigation"
+    },
+    {
+      "name": "test_creation_route_flow",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_route_flow.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T201939Z-bca57c31/test_creation_route_flow"
+    },
+    {
+      "name": "test_creation_save_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_save_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T201939Z-bca57c31/test_creation_save_input"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T201939Z-bca57c31/test_lab_journey"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T201939Z-bca57c31/test_lab_terminal_routing"
+    }
+  ]
+}

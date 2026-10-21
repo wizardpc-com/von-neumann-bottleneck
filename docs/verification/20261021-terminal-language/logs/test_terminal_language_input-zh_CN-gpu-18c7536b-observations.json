@@ -1,0 +1,286 @@
+[
+	{
+		"check": "The isolated language test starts with no earned completion.",
+		"ok": true
+	},
+	{
+		"check": "Test access enters the capstone without granting its completion.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested cache modification is actually applied.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The real successful experiment earns the chapter response.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Returning from the actual completion opens the chapter response.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: before-language-question",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual language button changes the displayed language.",
+		"ok": true
+	},
+	{
+		"check": "Language change retains the same response or answer in the selected language.",
+		"ok": true
+	},
+	{
+		"check": "Language changes do not alter earned progress or archive/read state.",
+		"ok": true
+	},
+	{
+		"check": "The language reload consumes its temporary view without counting another laboratory visit.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: after-language-question",
+		"ok": true
+	},
+	{
+		"check": "Changing language does not discard the earned chapter conversation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual language button changes the displayed language.",
+		"ok": true
+	},
+	{
+		"check": "Language change retains the same response or answer in the selected language.",
+		"ok": true
+	},
+	{
+		"check": "Language changes do not alter earned progress or archive/read state.",
+		"ok": true
+	},
+	{
+		"check": "The language reload consumes its temporary view without counting another laboratory visit.",
+		"ok": true
+	},
+	{
+		"check": "Switching back preserves the original two choices without duplication.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The chosen answer is still being typed before switching language.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual language button changes the displayed language.",
+		"ok": true
+	},
+	{
+		"check": "Language change retains the same response or answer in the selected language.",
+		"ok": true
+	},
+	{
+		"check": "Language changes do not alter earned progress or archive/read state.",
+		"ok": true
+	},
+	{
+		"check": "The language reload consumes its temporary view without counting another laboratory visit.",
+		"ok": true
+	},
+	{
+		"check": "The selected reply is retained and translated with its answer.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: translated-answer",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual language button changes the displayed language.",
+		"ok": true
+	},
+	{
+		"check": "Language change retains the same response or answer in the selected language.",
+		"ok": true
+	},
+	{
+		"check": "Language changes do not alter earned progress or archive/read state.",
+		"ok": true
+	},
+	{
+		"check": "The language reload consumes its temporary view without counting another laboratory visit.",
+		"ok": true
+	},
+	{
+		"check": "The final exploration beat does not retain the earlier player reply.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: translated-exploration",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "After Back, changing language does not resurrect the conversation.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: after-exit-language",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Ordinary completion feedback survives with the current-language task title.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: ordinary-response-fixture",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Scene transition reaches res://src/campaign/task_tree.tscn",
+		"ok": true
+	},
+	{
+		"check": "Scene transition reaches res://src/ui/prototype_hub.tscn",
+		"ok": true
+	},
+	{
+		"check": "Leaving and returning does not retain the temporary language checkpoint.",
+		"ok": true
+	},
+	{
+		"check": "Language and navigation never complete another task.",
+		"ok": true
+	}
+]

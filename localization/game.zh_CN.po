@@ -394,7 +394,7 @@ msgid "program.apply.tooltip"
 msgstr "确认此有效草稿，将它设为测试台可以执行的唯一程序。"
 
 msgid "program.apply.draft_pending"
-msgstr "草稿尚未应用 — 测试台仍使用之前的程序"
+msgstr "草稿尚未应用 — 先点「应用程序」，再运行。"
 
 msgid "program.apply.applied"
 msgstr "已应用程序 · %s"
@@ -1179,6 +1179,9 @@ msgstr "#%d  A%d B%d  ·  正在运行"
 msgid "hardware.cases.row_result"
 msgstr "#%d  A%d B%d  →  实际 %s  ·  %s"
 
+msgid "hardware.cases.expected_outputs"
+msgstr "期望 SUM%d · CARRY%d"
+
 msgid "hardware.sealed.library_heading"
 msgstr "玩家元件库"
 
@@ -1959,7 +1962,7 @@ msgid "hardware.hint.button"
 msgstr "提示 · F1"
 
 msgid "hardware.hint.button.tooltip"
-msgstr "向壹求助（F1）：先给一句方向；需要时再打开只读提示画布，不会改动你的方案。"
+msgstr "提示（F1）：先看一句方向，需要时再打开提示画布。你的方案会保留。"
 
 msgid "hardware.hint.return"
 msgstr "返回我的方案"
@@ -2007,7 +2010,7 @@ msgid "hardware.hint.generic"
 msgstr "先根据输入、输出和官方测试，把问题拆成更小的信号关系。"
 
 msgid "hardware.hint.tutorial.1"
-msgstr "先完成一条最短信号链：从输出端口开始连线，并观察信号是否沿屏幕上的真实线路到达目标。"
+msgstr "从 A 的输出端接到 NOT，再接到灯。先猜灯会怎样，再运行看看。"
 
 msgid "hardware.hint.tutorial.2"
 msgstr "尝试让输入 A 经过 NOT 后进入灯；重点观察反相前后的端口颜色。"
@@ -2016,7 +2019,7 @@ msgid "hardware.hint.tutorial.3"
 msgstr "完整示例使用 A → NOT → LAMP，足以练习连接、运行、删除和重新连接。"
 
 msgid "hardware.hint.half_adder.1"
-msgstr "先不连线。遮住真值表的一列，只看 CARRY：哪一行与其他三行不同？再只看 SUM：它的两行 1 有什么共同点？先选择较简单的输出。"
+msgstr "先看 CARRY：哪一行与其他三行不同？再看 SUM：两行 1 有什么共同点？选一个输出开始接。"
 
 msgid "hardware.hint.half_adder.2"
 msgstr "CARRY 只在 A、B 都为 1 时为 1。画布展示这条局部支路。\n\nSUM 为 1 的两行是 01 和 10：每一行可视为一个条件，需要 0 的输入先反相，再检查条件，最后合并它们。"
@@ -2802,7 +2805,7 @@ msgid "hardware.completion.chapter"
 msgstr "序章 · 一线成机"
 
 msgid "hardware.completion.summary.tutorial"
-msgstr "电路已经接通，也能运行和修补。0 和 1 都是正常信号；改变输入，沿线观察结果。"
+msgstr "五个操作都完成了：接线、切换输入、运行、拆线、重连。"
 
 msgid "hardware.completion.summary.half_adder"
 msgstr "两个一位数相加，得到 SUM 和 CARRY，也得到可复用的 HalfAdder。新解锁的 XOR 在两个输入不同时输出 1，正好对应 SUM 的规则。"
@@ -3138,7 +3141,7 @@ msgid "chapter2.review.finding"
 msgstr "打开调查发现"
 
 msgid "chapter2.capstone.summary"
-msgstr "BASELINE → 最佳结果\n总周期：%d → %d 周期（减少 %d）\nCPU 等待：%d → %d 周期（减少 %d）\n硬件成本：%d\n最佳配置：%s\n\n你在修改机器前先诊断了重复的远程取数。多种解法仍然有效。"
+msgstr "基线 → 已记录方案中的最好结果\n总周期：%d → %d 周期（减少 %d）\nCPU 等待：%d → %d 周期（减少 %d）\n硬件成本：%d\n对应配置：%s"
 
 msgid "chapter2.capstone.profiler.raw_summary"
 msgstr "%s\n原始证据 · 总计 %d 周期 · CPU 等待 %d 周期"
@@ -4786,6 +4789,9 @@ msgstr "这台机器还有优化空间。你可以保留当前方案，再比较
 msgid "hardware.completion.ready_to_seal"
 msgstr "完整测试已通过。封装成 %s 后，就能在后面的挑战里把它当作元件使用；里面仍是你搭建的线路。"
 
+msgid "hardware.completion.tests_passed"
+msgstr "测试通过"
+
 
 msgid "hardware.palette.port_width"
 msgstr "%d 位端口"
@@ -5626,7 +5632,7 @@ msgid "overlap.arrival.learned"
 msgstr "发出请求之后，数据尚需时间到达。独立计算可以填入这段等待，两条探索支线已开放。"
 
 msgid "overlap.buffers.learned"
-msgstr "你让两只缓冲交替服务，真实地重叠了 12 周期搬运与计算。接下来看看速度变化时会怎样。\n\n这一批计算时，下一批已经在路上。"
+msgstr "搬运与计算在时间线上重叠，结果和周期都达标了。"
 
 msgid "overlap.backpressure.learned"
 msgstr "同一套状态交接适应了两组计算时长，不覆盖数据。free 与 ready 比固定等待更可靠。"

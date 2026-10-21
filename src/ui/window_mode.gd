@@ -271,7 +271,11 @@ func reload_localized_scene(from_level: bool, return_to_settings: bool = true) -
 		navigation.pending=navigation.selected
 	if is_instance_valid(settings_layer): settings_layer.queue_free(); settings_layer=null
 	reopen_settings=return_to_settings and not from_level
-	get_tree().reload_current_scene()
+	var scene: Node = get_tree().current_scene
+	if scene != null and scene.has_method("reload_localized_scene"):
+		scene.reload_localized_scene()
+	else:
+		get_tree().reload_current_scene()
 	if from_level and return_to_settings: call_deferred("open_settings")
 
 func _process(delta: float) -> void:

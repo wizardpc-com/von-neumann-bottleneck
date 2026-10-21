@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+FIXTURE: isolated tutorial completion opens AND/half-adder rules; no lesson was played or earned by this suite.
+PASS: isolated rule practice viewport input (391 checks)

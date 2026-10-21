@@ -1,0 +1,481 @@
+﻿locale,key,source_title,old_short_title,visible_task_name,button,welcome,completion
+zh_CN,hardware_foundations/tutorial,序章·接线教程,序章·接线教程,接线教程,"开始旅程
+接线教程","欢迎回来。
+下一项是「接线教程」。","「接线教程」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/half_adder,序章·搭建 1 位半加器,序章·搭建 1 位半加器,搭建 1 位半加器,"继续
+搭建 1 位半加器","欢迎回来。
+下一项是「搭建 1 位半加器」。","「搭建 1 位半加器」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/full_adder,全加器,全加器,全加器,"继续
+全加器","欢迎回来。
+下一项是「全加器」。","「全加器」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/alu,一位 ALU,一位 ALU,一位 ALU,"继续
+一位 ALU","欢迎回来。
+下一项是「一位 ALU」。","「一位 ALU」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/latch,SR 锁存器,SR 锁存器,SR 锁存器,"继续
+SR 锁存器","欢迎回来。
+下一项是「SR 锁存器」。","「SR 锁存器」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/register,一位寄存器,一位寄存器,一位寄存器,"继续
+一位寄存器","欢迎回来。
+下一项是「一位寄存器」。","「一位寄存器」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/ram,2×4 RAM,2×4 RAM,2×4 RAM,"继续
+2×4 RAM","欢迎回来。
+下一项是「2×4 RAM」。","「2×4 RAM」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/cpu,四位累加器 CPU,四位累加器 CPU,四位累加器 CPU,"继续
+四位累加器 CPU","欢迎回来。
+下一项是「四位累加器 CPU」。","「四位累加器 CPU」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/load_store,LOAD/STORE 桥接实验,LOAD/STORE 桥接实验,LOAD/STORE 桥接实验,"继续
+LOAD/STORE 桥接实验","欢迎回来。
+下一项是「LOAD/STORE 桥接实验」。","「LOAD/STORE 桥接实验」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/selector,谁能通过？,谁能通过？,谁能通过？,"继续
+谁能通过？","欢迎回来。
+下一项是「谁能通过？」。","「谁能通过？」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/selector4,四路择一,四路择一,四路择一,"继续
+四路择一","欢迎回来。
+下一项是「四路择一」。","「四路择一」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/parity,错了一位,错了一位,错了一位,"继续
+错了一位","欢迎回来。
+下一项是「错了一位」。","「错了一位」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/delay,晚一拍,晚一拍,晚一拍,"继续
+晚一拍","欢迎回来。
+下一项是「晚一拍」。","「晚一拍」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,hardware_foundations/alarm,留住一瞬,留住一瞬,留住一瞬,"继续
+留住一瞬","欢迎回来。
+下一项是「留住一瞬」。","「留住一瞬」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_1/assembly,三器相连,三器相连,三器相连,"继续
+三器相连","欢迎回来。
+下一项是「三器相连」。","「三器相连」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_1/cpu_speed,快慢之间,快慢之间,快慢之间,"继续
+快慢之间","欢迎回来。
+下一项是「快慢之间」。","「快慢之间」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_1/ram_wait,等待的来处,等待的来处,等待的来处,"继续
+等待的来处","欢迎回来。
+下一项是「等待的来处」。","「等待的来处」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_1/bus_width,宽窄之间,宽窄之间,宽窄之间,"继续
+宽窄之间","欢迎回来。
+下一项是「宽窄之间」。","「宽窄之间」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_1/bottleneck,循时寻因,循时寻因,循时寻因,"继续
+循时寻因","欢迎回来。
+下一项是「循时寻因」。","「循时寻因」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_1/read_once,一取再用,一取再用,一取再用,"继续
+一取再用","欢迎回来。
+下一项是「一取再用」。","「一取再用」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_1/two_orders,一笔预算，两张订单,一笔预算，两张订单,一笔预算，两张订单,"继续
+一笔预算，两张订单","欢迎回来。
+下一项是「一笔预算，两张订单」。","「一笔预算，两张订单」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_2/distant_reads,远取之累,远取之累,远取之累,"继续
+远取之累","欢迎回来。
+下一项是「远取之累」。","「远取之累」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_2/nearby_storage,留待再用,留待再用,留待再用,"继续
+留待再用","欢迎回来。
+下一项是「留待再用」。","「留待再用」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_2/cache_failure,留不住的数据,留不住的数据,留不住的数据,"继续
+留不住的数据","欢迎回来。
+下一项是「留不住的数据」。","「留不住的数据」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_2/access_order,先后有序,先后有序,先后有序,"继续
+先后有序","欢迎回来。
+下一项是「先后有序」。","「先后有序」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_2/working_set,容量有界,容量有界,容量有界,"继续
+容量有界","欢迎回来。
+下一项是「容量有界」。","「容量有界」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_2/blocking,分而复用,分而复用,分而复用,"继续
+分而复用","欢迎回来。
+下一项是「分而复用」。","「分而复用」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_2/capstone,循迹而行,循迹而行,循迹而行,"继续
+循迹而行","欢迎回来。
+下一项是「循迹而行」。","「循迹而行」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_3/arrival,尚在途中,尚在途中,尚在途中,"继续
+尚在途中","欢迎回来。
+下一项是「尚在途中」。","「尚在途中」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_3/buffers,交替接力,交替接力,交替接力,"继续
+交替接力","欢迎回来。
+下一项是「交替接力」。","「交替接力」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_3/backpressure,进退有度,进退有度,进退有度,"继续
+进退有度","欢迎回来。
+下一项是「进退有度」。","「进退有度」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_3/prefetch,先行一步,先行一步,先行一步,"继续
+先行一步","欢迎回来。
+下一项是「先行一步」。","「先行一步」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_3/distance,过犹不及,过犹不及,过犹不及,"继续
+过犹不及","欢迎回来。
+下一项是「过犹不及」。","「过犹不及」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_3/synthesis,各行其时,各行其时,各行其时,"继续
+各行其时","欢迎回来。
+下一项是「各行其时」。","「各行其时」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_4/fields,只取所需,只取所需,只取所需,"继续
+只取所需","欢迎回来。
+下一项是「只取所需」。","「只取所需」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_4/records,一窥全貌,一窥全貌,一窥全貌,"继续
+一窥全貌","欢迎回来。
+下一项是「一窥全貌」。","「一窥全貌」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_4/hot_cold,冷热有别,冷热有别,冷热有别,"继续
+冷热有别","欢迎回来。
+下一项是「冷热有别」。","「冷热有别」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_4/relocation,搬迁有价,搬迁有价,搬迁有价,"继续
+搬迁有价","欢迎回来。
+下一项是「搬迁有价」。","「搬迁有价」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_4/batches,化整为零,化整为零,化整为零,"继续
+化整为零","欢迎回来。
+下一项是「化整为零」。","「化整为零」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,chapter_4/mixed,两全之策,两全之策,两全之策,"继续
+两全之策","欢迎回来。
+下一项是「两全之策」。","「两全之策」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,representation/mixed_scan,1 · 混合扫描,1 · 混合扫描,混合扫描,"继续
+混合扫描","欢迎回来。
+下一项是「混合扫描」。","「混合扫描」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,representation/interior_hotspots,2 · 内部热点,2 · 内部热点,内部热点,"继续
+内部热点","欢迎回来。
+下一项是「内部热点」。","「内部热点」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,representation/dense_sparse,3 · 密集与稀疏,3 · 密集与稀疏,密集与稀疏,"继续
+密集与稀疏","欢迎回来。
+下一项是「密集与稀疏」。","「密集与稀疏」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,representation/prepare_once,4 · 准备一次，再服务,4 · 准备一次，再服务,准备一次，再服务,"继续
+准备一次，再服务","欢迎回来。
+下一项是「准备一次，再服务」。","「准备一次，再服务」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,representation/cross_assets,5 · 两份资产，一个方案,5 · 两份资产，一个方案,两份资产，一个方案,"继续
+两份资产，一个方案","欢迎回来。
+下一项是「两份资产，一个方案」。","「两份资产，一个方案」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,service/move_state,少搬状态,少搬状态,少搬状态,"继续
+少搬状态","欢迎回来。
+下一项是「少搬状态」。","「少搬状态」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,service/prompt_response,及时服务,及时服务,及时服务,"继续
+及时服务","欢迎回来。
+下一项是「及时服务」。","「及时服务」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,service/one_plan,同一服务方案,同一服务方案,同一服务方案,"继续
+同一服务方案","欢迎回来。
+下一项是「同一服务方案」。","「同一服务方案」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,prediction/regular,规律流,规律流,规律流,"继续
+规律流","欢迎回来。
+下一项是「规律流」。","「规律流」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,prediction/changed,规律改变,规律改变,规律改变,"继续
+规律改变","欢迎回来。
+下一项是「规律改变」。","「规律改变」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,prediction/alternating,交替热点,交替热点,交替热点,"继续
+交替热点","欢迎回来。
+下一项是「交替热点」。","「交替热点」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/C1_restore,8-1 让例外抵达,8-1 让例外抵达,让例外抵达,"继续
+让例外抵达","欢迎回来。
+下一项是「让例外抵达」。","「让例外抵达」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/C2_cost,8-2 规则也占位置,8-2 规则也占位置,规则也占位置,"继续
+规则也占位置","欢迎回来。
+下一项是「规则也占位置」。","「规则也占位置」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/C3_conditions,8-3 值不值得这样搬,8-3 值不值得这样搬,值不值得这样搬,"继续
+值不值得这样搬","欢迎回来。
+下一项是「值不值得这样搬」。","「值不值得这样搬」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/P1_commit,9-1 下一格尚未抵达,9-1 下一格尚未抵达,下一格尚未抵达,"继续
+下一格尚未抵达","欢迎回来。
+下一项是「下一格尚未抵达」。","「下一格尚未抵达」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/P2_memory,9-2 需要记住多少,9-2 需要记住多少,需要记住多少,"继续
+需要记住多少","欢迎回来。
+下一项是「需要记住多少」。","「需要记住多少」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/P3_check,9-3 带着不确定检查,9-3 带着不确定检查,带着不确定检查,"继续
+带着不确定检查","欢迎回来。
+下一项是「带着不确定检查」。","「带着不确定检查」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/G1_feedback,10-1 让输出接回输入,10-1 让输出接回输入,让输出接回输入,"继续
+让输出接回输入","欢迎回来。
+下一项是「让输出接回输入」。","「让输出接回输入」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/G2_intent,10-2 按自己的意图改变,10-2 按自己的意图改变,按自己的意图改变,"继续
+按自己的意图改变","欢迎回来。
+下一项是「按自己的意图改变」。","「按自己的意图改变」完成了。
+你可以回去再改它，也可以继续往前走。"
+zh_CN,creation/G3_keep,10-3 留下你的下一段,10-3 留下你的下一段,留下你的下一段,"继续
+留下你的下一段","欢迎回来。
+下一项是「留下你的下一段」。","「留下你的下一段」完成了。
+你可以回去再改它，也可以继续往前走。"
+en,hardware_foundations/tutorial,Prologue · Wiring Tutorial,Prologue,Wiring Tutorial,"Start journey
+Wiring Tutorial","Welcome back.
+Next up: ""Wiring Tutorial"".","""Wiring Tutorial"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/half_adder,Prologue · Build a 1-bit Half Adder,Prologue,Build a 1-bit Half Adder,"Continue
+Build a 1-bit Half Adder","Welcome back.
+Next up: ""Build a 1-bit Half Adder"".","""Build a 1-bit Half Adder"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/full_adder,Full Adder,Full Adder,Full Adder,"Continue
+Full Adder","Welcome back.
+Next up: ""Full Adder"".","""Full Adder"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/alu,One-bit ALU,One-bit ALU,One-bit ALU,"Continue
+One-bit ALU","Welcome back.
+Next up: ""One-bit ALU"".","""One-bit ALU"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/latch,SR Latch,SR Latch,SR Latch,"Continue
+SR Latch","Welcome back.
+Next up: ""SR Latch"".","""SR Latch"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/register,One-bit Register,One-bit Register,One-bit Register,"Continue
+One-bit Register","Welcome back.
+Next up: ""One-bit Register"".","""One-bit Register"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/ram,2×4 RAM,2×4 RAM,2×4 RAM,"Continue
+2×4 RAM","Welcome back.
+Next up: ""2×4 RAM"".","""2×4 RAM"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/cpu,Four-bit Accumulator CPU,Four-bit Accumula…,Four-bit Accumulator CPU,"Continue
+Four-bit Accumulator CPU","Welcome back.
+Next up: ""Four-bit Accumulator CPU"".","""Four-bit Accumulator CPU"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/load_store,LOAD/STORE Bridge,LOAD/STORE Bridge,LOAD/STORE Bridge,"Continue
+LOAD/STORE Bridge","Welcome back.
+Next up: ""LOAD/STORE Bridge"".","""LOAD/STORE Bridge"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/selector,Who gets through?,Who gets through?,Who gets through?,"Continue
+Who gets through?","Welcome back.
+Next up: ""Who gets through?"".","""Who gets through?"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/selector4,One of four,One of four,One of four,"Continue
+One of four","Welcome back.
+Next up: ""One of four"".","""One of four"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/parity,One bit went wrong,One bit went wrong,One bit went wrong,"Continue
+One bit went wrong","Welcome back.
+Next up: ""One bit went wrong"".","""One bit went wrong"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/delay,One accepted sample later,One accepted samp…,One accepted sample later,"Continue
+One accepted sample later","Welcome back.
+Next up: ""One accepted sample later"".","""One accepted sample later"" is complete.
+You can return to try another approach, or keep going."
+en,hardware_foundations/alarm,A Moment Remembered,A Moment Remember…,A Moment Remembered,"Continue
+A Moment Remembered","Welcome back.
+Next up: ""A Moment Remembered"".","""A Moment Remembered"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_1/assembly,"Three Parts, One Machine","Three Parts, One …","Three Parts, One Machine","Continue
+Three Parts, One Machine","Welcome back.
+Next up: ""Three Parts, One Machine"".","""Three Parts, One Machine"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_1/cpu_speed,The Waiting Remains,The Waiting Remai…,The Waiting Remains,"Continue
+The Waiting Remains","Welcome back.
+Next up: ""The Waiting Remains"".","""The Waiting Remains"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_1/ram_wait,Time on the Road,Time on the Road,Time on the Road,"Continue
+Time on the Road","Welcome back.
+Next up: ""Time on the Road"".","""Time on the Road"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_1/bus_width,Room to Pass,Room to Pass,Room to Pass,"Continue
+Room to Pass","Welcome back.
+Next up: ""Room to Pass"".","""Room to Pass"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_1/bottleneck,Follow the Delay,Follow the Delay,Follow the Delay,"Continue
+Follow the Delay","Welcome back.
+Next up: ""Follow the Delay"".","""Follow the Delay"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_1/read_once,Once Is Enough,Once Is Enough,Once Is Enough,"Continue
+Once Is Enough","Welcome back.
+Next up: ""Once Is Enough"".","""Once Is Enough"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_1/two_orders,"One budget, two orders","One budget, two o…","One budget, two orders","Continue
+One budget, two orders","Welcome back.
+Next up: ""One budget, two orders"".","""One budget, two orders"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_2/distant_reads,The Long Way Round,The Long Way Round,The Long Way Round,"Continue
+The Long Way Round","Welcome back.
+Next up: ""The Long Way Round"".","""The Long Way Round"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_2/nearby_storage,Keep It Handy,Keep It Handy,Keep It Handy,"Continue
+Keep It Handy","Welcome back.
+Next up: ""Keep It Handy"".","""Keep It Handy"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_2/cache_failure,"Here, Then Gone","Here, Then Gone","Here, Then Gone","Continue
+Here, Then Gone","Welcome back.
+Next up: ""Here, Then Gone"".","""Here, Then Gone"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_2/access_order,A Change of Order,A Change of Order,A Change of Order,"Continue
+A Change of Order","Welcome back.
+Next up: ""A Change of Order"".","""A Change of Order"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_2/working_set,Only So Much Room,Only So Much Room,Only So Much Room,"Continue
+Only So Much Room","Welcome back.
+Next up: ""Only So Much Room"".","""Only So Much Room"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_2/blocking,A Little at a Time,A Little at a Time,A Little at a Time,"Continue
+A Little at a Time","Welcome back.
+Next up: ""A Little at a Time"".","""A Little at a Time"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_2/capstone,Follow the Clues,Follow the Clues,Follow the Clues,"Continue
+Follow the Clues","Welcome back.
+Next up: ""Follow the Clues"".","""Follow the Clues"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_3/arrival,Still on the Way,Still on the Way,Still on the Way,"Continue
+Still on the Way","Welcome back.
+Next up: ""Still on the Way"".","""Still on the Way"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_3/buffers,Taking Turns,Taking Turns,Taking Turns,"Continue
+Taking Turns","Welcome back.
+Next up: ""Taking Turns"".","""Taking Turns"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_3/backpressure,Give and Take,Give and Take,Give and Take,"Continue
+Give and Take","Welcome back.
+Next up: ""Give and Take"".","""Give and Take"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_3/prefetch,One Step Ahead,One Step Ahead,One Step Ahead,"Continue
+One Step Ahead","Welcome back.
+Next up: ""One Step Ahead"".","""One Step Ahead"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_3/distance,Too Far Ahead,Too Far Ahead,Too Far Ahead,"Continue
+Too Far Ahead","Welcome back.
+Next up: ""Too Far Ahead"".","""Too Far Ahead"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_3/synthesis,All in Good Time,All in Good Time,All in Good Time,"Continue
+All in Good Time","Welcome back.
+Next up: ""All in Good Time"".","""All in Good Time"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_4/fields,Just What We Need,Just What We Need,Just What We Need,"Continue
+Just What We Need","Welcome back.
+Next up: ""Just What We Need"".","""Just What We Need"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_4/records,The Whole Picture,The Whole Picture,The Whole Picture,"Continue
+The Whole Picture","Welcome back.
+Next up: ""The Whole Picture"".","""The Whole Picture"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_4/hot_cold,Separate Ways,Separate Ways,Separate Ways,"Continue
+Separate Ways","Welcome back.
+Next up: ""Separate Ways"".","""Separate Ways"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_4/relocation,The Price of Moving,The Price of Movi…,The Price of Moving,"Continue
+The Price of Moving","Welcome back.
+Next up: ""The Price of Moving"".","""The Price of Moving"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_4/batches,Piece by Piece,Piece by Piece,Piece by Piece,"Continue
+Piece by Piece","Welcome back.
+Next up: ""Piece by Piece"".","""Piece by Piece"" is complete.
+You can return to try another approach, or keep going."
+en,chapter_4/mixed,Common Ground,Common Ground,Common Ground,"Continue
+Common Ground","Welcome back.
+Next up: ""Common Ground"".","""Common Ground"" is complete.
+You can return to try another approach, or keep going."
+en,representation/mixed_scan,1 · Mixed scan,1 · Mixed scan,Mixed scan,"Continue
+Mixed scan","Welcome back.
+Next up: ""Mixed scan"".","""Mixed scan"" is complete.
+You can return to try another approach, or keep going."
+en,representation/interior_hotspots,2 · Interior hotspots,2,Interior hotspots,"Continue
+Interior hotspots","Welcome back.
+Next up: ""Interior hotspots"".","""Interior hotspots"" is complete.
+You can return to try another approach, or keep going."
+en,representation/dense_sparse,3 · Dense and sparse,3,Dense and sparse,"Continue
+Dense and sparse","Welcome back.
+Next up: ""Dense and sparse"".","""Dense and sparse"" is complete.
+You can return to try another approach, or keep going."
+en,representation/prepare_once,"4 · Prepare once, serve",4,"Prepare once, serve","Continue
+Prepare once, serve","Welcome back.
+Next up: ""Prepare once, serve"".","""Prepare once, serve"" is complete.
+You can return to try another approach, or keep going."
+en,representation/cross_assets,"5 · Two assets, one plan",5,"Two assets, one plan","Continue
+Two assets, one plan","Welcome back.
+Next up: ""Two assets, one plan"".","""Two assets, one plan"" is complete.
+You can return to try another approach, or keep going."
+en,service/move_state,Move less state,Move less state,Move less state,"Continue
+Move less state","Welcome back.
+Next up: ""Move less state"".","""Move less state"" is complete.
+You can return to try another approach, or keep going."
+en,service/prompt_response,Prompt service,Prompt service,Prompt service,"Continue
+Prompt service","Welcome back.
+Next up: ""Prompt service"".","""Prompt service"" is complete.
+You can return to try another approach, or keep going."
+en,service/one_plan,One service plan,One service plan,One service plan,"Continue
+One service plan","Welcome back.
+Next up: ""One service plan"".","""One service plan"" is complete.
+You can return to try another approach, or keep going."
+en,prediction/regular,Regular stream,Regular stream,Regular stream,"Continue
+Regular stream","Welcome back.
+Next up: ""Regular stream"".","""Regular stream"" is complete.
+You can return to try another approach, or keep going."
+en,prediction/changed,Pattern changes,Pattern changes,Pattern changes,"Continue
+Pattern changes","Welcome back.
+Next up: ""Pattern changes"".","""Pattern changes"" is complete.
+You can return to try another approach, or keep going."
+en,prediction/alternating,Alternating hotspots,Alternating hotsp…,Alternating hotspots,"Continue
+Alternating hotspots","Welcome back.
+Next up: ""Alternating hotspots"".","""Alternating hotspots"" is complete.
+You can return to try another approach, or keep going."
+en,creation/C1_restore,8-1 Carry the exceptions,8-1 Carry the exc…,Carry the exceptions,"Continue
+Carry the exceptions","Welcome back.
+Next up: ""Carry the exceptions"".","""Carry the exceptions"" is complete.
+You can return to try another approach, or keep going."
+en,creation/C2_cost,8-2 Rules take space,8-2 Rules take sp…,Rules take space,"Continue
+Rules take space","Welcome back.
+Next up: ""Rules take space"".","""Rules take space"" is complete.
+You can return to try another approach, or keep going."
+en,creation/C3_conditions,8-3 Is this worth moving?,8-3 Is this worth…,Is this worth moving?,"Continue
+Is this worth moving?","Welcome back.
+Next up: ""Is this worth moving?"".","""Is this worth moving?"" is complete.
+You can return to try another approach, or keep going."
+en,creation/P1_commit,9-1 The next cell is sealed,9-1 The next cell…,The next cell is sealed,"Continue
+The next cell is sealed","Welcome back.
+Next up: ""The next cell is sealed"".","""The next cell is sealed"" is complete.
+You can return to try another approach, or keep going."
+en,creation/P2_memory,9-2 How much history?,9-2 How much hist…,How much history?,"Continue
+How much history?","Welcome back.
+Next up: ""How much history?"".","""How much history?"" is complete.
+You can return to try another approach, or keep going."
+en,creation/P3_check,9-3 A frozen check,9-3 A frozen check,A frozen check,"Continue
+A frozen check","Welcome back.
+Next up: ""A frozen check"".","""A frozen check"" is complete.
+You can return to try another approach, or keep going."
+en,creation/G1_feedback,10-1 Feed output back,10-1 Feed output …,Feed output back,"Continue
+Feed output back","Welcome back.
+Next up: ""Feed output back"".","""Feed output back"" is complete.
+You can return to try another approach, or keep going."
+en,creation/G2_intent,10-2 Change with intent,10-2 Change with …,Change with intent,"Continue
+Change with intent","Welcome back.
+Next up: ""Change with intent"".","""Change with intent"" is complete.
+You can return to try another approach, or keep going."
+en,creation/G3_keep,10-3 Keep your next passage,10-3 Keep your ne…,Keep your next passage,"Continue
+Keep your next passage","Welcome back.
+Next up: ""Keep your next passage"".","""Keep your next passage"" is complete.
+You can return to try another approach, or keep going."

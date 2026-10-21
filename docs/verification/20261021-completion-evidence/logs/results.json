@@ -1,0 +1,62 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T193932Z-537cfb80/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T193932Z-537cfb80/user_directory"
+    },
+    {
+      "name": "test_bilingual_typography",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_bilingual_typography.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T193932Z-537cfb80/test_bilingual_typography"
+    },
+    {
+      "name": "test_completion_evidence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_evidence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T193932Z-537cfb80/test_completion_evidence"
+    },
+    {
+      "name": "test_full_journey_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_full_journey_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T193932Z-537cfb80/test_full_journey_narrative"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T193932Z-537cfb80/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T193932Z-537cfb80/test_localization"
+    }
+  ]
+}

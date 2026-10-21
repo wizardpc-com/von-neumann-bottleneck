@@ -207,7 +207,7 @@ func build() -> void:
 	make_label(text2("同值同色 · 顶边蓝=RAW，绿=RLE · 点击字节选中分块", "Equal bytes share a color · blue top=RAW, green=RLE · click a byte to select its block"),reading,13)
 	public_order_choice = OptionButton.new(); public_order_choice.name = "PublicOrderPreview"
 	public_order_choice.add_item(text2("不标记请求", "No request markers"))
-	for public_order: Dictionary in Catalog.orders(task): public_order_choice.add_item(str(public_order.name))
+	for public_order: Dictionary in Catalog.orders(task): public_order_choice.add_item(display_order_name(str(public_order.name)))
 	preview_order = mini(preview_order,public_order_choice.item_count-1)
 	public_order_choice.select(preview_order)
 	public_order_choice.item_selected.connect(func(index: int) -> void: preview_order = index; refresh_request_preview())
@@ -240,7 +240,9 @@ func build() -> void:
 	merge_button = make_button(text2("合并右块","Merge right"),edit,func() -> void: edit_plan(Model.merge(plan,selected_block)),"Merge")
 	var codec_row := HBoxContainer.new(); codec_row.name = "CodecActions"; editor.add_child(codec_row)
 	raw_button = make_button(text2("选中块 → 原始","Block → Raw"),codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"raw")),"Raw")
+	raw_button.tooltip_text = text2("RAW按原始字节读取，每块仍有目录成本。", "RAW reads the original bytes. Each block still has a directory cost.")
 	rle_button = make_button(text2("选中块 → RLE","Block → RLE"),codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"rle")),"RLE")
+	rle_button.tooltip_text = text2("RLE用“次数＋数值”记录连续重复字节；读出时需要解码。是否省空间，要看这块数据。", "RLE stores consecutive repeated bytes as count/value pairs. Reading costs decoding work; space savings depend on this block's data.")
 	undo_button = make_button(text2("撤销","Undo"),codec_row,undo,"Undo")
 	redo_button = make_button(text2("重做","Redo"),codec_row,redo,"Redo")
 	make_label(text2("最多8块；合并保留左块表示。每块4B地址目录；RLE另有2B原长头和(count,value)对。解码操作=输出字节+run数。","At most 8 blocks; merging keeps the left codec. Every block has a 4B address directory. RLE adds a 2B length header and (count,value) pairs. Decode work=output bytes+runs."),reading,13)
@@ -383,15 +385,18 @@ const ORDER_NAMES_ZH := {"Mixed scan": "混合扫描", "Interior revisits": "内
 	"Prepare + short read": "准备 + 短读", "Prepare + eight cold scans": "准备 + 八次冷扫描",
 	"Asset A scan": "资产 A 扫描", "Asset B revisits": "资产 B 反复读取"}
 
+func display_order_name(value: String) -> String:
+	return text2(str(ORDER_NAMES_ZH.get(value,value)),value)
+
 func mission_text() -> String:
 	var lines: Array[String] = []
 	for i: int in Model.orders(task).size():
 		var spec: Dictionary = Model.orders(task)[i]
-		var order_name: String = text2(str(ORDER_NAMES_ZH.get(spec.name, spec.name)), str(spec.name))
+		var order_name: String = display_order_name(str(spec.name))
 		var reads: String = (str(spec.addresses) if spec.addresses.size() < 10 else "0…63")
 		lines.append(text2("%s：读取 %s · 缓存 %d B · %d 位客户 · %s", "%s: reads %s · cache %d B · %d client(s) · %s") % [order_name,reads,spec.cache_bytes,spec.clients,goal_text(Catalog.goals(task)[i])])
 	lines.append(text2("链路1B/周期；请求4周期；编码/解码8ops/周期；消费1周期；恢复上限64B。各订单同一方案、缓存从空开始。", "Link1B/cycle; request4; encode/decode8ops/cycle; consume1; scratch64B. Same plan for all orders, each starts cold."))
-	if task == 3: lines.append(text2("在线准备：RAW引用64B源，只写4B目录；RLE读取原区间、编码、写载荷+目录。存储/峰值包含保留的64B源。八位客户共用一次准备。", "Online preparation: RAW references the retained64B source and writes4B directory; RLE reads source, encodes, writes payload+directory. Storage/peak include64B source. Eight clients share preparation."))
+	if task == 3: lines.append(text2("在线准备：每个RAW块引用原始源，只写4B目录；每个RLE块读取原区间、编码、写载荷+目录。存储/峰值包含保留的64B源。每张订单各准备一次，八位客户共用该订单的准备。", "Online preparation: each RAW block references the source and writes a 4B directory; each RLE block reads its range, encodes, and writes payload + directory. Storage/peak include the retained 64B source. Each order prepares once; the eight clients share their order's preparation."))
 	return "\n".join(lines)
 
 func purpose_text() -> String:
@@ -399,7 +404,7 @@ func purpose_text() -> String:
 		0: return text2("用途 · 完整扫描混合资产，让表示同时满足时间与空间约束。", "Purpose · Deliver a mixed-asset scan within its time and storage limits.")
 		1: return text2("用途 · 反复读取内部热点；同一份表示回应重复访问。", "Purpose · Serve repeated interior reads from the same representation.")
 		2: return text2("用途 · 同一方案既要完成全扫描，也要回应稀疏的端点读取。", "Purpose · One plan must answer both a full scan and sparse endpoint reads.")
-		3: return text2("用途 · 先准备，再服务。两份订单分别实测：短读1位客户／全扫描8位冷缓存客户；每份订单只准备一次。", "Purpose · Prepare, then serve: one short reader / eight cold scans. Each order pays preparation once; its total includes that cost.")
+		3: return text2("用途 · 短读与反复扫描，会怎样改变准备工作的取舍？", "Purpose · How does preparing data pay off for a short read or repeated scans?")
 		4: return text2("用途 · 资产A扫描＋资产B复访，共用同一分块与表示。各自编码、各自实测；两份订单都须达标，不能拼用不同方案。", "Purpose · Asset A scan + asset B revisits share one partition and codec plan. Each asset is encoded and measured separately; both orders must meet their limits.")
 	return ""
 
@@ -553,7 +558,7 @@ func select_run(index: int) -> void:
 	for i: int in row.traces.size():
 		var trace: Trace = row.traces[i]
 		var badge: String = text2("达标", "Met") if order_within_limits(int(row.task),i,trace) else text2("未达标", "Unmet")
-		order_choice.add_item("[%s] %s" % [badge,str(trace.metrics.spec.name)])
+		order_choice.add_item("[%s] %s" % [badge,display_order_name(str(trace.metrics.spec.name))])
 	refresh_order_comparison(row)
 	var first_unmet: int = 0
 	for i: int in row.traces.size():
@@ -569,8 +574,8 @@ func refresh_order_comparison(record: Dictionary) -> void:
 		var item: TreeItem = order_comparison.create_item(root_row)
 		item.set_metadata(0,i)
 		var met: bool = order_within_limits(int(record.task),i,trace)
-		item.set_text(0,"[%s] %s" % [text2("达标", "Met") if met else text2("未达标", "Unmet"),str(m.spec.name)])
-		item.set_tooltip_text(0,str(m.spec.name)+"\n"+goal_text(Catalog.goals(int(record.task))[i]))
+		item.set_text(0,"[%s] %s" % [text2("达标", "Met") if met else text2("未达标", "Unmet"),display_order_name(str(m.spec.name))])
+		item.set_tooltip_text(0,display_order_name(str(m.spec.name))+"\n"+goal_text(Catalog.goals(int(record.task))[i]))
 		for column: int in range(1,5): item.set_text(column,str(m[["preparation_cycles","service_cycles","stored_bytes","traffic_bytes"][column-1]]))
 		item.set_custom_color(0,Color("62dca7") if met else Color("f2ba70"))
 
@@ -593,7 +598,7 @@ func show_trace(index: int) -> void:
 	var m: Dictionary = visible_trace.metrics
 	var met: bool = order_within_limits(int(row.task),index,visible_trace)
 	refresh_cost_overview(index)
-	result.text = text2("记录#%d · %s · %s\n准备 %d周期 + 服务 %d周期 = 总计 %d周期\n实际空间 %dB · 服务搬运 %dB", "Run #%d · %s · %s\nPrepare %d cycles + serve %d cycles = total %d cycles\nActual storage %dB · service traffic %dB") % [selected_run+1,m.spec.name,text2("达标", "Met") if met else text2("未达标", "Unmet"),m.preparation_cycles,m.service_cycles,m.total_cycles,m.stored_bytes,m.traffic_bytes]
+	result.text = text2("记录#%d · %s · %s\n准备 %d周期 + 服务 %d周期 = 总计 %d周期\n实际空间 %dB · 服务搬运 %dB", "Run #%d · %s · %s\nPrepare %d cycles + serve %d cycles = total %d cycles\nActual storage %dB · service traffic %dB") % [selected_run+1,display_order_name(str(m.spec.name)),text2("达标", "Met") if met else text2("未达标", "Unmet"),m.preparation_cycles,m.service_cycles,m.total_cycles,m.stored_bytes,m.traffic_bytes]
 	if m.spec.online:
 		result.text += text2("\n包含保留源%dB；本订单%d位客户共用一次准备、各自冷缓存。", "\nIncludes retained source %dB; this order’s %d clients share one preparation, each with a cold cache.") % [m.source_storage_bytes,m.spec.clients]
 	metric_details.text = text2("准备读%dB / 写%dB · 编码%dops（%d周期）\n解码%d周期 · 请求%d周期 · 消费%d周期 · hit/miss %d/%d · cache峰值%dB\n所有阶段搬运%dB · 准备后端存储峰值%dB（不含恢复缓冲）\n逻辑表示%dB；实际空间取自记录。", "Prepare read%dB / write%dB · encode%dops (%d cycles)\nDecode%dcycles · requests%dcycles · consume%dcycles · hit/miss %d/%d · cache peak%dB\nAll-phase traffic%dB · preparation backing-storage peak%dB (excludes recovery scratch)\nLogical representation%dB; actual storage comes from the recording.") % [m.source_read_bytes,m.prepared_write_bytes,m.encode_ops,m.encode_cycles,m.decode_cycles,m.request_cycles,m.consume_cycles,m.cache_hits,m.cache_misses,m.peak_cache_bytes,m.total_traffic_bytes,m.peak_preparation_bytes,m.representation_bytes]
@@ -603,7 +608,7 @@ func show_trace(index: int) -> void:
 	else:
 		var prior: Trace = comparison.trace
 		var before: Dictionary = prior.metrics
-		metric_details.text += text2("\n比较来源：记录#%d → #%d · %s（同任务、同规格）\n本次减去旧记录：准备%+d、服务%+d、总计%+d周期\n实际空间%+dB · 服务搬运%+dB · 全阶段搬运%+dB", "\nComparison source: run #%d → #%d · %s (same task and spec)\nCurrent minus prior: prepare%+d, serve%+d, total%+d cycles\nActual storage%+dB · service traffic%+dB · all-phase traffic%+dB") % [int(comparison.run_index)+1,selected_run+1,m.spec.name,int(m.preparation_cycles)-int(before.preparation_cycles),int(m.service_cycles)-int(before.service_cycles),int(m.total_cycles)-int(before.total_cycles),int(m.stored_bytes)-int(before.stored_bytes),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.total_traffic_bytes)-int(before.total_traffic_bytes)]
+		metric_details.text += text2("\n比较来源：记录#%d → #%d · %s（同任务、同规格）\n本次减去旧记录：准备%+d、服务%+d、总计%+d周期\n实际空间%+dB · 服务搬运%+dB · 全阶段搬运%+dB", "\nComparison source: run #%d → #%d · %s (same task and spec)\nCurrent minus prior: prepare%+d, serve%+d, total%+d cycles\nActual storage%+dB · service traffic%+dB · all-phase traffic%+dB") % [int(comparison.run_index)+1,selected_run+1,display_order_name(str(m.spec.name)),int(m.preparation_cycles)-int(before.preparation_cycles),int(m.service_cycles)-int(before.service_cycles),int(m.total_cycles)-int(before.total_cycles),int(m.stored_bytes)-int(before.stored_bytes),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.total_traffic_bytes)-int(before.total_traffic_bytes)]
 	var limit_feedback: String = constraint_feedback(int(row.task),row.traces)
 	if not limit_feedback.is_empty(): result.text += "\n" + limit_feedback
 	var comparison_row: TreeItem = order_comparison.get_root().get_first_child()
@@ -651,7 +656,7 @@ func refresh_cost_overview(current_order: int = -1) -> void:
 		if int(record.task) == 3: label = text2("%d位客户", "%d clients") % metrics.spec.clients
 		elif int(record.task) == 4: label = text2("资产A" if index == 0 else "资产B", "Asset A" if index == 0 else "Asset B")
 		rows.append({"name":label,"metrics":metrics,"met":order_within_limits(int(record.task),index,trace)})
-		tips.append(str(metrics.spec.name)+": "+goal_text(Catalog.goals(int(record.task))[index]))
+		tips.append(display_order_name(str(metrics.spec.name))+": "+goal_text(Catalog.goals(int(record.task))[index]))
 	if current_order < 0: current_order = int(cost_view.selected_order)
 	cost_view.configure(rows,english,current_order)
 	cost_view.tooltip_text = "\n".join(tips)

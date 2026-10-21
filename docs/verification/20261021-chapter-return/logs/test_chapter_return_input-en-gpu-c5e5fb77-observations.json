@@ -1,0 +1,226 @@
+[
+	{
+		"check": "Isolated Test-mode access grants no completion.",
+		"ok": true
+	},
+	{
+		"check": "Test-mode navigation enters capstone without granting prerequisites.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible diagnosis reply is accepted before modification.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Nearby Storage stays inside the desktop so its visible choices can receive input.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible cache choice applies four lines before running.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The modified official run meets the actual capstone target.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The real diagnosis and successful modified run earn capstone completion.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Completion Continue returns to the journey map.",
+		"ok": true
+	},
+	{
+		"check": "Map Escape returns to the laboratory.",
+		"ok": true
+	},
+	{
+		"check": "Actual earned capstone selects its chapter conversation.",
+		"ok": true
+	},
+	{
+		"check": "The reflection offers two replies and an immediate exit.",
+		"ok": true
+	},
+	{
+		"check": "Only the earned capstone is complete; test access does not complete the prior journey.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: earned-chapter-question",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Choosing another-task reflection answers without claiming universal speed.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: earned-chapter-answer",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The final beat offers a return action, not a route selector.",
+		"ok": true
+	},
+	{
+		"check": "The exploration invitation identifies the existing place to choose a route.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: chapter-next-exploration",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Return restores the existing terminal navigation.",
+		"ok": true
+	},
+	{
+		"check": "Reading and replying do not award progress.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The earned chapter opens its associated archive page.",
+		"ok": true
+	},
+	{
+		"check": "The historical story remains visibly marked as an unconfirmed draft.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: chapter-archive-candidate",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The existing Journey map action opens the place where routes are selected.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: chapter-journey-map",
+		"ok": true
+	},
+	{
+		"check": "Map Escape returns to the laboratory.",
+		"ok": true
+	},
+	{
+		"check": "Returning again does not replay the same completed chapter as a new achievement.",
+		"ok": true
+	},
+	{
+		"check": "Archive and map navigation preserve earned completion exactly.",
+		"ok": true
+	}
+]

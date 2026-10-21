@@ -6,6 +6,7 @@ signal action(id: String)
 
 const Palette = preload("res://src/lab/lab_palette.gd")
 const Typewriter = preload("res://src/ui/yi_typewriter.gd")
+const Naming = preload("res://src/campaign/journey_naming.gd")
 
 var english: bool = false
 var response: Dictionary = {}
@@ -38,6 +39,7 @@ var choices: HBoxContainer
 var dialogue_skip: Button
 var _dialogue: Array = []
 var _beat: int = -1
+var _reply: Dictionary = {}
 var _reveal_choices: Callable
 
 func _ready() -> void:
@@ -126,17 +128,33 @@ func _build() -> void:
 	_compose()
 
 ## Reading or skipping never changes the completion behind this response.
-func play_dialogue(beats: Array) -> void:
+func play_dialogue(beats: Array, beat: int = 0, reply: Dictionary = {}) -> void:
 	if beats.is_empty(): return
 	_dialogue = beats
-	_beat = -1
+	_beat = beat
+	_reply = reply
 	primary.hide(); secondary.hide(); choices.show()
 	dialogue_skip.text = "返回" if not english else "Back"
 	dialogue_skip.tooltip_text = "跳过本段，回到终端" if not english else "Skip this conversation and return to the terminal"
 	dialogue_skip.show()
 	dialogue_skip.grab_focus()
 	message.skip_scope = choices
-	_next_beat()
+	_show_beat()
+
+func language_checkpoint() -> Dictionary:
+	return {"response": response.duplicate(true), "dialogue": _dialogue.duplicate(true),
+		"beat": _beat, "reply": _reply.duplicate(true)}
+
+func restore_language(checkpoint: Dictionary) -> void:
+	response = checkpoint.response
+	state["response"] = response
+	_compose()
+	if checkpoint.dialogue.is_empty():
+		wake(true)
+		return
+	_asleep = false
+	sleep_view.hide(); awake_view.show()
+	play_dialogue(checkpoint.dialogue, int(checkpoint.beat), checkpoint.reply)
 
 func in_dialogue() -> bool:
 	return not _dialogue.is_empty()
@@ -146,11 +164,20 @@ func _line(entry: Dictionary, key: String) -> String:
 
 func _next_beat() -> void:
 	_beat += 1
+	_reply = {}
+	_show_beat()
+
+func _show_beat() -> void:
 	if _beat >= _dialogue.size():
 		_end_dialogue(); return
 	var beat: Dictionary = _dialogue[_beat]
-	echo.hide()
-	_say_then(str(beat.en if english else beat.zh), beat.get("replies", []))
+	if _reply.is_empty():
+		echo.hide()
+		_say_then(str(beat.en if english else beat.zh), beat.get("replies", []))
+	else:
+		echo.text = ("你：" if not english else "You: ") + str(_reply.en if english else _reply.zh)
+		echo.show()
+		_say_then(_line(_reply, "answer"), [])
 
 func _say_then(passage: String, replies: Array) -> void:
 	if _reveal_choices.is_valid() and message.finished.is_connected(_reveal_choices):
@@ -183,9 +210,8 @@ func _set_choices(options: Array) -> void:
 		if option.has("reply"):
 			var reply: Dictionary = option.reply
 			button.pressed.connect(func() -> void:
-				echo.text = ("你：" if not english else "You: ") + str(reply.en if english else reply.zh)
-				echo.show()
-				_say_then(_line(reply, "answer"), []))
+				_reply = reply
+				_show_beat())
 		else:
 			button.pressed.connect(_next_beat)
 		choices.add_child(button)
@@ -197,6 +223,7 @@ func _end_dialogue() -> void:
 		message.finished.disconnect(_reveal_choices)
 	_dialogue = []
 	_beat = -1
+	_reply = {}
 	echo.hide(); choices.hide(); dialogue_skip.hide()
 	message.skip_scope = self
 	_set_choices([])
@@ -279,18 +306,18 @@ func _compose_text() -> void:
 		(button as Button).text = str(button.get_meta("en" if english else "zh"))
 	set_fragment_count(int(state.get("fragments", 0)), 0)
 	var navigation: Node = get_node_or_null("/root/TaskNavigation")
-	var next_title: String = str(navigation.next_task_title()) if navigation != null else ""
+	var next_title: String = str(state.get("next_title", ""))
+	if next_title.is_empty() and navigation != null: next_title = str(navigation.resume_title())
+	primary.tooltip_text = next_title
 	if bool(state.get("new_player", true)):
 		_passage = "你好，我是壹。\n从一根线开始吧。接好、运行，再看看灯为什么亮或灭。\n需要时，我会在这里。" if zh else "Hello. I am Yi.\nStart with one wire. Connect it, run it, and see why the lamp is on or off.\nI am here when you need me."
 		primary.text = "开始 · 接通第一条线路" if zh else "Begin · connect the first line"
 		return
-	var target_title: String = str(state.get("next_title", ""))
-	if not target_title.is_empty() and str(state.get("next_key", "")) != str(navigation.next_task_key() if navigation != null else ""):
-		primary.text = ("继续 · " if zh else "Continue · ") + _shorten(target_title, 18)
-		next_title = target_title
+	if not str(state.get("next_title", "")).is_empty() and str(state.get("next_key", "")) != str(navigation.next_task_key() if navigation != null else ""):
+		primary.text = "继续" if zh else "Continue"
 	else:
 		primary.text = (str(navigation.home_action_text()) if navigation != null else ("继续" if zh else "Continue"))
-		if not next_title.is_empty(): primary.text += " · " + _shorten(next_title, 18)
+	if not next_title.is_empty(): primary.text += "\n" + Naming.plain_title(next_title)
 	if not response.is_empty():
 		var task: Dictionary = response.get("task", {})
 		var title: String = str(task.get("title", ""))
@@ -302,11 +329,11 @@ func _compose_text() -> void:
 			if int(response.get("fragments", 0)) > 0:
 				_passage += "\n" + ("档案架上多了一页记录。" if zh else "A new record waits on the archive shelf.")
 			return
-		_passage = ("「%s」完成了。\n你可以回去再改它，也可以继续往前走。" if zh else "\"%s\" is complete.\nYou can return to try another approach, or keep going.") % _shorten(title, 16)
+		_passage = ("「%s」完成了。\n你可以回去再改它，也可以继续往前走。" if zh else "\"%s\" is complete.\nYou can return to try another approach, or keep going.") % Naming.plain_title(title)
 		if int(response.get("fragments", 0)) > 0:
 			_passage += "\n" + ("档案架上多了一页记录。" if zh else "A new record waits on the archive shelf.")
 		return
-	_passage = ("欢迎回来。\n下一项是「%s」。" if zh else "Welcome back.\nNext up: \"%s\".") % _shorten(next_title, 18)
+	_passage = ("欢迎回来。\n下一项是「%s」。" if zh else "Welcome back.\nNext up: \"%s\".") % Naming.plain_title(next_title)
 
 func wake(instant: bool = false) -> void:
 	if not _asleep:
@@ -359,10 +386,6 @@ func _style_quit(node: Button) -> void:
 		node.add_theme_stylebox_override(str(pair[0]), box)
 	for color_name: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
 		node.add_theme_color_override(color_name, Palette.QUIT)
-
-func _shorten(text: String, limit: int) -> String:
-	var clean: String = text.get_slice(" · ", 0) if text.length() > limit and text.find(" · ") > 0 else text
-	return clean if clean.length() <= limit else clean.substr(0, limit - 1) + "…"
 
 func _label(parent: Node, text: String, font_size: int, color: Color) -> Label:
 	var node := Label.new(); node.text = text

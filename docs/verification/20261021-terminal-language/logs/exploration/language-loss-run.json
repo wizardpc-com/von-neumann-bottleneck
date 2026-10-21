@@ -1,0 +1,21 @@
+{
+  "name": "test_terminal_language_input-zh_CN-gpu-a1c60c4f",
+  "passed": false,
+  "exit": 1,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T212726Z-5ac58b8d\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_terminal_language_input.gd",
+    "--",
+    "--locale=zh_CN",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T212726Z-5ac58b8d/test_terminal_language_input-zh_CN-gpu-a1c60c4f",
+    "--recovery-capture"
+  ]
+}

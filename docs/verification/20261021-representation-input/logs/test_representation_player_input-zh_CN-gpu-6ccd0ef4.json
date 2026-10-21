@@ -1,0 +1,21 @@
+{
+  "name": "test_representation_player_input-zh_CN-gpu-6ccd0ef4",
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T221317Z-199266e2\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_representation_player_input.gd",
+    "--",
+    "--locale=zh_CN",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T221317Z-199266e2/test_representation_player_input-zh_CN-gpu-6ccd0ef4",
+    "--recovery-capture"
+  ]
+}

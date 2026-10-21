@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261021T044305Z-b1335fc6\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://docs/verification/20261021-card-polish/capture_cards.gd"
+  ]
+}

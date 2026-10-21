@@ -1,0 +1,362 @@
+[
+	{
+		"check": "Requested selector and item are available",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The player's initial prediction is locked before observing results.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "One correct official baseline does not complete the comparison.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The mission explains that the missing evidence is a second CPU configuration.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cpu-baseline",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested selector and item are available",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Changing the CPU does not rewrite the first recorded result.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "A successful single-case debug run cannot supply the official comparison.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cpu-debug-not-complete",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "The second controlled official run earns completion even when the initial prediction was wrong.",
+		"ok": true
+	},
+	{
+		"check": "Four-times-faster arithmetic changes compute time while measured waiting stays the same.",
+		"ok": true
+	},
+	{
+		"check": "Actual total time decreases without becoming four times faster.",
+		"ok": true
+	},
+	{
+		"check": "The original prediction and baseline remain visible evidence rather than being corrected after the fact.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The displayed comparison chart consumes the two actual recorded metrics.",
+		"ok": true
+	},
+	{
+		"check": "The comparison text names both measured totals.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cpu-controlled-comparison",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "The original column-first program is correct but misses the 105-cycle target.",
+		"ok": true
+	},
+	{
+		"check": "Correct output alone does not complete access-order optimization.",
+		"ok": true
+	},
+	{
+		"check": "The failed-target result names the measured time and target.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: access-order-over-target",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Keyboard input changes only the two loop variables, preserving the computation.",
+		"ok": true
+	},
+	{
+		"check": "The valid edit remains a draft; official execution waits for Apply.",
+		"ok": true
+	},
+	{
+		"check": "Playback feedback asks for Apply while the formal run is disabled.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: access-order-unapplied",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Clicking Apply installs the edited row-first program.",
+		"ok": true
+	},
+	{
+		"check": "After Apply, feedback can invite a new run.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Finish playback remains inside the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible finish-playback action ends the presentation.",
+		"ok": true
+	},
+	{
+		"check": "The applied program actually reaches 105 cycles with correct output.",
+		"ok": true
+	},
+	{
+		"check": "Qualifying results still wait for the original Review finding action.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: access-order-target-met",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The profiler retains the real column-first versus row-first comparison.",
+		"ok": true
+	},
+	{
+		"check": "Access-order comparison does not expose capstone-only controls.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: access-order-comparison",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Reviewing the actual result earns access-order completion.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: access-order-completion",
+		"ok": true
+	}
+]

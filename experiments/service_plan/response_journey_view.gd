@@ -7,7 +7,7 @@ var measured_total: int = 0
 
 func _init() -> void:
 	super()
-	custom_minimum_size.y = 166
+	custom_minimum_size.y = 208
 
 func words(zh: String, en: String) -> String: return en if english else zh
 
@@ -51,23 +51,23 @@ func _draw() -> void:
 	var font: Font = get_theme_font("font","Label")
 	var text_color := Color("dfeaf2")
 	if frames.is_empty() or first_responses.size() != 4:
-		draw_string(font,Vector2(4,25),words("历史留在哪里，谁先收到结果？", "Where does history stay, and who gets the next result?"),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,16,text_color)
-		draw_string(font,Vector2(4,52),contract_caption(),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,14,Color("90a7b7"))
+		draw_string(font,Vector2(4,25),words("历史留在哪里，谁先收到结果？", "History and first responses"),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,16,text_color)
+		draw_multiline_string(font,Vector2(4,52),contract_caption(),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,14,-1,Color("90a7b7"))
 		return
 	var frame: Dictionary = witness_snapshot()
 	if frame.is_empty(): return
 	var cycle: int = int(playback_cycle)
 	draw_string(font,Vector2(4,16),words("记录#%d · t%d · 该时刻历史（非最终状态）", "Record#%d · t%d · snapshot, not final state") % [record_number,cycle],HORIZONTAL_ALIGNMENT_LEFT,size.x-8,14,text_color)
-	draw_string(font,Vector2(4,33),contract_caption(),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,Color("c2d4df"))
-	draw_string(font,Vector2(34,51),words("外存", "Backing"),HORIZONTAL_ALIGNMENT_LEFT,76,13,Color("90a7b7"))
-	draw_string(font,Vector2(132,51),words("本地历史", "Resident history"),HORIZONTAL_ALIGNMENT_LEFT,106,13,Color("90a7b7"))
-	var response_title: String = words("首次回应 · 周期", "First response · cycles")
+	draw_multiline_string(font,Vector2(4,33),contract_caption(),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,-1,Color("c2d4df"))
+	draw_string(font,Vector2(34,71),words("外存", "Backing"),HORIZONTAL_ALIGNMENT_LEFT,76,13,Color("90a7b7"))
+	draw_string(font,Vector2(132,71),words("本地历史", "Resident"),HORIZONTAL_ALIGNMENT_LEFT,106,13,Color("90a7b7"))
+	var response_title: String = words("首回应 · 周期", "First · cycles")
 	if deadline > 0: response_title += " · ≤"+str(deadline)
-	draw_string(font,Vector2(254,51),response_title,HORIZONTAL_ALIGNMENT_LEFT,size.x-258,13,Color("90a7b7"))
+	draw_string(font,Vector2(254,71),response_title,HORIZONTAL_ALIGNMENT_LEFT,size.x-258,13,Color("90a7b7"))
 	var bar_width: float = maxf(1,size.x-336)
 	var scale: float = float(scale_cycles())
 	for stream: int in 4:
-		var y: float = 58+stream*22
+		var y: float = 78+stream*22
 		var resident: Dictionary = frame.residents[stream]
 		var backing: Dictionary = frame.backing[stream]
 		draw_string(font,Vector2(5,y+16),char(65+stream),HORIZONTAL_ALIGNMENT_LEFT,24,15,text_color)
@@ -84,5 +84,5 @@ func _draw() -> void:
 		draw_string(font,Vector2(rect.end.x+6,y+16),("✓ " if returned else "… ")+str(first_responses[stream]),HORIZONTAL_ALIGNMENT_LEFT,74,14,text_color)
 	if deadline > 0:
 		var limit_x: float = 254+bar_width*deadline/scale
-		draw_line(Vector2(limit_x,56),Vector2(limit_x,146),Color("f3c777"),1.5)
-	draw_string(font,Vector2(4,162),words("此时刻外存含目录；本地*待写回。真实事件回放，速度仅供展示。", "Backing includes directory; *=dirty. Illustrative replay pace."),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,Color("90a7b7"))
+		draw_line(Vector2(limit_x,76),Vector2(limit_x,166),Color("f3c777"),1.5)
+	draw_multiline_string(font,Vector2(4,182),words("外存含目录；本地*表示待写回。\n真实事件回放，速度仅供展示。", "Backing includes directory; * = awaiting write-back.\nReplay speed is illustrative."),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,-1,Color("90a7b7"))

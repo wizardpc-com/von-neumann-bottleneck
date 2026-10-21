@@ -1,0 +1,54 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T200628Z-ec1a47fd/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T200628Z-ec1a47fd/user_directory"
+    },
+    {
+      "name": "test_creation_choice_completion",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_choice_completion.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T200628Z-ec1a47fd/test_creation_choice_completion"
+    },
+    {
+      "name": "test_creation_raw_readonly",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_raw_readonly.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T200628Z-ec1a47fd/test_creation_raw_readonly"
+    },
+    {
+      "name": "test_creation_save_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_save_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T200628Z-ec1a47fd/test_creation_save_input"
+    },
+    {
+      "name": "test_creation_workbench",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_workbench.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T200628Z-ec1a47fd/test_creation_workbench"
+    }
+  ]
+}

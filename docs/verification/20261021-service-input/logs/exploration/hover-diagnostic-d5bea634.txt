@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+TOOLTIP_PROPERTY: Quantizes at preparation and after each update; may lose precision.
+Each resident state still occupies 64B.
+HOVER: <Object#null> mouse=(1822.0, 1326.0) button=[P: (12.0, 580.0), S: (104.0, 40.0)]
+VISIBLE_WINDOW: root position=(0, 0) size=(1280, 720) embedded=false
+Service input checks: 3; failures: 0
+PASS: service player input

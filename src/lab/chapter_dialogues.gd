@@ -11,8 +11,8 @@ const DIALOGUES := {
 				{"zh": "我还想再改改。", "en": "I want to keep adjusting it.",
 					"answer_zh": "可以。先留住这份结果，再动一个条件。\n看看差别从哪里来。", "answer_en": "Go ahead. Keep this result, then change one condition.\nSee where the difference comes from."},
 			]},
-		{"zh": "接下来可以研究搬运的时机，也可以研究数据的布局。\n你想先试哪一边？",
-			"en": "You can explore when transfers happen, or how data is laid out.\nWhich would you like to try first?"},
+		{"zh": "接下来，可以试试搬运的时机，或数据的布局。\n回到终端，打开「旅程地图」选一条路吧。",
+			"en": "Next, explore transfer timing or data layout.\nReturn to the terminal and choose a route on the Journey map."},
 	],
 	"chapter_3/synthesis": [
 		{"zh": "你的安排通过了这些工作负载。\n我更想知道：你会先看哪一段运行记录？",

@@ -83,6 +83,18 @@ assertions intentionally require no prior acknowledgement. See
 
 # Testing
 
+## Hint input — 2026-10-21
+
+Run `test_hint_input` with the isolated verifier and the hardware UI, desktop,
+seal navigation, UI convergence and Escape suites. It sends viewport pointer/key
+events in both languages: search focus, repeated instrument focus with an explicit
+overlap fixture, close/More, three hint tiers and spoiler confirmation, Settings,
+name dialog and board restoration. In an imported QA project, run the new suite
+without `--headless`, with `-- --hint-input-capture --capture-size=1280x720`, for
+rendered captures. These checks do not establish physical keyboard/mouse input.
+The [receipt](../verification/20261021-hint-input/README.md) also records the
+separate, unreproduced F11 window report.
+
 ## Laboratory routing and Escape — 2026-10-20
 
 Run `test_lab_terminal_routing` and `test_workbench_escape` with the isolated

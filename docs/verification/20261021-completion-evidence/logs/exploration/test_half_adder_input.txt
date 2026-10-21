@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: The full failed row, including expected values, stays visible at 720p.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] half_adder_flow (res://tests/test_half_adder_input.gd:33)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+Recovery GUI checks: 71; failures: 1

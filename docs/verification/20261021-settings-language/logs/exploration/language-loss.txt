@@ -1,0 +1,23 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+MENU: LanguageChoice focus=1 want=1
+ERROR: Settings language change retains the current response or selected answer.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] switch_language (res://tests/test_settings_language_input.gd:27)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Settings reload consumes the temporary view without adding a laboratory visit.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] switch_language (res://tests/test_settings_language_input.gd:29)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Changing language does not discard the earned chapter conversation.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_terminal_language_input.gd:78)
+       [2] shot (res://tests/test_performance_player_input.gd:21)
+Terminal language checks: 41; failures: 3

@@ -1,0 +1,15 @@
+{
+  "zh": {
+    "domain_chars_before": 1114,
+    "domain_chars_after": 809,
+    "reduction_percent": 27.4
+  },
+  "en": {
+    "domain_chars_before": 3809,
+    "domain_chars_after": 2574,
+    "reduction_percent": 32.4
+  },
+  "task_rows_reviewed": 60,
+  "task_rows_changed": 8,
+  "domain_rows_changed": 9
+}

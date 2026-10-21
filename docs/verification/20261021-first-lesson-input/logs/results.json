@@ -1,0 +1,78 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/user_directory"
+    },
+    {
+      "name": "test_first_build_guidance",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_build_guidance.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/test_first_build_guidance"
+    },
+    {
+      "name": "test_first_lesson_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_lesson_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/test_first_lesson_input"
+    },
+    {
+      "name": "test_first_light",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_light.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/test_first_light"
+    },
+    {
+      "name": "test_full_journey_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_full_journey_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/test_full_journey_narrative"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/test_localization"
+    },
+    {
+      "name": "test_narrative_review",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_narrative_review.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/test_narrative_review"
+    },
+    {
+      "name": "test_tutorial_replay",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tutorial_replay.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T191915Z-9b7df6e3/test_tutorial_replay"
+    }
+  ]
+}

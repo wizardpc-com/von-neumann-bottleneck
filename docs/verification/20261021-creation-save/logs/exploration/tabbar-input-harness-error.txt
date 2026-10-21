@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Invalid call. Nonexistent function 'to_global' in base 'TabBar'.
+   at: _run (res://tests/test_creation_save_input.gd:44)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_creation_save_input.gd:44)
+       [1] action (res://tests/test_creation_save_input.gd:6)
+       [2] press (res://tests/test_recovery_game_input.gd:120)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)

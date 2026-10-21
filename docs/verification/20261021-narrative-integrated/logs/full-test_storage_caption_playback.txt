@@ -1,0 +1,19 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Must be an ancestor of the control.
+   at: ensure_control_visible (scene/gui/scroll_container.cpp:366)
+   GDScript backtrace (most recent call first):
+       [0] _ensure_official_case_visible (res://src/hardware_foundations/hardware_foundations.gd:6500)
+ERROR: Must be an ancestor of the control.
+   at: ensure_control_visible (scene/gui/scroll_container.cpp:366)
+   GDScript backtrace (most recent call first):
+       [0] _ensure_official_case_visible (res://src/hardware_foundations/hardware_foundations.gd:6500)
+ERROR: Must be an ancestor of the control.
+   at: ensure_control_visible (scene/gui/scroll_container.cpp:366)
+   GDScript backtrace (most recent call first):
+       [0] _ensure_official_case_visible (res://src/hardware_foundations/hardware_foundations.gd:6500)
+ERROR: Must be an ancestor of the control.
+   at: ensure_control_visible (scene/gui/scroll_container.cpp:366)
+   GDScript backtrace (most recent call first):
+       [0] _ensure_official_case_visible (res://src/hardware_foundations/hardware_foundations.gd:6500)
+PASS: storage caption playback (150 checks)

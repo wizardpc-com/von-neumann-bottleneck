@@ -1,0 +1,21 @@
+{
+  "name": "test_chapter_return_input-en-gpu-c5e5fb77",
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T211955Z-2dbd9046\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_chapter_return_input.gd",
+    "--",
+    "--locale=en",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T211955Z-2dbd9046/test_chapter_return_input-en-gpu-c5e5fb77",
+    "--recovery-capture"
+  ]
+}

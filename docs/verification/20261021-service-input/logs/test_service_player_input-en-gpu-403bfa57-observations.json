@@ -1,0 +1,234 @@
+[
+	{
+		"check": "Offline tester access opens timely service without earning prior tasks.",
+		"ok": true
+	},
+	{
+		"check": "The isolated profile starts with an unmeasured service draft.",
+		"ok": true
+	},
+	{
+		"check": "The entire control fits the 720p viewport: Quit",
+		"ok": true
+	},
+	{
+		"check": "The entire control fits the 720p viewport: ServiceCommissions",
+		"ok": true
+	},
+	{
+		"check": "The entire control fits the 720p viewport: RestoreSupport",
+		"ok": true
+	},
+	{
+		"check": "The entire control fits the 720p viewport: ServiceNext",
+		"ok": true
+	},
+	{
+		"check": "The entire control fits the 720p viewport: SaveSession",
+		"ok": true
+	},
+	{
+		"check": "The entire control fits the 720p viewport: FormatGuide",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-entry",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The real run returns the expected elapsed time and state traffic.",
+		"ok": true
+	},
+	{
+		"check": "The first-response view consumes the four measured response times.",
+		"ok": true
+	},
+	{
+		"check": "The unchanged current contract determines this measurement's acceptance.",
+		"ok": true
+	},
+	{
+		"check": "The failed first-response feedback states actual time, limit and excess.",
+		"ok": true
+	},
+	{
+		"check": "The latest-response failure identifies the actually delayed stream D.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-late-first-response",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Changing capacity changes the draft but preserves the one-slot measurement.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The real run returns the expected elapsed time and state traffic.",
+		"ok": true
+	},
+	{
+		"check": "The first-response view consumes the four measured response times.",
+		"ok": true
+	},
+	{
+		"check": "The unchanged current contract determines this measurement's acceptance.",
+		"ok": true
+	},
+	{
+		"check": "A measured exact and timely plan unlocks continuation.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-timely-exact",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Two visible format changes select RAW8 for stream A only.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-raw8-explanation",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Quantized computation runs but fails the original exact-quality contract.",
+		"ok": true
+	},
+	{
+		"check": "Visible quality feedback names the offending stream and exact tolerance.",
+		"ok": true
+	},
+	{
+		"check": "An unsuccessful experiment does not erase the previously earned successful plan.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-precision-unmet",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Restoring earned support changes the draft, not the failed recorded measurement.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Continue opens the next contract without completing it.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The real run returns the expected elapsed time and state traffic.",
+		"ok": true
+	},
+	{
+		"check": "The first-response view consumes the four measured response times.",
+		"ok": true
+	},
+	{
+		"check": "The unchanged current contract determines this measurement's acceptance.",
+		"ok": true
+	},
+	{
+		"check": "The stricter contract explains why the previously timely plan now exceeds state traffic.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-next-contract-traffic",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The player changes each selected stream's representation independently.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The real run returns the expected elapsed time and state traffic.",
+		"ok": true
+	},
+	{
+		"check": "The first-response view consumes the four measured response times.",
+		"ok": true
+	},
+	{
+		"check": "The unchanged current contract determines this measurement's acceptance.",
+		"ok": true
+	},
+	{
+		"check": "The measured mixed-format plan preserves exact scores and final states.",
+		"ok": true
+	},
+	{
+		"check": "Only the two actually earned contracts are retained; the unplayed first contract prevents chapter closure.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-mixed-plan-met",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Save writes the real exploration into its existing isolated session file.",
+		"ok": true
+	},
+	{
+		"check": "Only actually measured task supports become persistent journey evidence.",
+		"ok": true
+	},
+	{
+		"check": "Later edits, contracts and saving preserve the first measured record.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-saved",
+		"ok": true
+	}
+]

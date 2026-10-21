@@ -50,7 +50,7 @@ func set_task(chapter: StringName, level: StringName, use_english: bool, earned:
 	if changed:
 		toggle.set_pressed_no_signal(false); details.hide()
 		evidence_label.text = "当前方案仍须按原任务核验。" if not english else "Check the current plan under the existing task contract."
-	toggle.text = "壹 · 这一步从哪里来" if not english else "Yi · Where this step comes from"
+	toggle.text = "再了解一点" if not english else "A closer look"
 	if earned:
 		toggle.text += (" · 本次发现" if not english else " · session finding") if chapter == &"prediction" else (" · 已有记录" if not english else " · earned record")
 	action_label.text = ("现在：" if not english else "Now: ") + str(data.action)
@@ -67,8 +67,8 @@ func set_task(chapter: StringName, level: StringName, use_english: bool, earned:
 
 func draft_changed() -> void:
 	if evidence_label == null: return
-	evidence_label.text = "当前草稿已改变；旧记录仍归原方案，重新运行后再看当前结果。" if not english else "The draft changed. Older records remain bound to their original plan; rerun to inspect the current result."
+	evidence_label.text = "草稿已改变，请重新运行；旧记录仍对应原方案。" if not english else "The draft changed. Run it again; older records still describe the previous plan."
 
 func measurement_recorded() -> void:
 	if evidence_label == null: return
-	evidence_label.text = "运行状态与结果请看原测试台／证据记录；只有原合同确认的结果才算通过。" if not english else "Read run status and results in the existing test/evidence view; only the original contract can confirm acceptance."
+	evidence_label.text = "查看测试台／运行记录，确认还有哪一项未达标。" if not english else "Check the test bench or run record for any unmet targets."

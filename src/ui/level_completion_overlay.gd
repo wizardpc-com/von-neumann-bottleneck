@@ -52,9 +52,8 @@ var chapter_label: Label
 var title_label: Label
 var level_label: Label
 var summary_label: Label
-## Yi's reply is typed after the system result; the speaker is a plain label.
+## The response is typed after the system result.
 var yi_response_label: Typewriter
-var yi_speaker_label: Label
 var yi_delay_tween: Tween
 var feedback_entry_button: Button
 var next_capability_label: Label
@@ -166,16 +165,12 @@ func _build_interface() -> void:
 	yi_response_label.font_size = UiTypographyType.BODY_SIZE
 	yi_response_label.font_color = Color("bfe3e6")
 	yi_response_label.skip_scope = self
-	yi_speaker_label = Label.new(); yi_speaker_label.name = "YiCompletionSpeaker"
-	yi_speaker_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
-	yi_speaker_label.add_theme_color_override("font_color", Palette.ACCENT)
 	var yi_card := PanelContainer.new(); yi_card.name = "YiCompletionCard"
 	var yi_box: StyleBoxFlat = _stylebox(Palette.TERM_SCREEN, Palette.ACCENT_DEEP, 10, 0)
 	yi_box.border_width_left = 3
 	yi_box.content_margin_left = 16; yi_box.content_margin_right = 16; yi_box.content_margin_top = 10; yi_box.content_margin_bottom = 10
 	yi_card.add_theme_stylebox_override("panel", yi_box)
 	var yi_column := VBoxContainer.new(); yi_column.add_theme_constant_override("separation", 4)
-	yi_column.add_child(yi_speaker_label)
 	yi_column.add_child(yi_response_label)
 	yi_card.add_child(yi_column)
 	column.add_child(yi_card)
@@ -303,7 +298,6 @@ func present(
 	level_label.text = level_title
 	summary_label.text = summary
 	var response: String = MissionNarrativeCatalogType.completion_response(chapter_id, level_id, Localization.current_locale() == "en")
-	yi_speaker_label.text = "壹" if Localization.current_locale() != "en" else "Yi"
 	# Lay the whole reply out now so nothing reflows; type it after the result settles.
 	yi_response_label.prepare(response)
 	yi_response_label.get_parent().get_parent().visible = not response.is_empty()
@@ -343,6 +337,8 @@ func present_actions(
 		return_text: String = ""
 	) -> void:
 	present(level_id, level_title, summary, chapter, chapter_id)
+	if chapter_id == &"hardware_foundations":
+		title_label.text = Localization.text(&"hardware.completion.tests_passed")
 	feedback_box.hide()
 	feedback_toggle.hide()
 	feedback_entry_button.show()

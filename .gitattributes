@@ -27,3 +27,23 @@ docs/verification/20261017-offline-teammate/candidate-manifest.json -text
 docs/verification/20261018-journey-final/evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 docs/verification/20261018-journey-final/image-manifest.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 docs/verification/20261018-classmates/evidence/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Preserve reviewed run logs and hash manifests exactly as captured.
+docs/verification/20261021-card-polish/** -text -whitespace
+docs/verification/20261021-chapter-return/** -text -whitespace
+docs/verification/20261021-completion-evidence/** -text -whitespace
+docs/verification/20261021-creation-lab-return/** -text -whitespace
+docs/verification/20261021-creation-save/** -text -whitespace
+docs/verification/20261021-draft-resume/** -text -whitespace
+docs/verification/20261021-first-lesson-input/** -text -whitespace
+docs/verification/20261021-hint-input/** -text -whitespace
+docs/verification/20261021-narrative-integrated/** -text -whitespace
+docs/verification/20261021-overlap-input/** -text -whitespace
+docs/verification/20261021-performance-input/** -text -whitespace
+docs/verification/20261021-prediction-input/** -text -whitespace
+docs/verification/20261021-representation-input/** -text -whitespace
+docs/verification/20261021-service-input/** -text -whitespace
+docs/verification/20261021-service-journey/** -text -whitespace
+docs/verification/20261021-settings-language/** -text -whitespace
+docs/verification/20261021-terminal-language/** -text -whitespace
+docs/verification/20261021-terminal-task-titles/** -text -whitespace

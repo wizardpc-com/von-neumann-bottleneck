@@ -549,6 +549,8 @@ func _build_options_menu() -> void:
 	var panel := preload("res://src/ui/movable_dialog_panel.gd").new(); panel.name="ChapterOptionsPanel"
 	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(PANEL,ACCENT,8)); options_overlay.add_child(panel)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",14); panel.add_child(column)
+	# Wrapped headings shrink after the hidden panel receives its real width.
+	column.minimum_size_changed.connect(panel.fit_to_bounds, CONNECT_DEFERRED)
 	_settings_label(column,"hub.options.title",28)
 	_settings_label(column,"settings.subtitle",14)
 	if not settings_only:
@@ -731,6 +733,11 @@ func _fit_settings_panel() -> void:
 
 func _reload_settings_locale() -> void:
 	WindowMode.reload_localized_scene(settings_only)
+
+func reload_localized_scene() -> Error:
+	if is_instance_valid(laboratory):
+		return laboratory.reload_localized_scene()
+	return get_tree().reload_current_scene()
 
 
 func _options_button(text: String) -> Button:

@@ -1,0 +1,99 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: zh_CN: F1 works with search focus and preserves text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:59)
+       [2] key (res://tests/test_hint_input.gd:18)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: zh_CN: help stays above repeatedly focused instruments
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:69)
+       [2] settle (res://tests/test_hint_input.gd:11)
+ERROR: zh_CN: reopened help receives pointer above an instrument
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:73)
+       [2] click (res://tests/test_hint_input.gd:29)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: zh_CN: More enters the read-only hint canvas
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:80)
+       [2] click (res://tests/test_hint_input.gd:29)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: zh_CN: F1 requests tier 2 confirmation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:84)
+       [2] key (res://tests/test_hint_input.gd:18)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: zh_CN: F1 requests tier 3 confirmation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:93)
+       [2] key (res://tests/test_hint_input.gd:18)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: zh_CN: Settings blocks underlying help
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:104)
+       [2] key (res://tests/test_hint_input.gd:18)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: en: F1 works with search focus and preserves text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:59)
+       [2] key (res://tests/test_hint_input.gd:18)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: en: help stays above repeatedly focused instruments
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:69)
+       [2] settle (res://tests/test_hint_input.gd:11)
+ERROR: en: reopened help receives pointer above an instrument
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:73)
+       [2] click (res://tests/test_hint_input.gd:29)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: en: More enters the read-only hint canvas
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:80)
+       [2] click (res://tests/test_hint_input.gd:29)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: en: F1 requests tier 2 confirmation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:84)
+       [2] key (res://tests/test_hint_input.gd:18)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: en: F1 requests tier 3 confirmation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:93)
+       [2] key (res://tests/test_hint_input.gd:18)
+       [3] settle (res://tests/test_hint_input.gd:11)
+ERROR: en: Settings blocks underlying help
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_hint_input.gd:9)
+       [1] run (res://tests/test_hint_input.gd:104)
+       [2] key (res://tests/test_hint_input.gd:18)
+       [3] settle (res://tests/test_hint_input.gd:11)
+FAIL: test_hint_input 36 checks, 14 failures

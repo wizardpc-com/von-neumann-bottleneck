@@ -1,0 +1,21 @@
+{
+  "name": "test_terminal_task_titles-zh_CN-gpu-c015f7dc",
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T202842Z-002ee83f\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_terminal_task_titles.gd",
+    "--",
+    "--locale=zh_CN",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T202842Z-002ee83f/test_terminal_task_titles-zh_CN-gpu-c015f7dc",
+    "--recovery-capture"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "test_service_journey_input-zh_CN-gpu-0e84e853",
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T225958Z-78d600d4\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_service_journey_input.gd",
+    "--",
+    "--locale=zh_CN",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T225958Z-78d600d4/test_service_journey_input-zh_CN-gpu-0e84e853",
+    "--recovery-capture"
+  ]
+}

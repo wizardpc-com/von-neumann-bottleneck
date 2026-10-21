@@ -1,0 +1,21 @@
+{
+  "name": "capture_settings_bounds-en-gpu-00df5bdb",
+  "passed": false,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T214508Z-1c83d852\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/capture_settings_bounds.gd",
+    "--",
+    "--locale=en",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T214508Z-1c83d852/capture_settings_bounds-en-gpu-00df5bdb",
+    "--recovery-capture"
+  ]
+}

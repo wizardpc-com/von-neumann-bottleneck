@@ -220,7 +220,7 @@ func build() -> void:
 	button(tr2("服务入门", "Service introduction"), stages, show_briefing, "ServiceIntroduction")
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
 	button(tr2("完整规格", "Full specification"),stages,show_specification,"ServiceSpecification")
-	button(tr2("追加委托", "Follow-up commissions"),stages,func() -> void: start_commission(maxi(commission_mode,0)),"ServiceCommissions")
+	button(tr2("追加委托", "Follow-ups"),stages,func() -> void: start_commission(maxi(commission_mode,0)),"ServiceCommissions")
 	mission = label("", page, 14); refresh_mission()
 	status = label(tr2("构造组和顺序，选择逐流表示，再测量。实验进度只在内存。", "Construct groups/order and per-stream storage, then measure. Lab progress is session-only."), page, 14)
 	var body := HBoxContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.add_theme_constant_override("separation", 14); page.add_child(body)
@@ -248,7 +248,8 @@ func build() -> void:
 	slots = SpinBox.new(); slots.name = "Slots"; slots.min_value = 1; slots.max_value = 4; slots.value = plan.slots; capacity.add_child(slots)
 	slots.value_changed.connect(func(value: float) -> void:
 		var next: Dictionary = plan.duplicate(true); next.slots = int(value); edit(next, selected_group))
-	label(tr2("逐流存储 · 点击切换RAW64→RLE64→RAW8→RLE8", "Storage per stream · click RAW64→RLE64→RAW8→RLE8"), editor, 13)
+	var format_guide: Label = label(tr2("点击切换 · 64位无损，8位近似；RLE未必更省", "Click to cycle · 64: exact; 8: approximate; RLE may grow"), editor, 13)
+	format_guide.name = "FormatGuide"
 	var formats := HBoxContainer.new(); editor.add_child(formats)
 	for stream: int in 4:
 		var format: Button = button("", formats, func() -> void:
@@ -511,7 +512,10 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 	if contract != 1:
 		budgets.append({"name":tr2("状态读写B", "State traffic B"),"actual":int(metrics.state_read_bytes)+int(metrics.state_write_bytes),"limit":600 if contract == 0 else 320})
 	if contract > 0:
-		budgets.append({"name":tr2("最晚首响应周期", "Latest first response"),"actual":int(metrics.all_streams_first_cycle),"limit":320})
+		var latest_streams: PackedStringArray = []
+		for stream: int in metrics.first_stream_cycles.size():
+			if int(metrics.first_stream_cycles[stream]) == int(metrics.all_streams_first_cycle): latest_streams.append(char(65+stream))
+		budgets.append({"name":tr2("最晚首响应周期", "Latest first response")+" ("+"/".join(latest_streams)+")","actual":int(metrics.all_streams_first_cycle),"limit":320})
 	for budget: Dictionary in budgets:
 		if budget.actual > budget.limit: failures.append(tr2("%s %d / 上限%d，超出%d", "%s %d / limit%d, over by%d") % [budget.name,budget.actual,budget.limit,budget.actual-budget.limit])
 	var witness: Dictionary = QualityEvidence.build(metrics)

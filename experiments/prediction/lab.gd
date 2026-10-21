@@ -182,6 +182,8 @@ func build() -> void:
 	var right_tabs := TabContainer.new(); right_tabs.name = "PredictionEvidenceTabs"; right_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; right_tabs.all_tabs_in_front = false; right_tabs.use_hidden_tabs_for_min_size = false; evidence.add_child(right_tabs)
 	var outcome: VBoxContainer = _tab_page(right_tabs,text2("结果","Result"))
 	result = _bounded_label(outcome,"Result",80,true)
+	result.mouse_filter = Control.MOUSE_FILTER_PASS
+	result.tooltip_text = text2("基线：同一请求流，关闭猜测。\n浪费：预测搬来却未使用的数据。\n污染miss：本轮未命中，而基线命中的次数。", "Baseline: same stream, prediction Off.\nWasted: predicted bytes unused before eviction or run end.\nPollution misses: this run missed where Off hit.")
 	var trace_page: VBoxContainer = _tab_page(right_tabs,text2("事件详情","Event details"))
 	events = Tree.new(); events.name = "Events"; events.columns = 3; events.hide_root = true; events.column_titles_visible = true
 	events.custom_minimum_size.y = 80; events.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_page.add_child(events)
@@ -362,6 +364,16 @@ func source_caption() -> String:
 		return text2("正在逐步观察：%s · %s；总成本尚未揭示。", "Observing a prefix: %s · %s; final costs remain hidden.") % [names[int(source.task)],rule_text]
 	return text2("记录#%d · %s · %s · %s", "Record#%d · %s · %s · %s") % [selected_run+1,names[int(source.task)],rule_text,relation]
 
+func decision_reason(reason: String) -> String:
+	match reason:
+		"disabled": return text2("猜测已关闭", "Prediction is Off")
+		"insufficient_history": return text2("历史还不够", "Not enough history yet")
+		"cooldown": return text2("错猜后暂停中", "Paused after a mismatch")
+		"unstable_history": return text2("历史未满足重复条件", "Repetition condition not met")
+		"out_of_range": return text2("猜测超出有效地址范围", "Guess outside the valid address range")
+		"history_rule": return text2("按已观察的步长推算", "Based on observed strides")
+	return reason
+
 func refresh() -> void:
 	mission.text = mission_text()
 	_refresh_journey_context()
@@ -376,7 +388,7 @@ func refresh() -> void:
 		observed.text = text2("已观察请求：%s\n下一地址：未知", "Observed demands: %s\nNext address: unknown") % str(addresses)
 		if revealed > 0:
 			var d: Dictionary = active_trace.metrics.decisions[revealed-1]
-			observed.text += text2("\n历史%s → 猜测%s · %s", "\nHistory%s → guess%s · %s") % [str(d.history),str(d.guess) if int(d.guess)>=0 else text2("无","none"),d.reason]
+			observed.text += text2("\n历史%s → 猜测%s · %s", "\nHistory%s → guess%s · %s") % [str(d.history),str(d.guess) if int(d.guess)>=0 else text2("无","none"),decision_reason(str(d.reason))]
 		var finished: bool = revealed == active_trace.metrics.accesses.size()
 		for event: Event in active_trace.events:
 			if int(event.details.step)>revealed and not finished: continue
@@ -386,6 +398,11 @@ func refresh() -> void:
 			var m: Dictionary = active_trace.metrics
 			observed.text = observed.text.replace(text2("下一地址：未知","Next address: unknown"),text2("本轮结束","Run ended"))
 			result.text = text2("总%d = 查找%d + 计算%d + 阻塞%d + 尾部%d\n基线%d周期/%dB · 实际%dB；预测有用%dB/浪费%dB\n回退%d · 排队%d · 在途匹配等待%d · 污染miss%d\n输出%s", "Total%d = lookup%d + compute%d + blocking%d + drain%d\nBaseline%d cycles/%dB · actual%dB; useful%dB/wasted%dB predictions\nFallback%d · queue%d · matching in-flight wait%d · pollution misses%d\nOutputs%s") % [m.total_cycles,m.lookup_cycles,m.compute_cycles,m.blocking_cycles,m.drain_cycles,m.baseline_cycles,m.baseline_traffic_bytes,m.traffic_bytes,m.useful_prediction_bytes,m.wasted_prediction_bytes,m.fallback_cycles,m.queue_wait_cycles,m.inflight_wait_cycles,m.pollution_misses,str(m.outputs)]
+			var difference: int = int(m.total_cycles)-int(m.baseline_cycles)
+			var comparison: String = text2("与关闭猜测用时相同。", "Same time as prediction Off.")
+			if difference > 0: comparison = text2("比关闭猜测慢%d周期。", "%d cycles slower than prediction Off.") % difference
+			elif difference < 0: comparison = text2("比关闭猜测快%d周期。", "%d cycles faster than prediction Off.") % -difference
+			result.text = comparison+"\n"+result.text
 	status.text = progress_text()
 
 func public_observation() -> Dictionary:

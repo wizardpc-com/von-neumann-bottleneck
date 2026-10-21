@@ -131,11 +131,11 @@ const TASK_CONTEXTS := {
 	"hardware_foundations/tutorial": [
 		"先接通输入、NOT与输出，再切换输入并运行。", "Connect input → NOT → lamp, toggle input, then run.",
 		"按步骤卡做完五步：接线、切换输入、运行、拆一条线、再接回去。", "Finish all five tutorial actions; check NOT: 0→1 and 1→0.",
-		"你亲手改变输入、运行并重新接通了电路。NOT反转信号：0 → 1，1 → 0；灯灭也可以是正确结果。", "You changed the input, ran and reconnected the circuit. NOT inverts: 0 → 1 and 1 → 0; an unlit lamp can be correct."],
+		"线路接错了还能重来。NOT 将 0 → 1、1 → 0；先猜灯会怎样，再运行核对。", "You can reconnect and try again. NOT maps 0 → 1 and 1 → 0. Predict the lamp, then run to check."],
 	"hardware_foundations/half_adder": [
 		"计算 A+B：SUM 接个位，CARRY 接进位。1+1=二进制 10，所以 SUM=0、CARRY=1。", "Add A+B: SUM is the low bit and CARRY the carry. For 1+1, binary 10 means SUM=0, CARRY=1.",
 		"正式测试的四组输入（00、01、10、11）都输出正确，再封装。失败时对照期望与实际值。", "Pass the four official cases (00, 01, 10, 11), then seal. Compare expected and actual values when a case fails.",
-		"你的电路学会了加法：1+1 写成和 0、进位 1。它会成为后面更大电路的零件。", "Your circuit provides separate sum and carry: 1+1 becomes SUM0, CARRY1. This structure can take part in a larger machine."],
+		"以后搭更大的电路，试试从你自己的零件开始。", "For a larger circuit, try starting with a part you built yourself."],
 	"hardware_foundations/full_adder": [
 		"让两路输入和上一位进位一起参与相加。", "Add both inputs together with the incoming carry.",
 		"A、B 和进位输入的八种组合都要对；只亮对一组还不够。", "Check all A/B/CIN combinations against SUM/COUT; one lamp pattern is not a full test.",
@@ -203,7 +203,7 @@ const TASK_CONTEXTS := {
 	"chapter_1/bottleneck": [
 		"运行指定工作负载，依据真实周期与等待记录作出瓶颈判断。", "Run the specified workloads and diagnose the bottleneck from measured cycles and waiting.",
 		"跑完正式测试，再按这次的周期与等待记录提交判断。判断不符时，回到分析器核对。", "Finish the official run, then diagnose from its cycles and waiting. If the diagnosis does not match, check the Profiler.",
-		"你根据自己测到的数据找到了瓶颈，而不是凭感觉猜。", "You can explain where a limit arises, with the conclusion bound to its machine and workload."],
+		"瓶颈找到了。换一份工作，最慢的还会是它吗？", "You found the bottleneck. Would it be the same for a different workload?"],
 	"chapter_1/read_once": [
 		"修改程序，让取回的数据得到需要的复用。", "Edit the program so fetched data receives the reuse the task needs.",
 		"输出都对，而且每个用例的取数次数不超过上限。改完程序记得先应用。", "Every output must be correct and every case must meet its request cap on fixed hardware; Apply before the official run.",
@@ -219,7 +219,7 @@ const TASK_CONTEXTS := {
 	"chapter_2/nearby_storage": [
 		"比较直接取数与Cache复用，观察命中和远取。", "Compare direct fetching with Cache reuse, observing hits and remote requests.",
 		"分别跑一次「直接取」和「用缓存」，比较命中和远取。缓存由硬件自己管理。", "Record the required direct and reuse observations. Hardware rules manage Cache contents; do not place them manually.",
-		"数据留在近处，下次就不用跑远路了。", "You observed nearby data serving later requests; reuse now has measured behavior."],
+		"命中的那几次，数据不用再从 RAM 搬来。", "On a Cache hit, the data no longer needs another trip from RAM."],
 	"chapter_2/cache_failure": [
 		"观察有Cache却仍然等待的运行，寻找对应的命中与淘汰记录。", "Inspect a run that still waits despite Cache, including its hit and eviction records.",
 		"运行一次，从命中和淘汰记录里找出为什么还在等。", "Support the task judgment with a valid run; current controls do not describe an older receipt.",
@@ -239,15 +239,15 @@ const TASK_CONTEXTS := {
 	"chapter_2/capstone": [
 		"保留基线与诊断，再综合访问次序、Cache与分块形成自己的方案。", "Retain a baseline and diagnosis, then combine access order, Cache and blocking into your own plan.",
 		"先跑原样、写下判断，再用你自己的组合方案达标。", "Validate the baseline, judgment and target-meeting run under the existing contract; valid trade-offs remain accepted.",
-		"你把对瓶颈的理解变成了自己的方案。还可以继续改进。", "Your plan turned a diagnosis into a measured arrangement; further improvements can be compared under matching conditions."],
+		"你把判断变成了能运行的方案。下一次，你想先改哪里？", "You turned your diagnosis into a working plan. What would you try next?"],
 	"chapter_3/arrival": [
 		"安排数据请求与独立工作，等数据就绪后再消费。", "Arrange a data request and independent work, consuming data only when ready.",
-		"所有用例输出正确，并且周期达标。", "Run every case with valid state and output while meeting the public cycle condition.",
+		"处理第0批，恰好完成4周期独立工作；总用时不超过10周期。", "Process batch 0 and exactly 4 cycles of independent work, within 10 total cycles.",
 		"等数据的时候先做别的事，数据到了再用。等待不再是空白。", "Independent work now occupies waiting time while readiness still precedes use."],
 	"chapter_3/buffers": [
 		"选择缓冲结构，协调装入、计算和再次使用。", "Choose a buffer structure and coordinate loading, computation and reuse.",
 		"所有用例正确且达标。只多放几个缓冲区，不一定就不等了。", "Check output, buffer states and cycles for every case; adding parts alone does not remove waiting.",
-		"一块在装、一块在算，两件事交替接力。", "You coordinated data arrival and processing as two cooperating activities."],
+		"看看哪些时段同时在搬、在算。换一种处理节奏，还能这样安排吗？", "Look for the intervals where transfer and computation overlap. Would this arrangement still work at a different pace?"],
 	"chapter_3/backpressure": [
 		"在不同处理节奏下协调生产和消费，避免覆盖仍被使用的数据。", "Coordinate production and consumption under changing processing times without overwriting live data.",
 		"两种处理节奏下都要正确且达标，注意什么时候可以释放、再请求。", "Both varying cases must be valid and meet their targets; inspect readiness, release and later requests in the actual sequence.",
@@ -291,7 +291,7 @@ const TASK_CONTEXTS := {
 	"representation/mixed_scan": [
 		"选择分块和编码，让混合资产的完整扫描达标。", "Choose partitions and encodings that serve a complete mixed-asset scan under its contract.",
 		"存储大小和总周期都达标；解码也要花时间。", "Measure whole-asset storage and total cycles, including decoding work and transferred payload.",
-		"换一种写法，同样的内容占得更少、读得更快。", "You included representation in the cost trade-off while preserving the original bytes."],
+		"内容没变，写法变了。省下的搬运，够抵过解码的时间吗？", "Same content, different encoding. Do the saved transfers outweigh decoding time?"],
 	"representation/interior_hotspots": [
 		"为重复内部点读安排分块、编码和缓存复用。", "Arrange partitioning, encoding and Cache reuse for repeated interior reads.",
 		"存储、周期和流量都达标；解出来却没用上的字节也算成本。", "Meet storage, cycle and traffic contracts together; restored but unrequested bytes still cost work.",
@@ -301,8 +301,8 @@ const TASK_CONTEXTS := {
 		"两张订单都从空缓存开始，各自达标。", "Both orders start with cold Cache and must independently meet their public limits.",
 		"同一份表示，既能整段扫描，也能挑着读。", "One usable representation now serves both dense and sparse access."],
 	"representation/prepare_once": [
-		"比较准备一次后服务短读与多次冷扫描的安排。", "Arrange one preparation phase to serve a short read and multiple cold scans.",
-		"准备和之后的服务都算成本；每位客户都从空缓存开始。", "Count preparation reads, encoding, writes and later service; each client starts with cold Cache.",
+		"用同一分块方案，分别服务一次短读和八次完整扫描。", "Use one block plan for a short read and eight full scans.",
+		"两张订单的总周期与存储均达标，各自计一次准备。", "Meet both orders' time and storage limits. Each pays preparation once.",
 		"准备和服务的成本合在一起，才知道这次整理值不值得。", "Preparation and service costs together show whether this rearrangement pays off."],
 	"representation/cross_assets": [
 		"让同一划分与编码选择服务两份不同资产和各自订单。", "Use the same partition and encoding choices for two distinct assets and their orders.",
@@ -311,23 +311,23 @@ const TASK_CONTEXTS := {
 	"service/move_state": [
 		"安排分组与状态驻留，让历史服务后续请求。", "Arrange grouping and state residency so history serves later requests.",
 		"每条流保持顺序，结果与最终状态精确；周期、状态搬运和峰值内存都达标。", "Preserve within-stream order, exact scores and final states, and meet cycle, state-traffic and peak-memory contracts.",
-		"会变化的状态留在近处，下一个请求就不用重新搬。", "You retained and reused changing state, with measured correctness and transfer trade-offs."],
+		"状态留住多久，能少搬几次？看看这次的载入和写回记录。", "How many transfers did keeping state nearby save? Check the loads and writebacks."],
 	"service/prompt_response": [
 		"在有限资源中兼顾总工作与每条流的首次响应。", "Balance total work and each stream's first response under finite resources.",
-		"每条流的第一次回应都要及时，总周期也要达标。", "Retain stream order and exact results; every stream must meet the first-response and total-cycle contracts.",
-		"不只是总量快，每个人都要尽快等到回应。", "You included who receives a result first in the system arrangement, beyond aggregate throughput."],
+		"保持结果精确，每条流的第一次回应与总周期都要达标。", "Retain stream order and exact results; every stream must meet the first-response and total-cycle contracts.",
+		"每条流都及时收到了第一次回应。再看看，保住这些回应要搬多少状态。", "Every stream received its first response in time. Now look at how much state those responses moved."],
 	"service/one_plan": [
 		"用同一服务方案同时处理时间、状态流量与质量要求。", "Use one service plan to meet timing, state-traffic and quality requirements together.",
 		"总周期、首次回应、状态搬运和误差都要达标。", "Check total cycles, every first response, state traffic and actual errors under the public contract.",
 		"你的一个方案同时照顾了速度、回应和质量。", "One verified plan now connects service scheduling, representation cost and quality limits."],
 	"prediction/regular": [
 		"先记录关闭猜测的基线，再观察仅靠已揭示历史能否提前搬来有用数据。", "Record an Off baseline, then explore whether revealed history can support useful advance transfers.",
-		"先关掉预测跑一次，再用你的规则跑一次：预测来的数据真被用上了，而且更快。", "This session needs an Off baseline and a faster non-Off rule whose predicted data was actually consumed.",
-		"你的预测规则真的让数据提前到了。（这一章的记录只在本次游玩中保留。）", "This investigation has measured useful address prediction, within the current temporary session only."],
+		"先关掉预测跑基线，再用规则跑一次：预测的数据被用上，且总周期更少。", "This session needs an Off baseline and a faster non-Off rule whose predicted data was actually consumed.",
+		"预测来的数据用上了，也更快了。记录只保留到离开本章。", "The predicted data was used, and the run was faster. These records last only until you leave."],
 	"prediction/changed": [
 		"观察规律改变后，原预测如何影响等待与流量，再修订规则。", "Observe how a changed pattern affects prediction, waiting and traffic, then revise the rule.",
-		"先看规律变了以后旧规则怎样变慢，再改规则，让它不比不预测更慢。", "Retain a slower record with waste or pollution and a non-Off revision no slower than baseline; Off is not the safe revision.",
-		"规律变了，预测就会失效。好的规则要能被发现错了、再改。", "This investigation retains failure and revision as evidence; the rule has not gained access to future requests."],
+		"留下更慢且有浪费或污染的记录，再用非关闭规则做到不慢于基线。", "Retain a slower record with waste or pollution and a non-Off revision no slower than baseline; Off is not the safe revision.",
+		"你找到了不慢于基线的规则。换一段访问，它还管用吗？", "You found a rule no slower than Off. Would it still help on a different stream?"],
 	"prediction/alternating": [
 		"在交替热点和有限缓存中比较不同规则的效果。", "Compare rules under alternating hotspots and finite Cache.",
 		"比较几种规则：有的反而更慢、挤掉了有用数据，有的不比基线慢。", "Compare distinct rules, retaining a slower waste/pollution example and a non-Off record no slower than baseline.",
@@ -335,7 +335,7 @@ const TASK_CONTEXTS := {
 	"creation/C1_restore": [
 		"学习选定样例，发送预测包并核对接收端复原。", "Learn the selected examples, send a predictive packet and check receiver restoration.",
 		"接收端只拿到这个包，也要把原文一格不差地还原出来。", "With only this packet, the receiver must restore the original exactly, cell for cell.",
-		"规律加上例外，信息完整地到了另一头——不是看起来像，而是真的一样。", "Pattern plus exceptions carried the whole message across: not similar, identical."],
+		"规律加上例外，原文一格不差地到了另一头。", "Pattern plus exceptions carried the original across, cell for cell."],
 	"creation/C2_cost": [
 		"固定原文与条件，比较RAW和预测包的真实大小。", "Fix the source and conditions while comparing actual RAW and predictive packet sizes.",
 		"规则本身、包头和修正都要算进大小；有时候压缩包反而更大。", "Rules, header and corrections all count toward size; sometimes the packet ends up larger.",
@@ -343,7 +343,7 @@ const TASK_CONTEXTS := {
 	"creation/C3_conditions": [
 		"保持原文、规则与路径，换机器比较成本；配送订单可另行尝试。", "Keep source, rules and codec fixed while changing the machine; delivery orders are separate options.",
 		"只换机器、别的都不动，比较哪台更划算。", "Change only the machine, keep everything else, and compare which one costs less.",
-		"同一种写法，放在不同机器上代价不同。你把「换机器」和「换写法」分开看了。", "The same encoding costs differently on different machines. You kept \"change the machine\" apart from \"change the encoding\"."],
+		"写法相同，机器不同。这次的时间花在哪里？", "Same encoding, different machine. Where did the time go?"],
 	"creation/P1_commit": [
 		"接到未见输入，先提交一格预测再揭晓，并完成整轮。", "Connect sealed input, commit one prediction before revealing it, then finish the full round.",
 		"每一格都要先猜、再揭晓，整轮做完才算数；揭晓的答案不会偷偷拿去学习。", "Guess each cell before it is revealed and finish the whole round; revealed answers are never used to learn.",
@@ -365,21 +365,21 @@ const TASK_CONTEXTS := {
 		"想比较时只改一个条件；想直接留下也可以。", "To compare, change only one condition; or keep a work directly.",
 		"你的选择成了作品的一部分。好不好看，不由分数决定。", "Your choice became part of the work. Whether it is beautiful is not decided by a score."],
 	"creation/G3_keep": [
-		"生成后，在「作品与配方」中命名并确认保存；生成本身还不算留下作品。", "After generation, name it in Works / recipes and confirm Keep. Generation alone does not save a work.",
+		"想留下这一段，就在下方填个名称，再点保存。", "To keep this passage, give it a name below, then save it.",
 		"确认保存成功，输出和配方才会一起留下。失败时保留当前草稿，查看状态栏原因。", "Keep must succeed to retain the output and recipe together. If it fails, keep the draft open and read the status message.",
 		"你选择留下这一段。可以回看它，也可以从原配方另开一份草稿。", "You chose to keep this passage. View it again, or fork its recipe into another draft."],
 }
 
 const DOMAIN_CONTEXTS := {
-	"hardware_foundations": ["我留下规则，让你亲手决定信号如何成为机器。", "I leave the rules so you can decide how signals become a machine.", "从组合规则到保存状态，再把它们接成自己的机器；支线可以独立探索。", "Combine rules, retain state, then compose your machine; side routes remain independent.", "先查端口方向与位宽，再看测试台中首个不符的输入、输出或时序。Hint仍按原层级提供。", "Check port direction and width, then inspect the first mismatching input, output or step in Test Bench. Hint retains its existing levels.", "语境候选；原任务规格、真实测试与自制成果来源保持权威。", "Candidate context; task specifications, real tests and earned component provenance remain authoritative."],
-	"chapter_1": ["机器已经接通；现在，试着解释它把时间花在哪里。", "The machine is connected; now investigate where its time goes.", "用同条件实测区分计算与搬运，再把观察带到复用与访问安排。", "Separate computation and transfers under matching conditions, then carry that observation into reuse and access arrangement.", "分开检查输出正确、正式程序身份、基线与对照是否齐全；具体缺失以任务台与原回执为准。", "Check correctness, official program identity, matching baseline and comparison evidence separately; Mission and original receipts identify what is missing.", "结论对应已运行的机器与程序，当前未运行控件不重写旧记录。", "Conclusions belong to the measured machine and program; unrun controls do not rewrite older records."],
-	"chapter_2": ["如果数据还会再用，怎样安排它与计算相遇？", "If data will be used again, how should it meet computation?", "容量、次序与分块相互配合；之后还可以安排搬运发生的时机。", "Coordinate capacity, order and blocking, then explore when transfers take place.", "先区分尚未运行、判断未成立和性能未达标，再查命中、淘汰与RAM请求。缓存内容由模型管理。", "Distinguish a missing run, unsupported judgment and unmet target; inspect hits, evictions and RAM requests. The model manages Cache contents.", "以任务给出的目标为准；改了方案要重新运行。", "The public task contract governs; editing does not reinterpret old receipts."],
-	"chapter_3": ["等待可以容纳别的工作，但先后关系仍需要你安排。", "Waiting can contain other work, but you still arrange the causal order.", "从到达、就绪与消费走向完整编排；有效的Buffer和Cache路线都保留。", "Move from arrival, readiness and consumption to full coordination; valid Buffer and Cache routes remain available.", "先查当前案例的状态错误或周期差额，再在时间线定位请求、就绪、消费、释放与淘汰。", "Check the current case's state error or cycle gap, then locate requests, readiness, consumption, release and eviction in the timeline.", "普通连线只有连接含义；时间与成本来自被建模的部件和事件。", "Ordinary wires express connectivity; modeled parts and events own time and cost."],
-	"chapter_4": ["同一份信息，可以因放置方式不同而需要不同的搬运。", "The same information can require different transfers depending on placement.", "从原始布局到有价的复制与有限分批，再问表示本身能否改变成本。", "Move from native layout to paid copying and bounded batches, then ask how representation changes cost.", "先确认每条记录和最后一批都对，再看读写、流量、周期和临时空间；不同订单各有目标。", "Check record identity and tail batches, then preparation traffic, total cycles and peak scratch; orders retain their own contracts.", "不能删记录换成绩；准备也要花成本，额外目标不代替主要目标。", "Do not remove records to improve a score; preparation is not free and optional goals do not replace the main contract."],
-	"representation": ["改变承载方式，也要把恢复信息付出的工作算进去。", "Change how information is carried while accounting for the work needed to recover it.", "表示服务实际请求；同一资产、不同订单与在线准备的成本分别对照。", "Representations serve actual requests; compare assets, orders and online preparation in their proper scopes.", "查看原结果中逐单超限项目与事件；分开读存储、载荷、请求、解码、准备和缓存，勿只看压缩率。", "Inspect per-order limit failures and events; separate storage, payload, requests, decoding, preparation and Cache rather than reading only a compression ratio.", "一套有限的规则；这一段的目标和前面的章节各自独立。", "Bounded candidate model; this stage retains contracts separate from the original core and Service."],
-	"service": ["历史不仅要留下来，还要在别人等待时及时派上用场。", "History must be retained and become useful while someone is waiting.", "从留住状态到公平响应，再将表示与误差纳入同一服务安排。", "Move from retaining state to timely responses, then include representation and error in one service plan.", "查看每条流首响应、状态重新载入、写回和质量见证；正确性、流量、时间与误差分别核对。", "Inspect each first response, state reload, writeback and quality witness; check correctness, traffic, time and error separately.", "同一条流按顺序处理，状态要真实计算，不能跳过。", "Candidate service contract; presentation cannot bypass stream order or actual state computation."],
-	"prediction": ["从已经发生的历史猜下一步，也需要保留猜错后的代价。", "Predict from observed history while retaining the cost of being wrong.", "这是可选地址预测，与之后对光纹内容的逐格预测不同。", "This optional address prediction differs from later cell-by-cell prediction of signal content.", "回看预测发出时已知的历史、后续真实请求、未使用搬运与污染；不要用未揭示的地址选规则。", "Inspect history known at issue time, later demand, unused transfers and pollution; do not choose rules from unrevealed addresses.", "仅本次临时会话；离开丢弃观察，不写成永久成长或必经门槛。", "Temporary session only; departure discards observations, without permanent growth or a mandatory gate."],
-	"creation": ["同一套有限规则，可以复原、预测，也可以接续你选择的下一段。", "The same finite rules can restore, predict and extend a passage you choose.", "压缩→内容预测→创造使用同一模型；早期电路是构造来路，不冒称执行这些算法。", "Compression → Content prediction → Creation share a model; earlier circuits provide construction provenance, not execution of these algorithms.", "先查当前模型是否已学习、无损复原及整轮预测是否成立；改记忆或样例后重新准备。作品仍按原快照和配方回看。", "Check learning, exact restoration and full prediction for the current model; re-prepare after changing examples or history. Saved work remains bound to its original snapshot and recipe.", "有限模型候选；无通用智能或意识结论，作品与审美选择不以虚构分数替代。", "Bounded candidate model, without general-intelligence or consciousness claims; real works and aesthetic choices are not replaced by invented scores."],
+	"hardware_foundations": ["几条简单规则，能拼出多大的机器？", "How far can a few simple rules take your machine?", "先组合逻辑，再保存状态，最后接成 CPU；支线随时可以探索。", "Combine logic, store state, then build a CPU. Side routes are open to exploration.", "检查端口方向与位宽，再找测试台里第一处不符。", "Check port direction and width, then find the first mismatch in Test Bench.", "正式测试通过后，记得封装自己的电路。", "After the official tests pass, seal your circuit."],
+	"chapter_1": ["机器接通了，时间都花在哪里？", "The machine is connected. Where does its time go?", "分清计算与等待，再试着少搬几趟。", "Separate computation from waiting, then try making fewer transfers.", "先查输出，再看正式测试是否留下了同条件的基线与对照。", "Check outputs, then confirm official baseline and comparison runs under matching conditions.", "改了配置要重新运行；旧记录仍对应旧配置。", "Run again after changing the setup; old records still describe the old setup."],
+	"chapter_2": ["下次还要用的数据，能留在近处吗？", "Can data you need again stay nearby?", "搭配容量、访问顺序与分块；下一步再安排搬运时机。", "Combine capacity, access order and blocking; next, arrange when transfers happen.", "先看任务台缺哪项记录，再查命中、淘汰和 RAM 取数。", "Check Mission for missing evidence, then inspect hits, evictions and RAM requests.", "Cache 自动管理内容；改了方案要重新运行。", "Cache manages its contents automatically. Rerun after changing your plan."],
+	"chapter_3": ["等数据的时候，还能先做什么？", "What can you do while waiting for data?", "从一批数据到完整调度，Buffer 和 Cache 都有可探索的路线。", "From one batch to a full schedule, explore both Buffer and Cache routes.", "查看首个状态错误或超出的周期，再沿时间线追踪请求、就绪、使用与释放。", "Find the first state error or cycle overrun, then trace requests, readiness, use and release.", "普通连线不增加延迟；搬运和等待的时间看部件与事件。", "Wires add no delay. Transfer and waiting times come from components and events."],
+	"chapter_4": ["同一份数据，换个摆法，能少搬多少？", "Same data, different layout. How much less needs to move?", "试过布局，再看复制整理和分批各适合什么情况。", "After layout, explore when copying and batching pay off.", "先查漏算、重算和最后一批，再看流量、周期与临时空间。", "Check missing or repeated records and the final batch, then traffic, cycles and scratch space.", "记录和字段都要保留；准备成本也要算。", "Keep every record and field, and count preparation costs."],
+	"representation": ["少搬一点、多解码一点，这笔账划算吗？", "Move less, decode more. Does it pay off?", "同一写法，换份资产或订单，再比较一次。", "Try the same encoding on another asset or order and compare again.", "逐单看超限项目，分开核对存储、搬运、解码和准备成本。", "Check each order’s exceeded limits, separating storage, transfer, decoding and preparation costs.", "按本关目标核对；压得小，不一定读得快。", "Check this task’s targets. A smaller encoding may take longer to read."],
+	"service": ["留住状态的同时，能让每条流都及时收到回应吗？", "Can you keep state nearby and still respond to every stream in time?", "先管状态搬运，再兼顾首次回应、总时间和质量。", "Start with state transfers, then balance first responses, total time and quality.", "看哪条流回应迟了，再查状态载入、写回和误差记录。", "Find late streams, then inspect state loads, writebacks and error records.", "同一条流按顺序处理，状态不能跳过。", "Process each stream in order without skipping its state."],
+	"prediction": ["猜对能省时间，猜错要付出什么？", "A good guess can save time. What does a bad one cost?", "这里预测下次访问的地址；后面的光纹实验预测内容。", "Here you predict the next address; later signal experiments predict content.", "对照当时已知的历史，看哪些预测被用上、哪些白搬或挤走了有用数据。", "Compare known history with used predictions, wasted transfers and displaced data.", "记录仅在本次游玩保留，离开本章后清空。", "These records last only for this session and clear when you leave the chapter."],
+	"creation": ["能复原、能预测的规则，接着自己的输出会写出什么？", "What will rules that restore and predict produce from their own output?", "复原、预测、生成共用一套规则；改变样例，看看结果怎么变。", "Restoration, prediction and generation share rules. Change the examples and see what changes.", "改样例或记忆长度后重新学习；生成前，先完成当前模型的复原与整轮预测。", "Relearn after changing examples or history length. Before generating, finish restoration and prediction with the current model.", "保存成功才留下作品；草稿改变不会覆盖已存作品。", "A work is kept only after saving succeeds. Draft edits do not overwrite saved works."],
 }
 
 

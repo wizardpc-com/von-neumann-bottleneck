@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+MENU: LanguageChoice focus=1 want=1
+MENU: LanguageChoice focus=0 want=0
+MENU: LanguageChoice focus=1 want=1
+MENU: LanguageChoice focus=0 want=0
+MENU: LanguageChoice focus=1 want=1
+Terminal language checks: 120; failures: 0
+PASS: terminal language continuity

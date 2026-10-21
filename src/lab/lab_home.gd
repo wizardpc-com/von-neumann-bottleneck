@@ -114,6 +114,8 @@ var hover_works: bool = false
 const WORK_FRAME := Rect2(1128, 150, 196, 168)
 const WORK_COLORS := [Color("7fcbd6"), Color("f0c674"), Color("aab6e6"), Color("7fd8a4")]
 var reduced_motion: bool = false
+# Carries only the current terminal view through a language reload; never saved.
+static var _language_checkpoint: Dictionary = {}
 
 func _ready() -> void:
 	var localization: Node = get_node_or_null("/root/Localization")
@@ -163,7 +165,15 @@ func _ready() -> void:
 	resized.connect(_fit)
 	_fit()
 	_read_progress()
-	call_deferred("_arrive")
+	if _language_checkpoint.is_empty():
+		call_deferred("_arrive")
+	else:
+		var checkpoint: Dictionary = _language_checkpoint
+		_language_checkpoint = {}
+		var task_key: String = str(checkpoint.response.get("task", {}).get("key", ""))
+		for row: Dictionary in LabState.tasks():
+			if str(row.key) == task_key: checkpoint.response["task"] = row
+		terminal.restore_language(checkpoint)
 
 func _add_layer(key: String, painter: Callable) -> void:
 	var layer := Painter.new(); layer.name = "Layer" + key.capitalize()
@@ -363,7 +373,13 @@ func _on_terminal_action(id: String) -> void:
 		"quit_confirmed": quit_requested.emit()
 		"language":
 			get_node("/root/Localization").set_locale("en" if not english else "zh_CN")
-			get_tree().reload_current_scene()
+			reload_localized_scene()
+
+func reload_localized_scene() -> Error:
+	_language_checkpoint = terminal.language_checkpoint()
+	var error: Error = get_tree().reload_current_scene()
+	if error != OK: _language_checkpoint = {}
+	return error
 
 ## Esc in the laboratory asks about quitting on the terminal screen; a second
 ## Esc returns to the menu. Overlays (archive, settings, handbook) close first.

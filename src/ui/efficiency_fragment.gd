@@ -229,9 +229,9 @@ func _refresh() -> void:
 	elif difference > 0: observation = _words("这两条记录里，这一项多了 %d 周期；它没有被画成改进。", "In these two records, this component used %d more cycles; it is not presented as an improvement.") % difference
 	else: observation = _words("这两条记录里，这一项没有变化。", "In these two records, this component did not change.")
 	var reply: String = [
-		_words("壹留下的候选讯息：先看计算，再看等待。让一部分更快，并不能替另一部分作答。", "Candidate message left by Yi: inspect computation, then waiting. Speeding one part does not answer for the other."),
-		_words("壹留下的候选讯息：留在档案里的等待也值得被看见。接下来可以带着这份观察，探索数据的复用。", "Candidate message left by Yi: the waiting retained in a record deserves attention too. Carry this observation into data reuse."),
-		_words("壹留下的候选讯息：你可以选择新的安排，也可以保留不变的观察。档案留下条件与代价，不替后来者作决定。", "Candidate message left by Yi: choose another arrangement, or keep an unchanged observation. The archive retains conditions and costs, leaving later choices open.")
+		_words("候选讯息：先看计算，再看等待。让一部分更快，并不能替另一部分作答。", "Candidate message: inspect computation, then waiting. Speeding one part does not answer for the other."),
+		_words("候选讯息：留在档案里的等待也值得被看见。接下来可以带着这份观察，探索数据的复用。", "Candidate message: the waiting retained in a record deserves attention too. Carry this observation into data reuse."),
+		_words("候选讯息：你可以选择新的安排，也可以保留不变的观察。档案留下条件与代价，不替后来者作决定。", "Candidate message: choose another arrangement, or keep an unchanged observation. The archive retains conditions and costs, leaving later choices open.")
 	][step]
 	response_label.text = observation + "\n" + reply
 	image.step = step

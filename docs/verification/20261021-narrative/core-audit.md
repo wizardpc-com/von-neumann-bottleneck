@@ -16,7 +16,7 @@
 
 | CSV ID / 原名 | 真实 key / 名称 | 实际操作与通关边界 | 文案审计 | 源码依据 |
 |---|---|---|---|---|
-| 01-1 接线 | `hardware_foundations/tutorial` / 序章·接线教程 | 把输入经NOT接到灯，切换输入、运行、拆线重连；五项操作均完成；有效运行 | 原稿只有直连；缺NOT与后四步；把连线归为1周期违背零延迟连接。 | `src/hardware_foundations/hardware_foundations.gd:2973`；`src/hardware_foundations/hardware_foundations.gd:8451`；`AGENTS.md:37` |
+| 01-1 接线 | `hardware_foundations/tutorial` / 序章·接线教程 | 引导目标是输入经NOT接到灯；判定检查五项动作标记，运行trace有效且有LAMP输出；不校验固定拓扑，也不要求两种输入都运行 | 原稿只有直连；缺NOT与后四步；把连线归为1周期违背零延迟连接。不能把动作完成说成完整反相功能已经验证；见[实际输入补查](../20261021-first-lesson-input/README.md)。 | `src/hardware_foundations/hardware_foundations.gd:3977`；`src/hardware_foundations/hardware_foundations.gd:6154`；`src/hardware_foundations/hardware_foundations.gd:8451`；`AGENTS.md:37` |
 | 01-2 半加器 | `hardware_foundations/half_adder` / 序章·搭建 1 位半加器 | 两路1位输入产生SUM和CARRY；四组真值均正确，正式通过后才可封装 | 目标基本相符；“两个一位数相加会得到两位”应是两位表示；不能断言进位比和慢/贵，取决于玩家拓扑。 | `src/circuit/half_adder_test_bench.gd:7` |
 | 01-3 全加器 | `hardware_foundations/full_adder` / 全加器 | A、B与来自低位的CIN相加；八种组合SUM/COUT正确 | “多出来的那个低位”实际是进位输入；复用两半加器是自然路径，不能当唯一拓扑判定；门数增长非本关计时结论。 | `src/content/prologue/arithmetic_content_pack.gd:36` |
 | 01-4 一位校验 | `hardware_foundations/parity` / 错了一位 | 读取D0-D3和CHECK，输出奇偶不符ERROR；全部32组输入ERROR正确 | 不是玩家生成校验位，也不是检查算术自知对错；不能定位/纠错，偶数位翻转可能漏过。 | `src/content/prologue/exploration_content_pack.gd:129`；`localization/game.zh_CN.po:5923` |

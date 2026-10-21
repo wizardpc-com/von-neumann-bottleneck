@@ -1,0 +1,69 @@
+extends "res://tests/test_recovery_game_input.gd"
+## Real viewport input, isolated ordinary Game profile. This checks dispatch and
+## earned progression; it does not establish native input or beginner comprehension.
+
+func _run() -> void:
+	root.mode = Window.MODE_WINDOWED
+	root.size = Vector2i(1280, 720)
+	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
+	await settle(12)
+	check(current_scene.name == "PrototypeHub" and not root.get_node("GameMode").is_test_mode(), "Fresh ordinary Game starts in the laboratory.")
+	var terminal: Control = current_scene.get_node("Laboratory").terminal
+	check(terminal.asleep(), "The first invitation waits for the player.")
+	await key(KEY_ENTER)
+	check(not terminal.asleep() and terminal.primary.is_visible_in_tree(), "Enter wakes the terminal and exposes its primary action.")
+	await click(terminal.message.get_global_rect().get_center())
+	await capture("invitation")
+	await press(terminal.primary)
+	var deadline: int = Time.get_ticks_msec() + 10000
+	while (current_scene == null or current_scene.get("current_level_id") != &"tutorial") and Time.get_ticks_msec() < deadline:
+		await process_frame
+	ui = current_scene
+	if ui.get("current_level_id") != &"tutorial":
+		check(false, "The terminal primary action must enter NOT.")
+		await finish()
+		return
+	await settle(15)
+	check(ui.tutorial_coach.is_visible_in_tree() and not ui.mission_briefing_active and not ui.hint_mode, "NOT opens on one concrete step without a briefing or solution overlay.")
+	await capture("not-entry")
+	await wire(&"A_IN", &"NOT_1")
+	check(ui.tutorial_created_wire and not ui.tutorial_valid_run, "The first wire earns a wiring action without inventing a run.")
+	await capture("not-first-wire")
+	await press(ui.input_a_button)
+	check(ui.tutorial_changed_input and not ui.tutorial_valid_run, "Changing A still leaves the run action outstanding.")
+	await press(named_button(ui.desktop_windows[&"test_bench"], text(&"hardware.practice.run")))
+	await wait_playback()
+	check(not ui.completed_levels.get(&"tutorial", false), "A run alone does not earn the remaining removal and reconnection actions.")
+	await capture("not-incomplete-run")
+	await wire(&"NOT_1", &"LAMP")
+	await press(named_button(ui.desktop_windows[&"test_bench"], text(&"hardware.practice.run")))
+	await wait_playback()
+	check(ui.tutorial_valid_run and not ui.completed_levels.get(&"tutorial", false), "A valid NOT run leaves removal and reconnection outstanding.")
+	check(ui.input_a_button.button_pressed and not ui.current_trace.outputs[&"LAMP"], "Connected A=1 produces LAMP=0 in the actual simulation trace.")
+	await capture("not-result")
+	await press(ui.input_a_button)
+	await press(named_button(ui.desktop_windows[&"test_bench"], text(&"hardware.practice.run")))
+	await wait_playback()
+	check(not ui.input_a_button.button_pressed and ui.current_trace.outputs[&"LAMP"], "Changing to A=0 and running produces LAMP=1, without granting the remaining actions.")
+	check(not ui.completed_levels.get(&"tutorial", false), "Trying both inputs still preserves the remaining action requirements.")
+	await capture("not-other-input")
+	var midpoint: Vector2 = curve_point(&"LAMP")
+	await drag(midpoint - Vector2(0, 22), midpoint + Vector2(0, 22), MOUSE_BUTTON_RIGHT)
+	check(ui.tutorial_removed_wire and not ui.graph.is_node_connected(&"NOT_1", 0, &"LAMP", 0), "The instructed right-button sweep actually removes the lamp wire.")
+	check(not ui.completed_levels.get(&"tutorial", false), "Four actions do not earn completion.")
+	await capture("not-removed")
+	await wire(&"NOT_1", &"LAMP")
+	check(ui.tutorial_reconnected_wire and ui.completed_levels.get(&"tutorial", false), "Reconnecting the removed wire earns the unchanged fifth requirement.")
+	await capture("not-complete")
+	check(ui.level_completion_overlay.visible, "The earned result offers an explicit next action.")
+	await press(ui.level_completion_overlay.continue_button)
+	await settle(12)
+	check(ui.current_level_id == &"half_adder" and not ui.mission_briefing_active, "Continue reaches half adder with its short goal and build guide.")
+	check(ui.tutorial_coach.goal_text.contains("SUM") and ui.tutorial_coach.goal_text.contains("CARRY"), "The half-adder goal names the two outputs the player must produce.")
+	await capture("half-adder-entry")
+	await press(ui.tutorial_coach.find_child("CoachBriefing", true, false))
+	check(ui.mission_briefing_active and ui.desktop_windows[&"task"].visible, "The optional full briefing opens through its visible button.")
+	await capture("half-adder-briefing")
+	await press(ui.mission_briefing_panel.find_child("MissionStartBuilding", true, false))
+	check(not ui.mission_briefing_active and not ui.hint_mode, "Start building returns directly to the player's circuit without revealing a solution.")
+	await finish()

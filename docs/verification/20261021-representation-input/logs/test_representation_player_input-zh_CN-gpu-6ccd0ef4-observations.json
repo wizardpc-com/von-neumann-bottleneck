@@ -1,0 +1,318 @@
+[
+	{
+		"check": "Test access opens preparation without granting its completion.",
+		"ok": true
+	},
+	{
+		"check": "The isolated task starts with an unmeasured RAW draft and no earned tasks.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prepare-entry",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Both independent orders are measured by the unchanged completion check.",
+		"ok": true
+	},
+	{
+		"check": "Actual order 1 returns exact bytes with total 81",
+		"ok": true
+	},
+	{
+		"check": "Each order includes its own preparation and retained-source storage.",
+		"ok": true
+	},
+	{
+		"check": "Displayed preparation and service account for the actual total.",
+		"ok": true
+	},
+	{
+		"check": "Actual order 2 returns exact bytes with total 1096",
+		"ok": true
+	},
+	{
+		"check": "Each order includes its own preparation and retained-source storage.",
+		"ok": true
+	},
+	{
+		"check": "Displayed preparation and service account for the actual total.",
+		"ok": true
+	},
+	{
+		"check": "The fixed cost overview shows both measured orders.",
+		"ok": true
+	},
+	{
+		"check": "The mission names the current-language order 1",
+		"ok": true
+	},
+	{
+		"check": "The request preview uses the same order name as the mission.",
+		"ok": true
+	},
+	{
+		"check": "The recorded selector and result table retain the mission's order names.",
+		"ok": true
+	},
+	{
+		"check": "The mission names the current-language order 2",
+		"ok": true
+	},
+	{
+		"check": "The request preview uses the same order name as the mission.",
+		"ok": true
+	},
+	{
+		"check": "The recorded selector and result table retain the mission's order names.",
+		"ok": true
+	},
+	{
+		"check": "The primary measured result names the selected order in the current language.",
+		"ok": true
+	},
+	{
+		"check": "The RAW run points to the over-budget eight-scan order and its measured limit.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: raw-short-met-scans-unmet",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Changing codec marks the displayed measurement as belonging to an older draft.",
+		"ok": true
+	},
+	{
+		"check": "Editing never rewrites the RAW measurement.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: rle-draft-before-run",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Both independent orders are measured by the unchanged completion check.",
+		"ok": true
+	},
+	{
+		"check": "Actual order 1 returns exact bytes with total 111",
+		"ok": true
+	},
+	{
+		"check": "Each order includes its own preparation and retained-source storage.",
+		"ok": true
+	},
+	{
+		"check": "Displayed preparation and service account for the actual total.",
+		"ok": true
+	},
+	{
+		"check": "Actual order 2 returns exact bytes with total 769",
+		"ok": true
+	},
+	{
+		"check": "Each order includes its own preparation and retained-source storage.",
+		"ok": true
+	},
+	{
+		"check": "Displayed preparation and service account for the actual total.",
+		"ok": true
+	},
+	{
+		"check": "The fixed cost overview shows both measured orders.",
+		"ok": true
+	},
+	{
+		"check": "The mission names the current-language order 1",
+		"ok": true
+	},
+	{
+		"check": "The request preview uses the same order name as the mission.",
+		"ok": true
+	},
+	{
+		"check": "The recorded selector and result table retain the mission's order names.",
+		"ok": true
+	},
+	{
+		"check": "The mission names the current-language order 2",
+		"ok": true
+	},
+	{
+		"check": "The request preview uses the same order name as the mission.",
+		"ok": true
+	},
+	{
+		"check": "The recorded selector and result table retain the mission's order names.",
+		"ok": true
+	},
+	{
+		"check": "The primary measured result names the selected order in the current language.",
+		"ok": true
+	},
+	{
+		"check": "The RLE run instead identifies the short-read order as over budget.",
+		"ok": true
+	},
+	{
+		"check": "Neither single-codec plan meets both orders.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: rle-scans-met-short-unmet",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Inspecting the old RAW result does not replace the current RLE draft.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: raw-record-rle-draft",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Typing a split address and pressing Split creates the two requested ranges.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The player changes only the selected first block to RAW.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Both independent orders are measured by the unchanged completion check.",
+		"ok": true
+	},
+	{
+		"check": "Actual order 1 returns exact bytes with total 105",
+		"ok": true
+	},
+	{
+		"check": "Each order includes its own preparation and retained-source storage.",
+		"ok": true
+	},
+	{
+		"check": "Displayed preparation and service account for the actual total.",
+		"ok": true
+	},
+	{
+		"check": "Actual order 2 returns exact bytes with total 888",
+		"ok": true
+	},
+	{
+		"check": "Each order includes its own preparation and retained-source storage.",
+		"ok": true
+	},
+	{
+		"check": "Displayed preparation and service account for the actual total.",
+		"ok": true
+	},
+	{
+		"check": "The fixed cost overview shows both measured orders.",
+		"ok": true
+	},
+	{
+		"check": "The mission names the current-language order 1",
+		"ok": true
+	},
+	{
+		"check": "The request preview uses the same order name as the mission.",
+		"ok": true
+	},
+	{
+		"check": "The recorded selector and result table retain the mission's order names.",
+		"ok": true
+	},
+	{
+		"check": "The mission names the current-language order 2",
+		"ok": true
+	},
+	{
+		"check": "The request preview uses the same order name as the mission.",
+		"ok": true
+	},
+	{
+		"check": "The recorded selector and result table retain the mission's order names.",
+		"ok": true
+	},
+	{
+		"check": "The primary measured result names the selected order in the current language.",
+		"ok": true
+	},
+	{
+		"check": "Only the actually measured preparation task earns a protected successful plan.",
+		"ok": true
+	},
+	{
+		"check": "All three measurements retain the original evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: mixed-both-orders-met",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Save exploration writes the real draft, comparisons and earned support.",
+		"ok": true
+	},
+	{
+		"check": "Saving exposes only the task actually earned in this isolated profile.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: saved-preparation-result",
+		"ok": true
+	}
+]

@@ -394,7 +394,7 @@ msgid "program.apply.tooltip"
 msgstr "Confirm this valid draft as the only program Test Bench may execute."
 
 msgid "program.apply.draft_pending"
-msgstr "DRAFT NOT APPLIED — Test Bench remains on the previous program"
+msgstr "Draft not applied — click Apply program before running."
 
 msgid "program.apply.applied"
 msgstr "APPLIED PROGRAM · %s"
@@ -1179,6 +1179,9 @@ msgstr "#%d  A%d B%d  ·  running"
 msgid "hardware.cases.row_result"
 msgstr "#%d  A%d B%d  →  actual %s  ·  %s"
 
+msgid "hardware.cases.expected_outputs"
+msgstr "Expected SUM%d · CARRY%d"
+
 msgid "hardware.sealed.library_heading"
 msgstr "PLAYER COMPONENT LIBRARY"
 
@@ -1959,7 +1962,7 @@ msgid "hardware.hint.button"
 msgstr "Hint · F1"
 
 msgid "hardware.hint.button.tooltip"
-msgstr "Ask Yi (F1): one line of direction first; open the read-only hint canvas only if you want more. Your design stays unchanged."
+msgstr "Hint (F1): start with one direction, then open the hint canvas if needed. Your design is kept."
 
 msgid "hardware.hint.return"
 msgstr "Return to my design"
@@ -2007,7 +2010,7 @@ msgid "hardware.hint.generic"
 msgstr "Use the inputs, outputs, and official cases to split the problem into smaller signal relationships."
 
 msgid "hardware.hint.tutorial.1"
-msgstr "Build one shortest signal chain: start at an output port and watch the signal follow the exact displayed wire to its target."
+msgstr "Connect A's output to NOT, then to the lamp. Predict what the lamp will do, then run to check."
 
 msgid "hardware.hint.tutorial.2"
 msgstr "Try sending input A through NOT and then into the lamp; watch the port colors before and after inversion."
@@ -2016,7 +2019,7 @@ msgid "hardware.hint.tutorial.3"
 msgstr "The complete example uses A → NOT → LAMP, enough to practice connecting, running, deleting, and reconnecting."
 
 msgid "hardware.hint.half_adder.1"
-msgstr "Do not wire yet. Cover one truth-table column and inspect only CARRY: which row differs from the other three? Then inspect SUM: what do its two high rows share? Choose the simpler output first."
+msgstr "Look at CARRY: which row differs from the other three? Then SUM: what do its two 1 rows share? Pick an output to wire first."
 
 msgid "hardware.hint.half_adder.2"
 msgstr "CARRY is 1 only when A and B are both 1. The canvas shows this partial branch.\n\nSUM is 1 for 01 and 10: treat each row as a condition, invert an input that must be 0, test the condition, then combine the two conditions."
@@ -2802,7 +2805,7 @@ msgid "hardware.completion.chapter"
 msgstr "Prologue · A Machine Takes Shape"
 
 msgid "hardware.completion.summary.tutorial"
-msgstr "The circuit is connected, tested and ready to change. Both 0 and 1 are normal signals. Change the input and follow the result."
+msgstr "All five actions are done: wire, change the input, run, remove a wire and reconnect."
 
 msgid "hardware.completion.summary.half_adder"
 msgstr "Two bits become SUM and CARRY. Your HalfAdder is ready to reuse. The newly unlocked XOR outputs 1 when its inputs differ, just like SUM."
@@ -3138,7 +3141,7 @@ msgid "chapter2.review.finding"
 msgstr "OPEN FINDING"
 
 msgid "chapter2.capstone.summary"
-msgstr "BASELINE → BEST\nTotal: %d → %d cycles (%d fewer)\nCPU WAIT: %d → %d cycles (%d fewer)\nHardware cost: %d\nBest configuration: %s\n\nYou diagnosed repeated far fetches before changing the machine. Multiple solutions remain valid."
+msgstr "Baseline → best recorded result\nTotal: %d → %d cycles (%d fewer)\nCPU WAIT: %d → %d cycles (%d fewer)\nHardware cost: %d\nRecorded configuration: %s"
 
 msgid "chapter2.capstone.profiler.raw_summary"
 msgstr "%s\nRaw evidence · Total %d cycles · CPU WAIT %d cycles"
@@ -4786,6 +4789,9 @@ msgstr "There is still room to explore. Keep your current design and compare the
 msgid "hardware.completion.ready_to_seal"
 msgstr "Every case passed. Seal this circuit as %s to use it as a component in later challenges. Your wiring will be kept inside it."
 
+msgid "hardware.completion.tests_passed"
+msgstr "Tests passed"
+
 
 msgid "hardware.palette.port_width"
 msgstr "%d-bit ports"
@@ -5626,7 +5632,7 @@ msgid "overlap.arrival.learned"
 msgstr "A request is not an arrival. You used the gap for independent work. Both exploration paths are open."
 
 msgid "overlap.buffers.learned"
-msgstr "Your two buffers overlapped transfer and compute for 12 cycles. Next, explore what happens when speed changes.\n\nWhile this batch computes, the next is on its way."
+msgstr "Transfer and computation overlap in the timeline. The output and cycle target both pass."
 
 msgid "overlap.backpressure.learned"
 msgstr "One state-based handoff handles both timing patterns without overwrites. free and ready are more reliable than fixed delays."

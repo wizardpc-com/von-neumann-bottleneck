@@ -1,4 +1,30 @@
-# Current state — terminal navigation and presentation closeout (2026-10-20)
+# 最新状态 · 2026-10-21 关卡卡片精简
+
+关卡提示去掉「壹 / Yi」署名，60 项卡片完成复读，章节展开说明更短；实验室人物及未确认故事边界保持原状。此前体验修正、测试与证据和本轮卡片优化一并纳入本地 main，无远端推送或公开发布。
+
+本轮 11 个相关测试套件全部通过，GPU 叙事与求助输入检查通过，18 张关键画面见[卡片精简验证](verification/20261021-card-polish/README.md)。前轮全量及修复验证仍按下文的各自范围保留；不将自动检查视作真人理解或新安装包验收。
+
+---
+
+## 最新：叙事与玩家体验核验（2026-10-21）
+
+60关文案与映射已审计，代表操作、真实反馈、可选章节回应和作品保存衔接已补查。
+全量201个Godot套件发现并修复NOT反馈遗漏和延迟滚动问题，最终11项相关复测及两项隔离检查、七项Python检查通过。
+三轮提交为7542b72、c70f900、f65b28c；后续补查保留为未提交工作树。未更新游戏包，未合并远端main或公开发布。
+故事候选仍待主创确认；验证边界、关键画面和源码身份见[综合核验](verification/20261021-narrative-integrated/README.md)，视觉精修见[叙事交接](development/NARRATIVE_HANDOFF_20261021.md)。
+
+以下历史记录保持原文。
+
+---
+
+# Current state — hint input correction (2026-10-21)
+
+当前分支修复序章「提示」被浮动面板遮挡、F1 在搜索框或只读提示页失效的问题。
+按钮与 F1 使用同一入口，后两层仍需确认；设置等模态界面阻止底层求助。
+窗口 F11 首次退出与连续切换暂未复现异常，未修改窗口恢复逻辑。
+本轮为源码修复，原 Windows ZIP 未更新；范围与验证见[提示输入检查](verification/20261021-hint-input/README.md)。
+
+## Previous: terminal navigation and presentation closeout (2026-10-20)
 
 当前开发分支为 `codex/navigation-closeout-20261020`，基于 Claude 第四轮终端优化。
 导航修复 `e965632` 让实验室电脑显示的目标与实际入口一致，并补齐工作台 Esc；

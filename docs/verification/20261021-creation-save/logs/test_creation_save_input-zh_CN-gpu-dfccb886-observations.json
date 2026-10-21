@@ -1,0 +1,182 @@
+[
+	{
+		"check": "Preparation starts with a fresh writable profile and no works.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible Generate button produces an actual savable result.",
+		"ok": true
+	},
+	{
+		"check": "Generation does not grant Keep completion.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Save draft writes the draft without keeping a work or granting G3.",
+		"ok": true
+	},
+	{
+		"check": "The persistent status identifies the draft as what was saved.",
+		"ok": true
+	},
+	{
+		"check": "Draft-save feedback points to the separate work-saving action.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: draft-only",
+		"ok": true
+	},
+	{
+		"check": "The player can choose Measurements before attempting to save.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Empty-name rejection creates no work or successful-save closure.",
+		"ok": true
+	},
+	{
+		"check": "G3 keeps the current evidence tab and focuses the visible bottom name field.",
+		"ok": true
+	},
+	{
+		"check": "The focused name field fits the 720p viewport.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: name-required",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "An overlong name reports the existing limit without granting completion.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Correcting the name and clicking Keep earns the existing G3 transaction.",
+		"ok": true
+	},
+	{
+		"check": "The named saved work contains the exact visible output and recipe.",
+		"ok": true
+	},
+	{
+		"check": "Successful save offers viewing without forcing a modal.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: kept",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible view action opens the actual kept work.",
+		"ok": true
+	},
+	{
+		"check": "Reopening reads the exact saved work from disk.",
+		"ok": true
+	},
+	{
+		"check": "Reopening shows the saved snapshot without pretending it is a new generation.",
+		"ok": true
+	},
+	{
+		"check": "The opening status describes the restored work rather than asking the player to learn again.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: reopened",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "The disclosed shelf fixture saves through the original transaction.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Full-shelf rejection preserves all twelve saved works.",
+		"ok": true
+	},
+	{
+		"check": "Full-shelf feedback describes this rejected save, even when an earlier work has the same output.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: shelf-full",
+		"ok": true
+	}
+]

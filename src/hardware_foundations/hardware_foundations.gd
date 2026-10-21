@@ -444,6 +444,13 @@ func _input(event: InputEvent) -> void:
 	if (terminology_handbook != null and terminology_handbook.is_open()) \
 			or (level_completion_overlay != null and level_completion_overlay.visible):
 		return
+	# Help is read-only, so it also works with text focus and on the hint canvas.
+	if event is InputEventKey and event.pressed and not event.echo \
+			and event.keycode == KEY_F1 and not event.ctrl_pressed \
+			and not event.meta_pressed and not event.alt_pressed:
+		_on_hint_button_pressed()
+		get_viewport().set_input_as_handled()
+		return
 	if event is InputEventMouseMotion and not armed_component_template_key.is_empty() and graph != null:
 		graph.placement_pointer = graph.get_global_transform_with_canvas().affine_inverse() * event.position
 		graph.placement_has_pointer = _component_placement_position_allowed(event.position)
@@ -1855,10 +1862,16 @@ func _focus_desktop_window(id: StringName) -> void:
 	var window: FloatingInstrumentPanel = desktop_windows.get(id)
 	if window == null:
 		return
-	desktop_z_counter += 1
-	window.z_index = desktop_z_counter
 	# Control input follows sibling order independently of draw order.
 	window.get_parent().move_child(window, -1)
+	# Keep instrument stacking below help and dialog overlays, even after long play.
+	desktop_z_counter = 100
+	for child: Node in graph_stack.get_children():
+		if child is FloatingInstrumentPanel:
+			desktop_z_counter += 1
+			child.z_index = desktop_z_counter
+	if yi_help_card != null and yi_help_card.visible:
+		graph_stack.move_child(yi_help_card, -1)
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
 		button.text = _desktop_window_name(id)
@@ -2567,6 +2580,14 @@ func _refresh_hint_controls() -> void:
 
 
 func _on_hint_button_pressed() -> void:
+	if hint_button == null or not hint_button.is_visible_in_tree() or hint_button.disabled:
+		return
+	if is_instance_valid(get_node("/root/WindowMode").settings_layer) \
+			or (workbench_name_dialog != null and workbench_name_dialog.visible) \
+			or (terminology_handbook != null and terminology_handbook.is_open()) \
+			or (level_completion_overlay != null and level_completion_overlay.visible) \
+			or _seal_navigation_busy():
+		return
 	if hint_mode:
 		if hint_level < 3:
 			_request_next_hint()
@@ -2587,6 +2608,7 @@ func _open_yi_help() -> void:
 		yi_help_card.offset_right = -16.0; yi_help_card.offset_top = 14.0
 		graph_stack.add_child(yi_help_card)
 		yi_help_card.option_selected.connect(_on_yi_help_option)
+	graph_stack.move_child(yi_help_card, -1)
 	yi_help_card.present(_t(_hint_text_key(current_level_id, 1)), [
 		{"id": "more", "zh": "再具体一些", "en": "More specific"},
 		{"id": "self", "zh": "我自己试试", "en": "I'll try myself"},
@@ -4571,10 +4593,6 @@ func _handle_editor_shortcut(event: InputEvent) -> bool:
 		_set_active_wire_color(int(key_event.keycode - KEY_1))
 		return true
 	match key_event.keycode:
-		KEY_F1:
-			if hint_mode or key_event.echo: return false
-			_open_yi_help()
-			return true
 		KEY_F4:
 			_reset_current_simulation()
 			return true
@@ -6331,6 +6349,11 @@ func _reveal_half_adder_official_case() -> void:
 		int(result["A"]), int(result["B"]), actual_text,
 		_t(&"outcome.pass") if bool(result["passed"]) else _t(&"outcome.fail"),
 	])
+	if not bool(result["passed"]):
+		label.text += "\n" + _t(&"hardware.cases.expected_outputs", [
+			int(result["expected_sum"]), int(result["expected_carry"]),
+		])
+		call_deferred("_ensure_official_case_visible", label)
 	label.add_theme_color_override("font_color", GOOD if bool(result["passed"]) else BAD)
 
 
@@ -6466,10 +6489,12 @@ func _official_step_inputs_text(step: Dictionary) -> String:
 
 
 func _ensure_official_case_visible(label: Label) -> void:
+	# Result text can add a line; scroll using the container's updated height.
+	await get_tree().process_frame
+	if not is_instance_valid(label) or not is_instance_valid(side_box) or not side_box.is_ancestor_of(label):
+		return
 	if current_level_id == &"alu":
 		_refresh_alu_groups(prologue_case_labels.find(label) / 8)
-	if label == null or not is_instance_valid(label) or side_box == null:
-		return
 	var scroll := side_box.get_parent() as ScrollContainer
 	if scroll != null:
 		scroll.ensure_control_visible(label)

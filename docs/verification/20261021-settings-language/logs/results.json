@@ -1,0 +1,86 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/user_directory"
+    },
+    {
+      "name": "test_desktop_conventions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_desktop_conventions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/test_desktop_conventions"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/test_lab_journey"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/test_localization"
+    },
+    {
+      "name": "test_narrative_review",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_narrative_review.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/test_narrative_review"
+    },
+    {
+      "name": "test_prelaunch_settings",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prelaunch_settings.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/test_prelaunch_settings"
+    },
+    {
+      "name": "test_settings_language_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_settings_language_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/test_settings_language_input"
+    },
+    {
+      "name": "test_terminal_language_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_language_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T215309Z-b12cbd22/test_terminal_language_input"
+    }
+  ]
+}

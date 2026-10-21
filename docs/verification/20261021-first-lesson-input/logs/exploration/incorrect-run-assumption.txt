@@ -1,0 +1,26 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+ERROR: Running with the lamp disconnected cannot earn a valid run or completion.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_first_lesson_input.gd:34)
+       [2] wait_playback (res://tests/test_recovery_game_input.gd:103)
+ERROR: Wiring advances the action guide without inventing a simulation result.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_first_lesson_input.gd:37)
+       [2] wire (res://tests/test_recovery_game_input.gd:186)
+       [3] drag (res://tests/test_recovery_game_input.gd:68)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Changing A advances the guide but still requires a real run.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_first_lesson_input.gd:38)
+       [2] wire (res://tests/test_recovery_game_input.gd:186)
+       [3] drag (res://tests/test_recovery_game_input.gd:68)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+Recovery GUI checks: 37; failures: 3

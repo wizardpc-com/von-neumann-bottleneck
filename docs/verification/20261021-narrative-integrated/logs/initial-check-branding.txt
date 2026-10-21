@@ -1,0 +1,1 @@
+PASS: local branding assets and native icon contracts

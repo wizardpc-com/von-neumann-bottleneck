@@ -581,7 +581,8 @@ func _build_lab(parent: Control) -> void:
 	lab_host.add_child(box)
 	box.add_child(_build_workbench_bar())
 	desktop_host = Control.new()
-	desktop_host.custom_minimum_size.y = 560.0
+	# Keep playback reachable at 720p; the canvas expands into remaining space.
+	desktop_host.custom_minimum_size.y = 280.0
 	desktop_host.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_child(desktop_host)
 	graph = SystemGraphEditType.new()

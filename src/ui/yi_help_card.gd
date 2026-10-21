@@ -11,7 +11,6 @@ const Palette = preload("res://src/lab/lab_palette.gd")
 const Typewriter = preload("res://src/ui/yi_typewriter.gd")
 
 var english: bool = false
-var speaker: Label
 var body: Typewriter
 var options_row: HBoxContainer
 var close_button: Button
@@ -32,10 +31,7 @@ func _ready() -> void:
 	add_theme_stylebox_override("panel", box)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 8); add_child(column)
 	var header := HBoxContainer.new(); column.add_child(header)
-	speaker = Label.new(); speaker.name = "YiHelpSpeaker"
-	speaker.add_theme_color_override("font_color", Palette.ACCENT); speaker.add_theme_font_size_override("font_size", 14)
-	speaker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(speaker)
+	header.alignment = BoxContainer.ALIGNMENT_END
 	close_button = Button.new(); close_button.name = "YiHelpClose"; close_button.flat = true
 	close_button.text = "×"; close_button.custom_minimum_size = Vector2(28, 24)
 	close_button.add_theme_color_override("font_color", Palette.TERM_MUTED)
@@ -55,7 +51,6 @@ func _ready() -> void:
 func present(passage: String, options: Array) -> void:
 	if _close_tween != null: _close_tween.kill()
 	modulate.a = 1.0
-	speaker.text = "壹 · 求助" if not english else "Yi · Help"
 	close_button.tooltip_text = "关闭 · Esc" if not english else "Close · Esc"
 	_set_options(options)
 	show()

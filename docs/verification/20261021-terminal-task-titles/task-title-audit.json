@@ -1,0 +1,1082 @@
+[
+  {
+    "button": "Start journey\nWiring Tutorial",
+    "completion": "\"Wiring Tutorial\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/tutorial",
+    "locale": "en",
+    "name": "Wiring Tutorial",
+    "title": "Prologue · Wiring Tutorial",
+    "welcome": "Welcome back.\nNext up: \"Wiring Tutorial\"."
+  },
+  {
+    "button": "Continue\nBuild a 1-bit Half Adder",
+    "completion": "\"Build a 1-bit Half Adder\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/half_adder",
+    "locale": "en",
+    "name": "Build a 1-bit Half Adder",
+    "title": "Prologue · Build a 1-bit Half Adder",
+    "welcome": "Welcome back.\nNext up: \"Build a 1-bit Half Adder\"."
+  },
+  {
+    "button": "Continue\nFull Adder",
+    "completion": "\"Full Adder\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/full_adder",
+    "locale": "en",
+    "name": "Full Adder",
+    "title": "Full Adder",
+    "welcome": "Welcome back.\nNext up: \"Full Adder\"."
+  },
+  {
+    "button": "Continue\nOne-bit ALU",
+    "completion": "\"One-bit ALU\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/alu",
+    "locale": "en",
+    "name": "One-bit ALU",
+    "title": "One-bit ALU",
+    "welcome": "Welcome back.\nNext up: \"One-bit ALU\"."
+  },
+  {
+    "button": "Continue\nSR Latch",
+    "completion": "\"SR Latch\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/latch",
+    "locale": "en",
+    "name": "SR Latch",
+    "title": "SR Latch",
+    "welcome": "Welcome back.\nNext up: \"SR Latch\"."
+  },
+  {
+    "button": "Continue\nOne-bit Register",
+    "completion": "\"One-bit Register\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/register",
+    "locale": "en",
+    "name": "One-bit Register",
+    "title": "One-bit Register",
+    "welcome": "Welcome back.\nNext up: \"One-bit Register\"."
+  },
+  {
+    "button": "Continue\n2×4 RAM",
+    "completion": "\"2×4 RAM\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/ram",
+    "locale": "en",
+    "name": "2×4 RAM",
+    "title": "2×4 RAM",
+    "welcome": "Welcome back.\nNext up: \"2×4 RAM\"."
+  },
+  {
+    "button": "Continue\nFour-bit Accumulator CPU",
+    "completion": "\"Four-bit Accumulator CPU\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/cpu",
+    "locale": "en",
+    "name": "Four-bit Accumulator CPU",
+    "title": "Four-bit Accumulator CPU",
+    "welcome": "Welcome back.\nNext up: \"Four-bit Accumulator CPU\"."
+  },
+  {
+    "button": "Continue\nLOAD/STORE Bridge",
+    "completion": "\"LOAD/STORE Bridge\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/load_store",
+    "locale": "en",
+    "name": "LOAD/STORE Bridge",
+    "title": "LOAD/STORE Bridge",
+    "welcome": "Welcome back.\nNext up: \"LOAD/STORE Bridge\"."
+  },
+  {
+    "button": "Continue\nWho gets through?",
+    "completion": "\"Who gets through?\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/selector",
+    "locale": "en",
+    "name": "Who gets through?",
+    "title": "Who gets through?",
+    "welcome": "Welcome back.\nNext up: \"Who gets through?\"."
+  },
+  {
+    "button": "Continue\nOne of four",
+    "completion": "\"One of four\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/selector4",
+    "locale": "en",
+    "name": "One of four",
+    "title": "One of four",
+    "welcome": "Welcome back.\nNext up: \"One of four\"."
+  },
+  {
+    "button": "Continue\nOne bit went wrong",
+    "completion": "\"One bit went wrong\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/parity",
+    "locale": "en",
+    "name": "One bit went wrong",
+    "title": "One bit went wrong",
+    "welcome": "Welcome back.\nNext up: \"One bit went wrong\"."
+  },
+  {
+    "button": "Continue\nOne accepted sample later",
+    "completion": "\"One accepted sample later\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/delay",
+    "locale": "en",
+    "name": "One accepted sample later",
+    "title": "One accepted sample later",
+    "welcome": "Welcome back.\nNext up: \"One accepted sample later\"."
+  },
+  {
+    "button": "Continue\nA Moment Remembered",
+    "completion": "\"A Moment Remembered\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "hardware_foundations/alarm",
+    "locale": "en",
+    "name": "A Moment Remembered",
+    "title": "A Moment Remembered",
+    "welcome": "Welcome back.\nNext up: \"A Moment Remembered\"."
+  },
+  {
+    "button": "Continue\nThree Parts, One Machine",
+    "completion": "\"Three Parts, One Machine\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_1/assembly",
+    "locale": "en",
+    "name": "Three Parts, One Machine",
+    "title": "Three Parts, One Machine",
+    "welcome": "Welcome back.\nNext up: \"Three Parts, One Machine\"."
+  },
+  {
+    "button": "Continue\nThe Waiting Remains",
+    "completion": "\"The Waiting Remains\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_1/cpu_speed",
+    "locale": "en",
+    "name": "The Waiting Remains",
+    "title": "The Waiting Remains",
+    "welcome": "Welcome back.\nNext up: \"The Waiting Remains\"."
+  },
+  {
+    "button": "Continue\nTime on the Road",
+    "completion": "\"Time on the Road\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_1/ram_wait",
+    "locale": "en",
+    "name": "Time on the Road",
+    "title": "Time on the Road",
+    "welcome": "Welcome back.\nNext up: \"Time on the Road\"."
+  },
+  {
+    "button": "Continue\nRoom to Pass",
+    "completion": "\"Room to Pass\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_1/bus_width",
+    "locale": "en",
+    "name": "Room to Pass",
+    "title": "Room to Pass",
+    "welcome": "Welcome back.\nNext up: \"Room to Pass\"."
+  },
+  {
+    "button": "Continue\nFollow the Delay",
+    "completion": "\"Follow the Delay\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_1/bottleneck",
+    "locale": "en",
+    "name": "Follow the Delay",
+    "title": "Follow the Delay",
+    "welcome": "Welcome back.\nNext up: \"Follow the Delay\"."
+  },
+  {
+    "button": "Continue\nOnce Is Enough",
+    "completion": "\"Once Is Enough\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_1/read_once",
+    "locale": "en",
+    "name": "Once Is Enough",
+    "title": "Once Is Enough",
+    "welcome": "Welcome back.\nNext up: \"Once Is Enough\"."
+  },
+  {
+    "button": "Continue\nOne budget, two orders",
+    "completion": "\"One budget, two orders\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_1/two_orders",
+    "locale": "en",
+    "name": "One budget, two orders",
+    "title": "One budget, two orders",
+    "welcome": "Welcome back.\nNext up: \"One budget, two orders\"."
+  },
+  {
+    "button": "Continue\nThe Long Way Round",
+    "completion": "\"The Long Way Round\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_2/distant_reads",
+    "locale": "en",
+    "name": "The Long Way Round",
+    "title": "The Long Way Round",
+    "welcome": "Welcome back.\nNext up: \"The Long Way Round\"."
+  },
+  {
+    "button": "Continue\nKeep It Handy",
+    "completion": "\"Keep It Handy\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_2/nearby_storage",
+    "locale": "en",
+    "name": "Keep It Handy",
+    "title": "Keep It Handy",
+    "welcome": "Welcome back.\nNext up: \"Keep It Handy\"."
+  },
+  {
+    "button": "Continue\nHere, Then Gone",
+    "completion": "\"Here, Then Gone\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_2/cache_failure",
+    "locale": "en",
+    "name": "Here, Then Gone",
+    "title": "Here, Then Gone",
+    "welcome": "Welcome back.\nNext up: \"Here, Then Gone\"."
+  },
+  {
+    "button": "Continue\nA Change of Order",
+    "completion": "\"A Change of Order\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_2/access_order",
+    "locale": "en",
+    "name": "A Change of Order",
+    "title": "A Change of Order",
+    "welcome": "Welcome back.\nNext up: \"A Change of Order\"."
+  },
+  {
+    "button": "Continue\nOnly So Much Room",
+    "completion": "\"Only So Much Room\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_2/working_set",
+    "locale": "en",
+    "name": "Only So Much Room",
+    "title": "Only So Much Room",
+    "welcome": "Welcome back.\nNext up: \"Only So Much Room\"."
+  },
+  {
+    "button": "Continue\nA Little at a Time",
+    "completion": "\"A Little at a Time\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_2/blocking",
+    "locale": "en",
+    "name": "A Little at a Time",
+    "title": "A Little at a Time",
+    "welcome": "Welcome back.\nNext up: \"A Little at a Time\"."
+  },
+  {
+    "button": "Continue\nFollow the Clues",
+    "completion": "\"Follow the Clues\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_2/capstone",
+    "locale": "en",
+    "name": "Follow the Clues",
+    "title": "Follow the Clues",
+    "welcome": "Welcome back.\nNext up: \"Follow the Clues\"."
+  },
+  {
+    "button": "Continue\nStill on the Way",
+    "completion": "\"Still on the Way\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_3/arrival",
+    "locale": "en",
+    "name": "Still on the Way",
+    "title": "Still on the Way",
+    "welcome": "Welcome back.\nNext up: \"Still on the Way\"."
+  },
+  {
+    "button": "Continue\nTaking Turns",
+    "completion": "\"Taking Turns\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_3/buffers",
+    "locale": "en",
+    "name": "Taking Turns",
+    "title": "Taking Turns",
+    "welcome": "Welcome back.\nNext up: \"Taking Turns\"."
+  },
+  {
+    "button": "Continue\nGive and Take",
+    "completion": "\"Give and Take\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_3/backpressure",
+    "locale": "en",
+    "name": "Give and Take",
+    "title": "Give and Take",
+    "welcome": "Welcome back.\nNext up: \"Give and Take\"."
+  },
+  {
+    "button": "Continue\nOne Step Ahead",
+    "completion": "\"One Step Ahead\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_3/prefetch",
+    "locale": "en",
+    "name": "One Step Ahead",
+    "title": "One Step Ahead",
+    "welcome": "Welcome back.\nNext up: \"One Step Ahead\"."
+  },
+  {
+    "button": "Continue\nToo Far Ahead",
+    "completion": "\"Too Far Ahead\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_3/distance",
+    "locale": "en",
+    "name": "Too Far Ahead",
+    "title": "Too Far Ahead",
+    "welcome": "Welcome back.\nNext up: \"Too Far Ahead\"."
+  },
+  {
+    "button": "Continue\nAll in Good Time",
+    "completion": "\"All in Good Time\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_3/synthesis",
+    "locale": "en",
+    "name": "All in Good Time",
+    "title": "All in Good Time",
+    "welcome": "Welcome back.\nNext up: \"All in Good Time\"."
+  },
+  {
+    "button": "Continue\nJust What We Need",
+    "completion": "\"Just What We Need\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_4/fields",
+    "locale": "en",
+    "name": "Just What We Need",
+    "title": "Just What We Need",
+    "welcome": "Welcome back.\nNext up: \"Just What We Need\"."
+  },
+  {
+    "button": "Continue\nThe Whole Picture",
+    "completion": "\"The Whole Picture\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_4/records",
+    "locale": "en",
+    "name": "The Whole Picture",
+    "title": "The Whole Picture",
+    "welcome": "Welcome back.\nNext up: \"The Whole Picture\"."
+  },
+  {
+    "button": "Continue\nSeparate Ways",
+    "completion": "\"Separate Ways\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_4/hot_cold",
+    "locale": "en",
+    "name": "Separate Ways",
+    "title": "Separate Ways",
+    "welcome": "Welcome back.\nNext up: \"Separate Ways\"."
+  },
+  {
+    "button": "Continue\nThe Price of Moving",
+    "completion": "\"The Price of Moving\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_4/relocation",
+    "locale": "en",
+    "name": "The Price of Moving",
+    "title": "The Price of Moving",
+    "welcome": "Welcome back.\nNext up: \"The Price of Moving\"."
+  },
+  {
+    "button": "Continue\nPiece by Piece",
+    "completion": "\"Piece by Piece\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_4/batches",
+    "locale": "en",
+    "name": "Piece by Piece",
+    "title": "Piece by Piece",
+    "welcome": "Welcome back.\nNext up: \"Piece by Piece\"."
+  },
+  {
+    "button": "Continue\nCommon Ground",
+    "completion": "\"Common Ground\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "chapter_4/mixed",
+    "locale": "en",
+    "name": "Common Ground",
+    "title": "Common Ground",
+    "welcome": "Welcome back.\nNext up: \"Common Ground\"."
+  },
+  {
+    "button": "Continue\nMixed scan",
+    "completion": "\"Mixed scan\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "representation/mixed_scan",
+    "locale": "en",
+    "name": "Mixed scan",
+    "title": "1 · Mixed scan",
+    "welcome": "Welcome back.\nNext up: \"Mixed scan\"."
+  },
+  {
+    "button": "Continue\nInterior hotspots",
+    "completion": "\"Interior hotspots\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "representation/interior_hotspots",
+    "locale": "en",
+    "name": "Interior hotspots",
+    "title": "2 · Interior hotspots",
+    "welcome": "Welcome back.\nNext up: \"Interior hotspots\"."
+  },
+  {
+    "button": "Continue\nDense and sparse",
+    "completion": "\"Dense and sparse\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "representation/dense_sparse",
+    "locale": "en",
+    "name": "Dense and sparse",
+    "title": "3 · Dense and sparse",
+    "welcome": "Welcome back.\nNext up: \"Dense and sparse\"."
+  },
+  {
+    "button": "Continue\nPrepare once, serve",
+    "completion": "\"Prepare once, serve\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "representation/prepare_once",
+    "locale": "en",
+    "name": "Prepare once, serve",
+    "title": "4 · Prepare once, serve",
+    "welcome": "Welcome back.\nNext up: \"Prepare once, serve\"."
+  },
+  {
+    "button": "Continue\nTwo assets, one plan",
+    "completion": "\"Two assets, one plan\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "representation/cross_assets",
+    "locale": "en",
+    "name": "Two assets, one plan",
+    "title": "5 · Two assets, one plan",
+    "welcome": "Welcome back.\nNext up: \"Two assets, one plan\"."
+  },
+  {
+    "button": "Continue\nMove less state",
+    "completion": "\"Move less state\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "service/move_state",
+    "locale": "en",
+    "name": "Move less state",
+    "title": "Move less state",
+    "welcome": "Welcome back.\nNext up: \"Move less state\"."
+  },
+  {
+    "button": "Continue\nPrompt service",
+    "completion": "\"Prompt service\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "service/prompt_response",
+    "locale": "en",
+    "name": "Prompt service",
+    "title": "Prompt service",
+    "welcome": "Welcome back.\nNext up: \"Prompt service\"."
+  },
+  {
+    "button": "Continue\nOne service plan",
+    "completion": "\"One service plan\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "service/one_plan",
+    "locale": "en",
+    "name": "One service plan",
+    "title": "One service plan",
+    "welcome": "Welcome back.\nNext up: \"One service plan\"."
+  },
+  {
+    "button": "Continue\nRegular stream",
+    "completion": "\"Regular stream\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "prediction/regular",
+    "locale": "en",
+    "name": "Regular stream",
+    "title": "Regular stream",
+    "welcome": "Welcome back.\nNext up: \"Regular stream\"."
+  },
+  {
+    "button": "Continue\nPattern changes",
+    "completion": "\"Pattern changes\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "prediction/changed",
+    "locale": "en",
+    "name": "Pattern changes",
+    "title": "Pattern changes",
+    "welcome": "Welcome back.\nNext up: \"Pattern changes\"."
+  },
+  {
+    "button": "Continue\nAlternating hotspots",
+    "completion": "\"Alternating hotspots\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "prediction/alternating",
+    "locale": "en",
+    "name": "Alternating hotspots",
+    "title": "Alternating hotspots",
+    "welcome": "Welcome back.\nNext up: \"Alternating hotspots\"."
+  },
+  {
+    "button": "Continue\nCarry the exceptions",
+    "completion": "\"Carry the exceptions\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/C1_restore",
+    "locale": "en",
+    "name": "Carry the exceptions",
+    "title": "8-1 Carry the exceptions",
+    "welcome": "Welcome back.\nNext up: \"Carry the exceptions\"."
+  },
+  {
+    "button": "Continue\nRules take space",
+    "completion": "\"Rules take space\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/C2_cost",
+    "locale": "en",
+    "name": "Rules take space",
+    "title": "8-2 Rules take space",
+    "welcome": "Welcome back.\nNext up: \"Rules take space\"."
+  },
+  {
+    "button": "Continue\nIs this worth moving?",
+    "completion": "\"Is this worth moving?\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/C3_conditions",
+    "locale": "en",
+    "name": "Is this worth moving?",
+    "title": "8-3 Is this worth moving?",
+    "welcome": "Welcome back.\nNext up: \"Is this worth moving?\"."
+  },
+  {
+    "button": "Continue\nThe next cell is sealed",
+    "completion": "\"The next cell is sealed\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/P1_commit",
+    "locale": "en",
+    "name": "The next cell is sealed",
+    "title": "9-1 The next cell is sealed",
+    "welcome": "Welcome back.\nNext up: \"The next cell is sealed\"."
+  },
+  {
+    "button": "Continue\nHow much history?",
+    "completion": "\"How much history?\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/P2_memory",
+    "locale": "en",
+    "name": "How much history?",
+    "title": "9-2 How much history?",
+    "welcome": "Welcome back.\nNext up: \"How much history?\"."
+  },
+  {
+    "button": "Continue\nA frozen check",
+    "completion": "\"A frozen check\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/P3_check",
+    "locale": "en",
+    "name": "A frozen check",
+    "title": "9-3 A frozen check",
+    "welcome": "Welcome back.\nNext up: \"A frozen check\"."
+  },
+  {
+    "button": "Continue\nFeed output back",
+    "completion": "\"Feed output back\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/G1_feedback",
+    "locale": "en",
+    "name": "Feed output back",
+    "title": "10-1 Feed output back",
+    "welcome": "Welcome back.\nNext up: \"Feed output back\"."
+  },
+  {
+    "button": "Continue\nChange with intent",
+    "completion": "\"Change with intent\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/G2_intent",
+    "locale": "en",
+    "name": "Change with intent",
+    "title": "10-2 Change with intent",
+    "welcome": "Welcome back.\nNext up: \"Change with intent\"."
+  },
+  {
+    "button": "Continue\nKeep your next passage",
+    "completion": "\"Keep your next passage\" is complete.\nYou can return to try another approach, or keep going.",
+    "key": "creation/G3_keep",
+    "locale": "en",
+    "name": "Keep your next passage",
+    "title": "10-3 Keep your next passage",
+    "welcome": "Welcome back.\nNext up: \"Keep your next passage\"."
+  },
+  {
+    "button": "开始旅程\n接线教程",
+    "completion": "「接线教程」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/tutorial",
+    "locale": "zh_CN",
+    "name": "接线教程",
+    "title": "序章·接线教程",
+    "welcome": "欢迎回来。\n下一项是「接线教程」。"
+  },
+  {
+    "button": "继续\n搭建 1 位半加器",
+    "completion": "「搭建 1 位半加器」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/half_adder",
+    "locale": "zh_CN",
+    "name": "搭建 1 位半加器",
+    "title": "序章·搭建 1 位半加器",
+    "welcome": "欢迎回来。\n下一项是「搭建 1 位半加器」。"
+  },
+  {
+    "button": "继续\n全加器",
+    "completion": "「全加器」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/full_adder",
+    "locale": "zh_CN",
+    "name": "全加器",
+    "title": "全加器",
+    "welcome": "欢迎回来。\n下一项是「全加器」。"
+  },
+  {
+    "button": "继续\n一位 ALU",
+    "completion": "「一位 ALU」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/alu",
+    "locale": "zh_CN",
+    "name": "一位 ALU",
+    "title": "一位 ALU",
+    "welcome": "欢迎回来。\n下一项是「一位 ALU」。"
+  },
+  {
+    "button": "继续\nSR 锁存器",
+    "completion": "「SR 锁存器」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/latch",
+    "locale": "zh_CN",
+    "name": "SR 锁存器",
+    "title": "SR 锁存器",
+    "welcome": "欢迎回来。\n下一项是「SR 锁存器」。"
+  },
+  {
+    "button": "继续\n一位寄存器",
+    "completion": "「一位寄存器」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/register",
+    "locale": "zh_CN",
+    "name": "一位寄存器",
+    "title": "一位寄存器",
+    "welcome": "欢迎回来。\n下一项是「一位寄存器」。"
+  },
+  {
+    "button": "继续\n2×4 RAM",
+    "completion": "「2×4 RAM」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/ram",
+    "locale": "zh_CN",
+    "name": "2×4 RAM",
+    "title": "2×4 RAM",
+    "welcome": "欢迎回来。\n下一项是「2×4 RAM」。"
+  },
+  {
+    "button": "继续\n四位累加器 CPU",
+    "completion": "「四位累加器 CPU」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/cpu",
+    "locale": "zh_CN",
+    "name": "四位累加器 CPU",
+    "title": "四位累加器 CPU",
+    "welcome": "欢迎回来。\n下一项是「四位累加器 CPU」。"
+  },
+  {
+    "button": "继续\nLOAD/STORE 桥接实验",
+    "completion": "「LOAD/STORE 桥接实验」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/load_store",
+    "locale": "zh_CN",
+    "name": "LOAD/STORE 桥接实验",
+    "title": "LOAD/STORE 桥接实验",
+    "welcome": "欢迎回来。\n下一项是「LOAD/STORE 桥接实验」。"
+  },
+  {
+    "button": "继续\n谁能通过？",
+    "completion": "「谁能通过？」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/selector",
+    "locale": "zh_CN",
+    "name": "谁能通过？",
+    "title": "谁能通过？",
+    "welcome": "欢迎回来。\n下一项是「谁能通过？」。"
+  },
+  {
+    "button": "继续\n四路择一",
+    "completion": "「四路择一」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/selector4",
+    "locale": "zh_CN",
+    "name": "四路择一",
+    "title": "四路择一",
+    "welcome": "欢迎回来。\n下一项是「四路择一」。"
+  },
+  {
+    "button": "继续\n错了一位",
+    "completion": "「错了一位」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/parity",
+    "locale": "zh_CN",
+    "name": "错了一位",
+    "title": "错了一位",
+    "welcome": "欢迎回来。\n下一项是「错了一位」。"
+  },
+  {
+    "button": "继续\n晚一拍",
+    "completion": "「晚一拍」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/delay",
+    "locale": "zh_CN",
+    "name": "晚一拍",
+    "title": "晚一拍",
+    "welcome": "欢迎回来。\n下一项是「晚一拍」。"
+  },
+  {
+    "button": "继续\n留住一瞬",
+    "completion": "「留住一瞬」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "hardware_foundations/alarm",
+    "locale": "zh_CN",
+    "name": "留住一瞬",
+    "title": "留住一瞬",
+    "welcome": "欢迎回来。\n下一项是「留住一瞬」。"
+  },
+  {
+    "button": "继续\n三器相连",
+    "completion": "「三器相连」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_1/assembly",
+    "locale": "zh_CN",
+    "name": "三器相连",
+    "title": "三器相连",
+    "welcome": "欢迎回来。\n下一项是「三器相连」。"
+  },
+  {
+    "button": "继续\n快慢之间",
+    "completion": "「快慢之间」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_1/cpu_speed",
+    "locale": "zh_CN",
+    "name": "快慢之间",
+    "title": "快慢之间",
+    "welcome": "欢迎回来。\n下一项是「快慢之间」。"
+  },
+  {
+    "button": "继续\n等待的来处",
+    "completion": "「等待的来处」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_1/ram_wait",
+    "locale": "zh_CN",
+    "name": "等待的来处",
+    "title": "等待的来处",
+    "welcome": "欢迎回来。\n下一项是「等待的来处」。"
+  },
+  {
+    "button": "继续\n宽窄之间",
+    "completion": "「宽窄之间」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_1/bus_width",
+    "locale": "zh_CN",
+    "name": "宽窄之间",
+    "title": "宽窄之间",
+    "welcome": "欢迎回来。\n下一项是「宽窄之间」。"
+  },
+  {
+    "button": "继续\n循时寻因",
+    "completion": "「循时寻因」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_1/bottleneck",
+    "locale": "zh_CN",
+    "name": "循时寻因",
+    "title": "循时寻因",
+    "welcome": "欢迎回来。\n下一项是「循时寻因」。"
+  },
+  {
+    "button": "继续\n一取再用",
+    "completion": "「一取再用」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_1/read_once",
+    "locale": "zh_CN",
+    "name": "一取再用",
+    "title": "一取再用",
+    "welcome": "欢迎回来。\n下一项是「一取再用」。"
+  },
+  {
+    "button": "继续\n一笔预算，两张订单",
+    "completion": "「一笔预算，两张订单」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_1/two_orders",
+    "locale": "zh_CN",
+    "name": "一笔预算，两张订单",
+    "title": "一笔预算，两张订单",
+    "welcome": "欢迎回来。\n下一项是「一笔预算，两张订单」。"
+  },
+  {
+    "button": "继续\n远取之累",
+    "completion": "「远取之累」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_2/distant_reads",
+    "locale": "zh_CN",
+    "name": "远取之累",
+    "title": "远取之累",
+    "welcome": "欢迎回来。\n下一项是「远取之累」。"
+  },
+  {
+    "button": "继续\n留待再用",
+    "completion": "「留待再用」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_2/nearby_storage",
+    "locale": "zh_CN",
+    "name": "留待再用",
+    "title": "留待再用",
+    "welcome": "欢迎回来。\n下一项是「留待再用」。"
+  },
+  {
+    "button": "继续\n留不住的数据",
+    "completion": "「留不住的数据」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_2/cache_failure",
+    "locale": "zh_CN",
+    "name": "留不住的数据",
+    "title": "留不住的数据",
+    "welcome": "欢迎回来。\n下一项是「留不住的数据」。"
+  },
+  {
+    "button": "继续\n先后有序",
+    "completion": "「先后有序」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_2/access_order",
+    "locale": "zh_CN",
+    "name": "先后有序",
+    "title": "先后有序",
+    "welcome": "欢迎回来。\n下一项是「先后有序」。"
+  },
+  {
+    "button": "继续\n容量有界",
+    "completion": "「容量有界」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_2/working_set",
+    "locale": "zh_CN",
+    "name": "容量有界",
+    "title": "容量有界",
+    "welcome": "欢迎回来。\n下一项是「容量有界」。"
+  },
+  {
+    "button": "继续\n分而复用",
+    "completion": "「分而复用」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_2/blocking",
+    "locale": "zh_CN",
+    "name": "分而复用",
+    "title": "分而复用",
+    "welcome": "欢迎回来。\n下一项是「分而复用」。"
+  },
+  {
+    "button": "继续\n循迹而行",
+    "completion": "「循迹而行」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_2/capstone",
+    "locale": "zh_CN",
+    "name": "循迹而行",
+    "title": "循迹而行",
+    "welcome": "欢迎回来。\n下一项是「循迹而行」。"
+  },
+  {
+    "button": "继续\n尚在途中",
+    "completion": "「尚在途中」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_3/arrival",
+    "locale": "zh_CN",
+    "name": "尚在途中",
+    "title": "尚在途中",
+    "welcome": "欢迎回来。\n下一项是「尚在途中」。"
+  },
+  {
+    "button": "继续\n交替接力",
+    "completion": "「交替接力」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_3/buffers",
+    "locale": "zh_CN",
+    "name": "交替接力",
+    "title": "交替接力",
+    "welcome": "欢迎回来。\n下一项是「交替接力」。"
+  },
+  {
+    "button": "继续\n进退有度",
+    "completion": "「进退有度」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_3/backpressure",
+    "locale": "zh_CN",
+    "name": "进退有度",
+    "title": "进退有度",
+    "welcome": "欢迎回来。\n下一项是「进退有度」。"
+  },
+  {
+    "button": "继续\n先行一步",
+    "completion": "「先行一步」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_3/prefetch",
+    "locale": "zh_CN",
+    "name": "先行一步",
+    "title": "先行一步",
+    "welcome": "欢迎回来。\n下一项是「先行一步」。"
+  },
+  {
+    "button": "继续\n过犹不及",
+    "completion": "「过犹不及」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_3/distance",
+    "locale": "zh_CN",
+    "name": "过犹不及",
+    "title": "过犹不及",
+    "welcome": "欢迎回来。\n下一项是「过犹不及」。"
+  },
+  {
+    "button": "继续\n各行其时",
+    "completion": "「各行其时」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_3/synthesis",
+    "locale": "zh_CN",
+    "name": "各行其时",
+    "title": "各行其时",
+    "welcome": "欢迎回来。\n下一项是「各行其时」。"
+  },
+  {
+    "button": "继续\n只取所需",
+    "completion": "「只取所需」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_4/fields",
+    "locale": "zh_CN",
+    "name": "只取所需",
+    "title": "只取所需",
+    "welcome": "欢迎回来。\n下一项是「只取所需」。"
+  },
+  {
+    "button": "继续\n一窥全貌",
+    "completion": "「一窥全貌」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_4/records",
+    "locale": "zh_CN",
+    "name": "一窥全貌",
+    "title": "一窥全貌",
+    "welcome": "欢迎回来。\n下一项是「一窥全貌」。"
+  },
+  {
+    "button": "继续\n冷热有别",
+    "completion": "「冷热有别」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_4/hot_cold",
+    "locale": "zh_CN",
+    "name": "冷热有别",
+    "title": "冷热有别",
+    "welcome": "欢迎回来。\n下一项是「冷热有别」。"
+  },
+  {
+    "button": "继续\n搬迁有价",
+    "completion": "「搬迁有价」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_4/relocation",
+    "locale": "zh_CN",
+    "name": "搬迁有价",
+    "title": "搬迁有价",
+    "welcome": "欢迎回来。\n下一项是「搬迁有价」。"
+  },
+  {
+    "button": "继续\n化整为零",
+    "completion": "「化整为零」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_4/batches",
+    "locale": "zh_CN",
+    "name": "化整为零",
+    "title": "化整为零",
+    "welcome": "欢迎回来。\n下一项是「化整为零」。"
+  },
+  {
+    "button": "继续\n两全之策",
+    "completion": "「两全之策」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "chapter_4/mixed",
+    "locale": "zh_CN",
+    "name": "两全之策",
+    "title": "两全之策",
+    "welcome": "欢迎回来。\n下一项是「两全之策」。"
+  },
+  {
+    "button": "继续\n混合扫描",
+    "completion": "「混合扫描」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "representation/mixed_scan",
+    "locale": "zh_CN",
+    "name": "混合扫描",
+    "title": "1 · 混合扫描",
+    "welcome": "欢迎回来。\n下一项是「混合扫描」。"
+  },
+  {
+    "button": "继续\n内部热点",
+    "completion": "「内部热点」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "representation/interior_hotspots",
+    "locale": "zh_CN",
+    "name": "内部热点",
+    "title": "2 · 内部热点",
+    "welcome": "欢迎回来。\n下一项是「内部热点」。"
+  },
+  {
+    "button": "继续\n密集与稀疏",
+    "completion": "「密集与稀疏」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "representation/dense_sparse",
+    "locale": "zh_CN",
+    "name": "密集与稀疏",
+    "title": "3 · 密集与稀疏",
+    "welcome": "欢迎回来。\n下一项是「密集与稀疏」。"
+  },
+  {
+    "button": "继续\n准备一次，再服务",
+    "completion": "「准备一次，再服务」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "representation/prepare_once",
+    "locale": "zh_CN",
+    "name": "准备一次，再服务",
+    "title": "4 · 准备一次，再服务",
+    "welcome": "欢迎回来。\n下一项是「准备一次，再服务」。"
+  },
+  {
+    "button": "继续\n两份资产，一个方案",
+    "completion": "「两份资产，一个方案」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "representation/cross_assets",
+    "locale": "zh_CN",
+    "name": "两份资产，一个方案",
+    "title": "5 · 两份资产，一个方案",
+    "welcome": "欢迎回来。\n下一项是「两份资产，一个方案」。"
+  },
+  {
+    "button": "继续\n少搬状态",
+    "completion": "「少搬状态」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "service/move_state",
+    "locale": "zh_CN",
+    "name": "少搬状态",
+    "title": "少搬状态",
+    "welcome": "欢迎回来。\n下一项是「少搬状态」。"
+  },
+  {
+    "button": "继续\n及时服务",
+    "completion": "「及时服务」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "service/prompt_response",
+    "locale": "zh_CN",
+    "name": "及时服务",
+    "title": "及时服务",
+    "welcome": "欢迎回来。\n下一项是「及时服务」。"
+  },
+  {
+    "button": "继续\n同一服务方案",
+    "completion": "「同一服务方案」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "service/one_plan",
+    "locale": "zh_CN",
+    "name": "同一服务方案",
+    "title": "同一服务方案",
+    "welcome": "欢迎回来。\n下一项是「同一服务方案」。"
+  },
+  {
+    "button": "继续\n规律流",
+    "completion": "「规律流」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "prediction/regular",
+    "locale": "zh_CN",
+    "name": "规律流",
+    "title": "规律流",
+    "welcome": "欢迎回来。\n下一项是「规律流」。"
+  },
+  {
+    "button": "继续\n规律改变",
+    "completion": "「规律改变」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "prediction/changed",
+    "locale": "zh_CN",
+    "name": "规律改变",
+    "title": "规律改变",
+    "welcome": "欢迎回来。\n下一项是「规律改变」。"
+  },
+  {
+    "button": "继续\n交替热点",
+    "completion": "「交替热点」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "prediction/alternating",
+    "locale": "zh_CN",
+    "name": "交替热点",
+    "title": "交替热点",
+    "welcome": "欢迎回来。\n下一项是「交替热点」。"
+  },
+  {
+    "button": "继续\n让例外抵达",
+    "completion": "「让例外抵达」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/C1_restore",
+    "locale": "zh_CN",
+    "name": "让例外抵达",
+    "title": "8-1 让例外抵达",
+    "welcome": "欢迎回来。\n下一项是「让例外抵达」。"
+  },
+  {
+    "button": "继续\n规则也占位置",
+    "completion": "「规则也占位置」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/C2_cost",
+    "locale": "zh_CN",
+    "name": "规则也占位置",
+    "title": "8-2 规则也占位置",
+    "welcome": "欢迎回来。\n下一项是「规则也占位置」。"
+  },
+  {
+    "button": "继续\n值不值得这样搬",
+    "completion": "「值不值得这样搬」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/C3_conditions",
+    "locale": "zh_CN",
+    "name": "值不值得这样搬",
+    "title": "8-3 值不值得这样搬",
+    "welcome": "欢迎回来。\n下一项是「值不值得这样搬」。"
+  },
+  {
+    "button": "继续\n下一格尚未抵达",
+    "completion": "「下一格尚未抵达」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/P1_commit",
+    "locale": "zh_CN",
+    "name": "下一格尚未抵达",
+    "title": "9-1 下一格尚未抵达",
+    "welcome": "欢迎回来。\n下一项是「下一格尚未抵达」。"
+  },
+  {
+    "button": "继续\n需要记住多少",
+    "completion": "「需要记住多少」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/P2_memory",
+    "locale": "zh_CN",
+    "name": "需要记住多少",
+    "title": "9-2 需要记住多少",
+    "welcome": "欢迎回来。\n下一项是「需要记住多少」。"
+  },
+  {
+    "button": "继续\n带着不确定检查",
+    "completion": "「带着不确定检查」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/P3_check",
+    "locale": "zh_CN",
+    "name": "带着不确定检查",
+    "title": "9-3 带着不确定检查",
+    "welcome": "欢迎回来。\n下一项是「带着不确定检查」。"
+  },
+  {
+    "button": "继续\n让输出接回输入",
+    "completion": "「让输出接回输入」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/G1_feedback",
+    "locale": "zh_CN",
+    "name": "让输出接回输入",
+    "title": "10-1 让输出接回输入",
+    "welcome": "欢迎回来。\n下一项是「让输出接回输入」。"
+  },
+  {
+    "button": "继续\n按自己的意图改变",
+    "completion": "「按自己的意图改变」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/G2_intent",
+    "locale": "zh_CN",
+    "name": "按自己的意图改变",
+    "title": "10-2 按自己的意图改变",
+    "welcome": "欢迎回来。\n下一项是「按自己的意图改变」。"
+  },
+  {
+    "button": "继续\n留下你的下一段",
+    "completion": "「留下你的下一段」完成了。\n你可以回去再改它，也可以继续往前走。",
+    "key": "creation/G3_keep",
+    "locale": "zh_CN",
+    "name": "留下你的下一段",
+    "title": "10-3 留下你的下一段",
+    "welcome": "欢迎回来。\n下一项是「留下你的下一段」。"
+  }
+]

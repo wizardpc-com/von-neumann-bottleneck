@@ -1,0 +1,56 @@
+{
+  "initial": [
+    {
+      "check": "scripts/check-branding.py",
+      "exit": 0,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python\\check-branding.txt"
+    },
+    {
+      "check": "scripts/test-report-playtests.py",
+      "exit": 0,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python\\test-report-playtests.txt"
+    },
+    {
+      "check": "server/test_storage.py",
+      "exit": 0,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python\\test_storage.txt"
+    },
+    {
+      "check": "server/test_receiver.py",
+      "exit": 1,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python\\test_receiver.txt"
+    },
+    {
+      "check": "server/test_community.py",
+      "exit": 1,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python\\test_community.txt"
+    },
+    {
+      "check": "server/test_delivery.py",
+      "exit": 1,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python\\test_delivery.txt"
+    },
+    {
+      "check": "server/test_private_report.py",
+      "exit": 0,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python\\test_private_report.txt"
+    }
+  ],
+  "loopback": [
+    {
+      "check": "server/test_receiver.py",
+      "exit": 0,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python-loopback\\test_receiver.txt"
+    },
+    {
+      "check": "server/test_community.py",
+      "exit": 0,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python-loopback\\test_community.txt"
+    },
+    {
+      "check": "server/test_delivery.py",
+      "exit": 0,
+      "log": "E:\\VNB\\temp\\narrative-20261021\\integrated-python-loopback\\test_delivery.txt"
+    }
+  ]
+}

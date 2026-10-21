@@ -1,0 +1,196 @@
+{
+  "failures": [],
+  "rows": [
+    {
+      "content_scale": "(1600, 900)",
+      "label": "fresh-fullscreen",
+      "mode": 3,
+      "native_position": "(2560, 0)",
+      "native_size": "(3840, 2160)",
+      "position": "(2560, 0)",
+      "size": "(3840, 2160)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-immediate-0",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-settled-0",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "fullscreen-0",
+      "mode": 3,
+      "native_position": "(2560, 0)",
+      "native_size": "(3840, 2160)",
+      "position": "(2560, 0)",
+      "size": "(3840, 2160)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-immediate-1",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-settled-1",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "fullscreen-1",
+      "mode": 3,
+      "native_position": "(2560, 0)",
+      "native_size": "(3840, 2160)",
+      "position": "(2560, 0)",
+      "size": "(3840, 2160)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-immediate-2",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-settled-2",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "fullscreen-2",
+      "mode": 3,
+      "native_position": "(2560, 0)",
+      "native_size": "(3840, 2160)",
+      "position": "(2560, 0)",
+      "size": "(3840, 2160)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-immediate-3",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-settled-3",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "fullscreen-3",
+      "mode": 3,
+      "native_position": "(2560, 0)",
+      "native_size": "(3840, 2160)",
+      "position": "(2560, 0)",
+      "size": "(3840, 2160)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-immediate-4",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-settled-4",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "fullscreen-4",
+      "mode": 3,
+      "native_position": "(2560, 0)",
+      "native_size": "(3840, 2160)",
+      "position": "(2560, 0)",
+      "size": "(3840, 2160)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-immediate-5",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "window-settled-5",
+      "mode": 0,
+      "native_position": "(3680, 594)",
+      "native_size": "(1600, 900)",
+      "position": "(3680, 594)",
+      "size": "(1600, 900)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    },
+    {
+      "content_scale": "(1600, 900)",
+      "label": "fullscreen-5",
+      "mode": 3,
+      "native_position": "(2560, 0)",
+      "native_size": "(3840, 2160)",
+      "position": "(2560, 0)",
+      "size": "(3840, 2160)",
+      "viewport_rect": "[P: (0.0, 0.0), S: (1600.0, 900.0)]"
+    }
+  ],
+  "scope": "Rendered Windows native window geometry; synthetic viewport F11, not physical keyboard"
+}

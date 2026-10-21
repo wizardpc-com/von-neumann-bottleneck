@@ -1,0 +1,7 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+QA_ONLY: real train/restore/commit-reveal/generate/Keep fixture, not natural journey completion; both guidance hosts must preserve this original work
+GUIDANCE_EDIT_SIGNAL: zh_CN 1 stale=true disabled=true
+GUIDANCE_EDIT_SIGNAL: en 1 stale=true disabled=true
+NOT_RUN: rendered viewport / actual F8 focus checks / frame captures in headless
+PASS: target evidence guidance 108 checks

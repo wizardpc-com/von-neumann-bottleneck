@@ -1,0 +1,19 @@
+extends "res://tests/test_settings_language_input.gd"
+func _run() -> void:
+	root.size=Vector2i(1280,720)
+	root.content_scale_size=Vector2i(1280,720)
+	root.get_node("GameMode").set_mode(&"test")
+	change_scene_to_file("res://src/ui/prototype_hub.tscn")
+	await create_timer(1.4).timeout
+	await click(current_scene.laboratory.terminal.get_global_rect().get_center())
+	await create_timer(1.4).timeout
+	await press(current_scene.laboratory.terminal.find_child("TerminalSettings",true,false))
+	await create_timer(1.4).timeout
+	for node: Control in [current_scene,current_scene.options_overlay,current_scene.find_child("ChapterOptionsPanel",true,false),current_scene.find_child("SettingsScroll",true,false),current_scene.options_resume_button]:
+		print(node.name, " rect=",node.get_global_rect()," minimum=",node.get_combined_minimum_size())
+	print("viewport=",root.get_visible_rect()," content=",root.content_scale_size," rootmode=",root.mode)
+	await shot("settings-bounds")
+	print("PASS: diagnostic capture only")
+	quit()
+
+

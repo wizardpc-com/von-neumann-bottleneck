@@ -1,0 +1,86 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/user_directory"
+    },
+    {
+      "name": "test_chapter_return_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter_return_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/test_chapter_return_input"
+    },
+    {
+      "name": "test_full_journey_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_full_journey_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/test_full_journey_narrative"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/test_lab_journey"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_narrative_review",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_narrative_review.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/test_narrative_review"
+    },
+    {
+      "name": "test_performance_player_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_performance_player_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/test_performance_player_input"
+    },
+    {
+      "name": "test_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T211955Z-2dbd9046/test_ui"
+    }
+  ]
+}

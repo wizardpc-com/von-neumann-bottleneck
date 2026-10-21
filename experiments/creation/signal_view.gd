@@ -69,7 +69,8 @@ func _draw() -> void:
 				draw_line(rect.position+Vector2(2,18),rect.position+Vector2(width-5,18),Color("eead67"),2)
 			_cells.append({"rect":rect,"index":i,"lane":lane_index})
 	var last: int = mini(start+count,output_length())
-	draw_string(font,Vector2(10,size.y-5),"%d–%d / %d"%[start+1,last,output_length()],HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("8fa3ad"))
+	if output_length() > 0:
+		draw_string(font,Vector2(10,size.y-5),"%d–%d / %d"%[start+1,last,output_length()],HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("8fa3ad"))
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:

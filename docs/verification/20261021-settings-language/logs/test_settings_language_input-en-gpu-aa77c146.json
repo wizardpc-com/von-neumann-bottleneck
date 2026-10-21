@@ -1,0 +1,21 @@
+{
+  "name": "test_settings_language_input-en-gpu-aa77c146",
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T215309Z-b12cbd22\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_settings_language_input.gd",
+    "--",
+    "--locale=en",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T215309Z-b12cbd22/test_settings_language_input-en-gpu-aa77c146",
+    "--recovery-capture"
+  ]
+}

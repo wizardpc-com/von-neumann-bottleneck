@@ -1,0 +1,12 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Test access opens timely service without earning prior tasks.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_service_player_input.gd:26)
+SCRIPT ERROR: Invalid access to property or key 'task' on a base object of type 'null instance'.
+   at: _run (res://tests/test_service_player_input.gd:29)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_service_player_input.gd:29)
+       [1] settle (res://tests/test_recovery_game_input.gd:25)

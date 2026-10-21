@@ -1,0 +1,190 @@
+[
+	{
+		"check": "Test mode opens the untouched arrival task.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The public starter stops at its actual early consume line.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-before-ready",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Locate focuses the source line responsible for the recorded stop.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Completed independent work cannot substitute for the missing data batch.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-batch-missing",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Waiting fixes data readiness and output, but missing independent work still fails.",
+		"ok": true
+	},
+	{
+		"check": "Correct data output alone cannot complete arrival.",
+		"ok": true
+	},
+	{
+		"check": "The failed record explains completed batches and the missing exact independent workload.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-work-missing",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Five independent cycles still fail the exact work requirement even within the time budget.",
+		"ok": true
+	},
+	{
+		"check": "The same feedback distinguishes excess work from missing work.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-work-excess",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Exact work after data processing is valid but four cycles too slow.",
+		"ok": true
+	},
+	{
+		"check": "The measured time gap is visible in the result.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-work-late",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Moving the same independent work into transfer time yields the real10-cycle run with4 overlapping cycles.",
+		"ok": true
+	},
+	{
+		"check": "Only the actual valid and timely run earns completion.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-work-overlaps",
+		"ok": true
+	}
+]

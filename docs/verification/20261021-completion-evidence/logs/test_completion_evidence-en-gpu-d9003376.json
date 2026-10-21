@@ -1,0 +1,21 @@
+{
+  "name": "test_completion_evidence-en-gpu-d9003376",
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T193932Z-537cfb80\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_completion_evidence.gd",
+    "--",
+    "--locale=en",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T193932Z-537cfb80/test_completion_evidence-en-gpu-d9003376",
+    "--recovery-capture"
+  ]
+}

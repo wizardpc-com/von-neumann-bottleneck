@@ -1,0 +1,28 @@
+{
+  "base_commit": "276a5950e972a6ab7c6b232c3487ac98cfe71c2f",
+  "base_runtime_sha256": "d2567646dc369b9de1fe70d6330fef7bc441849152e5600bfd4018dc24a3174d",
+  "final_source_sha256": {
+    "src/hardware_foundations/hardware_foundations.gd": "54b331bbc9b40c670e0669b9e2bee4bfdb4f103200964cb30a79367cadaab85b",
+    "tests/test_hint_input.gd": "40a8c5219d29958d6edf57e7f4112521521a3297714f64c90f0f8a606c3d3f38",
+    "tests/test_hardware_foundations_ui.gd": "110d7ccd4993c00cce83ab76b2dca9b882becae688f804d76f69f6bff1599f89"
+  },
+  "evidence_sha256": {
+    "baseline.txt": "5cc3c89faa33bf7e959d5e8a855225f9c8b2d615ca15a87fd3f2f473d0f259a3",
+    "results.json": "ab12860783c3c9318cdf0dea441c9a5975ed7c6506d44161220f26eca118e0cd",
+    "rendered.txt": "19876591ff589b32f4c670cb5e2c097dd5d6b491a9661900c5d531f821aa98a9",
+    "window-restore.json": "f353138b1883d95ce5f25c64ac0f4927a8ec20e28799c0f9c1f1b6ce42cdaf3d",
+    "window-restore.txt": "096a3a51010b07cfa25b86bc8db173e47b80c6f1b2a588b041f66cb97e18963f",
+    "window-restore-probe.gd": "e2ad4eeb7e1e068be51b42569ebe33d7eb612c38e2d70de895d39553eee54423",
+    "zh_CN-help-over-instrument.png": "69ea046bcc429f17e2c65fe34540721cbdf35ce68ac9c55c3a39db237caf2c24",
+    "en-help-over-instrument.png": "d7a05980c6800dd46de84d975cbbd0a58674757987dd515f8b6b49cca2be44ec"
+  },
+  "headless_suites_passed": 8,
+  "hint_input_checks": 36,
+  "baseline_assertion_failures": 14,
+  "headless_evidence": "E:\\VNB\\game\\.godot\\verification\\20261020T161355Z-34de99f3",
+  "baseline_evidence": "E:\\VNB\\game\\.godot\\verification\\20261020T160754Z-38f0ee66",
+  "window_evidence": "E:\\VNB\\game\\.godot\\verification\\20261020T160937Z-83d244a0",
+  "verifier_command": "python -X utf8 scripts/verify-project.py --godot E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe --suite test_hint_input --suite test_ui_convergence --suite test_hardware_seal_navigation --suite test_workbench_escape --suite test_hardware_foundations_ui --suite test_workbench_palette_comparison --suite test_desktop_conventions --suite test_yi_typewriter",
+  "render_command": "Godot --path <isolated project> --script res://tests/test_hint_input.gd -- --hint-input-capture --capture-size=1280x720",
+  "evidence_grade": "real rendered Windows engine; synthetic viewport input, not physical input"
+}

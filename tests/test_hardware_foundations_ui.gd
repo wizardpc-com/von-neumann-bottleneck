@@ -107,10 +107,13 @@ func _run() -> void:
 			"The default Mission page must stay entirely inside the map's reserved lane instead of covering %s. mission=%s level=%s" % [button.name, map_task_rect, Rect2(button.position, button.size)]
 		)
 	var map_task_start: Vector2 = map_task_window.position
-	var map_task_z: int = map_task_window.z_index
 	var map_header: Control = map_task_window.find_child("WindowHeader", true, false)
 	await _drag_control(map_header, Vector2(8.0, 8.0))
-	_assert(not map_task_window.position.is_equal_approx(map_task_start) and map_task_window.z_index > map_task_z, "The map Mission page must remain movable and focusable.")
+	var map_task_on_top: bool = true
+	for other: Control in main.desktop_windows.values():
+		if other != map_task_window and other.z_index >= map_task_window.z_index:
+			map_task_on_top = false
+	_assert(not map_task_window.position.is_equal_approx(map_task_start) and map_task_on_top, "The map Mission page must remain movable and focusable.")
 	var minimize_button: Button = map_task_window.find_child("MinimizeButton", true, false)
 	_assert(minimize_button != null and minimize_button.visible and bool(map_task_window.get("custom_minimize_action")), "Mission must expose a dedicated compact-window action beside Close without using the long title-strip minimization.")
 	map_task_window.call("resize_by", Vector2(0.0, -1000.0))

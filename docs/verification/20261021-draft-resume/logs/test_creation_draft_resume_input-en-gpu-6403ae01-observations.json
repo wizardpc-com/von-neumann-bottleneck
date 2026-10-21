@@ -1,0 +1,318 @@
+[
+	{
+		"check": "A fresh profile still starts with selected examples and Learn.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The first action really learns rules before transport.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible save action persists the draft: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "Reopening reads the same saved draft, learned rules and earned evidence: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "Opening guidance does not rewrite the profile: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "Reopened draft is writable and has no invented current run: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "Opening feedback acknowledges retained rules instead of requiring retraining: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "The visible next action follows actual restored evidence: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "The next action is available in the viewport: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "The opening status fits without an ellipsis: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: learned-draft",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The restored rules actually transport and restore the source.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible save action persists the draft: transport-evidence",
+		"ok": true
+	},
+	{
+		"check": "Reopening reads the same saved draft, learned rules and earned evidence: transport-evidence",
+		"ok": true
+	},
+	{
+		"check": "Opening guidance does not rewrite the profile: transport-evidence",
+		"ok": true
+	},
+	{
+		"check": "Reopened draft is writable and has no invented current run: transport-evidence",
+		"ok": true
+	},
+	{
+		"check": "Opening feedback acknowledges retained rules instead of requiring retraining: transport-evidence",
+		"ok": true
+	},
+	{
+		"check": "The visible next action follows actual restored evidence: transport-evidence",
+		"ok": true
+	},
+	{
+		"check": "The next action is available in the viewport: transport-evidence",
+		"ok": true
+	},
+	{
+		"check": "The opening status fits without an ellipsis: transport-evidence",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The displayed action connects restored rules to prediction.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The first guess is committed without exposing its truth.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible save action persists the draft: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "Reopening reads the same saved draft, learned rules and earned evidence: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "Opening guidance does not rewrite the profile: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "Reopened draft is writable and has no invented current run: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "Opening feedback acknowledges retained rules instead of requiring retraining: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "The visible next action follows actual restored evidence: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "The empty prediction caption describes the current round without denying earned evidence: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "Reopened temporary tracks contain no invented cells: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "The next action is available in the viewport: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "The opening status fits without an ellipsis: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-restart",
+		"ok": true
+	},
+	{
+		"check": "An unfinished prediction is not persisted or promoted into earned evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "A restarted round still requires a real first commit and reveal.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Run remainder earns the original full-round evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible save action persists the draft: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "Reopening reads the same saved draft, learned rules and earned evidence: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "Opening guidance does not rewrite the profile: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "Reopened draft is writable and has no invented current run: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "Opening feedback acknowledges retained rules instead of requiring retraining: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "The visible next action follows actual restored evidence: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "The empty prediction caption describes the current round without denying earned evidence: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "Reopened temporary tracks contain no invented cells: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "The next action is available in the viewport: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "The opening status fits without an ellipsis: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: completed-prediction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Restored full-round evidence enables the existing feedback action.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Following the next action produces a real savable output.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible save action persists the draft: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "Reopening reads the same saved draft, learned rules and earned evidence: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "Opening guidance does not rewrite the profile: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "Reopened draft is writable and has no invented current run: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "Opening feedback acknowledges retained rules instead of requiring retraining: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "The visible next action follows actual restored evidence: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "Reopened temporary tracks contain no invented cells: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "The next action is available in the viewport: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "The opening status fits without an ellipsis: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: generation-draft",
+		"ok": true
+	},
+	{
+		"check": "Saving a generation draft does not create a work or Keep completion.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The restored recipe generates the same output without repeating Learn or prediction.",
+		"ok": true
+	},
+	{
+		"check": "The actual regenerated output now offers naming and Keep.",
+		"ok": true
+	}
+]

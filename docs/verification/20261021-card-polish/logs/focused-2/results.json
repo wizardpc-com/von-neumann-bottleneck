@@ -1,0 +1,70 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044305Z-b1335fc6/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044305Z-b1335fc6/user_directory"
+    },
+    {
+      "name": "test_card_attribution",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_card_attribution.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044305Z-b1335fc6/test_card_attribution"
+    },
+    {
+      "name": "test_completion_evidence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_evidence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044305Z-b1335fc6/test_completion_evidence"
+    },
+    {
+      "name": "test_cpg_connection_fragment",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_cpg_connection_fragment.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044305Z-b1335fc6/test_cpg_connection_fragment"
+    },
+    {
+      "name": "test_efficiency_fragment",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_efficiency_fragment.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044305Z-b1335fc6/test_efficiency_fragment"
+    },
+    {
+      "name": "test_first_lesson_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_lesson_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044305Z-b1335fc6/test_first_lesson_input"
+    },
+    {
+      "name": "test_half_adder_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_half_adder_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044305Z-b1335fc6/test_half_adder_input"
+    }
+  ]
+}

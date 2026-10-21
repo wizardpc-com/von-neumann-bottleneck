@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SETUP: actual isolated C/P/G works; viewer receives no replay receipt, writer or Session
+NOT_RUN: saved-work real Window F8/Esc/Tab/focus/destroy/refused-save; use --capture-size=1280x720 --journey-work-capture without --headless
+PASS: Journal saved-work review 125 checks; real saved-work fixture, no native-OS claim

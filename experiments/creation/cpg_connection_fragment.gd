@@ -177,7 +177,7 @@ func _refresh() -> void:
 	if not is_instance_valid(body): return
 	toggle_button.text = words("压缩 → 预测 → 创造 回顾","Compress → predict → create review")
 	toggle_button.tooltip_text = words("可选回顾：只查看本次真实记录，不运行或保存。","Optional review: view actual observations from this visit; no run or save.")
-	scope_label.text = words("候选壹回应 · 独立运行记录，不是共同历史或文明事件回放。","Candidate Yi response · separate run records, not a shared history or a civilization replay.")
+	scope_label.text = words("候选记录 · 独立运行记录，不是共同历史或文明事件回放。","Candidate record · separate run records, not a shared history or a civilization replay.")
 	var titles: Array[String] = [words("C 复原","C Restore"),words("P 已揭晓","P Revealed"),words("G 回灌","G Feedback"),words("已保存作品","Saved work")]
 	for index: int in 4:
 		step_buttons[index].text = titles[index]
@@ -192,13 +192,13 @@ func _refresh() -> void:
 	identity_label.text = ""
 	if record.is_empty():
 		summary_label.text = words("本次没有这一步的运行记录。旧权限或作品不补造压缩、预测、创造的经历。","No observation for this step in this visit. Permissions and saved works do not invent C/P/G runs.")
-		response_label.text = words("壹（候选）：这里留白，直到你真正运行。","Yi (candidate): This stays blank until you actually run it.")
+		response_label.text = words("这里留白，直到你真正运行。","This stays blank until you actually run it.")
 		detail_label.text = words("原 next-step 与操作按钮继续负责下一步；回顾不执行操作。","The original next-step guide and controls still own the next action. This review runs nothing.")
 		return
 	if step==3:
 		identity_label.text = words("原作品 ID：","Original work ID: ")+str(record.get("id",""))
 		summary_label.text = words("保护输出 · %d 格；完整原配方保留。","Protected output · %d cells; the full original recipe remains.")%record.get("output",[]).size()
-		response_label.text = words("壹（候选）：名字之外，还留着输出与做法。它不替我们证明一轮预测。","Yi (candidate): Beyond the name, the output and its recipe remain. They do not prove a prediction round.")
+		response_label.text = words("名字之外，还留着输出与做法。它不替我们证明一轮预测。","Beyond the name, the output and its recipe remain. They do not prove a prediction round.")
 		detail_label.text = words("仅定位原列表及同一 ID，不再生或保存。原 View 按钮另行执行配方核验；未知配方仍只读原快照。","Only locate the original list and the same ID; no regeneration or save. The separate View action retains its recipe check. Unknown recipes remain original snapshots.")
 		var generated: Dictionary = records.get("generation",{})
 		if generated.is_empty():
@@ -211,7 +211,7 @@ func _refresh() -> void:
 	if step==0:
 		lines.append("%s · %s · %d → %d"%[str(record.get("codec","")),words("无损一致","exact restoration") if record.get("lossless",false) else words("未复原一致","restoration differs"),record.get("input",[]).size(),record.get("output",[]).size()])
 		lines.append(_cost(record.get("cost",{})))
-		response_label.text = words("壹（候选）：抵达的还是那段材料。包省不省，去原账本核对。","Yi (candidate): The same material arrived. Check the original ledger to see what its packet costs.")
+		response_label.text = words("抵达的还是那段材料。包省不省，去原账本核对。","The same material arrived. Check the original ledger to see what its packet costs.")
 		detail_label.text = words("公开输入：","Public input: ")+_symbols(record.get("input",[]))
 		detail_label.text += "\n"+words("输入摘要：","Input digest: ")+JSON.stringify(record.get("input",[])).sha256_text().substr(0,12)
 		if record.get("codec","")!="predictive": detail_label.text += words("\nRAW 原样搬运不构成规则盒预测复原证据。","\nRAW transport is not evidence of predictive restoration by a rule box.")
@@ -221,13 +221,13 @@ func _refresh() -> void:
 		if not record.get("pending",{}).is_empty(): lines.append(words("已提交猜测 ","Committed guess ")+_symbols([record.pending.symbol])+words(" · 真值未揭晓"," · truth is sealed"))
 		elif not rows.is_empty(): lines.append(words("最后已揭晓：","Last revealed: ")+_symbols([rows[-1].predicted])+" → "+_symbols([rows[-1].truth]))
 		else: lines.append(words("尚未揭晓；不填下一格。","Nothing revealed yet; the next cell stays blank."))
-		response_label.text = words("壹（候选）：先留下猜测，再允许这一格的答案到来。","Yi (candidate): Leave a guess first, then let this cell's answer arrive.")
+		response_label.text = words("先留下猜测，再允许这一格的答案到来。","Leave a guess first, then let this cell's answer arrive.")
 		detail_label.text = words("公开前缀：","Public prefix: ")+_symbols(record.get("prefix",[]))+"\n"+_cost(record.get("evidence",{}).get("cost",{}))
 		if record.get("kind","") in ["training","memorize"]: detail_label.text += words("\n已见材料/背诵基线，不是未见表现。","\nSeen material / position-memory baseline; not unseen performance.")
 	else:
 		lines.append(words("实际回灌输出 · %d 格 · 无标准续篇","Actual feedback output · %d cells · no target continuation")%record.get("output",[]).size())
 		lines.append(_cost(record.get("cost",{})))
-		response_label.text = words("壹（候选）：这里没有标准续篇。只有这份实际输出，和产生它的做法。","Yi (candidate): There is no target continuation here. There is this actual output, and the recipe that produced it.")
+		response_label.text = words("这里没有标准续篇。只有这份实际输出，和产生它的做法。","There is no target continuation here. There is this actual output, and the recipe that produced it.")
 		detail_label.text = words("原起始片段：","Recorded initial passage: ")+_symbols(record.get("recipe",{}).get("initial",[]))
 		detail_label.text += "\n"+words("配方摘要：","Recipe digest: ")+JSON.stringify(record.get("recipe",{}),"",true).sha256_text().substr(0,12)
 		if not records.get("work",{}).is_empty() and records.work.get("recipe",{})==record.get("recipe",{}) and records.work.get("output",[])==record.get("output",[]):

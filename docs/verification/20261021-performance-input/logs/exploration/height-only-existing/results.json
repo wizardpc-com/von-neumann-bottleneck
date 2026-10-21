@@ -1,0 +1,85 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T205314Z-891e18dc/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T205314Z-891e18dc/user_directory"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T205314Z-891e18dc/test_lab_journey"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T205314Z-891e18dc/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_performance_player_input",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Stage return restores the unified journey tree",
+        "ERROR: Complete QA route earns every system task: assembly",
+        "ERROR: Complete QA route earns every system task: ram_wait",
+        "ERROR: Complete QA route earns every system task: bus_width",
+        "ERROR: Complete QA route earns every system task: bottleneck",
+        "ERROR: Complete QA route earns every locality task: distant_reads",
+        "ERROR: Complete QA route earns every locality task: nearby_storage",
+        "ERROR: Complete QA route earns every locality task: cache_failure",
+        "ERROR: Complete QA route earns every locality task: working_set",
+        "ERROR: Complete QA route earns every locality task: blocking",
+        "ERROR: Complete QA route earns every locality task: capstone",
+        "ERROR: Actual UI-earned Game sources and chapter receipts are persisted to the QA profile",
+        "ERROR: QA Game save exists for an independent restart",
+        "ERROR: QA source circuits exist for independent provenance revalidation"
+      ],
+      "log": "test_performance_player_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T205314Z-891e18dc/test_performance_player_input"
+    },
+    {
+      "name": "test_system_evidence_guidance",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_evidence_guidance.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T205314Z-891e18dc/test_system_evidence_guidance"
+    },
+    {
+      "name": "test_system_lab_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_lab_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T205314Z-891e18dc/test_system_lab_ui"
+    },
+    {
+      "name": "test_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T205314Z-891e18dc/test_ui"
+    }
+  ]
+}

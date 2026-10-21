@@ -1,0 +1,21 @@
+{
+  "name": "test_creation_draft_resume_input-en-gpu-6403ae01",
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T204010Z-1c54f0b7\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_creation_draft_resume_input.gd",
+    "--",
+    "--locale=en",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T204010Z-1c54f0b7/test_creation_draft_resume_input-en-gpu-6403ae01",
+    "--recovery-capture"
+  ]
+}

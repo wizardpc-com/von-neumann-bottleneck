@@ -1,0 +1,16 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+ERROR: Requested UI control exists and is visible.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] press (res://tests/test_recovery_game_input.gd:106)
+       [2] _run (res://tests/capture_settings_bounds.gd:8)
+PrototypeHub rect=[P: (0.0, 0.0), S: (1280.0, 720.0)] minimum=(0.0, 0.0)
+ChapterOptionsOverlay rect=[P: (0.0, 0.0), S: (1280.0, 720.0)] minimum=(0.0, 0.0)
+ChapterOptionsPanel rect=[P: (260.0, 16.0), S: (760.0, 2384.0)] minimum=(760.0, 2384.0)
+SettingsScroll rect=[P: (260.0, 16.0), S: (353.0, 0.0)] minimum=(353.0, 0.0)
+OptionsResumeButton rect=[P: (260.0, 16.0), S: (133.0, 44.0)] minimum=(133.0, 44.0)
+viewport=[P: (0.0, 0.0), S: (1280.0, 720.0)] content=(1280, 720) rootmode=3
+PASS: diagnostic capture only

@@ -1,0 +1,1962 @@
+[
+	{
+		"check": "All sixty real catalog tasks are audited in en",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/tutorial",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/tutorial",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/tutorial",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/tutorial",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/tutorial",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/tutorial / Start journey",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/tutorial / Wiring Tutorial",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: hardware_foundations-tutorial",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/tutorial",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/half_adder",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/half_adder",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/half_adder",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/half_adder",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/half_adder",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/half_adder / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/half_adder / Build a 1-bit Half Adder",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: hardware_foundations-half_adder",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/half_adder",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/full_adder",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/full_adder",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/full_adder",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/full_adder",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/full_adder",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/full_adder / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/full_adder / Full Adder",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/full_adder",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/alu",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/alu",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/alu",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/alu",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/alu",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/alu / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/alu / One-bit ALU",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/alu",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/latch",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/latch",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/latch",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/latch",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/latch",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/latch / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/latch / SR Latch",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/latch",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/register",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/register",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/register",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/register",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/register",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/register / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/register / One-bit Register",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/register",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/ram",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/ram",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/ram",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/ram",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/ram",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/ram / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/ram / 2×4 RAM",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/ram",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/cpu",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/cpu",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/cpu",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/cpu",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/cpu",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/cpu / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/cpu / Four-bit Accumulator CPU",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: hardware_foundations-cpu",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/cpu",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/load_store",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/load_store",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/load_store",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/load_store",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/load_store",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/load_store / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/load_store / LOAD/STORE Bridge",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/load_store",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/selector",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/selector",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/selector",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/selector",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/selector",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/selector / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/selector / Who gets through?",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/selector",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/selector4",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/selector4",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/selector4",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/selector4",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/selector4",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/selector4 / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/selector4 / One of four",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/selector4",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/parity",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/parity",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/parity",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/parity",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/parity",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/parity / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/parity / One bit went wrong",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/parity",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/delay",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/delay",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/delay",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/delay",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/delay",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/delay / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/delay / One accepted sample later",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/delay",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: hardware_foundations/alarm",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: hardware_foundations/alarm",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: hardware_foundations/alarm",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: hardware_foundations/alarm",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: hardware_foundations/alarm",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/alarm / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: hardware_foundations/alarm / A Moment Remembered",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: hardware_foundations/alarm",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_1/assembly",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_1/assembly",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_1/assembly",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_1/assembly",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_1/assembly",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/assembly / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/assembly / Three Parts, One Machine",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_1/assembly",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_1/cpu_speed",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_1/cpu_speed",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_1/cpu_speed",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_1/cpu_speed",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_1/cpu_speed",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/cpu_speed / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/cpu_speed / The Waiting Remains",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_1/cpu_speed",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_1/ram_wait",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_1/ram_wait",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_1/ram_wait",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_1/ram_wait",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_1/ram_wait",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/ram_wait / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/ram_wait / Time on the Road",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_1/ram_wait",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_1/bus_width",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_1/bus_width",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_1/bus_width",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_1/bus_width",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_1/bus_width",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/bus_width / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/bus_width / Room to Pass",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_1/bus_width",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_1/bottleneck",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_1/bottleneck",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_1/bottleneck",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_1/bottleneck",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_1/bottleneck",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/bottleneck / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/bottleneck / Follow the Delay",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_1/bottleneck",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_1/read_once",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_1/read_once",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_1/read_once",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_1/read_once",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_1/read_once",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/read_once / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/read_once / Once Is Enough",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_1/read_once",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_1/two_orders",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_1/two_orders",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_1/two_orders",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_1/two_orders",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_1/two_orders",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/two_orders / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_1/two_orders / One budget, two orders",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_1/two_orders",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_2/distant_reads",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_2/distant_reads",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_2/distant_reads",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_2/distant_reads",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_2/distant_reads",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/distant_reads / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/distant_reads / The Long Way Round",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_2/distant_reads",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_2/nearby_storage",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_2/nearby_storage",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_2/nearby_storage",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_2/nearby_storage",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_2/nearby_storage",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/nearby_storage / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/nearby_storage / Keep It Handy",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_2/nearby_storage",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_2/cache_failure",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_2/cache_failure",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_2/cache_failure",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_2/cache_failure",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_2/cache_failure",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/cache_failure / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/cache_failure / Here, Then Gone",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_2/cache_failure",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_2/access_order",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_2/access_order",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_2/access_order",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_2/access_order",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_2/access_order",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/access_order / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/access_order / A Change of Order",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_2/access_order",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_2/working_set",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_2/working_set",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_2/working_set",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_2/working_set",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_2/working_set",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/working_set / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/working_set / Only So Much Room",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_2/working_set",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_2/blocking",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_2/blocking",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_2/blocking",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_2/blocking",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_2/blocking",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/blocking / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/blocking / A Little at a Time",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_2/blocking",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_2/capstone",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_2/capstone",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_2/capstone",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_2/capstone",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_2/capstone",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/capstone / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_2/capstone / Follow the Clues",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_2/capstone",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_3/arrival",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_3/arrival",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_3/arrival",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_3/arrival",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_3/arrival",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/arrival / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/arrival / Still on the Way",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_3/arrival",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_3/buffers",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_3/buffers",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_3/buffers",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_3/buffers",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_3/buffers",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/buffers / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/buffers / Taking Turns",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_3/buffers",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_3/backpressure",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_3/backpressure",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_3/backpressure",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_3/backpressure",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_3/backpressure",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/backpressure / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/backpressure / Give and Take",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_3/backpressure",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_3/prefetch",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_3/prefetch",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_3/prefetch",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_3/prefetch",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_3/prefetch",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/prefetch / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/prefetch / One Step Ahead",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_3/prefetch",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_3/distance",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_3/distance",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_3/distance",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_3/distance",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_3/distance",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/distance / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/distance / Too Far Ahead",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_3/distance",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/synthesis / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_3/synthesis / All in Good Time",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_4/fields",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_4/fields",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_4/fields",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_4/fields",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_4/fields",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/fields / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/fields / Just What We Need",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_4/fields",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_4/records",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_4/records",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_4/records",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_4/records",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_4/records",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/records / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/records / The Whole Picture",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_4/records",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_4/hot_cold",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_4/hot_cold",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_4/hot_cold",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_4/hot_cold",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_4/hot_cold",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/hot_cold / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/hot_cold / Separate Ways",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_4/hot_cold",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_4/relocation",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_4/relocation",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_4/relocation",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_4/relocation",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_4/relocation",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/relocation / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/relocation / The Price of Moving",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_4/relocation",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_4/batches",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_4/batches",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_4/batches",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_4/batches",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_4/batches",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/batches / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/batches / Piece by Piece",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_4/batches",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/mixed / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: chapter_4/mixed / Common Ground",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: chapter_4/mixed",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: representation/mixed_scan",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: representation/mixed_scan",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: representation/mixed_scan",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: representation/mixed_scan",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: representation/mixed_scan",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/mixed_scan / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/mixed_scan / Mixed scan",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: representation/mixed_scan",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: representation/interior_hotspots",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: representation/interior_hotspots",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: representation/interior_hotspots",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: representation/interior_hotspots",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: representation/interior_hotspots",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/interior_hotspots / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/interior_hotspots / Interior hotspots",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: representation-interior_hotspots",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: representation/interior_hotspots",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: representation/dense_sparse",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: representation/dense_sparse",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: representation/dense_sparse",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: representation/dense_sparse",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: representation/dense_sparse",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/dense_sparse / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/dense_sparse / Dense and sparse",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: representation-dense_sparse",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: representation/dense_sparse",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: representation/prepare_once",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: representation/prepare_once",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: representation/prepare_once",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: representation/prepare_once",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: representation/prepare_once",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/prepare_once / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/prepare_once / Prepare once, serve",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: representation-prepare_once",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: representation/prepare_once",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: representation/cross_assets",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: representation/cross_assets",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: representation/cross_assets",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: representation/cross_assets",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: representation/cross_assets",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/cross_assets / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: representation/cross_assets / Two assets, one plan",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: representation-cross_assets",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: representation/cross_assets",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: service/move_state",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: service/move_state",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: service/move_state",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: service/move_state",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: service/move_state",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: service/move_state / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: service/move_state / Move less state",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: service/move_state",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: service/prompt_response",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: service/prompt_response",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: service/prompt_response",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: service/prompt_response",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: service/prompt_response",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: service/prompt_response / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: service/prompt_response / Prompt service",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: service/prompt_response",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: service/one_plan",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: service/one_plan",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: service/one_plan",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: service/one_plan",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: service/one_plan",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: service/one_plan / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: service/one_plan / One service plan",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: service/one_plan",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: prediction/regular",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: prediction/regular",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: prediction/regular",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: prediction/regular",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: prediction/regular",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: prediction/regular / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: prediction/regular / Regular stream",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: prediction/regular",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: prediction/changed",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: prediction/changed",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: prediction/changed",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: prediction/changed",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: prediction/changed",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: prediction/changed / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: prediction/changed / Pattern changes",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: prediction/changed",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: prediction/alternating",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: prediction/alternating",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: prediction/alternating",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: prediction/alternating",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: prediction/alternating",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: prediction/alternating / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: prediction/alternating / Alternating hotspots",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: prediction/alternating",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/C1_restore",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/C1_restore",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/C1_restore",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/C1_restore",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/C1_restore",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/C1_restore / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/C1_restore / Carry the exceptions",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/C1_restore",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/C2_cost",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/C2_cost",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/C2_cost",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/C2_cost",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/C2_cost",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/C2_cost / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/C2_cost / Rules take space",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/C2_cost",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/C3_conditions",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/C3_conditions",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/C3_conditions",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/C3_conditions",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/C3_conditions",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/C3_conditions / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/C3_conditions / Is this worth moving?",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/C3_conditions",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/P1_commit",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/P1_commit",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/P1_commit",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/P1_commit",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/P1_commit",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/P1_commit / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/P1_commit / The next cell is sealed",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/P1_commit",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/P2_memory",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/P2_memory",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/P2_memory",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/P2_memory",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/P2_memory",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/P2_memory / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/P2_memory / How much history?",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/P2_memory",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/P3_check",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/P3_check",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/P3_check",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/P3_check",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/P3_check",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/P3_check / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/P3_check / A frozen check",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/P3_check",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/G1_feedback",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/G1_feedback",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/G1_feedback",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/G1_feedback",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/G1_feedback",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/G1_feedback / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/G1_feedback / Feed output back",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/G1_feedback",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/G2_intent",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/G2_intent",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/G2_intent",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/G2_intent",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/G2_intent",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/G2_intent / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/G2_intent / Change with intent",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/G2_intent",
+		"ok": true
+	},
+	{
+		"check": "The complete task name occupies its own button line: creation/G3_keep",
+		"ok": true
+	},
+	{
+		"check": "Distinct tasks retain distinct visible names: creation/G3_keep",
+		"ok": true
+	},
+	{
+		"check": "The full source title remains available: creation/G3_keep",
+		"ok": true
+	},
+	{
+		"check": "Yi names the actual next task: creation/G3_keep",
+		"ok": true
+	},
+	{
+		"check": "The full task action fits the terminal and 720p viewport: creation/G3_keep",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/G3_keep / Continue",
+		"ok": true
+	},
+	{
+		"check": "Button text fits without dropping words: creation/G3_keep / Keep your next passage",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: creation-G3_keep",
+		"ok": true
+	},
+	{
+		"check": "The ordinary completion response retains the task name: creation/G3_keep",
+		"ok": true
+	},
+	{
+		"check": "Title fixtures do not award or modify progression in en",
+		"ok": true
+	}
+]

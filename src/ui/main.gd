@@ -476,7 +476,8 @@ func _build_workbench() -> Control:
 	content.add_child(hardware_bar)
 
 	var stack := Control.new()
-	stack.custom_minimum_size.y = 510.0
+	# Keep playback reachable at 720p; the canvas expands into remaining space.
+	stack.custom_minimum_size.y = 280.0
 	stack.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	content.add_child(stack)
 	instrument_host = stack
@@ -987,7 +988,11 @@ func _build_profiler_instrument() -> Control:
 
 
 func _build_cache_instrument() -> Control:
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	var panel := VBoxContainer.new()
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(panel)
 	var subtitle := Label.new()
 	subtitle.text = _t(&"chapter2.near_store.description")
 	subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1001,7 +1006,7 @@ func _build_cache_instrument() -> Control:
 		card.pressed.connect(_select_cache.bind(lines, true))
 		cache_card_buttons[lines] = card
 		panel.add_child(card)
-	return panel
+	return scroll
 
 
 func _build_playback_panel() -> Control:
@@ -1878,6 +1883,7 @@ func _validate_program_editor() -> DSLProgramType:
 		official_run_button.disabled = true
 		debug_run_button.disabled = true
 	device_detail_labels[&"ProgramController"].tooltip_text = device_detail_labels[&"ProgramController"].text
+	if program_dirty: playback_label.text = program_apply_label.text
 	return program
 
 

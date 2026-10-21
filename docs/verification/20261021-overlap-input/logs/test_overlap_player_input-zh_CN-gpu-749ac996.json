@@ -1,0 +1,21 @@
+{
+  "name": "test_overlap_player_input-zh_CN-gpu-749ac996",
+  "passed": true,
+  "exit": 0,
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+    "--path",
+    "E:\\VNB\\game\\.godot\\verification\\20261020T230821Z-73ad565d\\project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--rendering-method",
+    "gl_compatibility",
+    "--script",
+    "res://tests/test_overlap_player_input.gd",
+    "--",
+    "--locale=zh_CN",
+    "--evidence-dir=E:/VNB/game/.godot/verification/20261020T230821Z-73ad565d/test_overlap_player_input-zh_CN-gpu-749ac996",
+    "--recovery-capture"
+  ]
+}

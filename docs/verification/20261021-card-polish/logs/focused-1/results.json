@@ -1,0 +1,70 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044116Z-0c1ea150/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044116Z-0c1ea150/user_directory"
+    },
+    {
+      "name": "test_card_attribution",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_card_attribution.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044116Z-0c1ea150/test_card_attribution"
+    },
+    {
+      "name": "test_full_journey_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_full_journey_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044116Z-0c1ea150/test_full_journey_narrative"
+    },
+    {
+      "name": "test_hint_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hint_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044116Z-0c1ea150/test_hint_input"
+    },
+    {
+      "name": "test_narrative_review",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_narrative_review.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044116Z-0c1ea150/test_narrative_review"
+    },
+    {
+      "name": "test_night_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_night_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044116Z-0c1ea150/test_night_narrative"
+    },
+    {
+      "name": "test_ui_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T044116Z-0c1ea150/test_ui_convergence"
+    }
+  ]
+}

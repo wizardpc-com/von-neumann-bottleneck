@@ -1,0 +1,78 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/user_directory"
+    },
+    {
+      "name": "test_chapter_return_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter_return_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/test_chapter_return_input"
+    },
+    {
+      "name": "test_creation_lab_return_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_lab_return_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/test_creation_lab_return_input"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/test_lab_journey"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_narrative_review",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_narrative_review.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/test_narrative_review"
+    },
+    {
+      "name": "test_terminal_language_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_language_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/test_terminal_language_input"
+    },
+    {
+      "name": "test_terminal_task_titles",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_task_titles.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T213436Z-6cfde22f/test_terminal_task_titles"
+    }
+  ]
+}

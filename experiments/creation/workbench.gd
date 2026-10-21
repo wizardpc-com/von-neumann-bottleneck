@@ -128,6 +128,10 @@ func _ready() -> void:
 		var requested: int = navigation.take_pending("creation")
 		if requested >= 0: task = clampi(requested,0,8)
 		navigation.remember_candidate_visit("creation",task)
+	if writable and task == 8 and not session.data.works.is_empty():
+		status_text = text2("已打开上次保存的作品。可以回看，也可以从配方另开草稿。", "Your last saved work is open. View it or fork its recipe into a new draft.")
+	elif writable and not session.data.model.is_empty():
+		status_text = text2("草稿和已学规则已打开。按上方提示继续运行。", "Draft and learned rules loaded. Follow the next action above.")
 	_playtest_start()
 	previous_auto_quit = get_tree().auto_accept_quit
 	get_tree().auto_accept_quit = false
@@ -875,7 +879,7 @@ func set_status(value: String) -> void:
 
 func failure_text(result: Dictionary) -> String:
 	var code: String = str(result.get("error","unknown"))
-	if code == "work_limit": return text2("作品库已满（12件）。本次生成仍保留在草稿中。", "The collection is full (12 works). This generation remains in the draft.")
+	if code == "work_limit": return text2("作品库已满（12件）。未新增作品；当前输出仍可查看。", "The collection is full (12 works). No new work was saved; this output is still visible.")
 	if code == "name": return text2("作品名称须包含1–80个字符。", "A work name must contain 1–80 characters.")
 	var messages: Dictionary = {"restore_first":text2("请先用当前模型发送预测包，完成无损复原。","Send a predictive packet with the current model and restore it exactly first."),"predict_first":text2("请先用当前模型开始练习，手动提交／揭晓一格，再执行余段直至整轮完成。","With the current model, start practice, commit/reveal one cell, then finish the round before connecting feedback."),"mode":text2("请先主动连接本章的输入模式。","Connect this chapter's input mode explicitly."),"memory_limit":text2("这台机器内存不足；提高公开内存预算或减少样例/输出。","This machine lacks memory; increase its public budget or reduce examples/output."),"work_index":text2("先在作品列表选中一件作品。","Select a work from the collection first."),"generate_first":text2("配方已改变。请运行新的生成，再确认保存。","The recipe changed. Generate again before confirming a saved work."),"training_bounds":text2("选择1–16段合法样例，再学习。","Select 1–16 valid examples before learning.")}
 	return str(messages.get(code,code))+(" ("+str(result.required_bytes)+" B)" if result.has("required_bytes") else "")
@@ -1079,9 +1083,10 @@ func keep_work() -> void:
 		set_status(text2("当前显示的不是可保存的新生成结果。请先生成，再命名保存。", "The visible output is not a new generation to save. Generate first, then name and keep it."))
 		return
 	if name_input.text.strip_edges().is_empty():
-		var tabs := find_child("EvidenceTabs",true,false) as TabContainer
-		if tabs != null: tabs.current_tab = 3
-		set_status(text2("在「作品与配方」页填写名称，再确认保存。","Enter a name in Works / recipes, then confirm."))
+		if task != 8:
+			var tabs := find_child("EvidenceTabs",true,false) as TabContainer
+			if tabs != null: tabs.current_tab = 3
+		set_status(text2("为这段输出填一个名称，再点保存。","Give this output a name, then save it."))
 		name_input.grab_focus()
 		return
 	var receipt: Dictionary = {}
@@ -1140,7 +1145,10 @@ func fork_work() -> void:
 
 func save_draft() -> void:
 	var saved: Error = session.save()
-	set_status(text2("草稿与作品已保存。","Draft and works saved.") if saved == OK else text2("保存失败：","Save failed: ")+str(session.error))
+	if saved == OK:
+		set_status(text2("草稿已保存；想留下当前输出，请命名后保存为作品。", "Draft saved. To keep this output as a work, name and save it.") if can_keep_visible_work() and not visible_generation_saved() else text2("草稿已保存。", "Draft saved."))
+	else:
+		set_status(text2("保存失败：","Save failed: ")+str(session.error))
 	refresh()
 
 func refresh() -> void:
@@ -1170,7 +1178,7 @@ func refresh() -> void:
 	(find_child("ContinueCreation",true,false) as Button).disabled = not writable
 	saved_work_caption.text = text2("已留下：","Kept: ")+str(kept_work.get("name",""))
 	var names: Dictionary = {"compress":text2("原文→包→恢复","source→packet→restore"),"predict":text2("已见→提交→真值","seen→commit→truth"),"generate":text2("输出→上下文","output→context")}
-	provenance.text = "%s · %s"%[names.get(mode,mode),text2("未保存草稿","unsaved draft") if session.dirty else text2("已保存","saved")]
+	provenance.text = "%s · %s"%[names.get(mode,mode),text2("未保存草稿","unsaved draft") if session.dirty else text2("草稿已保存","draft saved")]
 	provenance.tooltip_text = "%s %s %s\n%s"%[text2("当前草稿模型","Current draft model"),model_id,text2("（冻结）","(frozen)"),machine_strip.text]
 	provenance.mouse_filter = Control.MOUSE_FILTER_PASS
 	if not writable: provenance.text += " · "+text2("只读档","read-only profile")
@@ -1425,7 +1433,7 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 	elif str(session.data.mode) == "generate":
 		captions = [text2("当前配方尚无新输出","No new output from this recipe"),text2("起始片段 · 等待生成","Initial passage · awaiting generation"),text2("点击「按我的配方生成」重新运行","Run again with Generate my recipe")]
 	elif str(session.data.mode) == "predict":
-		captions = [text2("尚未开启本轮预测","No prediction round has started"),text2("同一规则盒已接到未见输入","Same rules connected to unseen input"),text2("选择练习或冻结检查，然后先提交再揭晓","Choose practice or a frozen check, then commit before reveal")]
+		captions = [text2("当前没有进行中的预测","No prediction round is active"),text2("同一规则盒已接到未见输入","Same rules connected to unseen input"),text2("选择练习或冻结检查，然后先提交再揭晓","Choose practice or a frozen check, then commit before reveal")]
 	else:
 		captions = [text2("还没有已发生输出","No output has occurred"),text2("同一模型等待连接","Same model awaits connection"),text2("按模式按钮建立实际路径","Connect the actual path with the mode button")]
 	signal_view.set_tracks(tracks,captions,marks)
@@ -1619,8 +1627,7 @@ func _build_leave_dialog() -> void:
 	leave_dialog = ConfirmationDialog.new()
 	leave_dialog.name = "LeaveProtection"
 	leave_dialog.title = text2("草稿尚未保存","Unsaved draft")
-	leave_dialog.dialog_text = text2("保存当前草稿与作品后离开，或明确放弃未保存修改。已保存作品继续受保护。","Save drafts and works before leaving, or explicitly discard unsaved edits. Saved works remain protected.")
-	leave_dialog.ok_button_text = text2("保存后离开","Save and leave")
+	leave_dialog.ok_button_text = text2("保存草稿后离开","Save draft and leave")
 	leave_dialog.cancel_button_text = text2("继续编辑","Keep editing")
 	leave_dialog.add_button(text2("放弃草稿修改后离开","Discard edits and leave"),true,"discard")
 	leave_dialog.confirmed.connect(func() -> void:
@@ -1643,7 +1650,11 @@ func has_pending_sample_text() -> bool:
 	return not parsed.ok or parsed.symbols != sample_edit_source
 
 func request_saved_draft_leave() -> void:
-	if session.dirty: leave_dialog.popup_centered(Vector2i(560,230))
+	if session.dirty:
+		leave_dialog.dialog_text = text2("保存草稿后离开，或放弃未保存的草稿修改。已有作品不受影响。", "Save the draft before leaving, or discard unsaved draft edits. Earlier works are kept.")
+		if can_keep_visible_work() and not visible_generation_saved():
+			leave_dialog.dialog_text += "\n\n" + text2("当前输出尚未保存为作品。想留下它，请返回编辑，命名后保存。", "This output is not yet a saved work. To keep it, return to editing, name it and save it.")
+		leave_dialog.popup_centered(Vector2i(560,230))
 	else: finish_leave()
 
 func finish_leave() -> void:

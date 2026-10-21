@@ -1,0 +1,3 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Isolated user directory: E:/VNB/game/.godot/verification/20261020T194628Z-1a061e2c/runtime/VonNeumannBottleneckChecks/20261020T194628Z-1a061e2c/user_directory

@@ -1,0 +1,46 @@
+[
+  {
+    "suite": "test_narrative_review",
+    "name": "card-polish-test_narrative_review-deb7cbe0",
+    "passed": true,
+    "exit": 0,
+    "command": [
+      "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+      "--path",
+      "E:\\VNB\\game\\.godot\\verification\\20261021T044305Z-b1335fc6\\project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--rendering-method",
+      "gl_compatibility",
+      "--script",
+      "res://tests/test_narrative_review.gd",
+      "--",
+      "--narrative-review-capture",
+      "--capture-size=1280x720"
+    ],
+    "log": "E:\\VNB\\game\\.godot\\verification\\20261021T044305Z-b1335fc6\\card-polish-test_narrative_review-deb7cbe0.txt"
+  },
+  {
+    "suite": "test_hint_input",
+    "name": "card-polish-test_hint_input-e5b2d4bf",
+    "passed": true,
+    "exit": 0,
+    "command": [
+      "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64.exe",
+      "--path",
+      "E:\\VNB\\game\\.godot\\verification\\20261021T044305Z-b1335fc6\\project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--rendering-method",
+      "gl_compatibility",
+      "--script",
+      "res://tests/test_hint_input.gd",
+      "--",
+      "--hint-input-capture",
+      "--capture-size=1280x720"
+    ],
+    "log": "E:\\VNB\\game\\.godot\\verification\\20261021T044305Z-b1335fc6\\card-polish-test_hint_input-e5b2d4bf.txt"
+  }
+]

@@ -1,0 +1,128 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+MENU: PredictionSelector focus=1 want=1
+MENU: CpuPartSelector focus=1 want=1
+ERROR: Stage return restores the unified journey tree
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] journey_from_current (res://scripts/proxy-player-paths.gd:128)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every system task: assembly
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:269)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every system task: ram_wait
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:269)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every system task: bus_width
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:269)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every system task: bottleneck
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:269)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every locality task: distant_reads
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:271)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every locality task: nearby_storage
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:271)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every locality task: cache_failure
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:271)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every locality task: working_set
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:271)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every locality task: blocking
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:271)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Complete QA route earns every locality task: capstone
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:271)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Actual UI-earned Game sources and chapter receipts are persisted to the QA profile
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:273)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: QA Game save exists for an independent restart
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:274)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: QA source circuits exist for independent provenance revalidation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] finish (res://scripts/proxy-player-paths.gd:275)
+       [2] system_path (res://scripts/proxy-player-paths.gd:153)
+       [3] stage_task (res://scripts/proxy-player-paths.gd:133)
+       [4] journey_from_current (res://scripts/proxy-player-paths.gd:129)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+Recovery GUI checks: 98; failures: 14

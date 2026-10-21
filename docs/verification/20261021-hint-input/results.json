@@ -1,0 +1,86 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/user_directory"
+    },
+    {
+      "name": "test_desktop_conventions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_desktop_conventions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/test_desktop_conventions"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_foundations_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/test_hardware_foundations_ui"
+    },
+    {
+      "name": "test_hardware_seal_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_seal_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/test_hardware_seal_navigation"
+    },
+    {
+      "name": "test_hint_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hint_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/test_hint_input"
+    },
+    {
+      "name": "test_ui_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/test_ui_convergence"
+    },
+    {
+      "name": "test_workbench_escape",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_workbench_escape.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/test_workbench_escape"
+    },
+    {
+      "name": "test_workbench_palette_comparison",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_workbench_palette_comparison.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/test_workbench_palette_comparison"
+    },
+    {
+      "name": "test_yi_typewriter",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_yi_typewriter.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T161355Z-34de99f3/test_yi_typewriter"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+extends RefCounted
+## Optional reflections. Replies neither grant progress nor establish story canon.
+
+const DIALOGUES := {
+	"chapter_2/capstone": [
+		{"zh": "你把判断变成了一份能运行的方案。\n留下这次记录吧，以后改它时，还有个比较的起点。",
+			"en": "You turned a diagnosis into a working plan.\nKeep this run as a starting point for later comparisons.",
+			"replies": [
+				{"zh": "换个任务还会这样吗？", "en": "What about another task?",
+					"answer_zh": "对这台机器，也要换任务重测。\n这里达标，不代表处处都快。", "answer_en": "Even on this machine, test the new task again.\nMeeting this target does not mean it is faster everywhere."},
+				{"zh": "我还想再改改。", "en": "I want to keep adjusting it.",
+					"answer_zh": "可以。先留住这份结果，再动一个条件。\n看看差别从哪里来。", "answer_en": "Go ahead. Keep this result, then change one condition.\nSee where the difference comes from."},
+			]},
+		{"zh": "接下来可以研究搬运的时机，也可以研究数据的布局。\n你想先试哪一边？",
+			"en": "You can explore when transfers happen, or how data is laid out.\nWhich would you like to try first?"},
+	],
+	"chapter_3/synthesis": [
+		{"zh": "你的安排通过了这些工作负载。\n我更想知道：你会先看哪一段运行记录？",
+			"en": "Your arrangement passed these workloads.\nWhich part of the run would you inspect first?",
+			"replies": [
+				{"zh": "还在等待的地方。", "en": "Where it still waits.",
+					"answer_zh": "看看是在等数据，还是等腾出位置。\n下一次修改，可以从那里开始。", "answer_en": "Check whether it is waiting for data or for space.\nThat can be the starting point for your next change."},
+				{"zh": "已经省下时间的地方。", "en": "Where it saved time.",
+					"answer_zh": "把前后的请求和计算对照起来。\n知道为什么有效，下次才用得上。", "answer_en": "Compare the requests and computation before and after.\nUnderstanding why it worked helps you use it again."},
+			]},
+		{"zh": "这份方案可以留下。另一条 Buffer 或 Cache 路线，也还可以试。",
+			"en": "Keep this plan. The other Buffer or Cache route is still there to explore."},
+	],
+	"chapter_4/mixed": [
+		{"zh": "两种查询，现在能共用你的这份布局。\n整理数据的开销，也算在结果里了。",
+			"en": "Both queries can use your layout now.\nThe result includes the cost of rearranging the data.",
+			"replies": [
+				{"zh": "还能更省吗？", "en": "Could it cost less?",
+					"answer_zh": "可以再比较空间和流量。\n先想好要省哪一项，再看看会多花什么。", "answer_en": "Compare space and traffic next.\nChoose what to reduce, then check what it costs elsewhere."},
+				{"zh": "我想试点别的。", "en": "I want to try something else.",
+					"answer_zh": "旅程里还有表示、服务和预测。\n也可以回到没试完的分支。", "answer_en": "Representation, service and prediction are there to explore.\nYou can also return to an unfinished branch."},
+			]},
+		{"zh": "同一份信息，除了换位置，还能换一种写法。\n我们可以从这里接着试。",
+			"en": "The same information can change its encoding as well as its location.\nThat is another place to begin."},
+	],
+}
+
+
+static func for_key(key: String) -> Array:
+	return DIALOGUES.get(key, [])

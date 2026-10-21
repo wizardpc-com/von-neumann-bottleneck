@@ -1,0 +1,178 @@
+[
+	{
+		"check": "The actual scene transition reaches res://src/ui/prototype_hub.tscn",
+		"ok": true
+	},
+	{
+		"check": "A fresh laboratory has no work and no earned work response.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://experiments/creation/workbench.tscn",
+		"ok": true
+	},
+	{
+		"check": "The actual work wall opens the empty G3 workbench.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual generated output remains unkept.",
+		"ok": true
+	},
+	{
+		"check": "Leaving an unsaved draft opens the existing departure choice.",
+		"ok": true
+	},
+	{
+		"check": "Departure feedback distinguishes an unkept output from the draft save.",
+		"ok": true
+	},
+	{
+		"check": "The confirmation button names the draft it actually saves.",
+		"ok": true
+	},
+	{
+		"check": "The actual departure window is captured separately from the main viewport.",
+		"ok": true
+	},
+	{
+		"check": "The departure choice is visible inside its own window.",
+		"ok": true
+	},
+	{
+		"check": "The game uses an embedded departure window.",
+		"ok": true
+	},
+	{
+		"check": "Keep editing returns to the actual output without saving or leaving.",
+		"ok": true
+	},
+	{
+		"check": "The departure choice is visible inside its own window.",
+		"ok": true
+	},
+	{
+		"check": "The game uses an embedded departure window.",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://src/campaign/task_tree.tscn",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://src/ui/prototype_hub.tscn",
+		"ok": true
+	},
+	{
+		"check": "Saving the draft and leaving creates no work-wall entry or saved-work response.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: draft-return",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://experiments/creation/workbench.tscn",
+		"ok": true
+	},
+	{
+		"check": "Reopening the draft does not turn the unsaved generation into a protected work.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The saved draft regenerates its original output and recipe before Keep.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Naming and explicitly keeping earns one actual saved work.",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://src/campaign/task_tree.tscn",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://src/ui/prototype_hub.tscn",
+		"ok": true
+	},
+	{
+		"check": "The laboratory reads the actual protected work from the same profile.",
+		"ok": true
+	},
+	{
+		"check": "The actual earned G3 support selects Yi's work response without a presentation fixture.",
+		"ok": true
+	},
+	{
+		"check": "Returning wakes the terminal and offers navigation without required dialogue choices.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: earned-work-response",
+		"ok": true
+	},
+	{
+		"check": "Reading Yi's response does not rewrite the work or its completion support.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://experiments/creation/workbench.tscn",
+		"ok": true
+	},
+	{
+		"check": "Clicking the work wall reopens that exact saved output and recipe.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: work-wall-reopened",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://src/campaign/task_tree.tscn",
+		"ok": true
+	},
+	{
+		"check": "The actual scene transition reaches res://src/ui/prototype_hub.tscn",
+		"ok": true
+	},
+	{
+		"check": "Revisiting the same work does not replay its earned response as a new achievement.",
+		"ok": true
+	},
+	{
+		"check": "The complete laboratory round trip preserves the work and its saved file.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: quiet-return",
+		"ok": true
+	}
+]

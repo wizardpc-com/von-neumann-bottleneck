@@ -1,0 +1,14 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+REGION QA task0 plan[{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 64, "codec": "raw" }] metrics[[135, 60, 60, 0]]
+REGION QA task0 plan[{ "start": 0, "end": 14, "codec": "rle" }, { "start": 14, "end": 48, "codec": "raw" }, { "start": 48, "end": 64, "codec": "rle" }] metrics[[135, 54, 54, 0]]
+REGION QA task1 plan[{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 24, "codec": "rle" }, { "start": 24, "end": 40, "codec": "raw" }, { "start": 40, "end": 48, "codec": "rle" }, { "start": 48, "end": 64, "codec": "rle" }] metrics[[34, 52, 16, 0]]
+REGION QA task1 plan[{ "start": 0, "end": 12, "codec": "rle" }, { "start": 12, "end": 24, "codec": "rle" }, { "start": 24, "end": 40, "codec": "raw" }, { "start": 40, "end": 52, "codec": "rle" }, { "start": 52, "end": 64, "codec": "rle" }] metrics[[34, 52, 16, 0]]
+REGION QA task2 plan[{ "start": 0, "end": 16, "codec": "rle" }, { "start": 16, "end": 48, "codec": "rle" }, { "start": 48, "end": 64, "codec": "rle" }] metrics[[113, 26, 26, 0], [38, 26, 16, 0]]
+REGION QA task2 plan[{ "start": 0, "end": 15, "codec": "rle" }, { "start": 15, "end": 32, "codec": "rle" }, { "start": 32, "end": 49, "codec": "rle" }, { "start": 49, "end": 64, "codec": "rle" }] metrics[[126, 36, 36, 0], [36, 36, 16, 0]]
+REGION QA task3 plan[{ "start": 0, "end": 8, "codec": "raw" }, { "start": 8, "end": 64, "codec": "rle" }] metrics[[105, 76, 12, 88], [888, 76, 160, 88]]
+REGION QA task3 plan[{ "start": 0, "end": 12, "codec": "raw" }, { "start": 12, "end": 64, "codec": "rle" }] metrics[[104, 76, 16, 83], [907, 76, 192, 83]]
+REGION QA task4 plan[{ "start": 0, "end": 18, "codec": "rle" }, { "start": 18, "end": 46, "codec": "raw" }, { "start": 46, "end": 64, "codec": "rle" }] metrics[[130, 48, 48, 0], [36, 48, 16, 0]]
+REGION QA task4 plan[{ "start": 0, "end": 19, "codec": "rle" }, { "start": 19, "end": 46, "codec": "raw" }, { "start": 46, "end": 64, "codec": "rle" }] metrics[[129, 47, 47, 0], [38, 49, 18, 0]]
+REVERSAL raw[81, 1096] rle[111, 769]
+PASS: test_representation_region: 3329 checks, 0 failures

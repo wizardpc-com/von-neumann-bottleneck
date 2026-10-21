@@ -155,7 +155,7 @@ func run() -> void:
 	check(is_equal_approx(overlay.panel.size.y, height), "Typing does not resize the card")
 	root.push_input(accept); await settle(2)
 	check(overlay.visible and not overlay.yi_response_label.is_playing(), "Enter while Yi types completes the reply and keeps the card")
-	check(overlay.yi_speaker_label.text == "壹" and not overlay.yi_response_label.text.begins_with("壹"), "The speaker is a plain label, not part of the typed text")
+	check(overlay.find_child("YiCompletionSpeaker", true, false) == null and not overlay.yi_response_label.text.begins_with("壹"), "The completion response has no speaker badge or attribution prefix")
 	overlay.dismiss()
 	check(not overlay.yi_response_label.caret_visible(), "Closing the card removes its caret")
 	overlay.queue_free(); await settle()

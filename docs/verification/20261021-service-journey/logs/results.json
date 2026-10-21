@@ -1,0 +1,62 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T225958Z-78d600d4/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T225958Z-78d600d4/user_directory"
+    },
+    {
+      "name": "test_completion_service_clarity",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_completion_service_clarity.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T225958Z-78d600d4/test_completion_service_clarity"
+    },
+    {
+      "name": "test_service_journey_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_journey_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T225958Z-78d600d4/test_service_journey_input"
+    },
+    {
+      "name": "test_service_plan",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_plan.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T225958Z-78d600d4/test_service_plan"
+    },
+    {
+      "name": "test_service_player_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_player_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T225958Z-78d600d4/test_service_player_input"
+    },
+    {
+      "name": "test_service_state_replay_view",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_state_replay_view.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261020T225958Z-78d600d4/test_service_state_replay_view"
+    }
+  ]
+}

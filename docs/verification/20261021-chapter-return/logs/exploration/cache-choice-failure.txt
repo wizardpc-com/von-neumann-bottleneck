@@ -1,0 +1,11 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+ERROR: The visible cache choice applies four lines before running.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_chapter_return_input.gd:38)
+       [2] press (res://tests/test_recovery_game_input.gd:120)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+Chapter return checks: 18; failures: 1

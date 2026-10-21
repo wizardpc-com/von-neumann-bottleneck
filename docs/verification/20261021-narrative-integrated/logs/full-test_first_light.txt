@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+NOT_RUN: first-light renderer/focus/F8/lifecycle; run without --headless and with --capture-size=1280x720 --first-light-capture
+PASS: first light 109 checks; real tutorial/CPG controller setup, no native-input claim

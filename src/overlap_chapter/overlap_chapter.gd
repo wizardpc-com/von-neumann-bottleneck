@@ -856,7 +856,17 @@ func _select_run(index: int) -> void:
 	_show_cycle(int(scrub.value))
 	var task: Dictionary = Catalog.cases(level)[index]
 	metrics.text = _t("metrics") % [trace.metrics.total_cycles,task.target,trace.metrics.compute_busy,trace.metrics.transfer_busy,trace.metrics.overlap,trace.metrics.wait,trace.result_value,trace.expected_value]
-	if not String(trace.metrics.error).is_empty(): metrics.text += "\n" + _t("line_error") % [trace.metrics.error_line,_t("error."+String(trace.metrics.error))]
+	if not String(trace.metrics.error).is_empty():
+		metrics.text += "\n" + _t("line_error") % [trace.metrics.error_line,_t("error."+String(trace.metrics.error))]
+		if String(trace.metrics.error) == "incomplete":
+			metrics.text += "\n" + ("已输出批次 %d / %d。" if Localization.current_locale() != "en" else "Completed batches: %d / %d.") % [trace.metrics.outputs.size(),task.values.size()]
+			if int(task.get("work",0)) > 0:
+				var independent_cycles: int = 0
+				# An incomplete run reaches this check only after pending work finishes.
+				for event: SimulationEvent in trace.events:
+					if event.kind == &"compute" and int(event.details.get("batch",-2)) == -1:
+						independent_cycles += event.duration
+				metrics.text += " " + ("独立工作 %d / 要求恰好 %d 周期。" if Localization.current_locale() != "en" else "Independent work: %d / exactly %d cycles required.") % [independent_cycles,int(task.work)]
 	elif not trace.passed: metrics.text += "\n" + ("输出尚未通过核验；先对照实际与预期结果。" if Localization.current_locale() != "en" else "Output was not verified; compare actual and expected results first.")
 	elif int(trace.metrics.total_cycles)>int(task.target): metrics.text += "\n" + _t("too_slow") + (" 超出 %d 周期。" if Localization.current_locale() != "en" else " Over by %d cycles.") % (int(trace.metrics.total_cycles)-int(task.target))
 	else: metrics.text += "\n" + _t("passed")

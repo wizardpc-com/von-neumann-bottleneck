@@ -1,0 +1,250 @@
+[
+	{
+		"check": "Test access opens the optional investigation without earned prerequisites.",
+		"ok": true
+	},
+	{
+		"check": "A fresh changing-pattern session starts without measurements.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-entry",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Reveal exposes one actual request only.",
+		"ok": true
+	},
+	{
+		"check": "A prefix does not disclose final costs or create a completed receipt.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured total and traffic match the independent expected result.",
+		"ok": true
+	},
+	{
+		"check": "Waste and counterfactual misses remain actual model evidence.",
+		"ok": true
+	},
+	{
+		"check": "The displayed elapsed-time components account for the total.",
+		"ok": true
+	},
+	{
+		"check": "The visible result contains both measured time and its same-stream Off baseline.",
+		"ok": true
+	},
+	{
+		"check": "The Off result explicitly identifies equal time rather than implying a gain.",
+		"ok": true
+	},
+	{
+		"check": "The Off comparison alone cannot satisfy the investigation.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-off-baseline",
+		"ok": true
+	},
+	{
+		"check": "Requested selector and item are available",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Editing restarts observation while retaining the finished baseline.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The rule guesses 16 from the four genuinely observed addresses.",
+		"ok": true
+	},
+	{
+		"check": "The visible decision explains its historical basis in the current language.",
+		"ok": true
+	},
+	{
+		"check": "The future slowdown remains hidden during the prefix.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-before-pattern-change",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The next reveal exposes the real changed request and the previous mismatch.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-after-pattern-change",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured total and traffic match the independent expected result.",
+		"ok": true
+	},
+	{
+		"check": "Waste and counterfactual misses remain actual model evidence.",
+		"ok": true
+	},
+	{
+		"check": "The displayed elapsed-time components account for the total.",
+		"ok": true
+	},
+	{
+		"check": "The visible result contains both measured time and its same-stream Off baseline.",
+		"ok": true
+	},
+	{
+		"check": "The failed rule leads with its measured 24-cycle slowdown.",
+		"ok": true
+	},
+	{
+		"check": "Measured slowdown advances failure evidence but still requires a non-Off revision.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-slower-rule",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-cost-definitions",
+		"ok": true
+	},
+	{
+		"check": "Requested selector and item are available",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested selector and item are available",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible choice menu opened",
+		"ok": true
+	},
+	{
+		"check": "Visible selector accepts choice 1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The revised result shows the actual six-cycle gain without promising zero waste.",
+		"ok": true
+	},
+	{
+		"check": "The current rule explains why it emits no final guess.",
+		"ok": true
+	},
+	{
+		"check": "The complete observed-history explanation fits its 720p reading area without scrolling.",
+		"ok": true
+	},
+	{
+		"check": "A measured non-Off revision no slower than baseline meets the unchanged goal.",
+		"ok": true
+	},
+	{
+		"check": "Changing prediction preserves the actual values consumed.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-safe-revision",
+		"ok": true
+	},
+	{
+		"check": "The visible evidence tab accepts the requested view.",
+		"ok": true
+	},
+	{
+		"check": "Reviewing a failed record retains the revised draft and labels their difference.",
+		"ok": true
+	},
+	{
+		"check": "The visible evidence tab accepts the requested view.",
+		"ok": true
+	},
+	{
+		"check": "Review shows the old actual result without removing earned session evidence.",
+		"ok": true
+	},
+	{
+		"check": "Review recomputes the comparison from the selected record, not the revised draft.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-review-failure",
+		"ok": true
+	},
+	{
+		"check": "Policy edits and review do not rewrite either earlier measurement.",
+		"ok": true
+	},
+	{
+		"check": "Temporary prediction evidence grants no persistent campaign completion.",
+		"ok": true
+	}
+]

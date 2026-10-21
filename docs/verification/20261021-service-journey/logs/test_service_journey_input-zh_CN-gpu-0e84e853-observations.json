@@ -1,0 +1,78 @@
+[
+	{
+		"check": "Offline tester opens the isolated service task.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: journey-entry",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The chart reads actual first responses from the initial run.",
+		"ok": true
+	},
+	{
+		"check": "The complete wrapped chart fits the visible 720p overview.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: journey-late-response",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Next response selects the actual A output event at cycle89.",
+		"ok": true
+	},
+	{
+		"check": "The displayed A state is resident and awaiting write-back at that event.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: journey-first-a",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Three further clicks reach D's real first output at362.",
+		"ok": true
+	},
+	{
+		"check": "The D response displays the corresponding recorded residency, not final state.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Editing draft capacity preserves the selected response and state witness.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: journey-draft-keeps-record",
+		"ok": true
+	},
+	{
+		"check": "Reading and replaying the failed record cannot earn completion.",
+		"ok": true
+	}
+]

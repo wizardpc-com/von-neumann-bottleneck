@@ -1,0 +1,16 @@
+extends "res://tests/test_recovery_game_input.gd"
+
+func _run() -> void:
+	root.mode = Window.MODE_WINDOWED
+	root.size = Vector2i(1280,720)
+	root.content_scale_size = Vector2i(1280,720)
+	root.get_node("GameMode").set_mode(&"test")
+	for item: Array in [["res://src/system_lab/system_lab.tscn",&"cpu_speed"],["res://src/ui/main.tscn",&"access_order"]]:
+		change_scene_to_file(item[0])
+		await settle(12)
+		ui = current_scene
+		ui._start_level(item[1])
+		await settle(12)
+		print("BOUNDS: ",item[1]," root=",root.get_visible_rect()," finish=",ui.finish_playback_button.get_global_rect())
+		await capture("before-"+str(item[1]))
+	await finish()

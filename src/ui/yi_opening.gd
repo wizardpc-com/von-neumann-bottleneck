@@ -15,7 +15,6 @@ static var _shown: Dictionary = {}
 static var _current: CanvasLayer
 
 var card: PanelContainer
-var speaker: Label
 var body: Typewriter
 var _life: float = 0.0
 var _closing: bool = false
@@ -68,17 +67,13 @@ func _init() -> void:
 	add_child(card)
 	var column := VBoxContainer.new(); column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_theme_constant_override("separation", 4); card.add_child(column)
-	speaker = Label.new(); speaker.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	speaker.add_theme_font_size_override("font_size", 13); speaker.add_theme_color_override("font_color", Palette.ACCENT)
-	column.add_child(speaker)
 	body = Typewriter.new(); body.name = "YiOpeningText"
 	body.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	body.font_size = 16; body.font_color = Palette.TERM_TEXT; body.line_spacing = 4.0
 	column.add_child(body)
 
 
-func say(passage: String, english: bool) -> void:
-	speaker.text = "壹 · 这一关" if not english else "Yi · This task"
+func say(passage: String, _english: bool) -> void:
 	body.play(passage)
 	_place()
 

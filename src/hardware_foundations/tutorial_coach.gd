@@ -12,11 +12,11 @@ const STEPS := [
 		"zh": "从输入 A 右侧的圆点按住拖到 NOT 左侧的圆点，再从 NOT 右侧拖到灯。",
 		"en": "Drag from the dot on the right of input A to the left dot of NOT, then from NOT's right dot to the lamp."},
 	{"id": "input", "zh_title": "改变输入", "en_title": "Change the input",
-		"zh": "在左下角的测试台里点一下 A，让它在 0 和 1 之间切换。",
-		"en": "In the test bench (bottom left), click A to switch it between 0 and 1."},
+		"zh": "两段线接好了。在左下角测试台点 A，切换 0 和 1。",
+		"en": "Both wires are connected. Click A in the bottom-left test bench to switch between 0 and 1."},
 	{"id": "run", "zh_title": "运行", "en_title": "Run",
-		"zh": "按「运行练习电路」，看信号沿线走到灯。NOT 会把输入反过来：A 是 0，灯亮；A 是 1，灯灭。",
-		"en": "Press Run and watch the signal travel to the lamp. NOT flips its input: A = 0 lights the lamp, A = 1 turns it off."},
+		"zh": "先猜灯会亮还是灭，再按「运行练习电路」。NOT 把输入反过来：0 亮，1 灭。",
+		"en": "Predict whether the lamp will light, then press Run. NOT flips the input: 0 lights it, 1 turns it off."},
 	{"id": "remove", "zh_title": "拆一条线", "en_title": "Remove a wire",
 		"zh": "按住右键划过任意一条线，把它拆掉。拆错了也没关系。",
 		"en": "Hold the right mouse button and sweep across a wire to remove it. Mistakes are fine."},
@@ -69,9 +69,6 @@ func _ready() -> void:
 	add_theme_stylebox_override("panel", box)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 8); add_child(column)
 	var header := HBoxContainer.new(); header.add_theme_constant_override("separation", 10); column.add_child(header)
-	var mark := Label.new(); mark.text = "壹" if not english else "Yi"
-	mark.add_theme_color_override("font_color", Palette.ACCENT); mark.add_theme_font_size_override("font_size", 14)
-	header.add_child(mark)
 	step_label = Label.new(); step_label.name = "CoachStep"
 	step_label.add_theme_color_override("font_color", Palette.TERM_TEXT); step_label.add_theme_font_size_override("font_size", 16)
 	step_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL

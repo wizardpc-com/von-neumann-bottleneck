@@ -37,7 +37,10 @@ func run() -> void:
 	var terminal: Control = lab.get_node("LabWorld/LayerDesk/LabTerminal") if lab != null else null
 	check(terminal != null and terminal.asleep(), "Terminal starts on standby")
 	if terminal != null:
-		terminal.wake(true); await settle()
+		terminal.wake(true)
+		# The 3D room must finish returning front-on before revealing its flat UI.
+		await create_timer(0.6).timeout
+		await settle()
 		check(not terminal.asleep() and terminal.primary.is_visible_in_tree(), "Waking shows the primary action")
 		check("壹" in terminal.message.text or "Yi" in terminal.message.text, "Yi greets a new player on the terminal")
 		check(not terminal.primary.text.is_empty(), "Primary action names the next step")

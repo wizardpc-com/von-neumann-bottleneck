@@ -1,3 +1,14 @@
+## Immersive laboratory — 2026-10-21
+
+Run `test_immersive_lab` with the isolated verifier, alongside `test_lab_journey`,
+`test_lab_terminal_routing`, `test_two_worlds`, `test_hub_first_screen` and
+`test_terminal_presentation_polish`. The suite exercises existing overlays, input
+blocking/return, real imported geometry, the fixed observation camera and the
+24-second globe loop. Headless layout/physics assertions do not establish image
+quality, frame rate or native mouse input. The real-display capture helper
+`scripts/capture-immersive-lab.gd` refuses dummy rendering. See the
+[receipt](../verification/20261021-immersive-lab/README.md).
+
 ## Unified style and story beats — 2026-10-20
 
 Run `test_unified_style` with the isolated verifier. It instantiates all nine

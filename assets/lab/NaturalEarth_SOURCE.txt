@@ -1,0 +1,7 @@
+Natural Earth 1:110m land, version 4.1.0
+Official dataset: https://www.naturalearthdata.com/downloads/110m-physical-vectors/110m-land/
+Official public-domain license: https://www.naturalearthdata.com/about/terms-of-use/
+ZIP downloaded from: https://naciscdn.org/naturalearth/110m/physical/ne_110m_land.zip
+SHP SHA256 8689e6932b8e370e2ca4587cf3ba21e460b1235db37b6ed3c172c35b4a6088de
+SHP byte hash verified identical to official site-linked repository: https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/110m_physical/ne_110m_land.shp
+Downloaded 2026-10-21 UTC. GeoJSON converted locally using Python standard-library struct, preserving SHP rings and coordinates. No third-party software executed.

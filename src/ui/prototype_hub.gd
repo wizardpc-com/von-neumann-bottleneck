@@ -204,6 +204,8 @@ func _build_laboratory(background: Control, surface: Control) -> void:
 	laboratory.quit_requested.connect(_quit_game)
 	laboratory.handbook_requested.connect(func() -> void: terminology_handbook.open_handbook())
 	laboratory.new_game_requested.connect(_open_new_game_confirmation)
+	laboratory.works_requested.connect(_open_journey_journal)
+	laboratory.achievements_requested.connect(_open_hub_navigation)
 
 
 func _build_hub_header(content: VBoxContainer) -> void:
@@ -374,8 +376,11 @@ func _open_hub_navigation() -> void:
 func _close_hub_navigation() -> void:
 	if navigation_overlay == null or not navigation_overlay.visible: return
 	navigation_overlay.hide()
-	(get_node("HubSurface") as Control).show()
+	(get_node("HubSurface") as Control).visible = not is_instance_valid(laboratory)
 	if is_instance_valid(navigation_previous_focus) and navigation_previous_focus.is_visible_in_tree(): navigation_previous_focus.grab_focus()
+	elif is_instance_valid(laboratory) and laboratory.terminal != null:
+		laboratory.room_focus = true
+		laboratory.terminal.wake(true)
 	else: (find_child("HubSettings",true,false) as Button).grab_focus()
 	navigation_previous_focus = null
 

@@ -1,7 +1,7 @@
 extends Control
 ## The laboratory home: a small, bright room with one dark terminal at its
-## centre. Layers are drawn in code (replaceable by art: see LAB_ART below) and
-## shift slightly with the pointer to give a limited "turn your head" view.
+## centre. The default is a real fixed-observation 3D room; --flat-lab retains
+## the earlier code-painted presentation without changing progression authority.
 ## The terminal screen hosts the real menu; entering zooms into that screen.
 ##
 ## The lab is presentation only. Progress comes from TaskNavigation; the lab's
@@ -13,6 +13,8 @@ signal settings_requested
 signal quit_requested
 signal handbook_requested
 signal new_game_requested
+signal works_requested
+signal achievements_requested
 
 const Palette = preload("res://src/lab/lab_palette.gd")
 const LabState = preload("res://src/lab/lab_state.gd")
@@ -55,13 +57,13 @@ const CHAPTER_RESPONSES := {
 	"hardware_foundations/load_store": {"zh_caption": "旅程板上「构造」一站亮起了暖光。", "en_caption": "The Build station glows warm on the journey board.",
 		"zh": "你从一根导线开始，拼出了一台能取数、计算、写回的机器。\n接下来，我们让它真正跑起来，看看时间都去了哪里。",
 		"en": "You started with one wire and built a machine that can fetch, compute and write back.\nNext we let it run, and see where the time goes."},
-	"chapter_1/bottleneck": {"zh_caption": "窗外，又一座楼亮了灯。", "en_caption": "Outside, another tower lights up.",
+	"chapter_1/bottleneck": {"zh_caption": "后墙的成果区亮起了暖光。", "en_caption": "A warm light reaches the works wall.",
 		"zh": "你找到了这次运行的瓶颈。\n先留住证据。换了机器或程序，再看看判断会不会变。",
 		"en": "You found the bottleneck in this run.\nKeep the evidence. Change the machine or program, and check whether the diagnosis changes."},
 	"chapter_2/capstone": {"zh_caption": "旅程板上「就近」一站亮起。", "en_caption": "The Nearby station lights on the journey board.",
 		"zh": "你把判断变成了能运行的方案。\n以后再改时，这次记录就是比较的起点。",
 		"en": "You turned a diagnosis into a working plan.\nThis run is a starting point for your next comparison."},
-	"chapter_3/synthesis": {"zh_caption": "窗外的灯，排成了一条线。", "en_caption": "The lights outside line up into a path.",
+	"chapter_3/synthesis": {"zh_caption": "旅程板上的灯，连成了一段路。", "en_caption": "The journey board lights trace another stage.",
 		"zh": "这份方案通过了这些工作负载。\n时间线里，还能找到下一次想改的地方。",
 		"en": "This plan passed these workloads.\nThe timeline can help you find what to change next."},
 	"chapter_4/mixed": {"zh_caption": "旅程板上「布局」一站亮起。", "en_caption": "The Layout station lights on the journey board.",
@@ -78,6 +80,14 @@ class Painter extends Control:
 	func _draw() -> void:
 		if paint.is_valid(): paint.call(self)
 
+const RoomType = preload("res://src/lab/lab_room_3d.gd")
+var room: RoomType
+var room_input_shield: Control
+var room_controls: HBoxContainer
+var room_hover: Label
+var room_focus: bool = false
+var _terminal_was_asleep: bool = true
+var room_focus_amount: float = 0.0
 var english: bool = false
 var world: Control
 var layers: Dictionary = {}
@@ -138,10 +148,13 @@ func _ready() -> void:
 	_add_layer("desk", _paint_desk)
 	_add_layer("front", _paint_front)
 	_build_hotspots()
+	_build_immersive_room()
 	terminal = TerminalType.new(); terminal.name = "LabTerminal"
 	terminal.position = SCREEN_RECT.position; terminal.size = SCREEN_RECT.size
 	layers.desk.add_child(terminal)
 	terminal.action.connect(_on_terminal_action)
+	terminal.gui_input.connect(func(event: InputEvent) -> void:
+		if room != null and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and not _room_blocked(): room_focus = true)
 	caption = Label.new(); caption.name = "LabCaption"
 	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	caption.add_theme_font_size_override("font_size", 18)
@@ -152,6 +165,10 @@ func _ready() -> void:
 	caption.offset_top = -86; caption.offset_bottom = -52
 	caption.modulate.a = 0.0; caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(caption)
+	room_input_shield = Control.new(); room_input_shield.name = "RoomInputShield"
+	room_input_shield.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	room_input_shield.mouse_filter = Control.MOUSE_FILTER_STOP
+	room_input_shield.hide(); add_child(room_input_shield)
 	archive = ArchiveType.new(); archive.name = "LabArchive"; archive.hide()
 	add_child(archive)
 	archive.closed.connect(_refresh_archive_counts)
@@ -165,6 +182,7 @@ func _ready() -> void:
 	resized.connect(_fit)
 	_fit()
 	_read_progress()
+	if room != null: room.update_progress(station_progress, completed_keys.size(), LabState.tasks().size(), works.size(), LabState.tasks(), works, english)
 	if _language_checkpoint.is_empty():
 		call_deferred("_arrive")
 	else:
@@ -174,6 +192,122 @@ func _ready() -> void:
 		for row: Dictionary in LabState.tasks():
 			if str(row.key) == task_key: checkpoint.response["task"] = row
 		terminal.restore_language(checkpoint)
+
+
+# Real 3D room; the existing terminal/controller and route ownership stay intact.
+# --flat-lab retains the previous presentation for diagnosis, not a second save.
+func _build_immersive_room() -> void:
+	if "--flat-lab" in OS.get_cmdline_user_args(): return
+	room = RoomType.new()
+	room.name = "ImmersiveRoom"
+	room.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(room); move_child(room, 1)
+	room.activated.connect(_on_room_action)
+	room.hover_changed.connect(_on_room_hover)
+	for layer: Control in layers.values():
+		layer.set("paint", Callable())
+	for path: String in ["LayerMid/ArchiveShelf", "LayerMid/JourneyBoard", "LayerBack/WorkFrame"]:
+		world.get_node(path).hide()
+	room_controls = HBoxContainer.new(); room_controls.name = "RoomShortcuts"
+	room_controls.position = Vector2(22,18)
+	room_controls.add_theme_constant_override("separation",8)
+	add_child(room_controls)
+	for entry: Array in [["终端","Terminal","terminal"],["环顾","Look around","look"],["档案","Archive","archive"],["旅程","Journey","journey"],["作品","Works","works"],["成就","Achievements","achievements"],["手册","Handbook","handbook"],["设置","Settings","settings"],["反馈","Feedback","feedback"]]:
+		var button := Button.new()
+		button.name = "Room" + str(entry[2]).capitalize()
+		button.text = str(entry[1] if english else entry[0])
+		button.custom_minimum_size = Vector2(0,34)
+		button.add_theme_font_size_override("font_size",14)
+		button.pressed.connect(_on_room_action.bind(str(entry[2])))
+		room_controls.add_child(button)
+	room_hover = Label.new(); room_hover.name = "RoomObjectHint"
+	room_hover.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	room_hover.offset_top = -40; room_hover.offset_bottom = -12
+	room_hover.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	room_hover.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	room_hover.add_theme_font_size_override("font_size",16)
+	room_hover.add_theme_color_override("font_color",Color("253642"))
+	room_hover.add_theme_color_override("font_outline_color",Color("eef1ec"))
+	room_hover.add_theme_constant_override("outline_size",4)
+	add_child(room_hover)
+
+func _room_blocked() -> bool:
+	if zooming or (archive != null and archive.visible): return true
+	var hub: Node = get_parent()
+	for key: String in ["options_overlay", "navigation_overlay", "new_game_overlay", "journey_journal"]:
+		var overlay: Variant = hub.get(key)
+		if is_instance_valid(overlay) and overlay is Control and overlay.visible: return true
+	var handbook: Variant = hub.get("terminology_handbook")
+	if is_instance_valid(handbook) and handbook.modal.visible: return true
+	var playtest: Node = get_node_or_null("/root/PlaytestData")
+	return playtest != null and bool(playtest.get("_feedback_visible"))
+
+func _process_immersive_room(delta: float) -> void:
+	reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion", false))
+	if _terminal_was_asleep and not terminal.asleep(): room_focus = true
+	_terminal_was_asleep = terminal.asleep()
+	var blocked: bool = _room_blocked()
+	room.set_interaction_enabled(not blocked)
+	room_input_shield.visible = blocked
+	room_controls.mouse_filter = Control.MOUSE_FILTER_IGNORE if blocked else Control.MOUSE_FILTER_PASS
+	for child: Node in room_controls.get_children():
+		if child is Button: child.disabled = blocked
+	if not zooming:
+		var target: float = 1.0 if room_focus else 0.0
+		room_focus_amount = target if reduced_motion else lerpf(room_focus_amount,target,1.0-exp(-7.0*delta))
+		room.set_zoom(room_focus_amount * 0.45)
+		var pointer: Vector2 = get_local_mouse_position()
+		var normalized := ((pointer / size.max(Vector2.ONE)) - Vector2(0.5,0.5))*2.0
+		room.set_look(Vector2.ZERO if blocked or room_focus or reduced_motion else normalized.clamp(Vector2(-1,-1),Vector2.ONE))
+		_sync_room_terminal()
+	# Flat menu is only revealed after the physical camera has settled front-on.
+	var aligned: bool = room._look_current.length() < 0.25
+	var was_visible: bool = terminal.visible
+	terminal.visible = (room_focus or terminal.asleep() or terminal.confirming()) and aligned
+	if terminal.visible and not was_visible and room_focus and not blocked and not terminal.asleep() and not terminal.confirming():
+		terminal._focus_primary()
+	terminal.mouse_filter = Control.MOUSE_FILTER_IGNORE if blocked else Control.MOUSE_FILTER_PASS
+	if blocked: room_hover.text = ""
+
+func _sync_room_terminal() -> void:
+	if terminal == null or room == null: return
+	var rect: Rect2 = room.screen_rect()
+	if rect.size.x < 10.0: return
+	var inset := Vector2(maxf(10.0, rect.size.x * 0.035), maxf(10.0, rect.size.y * 0.06))
+	terminal.position = rect.position + inset
+	terminal.size = rect.size - inset * 2.0
+
+func _on_room_hover(id: String) -> void:
+	if room_hover == null: return
+	var labels: Dictionary = {
+		"terminal":["计算终端 · 开始 / 继续","Terminal · Start / Continue"],
+		"archive":["档案板 · 已解锁的记录","Archive · Unlocked records"],
+		"journey":["旅程板 · 真实任务进度","Journey · Your task progress"],
+		"works":["作品墙 · 已保存的作品","Works · Saved creations"],
+		"achievements":["成就 · 旅程记录","Achievements · Journey records"],
+		"handbook":["电子阅读器 · 图解手册","Reader · Illustrated handbook"],
+		"settings":["控制器 · 设置","Controller · Settings"],
+		"feedback":["信笺 · 本地现场反馈","Letter · Local feedback"],
+		"globe":["地球仪 · 旅程回顾","Globe · Journey journal"]}
+	room_hover.text = str(labels[id][1 if english else 0]) if labels.has(id) else ("移动鼠标轻转视角 · 点击物件进入" if not english else "Move the pointer to look around · Select an object")
+	if id == "journey": room_hover.text += " · %d / %d" % [completed_keys.size(),LabState.tasks().size()]
+	elif id == "works": room_hover.text += " · %d" % works.size()
+	elif id == "archive": room_hover.text += " · %d" % fragments_open
+
+func _on_room_action(id: String) -> void:
+	if _room_blocked(): return
+	match id:
+		"terminal":
+			room_focus = true
+			if terminal.asleep(): terminal.wake()
+		"look": room_focus = false; terminal.release_focus_inside()
+		"archive": open_archive()
+		"journey": _enter(journey_requested)
+		"works", "globe": works_requested.emit()
+		"achievements": achievements_requested.emit()
+		"handbook": handbook_requested.emit()
+		"settings": settings_requested.emit()
+		"feedback": get_node("/root/PlaytestMoments").toggle()
 
 func _add_layer(key: String, painter: Callable) -> void:
 	var layer := Painter.new(); layer.name = "Layer" + key.capitalize()
@@ -213,6 +347,10 @@ func _build_hotspots() -> void:
 
 func _fit() -> void:
 	if world == null: return
+	if room != null:
+		world.scale = Vector2.ONE; world.position = Vector2.ZERO; world.size = size
+		base_scale = 1.0; base_offset = Vector2.ZERO
+		return
 	base_scale = maxf(size.x / DESIGN.x, size.y / DESIGN.y)
 	base_offset = (size - DESIGN * base_scale) * 0.5
 	if not zooming:
@@ -221,6 +359,9 @@ func _fit() -> void:
 
 func _process(delta: float) -> void:
 	time += delta
+	if room != null:
+		_process_immersive_room(delta)
+		return
 	if not zooming and size.x > 0.0:
 		var mouse: Vector2 = get_local_mouse_position()
 		var inside: bool = Rect2(Vector2.ZERO, size).has_point(mouse)
@@ -240,15 +381,17 @@ func _process(delta: float) -> void:
 	for layer: Control in layers.values(): layer.queue_redraw()
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if zooming or archive.visible: return
+	if zooming or archive.visible or (room != null and _room_blocked()): return
 	var key := event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]:
 		if terminal.asleep() and not terminal.confirming():
+			room_focus = true
 			terminal.wake(); get_viewport().set_input_as_handled()
 
 func _gui_input(event: InputEvent) -> void:
 	var button := event as InputEventMouseButton
 	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_LEFT and hover_terminal and terminal.asleep():
+		room_focus = true
 		terminal.wake(); accept_event()
 
 # --- progress and environmental response ----------------------------------
@@ -334,6 +477,7 @@ func _arrive() -> void:
 		tween.tween_method(_apply_zoom, 1.0, 0.0, 0.0 if reduced_motion else 0.9).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		await tween.finished
 		zooming = false
+		room_focus = true
 		terminal.wake(true)
 	else:
 		modulate.a = 1.0 if reduced_motion else 0.0
@@ -361,7 +505,7 @@ func _show_caption(text: String, seconds: float) -> void:
 # --- terminal actions and the zoom transition ----------------------------
 
 func _on_terminal_action(id: String) -> void:
-	if zooming: return
+	if zooming or (room != null and _room_blocked()): return
 	match id:
 		"start": _enter(start_requested, next_key)
 		"journey": _enter(journey_requested)
@@ -385,6 +529,7 @@ func reload_localized_scene() -> Error:
 ## Esc returns to the menu. Overlays (archive, settings, handbook) close first.
 func escape() -> void:
 	if zooming or archive.visible: return
+	room_focus = true
 	if terminal.confirming(): terminal.cancel_quit()
 	else: terminal.ask_quit()
 
@@ -401,6 +546,7 @@ func open_archive() -> void:
 func _enter(signal_to_emit: Signal, argument: Variant = null) -> void:
 	if zooming: return
 	zooming = true
+	if room != null: room.set_look(Vector2.ZERO)
 	caption.modulate.a = 0.0
 	terminal.release_focus_inside()
 	var tween := create_tween().set_parallel(true)
@@ -426,6 +572,10 @@ func _enter(signal_to_emit: Signal, argument: Variant = null) -> void:
 		zooming = false
 
 func _apply_zoom(amount: float) -> void:
+	if room != null:
+		room.set_zoom(lerpf(room_focus_amount * 0.45, 1.0, amount))
+		_sync_room_terminal()
+		return
 	var screen := Rect2(SCREEN_RECT.position + layers.desk.position, SCREEN_RECT.size)
 	var full_scale: float = maxf(size.x / screen.size.x, size.y / screen.size.y) * 1.04
 	var eased: float = clampf(amount, 0.0, 1.0)

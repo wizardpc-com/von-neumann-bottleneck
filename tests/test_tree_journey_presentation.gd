@@ -98,6 +98,7 @@ func run() -> void:
 			check(scene.detail_title.text == row.title and scene.enter_button.disabled == not row.unlocked,"Map detail reflects selected task and real eligibility: "+row.key)
 			check(root.get_visible_rect().encloses(scene.detail_panel.get_global_rect()),"Task detail within minimum window: "+locale+row.key)
 			check(scene.detail_panel.get_global_rect().encloses(scene.enter_button.get_global_rect()),"Enter remains reachable: "+row.key)
+			check(scene.detail_scroll.size.y >= 100,"Every task retains a readable detail viewport: "+locale+row.key)
 			var center: Vector2 = (scene.canvas.positions[row.key]+Layout.NODE_SIZE/2)*scene.canvas.magnification+scene.canvas.pan
 			check(Rect2(Vector2.ZERO,scene.canvas.size).has_point(center),"Every selected task can be located on map: "+row.key)
 			var expected_next: Array[String]=[]

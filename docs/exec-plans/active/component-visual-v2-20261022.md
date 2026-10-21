@@ -209,3 +209,9 @@ conflicts cannot be safely resolved, preserve the branch and report the blocker.
   and heading scale, and tightened spacing. Kept the primary Enter action and
   complete status/access text. All three map suites now pass, including real
   focus-scroll navigation in both languages; no assertion was weakened.
+
+- 21:19 UTC: full combined snapshot passed all 215 stages (213 suites). A stronger
+  follow-up assertion across every bilingual task found the English HalfAdder
+  title still squeezed reading space below 100 px. Moved long titles into the
+  scrollable task body, retaining the fixed kind/status/Enter controls and complete
+  title text. Focused regression checks this change separately from the full run.

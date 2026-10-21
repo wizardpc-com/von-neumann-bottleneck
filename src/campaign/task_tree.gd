@@ -132,10 +132,9 @@ func _ready() -> void:
 	detail_view.size_flags_vertical=Control.SIZE_EXPAND_FILL; side.add_child(detail_view)
 	detail_kind=Label.new(); detail_kind.add_theme_font_size_override("font_size",15); detail_kind.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; detail_view.add_child(detail_kind)
 	detail_title=Label.new(); detail_title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	detail_title.add_theme_font_size_override("font_size",23); detail_view.add_child(detail_title)
+	detail_title.add_theme_font_size_override("font_size",23)
 	detail_status=Label.new(); detail_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	detail_status.add_theme_font_size_override("font_size",15)
-	detail_view.add_child(HSeparator.new())
 	var scroll := ScrollContainer.new()
 	detail_scroll=scroll; scroll.follow_focus=true
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -143,6 +142,9 @@ func _ready() -> void:
 	detail_view.add_child(scroll)
 	var detail_sections := VBoxContainer.new(); detail_sections.add_theme_constant_override("separation",10)
 	detail_sections.size_flags_horizontal=Control.SIZE_EXPAND_FILL; scroll.add_child(detail_sections)
+	# Long localized titles scroll with their task rather than squeezing links away.
+	detail_sections.add_child(detail_title)
+	detail_sections.add_child(HSeparator.new())
 	var goal_heading := Label.new(); goal_heading.text="目标" if Localization.current_locale() != "en" else "Goal"
 	goal_heading.add_theme_font_size_override("font_size",18); detail_sections.add_child(goal_heading)
 	details = Label.new()

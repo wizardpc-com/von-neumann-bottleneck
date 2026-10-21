@@ -155,3 +155,11 @@ including >=100 px task-reading space, on-screen review controls, and unchanged
 real game progress. The isolated source global-save suite also passes with its
 corrected user:// fixture namespace. These are supplemental tests after the full
 snapshot; production source and the exported package have not changed.
+
+## Final supplemental coverage at 23:51 UTC
+After a cloud execution-environment restart interrupted an additional full run,
+the remaining suites were completed in two isolated batches. The combined record
+covers all 214 current headless suites, with 1,025 source/test/tool files checked
+byte-for-byte identical across the three snapshots. This is combined coverage,
+not an uninterrupted full run. The earlier completed 213-suite full snapshot and
+its Windows package remain valid; subsequent changes are tests and evidence only.

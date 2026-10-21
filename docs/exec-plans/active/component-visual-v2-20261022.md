@@ -230,3 +230,9 @@ conflicts cannot be safely resolved, preserve the branch and report the blocker.
   updated the test's scratch namespace to match real exported save semantics.
   No production save gate or provenance check was relaxed. Packed navigation
   retained exactly 1,489 nodes and zero orphans across eight cycles.
+
+- 23:51 UTC: an environment restart interrupted the supplemental regression.
+  Preserved partial evidence, ran the remaining suites in two smaller isolated
+  batches, and compared 1,025 files across snapshots. All 214 current suites are
+  covered by passing results; documented as combined rather than a single run.
+  Production code and the already exported package remain unchanged.

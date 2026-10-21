@@ -215,3 +215,9 @@ conflicts cannot be safely resolved, preserve the branch and report the blocker.
   title still squeezed reading space below 100 px. Moved long titles into the
   scrollable task body, retaining the fixed kind/status/Enter controls and complete
   title text. Focused regression checks this change separately from the full run.
+
+- 21:47 UTC: fifth full snapshot passed 215/215 stages. Exported its exact source
+  to Windows x86_64 and verified PE/PCK structure. The embedded pack also boots
+  under matching Linux headless Godot for 120 frames, exit 0 with no errors.
+  This is exported-resource/startup evidence only, not native Windows or visual QA.
+  Remote publication remains blocked by the cancelled upload; no retry attempted.

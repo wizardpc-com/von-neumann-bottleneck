@@ -1,0 +1,12 @@
+{
+  "bytes": 136848216,
+  "sha256": "7bd0665aac83177447ec74c0f8f3d9286b45830d3f73f599acbed404f16b6357",
+  "embedded_pack_bytes": 27750220,
+  "pe_architecture": "x86_64",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "verification_snapshot": "20261021T212049Z-b54114ec",
+  "passed_headless_suites": 213,
+  "template_sha256": "76269a403bb832599edeee4432a5b7a7e88c018eb5c9c798dfd8289359b0ec07",
+  "native_play_verified": false,
+  "graphical_acceptance": false
+}

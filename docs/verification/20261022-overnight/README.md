@@ -120,3 +120,21 @@ row and typography/spacing adjusted without removing content or weakening tests.
 The 20:54 UTC isolated run passes all three map suites, including focus-scroll
 navigation to incoming recommendations and suggested successors. A fresh full
 regression is still required for the combined candidate.
+
+## Combined candidate at 21:46 UTC
+Snapshot `20261021T212049Z-b54114ec`, corresponding to local source checkpoint
+`7314ccc`, passed all 213 suites plus import and isolated-user-directory checks.
+The fifth-regression source manifest compares 58 changed source/test/tool files
+byte-for-byte with that tested snapshot. Every one of the sixty tasks retains at
+least 100 px of detail-reading space in both languages at 1280×720.
+
+A Windows x86_64 executable was exported from this exact snapshot using the
+verified official 4.7.1 release template. Its embedded PCK also booted for 120
+frames under the matching Linux headless engine with exit 0 and no errors, in a
+fresh isolated user-data directory. This checks exported startup/resource loading,
+not Windows execution, graphical interaction, performance, or player enjoyment.
+Package SHA256: `7bd0665aac83177447ec74c0f8f3d9286b45830d3f73f599acbed404f16b6357`.
+
+Publication is not complete. The GitHub tree-upload operation was cancelled;
+no remote branch or main update is claimed. Local commits and a verified recovery
+bundle preserve the work while renewed upload approval is pending.

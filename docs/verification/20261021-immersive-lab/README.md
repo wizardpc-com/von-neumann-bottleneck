@@ -75,3 +75,15 @@ The rotated-camera ESC confirmation hypothesis did not reproduce as a defect. It
 Broad isolated run `20261021T150722Z-72293996` passed all eight selected suites (first_lesson_input, immersive_lab, lab_journey, lab_terminal_routing, prelaunch_settings, settings_language_input, terminal_language_input, ui_convergence). After the final modal-focus guard, isolated run `20261021T150929Z-d6829a76` re-ran and passed immersive_lab (188 assertions), lab_journey and lab_terminal_routing, plus import and isolated-user-directory checks. Final source bytes match that tested project. Before-fix, broad and final logs are in `detail-followup/`.
 
 Tests include control-level calls and headless viewport dispatch from existing input suites, not native OS mouse/keyboard or rendered usability validation. The prior CI-read and graphical acceptance limitations still apply; no new CI result was obtained.
+
+## Global settings and empty Archive polish (2026-10-21, 15:20 UTC)
+
+The cloud display was checked again read-only: no DISPLAY/WAYLAND_DISPLAY, display sockets, graphical service processes or GPU device were available. No denied display-start route was retried. This iteration is behavioral/runtime QA, not graphical playtesting.
+
+Two failures were reproduced before the minimal four-line production correction:
+- F10 uses an independent root settings layer, which the laboratory previously did not consider modal. Background room actions remained enabled. The global layer now participates in blocking, including camera recenter focus recovery.
+- A fresh empty Archive did not assign keyboard focus inside its modal. It now focuses Close, matching the existing deferred focus for unlocked fragments. All three repeated before-fix cycles failed and now pass.
+
+Isolated run `20261021T151754Z-9b032770` passed import, user-directory isolation and all eight selected suites: first_lesson_input, immersive_lab (301 assertions), lab_journey, lab_terminal_routing, prelaunch_settings, settings_language_input, terminal_language_input and ui_convergence. Final source bytes were compared to the actual tested copy. Raw results and before-fix failures are in `modal-polish/`.
+
+The new tests dispatch F10 and ESC through the Godot viewport, check focus stays within global settings while the camera recenters, and cover empty Archive entry/Tab/return. Tab containment already passed, so no speculative focus-cycle rewrite was made. Five logical viewport sizes (1280×720, 1600×900, 1280×800, 1440×1080, 1920×900) passed terminal bounds checks in both Chinese and English; no layout change was needed. This does not certify native window/DPI behavior or visual readability. CI and graphical gates remain explicitly unverified.

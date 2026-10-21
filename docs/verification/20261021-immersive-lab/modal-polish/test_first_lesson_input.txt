@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Recovery GUI checks: 34; failures: 0
+PASS: recovery ordinary Game input

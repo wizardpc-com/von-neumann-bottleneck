@@ -104,6 +104,7 @@ func _fill() -> void:
 		entry.pressed.connect(func() -> void: _show(id))
 		list.add_child(entry)
 	if first_open.is_empty():
+		close_button.call_deferred("grab_focus")
 		title_label.text = "还没有记录" if not english else "No records yet"
 		body_label.text = "完成第一项任务后，这里会出现第一页。" if not english else "The first page appears after your first completed task."
 		note_label.text = ""

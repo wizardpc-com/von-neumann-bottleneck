@@ -234,6 +234,9 @@ func _build_immersive_room() -> void:
 	add_child(room_hover)
 
 func _room_blocked() -> bool:
+	# F10 settings live in an independent root CanvasLayer, not this Hub.
+	var window_mode: Node = get_node_or_null("/root/WindowMode")
+	if window_mode != null and is_instance_valid(window_mode.get("settings_layer")): return true
 	if zooming or (archive != null and archive.visible): return true
 	var hub: Node = get_parent()
 	for key: String in ["options_overlay", "navigation_overlay", "new_game_overlay", "journey_journal"]:

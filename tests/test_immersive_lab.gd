@@ -144,6 +144,7 @@ func run() -> void:
 	await settle(3)
 	check_returned(lab, "Feedback")
 
+	await check_global_settings(lab)
 	await check_interaction_details(lab)
 
 	# Freeze only presentation input so deterministic camera/ray assertions cannot
@@ -201,7 +202,7 @@ func check_terminal_layout(lab: LabHome) -> void:
 	# preference or reloading the real Hub underneath this integration test.
 	ProjectSettings.set_setting("game/reduced_motion", true)
 	lab.room_focus = true
-	for dimensions: Vector2i in [Vector2i(1280, 720), Vector2i(1600, 900)]:
+	for dimensions: Vector2i in [Vector2i(1280, 720), Vector2i(1600, 900), Vector2i(1280, 800), Vector2i(1440, 1080), Vector2i(1920, 900)]:
 		root.size = dimensions
 		root.content_scale_size = dimensions
 		await settle(8)
@@ -359,6 +360,12 @@ func check_interaction_details(lab: LabHome) -> void:
 		lab._process_immersive_room(0.0)
 		check(lab.room_hover.text.is_empty(), "Modal clears underlying hover hint")
 		check(lab.archive.visible, "Keyboard archive opens cycle %d" % cycle)
+		var modal_focus: Control = root.gui_get_focus_owner()
+		check(modal_focus != null and lab.archive.is_ancestor_of(modal_focus), "Fresh archive places initial keyboard focus inside its modal")
+		lab.archive.close_button.grab_focus()
+		await send_key(KEY_TAB)
+		modal_focus = root.gui_get_focus_owner()
+		check(modal_focus != null and lab.archive.is_ancestor_of(modal_focus), "Archive Tab cannot escape into the underlying terminal")
 		lab.archive.close_button.grab_focus()
 		check(root.gui_get_focus_owner() == lab.archive.close_button, "Archive accepts keyboard navigation inside its modal")
 		lab.archive.close()
@@ -388,4 +395,46 @@ func check_interaction_details(lab: LabHome) -> void:
 	await create_timer(0.75).timeout
 	check(not lab.zooming and root.gui_get_focus_owner() == feedback_focus, "Fallback does not steal focus from a globally opened feedback modal")
 	moments.call("close")
+	await settle(3)
+
+
+func check_global_settings(lab: LabHome) -> void:
+	var manager: Node = root.get_node("WindowMode")
+	ProjectSettings.set_setting("game/reduced_motion", false)
+	lab.room_focus = false
+	lab.room.set_look(Vector2(1.0, 0.0))
+	lab.room._process(1.0)
+	lab._process_immersive_room(0.0)
+	lab._on_room_action("terminal")
+	await send_key(KEY_F10)
+	await settle(8)
+	lab._process_immersive_room(0.016)
+	check(is_instance_valid(manager.settings_layer), "F10 global settings uses its existing independent layer")
+	check(lab._room_blocked() and not lab.room._interaction_enabled, "Global settings shields laboratory background interactions")
+	lab.room.activated.emit("archive")
+	check(not lab.archive.visible, "Global settings cannot leak through to Archive")
+	if lab.archive.visible: lab.archive.close()
+	var host: Node = manager.settings_layer.get_child(0)
+	for step: int in 90:
+		lab._process_immersive_room(1.0 / 60.0)
+		lab.room._process(1.0 / 60.0)
+	await settle(3)
+	var owner: Control = root.gui_get_focus_owner()
+	check(owner != null and host.is_ancestor_of(owner), "Recenter cannot steal keyboard focus from F10 settings")
+	await send_key(KEY_ESCAPE)
+	await settle(8)
+	lab._process_immersive_room(0.016)
+	check(not is_instance_valid(manager.settings_layer) and not lab._room_blocked(), "Closing global settings restores the laboratory")
+	ProjectSettings.set_setting("game/reduced_motion", true)
+
+
+func send_key(code: Key, shifted: bool = false) -> void:
+	for down: bool in [true, false]:
+		var event := InputEventKey.new()
+		event.keycode = code
+		event.physical_keycode = code
+		event.pressed = down
+		event.shift_pressed = shifted
+		root.push_input(event, true)
+		await process_frame
 	await settle(3)

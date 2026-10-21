@@ -73,6 +73,12 @@ func run() -> void:
 		check(int(semantic_counts.get(id, 0)) > 0, "Imported mesh colliders include semantic region " + id)
 	check(semantic_counts.size() == 9, "The room has exactly nine semantic collider identities")
 
+	ProjectSettings.set_setting("game/reduced_motion", false)
+	lab._process_immersive_room(1.0)
+	room._process(1.0)
+	check(not lab.room_pointer_seen and room._look_current.is_equal_approx(Vector2.ZERO), "Without a real pointer motion, ordinary arrival stays neutral instead of looking at OS position zero")
+	ProjectSettings.set_setting("game/reduced_motion", true)
+
 	# Semantic activation intentionally tests the genuine room-to-Hub signal route;
 	# geometric picking is verified separately below, not claimed for each object.
 	room.activated.emit("terminal")

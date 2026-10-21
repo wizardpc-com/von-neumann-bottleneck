@@ -30,7 +30,7 @@ Official Linux Godot `4.7.1.stable.official.a13da4feb`, downloaded from the vend
 
 ## Automated evidence
 
-Final isolated run `20261021T141651Z-f3f61b6b`, Godot 4.7.1, Linux headless: import + custom-user-directory isolation + all 10 selected suites passed. Source saves were never used. This is not the full repository suite and not rendered acceptance.
+Initial published candidate isolated run `20261021T141651Z-f3f61b6b`, Godot 4.7.1, Linux headless: import + custom-user-directory isolation + all 10 selected suites passed. Source saves were never used. This is not the full repository suite and not rendered acceptance.
 
 | Suite | Result |
 | --- | --- |
@@ -52,3 +52,13 @@ Four iterations exposed/corrected a null physics-world lookup, menu wake visibil
 The final source includes larger physically bounded panel type after font-metric/projection calculation (approximately 11 pixels at 1600×900). That numeric check is not a substitute for human legibility review. No Godot screenshot or frame-rate result was produced. Native mouse feel, graphics/materials/shadows, target performance, exported game startup and the complete repository regression remain unverified.
 
 Published candidate should be reviewed on a graphical machine before merging to main. Raw selected-suite logs and the machine-readable result are included beside this receipt.
+
+## Initial-input correction (2026-10-21, 15:00 UTC)
+
+Additional existing input suites exposed a real arrival regression: the default OS pointer coordinate (0,0) was treated as an intentional look gesture before any mouse motion. This moved the camera off-center, delaying Enter wake and caret visibility. The earlier 0.6-second test wait masked this issue rather than fixing it.
+
+The room now stays neutral until an actual mouse-motion event and recenters when the pointer is outside its bounds. The original eight-frame laboratory wake assertion has been restored without a relaxed timeout. A new neutral-arrival assertion covers ordinary motion settings.
+
+Isolated run `20261021T145813Z-33714b07` passed import, user-directory isolation and all eight selected suites: first_lesson_input, ui_convergence, immersive_lab (167 assertions), lab_journey, lab_terminal_routing, terminal_task_titles, terminal_language_input and settings_language_input. Exact tested source bytes were compared before committing. The two before-fix failing logs and all after-fix results are retained in `input-followup/`.
+
+Remote CI run 39620977961 was last observed at 14:57 UTC with Python checks successful and Godot checks in progress. Further CI reads were denied by the execution permission review and were stopped. No terminal CI result is claimed. These local results are not a substitute for full remote CI or graphical acceptance.

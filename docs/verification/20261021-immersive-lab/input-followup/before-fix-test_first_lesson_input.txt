@@ -1,0 +1,23 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Enter wakes the terminal and exposes its primary action.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_first_lesson_input.gd:14)
+       [2] key (res://tests/test_recovery_game_input.gd:81)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Requested UI control exists and is visible.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] press (res://tests/test_recovery_game_input.gd:106)
+       [2] _run (res://tests/test_first_lesson_input.gd:17)
+       [3] click (res://tests/test_recovery_game_input.gd:48)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: The terminal primary action must enter NOT.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_first_lesson_input.gd:23)
+Recovery GUI checks: 5; failures: 3

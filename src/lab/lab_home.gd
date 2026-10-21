@@ -88,6 +88,7 @@ var room_hover: Label
 var room_focus: bool = false
 var _terminal_was_asleep: bool = true
 var room_focus_amount: float = 0.0
+var room_pointer_seen: bool = false
 var english: bool = false
 var world: Control
 var layers: Dictionary = {}
@@ -258,7 +259,7 @@ func _process_immersive_room(delta: float) -> void:
 		room.set_zoom(room_focus_amount * 0.45)
 		var pointer: Vector2 = get_local_mouse_position()
 		var normalized := ((pointer / size.max(Vector2.ONE)) - Vector2(0.5,0.5))*2.0
-		room.set_look(Vector2.ZERO if blocked or room_focus or reduced_motion else normalized.clamp(Vector2(-1,-1),Vector2.ONE))
+		room.set_look(Vector2.ZERO if blocked or room_focus or reduced_motion or not room_pointer_seen or not Rect2(Vector2.ZERO,size).has_point(pointer) else normalized.clamp(Vector2(-1,-1),Vector2.ONE))
 		_sync_room_terminal()
 	# Flat menu is only revealed after the physical camera has settled front-on.
 	var aligned: bool = room._look_current.length() < 0.25
@@ -379,6 +380,12 @@ func _process(delta: float) -> void:
 	for key: Variant in station_flash.keys():
 		station_flash[key] = maxf(0.0, float(station_flash[key]) - delta * 0.3)
 	for layer: Control in layers.values(): layer.queue_redraw()
+
+func _input(event: InputEvent) -> void:
+	# A default OS pointer position is not an intentional look gesture.
+	# Keep arrival neutral until actual motion occurs in this room.
+	if room != null and event is InputEventMouseMotion and not _room_blocked():
+		room_pointer_seen = true
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if zooming or archive.visible or (room != null and _room_blocked()): return

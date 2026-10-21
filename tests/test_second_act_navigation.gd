@@ -55,7 +55,7 @@ func run() -> void:
 		check(hub.find_child("SavedSecondActReview",true,false) != null,"Saved combined review available at candidate hub")
 		check(hub.candidate_review_paths().is_empty(),"Unbound QA/campaign directory cannot resolve candidate save authority")
 		hub.show_candidate_review(); await process_frame
-		check(hub.get_node("SavedJourneyReview").visible,"Unbound review gives a visible explanation")
+		check(hub.find_child("SavedJourneyReview",true,false).visible,"Unbound review gives a visible explanation")
 		check(hub.find_child("SavedJourneyReviewContent",true,false).text.contains("未绑定") if locale == "zh_CN" else hub.find_child("SavedJourneyReviewContent",true,false).text.contains("not bound"),"No confirmed profile is not displayed as empty achievement")
 		hub.queue_free(); await process_frame
 	var core_after: Dictionary = root.get_node("GlobalSave")._save_snapshot(); core_after.erase("saved_at_utc")

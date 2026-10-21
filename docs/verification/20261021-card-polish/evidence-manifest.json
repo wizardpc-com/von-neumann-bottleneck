@@ -503,5 +503,17 @@
   },
   "capture_scope": "Godot GPU on real workbenches; controller and synthetic Viewport input, not native-human acceptance. Both locales use isolated QA saves.",
   "source_baseline": "f65b28c5a1dd0f2d50b4de1cf622afba7fef392b",
-  "preservation": "All preexisting followups retained; authoritative simulator, persistence and formal pass criteria unchanged."
+  "preservation": "All preexisting followups retained; authoritative simulator, persistence and formal pass criteria unchanged.",
+  "local_main_integration": {
+    "source_commit": "2d8f4ff777c140df94479a7de99795b35ebbf747",
+    "method": "fast-forward",
+    "normalized_resource_identity": "53ab3f150c7676a4fee66fdb4c0c1d5b5bc3efa699dc4b0a79c3702f8ed17b7c",
+    "eol_only_changes": {
+      "src/lab/chapter_dialogues.gd": {
+        "tested_worktree_sha256": "ab55c1f5554a62fa417c0be59bf74980bfa8625595505169c03f2d1098d97945",
+        "main_checkout_sha256": "d4e8027fe77edaa5d24f6459cc3f27a88f9973ef3f35155787f9fafb2b3cd0c7"
+      }
+    },
+    "push_or_publish": false
+  }
 }

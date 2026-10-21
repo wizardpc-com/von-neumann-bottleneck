@@ -1,11 +1,12 @@
 class_name CircuitComponentSymbol
 extends Control
 
+const VisualStyle = preload("res://src/hardware_foundations/component_visual_style.gd")
 const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 
-const SURFACE := Color("243a52")
+const SURFACE := VisualStyle.SURFACE
 const SYMBOL := Color("d7e9f6")
-const SELECTION := Color("7fcbd6")
+const SELECTION := VisualStyle.SELECTED
 const PROCESS := Color("7fcbd6")
 const SIGNAL_LOW := Color("e8848c")
 const SIGNAL_HIGH := Color("7fd8a4")

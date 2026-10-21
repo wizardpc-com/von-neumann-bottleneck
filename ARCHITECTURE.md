@@ -319,3 +319,23 @@ rule/run controls, visible investigation purpose and separate specification, res
 event and history pages. Re-selecting its current task preserves partial observation;
 New run resets it. These hosts still consume their existing authoritative traces
 and unchanged independent save/session boundaries.
+
+
+## Candidate component presentation and operation demonstrations (2026-10-22)
+
+`ComponentVisualLayout` freezes a bounded, deterministic occupancy envelope from
+actual displayed component positions after the existing successful sealing gate.
+`ReusableComponent.visual_snapshot` is presentation-only, copied independently and
+excluded from logical canonical signatures and generated-wrapper metadata. The
+optional save extension is restored only after the existing source circuit and
+original official verifier succeed; unknown/malformed/source-mismatched records
+fall back. Old current-workbench positions are never substituted for a missing
+historical snapshot. `ComponentVisualStyle` shares the family palette and shell
+vocabulary; GraphNode slots and logical port identities remain unchanged.
+
+The virtual pointer in `operation_demonstration.gd` is a mouse-ignoring visual
+control, not an input generator. The host supplies current visible port/control
+positions. It never modifies simulation, topology, input values or earned flags.
+User input/modal entry cancels the one-shot illustration; reduced motion shows a
+static guide. `OperationCurriculum` distributes explanatory operations across the
+prologue; completion continues to come exclusively from the original controllers.

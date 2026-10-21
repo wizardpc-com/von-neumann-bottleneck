@@ -1,3 +1,16 @@
+## Overnight candidate — 2026-10-22
+
+Use `test_component_visual_layout`, `test_component_visual_persistence`,
+`test_operation_demonstration`, `test_operation_curriculum` and
+`test_tree_relation_focus` together with first-lesson input, hardware UI/sealing,
+global save, localization, Handbook, narrative, system UI and map regressions.
+The fixture-based envelope tests are not proof of player-produced work; the
+persistence test uses a valid fixture and the real source re-verification path.
+The expanded first-lesson test sends actual viewport input to replay/stop the
+illustration, open Settings, and prove the board and earned actions stay intact.
+Neither headless checks nor exported SVG previews establish native rendering,
+FPS, newcomer comprehension or final visual acceptance.
+
 ## Immersive laboratory — 2026-10-21
 
 Run `test_immersive_lab` and `test_lab_terminal_pages` with the isolated verifier, alongside `test_lab_journey`,

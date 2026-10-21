@@ -1,0 +1,113 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "linux",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/user_directory"
+    },
+    {
+      "name": "test_component_visual_geometry",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_visual_geometry.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_component_visual_geometry"
+    },
+    {
+      "name": "test_component_visual_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_visual_layout.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_component_visual_layout"
+    },
+    {
+      "name": "test_component_visual_persistence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_visual_persistence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_component_visual_persistence"
+    },
+    {
+      "name": "test_first_lesson_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_lesson_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_first_lesson_input"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: The create-workbench prompt must remain a compact in-canvas modal instead of resizing or replacing the desktop workspace.",
+        "FAIL: 1 Hardware Foundations UI assertion(s) failed"
+      ],
+      "log": "test_hardware_foundations_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_hardware_foundations_ui"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_prologue_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_hardware_prologue_ui"
+    },
+    {
+      "name": "test_hardware_seal_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_seal_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_hardware_seal_navigation"
+    },
+    {
+      "name": "test_operation_curriculum",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_operation_curriculum.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_operation_curriculum"
+    },
+    {
+      "name": "test_saved_content_preview",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_saved_content_preview.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_saved_content_preview"
+    },
+    {
+      "name": "test_tree_journey_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_journey_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_tree_journey_presentation"
+    },
+    {
+      "name": "test_tree_relation_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_relation_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T184828Z-3879625a/test_tree_relation_focus"
+    }
+  ]
+}

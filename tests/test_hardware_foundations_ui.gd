@@ -370,6 +370,9 @@ func _run() -> void:
 		and workbench_name_panel.size.y <= 270.0,
 		"The create-workbench prompt must remain a compact in-canvas modal instead of resizing or replacing the desktop workspace."
 	)
+	var preview: Control=main.get("workbench_seed_preview")
+	_assert(preview.visible and preview.content_kind==&"plan", "Create dialog previews actual seed layout, not a chip or copied player wiring.")
+	_assert(preview.positions.size()==(main.get("workbench_seed_snapshot") as Dictionary).get("components",[]).size(), "Plan preview uses the actual initial inventory.")
 	main.call("_hide_new_workbench_dialog")
 	_assert(bool(main.call("_create_named_workbench", "方案 A")), "Players must be able to create and name an independent workbench.")
 	for _named_frame: int in range(3):
@@ -907,8 +910,9 @@ func _run() -> void:
 	_shift_drag_select(graph, Vector2(600.0, 35.0), Vector2(790.0, 430.0))
 	await process_frame
 	_assert((nodes[&"AND_1"] as GraphNode).selected and (nodes[&"OR_1"] as GraphNode).selected, "Shift-drag must toggle every component/wire node inside its selection rectangle.")
-	_assert(bool((symbols[&"AND_1"] as CircuitComponentSymbol).get("selection_active")) and (symbols[&"AND_1"] as CircuitComponentSymbol).symbol_color().is_equal_approx(Color("7fcbd6")), "Selection must recolor the complete schematic symbol instead of drawing a separate blue circle.")
+	_assert(bool((symbols[&"AND_1"] as CircuitComponentSymbol).get("selection_active")) and (symbols[&"AND_1"] as CircuitComponentSymbol).symbol_color().is_equal_approx(preload("res://src/hardware_foundations/component_visual_style.gd").SELECTED), "Selection recolors the complete schematic symbol with the shared high-contrast selection channel.")
 	_assert((nodes[&"AND_1"] as GraphNode).get_input_port_color(0).is_equal_approx(Color("e8848c")), "Whole-component selection highlighting must leave the port's live electrical color unchanged.")
+	_assert(not (symbols[&"AND_1"] as CircuitComponentSymbol).symbol_color().is_equal_approx((symbols[&"AND_1"] as CircuitComponentSymbol).PROCESS), "Selection stays visually distinct from the processing accent.")
 	_shift_click_component(main, &"A_IN")
 	_assert((nodes[&"A_IN"] as GraphNode).selected, "Shift-click must add or remove one component without clearing the existing group.")
 	_connect(main, &"AND_1", 0, &"OR_1", 0)

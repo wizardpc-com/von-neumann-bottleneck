@@ -31,6 +31,7 @@ var work_selector: OptionButton
 var work_view_button: Button
 var work_note: Label
 var work_focus: Window
+var saved_work_preview: SavedContentPreview
 
 
 func _ready() -> void:
@@ -100,6 +101,11 @@ func _build() -> void:
 	var work_row := HBoxContainer.new()
 	work_row.add_theme_constant_override("separation", 12)
 	column.add_child(work_row)
+	saved_work_preview=preload("res://src/ui/saved_content_preview.gd").new()
+	saved_work_preview.name="JournalWorkPreview"
+	saved_work_preview.custom_minimum_size=Vector2(160,70)
+	saved_work_preview.hide()
+	work_row.add_child(saved_work_preview)
 	work_selector = OptionButton.new()
 	work_selector.name = "JournalSavedWorks"
 	work_selector.fit_to_longest_item = false
@@ -305,6 +311,16 @@ func _refresh_works(selected_id: String = "") -> void:
 
 
 func _refresh_work_note() -> void:
+	if saved_work_preview != null:
+		saved_work_preview.clear_content()
+		saved_work_preview.hide()
+		saved_work_preview.english=Localization.current_locale()=="en"
+		if not work_view_button.disabled and work_selector.selected>=0:
+			var selected_work: String=str(work_selector.get_item_metadata(work_selector.selected))
+			for work: Dictionary in _saved_works():
+				if str(work.get("id",""))==selected_work:
+					saved_work_preview.visible=saved_work_preview.configure_work(work,bool(saved_work_state.get("ok",false)))
+					break
 	if work_view_button.disabled:
 		work_note.text = _copy("作品来源无法确认或尚未保存；这里不会补造作品或完成记录。", "No confirmed saved work is available; this view invents no work or completion.")
 	elif not saved_work_state.get("ok", false):

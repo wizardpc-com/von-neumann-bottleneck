@@ -8,6 +8,7 @@ const HalfAdderTestBenchType = preload("res://src/circuit/half_adder_test_bench.
 const PrologueSimulatorType = preload("res://src/circuit/prologue_simulator.gd")
 const PrologueLevelCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
 const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
+const VisualLayout = preload("res://src/hardware_foundations/component_visual_layout.gd")
 const Migration = preload("res://src/save/stable_signature_migration.gd")
 
 const SCHEMA_VERSION: int = 2
@@ -450,7 +451,11 @@ func _restore_reusable(
 			continue
 		if not _official_passes(level_id, circuit, library, catalog):
 			continue
-		return ReusableComponentType.new(component_name, behavior_kind, level_id, circuit)
+		var restored = ReusableComponentType.new(component_name, behavior_kind, level_id, circuit)
+		var visual: Variant = saved_design.get("visual_snapshot", {})
+		if visual is Dictionary and VisualLayout.is_valid(visual, restored.source_signature):
+			restored.visual_snapshot = visual.duplicate(true)
+		return restored
 	return null
 
 

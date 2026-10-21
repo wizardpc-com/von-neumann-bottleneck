@@ -1,11 +1,14 @@
 class_name CircuitModuleRow
 extends Control
 
+const VisualLayout = preload("res://src/hardware_foundations/component_visual_layout.gd")
+const VisualStyle = preload("res://src/hardware_foundations/component_visual_style.gd")
 const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 
 const SURFACE := Color("192b40")
 const SYMBOL := Color("d7e9f6")
 const PROCESS := Color("7fcbd6")
+const SELECTION := Color("f0f5ff")
 const ARITHMETIC := Color("7fcbd6")
 const STORAGE := Color("aab6e6")
 const ROUTING := Color("f0c674")
@@ -13,6 +16,7 @@ const SIGNAL_LOW := Color("e8848c")
 const SIGNAL_HIGH := Color("7fd8a4")
 const SIGNAL_HIGH_Z := Color("8b929d")
 
+var visual_bands: Array = []
 var component_kind: StringName = &""
 var component_label: String = ""
 var input_label: String = ""
@@ -124,16 +128,7 @@ func output_token_enabled() -> bool:
 
 
 func visual_hit_test(point: Vector2, tolerance: float = 3.0) -> bool:
-	var top_t: float = float(row_index) / float(row_count)
-	var bottom_t: float = float(row_index + 1) / float(row_count)
-	var left_top: float = _body_left(top_t)
-	var left_bottom: float = _body_left(bottom_t)
-	var right_top: float = _body_right(top_t)
-	var right_bottom: float = _body_right(bottom_t)
-	var body := PackedVector2Array([
-		Vector2(left_top, 0.0), Vector2(right_top, 0.0),
-		Vector2(right_bottom, size.y), Vector2(left_bottom, size.y),
-	])
+	var body: PackedVector2Array = body_polygon()
 	if Geometry2D.is_point_in_polygon(point, body):
 		return true
 	var center_y: float = size.y * 0.5
@@ -247,7 +242,7 @@ func _draw() -> void:
 	if row_index < 0:
 		var header := Rect2(Vector2(_body_left(0.0), 0.0), Vector2(_body_right(0.0) - _body_left(0.0), size.y))
 		draw_rect(header, _outline_color().darkened(0.70), true)
-		draw_rect(header, PROCESS if selection_active else _outline_color(), false, 2.0)
+		draw_rect(header, SELECTION if selection_active else _outline_color(), false, 2.0)
 		_draw_function_mark()
 		return
 	_draw_module_surface()
@@ -264,30 +259,43 @@ func _body_icon_rect() -> Rect2:
 	return Rect2(Vector2(safe.get_center().x - width * 0.5, size.y * 0.5 - 10.0), Vector2(width, 20.0))
 
 
+func body_edge_points(side: int) -> PackedVector2Array:
+	# The same piecewise boundary drives fill, outline, hit testing and pin leads.
+	# A single trapezoid per port row loses mid-row notches/visual bands.
+	var top: float=float(maxi(0,row_index))/float(row_count)
+	var bottom: float=float(maxi(0,row_index)+1)/float(row_count)
+	var samples: Array[float]=[top,bottom]
+	if top < 0.5 and bottom > 0.5: samples.append(0.5)
+	if not visual_bands.is_empty():
+		for index: int in visual_bands.size():
+			var t: float=float(index)/float(visual_bands.size()-1)
+			if t>top and t<bottom: samples.append(t)
+	samples.sort()
+	var points:=PackedVector2Array()
+	for t: float in samples:
+		points.append(Vector2(_body_left(t) if side==0 else _body_right(t),(t-top)/(bottom-top)*size.y))
+	return points
+
+
+func body_polygon() -> PackedVector2Array:
+	if row_index<0:
+		return PackedVector2Array([Vector2(_body_left(0),0),Vector2(_body_right(0),0),Vector2(_body_right(0),size.y),Vector2(_body_left(0),size.y)])
+	var points: PackedVector2Array=body_edge_points(0)
+	var right: PackedVector2Array=body_edge_points(1)
+	right.reverse()
+	points.append_array(right)
+	return points
+
+
 func _draw_module_surface() -> void:
-	var top_t: float = float(row_index) / float(row_count)
-	var bottom_t: float = float(row_index + 1) / float(row_count)
-	var left_top: float = _body_left(top_t)
-	var left_bottom: float = _body_left(bottom_t)
-	var right_top: float = _body_right(top_t)
-	var right_bottom: float = _body_right(bottom_t)
-	var polygon := PackedVector2Array([
-		Vector2(left_top, 0.0),
-		Vector2(right_top, 0.0),
-		Vector2(right_bottom, size.y),
-		Vector2(left_bottom, size.y),
-	])
-	draw_colored_polygon(polygon, SURFACE)
-	var outline: Color = PROCESS if selection_active else _outline_color()
-	draw_line(Vector2(left_top, 0.0), Vector2(left_bottom, size.y), outline, 3.0, true)
-	draw_line(Vector2(right_top, 0.0), Vector2(right_bottom, size.y), outline, 3.0, true)
-	if row_index == 0:
-		draw_line(Vector2(left_top, 1.5), Vector2(right_top, 1.5), outline, 3.0, true)
-	if row_index == row_count - 1:
-		draw_line(
-			Vector2(left_bottom, size.y - 1.5),
-			Vector2(right_bottom, size.y - 1.5), outline, 3.0, true
-		)
+	var left: PackedVector2Array=body_edge_points(0)
+	var right: PackedVector2Array=body_edge_points(1)
+	draw_colored_polygon(body_polygon(), SURFACE)
+	var outline: Color = SELECTION if selection_active else _outline_color()
+	draw_polyline(left,outline,3.0,true)
+	draw_polyline(right,outline,3.0,true)
+	if row_index==0: draw_line(left[0],right[0],outline,3.0,true)
+	if row_index==row_count-1: draw_line(left[-1],right[-1],outline,3.0,true)
 
 
 func _draw_pin_leads() -> void:
@@ -583,6 +591,8 @@ func _central_content_rect() -> Rect2:
 
 
 func _body_left(t: float) -> float:
+	if not visual_bands.is_empty():
+		return 28.0 + _visual_edge(t,0) / 4.0 * 24.0
 	var distance: float = absf(clampf(t, 0.0, 1.0) - 0.5) * 2.0
 	match shape_profile():
 		&"mux_wedge":
@@ -595,6 +605,8 @@ func _body_left(t: float) -> float:
 
 
 func _body_right(t: float) -> float:
+	if not visual_bands.is_empty():
+		return size.x - 28.0 - (12.0-_visual_edge(t,1)) / 4.0 * 24.0
 	var distance: float = absf(clampf(t, 0.0, 1.0) - 0.5) * 2.0
 	match shape_profile():
 		&"mux_wedge":
@@ -607,12 +619,7 @@ func _body_right(t: float) -> float:
 
 
 func _outline_color() -> Color:
-	match shape_profile():
-		&"register_module", &"ram_grid", &"computer_split":
-			return STORAGE
-		&"fanout_module":
-			return ROUTING
-	return ARITHMETIC
+	return VisualStyle.accent(component_kind)
 
 
 func _input_visual() -> Dictionary:
@@ -654,3 +661,14 @@ func _compact_port_label(label: String) -> String:
 		"COUT": return "CO"
 		"ADDR": return "ADR"
 	return label.left(7)
+
+
+func set_visual_snapshot(snapshot: Dictionary, source_signature: String) -> void:
+	visual_bands = snapshot.bands.duplicate(true) if VisualLayout.is_valid(snapshot,source_signature) else []
+	queue_redraw()
+
+func _visual_edge(t: float, side: int) -> float:
+	var coordinate: float = clampf(t,0.0,1.0)*float(visual_bands.size()-1)
+	var index: int = mini(visual_bands.size()-1,floori(coordinate))
+	var next: int = mini(index+1,visual_bands.size()-1)
+	return lerpf(float(visual_bands[index][side]),float(visual_bands[next][side]),coordinate-float(index))

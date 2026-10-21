@@ -4,6 +4,8 @@ extends PanelContainer
 ## step itself. The full briefing stays one click away ("完整说明").
 
 signal briefing_requested
+signal demonstration_requested
+signal demonstration_skipped
 
 const Palette = preload("res://src/lab/lab_palette.gd")
 const Typewriter = preload("res://src/ui/yi_typewriter.gd")
@@ -55,6 +57,9 @@ var praise: Typewriter
 var praise_row: HBoxContainer
 var praise_tween: Tween
 var last_states: Array[bool] = []
+var demonstration_button: Button
+var demonstration_skip: Button
+var operation_tip: Label
 
 func _ready() -> void:
 	name = "TutorialCoach"
@@ -87,12 +92,34 @@ func _ready() -> void:
 		z_index = 100
 		briefing_requested.emit())
 	header.add_child(more)
+	var demo_row := HBoxContainer.new()
+	demo_row.add_theme_constant_override("separation", 8)
+	column.add_child(demo_row)
+	demonstration_button = Button.new()
+	demonstration_button.name = "CoachDemonstration"
+	demonstration_button.text = "看操作演示" if not english else "Show gesture"
+	demonstration_button.pressed.connect(func() -> void: demonstration_requested.emit())
+	demo_row.add_child(demonstration_button)
+	demonstration_skip = Button.new()
+	demonstration_skip.name = "CoachSkipDemonstration"
+	demonstration_skip.text = "停止演示" if not english else "Stop demo"
+	demonstration_skip.flat = true
+	demonstration_skip.visible = false
+	demonstration_skip.pressed.connect(func() -> void: demonstration_skipped.emit())
+	demo_row.add_child(demonstration_skip)
 	instruction = Label.new(); instruction.name = "CoachInstruction"
 	instruction.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	instruction.add_theme_color_override("font_color", Palette.TERM_TEXT)
 	instruction.add_theme_font_size_override("font_size", 18)
 	instruction.add_theme_constant_override("line_spacing", 4)
 	column.add_child(instruction)
+	operation_tip = Label.new()
+	operation_tip.name = "CoachOperationTip"
+	operation_tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	operation_tip.add_theme_font_size_override("font_size", 14)
+	operation_tip.add_theme_color_override("font_color", Palette.TERM_MUTED)
+	operation_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(operation_tip)
 	praise_row = HBoxContainer.new(); praise_row.add_theme_constant_override("separation", 8)
 	praise_row.modulate.a = 0.0
 	column.add_child(praise_row)
@@ -128,6 +155,7 @@ func update_states(states: Array[bool]) -> void:
 	last_states = states.duplicate()
 	var next: int = states.find(false)
 	var completed: int = states.count(true)
+	demonstration_button.disabled = next < 0
 	for index: int in dots.size():
 		if index >= states.size(): continue
 		dots[index].color = Palette.ACCENT if states[index] else (Palette.with_alpha(Palette.ACCENT, 0.35) if index == next else Palette.TERM_EDGE)
@@ -156,3 +184,9 @@ func update_states(states: Array[bool]) -> void:
 		var flash := create_tween()
 		flash.tween_property(self, "modulate", Color(1.15, 1.25, 1.2), 0.12)
 		flash.tween_property(self, "modulate", Color.WHITE, 0.4)
+
+
+func set_operation_lesson(level_id: StringName) -> void:
+	var lesson: Dictionary = preload("res://src/hardware_foundations/operation_curriculum.gd").lesson(level_id,english)
+	operation_tip.text = str(lesson.get("text",""))
+	operation_tip.visible = not operation_tip.text.is_empty()

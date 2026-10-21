@@ -34,6 +34,8 @@ var eligibility_note: Label
 var eligibility_rows: VBoxContainer
 var recommendation_rows: VBoxContainer
 var recommendation_heading: Label
+var downstream_heading: Label
+var downstream_rows: VBoxContainer
 var current_region: int = -1
 var creation_route: HBoxContainer
 var journey_scope: Label
@@ -78,7 +80,7 @@ func _ready() -> void:
 	region_choice = OptionButton.new(); region_choice.name = "JourneyRegionChoice"
 	region_choice.custom_minimum_size = Vector2(300,42); navigation.add_child(region_choice)
 	var legend := Label.new(); legend.name = "JourneyConnectionLegend"
-	legend.text = "实线：前置  ·  虚线：推荐，无新增门槛" if Localization.current_locale() != "en" else "Solid: prerequisite · Dashed: recommendation, no new gate"
+	legend.text = "实线：前置 → 后续 · 虚线：推荐，非门槛 · 悬停追踪" if Localization.current_locale() != "en" else "Solid: prerequisite → next · Dashed: suggestion, not a gate · Hover to trace"
 	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; legend.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	legend.size_flags_vertical = Control.SIZE_SHRINK_CENTER; legend.add_theme_font_size_override("font_size",14); navigation.add_child(legend)
 	var observatory := Button.new(); observatory.name = "OpenJourneyObservatory"
@@ -156,6 +158,12 @@ func _ready() -> void:
 	recommendation_heading.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	recommendation_heading.add_theme_font_size_override("font_size",18); detail_sections.add_child(recommendation_heading)
 	recommendation_rows=VBoxContainer.new(); recommendation_rows.add_theme_constant_override("separation",5); detail_sections.add_child(recommendation_rows)
+	downstream_heading=Label.new()
+	downstream_heading.text="后续任务 · 仍需满足全部进入条件" if Localization.current_locale() != "en" else "Next tasks · all access conditions still apply"
+	downstream_heading.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	downstream_heading.add_theme_font_size_override("font_size",18); detail_sections.add_child(downstream_heading)
+	downstream_rows=VBoxContainer.new(); downstream_rows.name="JourneyDownstreamTasks"
+	downstream_rows.add_theme_constant_override("separation",5); detail_sections.add_child(downstream_rows)
 	detail_view.add_child(detail_status)
 	enter_button = _button(detail_view,"tree.enter",func() -> void:
 		if not selected.is_empty(): TaskNavigation.enter(selected.key))
@@ -335,6 +343,12 @@ func _select(key: String) -> void:
 		for key_from: String in recommended:
 			var related: Dictionary = _find_task(key_from)
 			if not related.is_empty(): _task_link(recommendation_rows,related)
+		_clear_rows(downstream_rows)
+		for next_task: Dictionary in rows:
+			if str(task.key) in next_task.dependencies:
+				_task_link(downstream_rows,next_task)
+		downstream_heading.visible=downstream_rows.get_child_count()>0
+		downstream_rows.visible=downstream_rows.get_child_count()>0
 		detail_scroll.scroll_vertical=0
 		InstrumentTheme.primary(enter_button,accent)
 		enter_button.disabled = not task.unlocked

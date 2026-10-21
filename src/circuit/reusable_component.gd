@@ -14,6 +14,8 @@ var circuit_snapshot: LogicCircuit
 var source_signature: String = ""
 var generated_from: Array[String] = []
 var metadata: Dictionary = {}
+# Independent presentation extension; deliberately excluded from canonical signatures.
+var visual_snapshot: Dictionary = {}
 
 
 func _init(
@@ -88,6 +90,7 @@ func duplicate_component_definition() -> ReusableComponent:
 	copy.source_signature = source_signature
 	copy.generated_from = generated_from.duplicate()
 	copy.metadata = metadata.duplicate(true)
+	copy.visual_snapshot = visual_snapshot.duplicate(true)
 	return copy
 
 

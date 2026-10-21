@@ -1,6 +1,7 @@
 class_name SystemDeviceSurface
 extends Control
 
+const VisualStyle = preload("res://src/hardware_foundations/component_visual_style.gd")
 const BACKGROUND := Color("0c1422")
 const OUTLINE := Color("52637d")
 const ACCENT := Color("7fcbd6")
@@ -51,7 +52,7 @@ func set_selection_active(active: bool) -> void:
 
 
 func outline_color(base_color: Color = OUTLINE) -> Color:
-	return ACCENT if selection_active else base_color
+	return VisualStyle.SELECTED if selection_active else VisualStyle.accent(device_kind) if base_color == OUTLINE else base_color
 
 
 func _draw() -> void:
@@ -68,10 +69,7 @@ func _draw_cpu() -> void:
 	var chip := Rect2(24.0, 10.0, size.x - 48.0, size.y - 20.0)
 	draw_rect(chip, BACKGROUND, true)
 	draw_rect(chip, outline_color(WARNING if waiting else OUTLINE), false, 3.0 if selection_active else 2.0)
-	for pin_index: int in range(5):
-		var y: float = chip.position.y + 10.0 + float(pin_index) * (chip.size.y - 20.0) / 4.0
-		draw_line(Vector2(chip.position.x - 8.0, y), Vector2(chip.position.x, y), OUTLINE, 2.0)
-		draw_line(Vector2(chip.end.x, y), Vector2(chip.end.x + 8.0, y), OUTLINE, 2.0)
+	# No decorative pin stubs: system ports belong to the host GraphNode.
 	var blocks: Array[Rect2] = [
 		Rect2(chip.position + Vector2(15.0, 13.0), Vector2(31.0, chip.size.y - 26.0)),
 		Rect2(chip.position + Vector2(56.0, 13.0), Vector2(38.0, chip.size.y - 26.0)),
@@ -80,7 +78,7 @@ func _draw_cpu() -> void:
 	for block: Rect2 in blocks:
 		draw_rect(block, Color("142238"), true)
 		draw_rect(block, Color(OUTLINE, 0.65), false, 1.0)
-	if not activity_kind.is_empty():
+	if not activity_kind.is_empty() and not waiting:
 		var center_y: float = chip.get_center().y
 		var start := Vector2(chip.position.x + 12.0, center_y)
 		var finish := Vector2(chip.end.x - 12.0, center_y)
@@ -92,6 +90,12 @@ func _draw_cpu() -> void:
 				var phase: float = clampf(activity_progress * 3.0 - float(block_index), 0.0, 1.0)
 				if phase > 0.0:
 					draw_rect(blocks[block_index].grow(-2.0), Color(ACCENT, 0.12 + 0.20 * sin(phase * PI)), true)
+
+	if waiting:
+		# Waiting is a stationary pause mark, never the moving compute cursor.
+		var center: Vector2 = chip.get_center()
+		draw_line(center+Vector2(-4,-7),center+Vector2(-4,7),WARNING,3.0,true)
+		draw_line(center+Vector2(4,-7),center+Vector2(4,7),WARNING,3.0,true)
 
 
 func _draw_ram() -> void:

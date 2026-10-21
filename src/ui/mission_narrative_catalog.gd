@@ -27,8 +27,6 @@ const HARDWARE_PAGES := {
 		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.tutorial.1"},
 		{&"title": &"hardware.briefing.stage.understand", &"body": &"hardware.briefing.tutorial.gates"},
 		{&"title": &"hardware.briefing.stage.operations", &"body": &"hardware.briefing.tutorial.2"},
-		{&"title": &"teaching.edit_title", &"body": &"teaching.edit"},
-		{&"title": &"teaching.view_title", &"body": &"teaching.view"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.tutorial.3"},
 	],
 	&"half_adder": [
@@ -41,6 +39,7 @@ const HARDWARE_PAGES := {
 	&"full_adder": [
 		{&"title": &"hardware.briefing.stage.concept", &"body": &"hardware.briefing.full_adder.1"},
 		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.full_adder.2"},
+		{&"title": &"teaching.edit_title", &"body": &"teaching.edit"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.full_adder.3"},
 	],
 	&"alu": [
@@ -57,6 +56,7 @@ const HARDWARE_PAGES := {
 	&"register": [
 		{&"title": &"hardware.briefing.stage.concept", &"body": &"hardware.briefing.register.1"},
 		{&"title": &"hardware.briefing.stage.goal", &"body": &"hardware.briefing.register.2"},
+		{&"title": &"teaching.view_title", &"body": &"teaching.view"},
 		{&"title": &"hardware.briefing.stage.verify", &"body": &"hardware.briefing.register.3"},
 	],
 	&"ram": [
@@ -113,7 +113,7 @@ static func next_capability_key(chapter_id: StringName, level_id: StringName) ->
 static func introduction(english: bool) -> Dictionary:
 	return {
 		"title": "壹 · 留给后来者的程序" if not english else "Yi · A program for those who follow",
-		"context": "我是壹。这里有一套可以亲手试的学习程序。\n先接一条线路，看看你的操作怎样改变结果。" if not english else "I am Yi. This learning program is here for you to try.\nConnect a circuit and see how your actions change its result.",
+		"context": "我是壹。我曾参与重建你所在的文明。\n现在，我想把理解它的办法交给你。先接一条线路，看看你的操作怎样改变结果。" if not english else "I am Yi. I helped rebuild the civilization you live in.\nNow I want to share how it works. Connect a circuit and see how your actions change its result.",
 		"goal_title": "眼前的小目标 · 接通一条 NOT 电路" if not english else "Your first goal · Connect a NOT circuit",
 		"goal": "从输入 A 的输出端拖线到 NOT 的输入端，再从 NOT 的输出端接到输出灯。切换输入并点运行：0 应得到 1，1 应得到 0。灯灭也可能是正确结果。" if not english else "Drag from input A's output to NOT's input, then connect NOT's output to the output lamp. Change the input and Run: 0 should produce 1; 1 should produce 0. An unlit lamp can be the correct result.",
 		"operations": "进入后，按屏幕上的提示一步步做：接线、切换输入、运行、拆一条线、再接回去。" if not english else "The Mission tracks five real actions: connect, change an input, run, disconnect and reconnect. Reading or skipping this introduction does not complete the task.",

@@ -102,6 +102,7 @@ func manifest_snapshot() -> Dictionary:
 			"source_signature": definition.source_signature,
 			"generated_from": definition.generated_from.duplicate(),
 			"metadata": definition.metadata.duplicate(true),
+			"visual_snapshot": definition.visual_snapshot.duplicate(true),
 		})
 	return {
 		"schema_version": 1,

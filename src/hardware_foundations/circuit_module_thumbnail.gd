@@ -17,14 +17,16 @@ func configure_thumbnail(kind: StringName, inputs: Array[int], outputs: Array[in
 
 
 func body_polygon() -> PackedVector2Array:
-	match shape_profile():
-		&"mux_wedge":
-			return PackedVector2Array([Vector2(26, 5), Vector2(70, 14), Vector2(70, 46), Vector2(26, 55)])
-		&"alu_notched":
-			return PackedVector2Array([Vector2(24, 6), Vector2(72, 14), Vector2(72, 46), Vector2(24, 54), Vector2(32, 30)])
-		&"fanout_module":
-			return PackedVector2Array([Vector2(26, 14), Vector2(70, 5), Vector2(70, 55), Vector2(26, 46)])
-	return PackedVector2Array([Vector2(24, 6), Vector2(72, 6), Vector2(72, 54), Vector2(24, 54)])
+	if not visual_bands.is_empty():
+		var body := PackedVector2Array()
+		for index: int in visual_bands.size():
+			var t: float = float(index)/float(visual_bands.size()-1)
+			body.append(Vector2(72.0-(12.0-_visual_edge(t,1))*1.5,6.0+t*48.0))
+		for index: int in range(visual_bands.size()-1,-1,-1):
+			var t: float = float(index)/float(visual_bands.size()-1)
+			body.append(Vector2(24.0+_visual_edge(t,0)*1.5,6.0+t*48.0))
+		return body
+	return VisualStyle.shell(component_kind,Rect2(24,6,48,48))
 
 
 func pin_segments() -> Array[Dictionary]:
@@ -68,5 +70,8 @@ func _draw() -> void:
 	draw_polyline(outline, _outline_color(), 2.0, true)
 	for pin: Dictionary in pin_segments():
 		draw_line(pin.outer, pin.body, SYMBOL, 2.5 if int(pin.width) > 1 else 1.5, true)
-		draw_circle(pin.outer, 1.8, _outline_color(), true, -1, true)
+		if int(pin.width) > 1:
+			draw_rect(Rect2(pin.outer-Vector2(2.5,2.5),Vector2(5,5)),_outline_color(),false,1.2)
+		else:
+			draw_circle(pin.outer, 1.8, _outline_color(), true, -1, true)
 	_draw_function_icon(function_mark_rect(), SYMBOL)

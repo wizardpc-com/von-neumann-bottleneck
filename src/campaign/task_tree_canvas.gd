@@ -23,6 +23,7 @@ var query: String = ""
 var exposed: Dictionary = {}
 var hovered_key: String = ""
 var last_canvas_size := Vector2.ZERO
+var relation_index: Dictionary = {}
 
 func _ready() -> void:
 	clip_contents = true
@@ -37,6 +38,7 @@ func _ready() -> void:
 
 func configure(tasks: Array[Dictionary]) -> void:
 	rows = tasks
+	_rebuild_relation_index()
 	var layout: Dictionary = Layout.build(rows)
 	positions=layout.positions
 	region_rects=layout.regions
@@ -64,6 +66,7 @@ func _draw() -> void:
 		var color: Color = _color(task.region) if task.unlocked else Color("63758b")
 		var matched: bool = query.is_empty() or _matches(task)
 		if not matched: color.a = 0.28
+		elif not relation_to_focus(task.key).is_empty(): color = color.lightened(0.12)
 		var style := StyleBoxFlat.new()
 		style.bg_color = Color("1b3443") if task.unlocked else Color("132331")
 		style.border_color = color.lightened(0.35) if task.key==hovered_key else color
@@ -85,12 +88,10 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO)
 	_draw_screen_text()
 
-func _draw_edge(task: Dictionary,dep: String,recommended: bool) -> void:
-	if not positions.has(dep): return
+func edge_points(task: Dictionary, dep: String) -> PackedVector2Array:
+	if not positions.has(dep) or not positions.has(task.key): return PackedVector2Array()
 	var a: Vector2 = positions[dep]+Vector2(NODE_SIZE.x,NODE_SIZE.y/2)
 	var b: Vector2 = positions[task.key]+Vector2(0,NODE_SIZE.y/2)
-	var color := Color("59736a") if recommended else Color("354963")
-	if task.key == TaskNavigation.selected: color = _color(task.region)
 	var points: PackedVector2Array
 	if dep.get_slice("/",0) != task.domain:
 		var source_region: int = 0
@@ -102,11 +103,23 @@ func _draw_edge(task: Dictionary,dep: String,recommended: bool) -> void:
 		var curve := Curve2D.new(); var distance: float = maxf(30,(b.x-a.x)*0.5)
 		curve.add_point(a,Vector2.ZERO,Vector2(distance,0)); curve.add_point(b,Vector2(-distance,0),Vector2.ZERO)
 		points = curve.tessellate()
+	return points
+
+func _draw_edge(task: Dictionary,dep: String,recommended: bool) -> void:
+	if not positions.has(dep): return
+	var b: Vector2 = positions[task.key]+Vector2(0,NODE_SIZE.y/2)
+	var color := Color("59736a") if recommended else Color("354963")
+	var focus: String = hovered_key if not hovered_key.is_empty() else TaskNavigation.selected
+	var emphasized: bool = task.key == focus or dep == focus
+	if emphasized: color = _color(task.region).lightened(0.25 if task.key == focus else 0.05)
+	else: color.a = 0.38
+	var points: PackedVector2Array=edge_points(task,dep)
+	if points.size()<2: return
 	if recommended:
-		for index: int in range(points.size()-1): draw_dashed_line(points[index],points[index+1],Color(color,0.65),maxf(1.8,1.1/magnification),10,true)
+		for index: int in range(points.size()-1): draw_dashed_line(points[index],points[index+1],Color(color,color.a*0.72),maxf(2.4 if emphasized else 1.8,1.1/magnification),10,true)
 	else:
-		draw_polyline(points,Color(color,0.14),maxf(6,3/magnification),true)
-		draw_polyline(points,color,maxf(1.8,1.1/magnification),true)
+		draw_polyline(points,Color(color,color.a*0.08),maxf(4,2/magnification),true)
+		draw_polyline(points,color,maxf(3.0 if emphasized else 1.8,1.1/magnification),true)
 		draw_colored_polygon(PackedVector2Array([b,b+Vector2(-8,-5),b+Vector2(-8,5)]),color)
 
 # Shapes follow the world camera; glyphs are rasterized at their final screen size.
@@ -162,6 +175,14 @@ func _draw_screen_text() -> void:
 		draw_string(font,layout.position,layout.title,HORIZONTAL_ALIGNMENT_LEFT,-1,layout.font_size,color)
 		if layout.compact: continue
 		var caption: String=("◇ " if task.optional else "")+(("已完成" if task.completed else "可进入" if task.unlocked else "未解锁") if Localization.current_locale().begins_with("zh") else ("Completed" if task.completed else "Available" if task.unlocked else "Locked"))
+		var relation: String = relation_to_focus(task.key)
+		var relation_label: String = ""
+		var chinese: bool = Localization.current_locale().begins_with("zh")
+		match relation:
+			"prerequisite": relation_label = "前置" if chinese else "Prerequisite"
+			"unlocks": relation_label = "后续" if chinese else "Next"
+			"recommended": relation_label = "推荐联系" if chinese else "Suggested"
+		if not relation_label.is_empty(): caption = relation_label + " · " + caption
 		if str(task.get("evidence_status","")) == "unavailable": caption = "成果待确认" if Localization.current_locale().begins_with("zh") else "Work unconfirmed"
 		elif str(task.get("progress_source","")) == "session": caption = "仅本次会话" if Localization.current_locale().begins_with("zh") else "Session only"
 		var caption_size: int=maxi(12,roundi(15*magnification))
@@ -299,3 +320,22 @@ func _report_exposure() -> void:
 
 func _color(region: int) -> Color: return COLORS[posmod(region,COLORS.size())]
 
+
+
+func _rebuild_relation_index() -> void:
+	relation_index.clear()
+	for task: Dictionary in rows:
+		if not relation_index.has(task.key): relation_index[task.key] = {}
+		for dep: String in task.dependencies:
+			relation_index[task.key][dep] = "prerequisite"
+			if not relation_index.has(dep): relation_index[dep] = {}
+			relation_index[dep][task.key] = "unlocks"
+		for dep: String in task.get("recommended_from",[]):
+			if not relation_index[task.key].has(dep): relation_index[task.key][dep] = "recommended"
+			if not relation_index.has(dep): relation_index[dep] = {}
+			if not relation_index[dep].has(task.key): relation_index[dep][task.key] = "recommended"
+
+func relation_to_focus(key: String) -> String:
+	var focus: String = hovered_key if not hovered_key.is_empty() else TaskNavigation.selected
+	if key == focus: return "selected"
+	return String(relation_index.get(focus,{}).get(key,""))

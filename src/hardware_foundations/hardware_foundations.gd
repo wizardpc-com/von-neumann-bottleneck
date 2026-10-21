@@ -1,6 +1,9 @@
 class_name HardwareFoundations
 extends Control
 
+const VisualLayout = preload("res://src/hardware_foundations/component_visual_layout.gd")
+var pending_visual_snapshot: Dictionary = {}
+
 const ConstructionInvestigationType = preload("res://src/hardware_foundations/construction_investigation.gd")
 
 const LogicComponentType = preload("res://src/circuit/logic_component.gd")
@@ -134,6 +137,8 @@ var component_palette_box: VBoxContainer
 var component_inspector_box: VBoxContainer
 var workbench_store = null
 var workbench_menu_button: MenuButton
+var workbench_seed_preview: SavedContentPreview
+var workbench_seed_note: Label
 var workbench_name_dialog: Control
 var workbench_name_edit: LineEdit
 var hint_button: Button
@@ -431,6 +436,8 @@ func _prepare_workbench_create_capture() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if operation_demo != null and operation_demo.running and (event is InputEventMouseButton or event is InputEventKey) and event.is_pressed():
+		operation_demo.stop() # Real input always takes over; never consume it.
 	if pending_hint_level > 0:
 		if event is InputEventKey and event.is_pressed() and event.keycode == KEY_ESCAPE:
 			_cancel_hint_confirmation()
@@ -829,6 +836,8 @@ func _install_support_library(
 
 
 func _process(delta: float) -> void:
+	if operation_demo != null and operation_demo.running and (tutorial_coach == null or not tutorial_coach.is_visible_in_tree() or _editor_locked() or mission_briefing_active or is_instance_valid(WindowMode.settings_layer) or (terminology_handbook != null and terminology_handbook.is_open())):
+		operation_demo.stop()
 	_update_graph_keyboard_pan(delta)
 	if status_label != null:
 		status_label.tooltip_text = status_label.text
@@ -879,6 +888,8 @@ func _build_theme() -> void:
 	theme = prototype_theme
 
 
+var operation_demo_seen: Dictionary = {}
+var operation_demo: Control
 var tutorial_coach: Control
 var tutorial_focus_applied: bool = false
 var guided_debug_ran: bool = false
@@ -922,6 +933,7 @@ func _refresh_guided_coach() -> void:
 
 
 func _begin_guided_level() -> void:
+	if operation_demo != null: operation_demo.stop()
 	guided_debug_ran = false
 	if not _guided_level():
 		if tutorial_coach != null and current_phase != &"tutorial":
@@ -932,6 +944,7 @@ func _begin_guided_level() -> void:
 		_ensure_tutorial_coach()
 	var goal: String = mission_summary_button.text.get_slice(" · ", 0) if mission_summary_button != null else ""
 	tutorial_coach.use_steps(true, goal.strip_edges())
+	tutorial_coach.set_operation_lesson(current_level_id)
 	if mission_summary_button != null: mission_summary_button.visible = false
 	tutorial_coach.visible = true
 	(desktop_windows[&"task"] as Control).hide()
@@ -952,17 +965,26 @@ func _ensure_tutorial_coach() -> void:
 		tutorial_coach = preload("res://src/hardware_foundations/tutorial_coach.gd").new()
 		tutorial_coach.set_english(Localization.current_locale() == "en")
 		graph_stack.add_child(tutorial_coach)
+		operation_demo = preload("res://src/hardware_foundations/operation_demonstration.gd").new()
+		operation_demo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		graph_stack.add_child(operation_demo)
+		operation_demo.demonstration_active_changed.connect(func(active: bool) -> void: tutorial_coach.demonstration_skip.visible = active)
+		WindowMode.window_mode_changing.connect(func() -> void: operation_demo.stop())
+		tutorial_coach.demonstration_requested.connect(_show_operation_demonstration)
+		tutorial_coach.demonstration_skipped.connect(func() -> void: operation_demo.stop())
 		tutorial_coach.briefing_requested.connect(func() -> void:
 			var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
 			task_window.show_instrument(); _begin_mission_briefing())
 	tutorial_coach.visible = _tutorial_focus()
 	if tutorial_coach.visible:
 		tutorial_coach.use_steps(false)
+		tutorial_coach.set_operation_lesson(&"tutorial")
 		editor_toolbar.visible = false
 		mission_summary_button.visible = false
 		tutorial_focus_applied = true
 		_update_tutorial_goal()
 		_place_tutorial_coach()
+		call_deferred("_offer_first_operation_demo")
 	elif tutorial_focus_applied:
 		editor_toolbar.visible = true
 		mission_summary_button.visible = true
@@ -970,6 +992,7 @@ func _ensure_tutorial_coach() -> void:
 
 
 func _place_tutorial_coach() -> void:
+	if operation_demo != null: operation_demo.stop()
 	if tutorial_coach == null or graph_stack == null: return
 	var area: Vector2 = graph_stack.size
 	var coach_width: float = clampf(area.x * 0.44, 440.0, 640.0)
@@ -1534,6 +1557,13 @@ func _show_mission_briefing_page() -> void:
 		move_note.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 		move_note.add_theme_color_override("font_color", MUTED)
 		mission_briefing_panel.add_child(move_note)
+		if current_level_id in [&"cpu",&"load_store"]:
+			var operation := Label.new()
+			operation.name = "MissionOperationTip"
+			operation.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			operation.add_theme_font_size_override("font_size",UiTypographyType.CAPTION_SIZE)
+			operation.text = preload("res://src/hardware_foundations/operation_curriculum.gd").lesson(current_level_id,Localization.current_locale()=="en").get("text","")
+			mission_briefing_panel.add_child(operation)
 	mission_briefing_previous_button = Button.new()
 	mission_briefing_previous_button.name = "MissionBriefingPrevious"
 	mission_briefing_previous_button.text = _t(&"hardware.briefing.previous")
@@ -2107,11 +2137,19 @@ func _create_workbench_name_dialog() -> void:
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", ACCENT)
 	content.add_child(title)
-	var prompt := Label.new()
-	prompt.text = _t(&"hardware.workbench.create.prompt")
-	prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	prompt.add_theme_color_override("font_color", TEXT)
-	content.add_child(prompt)
+	var preview_row := HBoxContainer.new()
+	preview_row.add_theme_constant_override("separation",12)
+	content.add_child(preview_row)
+	workbench_seed_preview=preload("res://src/ui/saved_content_preview.gd").new()
+	workbench_seed_preview.name="WorkbenchSeedPreview"
+	preview_row.add_child(workbench_seed_preview)
+	workbench_seed_note=Label.new()
+	workbench_seed_note.name="WorkbenchSeedNote"
+	workbench_seed_note.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	workbench_seed_note.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	workbench_seed_note.add_theme_font_size_override("font_size",14)
+	workbench_seed_note.add_theme_color_override("font_color",MUTED)
+	preview_row.add_child(workbench_seed_note)
 	workbench_name_edit = LineEdit.new()
 	workbench_name_edit.name = "WorkbenchNameEdit"
 	workbench_name_edit.placeholder_text = _t(&"hardware.workbench.create.placeholder")
@@ -2202,6 +2240,11 @@ func _show_new_workbench_dialog(blank: bool = false) -> void:
 	if workbench_name_dialog == null or active_workbench_name.is_empty():
 		return
 	workbench_name_edit.clear()
+	var english: bool=Localization.current_locale()=="en"
+	workbench_seed_preview.english=english
+	var seed: Dictionary=_fixed_terminal_snapshot(workbench_seed_snapshot) if blank else workbench_seed_snapshot
+	workbench_seed_preview.visible=workbench_seed_preview.configure_plan(seed,"")
+	workbench_seed_note.text=("命名新方案，仅保留固定接口；原方案仍保留。" if blank else "命名新方案，从初始元件开始，不复制当前接线；原方案仍保留。") if not english else ("Name a new plan with fixed interfaces only. Your current plan is kept." if blank else "Name a new plan with initial parts, not copied wiring. Your current plan is kept.")
 	workbench_name_dialog.show()
 	workbench_name_edit.grab_focus()
 
@@ -3296,6 +3339,7 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 			else:
 				var module := CircuitModuleThumbnailType.new()
 				module.configure_thumbnail(template.kind, template.input_port_widths, template.output_port_widths)
+				_apply_component_visual(module,template)
 				item.call("set_component_preview", module)
 			if allowed:
 				item.connect("placement_requested", Callable(self, "_arm_component_template"))
@@ -3643,6 +3687,7 @@ func _add_generic_component_slots(
 	heading.name = "ModuleHeading"
 	heading.custom_minimum_size.y = 30.0
 	heading.configure(component.kind, component.display_name, "", "", -1, row_count, false, false, 1, 1)
+	_apply_component_visual(heading,component)
 	node.add_child(heading)
 	for row_index: int in range(row_count):
 		var has_input: bool = row_index < component.input_count()
@@ -3661,6 +3706,7 @@ func _add_generic_component_slots(
 			component.input_width(row_index) if has_input else 1,
 			component.output_width(row_index) if has_output else 1
 		)
+		_apply_component_visual(row,component)
 		node.add_child(row)
 		node.set_slot(
 			row_index + 1, has_input, PORT_TYPE, SIGNAL_LOW,
@@ -6699,6 +6745,7 @@ func _seal_half_adder() -> void:
 		_invalidate_official_evidence(_t(&"hardware.status.seal_stale"))
 		return
 	sealed_half_adder = ReusableHalfAdderType.new(live_circuit)
+	pending_visual_snapshot = _freeze_visual_layout(live_circuit)
 	sealing = true
 	sealing_elapsed = 0.0
 	_stop_playback()
@@ -6728,6 +6775,8 @@ func _finish_encapsulation() -> void:
 		&"HalfAdder", LogicComponentType.KIND_HALF_ADDER, &"half_adder",
 		sealed_half_adder.circuit_snapshot
 	)
+	reusable.visual_snapshot = pending_visual_snapshot.duplicate(true)
+	pending_visual_snapshot.clear()
 	player_content.install_reusable(&"half_adder", reusable, level_catalog)
 	if TaskNavigation.offline_tester_enabled():
 		_install_offline_reference_library()
@@ -6757,6 +6806,14 @@ func _build_sealed_graph() -> void:
 	node.position_offset = Vector2(690.0, 190.0)
 	_add_port_row(node, 0, "A                         SUM", true, true, PURPLE, GOOD)
 	_add_port_row(node, 1, "B                       CARRY", true, true, PURPLE, GOOD)
+	var preview_center := CenterContainer.new()
+	preview_center.name = "SealedVisualPreview"
+	preview_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var preview := CircuitModuleThumbnailType.new()
+	preview.configure_thumbnail(&"half_adder",[1,1],[1,1])
+	preview.set_visual_snapshot(pending_visual_snapshot,sealed_half_adder.circuit_snapshot.canonical_signature())
+	preview_center.add_child(preview)
+	node.add_child(preview_center)
 	var ownership := Label.new()
 	ownership.text = _t(&"hardware.sealed.ownership")
 	ownership.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -7589,6 +7646,7 @@ func _seal_prologue_component() -> void:
 		_invalidate_official_evidence(_t(&"hardware.status.seal_stale"))
 		return
 	pending_sealed_circuit = live_circuit.duplicate_circuit()
+	pending_visual_snapshot = _freeze_visual_layout(live_circuit)
 	sealing_level_id = current_level_id
 	sealing = true
 	sealing_elapsed = 0.0
@@ -7607,6 +7665,8 @@ func _finish_prologue_encapsulation() -> void:
 	var reusable := ReusableComponentType.new(
 		component_name, behavior_kind, finished_level, pending_sealed_circuit
 	)
+	reusable.visual_snapshot = pending_visual_snapshot.duplicate(true)
+	pending_visual_snapshot.clear()
 	var invalidated_levels: Array[StringName] = player_content.install_reusable(
 		finished_level, reusable, level_catalog
 	)
@@ -8793,3 +8853,114 @@ func flush_workspace() -> void:
 
 func workbench_recovery_data() -> Dictionary:
 	return workbench_store.manifest_snapshot() if workbench_store != null else {}
+
+
+func _freeze_visual_layout(circuit: LogicCircuit) -> Dictionary:
+	# Called only after the existing official-pass/source-signature gate succeeds.
+	# The animation cannot subsequently change this frozen presentation record.
+	var placements: Dictionary = {}
+	for id: StringName in circuit.components:
+		var node: GraphNode = component_nodes.get(id)
+		if node == null:
+			return {}
+		var part: LogicComponent=circuit.components[id]
+		# Stable interface footprint, not localized label/font-driven widget size.
+		# Positions still come from the player's actual workbench arrangement.
+		var port_rows: int=maxi(part.input_count(),part.output_count())
+		placements[String(id)] = {"x":node.position_offset.x,"y":node.position_offset.y,
+			"w":96.0,"h":maxf(72.0,float(port_rows+1)*24.0)}
+	return VisualLayout.freeze(circuit.canonical_signature(),placements)
+
+
+func _show_operation_demonstration() -> void:
+	if operation_demo == null or graph == null or _editor_locked() or mission_briefing_active or is_instance_valid(WindowMode.settings_layer):
+		return
+	var points := PackedVector2Array()
+	var message: String = ""
+	var english: bool = Localization.current_locale() == "en"
+	var step: int = tutorial_coach.last_states.find(false)
+	if step < 0: return
+	if current_phase == &"tutorial" and step in [0,4]:
+		# Demonstrate the first missing connection of the authored NOT lesson only.
+		# Never reveal a construction puzzle solution or execute the gesture.
+		var from_id: StringName = &"A_IN"
+		var to_id: StringName = &"NOT_1"
+		if graph.is_node_connected(from_id,0,to_id,0):
+			from_id = &"NOT_1"; to_id = &"LAMP"
+		var source: GraphNode = component_nodes.get(from_id)
+		var target: GraphNode = component_nodes.get(to_id)
+		if source == null or target == null: return
+		points.append(operation_demo.get_global_transform_with_canvas().affine_inverse() * (graph.get_global_transform_with_canvas() * graph.displayed_port_position(source,0,true)))
+		points.append(operation_demo.get_global_transform_with_canvas().affine_inverse() * (graph.get_global_transform_with_canvas() * graph.displayed_port_position(target,0,false)))
+		message = "Hold left button, drag, release" if english else "按住左键，拖动，再松开"
+	elif current_phase == &"tutorial" and step == 1 and input_a_button != null:
+		points.append(operation_demo.get_global_transform_with_canvas().affine_inverse() * input_a_button.get_global_rect().get_center())
+		message = "Click to change the input" if english else "点击切换输入"
+	elif current_phase == &"tutorial" and step == 3:
+		var connections: Array = graph.get_connection_list()
+		if connections.is_empty(): return
+		var curve: PackedVector2Array = graph.connection_curve(connections[0])
+		if curve.size() < 2: return
+		var midpoint: Vector2 = curve[curve.size()/2]
+		var transform: Transform2D = operation_demo.get_global_transform_with_canvas().affine_inverse() * graph.get_global_transform_with_canvas()
+		points.append(transform * (midpoint-Vector2(0,22)))
+		points.append(transform * (midpoint+Vector2(0,22)))
+		message = "Hold right button and sweep across" if english else "按住右键，划过这条线"
+	elif step > 0:
+		var target_text: String = _t(&"hardware.practice.run") if current_phase == &"tutorial" else _t(&"hardware.cases.run_official") if step == 2 else _t(&"hardware.cases.run_debug")
+		var bench: Control = desktop_windows.get(&"test_bench")
+		if bench == null or not bench.is_visible_in_tree(): return
+		var button: Button = null
+		for candidate: Node in bench.find_children("*","Button",true,false):
+			if candidate is Button and candidate.text == target_text and candidate.is_visible_in_tree() and not candidate.disabled:
+				button = candidate; break
+		if button == null: return
+		points.append(operation_demo.get_global_transform_with_canvas().affine_inverse() * button.get_global_rect().get_center())
+		message = "Click to test your own circuit" if english else "点击测试你自己的电路"
+	else:
+		var instrument: Control = desktop_windows.get(&"components")
+		if instrument == null or not instrument.is_visible_in_tree(): return
+		var visible_item: Control = null
+		var visible_rect := Rect2()
+		for item: Control in component_palette_items.values():
+			if not item.is_visible_in_tree(): continue
+			var clipped: Rect2 = item.get_global_rect().intersection(instrument.get_global_rect())
+			if clipped.size.y >= 40.0 and clipped.size.x >= 80.0:
+				visible_item=item;visible_rect=clipped;break
+		if visible_item == null: return
+		var destination := Vector2.ZERO
+		var found: bool=false
+		for y: float in [0.72,0.55,0.85]:
+			for x: float in [0.55,0.42,0.68]:
+				var candidate: Vector2=graph.get_global_rect().position+graph.get_global_rect().size*Vector2(x,y)
+				if not _component_placement_position_allowed(candidate): continue
+				var occupied: bool=false
+				for node: GraphNode in component_nodes.values():
+					if node.get_global_rect().grow(20).has_point(candidate): occupied=true;break
+				if not occupied: destination=candidate;found=true;break
+			if found: break
+		if not found: return
+		var transform: Transform2D=operation_demo.get_global_transform_with_canvas().affine_inverse()
+		points.append(transform*visible_rect.get_center())
+		points.append(transform*destination)
+		message="Drag gesture only, not a solution" if english else "只演示拖放，不代表解法"
+	operation_demo.english = english
+	operation_demo.demonstrate(points,message,bool(ProjectSettings.get_setting("game/reduced_motion",false)))
+
+
+func _offer_first_operation_demo() -> void:
+	await get_tree().process_frame
+	if current_phase != &"tutorial" or not _tutorial_focus() or operation_demo_seen.has(&"tutorial"):
+		return
+	if tutorial_coach == null or not tutorial_coach.is_visible_in_tree() or mission_briefing_active:
+		return
+	operation_demo_seen[&"tutorial"] = true
+	_show_operation_demonstration()
+
+
+func _apply_component_visual(control: Control, component: LogicComponent) -> void:
+	var name: StringName = StringName(component.properties.get("library_name",""))
+	var definition: ReusableComponent = component_library.get(name)
+	if definition == null or definition.source_signature != String(component.properties.get("source_signature","")):
+		return
+	control.set_visual_snapshot(definition.visual_snapshot,definition.source_signature)

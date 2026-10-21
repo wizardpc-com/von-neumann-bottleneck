@@ -56,6 +56,12 @@ func run() -> void:
 	if failures > 0: abort_fixture(); return
 	var source_signature: String = main._circuit_from_graph().canonical_signature()
 	check(main.passing_topology_signature == source_signature,"Official verdict binds to the displayed source topology")
+	var frozen_before: Dictionary=main._freeze_visual_layout(main._circuit_from_graph())
+	var altered_node: GraphNode=main.component_nodes.values()[0]
+	var widget_size: Vector2=altered_node.size
+	altered_node.size += Vector2(220,100)
+	check(main._freeze_visual_layout(main._circuit_from_graph())==frozen_before,"Font/localized widget dimensions do not change the layout-derived footprint")
+	altered_node.size=widget_size
 	main._show_level_completion(&"full_adder")
 	main.level_completion_overlay.primary_action_button.pressed.emit()
 	check(main.sealing and not main.level_completion_overlay.visible,"Real primary Seal begins timed encapsulation and exposes the workbench")
@@ -91,6 +97,8 @@ func run() -> void:
 	if not main.component_library.has(&"FullAdder"): abort_fixture(); return
 	if main.component_library.has(&"FullAdder"):
 		check(main.component_library[&"FullAdder"].source_signature == source_signature,"Installed reward retains the exact officially verified source")
+		check(not main.component_library[&"FullAdder"].visual_snapshot.is_empty(),"Real validated sealing freezes a separate visual snapshot")
+		check(main.component_library[&"FullAdder"].visual_snapshot.source_signature == source_signature,"Presentation binds to the verified source without replacing its signature")
 	check(not main.component_library.has(&""),"No empty reward is introduced")
 	main._dismiss_level_completion(); main._open_campaign_map()
 	check(main.current_phase == &"campaign","Map navigation becomes available after encapsulation finishes")

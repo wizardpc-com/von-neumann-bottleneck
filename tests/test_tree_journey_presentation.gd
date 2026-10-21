@@ -100,6 +100,13 @@ func run() -> void:
 			check(scene.detail_panel.get_global_rect().encloses(scene.enter_button.get_global_rect()),"Enter remains reachable: "+row.key)
 			var center: Vector2 = (scene.canvas.positions[row.key]+Layout.NODE_SIZE/2)*scene.canvas.magnification+scene.canvas.pan
 			check(Rect2(Vector2.ZERO,scene.canvas.size).has_point(center),"Every selected task can be located on map: "+row.key)
+			var expected_next: Array[String]=[]
+			for next_row: Dictionary in scene.rows:
+				if str(row.key) in next_row.dependencies: expected_next.append(str(next_row.key))
+			var actual_next: Array[String]=[]
+			for link: Node in scene.downstream_rows.get_children(): actual_next.append(str(link.get_meta("task_key")))
+			check(actual_next==expected_next,"Downstream links exactly follow hard dependencies: "+row.key)
+			check(scene.downstream_heading.visible==not expected_next.is_empty(),"No invented downstream tasks: "+row.key)
 			if row.key == "chapter_3/arrival":
 				check(scene.prerequisite_rows.get_child_count() == 1 and str(scene.prerequisite_rows.get_child(0).get_meta("task_key")) == "chapter_2/capstone","Core hard prerequisite stays a clickable, distinct relation")
 			if row.key == "service/prompt_response":

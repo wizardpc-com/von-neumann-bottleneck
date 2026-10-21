@@ -246,9 +246,10 @@ func toggle() -> void:
 	target=PlaytestData.task_feedback_context(str(actual.get("chapter_id","")),str(actual.get("level_id","")))
 	_prepare_target()
 	var window: Window = OfflineFeedback._focused_window(get_tree().root)
-	previous_focus = window.gui_get_focus_owner()
+	previous_focus = panel.get_viewport().gui_get_focus_owner() if panel.get_viewport() is SubViewport else window.gui_get_focus_owner()
 	if window != get_tree().root:
 		if layer.get_parent() != window: layer.reparent(window)
+		if panel.has_meta("terminal_page"): panel.reparent(layer)
 		var release: Callable = _release_window.bind(window)
 		if not window.tree_exiting.is_connected(release): window.tree_exiting.connect(release, CONNECT_ONE_SHOT)
 	panel.show()
@@ -256,9 +257,11 @@ func toggle() -> void:
 	var choices: Array[Node] = panel.find_children("*","Button",true,false)
 	if not choices.is_empty(): (choices[0] as Button).grab_focus()
 	_update_context_controls()
-	panel.position = Vector2(24,80 if window == get_tree().root else 12)
+	var in_terminal: bool = panel.has_meta("terminal_page")
+	content_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL if in_terminal else Control.SIZE_FILL
+	panel.position = Vector2.ZERO if in_terminal else Vector2(24,80 if window == get_tree().root else 12)
 	content_scroll.custom_minimum_size.y=minf(550,panel.get_viewport().get_visible_rect().size.y-270)
-	panel.size = Vector2(minf(680,panel.get_viewport().get_visible_rect().size.x-48),0)
+	panel.size = panel.get_viewport().get_visible_rect().size if in_terminal else Vector2(minf(680,panel.get_viewport().get_visible_rect().size.x-48),0)
 	status.text = "" if PlaytestData.questionnaires_enabled() else _t("disabled")
 	exit_reason.select(0)
 	PlaytestData.set_feedback_visible(true,&"moments")
@@ -266,6 +269,9 @@ func toggle() -> void:
 func close() -> void:
 	_store_draft()
 	panel.hide()
+	if panel.has_meta("terminal_page"):
+		var home: Node = get_tree().get_first_node_in_group("laboratory")
+		if home != null and panel.get_parent() != home.terminal_pages.surface: panel.reparent(home.terminal_pages.surface)
 	if layer.get_parent() != self: layer.reparent(self)
 	if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
 	previous_focus = null
@@ -281,7 +287,7 @@ func _input(event: InputEvent) -> void:
 		if OfflineFeedback._focused_window(get_tree().root) != get_viewport(): return
 		if event.keycode == KEY_F8:
 			toggle(); get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_ESCAPE and panel.visible and panel.get_viewport() == get_viewport():
+		elif event.keycode == KEY_ESCAPE and panel.visible and (panel.get_viewport() == get_viewport() or panel.get_viewport() is SubViewport):
 			close(); get_viewport().set_input_as_handled()
 
 func _button(parent: Node,key: String,action: Callable) -> Button:

@@ -245,6 +245,10 @@ func settings_button() -> Button:
 	return button
 
 func open_settings() -> void:
+	var home: Node = get_tree().get_first_node_in_group("laboratory")
+	if home != null and home.terminal_pages != null:
+		if not home._room_blocked(): home.settings_requested.emit()
+		return
 	if is_instance_valid(settings_layer): return
 	get_viewport().gui_cancel_drag()
 	window_mode_changing.emit() # Existing hosts cancel gestures without editing their topology.

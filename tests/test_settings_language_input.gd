@@ -3,8 +3,8 @@ extends "res://tests/test_terminal_language_input.gd"
 
 func check_settings_bounds(host: Control) -> void:
 	var panel: Control = host.find_child("ChapterOptionsPanel", true, false)
-	check(root.get_visible_rect().encloses(panel.get_global_rect()), "The visible settings panel fits the 720p viewport after text reflow.")
-	check(root.get_visible_rect().encloses(host.options_resume_button.get_global_rect()), "The settings return button is inside the visible viewport.")
+	check(panel.get_viewport().get_visible_rect().encloses(panel.get_global_rect()), "The visible settings panel fits the 720p viewport after text reflow.")
+	check(panel.get_viewport().get_visible_rect().encloses(host.options_resume_button.get_global_rect()), "The settings return button is inside the visible viewport.")
 
 func finish() -> void:
 	if failures.is_empty():
@@ -48,19 +48,19 @@ func switch_language(expected: Dictionary, answer: bool = false) -> void:
 	var mode: Node = root.get_node("WindowMode")
 	await key(KEY_F10)
 	await settle(12)
-	check(is_instance_valid(mode.settings_layer), "F10 opens the existing settings while the chapter response is visible.")
-	if not is_instance_valid(mode.settings_layer): return
-	check_settings_bounds(mode.settings_layer.get_child(0))
-	var language: OptionButton = mode.settings_layer.find_child("LanguageChoice", true, false)
+	check(not is_instance_valid(mode.settings_layer) and current_scene.options_overlay.visible, "F10 opens settings inside the terminal while the chapter response is visible.")
+	if not current_scene.options_overlay.visible: return
+	check_settings_bounds(current_scene)
+	var language: OptionButton = current_scene.options_overlay.find_child("LanguageChoice", true, false)
 	await choose(language, 0 if was_english else 1)
 	await create_timer(1.4).timeout
 	await settle(12)
-	check(is_instance_valid(mode.settings_layer), "Settings remain open after changing language.")
-	check_settings_bounds(mode.settings_layer.get_child(0))
-	await press(mode.settings_layer.get_child(0).options_resume_button)
+	check(current_scene.options_overlay.visible, "Terminal settings remain open after changing language.")
+	check_settings_bounds(current_scene)
+	await press(current_scene.options_resume_button)
 	await settle(12)
 	lab = current_scene.laboratory
-	check(not is_instance_valid(mode.settings_layer), "The visible return button closes F10 settings and returns to the terminal.")
+	check(not is_instance_valid(mode.settings_layer) and not current_scene.options_overlay.visible, "The visible return button closes F10 settings and returns to the terminal.")
 	check(lab.english != was_english, "The settings selector changes the displayed language.")
 	var locale: String = "en" if lab.english else "zh"
 	var expected_text: String = str(expected["answer_" + locale] if answer else expected[locale])
@@ -69,3 +69,13 @@ func switch_language(expected: Dictionary, answer: bool = false) -> void:
 	check(LabState.visits() == visits and lab._language_checkpoint.is_empty(), "Settings reload consumes the temporary view without adding a laboratory visit.")
 	if answer:
 		check(lab.terminal.echo.visible and lab.terminal.echo.text.ends_with(str(expected[locale])), "The selected reply stays with its translated answer after settings close.")
+
+func press(control: Control) -> void:
+	if control != null and control.get_viewport() is SubViewport:
+		var display: Control = current_scene.laboratory.terminal_pages
+		var deadline: int = Time.get_ticks_msec() + 2000
+		while display.modulate.a < 1.0 and Time.get_ticks_msec() < deadline: await process_frame
+		check(display.modulate.a == 1.0 and control.is_visible_in_tree(), "Terminal control is revealed before input")
+		await click(display.position + control.get_global_rect().get_center() / Vector2(display.resolution) * display.size)
+	else:
+		await super.press(control)

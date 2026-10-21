@@ -2,7 +2,7 @@ extends Control
 ## The laboratory home: a small, bright room with one dark terminal at its
 ## centre. The default is a real fixed-observation 3D room; --flat-lab retains
 ## the earlier code-painted presentation without changing progression authority.
-## The terminal screen hosts the real menu; entering zooms into that screen.
+## Opening the physical terminal enters its full-screen workspace.
 ##
 ## The lab is presentation only. Progress comes from TaskNavigation; the lab's
 ## own record (LabState) only remembers which completions it already answered.
@@ -83,7 +83,9 @@ class Painter extends Control:
 const RoomType = preload("res://src/lab/lab_room_3d.gd")
 var room: RoomType
 var room_input_shield: Control
-var room_controls: HBoxContainer
+var terminal_pages: SubViewportContainer
+var _page_was_open: bool = false
+var terminal_background: ColorRect
 var room_hover: Label
 var room_focus: bool = false
 var _terminal_was_asleep: bool = true
@@ -174,6 +176,25 @@ func _ready() -> void:
 	archive = ArchiveType.new(); archive.name = "LabArchive"; archive.hide()
 	add_child(archive)
 	archive.closed.connect(_on_archive_closed)
+	if room != null:
+		terminal_pages = preload("res://src/lab/lab_terminal_pages.gd").new()
+		terminal_pages.theme = get_parent().get("theme")
+		layers.desk.add_child(terminal_pages)
+		terminal_background = ColorRect.new()
+		terminal_background.color = Palette.TERM_SCREEN
+		terminal_background.mouse_filter = Control.MOUSE_FILTER_STOP
+		terminal_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		layers.desk.add_child(terminal_background)
+		layers.desk.move_child(terminal_background, 0)
+		terminal.message.font_size = 20
+		terminal.primary.add_theme_font_size_override("font_size", 20)
+		terminal.primary.custom_minimum_size.y = 48
+		for button: Control in terminal.secondary.get_children():
+			button.add_theme_font_size_override("font_size", 16)
+			button.custom_minimum_size.y = 36
+		archive.terminal_page = true
+		terminal_pages.mount(archive)
+		process_mode = Node.PROCESS_MODE_ALWAYS
 	fade = ColorRect.new(); fade.name = "LabFade"; fade.color = Palette.TERM_SCREEN
 	fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); fade.modulate.a = 0.0
@@ -210,18 +231,6 @@ func _build_immersive_room() -> void:
 		layer.set("paint", Callable())
 	for path: String in ["LayerMid/ArchiveShelf", "LayerMid/JourneyBoard", "LayerBack/WorkFrame"]:
 		world.get_node(path).hide()
-	room_controls = HBoxContainer.new(); room_controls.name = "RoomShortcuts"
-	room_controls.position = Vector2(22,18)
-	room_controls.add_theme_constant_override("separation",8)
-	add_child(room_controls)
-	for entry: Array in [["终端","Terminal","terminal"],["环顾","Look around","look"],["档案","Archive","archive"],["旅程","Journey","journey"],["作品","Works","works"],["成就","Achievements","achievements"],["手册","Handbook","handbook"],["设置","Settings","settings"],["反馈","Feedback","feedback"]]:
-		var button := Button.new()
-		button.name = "Room" + str(entry[2]).capitalize()
-		button.text = str(entry[1] if english else entry[0])
-		button.custom_minimum_size = Vector2(0,34)
-		button.add_theme_font_size_override("font_size",14)
-		button.pressed.connect(_on_room_action.bind(str(entry[2])))
-		room_controls.add_child(button)
 	room_hover = Label.new(); room_hover.name = "RoomObjectHint"
 	room_hover.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	room_hover.offset_top = -40; room_hover.offset_bottom = -12
@@ -234,7 +243,7 @@ func _build_immersive_room() -> void:
 	add_child(room_hover)
 
 func _room_blocked() -> bool:
-	# F10 settings live in an independent root CanvasLayer, not this Hub.
+	if terminal_pages != null and terminal_pages.active(): return true
 	var window_mode: Node = get_node_or_null("/root/WindowMode")
 	if window_mode != null and is_instance_valid(window_mode.get("settings_layer")): return true
 	if zooming or (archive != null and archive.visible): return true
@@ -247,40 +256,47 @@ func _room_blocked() -> bool:
 	var playtest: Node = get_node_or_null("/root/PlaytestData")
 	return playtest != null and bool(playtest.get("_feedback_visible"))
 
-func _process_immersive_room(delta: float) -> void:
+func _process_immersive_room(_delta: float) -> void:
 	reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion", false))
 	if _terminal_was_asleep and not terminal.asleep(): room_focus = true
 	_terminal_was_asleep = terminal.asleep()
+	var page_open: bool = terminal_pages != null and terminal_pages.active()
+	if page_open:
+		room_focus = true
+		if terminal.asleep(): terminal.wake()
+	elif _page_was_open:
+		terminal._focus_primary()
+	_page_was_open = page_open
 	var blocked: bool = _room_blocked()
-	room.set_interaction_enabled(not blocked)
+	room.set_interaction_enabled(not blocked and not room_focus)
 	room_input_shield.visible = blocked
-	room_controls.mouse_filter = Control.MOUSE_FILTER_IGNORE if blocked else Control.MOUSE_FILTER_PASS
-	for child: Node in room_controls.get_children():
-		if child is Button: child.disabled = blocked
+	room_input_shield.mouse_filter = Control.MOUSE_FILTER_IGNORE if page_open else Control.MOUSE_FILTER_STOP
 	if not zooming:
-		var target: float = 1.0 if room_focus else 0.0
-		room_focus_amount = target if reduced_motion else lerpf(room_focus_amount,target,1.0-exp(-7.0*delta))
-		room.set_zoom(room_focus_amount * 0.45)
+		room_focus_amount = 0.0
+		room.set_zoom(0.0)
 		var pointer: Vector2 = get_local_mouse_position()
 		var normalized := ((pointer / size.max(Vector2.ONE)) - Vector2(0.5,0.5))*2.0
 		room.set_look(Vector2.ZERO if blocked or room_focus or reduced_motion or not room_pointer_seen or not Rect2(Vector2.ZERO,size).has_point(pointer) else normalized.clamp(Vector2(-1,-1),Vector2.ONE))
 		_sync_room_terminal()
-	# Flat menu is only revealed after the physical camera has settled front-on.
-	var aligned: bool = room._look_current.length() < 0.25
 	var was_visible: bool = terminal.visible
-	terminal.visible = (room_focus or terminal.asleep() or terminal.confirming()) and aligned
-	if terminal.visible and not was_visible and room_focus and not blocked and not terminal.asleep() and not terminal.confirming():
+	terminal.visible = room_focus and not page_open
+	terminal_background.visible = room_focus
+	# The room cannot contribute pixels or input while the workspace fills the view.
+	room.visible = not room_focus
+	room.viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED if room_focus else SubViewport.UPDATE_ALWAYS
+	terminal_pages.align_to(Rect2(Vector2.ZERO, size), page_open)
+	if terminal.visible and not was_visible and not blocked and not terminal.asleep() and not terminal.confirming():
 		terminal._focus_primary()
 	terminal.mouse_filter = Control.MOUSE_FILTER_IGNORE if blocked else Control.MOUSE_FILTER_PASS
+	room_hover.visible = not room_focus
 	if blocked: room_hover.text = ""
 
 func _sync_room_terminal() -> void:
 	if terminal == null or room == null: return
-	var rect: Rect2 = room.screen_rect()
-	if rect.size.x < 10.0: return
-	var inset := Vector2(maxf(10.0, rect.size.x * 0.035), maxf(10.0, rect.size.y * 0.06))
-	terminal.position = rect.position + inset
-	terminal.size = rect.size - inset * 2.0
+	var ui_scale: float = minf(size.x / 1280.0, size.y / 720.0)
+	terminal.scale = Vector2.ONE * ui_scale
+	terminal.size = Vector2(1000, 440)
+	terminal.position = (size - terminal.size * ui_scale) * 0.5
 
 func _on_room_hover(id: String) -> void:
 	if room_hover == null: return
@@ -354,6 +370,7 @@ func _fit() -> void:
 	if world == null: return
 	if room != null:
 		world.scale = Vector2.ONE; world.position = Vector2.ZERO; world.size = size
+		for layer: Control in layers.values(): layer.size = size
 		base_scale = 1.0; base_offset = Vector2.ZERO
 		return
 	base_scale = maxf(size.x / DESIGN.x, size.y / DESIGN.y)
@@ -395,7 +412,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if zooming or archive.visible or (room != null and _room_blocked()): return
 	var key := event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]:
-		if terminal.asleep() and not terminal.confirming():
+		if (terminal.asleep() or (room != null and not room_focus)) and not terminal.confirming():
 			room_focus = true
 			terminal.wake(); get_viewport().set_input_as_handled()
 
@@ -524,6 +541,10 @@ func _on_terminal_action(id: String) -> void:
 		"settings": settings_requested.emit()
 		"handbook": handbook_requested.emit()
 		"new_game": new_game_requested.emit()
+		"works": works_requested.emit()
+		"achievements": achievements_requested.emit()
+		"feedback": get_node("/root/PlaytestMoments").toggle()
+		"look": room_focus = false; terminal.release_focus_inside()
 		"quit": terminal.ask_quit()
 		"quit_confirmed": quit_requested.emit()
 		"language":
@@ -536,13 +557,17 @@ func reload_localized_scene() -> Error:
 	if error != OK: _language_checkpoint = {}
 	return error
 
-## Esc in the laboratory asks about quitting on the terminal screen; a second
-## Esc returns to the menu. Overlays (archive, settings, handbook) close first.
+## Pages close first, then Esc leaves the terminal; room Esc asks about quitting.
 func escape() -> void:
 	if zooming or archive.visible: return
-	room_focus = true
-	if terminal.confirming(): terminal.cancel_quit()
-	else: terminal.ask_quit()
+	if terminal.confirming():
+		terminal.cancel_quit()
+	elif room != null and room_focus:
+		room_focus = false
+		terminal.release_focus_inside()
+	else:
+		room_focus = true
+		terminal.ask_quit()
 
 ## Developer route only (`--dev-call=laboratory:preview_chapter_dialogue`):
 ## shows the chapter 2 ending conversation for screenshots. No progress changes.
@@ -560,8 +585,6 @@ func _on_archive_closed() -> void:
 	if room != null: _process_immersive_room(0.0)
 	if is_instance_valid(_archive_opener) and _archive_opener.is_visible_in_tree():
 		_archive_opener.call_deferred("grab_focus")
-	elif room_controls != null:
-		room_controls.get_node("RoomArchive").call_deferred("grab_focus")
 	else:
 		terminal._focus_primary()
 	_archive_opener = null

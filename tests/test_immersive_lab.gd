@@ -24,6 +24,7 @@ func settle(frames: int = 8) -> void:
 func check_blocked(lab: LabHome, label: String) -> void:
 	lab._process_immersive_room(0.016)
 	check(lab._room_blocked(), label + " blocks room actions")
+	check(lab.terminal_pages.active(), label + " is hosted inside the terminal")
 	check(not lab.room._interaction_enabled and lab.room_input_shield.visible, label + " shields 3D picking")
 	lab.room.activated.emit("settings")
 	if label != "Settings":
@@ -31,7 +32,10 @@ func check_blocked(lab: LabHome, label: String) -> void:
 
 func check_returned(lab: LabHome, label: String) -> void:
 	lab._process_immersive_room(0.016)
-	check(not lab._room_blocked() and lab.room._interaction_enabled, label + " restores room interaction")
+	check(not lab._room_blocked() and lab.room_focus and lab.terminal.visible, label + " returns to the full-screen terminal")
+	lab._on_terminal_action("look")
+	lab._process_immersive_room(0.016)
+	check(lab.room._interaction_enabled and lab.room.visible, label + " returns to an interactive room on request")
 	check(not lab.room_input_shield.visible and lab.is_visible_in_tree(), label + " returns to the laboratory")
 
 func run() -> void:
@@ -56,6 +60,8 @@ func run() -> void:
 	if room == null:
 		finish(hub, prior_reduced, prior_offline)
 		return
+	check(lab.get_node_or_null("RoomShortcuts") == null, "No screen-space toolbar is built")
+	check(lab.terminal_pages.viewport.gui_embed_subwindows, "Terminal contains embedded option menus and confirmations")
 	check(ResourceLoader.exists(Room.MODEL_PATH), "The checked-in laboratory GLB is loadable")
 	check(room.model != null and room.model.scene_file_path == Room.MODEL_PATH, "The room instantiates the production GLB")
 	check(room.viewport != null and room.viewport.own_world_3d, "The room owns an isolated World3D")
@@ -78,6 +84,13 @@ func run() -> void:
 	lab._process_immersive_room(1.0)
 	room._process(1.0)
 	check(not lab.room_pointer_seen and room._look_current.is_equal_approx(Vector2.ZERO), "Without a real pointer motion, ordinary arrival stays neutral instead of looking at OS position zero")
+	room.set_look(Vector2(1.0, -1.0))
+	room._process(1.0)
+	var forward: Vector3 = -room.camera.basis.z
+	check(forward.dot(room._neutral_basis.x) > 0.0, "Moving the pointer right turns the camera right")
+	check(forward.dot(room._neutral_basis.y) > 0.0, "Moving the pointer up turns the camera up")
+	room.set_look(Vector2.ZERO)
+	room._process(10.0)
 	ProjectSettings.set_setting("game/reduced_motion", true)
 
 	# Semantic activation intentionally tests the genuine room-to-Hub signal route;
@@ -91,7 +104,7 @@ func run() -> void:
 
 	room.activated.emit("archive")
 	await settle(3)
-	check(lab.archive.visible and lab.archive.get_node_or_null("ArchivePaper") != null, "Archive opens the existing paper reader")
+	check(lab.archive.visible and lab.archive.get_node_or_null("ArchivePaper") != null, "Archive opens its terminal reader")
 	check_blocked(lab, "Archive")
 	lab.archive.close()
 	await settle(3)
@@ -131,6 +144,16 @@ func run() -> void:
 	await settle(3)
 	check_returned(lab, "Achievements")
 	check(not (hub.get_node("HubSurface") as Control).visible, "Closing achievements does not reveal the classic homepage")
+	var settings_launcher := lab.terminal.find_child("TerminalSettings",true,false) as Button
+	for cycle in range(3):
+		settings_launcher.grab_focus()
+		settings_launcher.pressed.emit()
+		await settle(3)
+		hub.find_child("HubManageProgress", true, false).pressed.emit()
+		await settle(3)
+		hub.call("_close_hub_navigation")
+		await settle(3)
+		check(lab.terminal.primary.has_focus(), "Management returns to the terminal primary action, cycle %d" % cycle)
 
 	var moments: Node = root.get_node("PlaytestMoments")
 	room.activated.emit("feedback")
@@ -244,7 +267,7 @@ func check_terminal_layout(lab: LabHome) -> void:
 	check(room._look_current.length() > 0.25 and not lab.terminal.visible, "Sideways observation hides the flat terminal UI")
 	lab.room_focus = true
 	lab._process_immersive_room(0.0)
-	check(not lab.terminal.visible, "Requesting focus does not reveal UI before the camera returns")
+	check(lab.terminal.visible and not room.visible, "Opening the terminal reveals the full-screen menu independently of camera angle")
 	check(room._look_target.is_equal_approx(Vector2.ZERO), "Terminal focus requests neutral camera alignment")
 	for step: int in range(90):
 		lab._process_immersive_room(1.0 / 60.0)
@@ -351,7 +374,7 @@ func check_interaction_details(lab: LabHome) -> void:
 	lab.escape()
 	await settle(3)
 	check(not lab.terminal.confirming() and root.gui_get_focus_owner() == lab.terminal.primary, "Second ESC returns keyboard focus to primary")
-	var opener: Button = lab.room_controls.get_node("RoomArchive")
+	var opener: Button = lab.terminal.archive_button
 	for cycle: int in 3:
 		opener.grab_focus()
 		opener.pressed.emit()
@@ -360,17 +383,17 @@ func check_interaction_details(lab: LabHome) -> void:
 		lab._process_immersive_room(0.0)
 		check(lab.room_hover.text.is_empty(), "Modal clears underlying hover hint")
 		check(lab.archive.visible, "Keyboard archive opens cycle %d" % cycle)
-		var modal_focus: Control = root.gui_get_focus_owner()
+		var modal_focus: Control = lab.terminal_pages.viewport.gui_get_focus_owner()
 		check(modal_focus != null and lab.archive.is_ancestor_of(modal_focus), "Fresh archive places initial keyboard focus inside its modal")
 		lab.archive.close_button.grab_focus()
 		await send_key(KEY_TAB)
-		modal_focus = root.gui_get_focus_owner()
+		modal_focus = lab.terminal_pages.viewport.gui_get_focus_owner()
 		check(modal_focus != null and lab.archive.is_ancestor_of(modal_focus), "Archive Tab cannot escape into the underlying terminal")
 		lab.archive.close_button.grab_focus()
-		check(root.gui_get_focus_owner() == lab.archive.close_button, "Archive accepts keyboard navigation inside its modal")
+		check(lab.terminal_pages.viewport.gui_get_focus_owner() == lab.archive.close_button, "Archive accepts keyboard navigation inside its modal")
 		lab.archive.close()
 		await settle(3)
-		check(root.gui_get_focus_owner() == opener, "Archive close restores its launcher cycle %d" % cycle)
+		check(root.gui_get_focus_owner() == opener, "Archive close restores its terminal launcher cycle %d" % cycle)
 	ProjectSettings.set_setting("game/reduced_motion", true)
 	lab._process_immersive_room(0.0)
 	var departures: Array[int] = [0]
@@ -390,10 +413,10 @@ func check_interaction_details(lab: LabHome) -> void:
 	var moments: Node = root.get_node("PlaytestMoments")
 	moments.call("toggle")
 	await settle(3)
-	var feedback_focus: Control = root.gui_get_focus_owner()
+	var feedback_focus: Control = lab.terminal_pages.viewport.gui_get_focus_owner()
 	check(feedback_focus != null and moments.panel.is_ancestor_of(feedback_focus), "Feedback takes keyboard focus during a pending route")
 	await create_timer(0.75).timeout
-	check(not lab.zooming and root.gui_get_focus_owner() == feedback_focus, "Fallback does not steal focus from a globally opened feedback modal")
+	check(not lab.zooming and lab.terminal_pages.viewport.gui_get_focus_owner() == feedback_focus, "Fallback does not steal focus from a globally opened feedback modal")
 	moments.call("close")
 	await settle(3)
 
@@ -409,17 +432,17 @@ func check_global_settings(lab: LabHome) -> void:
 	await send_key(KEY_F10)
 	await settle(8)
 	lab._process_immersive_room(0.016)
-	check(is_instance_valid(manager.settings_layer), "F10 global settings uses its existing independent layer")
+	check(not is_instance_valid(manager.settings_layer) and lab.get_parent().options_overlay.visible, "F10 opens terminal settings without an independent layer")
 	check(lab._room_blocked() and not lab.room._interaction_enabled, "Global settings shields laboratory background interactions")
 	lab.room.activated.emit("archive")
 	check(not lab.archive.visible, "Global settings cannot leak through to Archive")
 	if lab.archive.visible: lab.archive.close()
-	var host: Node = manager.settings_layer.get_child(0)
+	var host: Node = lab.get_parent().options_overlay
 	for step: int in 90:
 		lab._process_immersive_room(1.0 / 60.0)
 		lab.room._process(1.0 / 60.0)
 	await settle(3)
-	var owner: Control = root.gui_get_focus_owner()
+	var owner: Control = lab.terminal_pages.viewport.gui_get_focus_owner()
 	check(owner != null and host.is_ancestor_of(owner), "Recenter cannot steal keyboard focus from F10 settings")
 	await send_key(KEY_ESCAPE)
 	await settle(8)

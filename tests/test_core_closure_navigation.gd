@@ -40,7 +40,7 @@ func open_task(key: String) -> Control:
 func inspect_hub(expected_joint: bool) -> void:
 	await settle()
 	check(current_scene.scene_file_path == "res://src/ui/prototype_hub.tscn","Earned review action returns through ordinary Hub")
-	var reflection: AcceptDialog = current_scene.get_node_or_null("ThemeReflection")
+	var reflection: AcceptDialog = current_scene.find_child("ThemeReflection",true,false)
 	check(reflection != null and reflection.visible,"Transient intent opens existing reflection without hunting for another button")
 	check(Intent.pending_review.is_empty(),"Hub consumes transient review intent")
 	check((&"theme.ending" in reflection_keys()) == expected_joint,"Existing joint ending still requires both terminal solutions")

@@ -19,7 +19,7 @@ var awake_view: VBoxContainer
 var message: Typewriter
 var _passage: String = ""
 var primary: Button
-var secondary: HBoxContainer
+var secondary: HFlowContainer
 var archive_button: Button
 var progress_label: Label
 var cursor: Label
@@ -109,14 +109,14 @@ func _build() -> void:
 	awake_view.add_child(message)
 	primary = _button(awake_view, "", "start", true); primary.name = "TerminalPrimary"
 	primary.custom_minimum_size.y = 44; primary.add_theme_font_size_override("font_size", 17)
-	secondary = HBoxContainer.new(); secondary.add_theme_constant_override("separation", 6)
+	secondary = HFlowContainer.new(); secondary.add_theme_constant_override("h_separation", 6); secondary.add_theme_constant_override("v_separation", 4)
 	awake_view.add_child(secondary)
-	var labels: Array = [["旅程地图", "Journey map", "journey"], ["档案", "Archive", "archive"], ["手册", "Handbook", "handbook"], ["设置", "Settings", "settings"], ["退出游戏", "Quit", "quit"]]
+	var labels: Array = [["旅程地图", "Journey map", "journey"], ["档案", "Archive", "archive"], ["手册", "Handbook", "handbook"], ["设置", "Settings", "settings"], ["作品", "Works", "works"], ["成就", "Achievements", "achievements"], ["反馈", "Feedback", "feedback"], ["返回房间 · Esc", "Back to room · Esc", "look"], ["退出游戏", "Quit", "quit"]]
 	for entry: Array in labels:
 		var button := _button(secondary, "", str(entry[2]), false)
 		button.name = "Terminal" + str(entry[2]).capitalize()
 		button.set_meta("zh", entry[0]); button.set_meta("en", entry[1])
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.size_flags_horizontal = Control.SIZE_FILL
 		button.custom_minimum_size.y = 32
 		button.add_theme_font_size_override("font_size", 14)
 		if str(entry[2]) == "archive": archive_button = button
@@ -202,7 +202,7 @@ func _set_choices(options: Array) -> void:
 	for option: Dictionary in options:
 		var button := Button.new(); button.text = str(option.text)
 		button.focus_mode = Control.FOCUS_ALL
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.size_flags_horizontal = Control.SIZE_FILL
 		button.custom_minimum_size.y = 40
 		button.add_theme_font_size_override("font_size", 15)
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

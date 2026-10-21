@@ -1,8 +1,8 @@
 ## Immersive laboratory — 2026-10-21
 
-Run `test_immersive_lab` with the isolated verifier, alongside `test_lab_journey`,
+Run `test_immersive_lab` and `test_lab_terminal_pages` with the isolated verifier, alongside `test_lab_journey`,
 `test_lab_terminal_routing`, `test_two_worlds`, `test_hub_first_screen` and
-`test_terminal_presentation_polish`. The suite exercises existing overlays, input
+`test_terminal_presentation_polish`. The suites exercise full-screen terminal scaling, physical-pixel rendering, nested feedback and Esc navigation, existing pages, input
 blocking/return, real imported geometry, the fixed observation camera and the
 24-second globe loop. Headless layout/physics assertions do not establish image
 quality, frame rate or native mouse input. The real-display capture helper
@@ -1079,3 +1079,9 @@ QA custom user directory, then run Godot `--path <QA project> --script
 res://tests/test_completion_route.gd` without `--headless`. Headless fixtures and
 rendered viewport input are separate from actual exported-package/native input.
 [Native earned closure and full regression logs](../verification/20261009-native-region-resume/README.md).
+
+### Terminal-only homepage regression
+
+`test_lab_terminal_pages` checks model-derived clipping and hit bounds at 720p, 900p, 5:4 and wide aspect ratios; F10/F8/Esc routing; docked settings; and nested reviews. Run it on a real display as well as headless: nested Window focus is explicitly NOT_RUN with the dummy renderer. `test_settings_language_input` exercises both terminal Settings and F10 using viewport input and checks language/progress continuity. `test_creation_lab_return_input` enters the protected-work journal through the visible terminal menu and preserves the saved-work bytes through the complete round trip.
+
+Render acceptance must inspect the curved glass edge, page controls and confirmation boundaries, including during focus/return transitions. Use `--capture-size=1280x720` or `1600x900` with `scripts/capture-immersive-lab.gd`; its performance JSON reports rendered wall-frame samples, separately from native input acceptance.

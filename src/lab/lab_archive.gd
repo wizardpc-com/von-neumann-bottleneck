@@ -1,7 +1,5 @@
 extends Control
-## Archive reader opened from the laboratory shelf. Light "paper" surface: it
-## belongs to the room, not the terminal. Locked entries name the task that
-## opens them, so the archive also points the player onward.
+## Unlocked journey records, read on the laboratory terminal.
 
 signal closed
 
@@ -10,6 +8,7 @@ const Fragments = preload("res://src/lab/archive_fragments.gd")
 const LabState = preload("res://src/lab/lab_state.gd")
 
 var english: bool = false
+var terminal_page: bool = false
 var list: VBoxContainer
 var title_label: Label
 var body_label: Label
@@ -53,12 +52,17 @@ func _build() -> void:
 	paper.anchor_left = 0.5; paper.anchor_right = 0.5; paper.anchor_top = 0.5; paper.anchor_bottom = 0.5
 	paper.offset_left = -470; paper.offset_right = 470; paper.offset_top = -300; paper.offset_bottom = 300
 	add_child(paper)
+	if terminal_page:
+		paper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		box.set_corner_radius_all(0)
+		box.shadow_size = 0
+		box.bg_color = Palette.TERM_SCREEN
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 14); paper.add_child(column)
 	var header := HBoxContainer.new(); column.add_child(header)
 	var heading := _label(header, "档案架" if not english else "Archive shelf", 24, Palette.LAB_INK)
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	close_button = Button.new(); close_button.name = "ArchiveClose"
-	close_button.text = "回到实验室 · Esc" if not english else "Back to the lab · Esc"
+	close_button.text = "回到终端 · Esc" if not english else "Back to terminal · Esc"
 	_style_button(close_button, false); close_button.pressed.connect(close); header.add_child(close_button)
 	var hint := _label(column, "每走完一段旅程，这里会多一页壹留下的记录。" if not english else "Each stage of the journey adds a page from Yi's records.", 13, Palette.LAB_INK_SOFT)
 	hint.name = "ArchiveHint"
@@ -131,7 +135,7 @@ func _show(id: String) -> void:
 
 func _label(parent: Node, text: String, font_size: int, color: Color) -> Label:
 	var node := Label.new(); node.text = text; node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	node.add_theme_font_size_override("font_size", font_size); node.add_theme_color_override("font_color", color)
+	node.add_theme_font_size_override("font_size", font_size); node.add_theme_color_override("font_color", Palette.TERM_TEXT if terminal_page else color)
 	parent.add_child(node); return node
 
 func _style_button(button: Button, emphasised: bool) -> void:

@@ -1,26 +1,26 @@
 # Immersive laboratory integration candidate — 2026-10-21
 
 Baseline: `472890a9a014683517614e8737bf288caaa95241`.
-This is a new-branch integration candidate, not a graphical acceptance receipt.
+This records the original integration candidate and its historical checks. The 2026-10-22 follow-up replaces the external shortcuts and overlays with terminal pages; see `terminal-acceptance.md` for graphical/input results.
 
 ## Runtime ownership
 
 - `LabHome` retains its existing terminal, arrival/departure, archive, localization and progression-reading controller.
 - `LabRoom3D` owns only imported geometry, fixed-position camera, lighting, physical picking and read-only displays. Mouse look is bounded to ±12° horizontally and ±6° vertically. This is not free walking or a complete 360° environment.
-- Start/Continue and Journey use the existing `TaskNavigation` routes; saved works use the existing protected Journey Journal; achievements use the existing achievements/save page; the reader uses the existing handbook; settings use the existing settings overlay; the letter opens the existing voluntary local feedback panel. No new external submission is introduced.
+- Start/Continue and Journey use the existing `TaskNavigation` routes; saved works use the existing protected Journey Journal; achievements use the existing achievements/save page; the reader uses the existing handbook; settings use the existing settings controller inside the terminal; the letter opens the existing voluntary local feedback panel. No new external submission is introduced.
 - The globe preserves the authored Africa-facing pose and axial tilt, with a runtime replacement of the imported offset timeline: exactly 24 seconds, linear rotation, fixed center. Reduced motion pauses it and fixes the viewing direction.
 - Picks use the nearest actual triangle hit among semantic geometry and opaque architecture. A wall is a blocker, not a transparent route to a board behind it.
 - `--flat-lab` keeps the earlier drawn laboratory presentation; `--classic-hub` retains the existing diagnostic classic entry. Neither creates another save or grants progress.
 
 ## Controls
 
-Move the pointer to gently turn the fixed camera. Click a visible object to open its existing feature. Use the top-row shortcuts with Tab/Enter when a small object is inconvenient to target. Terminal focuses the screen; Look around releases the menu to explore the room again. Esc closes the current existing overlay first; at home it opens the existing quit confirmation. Reduced motion fixes the camera and pauses the globe. No click on a wall can activate a hidden object behind it.
+Move the pointer to gently turn the fixed camera. Click a visible object to open its existing feature. Enter opens the full-screen terminal; its internal controls support Tab/Enter when a small object is inconvenient to target. The terminal menu includes Back to room; Esc also returns there after closing the current page. There is no top-row shortcut toolbar. Esc in the room opens the existing quit confirmation. Reduced motion fixes the camera and pauses the globe. No click on a wall can activate a hidden object behind it.
 
 ## Asset and render boundary
 
 The imported GLB contains 208 mesh objects, approximately 190,400 triangles, 19 materials and the Natural Earth globe texture. Its geometry came from the separately reviewed Blender v10 source, not from a screenshot. Natural Earth attribution is included beside the asset. Godot lighting is an engine-native approximation: Blender baked probes, procedural micro-bump and compositor settings do not transfer through GLB. No claim is made that the Godot image matches the Blender image before actual renderer review.
 
-The terminal is a 2D control aligned to the projected front glass bounds, not a perspective-correct live texture. It is only shown once the camera is front-aligned; look-around hides the awake menu. Camera focus/return and the entry passage remain reversible presentation effects.
+The room-mode standby display is drawn on the glass mesh itself, including perspective and rounded corners. Opening the terminal switches to a full-screen workspace with uniform UI scaling; room rendering is suspended until returning. Settings, readers, saved works, feedback and embedded confirmations stay inside this workspace.
 
 ## Verified environment and limit
 

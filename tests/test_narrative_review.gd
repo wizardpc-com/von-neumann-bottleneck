@@ -89,7 +89,7 @@ func run() -> void:
 		terminal.dialogue_skip.pressed.emit(); await settle()
 		var after: Dictionary = save._save_snapshot(); after.erase("saved_at_utc")
 		check(before == after, "Reading, replying and skipping grant no progression")
-		var archive: Control = hub.get_node("Laboratory/LabArchive")
+		var archive: Control = hub.laboratory.archive
 		archive.present(locale == "en"); await settle()
 		# Reader fixture: display a locked draft without granting its completion.
 		archive._show("keep_a_record"); await settle()

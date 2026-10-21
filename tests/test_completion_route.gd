@@ -16,6 +16,9 @@ func escape() -> void:
 	var release := InputEventKey.new(); release.keycode = KEY_ESCAPE; release.physical_keycode = KEY_ESCAPE
 	root.push_input(release,true); await settle()
 func run() -> void:
+	# This suite exercises the retained classic Hub controls; the immersive
+	# launchers and their modal return focus are covered by test_immersive_lab.
+	preload("res://src/lab/lab_features.gd").classic = true
 	var Hub: Script = load("res://src/ui/prototype_hub.gd")
 	root.content_scale_size = Vector2i(1280,720); root.size = Vector2i(1280,720)
 	var empty := {"representation":{"status":"empty"}, "service":{"status":"empty"}, "complete":false}

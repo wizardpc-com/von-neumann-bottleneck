@@ -2,11 +2,14 @@ extends PanelContainer
 ## Title-only dragging for modal reading/settings surfaces. No saved game state.
 var desired_size := Vector2(760, 780)
 var _moved: bool = false
+var docked: bool = false
+var title_handle: Control
 var _dragging: bool = false
 var _pointer_origin := Vector2.ZERO
 var _panel_origin := Vector2.ZERO
 
 func setup(handle: Control, preferred: Vector2) -> void:
+	title_handle = handle
 	desired_size = preferred
 	handle.mouse_filter = Control.MOUSE_FILTER_STOP
 	handle.mouse_default_cursor_shape = Control.CURSOR_DRAG
@@ -16,9 +19,20 @@ func setup(handle: Control, preferred: Vector2) -> void:
 	get_parent().resized.connect(fit_to_bounds)
 	call_deferred("fit_to_bounds")
 
+func dock() -> void:
+	docked = true
+	title_handle.mouse_default_cursor_shape = Control.CURSOR_ARROW
+	title_handle.tooltip_text = ""
+	fit_to_bounds()
+
 func fit_to_bounds() -> void:
 	var bounds: Control = get_parent() as Control
 	if bounds == null or bounds.size.x <= 0 or bounds.size.y <= 0: return
+	if docked:
+		custom_minimum_size = Vector2.ZERO
+		position = Vector2.ZERO
+		size = bounds.size
+		return
 	var available := (bounds.size - Vector2(32, 32)).max(Vector2.ONE)
 	custom_minimum_size = desired_size.min(available)
 	size = custom_minimum_size
@@ -30,6 +44,7 @@ func _clamp_position() -> void:
 	position = position.clamp(Vector2(16, 16), (bounds.size - size - Vector2(16, 16)).max(Vector2(16, 16)))
 
 func _on_title_input(event: InputEvent) -> void:
+	if docked: return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		_dragging = event.pressed
 		if _dragging:

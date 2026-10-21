@@ -43,9 +43,9 @@ func run() -> void:
 		check(not terminal.primary.text.is_empty(), "Primary action names the next step")
 		var shelf: Button = lab.get_node("LabWorld/LayerMid/ArchiveShelf")
 		shelf.pressed.emit(); await settle()
-		var archive: Control = lab.get_node("LabArchive")
+		var archive: Control = lab.archive
 		check(archive.visible, "Archive shelf opens the reader")
-		check(archive.get_node_or_null("ArchivePaper") != null, "Reader uses the room's light paper surface")
+		check(archive.get_node_or_null("ArchivePaper") != null, "Reader uses the terminal archive page")
 		archive.close(); await settle()
 		check(not archive.visible, "Reader closes back to the lab")
 	hub.queue_free(); await settle()

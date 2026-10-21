@@ -112,17 +112,20 @@ func _local_feedback_available(window: Window) -> bool:
 
 func _refresh_toolbar() -> void:
 	# Existing host entries open this same panel; its export actions stay available.
-	toolbar.visible=enabled() and not busy and not backdrop.visible and not _local_feedback_available(_focused_window(get_tree().root))
+	toolbar.visible=get_tree().get_first_node_in_group("laboratory")==null and enabled() and not busy and not backdrop.visible and not _local_feedback_available(_focused_window(get_tree().root))
 
 func _process(_delta: float) -> void:
 	_refresh_toolbar()
 	if not enabled(): return
-	var size: Vector2 = layer.get_viewport().get_visible_rect().size
+	var size: Vector2 = backdrop.get_viewport().get_visible_rect().size
 	toolbar.position=Vector2(maxf(8,size.x-toolbar.size.x-14),maxf(8,size.y-toolbar.size.y-10))
 	if backdrop.visible:
 		backdrop.size=size
 		panel.position=Vector2(maxf(8,(size.x-780)/2),12)
 		panel.size=Vector2(minf(780,size.x-16),maxf(250,size.y-24))
+		if backdrop.has_meta("terminal_page"):
+			panel.position=Vector2.ZERO
+			panel.size=size
 	# Polling also reaches embedded work/exhibition windows, whose input belongs to
 	# a different viewport. It never installs an OS-wide keyboard hook.
 	var choosing_file: bool = is_instance_valid(export_dialog) and export_dialog.visible
@@ -145,7 +148,7 @@ func open_panel(feedback_task: Dictionary = {}) -> void:
 	emergency_context=context
 	rescue_exported=false
 	var target_window: Window = _focused_window(get_tree().root)
-	previous_focus=target_window.gui_get_focus_owner()
+	previous_focus=backdrop.get_viewport().gui_get_focus_owner() if backdrop.get_viewport() is SubViewport else target_window.gui_get_focus_owner()
 	was_paused=get_tree().paused; get_tree().paused=true
 	toolbar.hide(); backdrop.hide()
 	# Finish a clean game frame before capturing, including immediate reopen after
@@ -164,6 +167,7 @@ func open_panel(feedback_task: Dictionary = {}) -> void:
 	# Place the panel in the focused game viewport even when a work viewer is open.
 	if layer.get_parent()!=target_window: layer.reparent(target_window)
 	if target_window!=get_tree().root:
+		if backdrop.has_meta("terminal_page"): backdrop.reparent(layer)
 		var release: Callable = _release_window.bind(target_window)
 		if not target_window.tree_exiting.is_connected(release): target_window.tree_exiting.connect(release,CONNECT_ONE_SHOT)
 	backdrop.show(); toolbar.hide()
@@ -182,6 +186,9 @@ func close_panel() -> void:
 	if not backdrop.visible or busy: return
 	if not _save_note(false) and not rescue_exported: return
 	backdrop.hide()
+	if backdrop.has_meta("terminal_page"):
+		var home: Node = get_tree().get_first_node_in_group("laboratory")
+		if home != null and backdrop.get_parent() != home.terminal_pages.surface: backdrop.reparent(home.terminal_pages.surface)
 	if layer.get_parent()!=self: layer.reparent(self)
 	get_tree().paused=was_paused
 	PlaytestData.set_feedback_visible(false,&"offline")

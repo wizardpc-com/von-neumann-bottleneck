@@ -75,6 +75,9 @@ func _ready() -> void:
 	if WindowMode.reopen_settings:
 		WindowMode.reopen_settings=false; call_deferred("_open_options_menu")
 	var choice := preload("res://src/playtest/sharing_first_choice.gd").new(); add_child(choice)
+	if is_instance_valid(laboratory) and laboratory.terminal_pages != null and is_instance_valid(choice.overlay):
+		choice.overlay.z_index = 1700
+		laboratory.terminal_pages.mount(choice.overlay)
 	var arguments: PackedStringArray = GameMode.capture_arguments()
 	if "--capture-new-game" in arguments:
 		call_deferred("_open_new_game_confirmation")
@@ -111,6 +114,11 @@ func _input(event: InputEvent) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not _is_escape_press(event):
 		return
+	if is_instance_valid(laboratory) and laboratory.terminal_pages != null:
+		for window: Window in laboratory.terminal_pages.viewport.get_embedded_subwindows():
+			if window.visible: return
+	if is_instance_valid(journey_journal) and journey_journal.visible: return
+	if is_instance_valid(laboratory) and laboratory.archive.visible: return
 	if yi_introduction != null and yi_introduction.visible:
 		yi_introduction.close()
 	elif new_game_overlay != null and new_game_overlay.visible:
@@ -206,6 +214,33 @@ func _build_laboratory(background: Control, surface: Control) -> void:
 	laboratory.new_game_requested.connect(_open_new_game_confirmation)
 	laboratory.works_requested.connect(_open_journey_journal)
 	laboratory.achievements_requested.connect(_open_hub_navigation)
+	if laboratory.terminal_pages != null:
+		options_resume_button.text = "返回终端" if Localization.current_locale() != "en" else "Back to terminal"
+		for page: Control in [options_overlay, navigation_overlay, new_game_overlay, yi_introduction]:
+			laboratory.terminal_pages.mount(page)
+		laboratory.terminal_pages.mount(terminology_handbook, terminology_handbook.modal)
+		for child: Node in get_children():
+			if child is Window: child.reparent(laboratory.terminal_pages.surface)
+		PlaytestMoments.panel.z_index = 1600
+		OfflineFeedback.backdrop.z_index = 2000
+		laboratory.terminal_pages.mount(PlaytestMoments.panel)
+		laboratory.terminal_pages.mount(OfflineFeedback.backdrop)
+		laboratory.tree_exiting.connect(func() -> void:
+			PlaytestMoments.panel.remove_meta("terminal_page")
+			OfflineFeedback.backdrop.remove_meta("terminal_page")
+			PlaytestMoments.panel.reparent(PlaytestMoments.layer)
+			PlaytestMoments.panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+			OfflineFeedback.backdrop.reparent(OfflineFeedback.layer))
+
+func _add_home_page(page: Node) -> void:
+	add_child(page)
+	if is_instance_valid(laboratory) and laboratory.terminal_pages != null:
+		if page is Control: laboratory.terminal_pages.mount(page)
+		elif page is Window: page.reparent(laboratory.terminal_pages.surface)
+
+func _home_dialog(dialog_name: String) -> Node:
+	return find_child(dialog_name, true, false)
+
 
 
 func _build_hub_header(content: VBoxContainer) -> void:
@@ -320,15 +355,15 @@ func _build_tree_entry(content: VBoxContainer) -> void:
 
 func _open_observatory() -> void:
 	if not is_instance_valid(journey_observatory):
-		journey_observatory = ObservatoryType.new(); add_child(journey_observatory)
+		journey_observatory = ObservatoryType.new(); _add_home_page(journey_observatory)
 		journey_observatory.tree_requested.connect(func(key: String) -> void:
 			TaskNavigation.selected = key; TaskNavigation.camera_saved = false
-			get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE))
+			get_tree().change_scene_to_file(TaskNavigation.MAP_SCENE), CONNECT_DEFERRED)
 	journey_observatory.open()
 
 func _open_journey_journal() -> void:
 	if not is_instance_valid(journey_journal):
-		journey_journal = JournalType.new(); add_child(journey_journal)
+		journey_journal = JournalType.new(); _add_home_page(journey_journal)
 	journey_journal.open()
 
 
@@ -407,7 +442,7 @@ func _build_save_actions(content: BoxContainer) -> void:
 	row.add_theme_constant_override("separation",10); content.add_child(row); save_actions = row
 	continue_button = Button.new(); continue_button.name = "ContinueButton"
 	continue_button.text = Localization.text(&"hub.save.continue")
-	continue_button.custom_minimum_size = Vector2(132,42); continue_button.pressed.connect(_continue_game); row.add_child(continue_button)
+	continue_button.custom_minimum_size = Vector2(132,42); continue_button.pressed.connect(_continue_game, CONNECT_DEFERRED); row.add_child(continue_button)
 	new_game_button = Button.new(); new_game_button.name = "NewGameButton"
 	new_game_button.text = "重新开始核心旅程" if Localization.current_locale() != "en" else "Restart core journey"
 	new_game_button.custom_minimum_size = Vector2(132,42); new_game_button.pressed.connect(_open_new_game_confirmation); row.add_child(new_game_button)
@@ -448,26 +483,26 @@ func _build_hub_footer(content: VBoxContainer) -> void:
 
 func _show_recovery_notice() -> void:
 	if GlobalSave.recovery_notice.is_empty(): return
-	var old := get_node_or_null("SaveRecoveryReview")
-	if old != null: remove_child(old); old.queue_free()
+	var old := _home_dialog("SaveRecoveryReview")
+	if old != null: old.get_parent().remove_child(old); old.queue_free()
 	var dialog := AcceptDialog.new(); dialog.name = "SaveRecoveryReview"
 	dialog.title = "存档提示" if Localization.current_locale() != "en" else "Save notice"
 	dialog.dialog_text = Localization.text(GlobalSave.recovery_notice)
 	if not GlobalSave.recovery_details.is_empty(): dialog.dialog_text += "\n\n"+GlobalSave.recovery_details
 	dialog.dialog_autowrap = true; dialog.get_label().custom_minimum_size.x = 540
-	add_child(dialog); dialog.popup_centered(Vector2i(580,240))
+	_add_home_page(dialog); dialog.popup_centered(Vector2i(580,240))
 
 
 func _show_route_info() -> void:
-	var old := get_node_or_null("RecommendedJourneyInfoReview")
-	if old != null: remove_child(old); old.queue_free()
+	var old := _home_dialog("RecommendedJourneyInfoReview")
+	if old != null: old.get_parent().remove_child(old); old.queue_free()
 	var english: bool = Localization.current_locale() == "en"
 	var dialog := AcceptDialog.new(); dialog.name = "RecommendedJourneyInfoReview"
 	dialog.title = "旅程说明" if not english else "Route details"
 	dialog.dialog_text = "造出机器 → 看见等待 → 局部性 → 时序与位置（两路并行）→ 核心收束 → 表示 → 服务 → 扩展收束。\n\n推荐顺序不增加解锁条件。应用支线、预测与追加委托可选。核心、表示、服务分别保存；预测仅保留本次会话。" if not english else "Build a machine → Discover waiting → Locality → Timing and placement (parallel paths) → Core ending → Representation → Service → Extended ending.\n\nRecommendations add no prerequisites. Applications, Prediction and commissions are optional. Core, Representation and Service save independently; Prediction lasts for this session."
 	if candidate_review_paths().is_empty(): dialog.dialog_text += "\n\n当前启动未绑定候选存档；第二幕默认仅本次会话。使用命名候选包才能确认保存与继续。" if not english else "\n\nThis launch is not bound to a candidate profile; second-act work is session-only by default. Use a named candidate package to confirm saved continuation."
 	dialog.dialog_autowrap = true; dialog.get_label().custom_minimum_size.x = 580
-	add_child(dialog); dialog.popup_centered(Vector2i(620,310))
+	_add_home_page(dialog); dialog.popup_centered(Vector2i(620,310))
 
 
 func _build_new_game_confirmation() -> void:
@@ -540,7 +575,7 @@ func _build_new_game_confirmation() -> void:
 	new_game_confirm_button.text = "重新开始核心旅程" if Localization.current_locale() != "en" else "Restart core journey"
 	new_game_confirm_button.custom_minimum_size = Vector2(210.0, UiTypographyType.TOOL_BUTTON_HEIGHT)
 	new_game_confirm_button.add_theme_color_override("font_color", DANGER)
-	new_game_confirm_button.pressed.connect(_confirm_new_game)
+	new_game_confirm_button.pressed.connect(_confirm_new_game, CONNECT_DEFERRED)
 	actions.add_child(new_game_confirm_button)
 	new_game_overlay.hide()
 
@@ -1000,7 +1035,7 @@ func _open_chapter(scene_path: String) -> void:
 
 
 func _open_theme_reflection() -> void:
-	if get_node_or_null("ThemeReflection") != null: return
+	if _home_dialog("ThemeReflection") != null: return
 	var reflection = preload("res://src/ui/theme_reflection.gd").new()
 	var keys: Array[StringName] = _core_reflection_keys()
 	reflection.configure(keys,Localization.text)
@@ -1010,7 +1045,7 @@ func _open_theme_reflection() -> void:
 		reflection.custom_action.connect(func(action: StringName) -> void:
 			if action == &"representation":
 				reflection.hide(); reflection.queue_free(); _show_completion_bridge())
-	add_child(reflection)
+	_add_home_page(reflection)
 	reflection.popup_centered(Vector2i(640,500))
 
 
@@ -1055,7 +1090,7 @@ func candidate_review_paths() -> Dictionary:
 
 func show_candidate_review(return_to_story: bool = false) -> void:
 	if not candidate_journey: return
-	var story := get_node_or_null("CompletionStoryDialog") as AcceptDialog
+	var story := _home_dialog("CompletionStoryDialog") as AcceptDialog
 	var story_page: int = completion_story_page
 	if story != null: story.hide()
 	if not return_to_story: story = null
@@ -1064,8 +1099,8 @@ func show_candidate_review(return_to_story: bool = false) -> void:
 	var result: Dictionary = {}
 	if not paths.is_empty():
 		result = preload("res://experiments/candidate_session/journey_review.gd").read_pair(paths.representation,paths.service)
-	var old := get_node_or_null("SavedJourneyReview") as AcceptDialog
-	if old != null: remove_child(old); old.queue_free()
+	var old := _home_dialog("SavedJourneyReview") as AcceptDialog
+	if old != null: old.get_parent().remove_child(old); old.queue_free()
 	var dialog := AcceptDialog.new(); dialog.name = "SavedJourneyReview"
 	var dialog_id: int = dialog.get_instance_id()
 	var story_id: int = story.get_instance_id() if story != null else 0
@@ -1111,14 +1146,14 @@ func show_candidate_review(return_to_story: bool = false) -> void:
 	refresh.name = "RefreshSavedJourneyReview"
 	dialog.custom_action.connect(func(action: StringName) -> void:
 		if action == &"refresh": call_deferred("_refresh_candidate_review",dialog_id,story_id))
-	add_child(dialog); dialog.popup_centered(Vector2i(780,480))
+	_add_home_page(dialog); dialog.popup_centered(Vector2i(780,480))
 
 func _refresh_candidate_review(dialog_id: int, story_id: int) -> void:
 	var dialog := instance_from_id(dialog_id) as AcceptDialog
 	var story: AcceptDialog = instance_from_id(story_id) as AcceptDialog if story_id != 0 else null
-	if not is_instance_valid(dialog) or get_node_or_null("SavedJourneyReview") != dialog or not dialog.visible: return
-	if story_id != 0 and (not is_instance_valid(story) or get_node_or_null("CompletionStoryDialog") != story): return
-	var return_to_story: bool = is_instance_valid(story) and get_node_or_null("CompletionStoryDialog") == story
+	if not is_instance_valid(dialog) or _home_dialog("SavedJourneyReview") != dialog or not dialog.visible: return
+	if story_id != 0 and (not is_instance_valid(story) or _home_dialog("CompletionStoryDialog") != story): return
+	var return_to_story: bool = is_instance_valid(story) and _home_dialog("CompletionStoryDialog") == story
 	show_candidate_review(return_to_story)
 
 func _resume_completion_story(dialog_id: int, story_id: int, page: int) -> void:
@@ -1126,8 +1161,8 @@ func _resume_completion_story(dialog_id: int, story_id: int, page: int) -> void:
 	# never revive a story replaced while the detail dialog was being dismissed.
 	var dialog := instance_from_id(dialog_id) as AcceptDialog
 	var story := instance_from_id(story_id) as AcceptDialog
-	if not is_instance_valid(dialog) or get_node_or_null("SavedJourneyReview") != dialog: return
-	if not is_instance_valid(story) or get_node_or_null("CompletionStoryDialog") != story: return
+	if not is_instance_valid(dialog) or _home_dialog("SavedJourneyReview") != dialog: return
+	if not is_instance_valid(story) or _home_dialog("CompletionStoryDialog") != story: return
 	dialog.hide()
 	completion_story_page = clampi(page,0,completion_story_pages.size()-1)
 	_refresh_completion_story()
@@ -1189,12 +1224,12 @@ func _build_completion_route(content: VBoxContainer) -> void:
 			"representation": _show_completion_bridge()
 			"service": TaskNavigation.enter_candidate("service",0)
 			"review": show_completion_story()
-	)
+	, CONNECT_DEFERRED)
 
 func _show_completion_bridge() -> void:
 	if not candidate_journey: return
-	var old := get_node_or_null("CompletionBridge")
-	if old != null: remove_child(old); old.queue_free()
+	var old := _home_dialog("CompletionBridge")
+	if old != null: old.get_parent().remove_child(old); old.queue_free()
 	var english: bool = Localization.current_locale() == "en"
 	var page: Dictionary = preload("res://experiments/candidate_session/completion_presentation.gd").bridge(english)
 	var dialog := ConfirmationDialog.new(); dialog.name = "CompletionBridge"; dialog.title = str(page.title)
@@ -1205,17 +1240,17 @@ func _show_completion_bridge() -> void:
 		text.text += "\n\n此启动未绑定候选存档，默认仅本次会话。请用命名候选包保存并继续。" if not english else "\n\nThis launch is not bound to a candidate profile; it is session-only by default. Use a named candidate package to save and resume."
 	text.custom_minimum_size = Vector2(560, 170); dialog.add_child(text)
 	dialog.confirmed.connect(func() -> void: TaskNavigation.call_deferred("enter_candidate","representation",0))
-	add_child(dialog); dialog.popup_centered(Vector2i(620, 290))
+	_add_home_page(dialog); dialog.popup_centered(Vector2i(620, 290))
 
 func show_completion_story() -> void:
 	if not candidate_journey: return
-	var evidence := get_node_or_null("SavedJourneyReview") as AcceptDialog
+	var evidence := _home_dialog("SavedJourneyReview") as AcceptDialog
 	if evidence != null: evidence.hide()
 	var english: bool = Localization.current_locale() == "en"
 	completion_story_pages = preload("res://experiments/candidate_session/completion_presentation.gd").pages(_saved_completion_review(), english)
 	completion_story_page = 0
-	var old := get_node_or_null("CompletionStoryDialog")
-	if old != null: remove_child(old); old.queue_free()
+	var old := _home_dialog("CompletionStoryDialog")
+	if old != null: old.get_parent().remove_child(old); old.queue_free()
 	var dialog := AcceptDialog.new(); dialog.name = "CompletionStoryDialog"
 	dialog.title = "A Thought Within the World"
 	dialog.ok_button_text = "返回旅程" if not english else "Back to journey"
@@ -1230,11 +1265,11 @@ func show_completion_story() -> void:
 		if action == &"evidence": dialog.hide(); show_candidate_review(true); return
 		completion_story_page = clampi(completion_story_page + (1 if action == &"next" else -1), 0, completion_story_pages.size() - 1)
 		_refresh_completion_story())
-	add_child(dialog); _refresh_completion_story(); dialog.popup_centered(Vector2i(670, 420))
+	_add_home_page(dialog); _refresh_completion_story(); dialog.popup_centered(Vector2i(670, 420))
 
 func _refresh_completion_story() -> void:
 	if completion_story_pages.is_empty(): return
-	var dialog := get_node("CompletionStoryDialog") as AcceptDialog
+	var dialog := _home_dialog("CompletionStoryDialog") as AcceptDialog
 	var page: Dictionary = completion_story_pages[completion_story_page]
 	(dialog.find_child("StoryText", true, false) as Label).text = "%d / %d   %s\n\n%s" % [completion_story_page + 1, completion_story_pages.size(), page.title, page.body]
 	var previous := dialog.find_child("StoryPrevious", true, false) as Button

@@ -113,6 +113,9 @@ func _build() -> void:
 	actions.add_theme_constant_override("h_separation", 12)
 	column.add_child(actions)
 	enter_button = _button(actions, "JournalEnter", _enter_selected)
+	# A scene change must wait until the terminal viewport finishes input dispatch.
+	enter_button.pressed.disconnect(_enter_selected)
+	enter_button.pressed.connect(_enter_selected, CONNECT_DEFERRED)
 	help_button = _button(actions, "JournalHelp", _open_help)
 	reflection_button = _button(actions, "JournalReflection", _open_reflection)
 	close_button = _button(actions, "JournalClose", close)

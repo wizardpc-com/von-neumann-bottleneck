@@ -27,6 +27,22 @@ func dialog_shot(window: Window) -> void:
 	var locale: String = root.get_node("Localization").current_locale()
 	check(window.get_texture().get_image().save_png(evidence_root + locale + "-leave-choice.png") == OK, "The actual departure window is captured separately from the main viewport.")
 
+func open_creation(lab: Control) -> void:
+	if lab.terminal.asleep():
+		await key(KEY_ENTER)
+		await create_timer(0.8).timeout
+	await press(lab.terminal.find_child("TerminalWorks", true, false))
+	await create_timer(1.0).timeout
+	var journal: Control = current_scene.journey_journal
+	check(journal.visible, "The terminal Works action opens the protected-work journal.")
+	journal.task_tree.grab_focus()
+	for row in range(journal.rows.size()):
+		if journal.selected_key == "creation/G3_keep": break
+		await key(KEY_DOWN)
+	check(journal.selected_key == "creation/G3_keep", "The journal's final task is the saved-creation workbench.")
+	var screen_point: Vector2 = lab.terminal_pages.position + journal.enter_button.get_global_rect().get_center() / Vector2(lab.terminal_pages.resolution) * lab.terminal_pages.size
+	await click(screen_point)
+
 func _run() -> void:
 	root.mode = Window.MODE_WINDOWED
 	root.size = Vector2i(1280, 720)
@@ -35,7 +51,7 @@ func _run() -> void:
 	if not await arrive(HUB): await finish(); return
 	var lab: Control = current_scene.laboratory
 	check(lab.works.is_empty() and lab.terminal.response.is_empty(), "A fresh laboratory has no work and no earned work response.")
-	await press(lab.find_child("WorkFrame", true, false))
+	await open_creation(lab)
 	if not await arrive(CREATION): await finish(); return
 	ui = current_scene
 	check(ui.task == 8 and ui.session.data.works.is_empty(), "The actual work wall opens the empty G3 workbench.")
@@ -69,7 +85,7 @@ func _run() -> void:
 	check(lab.works.is_empty() and lab.terminal.response.get("chapter", {}) != lab.CHAPTER_RESPONSES["creation/G3_keep"], "Saving the draft and leaving creates no work-wall entry or saved-work response.")
 	await click(lab.terminal.message.get_global_rect().get_center())
 	await capture("draft-return")
-	await press(lab.find_child("WorkFrame", true, false))
+	await open_creation(lab)
 	if not await arrive(CREATION): await finish(); return
 	ui = current_scene
 	check(ui.session.data.works.is_empty() and not ui.session.data.supports.has("G3_keep") and not ui.can_keep_visible_work(), "Reopening the draft does not turn the unsaved generation into a protected work.")
@@ -94,7 +110,7 @@ func _run() -> void:
 	await click(lab.terminal.message.get_global_rect().get_center())
 	await capture("earned-work-response")
 	check(FileAccess.get_file_as_string(path) == saved_bytes, "Reading Yi's response does not rewrite the work or its completion support.")
-	await press(lab.find_child("WorkFrame", true, false))
+	await open_creation(lab)
 	if not await arrive(CREATION): await finish(); return
 	ui = current_scene
 	check(ui.task == 8 and ui.latest.get("kind", "") == "snapshot" and ui.latest.work == work, "Clicking the work wall reopens that exact saved output and recipe.")

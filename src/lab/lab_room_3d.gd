@@ -28,6 +28,7 @@ var _interaction_enabled: bool = true
 var _pending_clicks: Array[Vector2] = []
 var _hovered: String = ""
 var _screen: MeshInstance3D
+var standby_viewport: SubViewport
 var _globe_player: AnimationPlayer
 ## Snapshot only: callers cannot mutate the renderer's authoritative input copy.
 var display_state: Dictionary:
@@ -51,6 +52,7 @@ func _ready() -> void:
 	viewport.gui_disable_input = true
 	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	viewport.msaa_3d = Viewport.MSAA_2X
+	viewport.positional_shadow_atlas_size = 4096
 	add_child(viewport)
 	mouse_exited.connect(func() -> void: _set_hover(""))
 	var packed := load(MODEL_PATH) as PackedScene
@@ -72,6 +74,7 @@ func _ready() -> void:
 	_neutral_basis = camera.basis
 	camera.current = true
 	_screen = model.find_child("Terminal | single blank glass", true, false) as MeshInstance3D
+	_setup_screen()
 	_setup_environment()
 	_setup_globe()
 	for node in model.find_children("*", "MeshInstance3D", true, false):
@@ -89,7 +92,8 @@ func _ready() -> void:
 	update_progress([], 0, 0, 0)
 
 func set_look(normalized: Vector2) -> void:
-	_look_target = normalized.clamp(Vector2(-1.0, -1.0), Vector2.ONE) * Vector2(12.0, 6.0)
+	# Camera forward is -Z; screen Y grows downwards. Turn toward the pointer.
+	_look_target = -normalized.clamp(Vector2(-1.0, -1.0), Vector2.ONE) * Vector2(12.0, 6.0)
 
 func set_zoom(amount: float) -> void:
 	_zoom = clampf(amount, 0.0, 1.0)
@@ -129,6 +133,36 @@ func screen_rect() -> Rect2:
 		else:
 			result = result.expand(pixel)
 	return result
+
+## Draw on the glass itself, so perspective, rounded corners and occlusion agree.
+func _setup_screen() -> void:
+	if _screen == null: return
+	standby_viewport = SubViewport.new()
+	standby_viewport.size = Vector2i(1024, 470)
+	standby_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	viewport.add_child(standby_viewport)
+	standby_viewport.disable_3d = true
+	var background := ColorRect.new()
+	background.color = Color("101f29")
+	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	standby_viewport.add_child(background)
+	var text := Label.new()
+	var localization: Node = get_node_or_null("/root/Localization")
+	var english: bool = localization != null and localization.current_locale() == "en"
+	text.text = "Yi\nOpen terminal · Enter" if english else "壹\n打开终端 · Enter"
+	text.add_theme_font_override("font", DISPLAY_FONT)
+	text.add_theme_font_size_override("font_size", 48)
+	text.add_theme_color_override("font_color", Color("b9dcd9"))
+	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	text.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	standby_viewport.add_child(text)
+	var bounds: AABB = _screen.get_aabb()
+	var material := ShaderMaterial.new()
+	material.shader = preload("res://src/lab/lab_screen.gdshader")
+	material.set_shader_parameter("display_texture", standby_viewport.get_texture())
+	material.set_shader_parameter("screen_bounds", Vector4(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y))
+	_screen.material_override = material
 
 ## Immediate test/API pick; call after the physics world has settled.
 ## Normal GUI input is queued instead, so physics space is never queried locked.
@@ -366,19 +400,21 @@ func _setup_environment() -> void:
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	world_environment.environment = environment
 	viewport.add_child(world_environment)
-	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color(1.0, 0.91, 0.78), 2.7, 75.0, 19.0)
-	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color(0.76, 0.87, 1.0), 1.8, 75.0, 18.0)
-	_add_light(Vector3(0, 5.6, 1.5), Vector3(0, 1.4, 2.4), Color(1.0, 0.95, 0.86), 0.8, 48.0, 9.0)
-	_add_light(Vector3(-1.2, 6.8, -8.6), Vector3(-1.2, 5.1, -11.7), Color(1.0, 0.90, 0.75), 1.6, 62.0, 10.0)
+	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color(1.0, 0.91, 0.78), 0.6, 75.0, 19.0, true)
+	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color(0.76, 0.87, 1.0), 0.3, 75.0, 18.0, true)
+	_add_light(Vector3(0, 5.6, 1.5), Vector3(0, 1.4, 2.4), Color(1.0, 0.95, 0.86), 0.35, 48.0, 9.0, false)
+	_add_light(Vector3(-1.2, 6.8, -8.6), Vector3(-1.2, 5.1, -11.7), Color(1.0, 0.90, 0.75), 0.8, 62.0, 10.0, false)
 
-func _add_light(position_3d: Vector3, target: Vector3, color: Color, energy: float, angle: float, distance: float) -> void:
+func _add_light(position_3d: Vector3, target: Vector3, color: Color, energy: float, angle: float, distance: float, shadows: bool) -> void:
 	var light := SpotLight3D.new()
 	light.position = position_3d
 	light.light_color = color
 	light.light_energy = energy
 	light.spot_angle = angle
 	light.spot_range = distance
-	light.shadow_enabled = true
-	light.shadow_bias = 0.04
+	light.shadow_enabled = shadows
+	# Shallow wall angles need enough bias to avoid striped self-shadowing.
+	light.shadow_bias = 2.0
+	light.shadow_normal_bias = 2.0
 	viewport.add_child(light)
 	light.look_at(target, Vector3.UP)

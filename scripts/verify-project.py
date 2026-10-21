@@ -9,7 +9,40 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import time
 import uuid
+
+
+def run_logged_process(command, env, log, timeout):
+    """Stop this child promptly on an unrecoverable script error, retaining its log.
+
+    Such errors already fail verification. Godot may otherwise keep its SceneTree
+    alive until the timeout after the test coroutine has aborted.
+    """
+    with log.open('wb') as stream, log.open('rb') as reader:
+        process = subprocess.Popen(command, env=env, stdout=stream, stderr=subprocess.STDOUT)
+        deadline = time.monotonic() + timeout
+        tail = b''
+        interrupted_code = None
+        while process.poll() is None:
+            chunk = tail + reader.read()
+            tail = chunk[-16384:]
+            if b'SCRIPT ERROR:' in chunk:
+                interrupted_code = -2
+                break
+            if time.monotonic() >= deadline:
+                interrupted_code = -1
+                break
+            time.sleep(0.1)
+        if interrupted_code is not None:
+            process.terminate()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
+            return interrupted_code
+        return process.wait()
 
 
 def main():
@@ -66,12 +99,7 @@ def main():
         (project / 'project.godot').write_text(settings, encoding='utf-8')
         log = output / (name + '.txt')
         command = [engine, '--path', str(project)] + arguments
-        with log.open('wb') as stream:
-            try:
-                code = subprocess.run(command, env=env, stdout=stream, stderr=subprocess.STDOUT,
-                                      timeout=timeout).returncode
-            except subprocess.TimeoutExpired:
-                code = -1
+        code = run_logged_process(command, env, log, timeout)
         text = log.read_text(encoding='utf-8', errors='replace')
         errors = [line for line in text.splitlines()
                   if ('ERROR:' in line or line.startswith('FAIL:'))

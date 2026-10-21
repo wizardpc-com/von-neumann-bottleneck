@@ -25,6 +25,7 @@ func _run() -> void:
 		return
 	await settle(15)
 	check(ui.tutorial_coach.is_visible_in_tree() and not ui.mission_briefing_active and not ui.hint_mode, "NOT opens on one concrete step without a briefing or solution overlay.")
+	check(ui.operation_demo.running,"A genuinely fresh first lesson automatically offers the read-only pointer after layout settles")
 	await capture("not-entry")
 	var before_demo: String = JSON.stringify(ui._capture_workbench_snapshot())
 	await press(ui.tutorial_coach.demonstration_button)
@@ -39,6 +40,14 @@ func _run() -> void:
 	await key(KEY_ESCAPE)
 	await settle(2)
 	check(JSON.stringify(ui._capture_workbench_snapshot())==before_demo,"Demo and Settings leave the player's board untouched")
+	var original_scroll: Vector2=ui.graph.scroll_offset
+	ui.graph.scroll_offset += Vector2(10000,10000)
+	await settle(3)
+	await press(ui.tutorial_coach.demonstration_button)
+	check(not ui.operation_demo.running and ui.status_label.text.contains("Shift+Home"),"Offscreen demonstration targets explain how to recover instead of pointing at empty space")
+	ui.graph.scroll_offset=original_scroll
+	await settle(3)
+	check(JSON.stringify(ui._capture_workbench_snapshot())==before_demo,"Viewport recovery advice does not move components or alter wiring")
 	await wire(&"A_IN", &"NOT_1")
 	check(ui.tutorial_created_wire and not ui.tutorial_valid_run, "The first wire earns a wiring action without inventing a run.")
 	await capture("not-first-wire")

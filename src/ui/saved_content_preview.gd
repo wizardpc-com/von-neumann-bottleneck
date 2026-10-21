@@ -22,6 +22,8 @@ func clear_content() -> void:
 
 func configure_work(work: Dictionary, confirmed: bool) -> bool:
 	clear_content()
+	var identifier: Variant=work.get("id","")
+	if not (identifier is String or identifier is StringName): return false
 	var output: Variant=work.get("output")
 	if not output is Array or output.is_empty() or output.size()>65536 or String(work.get("id","")).is_empty(): return false
 	for value: Variant in output:
@@ -49,10 +51,11 @@ func configure_plan(snapshot: Dictionary, plan_name: String) -> bool:
 	var wire_list: Variant = snapshot.get("wires",[])
 	if not wire_list is Array or wire_list.size()>4096: clear_content();return false
 	for wire: Variant in wire_list:
-		if wire is Dictionary:
-			var from: String=String(wire.get("from_node",wire.get("from","")))
-			var to: String=String(wire.get("to_node",wire.get("to","")))
-			if positions.has(from) and positions.has(to): wires.append({"from":from,"to":to})
+		if not wire is Dictionary: clear_content();return false
+		var from: String=String(wire.get("from_node",wire.get("from","")))
+		var to: String=String(wire.get("to_node",wire.get("to","")))
+		if not positions.has(from) or not positions.has(to): clear_content();return false
+		wires.append({"from":from,"to":to})
 	content_kind=&"plan";content_name=plan_name;confirmed_source=true
 	queue_redraw();return true
 

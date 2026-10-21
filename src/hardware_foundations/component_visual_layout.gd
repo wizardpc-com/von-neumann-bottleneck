@@ -113,14 +113,12 @@ static func outline(snapshot: Dictionary, source_signature: String, rect: Rect2)
 		return PackedVector2Array()
 	var bands: Array = snapshot.bands
 	var points := PackedVector2Array()
-	var unit: Vector2 = rect.size / Vector2(COLUMNS,ROWS)
-	# Clockwise single x-monotone envelope. No holes, disconnected islands or spikes.
+	# Match the piecewise-linear band interpolation used by both canvas rows
+	# and palette thumbnails. A review/export must not invent a stepped outline.
 	for y: int in ROWS:
-		_append_unique(points,rect.position+Vector2(float(bands[y][1])*unit.x,float(y)*unit.y))
-		_append_unique(points,rect.position+Vector2(float(bands[y][1])*unit.x,float(y+1)*unit.y))
+		_append_unique(points,rect.position+Vector2(float(bands[y][1])/COLUMNS*rect.size.x,float(y)/float(ROWS-1)*rect.size.y))
 	for y: int in range(ROWS-1,-1,-1):
-		_append_unique(points,rect.position+Vector2(float(bands[y][0])*unit.x,float(y+1)*unit.y))
-		_append_unique(points,rect.position+Vector2(float(bands[y][0])*unit.x,float(y)*unit.y))
+		_append_unique(points,rect.position+Vector2(float(bands[y][0])/COLUMNS*rect.size.x,float(y)/float(ROWS-1)*rect.size.y))
 	return points
 
 static func _append_unique(points: PackedVector2Array, point: Vector2) -> void:

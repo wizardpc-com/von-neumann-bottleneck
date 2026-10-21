@@ -919,7 +919,9 @@ func _guided_states() -> Array[bool]:
 			outputs += 1
 			if not targets.has(id): wired = false
 	wired = wired and outputs > 0
-	return [wired, wired and guided_debug_ran, official_passed]
+	# A genuine complete official pass already includes testing. Do not send a
+	# player back to a redundant debug click merely because they tested directly.
+	return [wired, wired and (guided_debug_ran or official_passed), official_passed]
 
 
 func _refresh_guided_coach() -> void:
@@ -8901,10 +8903,11 @@ func _show_operation_demonstration() -> void:
 		if connections.is_empty(): return
 		var curve: PackedVector2Array = graph.connection_curve(connections[0])
 		if curve.size() < 2: return
-		var midpoint: Vector2 = curve[curve.size()/2]
+		var gesture: PackedVector2Array=preload("res://src/hardware_foundations/operation_demonstration.gd").wire_cut_path(curve)
+		if gesture.size()!=2:return
 		var transform: Transform2D = operation_demo.get_global_transform_with_canvas().affine_inverse() * graph.get_global_transform_with_canvas()
-		points.append(transform * (midpoint-Vector2(0,22)))
-		points.append(transform * (midpoint+Vector2(0,22)))
+		points.append(transform*gesture[0])
+		points.append(transform*gesture[1])
 		message = "Hold right button and sweep across" if english else "按住右键，划过这条线"
 	elif step > 0:
 		var target_text: String = _t(&"hardware.practice.run") if current_phase == &"tutorial" else _t(&"hardware.cases.run_official") if step == 2 else _t(&"hardware.cases.run_debug")
@@ -8944,18 +8947,28 @@ func _show_operation_demonstration() -> void:
 		points.append(transform*visible_rect.get_center())
 		points.append(transform*destination)
 		message="Drag gesture only, not a solution" if english else "只演示拖放，不代表解法"
+	var visible_area:=Rect2(Vector2.ZERO,operation_demo.size)
+	for point: Vector2 in points:
+		if not visible_area.has_point(point):
+			status_label.text="Target is outside the view. Shift+Home fits the circuit; then replay the gesture." if english else "目标不在当前视野内。按 Shift+Home 显示全部电路，再重看演示。"
+			return
 	operation_demo.english = english
 	operation_demo.demonstrate(points,message,bool(ProjectSettings.get_setting("game/reduced_motion",false)))
 
 
 func _offer_first_operation_demo() -> void:
-	await get_tree().process_frame
+	# Let nested containers and displayed-port transforms settle before pointing.
+	for frame: int in 3: await get_tree().process_frame
 	if current_phase != &"tutorial" or not _tutorial_focus() or operation_demo_seen.has(&"tutorial"):
 		return
 	if tutorial_coach == null or not tutorial_coach.is_visible_in_tree() or mission_briefing_active:
 		return
-	operation_demo_seen[&"tutorial"] = true
+	if tutorial_created_wire or tutorial_changed_input or tutorial_valid_run or _has_active_graph_gesture():
+		operation_demo_seen[&"tutorial"] = true
+		return # A player already acting does not need an unsolicited illustration.
 	_show_operation_demonstration()
+	if operation_demo != null and operation_demo.running:
+		operation_demo_seen[&"tutorial"] = true
 
 
 func _apply_component_visual(control: Control, component: LogicComponent) -> void:

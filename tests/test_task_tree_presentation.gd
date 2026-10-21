@@ -27,6 +27,16 @@ func run() -> void:
 			check(not scene.canvas.get_global_rect().intersects(scene.detail_panel.get_global_rect()),"Map and task card have separate bounds.")
 			check(scene.detail_title.text==row.title and scene.enter_button.disabled==not row.unlocked,"Visual hierarchy preserves titles and gates.")
 		var canvas: Control = scene.canvas
+		canvas._set_hover("")
+		canvas.overview()
+		var view_bounds:=Rect2(Vector2.ZERO,canvas.size)
+		for row: Dictionary in scene.rows:
+			check(view_bounds.encloses(Rect2(canvas.positions[row.key]*canvas.magnification+canvas.pan,canvas.NODE_SIZE*canvas.magnification)),"Overview contains every chapter including the ending: "+row.key)
+		check(canvas.relation_focus_key().is_empty(),"Overview does not dim the whole route around an offscreen or tiny selected task")
+		var before_zoom: float=canvas.magnification
+		canvas._zoom_at(canvas.size/2,1.12)
+		check(is_equal_approx(canvas.magnification,before_zoom*1.12),"First overview zoom does not jump to an old hard-coded minimum")
+		canvas.locate(scene.rows[0].key)
 		var motion := InputEventMouseMotion.new()
 		motion.position=canvas.positions[scene.rows[0].key]*canvas.magnification+canvas.pan+Vector2(20,20)
 		canvas._gui_input(motion)

@@ -151,3 +151,61 @@ conflicts cannot be safely resolved, preserve the branch and report the blocker.
   made the existing creation dialog exceed its compact-size contract. Removed
   duplicated explanatory prose rather than loosening the test or expanding the
   modal. Rerunning UI, exploration and hint/input regressions now.
+
+- 20:07 UTC: production map geometry review exposed two presentation defects:
+  the fixed minimum zoom cropped later chapters in Overview, and cross-region
+  C/P/G links were treated as within-region because they share a domain. Added
+  dynamic fit zoom and region-based gutter routing, preserving all task contracts.
+  Overview no longer dims the full route around an invisible selected task.
+  Local checkpoint b67b69a is retained. Remote publication is not confirmed.
+
+- 20:17 UTC: 32 repeated archive/handbook/settings/works round trips, alternating
+  locales and resolutions, including full-motion transitions, passed 162 headless
+  input/state checks. Node count stayed 1489 in all eight cycles; orphan nodes
+  stayed zero. This does not measure native frame rate or prove visual smoothness.
+  A new coach-layout fixture exposed typed-array construction errors in the test
+  itself; fixed with explicit typed append, not a production workaround. Added
+  verifier fail-fast handling for unrecoverable script errors so an aborted test
+  coroutine cannot idle until the old 180-second timeout. Four Python process
+  tests cover normal exit, nonzero exit, timeout and script-error termination.
+
+- 20:24 UTC: a controller audit found the build coach could still ask for a debug
+  click after the player had already passed every official case. The coach now
+  treats that stronger real result as testing evidence, without changing any
+  completion/sealing gate. Added a regression using the actual HalfAdder official
+  sequence in both locales. This is queued after the current full snapshot.
+
+- 20:27 UTC: virtual wire-removal teaching now crosses the actual local wire
+  direction. The earlier always-vertical gesture would run along a vertically
+  arranged wire instead of cutting it. Added horizontal/vertical/diagonal and
+  invalid/zero-length geometry tests; no mouse events are injected.
+
+- 20:36 UTC: aligned the still-unpublished layout outline export with the same
+  linear band interpolation used on canvas and in palette thumbnails. It no
+  longer shows a stepped geometric preview while the in-game outline is sloped.
+  Stored bands/identity, signatures and port frames are unchanged. Added 250
+  seeded layouts covering translation, validation, triangulation and central grip.
+
+- 20:45 UTC: cached task-edge world geometry between layout changes instead of
+  rebuilding/tessellating Curve2D objects on every pan/hover redraw. Region lookup
+  is indexed; callers receive a copy so exported previews cannot corrupt the map.
+  Added cache invalidation and camera-invariance tests. This is an allocation
+  reduction, not an unmeasured FPS claim.
+
+- 20:48 UTC: recommendation lines now carry dash phase across curve segments;
+  restarting dashes at each tessellation segment could make them appear solid.
+  Dashed recommendations use open arrowheads, hard prerequisites filled ones,
+  with a minimum screen-space mark size. Dash geometry is cached per zoom.
+  Task details now show suggested successors separately from actual dependents.
+  Availability and completion data remain unchanged.
+
+- 20:49 UTC: the expanded route panel invalidated an old test assumption that
+  the incoming recommendation was the final row. Updated the interaction test
+  to focus-scroll the actual incoming/outgoing buttons and verify each selected
+  task, keeping the usable-height and no-progress-mutation assertions.
+
+- 20:55 UTC: actual English detail geometry exposed a 2 px scroll viewport at
+  1280×720. Consolidated secondary actions into one row, reduced secondary text
+  and heading scale, and tightened spacing. Kept the primary Enter action and
+  complete status/access text. All three map suites now pass, including real
+  focus-scroll navigation in both languages; no assertion was weakened.

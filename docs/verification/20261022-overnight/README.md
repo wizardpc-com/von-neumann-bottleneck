@@ -106,3 +106,17 @@ The compact-size assertion was retained unchanged. Shared row geometry has 850
 passing boundary/triangulation/hit-test checks. The 60-task bilingual map review
 exports current production positions and connections, not rendered game frames.
 Source hashes identify this checkpoint; later changes require new verification.
+
+## Later regression and usability fixes
+The 20:20 UTC snapshot passed 213 headless suites plus import and user-directory
+checks (215 stages). A matching Windows x86_64 embedded-PCK export was generated
+and structurally checked, but has not been played natively. Subsequent focused
+runs verify guide completion evidence, wire-cut geometry, offscreen demo fallback,
+1,055 layout checks, and 851 component geometry checks.
+
+The expanded task-detail panel exposed an English 1280×720 usability failure:
+its scroll viewport collapsed to 2 px. Secondary actions were combined into one
+row and typography/spacing adjusted without removing content or weakening tests.
+The 20:54 UTC isolated run passes all three map suites, including focus-scroll
+navigation to incoming recommendations and suggested successors. A fresh full
+regression is still required for the combined candidate.

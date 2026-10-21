@@ -52,6 +52,7 @@ func configure(
 		p_input_width: int,
 		p_output_width: int
 	) -> void:
+	visual_bands.clear()
 	component_kind = p_kind
 	component_label = p_component_label
 	input_label = p_input_label

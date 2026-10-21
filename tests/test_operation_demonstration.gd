@@ -27,6 +27,13 @@ func run() -> void:
 	check(demo.path.is_empty() and not demo.running,"Skip removes the illustration")
 	demo.demonstrate(PackedVector2Array([Vector2(NAN,10)]),"Bad")
 	check(not demo.running,"Invalid geometry fails closed")
+	for curve: PackedVector2Array in [PackedVector2Array([Vector2(0,0),Vector2(100,0)]),PackedVector2Array([Vector2(20,0),Vector2(20,100)]),PackedVector2Array([Vector2(0,0),Vector2(100,100)])]:
+		var cut: PackedVector2Array=Demo.wire_cut_path(curve)
+		check(cut.size()==2,"Every nonzero wire has a cut demonstration")
+		check(Geometry2D.segment_intersects_segment(cut[0],cut[1],curve[0],curve[1])!=null,"Cut gesture crosses horizontal, vertical and diagonal wires")
+		check(absf((cut[1]-cut[0]).normalized().dot((curve[1]-curve[0]).normalized()))<0.001,"Cut gesture is perpendicular, not parallel to the wire")
+	check(Demo.wire_cut_path(PackedVector2Array([Vector2.ZERO,Vector2.ZERO])).is_empty(),"Zero-length wire does not invent a direction")
+	check(Demo.wire_cut_path(PackedVector2Array([Vector2.ZERO,Vector2(NAN,0)])).is_empty(),"Invalid wire geometry fails closed")
 	demo.queue_free(); await process_frame
 	print("PASS: test_operation_demonstration " if failures==0 else "FAIL: test_operation_demonstration ",checks," checks, ",failures," failures")
 	quit(0 if failures==0 else 1)

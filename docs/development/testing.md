@@ -1098,3 +1098,24 @@ rendered viewport input are separate from actual exported-package/native input.
 `test_lab_terminal_pages` checks full-screen bounds and uniform scaling at 720p, 900p, 5:4 and wide aspect ratios, and physical-pixel rendering at 1440p; F10/F8/Esc routing; docked settings; and nested reviews. Run it on a real display as well as headless: nested Window focus is explicitly NOT_RUN with the dummy renderer. `test_settings_language_input` exercises both terminal Settings and F10 using viewport input and checks language/progress continuity. `test_creation_lab_return_input` enters the protected-work journal through the visible terminal menu and preserves the saved-work bytes through the complete round trip.
 
 Render acceptance must inspect perspective on the room-mode glass, full-screen page controls and nested confirmation boundaries, including the return to the room. Use `--capture-size=1280x720` or `1600x900` with `scripts/capture-immersive-lab.gd`; its performance JSON reports rendered wall-frame samples, separately from native input acceptance.
+
+### Overnight presentation regressions
+
+- `test_component_visual_geometry`: every sampled module-row boundary and pin
+  endpoint shares geometry; no simulation behavior is tested by this suite.
+- `test_operation_coach_layout`: both locales at compact and wide coach sizes.
+- `test_lab_navigation_soak`: repeated real terminal feature callbacks and root
+  Escape, with both reduced and full motion; reports retained/orphan node counts.
+  Headless frame timing is not a native FPS or visual-smoothness measurement.
+- `python3 scripts/test-verify-process.py`: verifier child timeout/error handling.
+  An unrecoverable `SCRIPT ERROR:` now stops only that verifier child promptly;
+  the retained log and failed result are not suppressed.
+- `python3 scripts/test-package-structure.py`: synthetic PE/PCK validation only.
+
+`scripts/package-verified-playtest.py` accepts a completed, fully passed isolated
+verifier run plus an already trusted official Godot 4.7.1 Windows release template.
+It copies that snapshot to a fresh directory, bootstraps font imports, removes only
+the verifier's temporary user-directory override, exports the existing Windows
+preset and records executable/PCK hashes. It rejects partial or failed runs and
+never overwrites an existing package directory. A successful export is not native
+graphical acceptance or evidence that the game is competition-ready.

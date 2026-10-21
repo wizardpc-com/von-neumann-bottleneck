@@ -81,6 +81,9 @@ func run() -> void:
 		main._run_official()
 		await finish_official(main)
 		check(main.official_passed and not main.seal_button.disabled, locale + ": unchanged Half Adder passes all four cases")
+		main.guided_debug_ran=false
+		var states: Array[bool]=main._guided_states()
+		check(states.size()==3 and states.count(true)==3,locale+": genuine official pass satisfies the teaching test step without a redundant debug click")
 		main._dismiss_level_completion()
 		main._on_disconnection_request(&"B_IN", 0, &"NOT_1", 0)
 		check_edit(main, false, locale + " official pass invalidation")

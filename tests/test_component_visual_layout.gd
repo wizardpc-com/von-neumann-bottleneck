@@ -69,5 +69,20 @@ func run() -> void:
 	corrupt = first.duplicate(true)
 	corrupt.layout_digest = "not-the-footprint"
 	check(not Visual.is_valid(corrupt,"verified-source"),"Footprint checksum mismatch falls back")
+	var random:=RandomNumberGenerator.new()
+	random.seed=20261022
+	for sample_index: int in 250:
+		var placements: Dictionary={}
+		var translated: Dictionary={}
+		for part_index: int in random.randi_range(1,32):
+			var item: Dictionary={"x":random.randi_range(-1500,1500),"y":random.randi_range(-1500,1500),"w":random.randi_range(1,400),"h":random.randi_range(1,400)}
+			placements[str(part_index)]=item
+			translated[str(part_index)]={"x":item.x+4096,"y":item.y-4096,"w":item.w,"h":item.h}
+		var sample: Dictionary=Visual.freeze("seeded-layout-fixture",placements)
+		check(Visual.is_valid(sample,"seeded-layout-fixture"),"Seeded geometry remains valid")
+		check(Visual.freeze("seeded-layout-fixture",translated)==sample,"Seeded geometry is translation invariant")
+		var shape: PackedVector2Array=Visual.outline(sample,"seeded-layout-fixture",rect)
+		check(not Geometry2D.triangulate_polygon(shape).is_empty(),"Seeded envelope is drawable")
+		check(Geometry2D.is_point_in_polygon(rect.get_center(),shape),"Seeded envelope keeps the central grip")
 	print("PASS: test_component_visual_layout " if failures==0 else "FAIL: test_component_visual_layout ",checks," checks, ",failures," failures")
 	quit(0 if failures==0 else 1)

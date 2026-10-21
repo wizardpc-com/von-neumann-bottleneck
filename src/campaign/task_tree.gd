@@ -36,6 +36,8 @@ var recommendation_rows: VBoxContainer
 var recommendation_heading: Label
 var downstream_heading: Label
 var downstream_rows: VBoxContainer
+var suggested_next_heading: Label
+var suggested_next_rows: VBoxContainer
 var current_region: int = -1
 var creation_route: HBoxContainer
 var journey_scope: Label
@@ -126,12 +128,13 @@ func _ready() -> void:
 	list_rows=VBoxContainer.new(); list_rows.name="JourneyTaskRows"; list_rows.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	list_rows.add_theme_constant_override("separation",6); list_scroll.add_child(list_rows)
 	list_empty=Label.new(); list_empty.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; list_view.add_child(list_empty)
-	detail_view=VBoxContainer.new(); detail_view.name="JourneyTaskDetail"; detail_view.add_theme_constant_override("separation",12)
+	detail_view=VBoxContainer.new(); detail_view.name="JourneyTaskDetail"; detail_view.add_theme_constant_override("separation",8)
 	detail_view.size_flags_vertical=Control.SIZE_EXPAND_FILL; side.add_child(detail_view)
-	detail_kind=Label.new(); detail_kind.add_theme_font_size_override("font_size",18); detail_view.add_child(detail_kind)
+	detail_kind=Label.new(); detail_kind.add_theme_font_size_override("font_size",15); detail_kind.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; detail_view.add_child(detail_kind)
 	detail_title=Label.new(); detail_title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	detail_title.add_theme_font_size_override("font_size",28); detail_view.add_child(detail_title)
+	detail_title.add_theme_font_size_override("font_size",23); detail_view.add_child(detail_title)
 	detail_status=Label.new(); detail_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	detail_status.add_theme_font_size_override("font_size",15)
 	detail_view.add_child(HSeparator.new())
 	var scroll := ScrollContainer.new()
 	detail_scroll=scroll; scroll.follow_focus=true
@@ -164,6 +167,12 @@ func _ready() -> void:
 	downstream_heading.add_theme_font_size_override("font_size",18); detail_sections.add_child(downstream_heading)
 	downstream_rows=VBoxContainer.new(); downstream_rows.name="JourneyDownstreamTasks"
 	downstream_rows.add_theme_constant_override("separation",5); detail_sections.add_child(downstream_rows)
+	suggested_next_heading=Label.new()
+	suggested_next_heading.text="推荐下一步 · 不是解锁条件" if Localization.current_locale() != "en" else "Suggested next · not an unlock condition"
+	suggested_next_heading.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	suggested_next_heading.add_theme_font_size_override("font_size",18);detail_sections.add_child(suggested_next_heading)
+	suggested_next_rows=VBoxContainer.new();suggested_next_rows.name="JourneySuggestedNext"
+	suggested_next_rows.add_theme_constant_override("separation",5);detail_sections.add_child(suggested_next_rows)
 	detail_view.add_child(detail_status)
 	enter_button = _button(detail_view,"tree.enter",func() -> void:
 		if not selected.is_empty(): TaskNavigation.enter(selected.key))
@@ -177,11 +186,16 @@ func _ready() -> void:
 		review.custom_minimum_size.y = 42
 		review.pressed.connect(_open_core_review)
 		detail_view.add_child(review)
-	var records := Button.new(); records.text="核心任务记录" if Localization.current_locale() != "en" else "Core task records"
-	records.custom_minimum_size.y=42; detail_view.add_child(records)
+	var utilities := HBoxContainer.new(); utilities.add_theme_constant_override("separation",8); detail_view.add_child(utilities)
+	var records := Button.new(); records.text="核心记录" if Localization.current_locale() != "en" else "Core records"
+	records.tooltip_text="核心任务记录" if Localization.current_locale() != "en" else "Core task records"
+	records.add_theme_font_size_override("font_size",15); records.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	records.custom_minimum_size.y=42; utilities.add_child(records)
 	records.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/playtest/personal_records_view.tscn"))
-	var opinion := Button.new(); opinion.text="评价所选任务" if TranslationServer.get_locale().begins_with("zh") else "Feedback on selected task"
-	opinion.custom_minimum_size.y=42; detail_view.add_child(opinion)
+	var opinion := Button.new(); opinion.text="任务反馈" if Localization.current_locale() != "en" else "Task feedback"
+	opinion.tooltip_text="评价所选任务" if Localization.current_locale() != "en" else "Feedback on selected task"
+	opinion.add_theme_font_size_override("font_size",15); opinion.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	opinion.custom_minimum_size.y=42; utilities.add_child(opinion)
 	opinion.pressed.connect(func() -> void:
 		if not selected.is_empty(): PlaytestMoments.open_for_task(selected.key.get_slice("/",0),selected.id))
 	var help := Label.new()
@@ -349,6 +363,12 @@ func _select(key: String) -> void:
 				_task_link(downstream_rows,next_task)
 		downstream_heading.visible=downstream_rows.get_child_count()>0
 		downstream_rows.visible=downstream_rows.get_child_count()>0
+		_clear_rows(suggested_next_rows)
+		for next_task: Dictionary in rows:
+			if str(task.key) in next_task.get("recommended_from",[]) and str(task.key) not in next_task.dependencies:
+				_task_link(suggested_next_rows,next_task)
+		suggested_next_heading.visible=suggested_next_rows.get_child_count()>0
+		suggested_next_rows.visible=suggested_next_rows.get_child_count()>0
 		detail_scroll.scroll_vertical=0
 		InstrumentTheme.primary(enter_button,accent)
 		enter_button.disabled = not task.unlocked

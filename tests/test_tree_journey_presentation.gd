@@ -107,6 +107,13 @@ func run() -> void:
 			for link: Node in scene.downstream_rows.get_children(): actual_next.append(str(link.get_meta("task_key")))
 			check(actual_next==expected_next,"Downstream links exactly follow hard dependencies: "+row.key)
 			check(scene.downstream_heading.visible==not expected_next.is_empty(),"No invented downstream tasks: "+row.key)
+			var expected_suggested: Array[String]=[]
+			for next_row: Dictionary in scene.rows:
+				if str(row.key) in next_row.get("recommended_from",[]) and str(row.key) not in next_row.dependencies: expected_suggested.append(str(next_row.key))
+			var actual_suggested: Array[String]=[]
+			for link: Node in scene.suggested_next_rows.get_children(): actual_suggested.append(str(link.get_meta("task_key")))
+			check(actual_suggested==expected_suggested,"Suggested successors stay separate from unlocking: "+row.key)
+			check(scene.suggested_next_heading.visible==not expected_suggested.is_empty(),"No invented suggested successor: "+row.key)
 			if row.key == "chapter_3/arrival":
 				check(scene.prerequisite_rows.get_child_count() == 1 and str(scene.prerequisite_rows.get_child(0).get_meta("task_key")) == "chapter_2/capstone","Core hard prerequisite stays a clickable, distinct relation")
 			if row.key == "service/prompt_response":
@@ -141,9 +148,15 @@ func run() -> void:
 		scene.list_scroll.scroll_vertical=0; await settle()
 		first_entry.pressed.emit(); await settle()
 		check(scene.selected.key == "creation/C1_restore" and scene.detail_view.visible and scene.search.text == "creation/","Search result opens the actual task without clearing the query: "+locale)
+		var suggested := scene.suggested_next_rows.get_child(0) as Button
+		suggested.grab_focus();await settle()
+		check(scene.detail_scroll.get_global_rect().intersection(suggested.get_global_rect()).size.y>=40,"Suggested next task is reachable through keyboard focus and scroll: "+locale)
+		suggested.pressed.emit();await settle()
+		check(scene.selected.key=="creation/C2_cost","Suggested successor selects the real next task without inventing an unlock")
+		scene._select_and_locate("creation/C1_restore");await settle()
 		var relation := scene.recommendation_rows.get_child(0) as Button
-		scene.detail_scroll.scroll_vertical=int(scene.detail_scroll.get_v_scroll_bar().max_value); await settle()
-		check(scene.detail_scroll.get_global_rect().intersects(relation.get_global_rect()),"Recommended relation remains visible in the scrolled detail panel: "+locale)
+		relation.grab_focus(); await settle()
+		check(scene.detail_scroll.get_global_rect().intersection(relation.get_global_rect()).size.y>=40,"Recommended relation remains reachable in the scrolled detail panel: "+locale)
 		relation.pressed.emit(); await settle()
 		check(scene.selected.key == "representation/cross_assets","Recommended relation selects and locates the actual prior task: "+locale)
 		var after_core: Array[Dictionary] = nav.tasks()

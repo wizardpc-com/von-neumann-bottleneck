@@ -8,6 +8,7 @@ var output_widths: Array[int] = []
 
 
 func configure_thumbnail(kind: StringName, inputs: Array[int], outputs: Array[int]) -> void:
+	visual_bands.clear()
 	component_kind = kind
 	input_widths = inputs.duplicate()
 	output_widths = outputs.duplicate()

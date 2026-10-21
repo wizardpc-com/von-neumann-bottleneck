@@ -1,0 +1,46 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "linux",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T205446Z-b275f8ad/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T205446Z-b275f8ad/user_directory"
+    },
+    {
+      "name": "test_task_tree_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T205446Z-b275f8ad/test_task_tree_presentation"
+    },
+    {
+      "name": "test_tree_journey_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_journey_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T205446Z-b275f8ad/test_tree_journey_presentation"
+    },
+    {
+      "name": "test_tree_relation_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_relation_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T205446Z-b275f8ad/test_tree_relation_focus"
+    }
+  ]
+}

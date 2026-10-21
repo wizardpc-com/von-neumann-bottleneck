@@ -24,6 +24,10 @@ var exposed: Dictionary = {}
 var hovered_key: String = ""
 var last_canvas_size := Vector2.ZERO
 var relation_index: Dictionary = {}
+var region_by_key: Dictionary = {}
+var edge_geometry_cache: Dictionary = {}
+var dash_geometry_cache: Dictionary = {}
+var dash_cache_zoom: float = -1.0
 
 func _ready() -> void:
 	clip_contents = true
@@ -38,6 +42,8 @@ func _ready() -> void:
 
 func configure(tasks: Array[Dictionary]) -> void:
 	rows = tasks
+	edge_geometry_cache.clear()
+	dash_geometry_cache.clear()
 	_rebuild_relation_index()
 	var layout: Dictionary = Layout.build(rows)
 	positions=layout.positions
@@ -49,6 +55,8 @@ func configure(tasks: Array[Dictionary]) -> void:
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color(0.025,0.055,0.085,0.68))
 	if rows.is_empty(): return
+	if not is_equal_approx(dash_cache_zoom,magnification):
+		dash_geometry_cache.clear();dash_cache_zoom=magnification
 	draw_set_transform(pan,0,Vector2.ONE*magnification)
 	# Region trays are derived from the same dependency layout as the nodes.
 	# They distinguish chapters without becoming new navigation or progress gates.
@@ -60,7 +68,8 @@ func _draw() -> void:
 		draw_line(tray.position+Vector2(24,16),tray.position+Vector2(24,66),Color(_color(region),0.65),3,true)
 	for task: Dictionary in rows:
 		for dep: String in task.dependencies: _draw_edge(task,dep,false)
-		for dep: String in task.get("recommended_from",[]): _draw_edge(task,dep,true)
+		for dep: String in task.get("recommended_from",[]):
+			if dep not in task.dependencies: _draw_edge(task,dep,true)
 	for task: Dictionary in rows:
 		var rect := Rect2(positions[task.key],NODE_SIZE)
 		var color: Color = _color(task.region) if task.unlocked else Color("63758b")
@@ -89,14 +98,18 @@ func _draw() -> void:
 	_draw_screen_text()
 
 func edge_points(task: Dictionary, dep: String) -> PackedVector2Array:
+	var key: String=dep+"\n"+str(task.key)
+	if not edge_geometry_cache.has(key): edge_geometry_cache[key]=_build_edge_points(task,dep)
+	var points: PackedVector2Array=edge_geometry_cache[key]
+	return points.duplicate() # Review consumers cannot mutate the cached geometry.
+
+func _build_edge_points(task: Dictionary, dep: String) -> PackedVector2Array:
 	if not positions.has(dep) or not positions.has(task.key): return PackedVector2Array()
 	var a: Vector2 = positions[dep]+Vector2(NODE_SIZE.x,NODE_SIZE.y/2)
 	var b: Vector2 = positions[task.key]+Vector2(0,NODE_SIZE.y/2)
 	var points: PackedVector2Array
-	if dep.get_slice("/",0) != task.domain:
-		var source_region: int = 0
-		for other: Dictionary in rows:
-			if other.key == dep: source_region = other.region; break
+	var source_region: int=int(region_by_key.get(dep,task.region))
+	if source_region != int(task.region):
 		var gutter: float = (region_rects[source_region] as Rect2).end.y+45
 		points = PackedVector2Array([a,a+Vector2(24,0),Vector2(a.x+24,gutter),Vector2(b.x-32,gutter),Vector2(b.x-32,b.y),b])
 	else:
@@ -109,18 +122,24 @@ func _draw_edge(task: Dictionary,dep: String,recommended: bool) -> void:
 	if not positions.has(dep): return
 	var b: Vector2 = positions[task.key]+Vector2(0,NODE_SIZE.y/2)
 	var color := Color("59736a") if recommended else Color("354963")
-	var focus: String = hovered_key if not hovered_key.is_empty() else TaskNavigation.selected
+	var focus: String = relation_focus_key()
 	var emphasized: bool = task.key == focus or dep == focus
 	if emphasized: color = _color(task.region).lightened(0.25 if task.key == focus else 0.05)
-	else: color.a = 0.38
+	elif not focus.is_empty(): color.a = 0.45
 	var points: PackedVector2Array=edge_points(task,dep)
 	if points.size()<2: return
+	var arrow: float=maxf(8.0,5.0/magnification)
 	if recommended:
-		for index: int in range(points.size()-1): draw_dashed_line(points[index],points[index+1],Color(color,color.a*0.72),maxf(2.4 if emphasized else 1.8,1.1/magnification),10,true)
+		var key: String=dep+"\n"+str(task.key)
+		if not dash_geometry_cache.has(key):
+			var dash: float=maxf(10.0,4.0/magnification)
+			dash_geometry_cache[key]=dash_polyline(points,dash,dash*0.7)
+		draw_multiline(dash_geometry_cache[key],Color(color,color.a*0.85),maxf(2.4 if emphasized else 1.8,1.1/magnification),true)
+		draw_polyline(PackedVector2Array([b+Vector2(-arrow,-arrow*0.6),b,b+Vector2(-arrow,arrow*0.6)]),color,maxf(1.8,1.0/magnification),true)
 	else:
 		draw_polyline(points,Color(color,color.a*0.08),maxf(4,2/magnification),true)
 		draw_polyline(points,color,maxf(3.0 if emphasized else 1.8,1.1/magnification),true)
-		draw_colored_polygon(PackedVector2Array([b,b+Vector2(-8,-5),b+Vector2(-8,5)]),color)
+		draw_colored_polygon(PackedVector2Array([b,b+Vector2(-arrow,-arrow*0.6),b+Vector2(-arrow,arrow*0.6)]),color)
 
 # Shapes follow the world camera; glyphs are rasterized at their final screen size.
 # At overview scale, region titles and node shapes provide orientation. Tiny task
@@ -248,7 +267,7 @@ func _notification(what: int) -> void:
 
 func _zoom_at(point: Vector2,factor: float) -> void:
 	var world: Vector2 = (point-pan)/magnification
-	magnification = clampf(magnification*factor,0.18,1.6)
+	magnification = clampf(magnification*factor,_minimum_zoom(),1.6)
 	pan = point-world*magnification
 	_save()
 
@@ -270,12 +289,12 @@ func _resize_view() -> void:
 func focus_region(region: int) -> void:
 	if not region_rects.has(region): return
 	var rect: Rect2 = region_rects[region]
-	magnification = clampf(minf(size.x/rect.size.x,size.y/rect.size.y)*0.9,0.18,1.0)
+	magnification = clampf(minf(size.x/rect.size.x,size.y/rect.size.y)*0.9,_minimum_zoom(),1.0)
 	pan = size/2-rect.get_center()*magnification
 	_save()
 
 func overview() -> void:
-	magnification = clampf(minf(size.x/world_size.x,size.y/world_size.y),0.18,0.8)
+	magnification = clampf(minf(size.x/world_size.x,size.y/world_size.y)*0.94,_minimum_zoom(),0.8)
 	pan = (size-world_size*magnification)/2
 	_save()
 
@@ -324,6 +343,8 @@ func _color(region: int) -> Color: return COLORS[posmod(region,COLORS.size())]
 
 func _rebuild_relation_index() -> void:
 	relation_index.clear()
+	region_by_key.clear()
+	for task: Dictionary in rows: region_by_key[task.key]=int(task.region)
 	for task: Dictionary in rows:
 		if not relation_index.has(task.key): relation_index[task.key] = {}
 		for dep: String in task.dependencies:
@@ -336,6 +357,45 @@ func _rebuild_relation_index() -> void:
 			if not relation_index[dep].has(task.key): relation_index[dep][task.key] = "recommended"
 
 func relation_to_focus(key: String) -> String:
-	var focus: String = hovered_key if not hovered_key.is_empty() else TaskNavigation.selected
+	var focus: String = relation_focus_key()
 	if key == focus: return "selected"
 	return String(relation_index.get(focus,{}).get(key,""))
+
+
+func _minimum_zoom() -> float:
+	# The later chapters extend the map vertically. Overview must fit all of them,
+	# not silently crop the ending at the old fixed 18% minimum.
+	return maxf(0.01,minf(0.18,minf(size.x/maxf(1,world_size.x),size.y/maxf(1,world_size.y))*0.9))
+
+func relation_focus_key() -> String:
+	if not hovered_key.is_empty(): return hovered_key
+	if magnification<0.34 or not positions.has(TaskNavigation.selected): return ""
+	var selected_rect:=Rect2(positions[TaskNavigation.selected]*magnification+pan,NODE_SIZE*magnification)
+	return TaskNavigation.selected if Rect2(Vector2.ZERO,size).intersects(selected_rect) else ""
+
+
+static func dash_polyline(points: PackedVector2Array, dash: float, gap: float) -> PackedVector2Array:
+	# Carry dash phase across tessellation segments. Restarting draw_dashed_line
+	# for every short segment can make a curved recommendation look solid.
+	var result:=PackedVector2Array()
+	if points.size()<2 or dash<=0.0 or gap<=0.0 or not is_finite(dash) or not is_finite(gap):return result
+	for point: Vector2 in points:
+		if not point.is_finite():return result
+	var remaining: float=dash
+	var visible_dash: bool=true
+	for index: int in points.size()-1:
+		var cursor: Vector2=points[index]
+		var distance: float=cursor.distance_to(points[index+1])
+		if distance<0.0001:continue
+		var direction: Vector2=(points[index+1]-cursor)/distance
+		while distance>0.0001:
+			var step: float=minf(distance,remaining)
+			var finish: Vector2=cursor+direction*step
+			if visible_dash:
+				result.append(cursor)
+				result.append(finish)
+			cursor=finish;distance-=step;remaining-=step
+			if remaining<0.0001:
+				visible_dash=not visible_dash
+				remaining=dash if visible_dash else gap
+	return result

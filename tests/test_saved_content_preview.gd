@@ -24,6 +24,10 @@ func run() -> void:
 	check(view.configure_plan(plan,"QA plan"),"Real layout/connection structure can be previewed separately")
 	check(view.content_kind==&"plan" and view.positions.size()==2 and view.wires.size()==1,"Plan is a layout card, not a chip or generated work")
 	check(JSON.stringify(plan)==before,"Plan preview is read-only")
+	var broken: Dictionary=plan.duplicate(true)
+	broken.wires[0].to_node="missing"
+	check(not view.configure_plan(broken,"Broken") and view.positions.is_empty(),"A broken wire is not silently removed to make a fake valid preview")
+	check(not view.configure_work({"id":42,"output":[0,1]},true),"Invalid source identity is not promoted to a saved work")
 	check(not view.configure_plan({"components":[{"id":"A"}],"layout":{}},"Old"),"Missing historic layout is not invented")
 	check(view.content_kind.is_empty(),"Invalid/empty state clears previous preview")
 	view.queue_free();await process_frame

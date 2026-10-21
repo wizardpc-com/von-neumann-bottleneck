@@ -75,3 +75,25 @@ func _draw() -> void:
 	var anchor := Vector2(clampf(at.x+25.0,4.0,maxf(4.0,size.x-width-4.0)),clampf(at.y+28.0,22.0,maxf(22.0,size.y-24.0)))
 	draw_rect(Rect2(anchor-Vector2(5,17),Vector2(width,24)),Color("152735"),true)
 	draw_string(font,anchor,text,HORIZONTAL_ALIGNMENT_LEFT,width-10.0,14,INK)
+
+
+static func wire_cut_path(curve: PackedVector2Array) -> PackedVector2Array:
+	# Cross the actual wire's local tangent, including vertical and bent wires.
+	# A fixed vertical gesture can run along a wire instead of cutting across it.
+	if curve.size()<2 or curve.size()>2048:return PackedVector2Array()
+	var total: float=0.0
+	for index: int in curve.size():
+		if not curve[index].is_finite():return PackedVector2Array()
+		if index>0:total+=curve[index-1].distance_to(curve[index])
+	if total<0.01:return PackedVector2Array()
+	var remaining: float=total/2.0
+	for index: int in curve.size()-1:
+		var delta: Vector2=curve[index+1]-curve[index]
+		var length: float=delta.length()
+		if length<0.0001:continue
+		if remaining<=length:
+			var center: Vector2=curve[index].lerp(curve[index+1],remaining/length)
+			var normal: Vector2=Vector2(-delta.y,delta.x).normalized()*24.0
+			return PackedVector2Array([center-normal,center+normal])
+		remaining-=length
+	return PackedVector2Array()

@@ -1,0 +1,16 @@
+{
+  "build_id": "playtest-ModeDebug20261023-597813e174f5",
+  "source_commit": "597813e174f58b892836ca8aee293d5e1d51565e",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "Windows",
+  "native_validation": "See verification record; export is not native acceptance",
+  "files_sha256": {
+    "CHANGELOG.txt": "228942ce7c381b6b32a3708c0aa849e197ba73bfbffbc4c015c5b492752a9b31",
+    "ENGINE-LICENSES.txt": "83d1228be30e56c9549fee1b322c8c46fb6cb08ac5545a799a62582613687fff",
+    "FONT-LICENSE.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "KNOWN-ISSUES.txt": "eec1b8845c6586e165cea255dab8769877e004c571304008b0344466d1adb378",
+    "LICENSE.txt": "4169e9c39ab401f2f7850040164eb760e58ec606b7a547477c17de9b3a3c9b30",
+    "README.txt": "a9152d58bef4c4370accc33a29bb635a6fbe2614ed71feffff7c837c16046f27",
+    "Von-Neumann-Bottleneck.exe": "96ae59f2c3135535aff576d12401f2af8fb0b7e9fe1293ad93c8e770293cd3a6"
+  }
+}

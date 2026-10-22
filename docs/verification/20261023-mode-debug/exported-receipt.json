@@ -1,0 +1,39 @@
+{
+  "source_commit": "597813e174f58b892836ca8aee293d5e1d51565e",
+  "build_id": "playtest-ModeDebug20261023-597813e174f5",
+  "zip_sha256": "93b06c478823428be7ff3de4cd6da51e85253bc447c54abf2ec141e0e13cd64d",
+  "zip_bytes": 115817064,
+  "executable": {
+    "bytes": 188860240,
+    "sha256": "96ae59f2c3135535aff576d12401f2af8fb0b7e9fe1293ad93c8e770293cd3a6",
+    "embedded_pack_bytes": 79762244,
+    "pe_architecture": "x86_64"
+  },
+  "actual_exported_tests": [
+    {
+      "suite": "test_mode_access",
+      "passed": true,
+      "output": "test_mode_access.txt",
+      "qa_profile": "VonNeumannBottleneckChecks/package-mode-debug-test_mode_access"
+    },
+    {
+      "suite": "test_cinematics",
+      "passed": true,
+      "output": "test_cinematics.txt",
+      "qa_profile": "VonNeumannBottleneckChecks/package-mode-debug-test_cinematics"
+    }
+  ],
+  "zip_inventory": [
+    "Windows/BUILD-MANIFEST.json",
+    "Windows/CHANGELOG.txt",
+    "Windows/ENGINE-LICENSES.txt",
+    "Windows/FONT-LICENSE.txt",
+    "Windows/KNOWN-ISSUES.txt",
+    "Windows/LICENSE.txt",
+    "Windows/README.txt",
+    "Windows/Von-Neumann-Bottleneck.exe"
+  ],
+  "qa_only_override_removed": true,
+  "candidate_and_archive_unchanged": true,
+  "native_graphics_audio_verified": false
+}

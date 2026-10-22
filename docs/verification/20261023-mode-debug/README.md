@@ -24,4 +24,16 @@ Godot 4.7.1 stable，无窗口、独立工程及 QA 用户目录：
 
 使用 `scripts/build-free-candidate.py` 从固定 main 提交打包 Windows 完整 60 项旅程，稳定独立渠道为 `ModeDebug20261023`。不启用 `offline_tester`，游戏模式保留正常前置，测试模式由玩家主动选择。包不包含 QA 成果存档、脚本或反馈数据库，未配置反馈服务器，不发布公开 Release。
 
-最终 ZIP、提交身份、清单与导出后检查由交付记录补充。按用户要求保持无窗口；原生全屏画面、键鼠手感和音画同步仍待分享调试时验收。
+游戏代码固定于 main 提交 `597813e174f58b892836ca8aee293d5e1d51565e`；随后提交仅补充交付证据与完成计划，不改变包内游戏代码。
+
+- 构建身份：`playtest-ModeDebug20261023-597813e174f5`。
+- ZIP：`E:/VNB/deliveries/20261023-ModeDebug/VNB-Windows-ModeDebug-20261023.zip`，115,817,064 字节。
+- SHA-256：`93b06c478823428be7ff3de4cd6da51e85253bc447c54abf2ec141e0e13cd64d`。
+- 构建与逐文件身份：[package-manifest.json](package-manifest.json)、[windows-build-manifest.json](windows-build-manifest.json)。Windows 模板为已安装官方 4.7.1 x86_64 release，模板哈希在清单中。
+- 实际解压 EXE：模式访问 **14 项通过，`free_candidate=true`**；CG **32 项通过**，两段均到达真实解码器自然结束。见 [导出包收据](exported-receipt.json)及同目录 `exported-test_*.txt`。
+
+ZIP CRC、全部文件 SHA、188,860,240 字节的 Windows x86_64 PE 与内嵌 PCK 结构通过。测试使用解压副本、专用用户目录和仅 QA 的启动场景覆盖；共享 ZIP、原导出 EXE 与源码未被覆盖修改。原始 SceneTree 断言由节点驱动执行；导出启动覆盖下明确调用真正的 startup 资源，控制器快照见 `verify-exported-controller.py`（捕获位置为仓库 `.godot/`）。未将覆盖、控制器或测试数据打入包。
+
+构建、许可提取、导出日志在 `.godot/candidates/20261022T162323Z-597813e1/`；导出包验证在 `.godot/package-qa/mode-debug-20261023-597813e-final/`。首次直接 CLI 脚本控制器未启动，第二次 QA 节点添加时序失败；修正控制器后上述真实包检查通过，游戏代码未因此改变。
+
+按用户要求保持无窗口；原生全屏画面、键鼠手感和音画同步仍待分享调试时验收。

@@ -73,6 +73,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 2000
+	preload("res://src/ui/guide_stage.gd").mark_blocker(self)
 	_build_interface()
 	visibility_changed.connect(func() -> void:
 		if not visible: PlaytestData.set_feedback_visible(false,&"completion"))

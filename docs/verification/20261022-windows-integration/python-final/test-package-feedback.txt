@@ -1,0 +1,10 @@
+test_godot_scene_and_override_keep_unicode_paths_in_utf8 (__main__.PackageFeedbackTests.test_godot_scene_and_override_keep_unicode_paths_in_utf8) ... ok
+test_package_arguments_are_exclusive (__main__.PackageFeedbackTests.test_package_arguments_are_exclusive) ... ok
+test_private_report_cli_writes_files_on_this_platform (__main__.PackageFeedbackTests.test_private_report_cli_writes_files_on_this_platform) ... ok
+test_windows_and_mac_pack_hashes_match_manifests (__main__.PackageFeedbackTests.test_windows_and_mac_pack_hashes_match_manifests) ... ok
+test_windows_external_pack_and_missing_embedded_pack (__main__.PackageFeedbackTests.test_windows_external_pack_and_missing_embedded_pack) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.667s
+
+OK

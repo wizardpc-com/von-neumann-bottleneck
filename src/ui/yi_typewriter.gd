@@ -38,6 +38,9 @@ var center_lines: bool = false:
 ## When set, Enter/Space while the passage is still appearing only completes
 ## the text, as long as keyboard focus is inside this control.
 var skip_scope: Control
+## Multiplies the player's text speed. Operational guidance (what to do now)
+## writes out faster than conversation so it never holds up the hands.
+var speed_scale: float = 1.0
 ## -1 follows the global setting; 0/1 forces reduced motion off/on.
 var reduced_motion_override: int = -1
 
@@ -69,7 +72,7 @@ func play(value: String, replay: bool = false) -> void:
 	_caret_active = not value.is_empty()
 	_blink = 0.0
 	_progress = 0.0
-	_speed = speed_setting()
+	_speed = speed_setting() * speed_scale
 	var instant: bool = value.is_empty() or reduced_motion() or _speed <= 0.0 \
 		or (not replay and _seen.has(value.hash()))
 	if instant:

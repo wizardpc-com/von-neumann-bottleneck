@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Coach follows the real interaction flags
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_lab_journey.gd:13)
+       [1] run (res://tests/test_lab_journey.gd:90)
+       [2] settle (res://tests/test_lab_journey.gd:15)
+FAIL: lab journey 48 checks, 1 failures

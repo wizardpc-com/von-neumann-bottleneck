@@ -1,0 +1,118 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/user_directory"
+    },
+    {
+      "name": "test_bilingual_typography",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_bilingual_typography.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_bilingual_typography"
+    },
+    {
+      "name": "test_desktop_conventions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_desktop_conventions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_desktop_conventions"
+    },
+    {
+      "name": "test_layout_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_layout_navigation"
+    },
+    {
+      "name": "test_layout_preview_selection",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_preview_selection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_layout_preview_selection"
+    },
+    {
+      "name": "test_layout_recipe_sources",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_recipe_sources.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_layout_recipe_sources"
+    },
+    {
+      "name": "test_layout_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_layout_simulation"
+    },
+    {
+      "name": "test_layout_trace_storage",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_trace_storage.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_layout_trace_storage"
+    },
+    {
+      "name": "test_layout_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_layout_ui"
+    },
+    {
+      "name": "test_overlap_player_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_overlap_player_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_overlap_player_input"
+    },
+    {
+      "name": "test_overlap_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_overlap_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_overlap_simulation"
+    },
+    {
+      "name": "test_overlap_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_overlap_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_overlap_ui"
+    },
+    {
+      "name": "test_unified_style",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_unified_style.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261021T094350Z-3e78aa93/test_unified_style"
+    }
+  ]
+}

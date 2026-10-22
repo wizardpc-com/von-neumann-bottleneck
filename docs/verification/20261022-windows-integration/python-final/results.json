@@ -1,0 +1,58 @@
+[
+  {
+    "script": "scripts/check-branding.py",
+    "exit": 0
+  },
+  {
+    "script": "scripts/test-report-playtests.py",
+    "exit": 0
+  },
+  {
+    "script": "scripts/test-offline-playtests.py",
+    "exit": 0
+  },
+  {
+    "script": "scripts/test-candidate-packaging.py",
+    "exit": 0
+  },
+  {
+    "script": "scripts/test-package-feedback.py",
+    "exit": 0
+  },
+  {
+    "script": "server/test_storage.py",
+    "exit": 0
+  },
+  {
+    "script": "server/test_receiver.py",
+    "exit": 1
+  },
+  {
+    "script": "server/test_community.py",
+    "exit": 1
+  },
+  {
+    "script": "server/test_delivery.py",
+    "exit": 1
+  },
+  {
+    "script": "server/test_private_report.py",
+    "exit": 0
+  },
+  {
+    "script": "server/test_maintenance.py",
+    "exit": 4294967295
+  },
+  {
+    "script": "scripts/test-verify-process.py",
+    "exit": 0
+  },
+  {
+    "script": "scripts/test-package-structure.py",
+    "exit": 0
+  },
+  {
+    "script": "scripts/test-render-component-review.py",
+    "exit": 0
+  }
+]

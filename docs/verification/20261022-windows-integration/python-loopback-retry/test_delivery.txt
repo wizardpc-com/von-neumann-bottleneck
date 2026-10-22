@@ -1,0 +1,8 @@
+test_capacity_retry_and_in_batch_identity_conflicts (__main__.DeliveryTests.test_capacity_retry_and_in_batch_identity_conflicts) ... ok
+test_lost_confirmation_restart_dedup_delete_restore (__main__.DeliveryTests.test_lost_confirmation_restart_dedup_delete_restore) ... ok
+test_readonly_and_disk_full_do_not_acknowledge (__main__.DeliveryTests.test_readonly_and_disk_full_do_not_acknowledge) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.493s
+
+OK

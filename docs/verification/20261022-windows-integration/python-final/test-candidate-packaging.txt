@@ -1,0 +1,1 @@
+PASS: frozen UTF-8 Windows packaging, screenshot inventory, URL gates, offline/public profiles and README paths, ZIP inventory, hashes and unlisted-file rejection

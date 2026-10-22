@@ -386,30 +386,35 @@ func _build_interface() -> void:
 
 
 func _build_header() -> Control:
+	# One light navigation line: chapter and task side by side, no tall frame.
 	var header := PanelContainer.new()
-	header.custom_minimum_size.y = 70.0
+	header.add_theme_stylebox_override("panel", preload("res://src/ui/workbench_chrome.gd").bar_style())
+	header.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
 	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
 	header.add_child(row)
-	var title_box := VBoxContainer.new()
-	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var title_box := HBoxContainer.new()
+	title_box.add_theme_constant_override("separation", 12)
 	row.add_child(title_box)
 	chapter_title_label = Label.new()
 	chapter_title_label.text = _t(&"chapter2.title")
-	chapter_title_label.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
-	chapter_title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	chapter_title_label.add_theme_color_override("font_color", ACCENT)
+	preload("res://src/ui/workbench_chrome.gd").title(chapter_title_label)
 	title_box.add_child(chapter_title_label)
 	chapter_subtitle_label = Label.new()
 	chapter_subtitle_label.text = _t(&"chapter2.subtitle")
+	chapter_subtitle_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	chapter_subtitle_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
-	chapter_subtitle_label.add_theme_color_override("font_color", MUTED)
+	chapter_subtitle_label.add_theme_color_override("font_color", TEXT)
 	title_box.add_child(chapter_subtitle_label)
 	status_label = Label.new()
 	status_label.text = _t(&"chapter2.status.map")
 	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	status_label.custom_minimum_size.x = 390.0
+	status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	status_label.custom_minimum_size.x = 240.0
 	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	status_label.max_lines_visible = 2
+	status_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	status_label.add_theme_color_override("font_color", WARNING)
 	row.add_child(status_label)
 	var map_button := Button.new()
@@ -473,6 +478,7 @@ func _build_workbench() -> Control:
 	layout_button.tooltip_text = _t(&"locality.auto_layout.tooltip")
 	layout_button.pressed.connect(func() -> void: _auto_layout(true))
 	bar_row.add_child(layout_button)
+	InstrumentTheme.tool_row(bar_row)
 	content.add_child(hardware_bar)
 
 	var stack := Control.new()
@@ -584,7 +590,6 @@ func _add_instrument(parent: Control, id: StringName, title_text: String, conten
 	var instrument: FloatingInstrumentPanel = FloatingInstrumentPanelType.new()
 	instrument.name = "%sInstrument" % String(id).to_pascal_case()
 	instrument.custom_minimum_size = Vector2(360.0, 250.0)
-	instrument.add_theme_stylebox_override("panel", _instrument_surface(false))
 	parent.add_child(instrument)
 	instrument.setup(id, title_text)
 	instrument.set_minimizable(id != &"mission")
@@ -621,6 +626,8 @@ func _on_instrument_host_resized() -> void:
 			)
 		instrument.fit_to_parent(10.0)
 	instrument_layout_size = new_size
+	# The machine is framed against the real host size, not the first layout pass.
+	call_deferred("_frame_machine")
 
 
 func _build_mission_instrument() -> Control:
@@ -1070,6 +1077,7 @@ func _build_playback_panel() -> Control:
 	trace_progress.add_theme_stylebox_override("background", _stylebox(Color("0b111d"), 4))
 	trace_progress.add_theme_stylebox_override("fill", _stylebox(ACCENT, 4))
 	content.add_child(trace_progress)
+	preload("res://src/ui/instrument_theme.gd").tool_row(controls)
 	return panel
 
 
@@ -1204,6 +1212,9 @@ func _start_level(level_id: StringName) -> void:
 	_configure_graph_for_level()
 	_auto_layout(false)
 	_invalidate_current_run(_t(&"workspace.model_changed" if restored.get("stale",false) else &"workspace.restored" if not restored.is_empty() else &"chapter2.status.level_ready"))
+	# Entering a task is not a change the player made: the playback bar starts neutral.
+	playback_label.text = _t(&"trace.playback.empty")
+	playback_label.add_theme_color_override("font_color", MUTED)
 	_update_history_label()
 	_configure_mission()
 	_update_notebook()
@@ -1499,6 +1510,34 @@ func _update_mission_progress() -> void:
 	mission_review_button.visible = _pending_review_ready()
 	mission_finish_button.visible = current_level_id == &"capstone" and complete
 	overlap_entry_button.visible = mission_finish_button.visible
+	_refresh_live_action(complete)
+
+
+## The Mission's "now" line follows the actual workbench: an unapplied draft,
+## a wrong official output or a correct run over the cycle target each replace
+## the task's own line with the one step that applies. Measured values only.
+func _refresh_live_action(complete: bool) -> void:
+	if not is_instance_valid(journey_context): return
+	var en: bool = Localization.current_locale() == "en"
+	var text: String = ""
+	var target_cycles: int = int(current_level.get("target_cycles", 0))
+	if complete or current_level_id.is_empty():
+		text = ""
+	elif is_instance_valid(editor) and editor.text != applied_program_source:
+		text = "The program has unapplied edits: press Apply Program first, then run." if en \
+			else "程序有未应用的修改：先点「应用程序」，再运行。"
+	elif current_trace != null and current_trace.test_name == "Official Test Set":
+		var cycles: int = int(current_trace.metrics.get("total_cycles", 0))
+		if not current_trace.passed:
+			text = "This official run gave a wrong result. Find the first mismatch on the test bench." if en \
+				else "这次正式运行结果不正确。先在测试台找到第一处不符。"
+		elif target_cycles > 0 and cycles > target_cycles:
+			text = ("Correct, but %d cycles against a target of %d. " if en else "结果正确，但用了 %d 周期，目标不超过 %d。") % [cycles, target_cycles]
+			if _tool_available(&"profiler"):
+				text += "Open the profiler: which reads missed and went back to RAM?" if en else "打开分析器，看哪些取数没有命中、又回到了 RAM。"
+			else:
+				text += "Check the run record: where did the time go?" if en else "看运行记录：时间花在了哪些取数上。"
+	journey_context.set_live_action(text)
 
 
 func _on_level_completion_continue(_level_id: StringName) -> void:
@@ -1765,18 +1804,13 @@ func _close_instrument(id: StringName) -> void:
 				break
 
 
-func _instrument_surface(focused: bool) -> StyleBoxFlat:
-	var frame: StyleBoxFlat = InstrumentTheme.surface(Color("111d29"), Color(ACCENT,0.65) if focused else InstrumentTheme.EDGE,8)
-	frame.content_margin_top = 10
-	frame.content_margin_bottom = 10
-	return frame
 
 
 func _focus_instrument(id: StringName) -> void:
 	if not instrument_windows.has(id):
 		return
-	for key: StringName in instrument_windows:
-		(instrument_windows[key] as FloatingInstrumentPanel).add_theme_stylebox_override("panel",_instrument_surface(key==id))
+	# The shared window design marks the focused tool active and the rest idle.
+	(instrument_windows[id] as FloatingInstrumentPanel).mark_active()
 	instrument_z_counter += 1
 	instrument_windows[id].z_index = instrument_z_counter
 	# Control input follows sibling order independently of draw order.
@@ -1829,6 +1863,7 @@ func _on_program_changed() -> void:
 	program_dirty = editor.text != applied_program_source
 	_invalidate_current_run(_t(&"locality.status.program_changed"))
 	_validate_program_editor()
+	_refresh_live_action(bool(LocalityChapter.completed_levels().get(current_level_id, false)))
 	_update_program_run_receipt()
 
 

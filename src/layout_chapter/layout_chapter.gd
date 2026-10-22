@@ -53,14 +53,19 @@ func _ready() -> void:
 	title = _label(_l("第四章 · 各就其位","Chapter 4 · A Place for Everything"))
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var title_box := VBoxContainer.new(); title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title_box.add_theme_constant_override("separation", 0)
+	# Chapter and task on one line, like every other workbench header.
+	var title_box := HBoxContainer.new(); title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_box.add_theme_constant_override("separation", 12)
 	header.add_child(title_box)
 	var chapter_label := _label(_l("第四章 · 各就其位","Chapter 4 · A Place for Everything"))
 	preload("res://src/ui/workbench_chrome.gd").title(chapter_label)
 	title_box.add_child(chapter_label)
 	title_box.add_child(title)
 	preload("res://src/ui/workbench_chrome.gd").subtitle(title)
+	# Same weight as the task name beside the chapter in Chapters 1 and 2.
+	title.add_theme_font_size_override("font_size", 16)
+	title.add_theme_color_override("font_color", Color("e2ebef"))
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_button(header,_l("旅程地图","Journey map"),_leave)
 	_button(header,_l("实验室","Laboratory"),_leave_to_lab)
 	core_review_button = _button(header,_l("回看路径成果","Review this path"),_open_core_review)
@@ -73,10 +78,12 @@ func _ready() -> void:
 	root.add_child(dock)
 	for entry: Array in [["tools","布局工具","Layout tools"],["mission","任务","Mission"],["memory","内存","Memory"],["trace","运行记录","Trace"],["manual","图解规则","Illustrated rules"]]:
 		_button(dock,_l(entry[1],entry[2]),_toggle.bind(entry[0]))
-	_button(dock,_l("运行全部订单","Run all cases"),_run_all)
+	# The one action that measures the layout is the row's primary.
+	preload("res://src/ui/instrument_theme.gd").primary(_button(dock,_l("运行全部订单","Run all cases"),_run_all))
 	_button(dock,_l("撤销","Undo"),_undo.bind(false))
 	_button(dock,_l("重做","Redo"),_undo.bind(true))
 	_button(dock,_l("提示","Hint"),_hint_request)
+	preload("res://src/ui/instrument_theme.gd").tool_row(dock)
 	status = _label(_l("拖动字段组合布局；运行后查看真实地址与搬运记录。","Group fields, run, and inspect real addresses and transfers."))
 	root.add_child(status)
 	workspace = Control.new()

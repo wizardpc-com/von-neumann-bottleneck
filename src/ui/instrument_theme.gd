@@ -20,6 +20,73 @@ static func primary(button: Button, accent: Color = ACCENT) -> void:
 		button.add_theme_color_override(state, Color("071823"))
 
 
+## Tool-row button: no box at rest, a soft fill on hover, an accent tint while
+## pressed or toggled on. Rows of tools read as one quiet instrument strip
+## instead of a wall of outlined boxes. Input geometry is unchanged.
+static func tool(button: Button) -> void:
+	var rest := StyleBoxFlat.new(); rest.bg_color = Color(1, 1, 1, 0.0); rest.set_corner_radius_all(7)
+	_tool_margins(rest)
+	var hover: StyleBoxFlat = rest.duplicate(); hover.bg_color = Color(1, 1, 1, 0.065)
+	var on: StyleBoxFlat = rest.duplicate(); on.bg_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.15)
+	on.border_width_bottom = 2; on.border_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.8)
+	var on_hover: StyleBoxFlat = on.duplicate(); on_hover.bg_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.22)
+	var focus := StyleBoxFlat.new(); focus.draw_center = false; focus.set_border_width_all(1)
+	focus.border_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.7); focus.set_corner_radius_all(7)
+	var disabled: StyleBoxFlat = rest.duplicate()
+	button.add_theme_stylebox_override("normal", rest)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", on)
+	button.add_theme_stylebox_override("hover_pressed", on_hover)
+	button.add_theme_stylebox_override("focus", focus)
+	button.add_theme_stylebox_override("disabled", disabled)
+	button.add_theme_color_override("font_color", Color("d5e1e6"))
+	button.add_theme_color_override("font_hover_color", Color("f0f6f8"))
+	for state: String in ["font_pressed_color", "font_hover_pressed_color"]:
+		button.add_theme_color_override(state, ACCENT.lightened(0.1))
+	button.add_theme_color_override("font_disabled_color", Color("62737c"))
+
+
+## Navigation button on the light top line: a ghost outline, quieter than tools
+## and primary actions, so "where am I / where can I go" never competes with "do".
+static func nav(button: Button) -> void:
+	var rest := StyleBoxFlat.new(); rest.bg_color = Color(1, 1, 1, 0.025)
+	rest.border_color = Color("2f404b"); rest.set_border_width_all(1); rest.set_corner_radius_all(7)
+	_tool_margins(rest)
+	var hover: StyleBoxFlat = rest.duplicate(); hover.bg_color = Color(1, 1, 1, 0.06)
+	hover.border_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.55)
+	var pressed: StyleBoxFlat = hover.duplicate(); pressed.bg_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.14)
+	var focus := StyleBoxFlat.new(); focus.draw_center = false; focus.set_border_width_all(2)
+	focus.border_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.8); focus.set_corner_radius_all(7)
+	button.add_theme_stylebox_override("normal", rest)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_stylebox_override("hover_pressed", pressed)
+	button.add_theme_stylebox_override("focus", focus)
+	button.add_theme_stylebox_override("disabled", rest.duplicate())
+	button.add_theme_color_override("font_color", Color("d5e1e6"))
+	button.add_theme_color_override("font_hover_color", Color("f0f6f8"))
+	button.add_theme_color_override("font_disabled_color", Color("62737c"))
+
+
+## Styles every plain button in a tool row (including ones the scene adds
+## while it finishes building). Buttons with their own look are left alone.
+static func tool_row(row: Node) -> void:
+	var style_all := func() -> void:
+		if not is_instance_valid(row): return
+		for node: Node in row.find_children("*", "Button", true, false):
+			var button := node as Button
+			if button is CheckBox or button is CheckButton or button is OptionButton: continue
+			if button.has_meta("keep_style") or button.has_meta("tool_styled"): continue
+			if button.has_theme_stylebox_override("normal"): continue
+			tool(button); button.set_meta("tool_styled", true)
+	style_all.call_deferred()
+
+
+static func _tool_margins(box: StyleBoxFlat) -> void:
+	box.content_margin_left = 11.0; box.content_margin_right = 11.0
+	box.content_margin_top = 5.0; box.content_margin_bottom = 5.0
+
+
 static func panel(fill: Color, border: Color = EDGE, radius: int = 7) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
 	box.bg_color = fill
@@ -90,8 +157,11 @@ static func apply_to(target: Theme, light: bool = false) -> void:
 	target.set_stylebox("panel", "TooltipPanel", panel(surface_color, border))
 	target.set_font_size("font_size", "TooltipLabel", 14)
 	target.set_color("font_color", "TooltipLabel", text)
-	var window: StyleBoxFlat = surface(surface_color, border)
-	target.set_stylebox("panel", "PanelContainer", window)
+	# Plain containers (bars, docks, canvas frames) are a quiet layer: a hairline
+	# and no shadow. Depth is reserved for real windows and dialogs, so the
+	# terminal reads as one surface with tools floating above it.
+	var layer: StyleBoxFlat = panel(surface_color if light else Color("15212a"), border if light else Color("27363f"), 9)
+	target.set_stylebox("panel", "PanelContainer", layer)
 
 	# Popups and trace selections belong to the same instrument family.
 	target.set_stylebox("panel", "AcceptDialog", panel(surface_color, border, 8))

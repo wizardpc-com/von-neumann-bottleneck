@@ -836,9 +836,13 @@ func _install_support_library(
 
 
 func _process(delta: float) -> void:
-	if operation_demo != null and operation_demo.running and (tutorial_coach == null or not tutorial_coach.is_visible_in_tree() or _editor_locked() or mission_briefing_active or is_instance_valid(WindowMode.settings_layer) or (terminology_handbook != null and terminology_handbook.is_open())):
+	if operation_demo != null and operation_demo.running and (tutorial_coach == null or not tutorial_coach.is_visible_in_tree() or tutorial_coach.collapsed or tutorial_coach.reading or tutorial_coach.help_open() or preload("res://src/ui/guide_stage.gd").blocked(get_tree()) or _editor_locked() or mission_briefing_active or is_instance_valid(WindowMode.settings_layer) or (terminology_handbook != null and terminology_handbook.is_open())):
 		operation_demo.stop()
+	if operation_demo != null and operation_demo.running and current_phase == &"tutorial" and tutorial_coach.last_states.find(false) in [0, 4]:
+		operation_demo.path = _tutorial_demo_wire_points()
 	_update_graph_keyboard_pan(delta)
+	if cancel_cable_button != null:
+		cancel_cable_button.visible = builtin_connection_drag_active or not armed_component_template_key.is_empty()
 	if status_label != null:
 		status_label.tooltip_text = status_label.text
 	if sealing:
@@ -894,6 +898,21 @@ var tutorial_coach: Control
 var tutorial_focus_applied: bool = false
 var guided_debug_ran: bool = false
 var guided_timer: Timer
+## The control the guide currently points at, and what it last said (so the
+## ring only reappears when the advice actually changes).
+var guide_highlight: Control
+var guide_last_key: String = ""
+var bench_debug_button: Button
+## True from entering a guided level until the player first edits or runs:
+## until then a desktop resize may re-frame the circuit; afterwards never.
+var guide_view_pristine: bool = false
+## Shown only while a cable drag or component placement can be cancelled.
+var cancel_cable_button: Button
+var pending_cancel_button: Button
+## Half-adder cases actually run on the current circuit: index -> {sum, carry}.
+## Cleared whenever the circuit changes, so it never describes an older board.
+var guided_case_evidence: Dictionary = {}
+var guided_last_debug_index: int = -1
 # Every wiring level before the staged CPU uses the short build → try → test card;
 # CPU and LOAD/STORE keep their own staged briefing.
 const GUIDED_LEVELS: Array[StringName] = [&"half_adder", &"full_adder", &"latch", &"register", &"alu", &"ram", &"selector", &"selector4", &"parity", &"delay", &"alarm"]
@@ -919,9 +938,9 @@ func _guided_states() -> Array[bool]:
 			outputs += 1
 			if not targets.has(id): wired = false
 	wired = wired and outputs > 0
-	# A genuine complete official pass already includes testing. Do not send a
-	# player back to a redundant debug click merely because they tested directly.
-	return [wired, wired and (guided_debug_ran or official_passed), official_passed]
+	# An official run is also a try: its rows show actual against expected.
+	var tried: bool = guided_debug_ran or official_passed or not official_report.is_empty() or not prologue_report.is_empty()
+	return [wired, wired and tried, official_passed]
 
 
 func _refresh_guided_coach() -> void:
@@ -931,7 +950,11 @@ func _refresh_guided_coach() -> void:
 		if mission_summary_button != null: mission_summary_button.visible = true
 		if guided_timer != null: guided_timer.stop()
 		return
-	tutorial_coach.update_states(_guided_states())
+	_push_build_guidance()
+	# Settings or a result card is speaking: the guide stays current underneath,
+	# but silent (no typing, no caret).
+	if preload("res://src/ui/guide_stage.gd").blocked(get_tree()): tutorial_coach.quiet()
+	else: tutorial_coach.wake()
 
 
 func _begin_guided_level() -> void:
@@ -944,18 +967,265 @@ func _begin_guided_level() -> void:
 		return
 	if tutorial_coach == null:
 		_ensure_tutorial_coach()
-	var goal: String = mission_summary_button.text.get_slice(" · ", 0) if mission_summary_button != null else ""
-	tutorial_coach.use_steps(true, goal.strip_edges())
+	tutorial_coach.use_steps(true, _guided_goal_text())
+	guided_case_evidence.clear()
+	guided_last_debug_index = -1
+	guide_last_key = ""
+	if current_phase == &"half_adder":
+		tutorial_coach.set_cases(HalfAdderTestBenchType.OFFICIAL_CASES)
 	tutorial_coach.set_operation_lesson(current_level_id)
 	if mission_summary_button != null: mission_summary_button.visible = false
 	tutorial_coach.visible = true
 	(desktop_windows[&"task"] as Control).hide()
+	_sync_guide_reading()
+	guide_view_pristine = true
+	call_deferred("_dock_guided_rails")
 	if guided_timer == null:
 		guided_timer = Timer.new(); guided_timer.wait_time = 0.35
 		guided_timer.timeout.connect(_refresh_guided_coach); add_child(guided_timer)
 	guided_timer.start()
-	tutorial_coach.update_states(_guided_states())
-	call_deferred("_place_tutorial_coach")
+	_push_build_guidance()
+
+
+func _mount_cancel_cable(row: Node) -> void:
+	if pending_cancel_button == null or pending_cancel_button.get_parent() != null: return
+	row.add_child(pending_cancel_button)
+	row.move_child(pending_cancel_button, hint_button.get_index())
+	preload("res://src/ui/workbench_chrome.gd").tidy_button(pending_cancel_button)
+
+
+## While the docked guide holds the goal, the circuit takes the centre: Test
+## Bench is a full-height left rail, Components a right rail sized to its cards.
+## Players may still move or resize both; this only sets the entry layout.
+func _dock_guided_rails(reframe: bool = true) -> void:
+	if not _guided_level() or graph_stack == null: return
+	var area: Vector2 = graph_stack.size
+	if area.x <= 0.0 or area.y <= 0.0: return
+	var margin: float = clampf(minf(area.x, area.y) * 0.025, 12.0, 20.0)
+	var usable: float = area.y - margin * 2.0
+	var bench: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
+	var parts: FloatingInstrumentPanel = desktop_windows[&"components"]
+	var rail_left: float = clampf(area.x * 0.25, 300.0, 360.0)
+	var rail_right: float = clampf(area.x * 0.22, 280.0, 320.0)
+	bench.position = Vector2(margin, margin)
+	bench.size = Vector2(rail_left, usable)
+	var parts_height: float = usable
+	if component_palette_box != null:
+		parts_height = clampf(component_palette_box.get_combined_minimum_size().y + 64.0, minf(260.0, usable), usable)
+	parts.position = Vector2(area.x - margin - rail_right, margin)
+	parts.size = Vector2(rail_right, parts_height)
+	component_palette_needs_initial_layout = false
+	for window: FloatingInstrumentPanel in [bench, parts]: window.fit_to_parent(margin)
+	# Only the entry frames the circuit; a later resize never moves the canvas.
+	if reframe and graph != null: _focus_circuit(true)
+
+
+func _guided_goal_text() -> String:
+	var key := StringName("hardware.goal.%s" % String(current_level_id))
+	var goal: String = _t(key)
+	return _level_display_name(current_level_id) if goal == String(key) else goal
+
+
+## The build guide reads the actual board and runs: which outputs still lack a
+## source, which input case was tried, the first real mismatch and whether the
+## official cases passed. It says where to look; it never names gates or wires.
+func _push_build_guidance() -> void:
+	if tutorial_coach == null or not tutorial_coach.visible or current_phase == &"tutorial": return
+	var states: Array[bool] = _guided_states()
+	var advice: Dictionary = _build_guidance(states)
+	tutorial_coach.show_guidance(states, str(advice.title), str(advice.text))
+	if current_phase == &"half_adder":
+		tutorial_coach.set_case_evidence(guided_case_evidence, _selected_case_index())
+	_point_guide(str(advice.key), advice.get("target"))
+
+
+func _build_guidance(states: Array[bool]) -> Dictionary:
+	var en: bool = Localization.current_locale() == "en"
+	var titles: Array = ["Build", "Try it", "Official test"] if en else ["搭电路", "试一试", "正式测试"]
+	var half_adder: bool = current_phase == &"half_adder"
+	if official_sequence_active:
+		return {"title": titles[2], "key": "running", "target": null,
+			"text": "Running the official cases one by one. Watch each row on the test bench." if en
+				else "正在逐项运行正式用例。看测试台的每一行：哪一组与期望不同。"}
+	var next: int = states.find(false)
+	if next < 0:
+		return {"title": "Ready to seal" if en else "可以封装", "key": "passed",
+			"target": seal_button if seal_button != null and seal_button.is_visible_in_tree() else null,
+			"text": ("All four input cases pass. You can seal this circuit now; the next task can reuse it." if en
+				else "四组输入都通过了。现在可以封装这个元件，下一关就能直接复用。") if half_adder
+				else ("Every official case passes. You can seal it and move on." if en else "正式用例全部通过。现在可以封装它，继续下一项。")}
+	if next == 0:
+		var outputs: Dictionary = _guided_output_sources()
+		var missing: Array = outputs.missing
+		var wired: Array = outputs.wired
+		# The level's centre is its outputs: point at the first one still without a source.
+		var target: Variant = component_nodes.get(outputs.missing_ids[0]) if not outputs.missing_ids.is_empty() else null
+		var text: String
+		if wired.is_empty() and half_adder:
+			text = "With A=1, B=1, what should SUM and CARRY be? Read the spec, then wire one output using the existing parts." if en \
+				else "A=1、B=1 时，SUM 和 CARRY 是几？看右侧规格，用已有元件接出其中一个输出。"
+		elif wired.is_empty():
+			text = ("Wire the existing parts to the outputs: %s. Add parts from Components if needed." if en
+				else "用已有元件给输出接上来源：%s。需要时再从「元件」添加。") % ("、".join(PackedStringArray(missing)) if not en else ", ".join(PackedStringArray(missing)))
+		else:
+			text = ("%s has a source; %s does not yet. Wire it, then run one input case." if en
+				else "%s 已经有来源，%s 还没有。接好后再选一组输入运行。") % [
+				("、" if not en else ", ").join(PackedStringArray(wired)), ("、" if not en else ", ").join(PackedStringArray(missing))]
+		return {"title": titles[0], "text": text, "target": target, "key": "wire:%s" % ",".join(PackedStringArray(missing))}
+	if next == 1:
+		return {"title": titles[1], "target": bench_debug_button, "key": "debug",
+			"text": ("Both outputs are wired. Pick an input case (click a column, or A and B on the test bench), then run it and compare expected with actual." if en
+				else "两个输出都接上了。点规格表的一列（或测试台的 A、B）选一组输入，运行后对照期望与实际。") if half_adder
+				else ("Every output has a source. Set an input on the test bench and run it to see the actual outputs." if en
+				else "每个输出都有来源了。在测试台设一组输入并运行，看实际输出。")}
+	var mismatch: Dictionary = _first_official_mismatch(en)
+	if not mismatch.is_empty():
+		var rows: Array = official_case_labels if half_adder else prologue_case_labels
+		var row: Variant = rows[int(mismatch.index)] if int(mismatch.index) < rows.size() else null
+		return {"title": titles[2], "target": row, "key": "official:" + str(mismatch.text),
+			"text": str(mismatch.text) + (" Check what feeds that output, then run the official cases again." if en else "检查接到这个输出的线路，改好后再运行正式用例。")}
+	if half_adder and guided_case_evidence.has(guided_last_debug_index):
+		var expected: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[guided_last_debug_index]
+		var actual: Dictionary = guided_case_evidence[guided_last_debug_index]
+		var differing: Array[String] = []
+		for output: String in ["SUM", "CARRY"]:
+			if int(actual[output.to_lower()]) != int(expected[output]): differing.append(output)
+		var case_text: String = "A=%d, B=%d" % [int(expected.A), int(expected.B)] if en else "A=%d、B=%d" % [int(expected.A), int(expected.B)]
+		if not differing.is_empty():
+			var output_name: String = differing[0]
+			return {"title": titles[1], "target": null, "key": "debug_fail:%d:%s" % [guided_last_debug_index, output_name],
+				"text": ("With %s, %s should be %d but is %d. Look at what feeds %s." if en
+					else "%s 时 %s 应为 %d，实际是 %d。看看接到 %s 的是什么。") % [
+					case_text, output_name, int(expected[output_name]), int(actual[output_name.to_lower()]), output_name]}
+		var matched: int = tutorial_coach.case_table.passed_count()
+		if matched < HalfAdderTestBenchType.OFFICIAL_CASES.size():
+			return {"title": titles[2], "target": official_button, "key": "debug_ok:%d" % matched,
+				"text": ("%s matches (%d of 4 cases checked). Try another column, or run the official cases." if en
+					else "%s 这组对了（已核对 %d/4 组）。再换一组，或直接「逐项运行正式用例」。") % [case_text, matched]}
+		return {"title": titles[2], "target": official_button, "key": "debug_all",
+			"text": "All four cases match in debugging. Run the official cases to confirm." if en
+				else "四组调试都对了。按「逐项运行正式用例」正式核验。"}
+	return {"title": titles[2], "target": official_button, "key": "official",
+		"text": "Compare the actual outputs on the test bench. When they look right, run the official cases." if en
+			else "对照测试台的实际输出；确认无误后，按「逐项运行正式用例」。"}
+
+
+## Outputs of the current board with and without a driving wire.
+func _guided_output_sources() -> Dictionary:
+	var targets: Dictionary = {}
+	if graph != null:
+		for connection: Dictionary in graph.get_connection_list(): targets[StringName(connection.to_node)] = true
+	var wired: Array[String] = []
+	var missing: Array[String] = []
+	var missing_ids: Array[StringName] = []
+	for id: StringName in component_catalog:
+		var component: LogicComponent = component_catalog[id]
+		if component.kind not in [LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP]: continue
+		var label: String = String(component.signal_name) if not String(component.signal_name).is_empty() \
+			else (component.display_name if not component.display_name.is_empty() else String(id))
+		if targets.has(id): wired.append(label)
+		else:
+			missing.append(label)
+			missing_ids.append(id)
+	# Top of the board first, so the ring follows the order the guide names them.
+	missing_ids.sort_custom(func(a: StringName, b: StringName) -> bool:
+		var node_a: GraphNode = component_nodes.get(a); var node_b: GraphNode = component_nodes.get(b)
+		return node_a != null and node_b != null and node_a.position_offset.y < node_b.position_offset.y)
+	return {"wired": wired, "missing": missing, "missing_ids": missing_ids}
+
+
+## The first official case whose actual output differed, in words, with its row.
+func _first_official_mismatch(en: bool) -> Dictionary:
+	if current_phase == &"half_adder":
+		var cases: Array = official_report.get("cases", [])
+		for index: int in cases.size():
+			var result: Dictionary = cases[index]
+			if bool(result.get("passed", false)): continue
+			var case_text: String = ("Case %d (A=%d, B=%d)" if en else "第 %d 组（A=%d、B=%d）") % [index + 1, int(result.A), int(result.B)]
+			if result.get("actual_sum") == null or result.get("actual_carry") == null:
+				return {"index": index, "text": case_text + (": the circuit could not produce both outputs." if en else "：电路没有给出两个输出。")}
+			for output: String in ["SUM", "CARRY"]:
+				var actual: int = int(result.get("actual_" + output.to_lower()))
+				var expected: int = int(result.get("expected_" + output.to_lower()))
+				if actual != expected:
+					return {"index": index, "text": case_text + ((": %s expected %d, actual %d." if en else "：%s 期望 %d，实际 %d。") % [output, expected, actual])}
+		return {}
+	var steps: Array = prologue_report.get("steps", [])
+	for index: int in steps.size():
+		var step: Dictionary = steps[index]
+		if bool(step.get("passed", false)): continue
+		var case_text: String = ("Case %d (%s)" if en else "第 %d 组（%s）") % [index + 1, _official_step_inputs_text(step)]
+		for comparison: Dictionary in step.get("comparisons", []):
+			if bool(comparison.get("passed", false)): continue
+			return {"index": index, "text": case_text + ((": %s expected %s, actual %s." if en else "：%s 期望 %s，实际 %s。") % [
+				str(comparison.get("name", "")), _guide_value_text(comparison.get("expected")), _guide_value_text(comparison.get("actual"))])}
+		return {"index": index, "text": case_text + (" did not match." if en else "与期望不同。")}
+	return {}
+
+
+func _guide_value_text(value: Variant) -> String:
+	if value is Object and (value as Object).has_method("display_text"): return str((value as Object).call("display_text"))
+	return str(value)
+
+
+func _selected_case_index() -> int:
+	if input_a_button == null or input_b_button == null: return -1
+	for index: int in HalfAdderTestBenchType.OFFICIAL_CASES.size():
+		var example: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
+		if bool(example.A) == input_a_button.button_pressed and bool(example.B) == input_b_button.button_pressed: return index
+	return -1
+
+
+## A real half-adder run on the current board (debug or official).
+func _record_guided_case(a: bool, b: bool, sum_value: bool, carry_value: bool, from_debug: bool) -> void:
+	for index: int in HalfAdderTestBenchType.OFFICIAL_CASES.size():
+		var example: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
+		if bool(example.A) == a and bool(example.B) == b:
+			guided_case_evidence[index] = {"sum": int(sum_value), "carry": int(carry_value)}
+			if from_debug: guided_last_debug_index = index
+	_push_build_guidance()
+
+
+## NOT: point at the place the current step happens (first-time actions only).
+func _point_tutorial_guide(states: Array[bool]) -> void:
+	var next: int = states.find(false)
+	var target: Variant = null
+	match next:
+		0: target = component_nodes.get(&"A_IN")
+		1: target = input_a_button
+		2: target = bench_debug_button
+	_point_guide("tutorial:%d" % next, target)
+
+
+func _point_guide(key: String, target: Variant) -> void:
+	if key == guide_last_key: return
+	guide_last_key = key
+	if guide_highlight == null:
+		guide_highlight = preload("res://src/ui/guide_highlight.gd").new()
+		add_child(guide_highlight)
+	if target is Control and is_instance_valid(target):
+		guide_highlight.point_at(target, _guide_quiet)
+	else:
+		guide_highlight.clear()
+
+
+func _guide_quiet() -> bool:
+	return mission_briefing_active or hint_mode or (operation_demo != null and operation_demo.running) or (yi_help_card != null and yi_help_card.visible) \
+		or (terminology_handbook != null and terminology_handbook.is_open())
+
+
+## The full briefing is a reading layer: while it is open the guide keeps only
+## its goal line and help steps aside. Closing it returns the guide to the
+## current state; nothing is replayed or queued.
+func _sync_guide_reading() -> void:
+	var task_window: Control = desktop_windows.get(&"task")
+	var reading: bool = mission_briefing_active and task_window != null and task_window.visible
+	if reading and yi_help_card != null and yi_help_card.visible: yi_help_card.close()
+	if tutorial_coach == null: return
+	var was_reading: bool = tutorial_coach.reading
+	tutorial_coach.set_reading(reading)
+	if reading and guide_highlight != null: guide_highlight.clear()
+	if was_reading and not reading: guide_last_key = ""
 
 
 func _tutorial_focus() -> bool:
@@ -966,7 +1236,11 @@ func _ensure_tutorial_coach() -> void:
 	if tutorial_coach == null:
 		tutorial_coach = preload("res://src/hardware_foundations/tutorial_coach.gd").new()
 		tutorial_coach.set_english(Localization.current_locale() == "en")
-		graph_stack.add_child(tutorial_coach)
+		# Docked in the goal row above the canvas: the canvas gets the rest of
+		# the height instead of being covered.
+		var dock: Node = mission_summary_button.get_parent()
+		dock.add_child(tutorial_coach)
+		dock.move_child(tutorial_coach, mission_summary_button.get_index() + 1)
 		operation_demo = preload("res://src/hardware_foundations/operation_demonstration.gd").new()
 		operation_demo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		graph_stack.add_child(operation_demo)
@@ -974,18 +1248,21 @@ func _ensure_tutorial_coach() -> void:
 		WindowMode.window_mode_changing.connect(func() -> void: operation_demo.stop())
 		tutorial_coach.demonstration_requested.connect(_show_operation_demonstration)
 		tutorial_coach.demonstration_skipped.connect(func() -> void: operation_demo.stop())
+		graph_stack.resized.connect(func() -> void: operation_demo.stop())
+		tutorial_coach.collapse_changed.connect(func(_collapsed: bool) -> void: operation_demo.stop())
 		tutorial_coach.briefing_requested.connect(func() -> void:
 			var task_window: FloatingInstrumentPanel = desktop_windows[&"task"]
 			task_window.show_instrument(); _begin_mission_briefing())
+		tutorial_coach.case_selected.connect(_try_half_adder_input)
 	tutorial_coach.visible = _tutorial_focus()
 	if tutorial_coach.visible:
-		tutorial_coach.use_steps(false)
+		tutorial_coach.use_steps(false, _t(&"hardware.goal.tutorial"))
 		tutorial_coach.set_operation_lesson(&"tutorial")
 		editor_toolbar.visible = false
 		mission_summary_button.visible = false
 		tutorial_focus_applied = true
+		guide_last_key = ""
 		_update_tutorial_goal()
-		_place_tutorial_coach()
 		call_deferred("_offer_first_operation_demo")
 	elif tutorial_focus_applied:
 		editor_toolbar.visible = true
@@ -993,15 +1270,7 @@ func _ensure_tutorial_coach() -> void:
 		tutorial_focus_applied = false
 
 
-func _place_tutorial_coach() -> void:
-	if operation_demo != null: operation_demo.stop()
-	if tutorial_coach == null or graph_stack == null: return
-	var area: Vector2 = graph_stack.size
-	var coach_width: float = clampf(area.x * 0.44, 440.0, 640.0)
-	tutorial_coach.custom_minimum_size.x = coach_width
-	tutorial_coach.size = Vector2(coach_width, 0.0)
-	tutorial_coach.reset_size()
-	tutorial_coach.position = Vector2((area.x - coach_width) * 0.5, 14.0)
+
 
 
 func _build_interface() -> void:
@@ -1023,6 +1292,9 @@ func _build_interface() -> void:
 	root_box.add_child(_build_header())
 	editor_toolbar = _build_toolbar()
 	root_box.add_child(editor_toolbar)
+	InstrumentThemeType.tool_row(editor_toolbar)
+	# The status line belongs to the editing tools: hidden whenever they are.
+	editor_toolbar.visibility_changed.connect(func() -> void: status_label.visible = editor_toolbar.visible)
 	mission_summary_button = Button.new()
 	mission_summary_button.name = "MissionSummary"
 	mission_summary_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -1035,6 +1307,10 @@ func _build_interface() -> void:
 	var graph_panel := PanelContainer.new()
 	graph_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	graph_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	# The canvas runs to a single hairline frame; no lighter band around it.
+	var canvas_frame := InstrumentTheme.panel(Color("0a131a"), Color("27363f"), 9)
+	for side: int in [SIDE_LEFT, SIDE_RIGHT, SIDE_TOP, SIDE_BOTTOM]: canvas_frame.set_content_margin(side, 1.0)
+	graph_panel.add_theme_stylebox_override("panel", canvas_frame)
 	root_box.add_child(graph_panel)
 	graph_stack = Control.new()
 	graph_stack.custom_minimum_size = Vector2(960.0, 360.0)
@@ -1080,6 +1356,7 @@ func _build_interface() -> void:
 	var handbook_space := Control.new()
 	handbook_space.custom_minimum_size.x = 128.0
 	footer.add_child(handbook_space)
+	InstrumentThemeType.tool_row(footer)
 	_create_level_completion_overlay()
 
 
@@ -1104,6 +1381,10 @@ func _show_level_completion(level_id: StringName) -> void:
 	_refresh_journey_context()
 	if level_completion_overlay == null or level_id.is_empty():
 		return
+	# One result at a time: the process help ends with the completion card.
+	if yi_help_card != null and yi_help_card.visible: yi_help_card.close()
+	if guide_highlight != null: guide_highlight.clear()
+	if tutorial_coach != null and tutorial_coach.visible: tutorial_coach.quiet()
 	level_completion_overlay.present(
 		level_id,
 		_level_display_name(level_id),
@@ -1309,18 +1590,13 @@ func _add_desktop_window(id: StringName, title_text: String, content: Control) -
 		&"task":
 			window.custom_minimum_size = Vector2(360.0, 190.0)
 		&"components":
-			# Keep search, filters and at least the first full card visible after
-			# the initial desktop is clamped before its final Retina layout.
-			window.custom_minimum_size = Vector2(360.0, 420.0)
+			# Keep search, filters and the first compact cards visible after the
+			# initial desktop is clamped before its final Retina layout.
+			window.custom_minimum_size = Vector2(280.0, 260.0)
 		&"inspector":
 			window.custom_minimum_size = Vector2(360.0, 280.0)
 		_:
 			window.custom_minimum_size = Vector2(320.0, 220.0)
-	var chrome: StyleBoxFlat = preload("res://src/ui/instrument_theme.gd").panel(Color("111e29"), Color("405867"))
-	chrome.shadow_color = Color(0.0, 0.0, 0.0, 0.45)
-	chrome.shadow_size = 14
-	chrome.shadow_offset = Vector2(0.0, 6.0)
-	window.add_theme_stylebox_override("panel", chrome)
 	graph_stack.add_child(window)
 	window.setup(id, title_text)
 	if id == &"task":
@@ -1422,6 +1698,8 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 		bench_window.size = Vector2(left_width, bench_height)
 		task_window.position = Vector2(margin, margin + bench_height + gap)
 		task_window.size = Vector2(left_width, task_height)
+		if _guided_level() and reset_windows:
+			_dock_guided_rails()
 		if inspector_window.visible or reset_windows:
 			inspector_window.position = Vector2(
 				area.x - margin - component_width - gap - 390.0,
@@ -1437,11 +1715,10 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	if tutorial_coach != null: tutorial_coach.visible = focus
 	if focus and reset_windows:
 		task_window.hide(); component_window.hide()
-		var bench_size := Vector2(clampf(area.x * 0.24, 300.0, 360.0), clampf(usable_height * 0.42, 220.0, 270.0))
+		# Tall enough to show the input, the lamp result and Run without scrolling.
+		var bench_size := Vector2(clampf(area.x * 0.24, 300.0, 360.0), clampf(usable_height * 0.5, 280.0, 320.0))
 		bench_window.position = Vector2(margin, area.y - margin - bench_size.y)
 		bench_window.size = bench_size
-	if focus and tutorial_coach != null:
-		call_deferred("_place_tutorial_coach")
 	for window: FloatingInstrumentPanel in [task_window, bench_window, component_window]:
 		window.fit_to_parent(margin)
 		var window_button: Button = desktop_window_buttons.get(window.instrument_id)
@@ -1467,8 +1744,9 @@ func _on_graph_stack_resized() -> void:
 		return
 	for window: FloatingInstrumentPanel in desktop_windows.values():
 		window.fit_to_parent(10.0)
-	if tutorial_coach != null and tutorial_coach.visible:
-		_place_tutorial_coach()
+	# The entry rails follow the real desktop size (window resize, fullscreen).
+	if _guided_level() and not mission_briefing_active and not official_sequence_active:
+		call_deferred("_dock_guided_rails", guide_view_pristine)
 	if mission_briefing_active:
 		_layout_mission_briefing()
 	elif mission_compact:
@@ -1496,6 +1774,7 @@ func _begin_mission_briefing(preserve_page: bool = false) -> void:
 	task_window.set_minimized(false)
 	_layout_mission_briefing()
 	_focus_desktop_window(&"task")
+	_sync_guide_reading()
 
 
 func _show_mission_briefing_page() -> void:
@@ -1639,7 +1918,11 @@ func _build_half_adder_specification() -> Control:
 
 func _start_building_from_briefing() -> void:
 	_finish_mission_briefing()
-	_set_mission_compact(true)
+	if tutorial_coach != null and tutorial_coach.visible:
+		# The docked guide already holds the goal; no second compact copy.
+		_close_desktop_window(&"task")
+	else:
+		_set_mission_compact(true)
 	_focus_graph_for_keyboard()
 
 
@@ -1675,6 +1958,7 @@ func _finish_mission_briefing() -> void:
 		if child is CanvasItem:
 			(child as CanvasItem).show()
 	_focus_desktop_window(&"task")
+	_sync_guide_reading()
 	call_deferred("_focus_after_briefing")
 
 
@@ -1706,6 +1990,7 @@ func _reset_mission_briefing() -> void:
 		for child: Node in task_box.get_children():
 			if child is CanvasItem:
 				(child as CanvasItem).show()
+	_sync_guide_reading()
 
 
 func _layout_mission_briefing() -> void:
@@ -1883,6 +2168,8 @@ func _close_desktop_window(id: StringName) -> void:
 	var window: FloatingInstrumentPanel = desktop_windows.get(id)
 	if window != null:
 		window.hide()
+	if id == &"task":
+		_sync_guide_reading()
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
 		button.text = _desktop_window_name(id)
@@ -1896,13 +2183,14 @@ func _focus_desktop_window(id: StringName) -> void:
 		return
 	# Control input follows sibling order independently of draw order.
 	window.get_parent().move_child(window, -1)
+	window.mark_active()
 	# Keep instrument stacking below help and dialog overlays, even after long play.
 	desktop_z_counter = 100
 	for child: Node in graph_stack.get_children():
 		if child is FloatingInstrumentPanel:
 			desktop_z_counter += 1
 			child.z_index = desktop_z_counter
-	if yi_help_card != null and yi_help_card.visible:
+	if yi_help_card != null and yi_help_card.visible and yi_help_card.get_parent() == graph_stack:
 		graph_stack.move_child(yi_help_card, -1)
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
@@ -1920,20 +2208,34 @@ func _on_desktop_window_minimized(id: StringName, _minimized: bool) -> void:
 func _build_header() -> Control:
 	var header := PanelContainer.new()
 	header.name = "TaskHeader"
-	var chrome := InstrumentTheme.panel(InstrumentTheme.SURFACE)
-	chrome.content_margin_top = 4
-	chrome.content_margin_bottom = 4
-	header.add_theme_stylebox_override("panel", chrome)
+	header.add_theme_stylebox_override("panel", preload("res://src/ui/workbench_chrome.gd").bar_style())
+	header.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
 	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
 	header.add_child(row)
 	phase_label = Label.new()
 	phase_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	phase_label.size_flags_stretch_ratio = 1.3
 	phase_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	phase_label.tooltip_text = _t(&"hardware.title") + "\n" + _t(&"hardware.subtitle")
 	preload("res://src/ui/workbench_chrome.gd").title(phase_label)
 	row.add_child(phase_label)
+	# The workbench's running status sits on the navigation line (muted,
+	# right-aligned) so the tool row below stays a single row.
+	status_label = Label.new()
+	status_label.name = "WorkbenchStatus"
+	status_label.custom_minimum_size.x = 120.0
+	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	status_label.clip_text = true
+	status_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	status_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	status_label.add_theme_font_size_override("font_size", 14)
+	status_label.add_theme_color_override("font_color", MUTED)
+	row.add_child(status_label)
 	hint_button = Button.new()
 	hint_button.name = "HintButton"
+	call_deferred("_mount_cancel_cable", row)
 	hint_button.text = _t(&"hardware.hint.button")
 	hint_button.tooltip_text = _t(&"hardware.hint.button.tooltip")
 	hint_button.visible = false
@@ -1958,32 +2260,32 @@ func _build_header() -> Control:
 	hub_button.tooltip_text = _t(&"hardware.hub.tooltip")
 	hub_button.pressed.connect(_return_to_prototype_hub)
 	row.add_child(hub_button)
+	for child: Node in row.get_children():
+		if child is Button and not child is OptionButton: preload("res://src/ui/workbench_chrome.gd").tidy_button(child)
 	return header
 
 
 func _build_toolbar() -> Control:
 	var toolbar := PanelContainer.new()
-	var chrome := InstrumentTheme.panel(InstrumentTheme.SURFACE)
+	var chrome := InstrumentTheme.panel(Color("15212a"), Color("27363f"), 9)
 	chrome.content_margin_top = 3
 	chrome.content_margin_bottom = 3
 	toolbar.add_theme_stylebox_override("panel", chrome)
-	var rows := VBoxContainer.new()
-	rows.add_theme_constant_override("separation", 2)
+	# One row: editing on the left, trace playback on the right (wraps only
+	# when the window or the text size needs it).
+	var rows := HBoxContainer.new()
+	rows.add_theme_constant_override("separation", 12)
 	toolbar.add_child(rows)
 	var row := HFlowContainer.new()
 	row.name = "EditingTools"
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_theme_constant_override("h_separation", 6)
+	row.add_theme_constant_override("v_separation", 4)
 	rows.add_child(row)
 	var playback_row := HBoxContainer.new()
 	playback_row.name = "PlaybackTools"
+	playback_row.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	rows.add_child(playback_row)
-	status_label = Label.new()
-	status_label.custom_minimum_size.x = 120.0
-	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	status_label.clip_text = true
-	status_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	status_label.add_theme_color_override("font_color", MUTED)
-	playback_row.add_child(status_label)
 	workbench_menu_button = MenuButton.new()
 	workbench_menu_button.name = "WorkbenchMenuButton"
 	workbench_menu_button.text = _t(&"hardware.workbench.button", [CircuitWorkbenchStoreType.DEFAULT_NAME])
@@ -2021,6 +2323,13 @@ func _build_toolbar() -> Control:
 		button.tooltip_text = _t(StringName(data[1]))
 		button.pressed.connect(data[2])
 		row.add_child(button)
+		if StringName(data[0]) == &"hardware.toolbar.cancel_cable":
+			# It appears only during a drag, so it lives on the navigation line,
+			# whose height never changes: showing it must not move the canvas.
+			cancel_cable_button = button
+			button.visible = false
+			row.remove_child(button)
+			pending_cancel_button = button
 		if StringName(data[0]) not in [&"hardware.toolbar.level_map", &"hardware.view.focus"]:
 			editor_toolbar_buttons.append(button)
 	pause_button = Button.new()
@@ -2105,6 +2414,7 @@ func _return_to_prototype_hub() -> void:
 
 func _create_workbench_name_dialog() -> void:
 	workbench_name_dialog = Control.new()
+	preload("res://src/ui/guide_stage.gd").mark_blocker(workbench_name_dialog)
 	workbench_name_dialog.name = "WorkbenchNameDialog"
 	workbench_name_dialog.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	workbench_name_dialog.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -2648,16 +2958,34 @@ func _open_yi_help() -> void:
 	if yi_help_card == null:
 		yi_help_card = preload("res://src/ui/yi_help_card.gd").new()
 		yi_help_card.english = Localization.current_locale() == "en"
-		yi_help_card.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-		yi_help_card.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-		yi_help_card.offset_right = -16.0; yi_help_card.offset_top = 14.0
-		graph_stack.add_child(yi_help_card)
 		yi_help_card.option_selected.connect(_on_yi_help_option)
-	graph_stack.move_child(yi_help_card, -1)
+	# Help replaces the current explanation: a reading layer closes first.
+	if mission_briefing_active:
+		_finish_mission_briefing()
+		if tutorial_coach != null and tutorial_coach.visible: _close_desktop_window(&"task")
+		else: _set_mission_compact(true)
+	_mount_yi_help()
+	if guide_highlight != null: guide_highlight.clear()
 	yi_help_card.present(_t(_hint_text_key(current_level_id, 1)), [
 		{"id": "more", "zh": "再具体一些", "en": "More specific"},
 		{"id": "self", "zh": "我自己试试", "en": "I'll try myself"},
 	])
+
+
+## With the level guide showing, help takes its instruction's place in the
+## strip; otherwise the card sits at the canvas' top-right edge.
+func _mount_yi_help() -> void:
+	if tutorial_coach != null and tutorial_coach.visible:
+		tutorial_coach.host_help(yi_help_card)
+		return
+	if yi_help_card.get_parent() != graph_stack:
+		if yi_help_card.get_parent() != null: yi_help_card.get_parent().remove_child(yi_help_card)
+		graph_stack.add_child(yi_help_card)
+	yi_help_card.set_embedded(false)
+	yi_help_card.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	yi_help_card.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	yi_help_card.offset_right = -16.0; yi_help_card.offset_top = 14.0
+	graph_stack.move_child(yi_help_card, -1)
 
 
 func _on_yi_help_option(id: StringName) -> void:
@@ -2733,6 +3061,7 @@ func _create_hint_confirmation() -> void:
 	hint_confirm_button.pressed.connect(_confirm_next_hint)
 	actions.add_child(hint_confirm_button)
 	hint_confirmation.hide()
+	preload("res://src/ui/guide_stage.gd").mark_blocker(hint_confirmation)
 
 
 func _request_next_hint() -> void:
@@ -3283,12 +3612,8 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 	palette_owned.text = _t(&"hardware.palette.owned")
 	palette_owned.toggled.connect(func(_value: bool) -> void: _filter_component_palette())
 	filters.add_child(palette_owned)
-	var hint := Label.new()
-	hint.text = _t(&"hardware.component_palette.hint")
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	hint.add_theme_font_size_override("font_size", 12)
-	hint.add_theme_color_override("font_color", MUTED)
-	component_palette_box.add_child(hint)
+	# How to place lives with the search field, not as a standing paragraph.
+	palette_search.tooltip_text = _t(&"hardware.component_palette.hint")
 	var templates: Dictionary = component_menu_templates.duplicate()
 	for library_name: StringName in component_library:
 		var definition: ReusableComponent = component_library[library_name]
@@ -3309,9 +3634,11 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 		group.name = "Palette_%s" % group_id
 		component_palette_box.add_child(group)
 		palette_groups.append(group)
+		group.add_theme_constant_override("separation", 2)
 		var heading := Label.new()
 		heading.text = _t(StringName("hardware.palette.group.%s" % group_id))
-		heading.add_theme_color_override("font_color", ACCENT)
+		heading.add_theme_font_size_override("font_size", 13)
+		heading.add_theme_color_override("font_color", MUTED)
 		group.add_child(heading)
 		for key: String in keys:
 			var template: LogicComponent = templates[key]
@@ -3821,6 +4148,7 @@ func _build_tutorial_side() -> void:
 	var run_button := Button.new()
 	run_button.text = _t(&"hardware.practice.run")
 	run_button.pressed.connect(_run_debug)
+	bench_debug_button = run_button
 	InstrumentThemeType.primary(run_button)
 	_add_bench_action(run_button)
 	debug_result_label = Label.new()
@@ -3856,6 +4184,7 @@ func _build_half_adder_side() -> void:
 	var debug_button := Button.new()
 	debug_button.text = _t(&"hardware.cases.run_debug")
 	debug_button.pressed.connect(_run_debug)
+	bench_debug_button = debug_button
 	_add_bench_action(debug_button)
 	debug_result_label = Label.new()
 	debug_result_label.text = _t(&"hardware.cases.actual_empty")
@@ -3867,14 +4196,15 @@ func _build_half_adder_side() -> void:
 	official_button.text = _t(&"hardware.cases.run_official")
 	official_button.pressed.connect(_run_official)
 	_add_bench_action(official_button)
+	# Inputs, actual result and the four cases come first; the definition follows.
+	_build_official_case_rows()
 	var truth_table_note := LinkedMissionTextType.new()
 	truth_table_note.name = "TruthTableDefinition"
-	truth_table_note.add_theme_font_size_override("font_size", 13)
-	truth_table_note.add_theme_color_override("font_color", ACCENT)
+	truth_table_note.add_theme_font_size_override("font_size", 12)
+	truth_table_note.add_theme_color_override("font_color", MUTED)
 	truth_table_note.term_requested.connect(_open_mission_term)
 	side_box.add_child(truth_table_note)
 	truth_table_note.set_linked_text(_t(&"hardware.cases.truth_table_definition"))
-	_build_official_case_rows()
 	_layout_desktop_windows()
 
 
@@ -3903,6 +4233,7 @@ func _build_sealed_side() -> void:
 	var debug_button := Button.new()
 	debug_button.text = _t(&"hardware.sealed.run_debug")
 	debug_button.pressed.connect(_run_debug)
+	bench_debug_button = debug_button
 	side_box.add_child(debug_button)
 	debug_result_label = Label.new()
 	debug_result_label.text = _t(&"hardware.sealed.result_empty")
@@ -3982,8 +4313,10 @@ func _bench_heading(title: String, explanation: String) -> Label:
 	var label := Label.new()
 	label.text = title
 	label.tooltip_text = explanation
-	label.add_theme_font_size_override("font_size", 20)
-	label.add_theme_color_override("font_color", PURPLE)
+	# Section heading inside a window: heading face, terminal text colour.
+	label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
+	label.add_theme_font_size_override("font_size", 17)
+	label.add_theme_color_override("font_color", Color("e6f0f3"))
 	return label
 
 
@@ -3992,8 +4325,9 @@ func _side_heading(title: String, subtitle: String) -> Control:
 	var title_label := Label.new()
 	title_label.text = title
 	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	title_label.add_theme_font_size_override("font_size", 20)
-	title_label.add_theme_color_override("font_color", PURPLE)
+	title_label.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
+	title_label.add_theme_font_size_override("font_size", 18)
+	title_label.add_theme_color_override("font_color", Color("e6f0f3"))
 	box.add_child(title_label)
 	var subtitle_label := Label.new()
 	subtitle_label.text = subtitle
@@ -4696,10 +5030,7 @@ func _focus_circuit(all_components: bool = false) -> void:
 				view.size.x = minf(view.size.x,right-view.position.x)
 	var zoom_cap: float = 1.5 if selected else 1.0
 	if tutorial_coach != null and tutorial_coach.visible:
-		# Keep the first circuit large and below the step coach.
-		var top: float = tutorial_coach.position.y + tutorial_coach.size.y + 30.0
-		view.size.y = graph.size.y - top - 40.0
-		view.position.y = top
+		# The guide is docked above the canvas; keep the first circuit large.
 		zoom_cap = 1.45
 	graph.zoom = clampf(minf(view.size.x / maxf(bounds.size.x, 1.0), view.size.y / maxf(bounds.size.y, 1.0)),
 		graph.zoom_min, minf(graph.zoom_max, zoom_cap))
@@ -6070,6 +6401,7 @@ func _update_live_diagnostics(state: CircuitLiveStateType) -> void:
 
 
 func _topology_changed(message: String, created: bool = true, removed: bool = false) -> void:
+	guide_view_pristine = false
 	if is_instance_valid(journey_context): journey_context.draft_changed()
 	_clear_investigation_observations()
 	_stop_playback()
@@ -6178,6 +6510,7 @@ func _update_signal_control(toggle: CheckButton, signal_name: String) -> void:
 func _run_debug() -> void:
 	if official_sequence_active:
 		return
+	guide_view_pristine = false
 	guided_debug_ran = true
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if current_phase in [&"prologue", &"prologue_complete"]:
@@ -6217,6 +6550,8 @@ func _show_debug_result(trace: CircuitTrace, prefix: String) -> void:
 	else:
 		var sum_value: bool = trace.outputs.get(&"SUM", false)
 		var carry_value: bool = trace.outputs.get(&"CARRY", false)
+		if current_phase == &"half_adder":
+			_record_guided_case(input_a_button.button_pressed, input_b_button.button_pressed, sum_value, carry_value, true)
 		debug_result_label.text = _t(&"hardware.result.half_adder", [prefix, int(sum_value), int(carry_value)])
 		debug_result_label.add_theme_color_override("font_color", GOOD)
 	status_label.text = _t(&"hardware.status.debug_complete")
@@ -6238,6 +6573,7 @@ func _run_official() -> void:
 
 
 func _begin_official_sequence(kind: StringName, circuit: LogicCircuit) -> void:
+	guide_view_pristine = false
 	board_has_explicit_run = true
 	_clear_investigation_observations()
 	_cancel_official_sequence()
@@ -6401,6 +6737,8 @@ func _reveal_half_adder_official_case() -> void:
 		])
 		call_deferred("_ensure_official_case_visible", label)
 	label.add_theme_color_override("font_color", GOOD if bool(result["passed"]) else BAD)
+	if actual_sum != null and actual_carry != null:
+		_record_guided_case(bool(result["A"]), bool(result["B"]), bool(actual_sum), bool(actual_carry), false)
 
 
 func _reveal_prologue_official_case() -> void:
@@ -6725,6 +7063,9 @@ func _circuit_from_graph() -> LogicCircuit:
 
 func _invalidate_official_evidence(message: String, first_build_edit: bool = false) -> void:
 	_cancel_official_sequence()
+	guided_case_evidence.clear()
+	guided_last_debug_index = -1
+	if tutorial_coach != null and tutorial_coach.visible: call_deferred("_push_build_guidance")
 	official_passed = false
 	passing_topology_signature = ""
 	official_report = {}
@@ -7204,6 +7545,7 @@ func _build_prologue_side() -> void:
 	var debug_button := Button.new()
 	debug_button.text = _t(&"hardware.cases.run_debug")
 	debug_button.pressed.connect(_run_debug)
+	bench_debug_button = debug_button
 	_add_bench_action(debug_button)
 	debug_result_label = Label.new()
 	debug_result_label.text = _t(&"hardware.prologue.outputs_empty")
@@ -8548,13 +8890,16 @@ func _update_tutorial_checklist() -> void:
 func _update_tutorial_goal() -> void:
 	if current_level_id != &"tutorial" or hint_mode or mission_summary_button == null:
 		return
-	var states: Array[bool] = [tutorial_created_wire, tutorial_changed_input, tutorial_valid_run,
+	# Keep the wiring instruction until both lesson connections exist; earned
+	# action flags still own completion and survive the later removal exercise.
+	var wired: bool = graph.is_node_connected(&"A_IN", 0, &"NOT_1", 0) and graph.is_node_connected(&"NOT_1", 0, &"LAMP", 0)
+	var states: Array[bool] = [tutorial_created_wire and (wired or tutorial_valid_run), tutorial_changed_input, tutorial_valid_run,
 		tutorial_removed_wire, tutorial_reconnected_wire]
 	if bool(completed_levels.get(&"tutorial", false)):
 		states.fill(true)
 	if tutorial_coach != null and tutorial_coach.visible:
 		tutorial_coach.update_states(states)
-		call_deferred("_place_tutorial_coach")
+		_point_tutorial_guide(states)
 	var steps: Array[StringName] = [&"wire", &"input", &"run", &"remove", &"reconnect"]
 	var completed: int = 0
 	var next: StringName = &""
@@ -8872,8 +9217,21 @@ func _freeze_visual_layout(circuit: LogicCircuit) -> Dictionary:
 	return VisualLayout.freeze(circuit.canonical_signature(),placements)
 
 
+func _tutorial_demo_wire_points() -> PackedVector2Array:
+	var from_id: StringName = &"A_IN"
+	var to_id: StringName = &"NOT_1"
+	if graph.is_node_connected(from_id, 0, to_id, 0):
+		from_id = &"NOT_1"
+		to_id = &"LAMP"
+	var source: GraphNode = component_nodes.get(from_id)
+	var target: GraphNode = component_nodes.get(to_id)
+	if source == null or target == null: return PackedVector2Array()
+	var transform: Transform2D = operation_demo.get_global_transform_with_canvas().affine_inverse() * graph.get_global_transform_with_canvas()
+	return PackedVector2Array([transform * graph.displayed_port_position(source, 0, true), transform * graph.displayed_port_position(target, 0, false)])
+
+
 func _show_operation_demonstration() -> void:
-	if operation_demo == null or graph == null or _editor_locked() or mission_briefing_active or is_instance_valid(WindowMode.settings_layer):
+	if operation_demo == null or graph == null or tutorial_coach.collapsed or tutorial_coach.reading or tutorial_coach.help_open() or preload("res://src/ui/guide_stage.gd").blocked(get_tree()) or _editor_locked() or mission_briefing_active or is_instance_valid(WindowMode.settings_layer):
 		return
 	operation_demo.stop()
 	var points := PackedVector2Array()
@@ -8894,15 +9252,7 @@ func _show_operation_demonstration() -> void:
 	if current_phase == &"tutorial" and step in [0,4]:
 		# Demonstrate the first missing connection of the authored NOT lesson only.
 		# Never reveal a construction puzzle solution or execute the gesture.
-		var from_id: StringName = &"A_IN"
-		var to_id: StringName = &"NOT_1"
-		if graph.is_node_connected(from_id,0,to_id,0):
-			from_id = &"NOT_1"; to_id = &"LAMP"
-		var source: GraphNode = component_nodes.get(from_id)
-		var target: GraphNode = component_nodes.get(to_id)
-		if source == null or target == null: return
-		points.append(operation_demo.get_global_transform_with_canvas().affine_inverse() * (graph.get_global_transform_with_canvas() * graph.displayed_port_position(source,0,true)))
-		points.append(operation_demo.get_global_transform_with_canvas().affine_inverse() * (graph.get_global_transform_with_canvas() * graph.displayed_port_position(target,0,false)))
+		points = _tutorial_demo_wire_points()
 		message = "Hold left button, drag, release" if english else "按住左键，拖动，再松开"
 	elif current_phase == &"tutorial" and step == 1 and input_a_button != null:
 		points.append(operation_demo.get_global_transform_with_canvas().affine_inverse() * input_a_button.get_global_rect().get_center())

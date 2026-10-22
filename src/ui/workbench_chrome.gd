@@ -1,15 +1,30 @@
 extends RefCounted
-## One look for every workbench header inside the terminal: a framed bar with
-## the chapter (accent, heading font) above the task name (muted), then the
-## scene's own actions, then the shared navigation in one order:
+## One look for every workbench header inside the terminal: a single light
+## navigation line (no heavy frame, one hairline underneath) with the task name,
+## then the scene's own actions, then the shared navigation in one order:
 ##   章节地图 / 旅程地图 → 实验室 → 设置   (退出游戏 last, muted red, where a scene has it)
+## The line keeps one row at normal text size; the canvas gets the height back.
 ## Only presentation: nodes keep their names, signals and behaviour.
 
 const Palette = preload("res://src/lab/lab_palette.gd")
 const Typography = preload("res://src/ui/ui_typography.gd")
-const BUTTON_HEIGHT := 38.0
-const TITLE_SIZE := 21
+const BUTTON_HEIGHT := 34.0
+const TITLE_SIZE := 19
 const SUBTITLE_SIZE := 14
+## Navigation bars join this group; level guidance places itself below them.
+const NAV_GROUP := &"workbench_nav"
+
+
+## The navigation line's surface: a faint lift and a hairline, no box.
+static func bar_style() -> StyleBoxFlat:
+	var box := StyleBoxFlat.new()
+	box.bg_color = Palette.with_alpha(Palette.TERM_PANEL, 0.55)
+	box.border_color = Palette.with_alpha(Palette.TERM_EDGE, 0.9)
+	box.border_width_bottom = 1
+	box.set_corner_radius_all(0)
+	box.corner_radius_top_left = 8; box.corner_radius_top_right = 8
+	box.content_margin_left = 14; box.content_margin_right = 8; box.content_margin_top = 3; box.content_margin_bottom = 4
+	return box
 
 
 ## Wraps `header` (an HBoxContainer already in the tree) in the shared frame.
@@ -20,12 +35,8 @@ static func frame(header: Control) -> PanelContainer:
 	var index: int = header.get_index()
 	var chrome := PanelContainer.new(); chrome.name = str(header.name) + "Chrome"
 	if chrome.name == "Chrome": chrome.name = "WorkbenchHeaderChrome"
-	var box := StyleBoxFlat.new()
-	box.bg_color = Palette.with_alpha(Palette.TERM_PANEL, 0.96)
-	box.border_color = Palette.TERM_EDGE; box.set_border_width_all(1); box.border_width_bottom = 2
-	box.set_corner_radius_all(10)
-	box.content_margin_left = 16; box.content_margin_right = 10; box.content_margin_top = 6; box.content_margin_bottom = 6
-	chrome.add_theme_stylebox_override("panel", box)
+	chrome.add_theme_stylebox_override("panel", bar_style())
+	chrome.add_to_group(NAV_GROUP)
 	if parent != null:
 		parent.remove_child(header)
 		parent.add_child(chrome)
@@ -59,10 +70,14 @@ static func subtitle(label: Label) -> void:
 static func tidy_button(button: Button) -> void:
 	button.custom_minimum_size.y = maxf(button.custom_minimum_size.y, BUTTON_HEIGHT)
 	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	# Navigation reads as a ghost outline; Quit and primary actions keep their own look.
+	if not button.has_meta("keep_style") and not button.has_theme_stylebox_override("normal"):
+		preload("res://src/ui/instrument_theme.gd").nav(button)
 
 
 ## Leaving the game reads apart from every other action, everywhere.
 static func quit_style(button: Button) -> void:
+	button.set_meta("keep_style", true)
 	for state: String in ["normal", "hover", "pressed", "focus"]:
 		var box := StyleBoxFlat.new()
 		box.bg_color = Palette.QUIT_DEEP.lightened(0.08 if state == "hover" else 0.0).darkened(0.2 if state == "pressed" else 0.0)

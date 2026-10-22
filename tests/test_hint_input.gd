@@ -66,7 +66,10 @@ func run() -> void:
 		window.position = card.position
 		for index: int in 40: bench._focus_desktop_window(&"test_bench")
 		await settle()
-		check(card.z_index > window.z_index, locale + ": help stays above repeatedly focused instruments")
+		# Help lives in the docked level guide above the canvas, so a focused
+		# instrument can neither cover it nor take its clicks.
+		var docked: bool = bench.tutorial_coach != null and bench.tutorial_coach.help_slot.is_ancestor_of(card)
+		check(docked and not card.get_global_rect().intersects(window.get_global_rect()), locale + ": help stays clear of repeatedly focused instruments")
 		await capture(locale + "-help-over-instrument")
 		await click(bench.hint_button)
 		await click(card.close_button)

@@ -1,0 +1,229 @@
+test_capacity_retry_and_in_batch_identity_conflicts (__main__.DeliveryTests.test_capacity_retry_and_in_batch_identity_conflicts) ... Exception in thread Thread-1 (http):
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\socket.py", line 870, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\socket.py", line 855, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 37, in http
+    with urlopen(request,timeout=5) as response: result.append((response.status,json.load(response)))
+         ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 487, in open
+    response = self._open(req, data)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 464, in _call_chain
+    result = func(*args)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1350, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。>
+FAIL
+test_lost_confirmation_restart_dedup_delete_restore (__main__.DeliveryTests.test_lost_confirmation_restart_dedup_delete_restore) ... Exception in thread Thread-2 (http):
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\socket.py", line 870, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\socket.py", line 855, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 37, in http
+    with urlopen(request,timeout=5) as response: result.append((response.status,json.load(response)))
+         ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 487, in open
+    response = self._open(req, data)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 464, in _call_chain
+    result = func(*args)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1350, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。>
+FAIL
+test_readonly_and_disk_full_do_not_acknowledge (__main__.DeliveryTests.test_readonly_and_disk_full_do_not_acknowledge) ... Exception in thread Thread-3 (http):
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1321, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              encode_chunked=req.has_header('Transfer-encoding'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1358, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1404, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\http\client.py", line 1023, in connect
+    self.sock = self._create_connection(
+                ~~~~~~~~~~~~~~~~~~~~~~~^
+        (self.host,self.port), self.timeout, self.source_address)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\socket.py", line 870, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\socket.py", line 855, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+PermissionError: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 37, in http
+    with urlopen(request,timeout=5) as response: result.append((response.status,json.load(response)))
+         ~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 487, in open
+    response = self._open(req, data)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 504, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+                              '_open', req)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 464, in _call_chain
+    result = func(*args)
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1350, in http_open
+    return self.do_open(http.client.HTTPConnection, req)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\urllib\request.py", line 1324, in do_open
+    raise URLError(err)
+urllib.error.URLError: <urlopen error [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。>
+FAIL
+
+======================================================================
+FAIL: test_capacity_retry_and_in_batch_identity_conflicts (__main__.DeliveryTests.test_capacity_retry_and_in_batch_identity_conflicts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 94, in test_capacity_retry_and_in_batch_identity_conflicts
+    self.assertEqual(self.request(server,'POST',envelope),receipt,'Exact in-batch retries consume one slot')
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 41, in request
+    self.assertFalse(client.is_alive());self.assertTrue(result)
+                                        ~~~~~~~~~~~~~~~^^^^^^^^
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_lost_confirmation_restart_dedup_delete_restore (__main__.DeliveryTests.test_lost_confirmation_restart_dedup_delete_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 57, in test_lost_confirmation_restart_dedup_delete_restore
+    first=self.request(server,'POST',envelope)
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 41, in request
+    self.assertFalse(client.is_alive());self.assertTrue(result)
+                                        ~~~~~~~~~~~~~~~^^^^^^^^
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_readonly_and_disk_full_do_not_acknowledge (__main__.DeliveryTests.test_readonly_and_disk_full_do_not_acknowledge)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 83, in test_readonly_and_disk_full_do_not_acknowledge
+    status,body=self.request(server,'POST',envelope)
+                ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\VNB\windows-playtest-20261022\server\test_delivery.py", line 41, in request
+    self.assertFalse(client.is_alive());self.assertTrue(result)
+                                        ~~~~~~~~~~~~~~~^^^^^^^^
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 3 tests in 9.139s
+
+FAILED (failures=3)

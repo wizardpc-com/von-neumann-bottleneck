@@ -104,6 +104,7 @@ func _ready() -> void:
 		_button(dock,id,func() -> void: _toggle(id))
 	_button(dock,"hint",_request_hint)
 	_button(dock,"run",_run_official)
+	preload("res://src/ui/instrument_theme.gd").tool_row(dock)
 	confirmation = ConfirmationDialog.new()
 	confirmation.title = _t("hint")
 	confirmation.confirmed.connect(_advance_hint)

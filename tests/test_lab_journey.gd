@@ -85,6 +85,8 @@ func run() -> void:
 	check(not (bench.desktop_windows[&"task"] as Control).visible, "Six-page briefing does not cover the canvas")
 	check((bench.desktop_windows[&"test_bench"] as Control).visible, "Test bench stays available")
 	check(bench.tutorial_coach.step_label.text.contains("1 / 5") or bench.tutorial_coach.step_label.text.contains("1 / 5"), "Coach starts at step 1 / 5")
+	bench.graph.connect_node(&"A_IN", 0, &"NOT_1", 0)
+	bench.graph.connect_node(&"NOT_1", 0, &"LAMP", 0)
 	bench.set("tutorial_created_wire", true)
 	bench.call("_update_tutorial_goal"); await settle()
 	check(bench.tutorial_coach.step_label.text.contains("2 / 5"), "Coach follows the real interaction flags")

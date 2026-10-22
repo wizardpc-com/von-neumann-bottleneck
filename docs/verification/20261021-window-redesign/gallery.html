@@ -1,0 +1,22 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>工作台窗口重设计</title>
+<style>:root{--bg:#111a21;--panel:#1a252e;--edge:#33434e;--text:#e2ebef;--muted:#8fa3ad;--accent:#8fd3dc}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 "Noto Sans SC",system-ui,sans-serif}main{max-width:1500px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:22px;color:var(--accent);margin:0 0 4px}h2{font-size:17px;margin:32px 0 4px;border-bottom:1px solid var(--edge);padding-bottom:6px}
+p.note{color:var(--muted);margin:0 0 12px}.pair{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}@media(max-width:900px){.pair{grid-template-columns:1fr}}
+figure{margin:0;background:var(--panel);border:1px solid var(--edge);border-radius:8px;padding:8px}figure img{width:100%;height:auto;display:block;border-radius:4px}figcaption{color:var(--muted);font-size:13px;margin-top:6px}</style></head>
+<body><main><h1>工作台窗口重设计 · 前后对照</h1><p class="note">1280×720，Godot 4.7.1 实际渲染，测试模式开发路由（顶栏多一个“测试模式”选择框）。“之前”为上一轮（引导收敛后）的画面。</p><h2>序章 · 半加器</h2><p class="note">测试台／元件窗口：同一窗体、细边框、无框窗口按钮、角落缩放；工具行改为无框按钮</p><div class="pair">
+<figure><img src="screenshots/before/ha.png" alt=""><figcaption>之前</figcaption></figure>
+<figure><img src="screenshots/after/zh_CN-ha.png" alt=""><figcaption>之后（中文）</figcaption></figure>
+<figure><img src="screenshots/after/en-ha.png" alt=""><figcaption>之后（英文）</figcaption></figure></div><h2>第一章 · 快慢之间</h2><p class="note">工具行与回放栏改为安静的工具按钮；激活窗口边缘提亮，其余退后</p><div class="pair">
+<figure><img src="screenshots/before/ch1.png" alt=""><figcaption>之前</figcaption></figure>
+<figure><img src="screenshots/after/zh_CN-ch1.png" alt=""><figcaption>之后（中文）</figcaption></figure>
+<figure><img src="screenshots/after/en-ch1.png" alt=""><figcaption>之后（英文）</figcaption></figure></div><h2>第二章 · 先后有序</h2><p class="note">同上；章节导航为描边按钮，不和工具抢层级</p><div class="pair">
+<figure><img src="screenshots/before/ao.png" alt=""><figcaption>之前</figcaption></figure>
+<figure><img src="screenshots/after/zh_CN-ao.png" alt=""><figcaption>之后（中文）</figcaption></figure>
+<figure><img src="screenshots/after/en-ao.png" alt=""><figcaption>之后（英文）</figcaption></figure></div><h2>第三章 · 尚在途中</h2><p class="note">底部工具行统一；“运行全部任务”保持主按钮</p><div class="pair">
+<figure><img src="screenshots/before/ch3.png" alt=""><figcaption>之前</figcaption></figure>
+<figure><img src="screenshots/after/zh_CN-ch3.png" alt=""><figcaption>之后（中文）</figcaption></figure>
+<figure><img src="screenshots/after/en-ch3.png" alt=""><figcaption>之后（英文）</figcaption></figure></div><h2>第四章 · 只取所需</h2><p class="note">顶部工具行统一，“运行全部订单”升为主按钮</p><div class="pair">
+<figure><img src="screenshots/before/ch4.png" alt=""><figcaption>之前</figcaption></figure>
+<figure><img src="screenshots/after/zh_CN-ch4.png" alt=""><figcaption>之后（中文）</figcaption></figure>
+<figure><img src="screenshots/after/en-ch4.png" alt=""><figcaption>之后（英文）</figcaption></figure></div><h2>第二轮 · 引导光标与停靠布局</h2><div class="pair"><figure><img src="screenshots/round2/route-zh_CN-ha-entry.png" alt=""><figcaption>半加器进入：测试台为左侧整高栏、四组用例一屏可见；元件台按卡片收紧；引导句带光标，SUM 输出端被点亮为本关重心</figcaption></figure><figure><img src="screenshots/round2/route-en-ha-entry.png" alt=""><figcaption>英文同一状态</figcaption></figure><figure><img src="screenshots/round2/zh_CN-half-adder-failed-11.png" alt=""><figcaption>真实输入：正式用例第 4 组失败，规格表与测试台失败行同时标出</figcaption></figure><figure><img src="screenshots/round2/zh_CN-half-adder-tested-before-seal.png" alt=""><figcaption>测试通过卡打开时，只有卡内一句带光标；背后引导条已更新但保持安静</figcaption></figure><figure><img src="screenshots/round2/route-zh_CN-not-entry.png" alt=""><figcaption>NOT：高亮输入 A，引导句带光标</figcaption></figure><figure><img src="screenshots/round2/route-zh_CN-not-help.png" alt=""><figcaption>NOT：求助替换引导条里的当前一步</figcaption></figure></div></main></body></html>

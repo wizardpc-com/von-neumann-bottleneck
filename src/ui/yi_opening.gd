@@ -1,13 +1,20 @@
 extends CanvasLayer
 ## The opening of a level: Yi says, once per level per session, what this task
 ## asks for (MissionNarrativeCatalog's "now" line), typed with the trailing
-## caret. It floats above the bottom bar, never takes focus or pointer input
-## (moving the pointer over it fades it away) and leaves by itself.
-## The prologue is excluded: its step card already opens each level.
+## caret. It never takes focus or pointer input (moving the pointer over it
+## fades it away) and leaves by itself.
+## One voice at a time: when the Mission card already shows the same "now"
+## line, that line is emphasised instead and no second card appears. The card
+## sits just below the workbench navigation, clear of the run and playback
+## controls along the bottom, and leaves for good when a blocking or reading
+## layer opens (Settings, Handbook, completion); it is never replayed.
+## The prologue is excluded: its docked step guide already opens each level.
 
 const Palette = preload("res://src/lab/lab_palette.gd")
 const Typewriter = preload("res://src/ui/yi_typewriter.gd")
 const Catalog = preload("res://src/ui/mission_narrative_catalog.gd")
+const GuideStage = preload("res://src/ui/guide_stage.gd")
+const NAV_GROUP := &"workbench_nav"
 const STAY_SECONDS := 5.0
 const SKIPPED_CHAPTERS := [&"hardware_foundations"]
 
@@ -74,8 +81,24 @@ func _init() -> void:
 
 
 func say(passage: String, _english: bool) -> void:
+	var shown_in_mission: Control = _mission_showing(passage)
+	if shown_in_mission != null:
+		shown_in_mission.call("emphasize")
+		_closing = true
+		queue_free()
+		return
 	body.play(passage)
 	_place()
+
+
+## A visible Mission card that already reads this task's "now" line.
+func _mission_showing(passage: String) -> Control:
+	if not is_inside_tree(): return null
+	for node: Node in get_tree().root.find_children("JourneyContextCard", "", true, false):
+		if node is Control and node.has_method("emphasize") and (node as Control).is_visible_in_tree() \
+				and bool(node.call("shows_action", passage)):
+			return node
+	return null
 
 
 func _place() -> void:
@@ -84,11 +107,21 @@ func _place() -> void:
 	card.custom_minimum_size.x = width
 	card.size = Vector2(width, 0)
 	card.reset_size()
-	card.position = Vector2((viewport.x - width) * 0.5, viewport.y - card.size.y - 72.0)
+	# Below the lowest visible navigation bar; the bottom keeps Run and playback clear.
+	var top: float = 64.0
+	for node: Node in get_tree().get_nodes_in_group(NAV_GROUP):
+		if node is Control and (node as Control).is_visible_in_tree():
+			top = maxf(top, (node as Control).get_global_rect().end.y + 10.0)
+	card.position = Vector2((viewport.x - width) * 0.5, minf(top, viewport.y - card.size.y - 72.0))
 
 
 func _process(delta: float) -> void:
 	if card == null or _closing: return
+	if GuideStage.blocked(get_tree()):
+		# A blocking or reading layer opened: this line no longer applies.
+		_closing = true
+		queue_free()
+		return
 	_place()
 	_life += delta
 	var mouse: Vector2 = card.get_global_mouse_position()

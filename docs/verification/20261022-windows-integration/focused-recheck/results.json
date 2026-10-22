@@ -1,0 +1,62 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T085003Z-74c1c58c/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T085003Z-74c1c58c/user_directory"
+    },
+    {
+      "name": "test_first_lesson_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_lesson_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T085003Z-74c1c58c/test_first_lesson_input"
+    },
+    {
+      "name": "test_guide_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_guide_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T085003Z-74c1c58c/test_guide_convergence"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T085003Z-74c1c58c/test_lab_journey"
+    },
+    {
+      "name": "test_operation_coach_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_operation_coach_layout.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T085003Z-74c1c58c/test_operation_coach_layout"
+    },
+    {
+      "name": "test_ui_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T085003Z-74c1c58c/test_ui_convergence"
+    }
+  ]
+}

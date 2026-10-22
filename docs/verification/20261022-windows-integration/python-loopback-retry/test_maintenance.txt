@@ -1,0 +1,9 @@
+test_backup_delete_report_and_tombstone_safe_restore (__main__.MaintenanceTests.test_backup_delete_report_and_tombstone_safe_restore) ... ok
+test_backup_name_collision_preserves_existing_bytes (__main__.MaintenanceTests.test_backup_name_collision_preserves_existing_bytes) ... ok
+test_daily_fails_and_preserves_incomplete_managed_backups (__main__.MaintenanceTests.test_daily_fails_and_preserves_incomplete_managed_backups) ... ok
+test_rotate_only_managed_pairs_older_than_30_days (__main__.MaintenanceTests.test_rotate_only_managed_pairs_older_than_30_days) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.640s
+
+OK

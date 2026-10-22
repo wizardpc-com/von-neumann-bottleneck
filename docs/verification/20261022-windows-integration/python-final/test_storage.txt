@@ -1,0 +1,8 @@
+test_conflict_rolls_back (__main__.StorageTests.test_conflict_rolls_back) ... ok
+test_failed_ddl_upgrade_is_atomic (__main__.StorageTests.test_failed_ddl_upgrade_is_atomic) ... ok
+test_upgrade_restore_merge_and_deleted_identity (__main__.StorageTests.test_upgrade_restore_merge_and_deleted_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.142s
+
+OK

@@ -1,0 +1,12 @@
+test_contract (__main__.ReceiverTests.test_contract) ... ok
+test_current_and_prior_privacy_notices (__main__.ReceiverTests.test_current_and_prior_privacy_notices) ... ok
+test_idle_serve_forever_cleans_expired_events (__main__.ReceiverTests.test_idle_serve_forever_cleans_expired_events) ... ok
+test_oversized_trickle_has_total_deadline (__main__.ReceiverTests.test_oversized_trickle_has_total_deadline) ... ok
+test_retention (__main__.ReceiverTests.test_retention) ... ok
+test_valid_length_trickle_cannot_hold_receiver (__main__.ReceiverTests.test_valid_length_trickle_cannot_hold_receiver) ... ok
+test_z_journey_versions_and_atomic_rejection (__main__.ReceiverTests.test_z_journey_versions_and_atomic_rejection) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 7.317s
+
+OK

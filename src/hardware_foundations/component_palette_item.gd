@@ -9,7 +9,11 @@ const BORDER := Color("354866")
 const ACCENT := Color("7fcbd6")
 const TEXT := Color("e2ebef")
 const MUTED := Color("8fa3ad")
-const PREVIEW_RECT := Rect2(Vector2(8.0, 17.0), Vector2(94.0, 54.0))
+## Compact card: symbol well on the left, name and one-line purpose on the
+## right. Ports and widths stay in the tooltip and the well's width captions.
+const PREVIEW_RECT := Rect2(Vector2(8.0, 6.0), Vector2(74.0, 40.0))
+const WELL := Rect2(5.0, 4.0, 80.0, 58.0)
+const CARD_HEIGHT := 66.0
 
 var template_key: String = ""
 var component_kind: StringName = &""
@@ -44,7 +48,7 @@ func configure(key: String, kind: StringName, label: String, widest_port: int = 
 	port_widths.assign([width_hint])
 	purpose_text = purpose
 	ports_text = ports
-	custom_minimum_size = Vector2(280.0, 108.0)
+	custom_minimum_size = Vector2(240.0, CARD_HEIGHT)
 	tooltip_text = label
 	queue_redraw()
 
@@ -127,20 +131,22 @@ func _drag_payload() -> Dictionary:
 
 
 func _draw() -> void:
-	var fill: Color = SURFACE_HOVER if hovered else SURFACE
-	var border: Color = ACCENT if armed else BORDER
-	draw_style_box(_stylebox(fill, border, 5.0, 2.0 if armed else 1.0), Rect2(Vector2.ZERO, size))
-	draw_style_box(_stylebox(Color("0b1720"), Color("274552"), 5, 1), Rect2(6,8,98,size.y-16))
-	var slot_width: float = 94.0 / maxi(1,port_widths.size())
+	# Rows, not boxes: a hover/armed fill and a hairline between cards.
+	if hovered or armed:
+		draw_style_box(_stylebox(SURFACE_HOVER if hovered else Color(0.5, 0.8, 0.84, 0.08), Color.TRANSPARENT, 7.0, 0.0), Rect2(Vector2.ZERO, size))
+	else:
+		draw_line(Vector2(WELL.end.x + 8.0, size.y - 0.5), Vector2(size.x - 6.0, size.y - 0.5), Color(BORDER, 0.55), 1.0)
+	draw_style_box(_stylebox(Color("0b1720"), Color("22394a"), 6.0, 1.0), WELL)
+	var slot_width: float = WELL.size.x / maxi(1,port_widths.size())
 	var notation = preload("res://src/ui/signal_notation.gd")
 	for index: int in range(port_widths.size()):
 		var width: int = port_widths[index]
 		var caption: String = notation.width_text(width)
 		var font: Font = get_theme_default_font()
-		var x: float = 8+index*slot_width+(slot_width-font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x)*0.5
-		draw_string(font,Vector2(x,size.y-17),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12,notation.width_color(width))
+		var x: float = WELL.position.x+index*slot_width+(slot_width-font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x)*0.5
+		draw_string(font,Vector2(x,WELL.end.y-4.0),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11,notation.width_color(width))
 	if armed:
-		draw_rect(Rect2(0,9,3,size.y-18),ACCENT)
+		draw_rect(Rect2(0,10,3,size.y-20),ACCENT)
 
 
 func _build_labels() -> void:
@@ -153,21 +159,20 @@ func _build_labels() -> void:
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(box)
 	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	box.offset_left = 116.0
-	box.offset_right = -12.0
-	box.offset_top = 10.0
-	box.offset_bottom = -10.0
-	box.add_theme_constant_override("separation", 3)
-	var lines: Array[String] = [label_text, purpose_text, ports_text]
+	box.offset_left = WELL.end.x + 10.0
+	box.offset_right = -8.0
+	box.offset_top = 0.0
+	box.offset_bottom = 0.0
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.add_theme_constant_override("separation", 1)
+	# Ports stay available in the tooltip; the card keeps name and purpose.
+	var lines: Array[String] = [label_text, purpose_text]
 	for index: int in range(lines.size()):
 		var label := Label.new()
 		label.text = lines[index]
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		if index == 1:
-			label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-			label.max_lines_visible = 2
-		label.add_theme_font_size_override("font_size", 16 if index == 0 else 13)
+		label.add_theme_font_size_override("font_size", 15 if index == 0 else 12)
 		label.add_theme_color_override("font_color", TEXT if index == 0 else MUTED)
 		box.add_child(label)
 

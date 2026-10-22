@@ -68,6 +68,7 @@ Avoid:
 * speculative architecture for future features;
 * gameplay/design changes outside the task;
 * moving Godot resources without checking `res://`, UID, scene, and resource references.
+* unnecessary secondary labels and descriptions. Let the layout do the explaining
 
 For small reversible implementation details, make a reasonable choice and continue.
 

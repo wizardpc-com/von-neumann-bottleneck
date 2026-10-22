@@ -3,7 +3,7 @@ extends Control
 ## Caller supplies actual currently visible control/port positions in this canvas.
 signal demonstration_active_changed(active: bool)
 const INK := Color("edf5ff")
-const ACCENT := Color("7fcbd6")
+const ACCENT := Color("83b5ed")
 var path := PackedVector2Array()
 var elapsed: float = 0.0
 var duration: float = 3.6
@@ -60,21 +60,35 @@ func pointer_position() -> Vector2:
 func _draw() -> void:
 	if not running or path.is_empty(): return
 	for index: int in range(path.size()-1):
-		draw_dashed_line(path[index],path[index+1],Color(ACCENT,0.60),2.0,8.0,true)
+		draw_dashed_line(path[index], path[index+1], Color(ACCENT, 0.35), 2.0, 7.0, true)
 	for point: Vector2 in path:
-		draw_arc(point,12.0,0.0,TAU,32,Color(ACCENT,0.9),2.0,true)
+		draw_arc(point, 9.0, 0.0, TAU, 32, Color(ACCENT, 0.75), 1.5, true)
 	var at: Vector2 = pointer_position()
-	var arrow := PackedVector2Array([at,at+Vector2(0,24),at+Vector2(6,18),at+Vector2(11,28),at+Vector2(15,26),at+Vector2(10,16),at+Vector2(19,16)])
-	draw_colored_polygon(arrow,INK)
-	var border := arrow.duplicate(); border.append(arrow[0])
-	draw_polyline(border,Color("172b3d"),1.5,true)
-	# Label explicitly identifies a demonstration; it is not the player's cursor.
-	var text: String = ("Demo · " if english else "演示 · ") + caption
-	var font: Font = get_theme_default_font()
-	var width: float = minf(360.0,font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,14).x+20.0)
-	var anchor := Vector2(clampf(at.x+25.0,4.0,maxf(4.0,size.x-width-4.0)),clampf(at.y+28.0,22.0,maxf(22.0,size.y-24.0)))
-	draw_rect(Rect2(anchor-Vector2(5,17),Vector2(width,24)),Color("152735"),true)
-	draw_string(font,anchor,text,HORIZONTAL_ALIGNMENT_LEFT,width-10.0,14,INK)
+	var held: bool = elapsed >= 0.6 and elapsed < duration - 0.6
+	for layer: int in range(18, 0, -1):
+		draw_circle(at + Vector2(7, 10), float(layer) * (2.0 if held else 1.7), Color(ACCENT, 0.012), true, -1.0, true)
+	if not reduced_motion:
+		for moment: float in [0.6, duration - 0.6]:
+			var pulse: float = (elapsed - moment) / 0.45
+			if pulse >= 0.0 and pulse <= 1.0:
+				draw_arc(at, 10.0 + pulse * 14.0, 0.0, TAU, 40, Color(ACCENT, 1.0 - pulse), 2.0, true)
+	var arrow := PackedVector2Array([
+		Vector2(0, 1), Vector2(0.5, 0.3), Vector2(1.5, 0), Vector2(3, 0.3),
+		Vector2(24, 8.3), Vector2(25, 9), Vector2(25.3, 10), Vector2(24.8, 11),
+		Vector2(23.5, 11.8), Vector2(14, 15), Vector2(12.8, 16.2),
+		Vector2(9, 26), Vector2(8.2, 27.2), Vector2(7, 27.5), Vector2(5.8, 26.8),
+		Vector2(5.2, 25.5), Vector2(0, 3),
+	])
+	for index: int in arrow.size(): arrow[index] += at
+	var shadow := arrow.duplicate()
+	for index: int in shadow.size(): shadow[index] += Vector2(0, 2)
+	draw_colored_polygon(shadow, Color(0, 0, 0, 0.28))
+	draw_colored_polygon(arrow, Color("172432"))
+	var border := arrow.duplicate()
+	border.append(arrow[0])
+	draw_polyline(border, INK, 2.2, true)
+
+
 
 
 static func wire_cut_path(curve: PackedVector2Array) -> PackedVector2Array:

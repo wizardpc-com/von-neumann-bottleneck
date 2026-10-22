@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>关卡引导收敛对照</title>
+<style>
+:root { --bg:#111a21; --panel:#1a252e; --edge:#33434e; --text:#e2ebef; --muted:#8fa3ad; --accent:#8fd3dc; }
+body { margin:0; background:var(--bg); color:var(--text); font:15px/1.6 "Noto Sans SC", system-ui, sans-serif; }
+main { max-width:1360px; margin:0 auto; padding:24px 16px 48px; }
+h1 { font-size:22px; color:var(--accent); margin:0 0 4px; }
+h2 { font-size:17px; margin:32px 0 8px; border-bottom:1px solid var(--edge); padding-bottom:6px; }
+p.note { color:var(--muted); margin:0 0 12px; }
+.pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:800px) { .pair { grid-template-columns:1fr; } }
+figure { margin:0; background:var(--panel); border:1px solid var(--edge); border-radius:8px; padding:8px; }
+figure img { width:100%; height:auto; display:block; border-radius:4px; }
+figcaption { color:var(--muted); font-size:13px; margin-top:6px; }
+</style>
+</head>
+<body>
+<main>
+<h1>关卡引导收敛 · 前后对照</h1>
+<p class="note">1280×720 真实 Godot 4.7.1 渲染。“之前”为 main 472890a 的开发路由截图；“之后”包含开发路由截图与真实输入回放（test_half_adder_input）截图。测试模式下顶栏会多出“测试模式”选择框。</p>
+
+<h2>NOT：求助与步骤卡</h2>
+<div class="pair">
+<figure><img src="screenshots/before/not_help.png" alt=""><figcaption>之前：步骤卡与求助卡同时出现在画布上</figcaption></figure>
+<figure><img src="screenshots/after/route-zh_CN-not-help.png" alt=""><figcaption>之后：求助替换停靠引导条里的当前一步，画布不被遮挡</figcaption></figure>
+</div>
+
+<h2>NOT：完整说明</h2>
+<div class="pair">
+<figure><img src="screenshots/before/not_brief.png" alt=""><figcaption>之前：任务窗压在步骤卡和求助卡上，文字叠字</figcaption></figure>
+<figure><img src="screenshots/after/zh_CN-half-adder-briefing.png" alt=""><figcaption>之后：说明是阅读层，引导条折叠为一行目标，求助关闭</figcaption></figure>
+</div>
+
+<h2>半加器：进入</h2>
+<div class="pair">
+<figure><img src="screenshots/before/ha_1.png" alt=""><figcaption>之前：三行顶部栏，浮动步骤卡给通用三步</figcaption></figure>
+<figure><img src="screenshots/after/route-zh_CN-half-adder-entry.png" alt=""><figcaption>之后：工具一行；引导条带四组规格表，先请玩家看 A=1、B=1</figcaption></figure>
+</div>
+
+<h2>半加器：正式用例失败</h2>
+<div class="pair">
+<figure><img src="screenshots/after/zh_CN-half-adder-failed-11.png" alt=""><figcaption>之后：写出第 4 组 SUM 的期望与实际，规格表与测试台失败行同时标出</figcaption></figure>
+<figure><img src="screenshots/after/en-half-adder-failed-11.png" alt=""><figcaption>英文同一状态</figcaption></figure>
+</div>
+
+<h2>第二章 · 先后有序</h2>
+<div class="pair">
+<figure><img src="screenshots/before/ao_1.png" alt=""><figcaption>之前：双行顶栏；开场气泡重复任务卡的“现在”，并盖住回放按钮；机器图过小</figcaption></figure>
+<figure><img src="screenshots/after/route-zh_CN-access-order-entry.png" alt=""><figcaption>之后：单行导航；不再重复弹出；机器图按真实尺寸取景；回放栏为中性提示</figcaption></figure>
+</div>
+
+<h2>其他工作台顶栏</h2>
+<div class="pair">
+<figure><img src="screenshots/after/route-zh_CN-ch1-cpu-speed.png" alt=""><figcaption>第一章：章节与关卡同一行</figcaption></figure>
+<figure><img src="screenshots/after/route-zh_CN-ch4-fields.png" alt=""><figcaption>第四章：章节与关卡同一行</figcaption></figure>
+</div>
+</main>
+</body>
+</html>

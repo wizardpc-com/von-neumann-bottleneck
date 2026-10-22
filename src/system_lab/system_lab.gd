@@ -517,27 +517,34 @@ func _on_playtest_feedback_finished(scope: StringName, _subject_id: StringName) 
 
 
 func _build_header() -> Control:
+	# One light navigation line: chapter and task side by side, no tall frame.
 	var header := PanelContainer.new()
-	header.custom_minimum_size.y = 72.0
+	header.add_theme_stylebox_override("panel", preload("res://src/ui/workbench_chrome.gd").bar_style())
+	header.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
 	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
 	header.add_child(row)
-	var title_box := VBoxContainer.new()
-	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var title_box := HBoxContainer.new()
+	title_box.add_theme_constant_override("separation", 12)
 	row.add_child(title_box)
 	var title := Label.new()
 	title.text = _t(&"system.chapter.title")
-	title.add_theme_font_size_override("font_size", UiTypographyType.TITLE_SIZE)
-	title.add_theme_font_override("font", UiTypographyType.HEADING_FONT)
-	title.add_theme_color_override("font_color", ACCENT)
+	preload("res://src/ui/workbench_chrome.gd").title(title)
 	title_box.add_child(title)
 	level_label = Label.new()
 	level_label.text = _t(&"system.chapter.subtitle")
-	level_label.add_theme_color_override("font_color", MUTED)
+	level_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	level_label.add_theme_color_override("font_color", TEXT)
 	title_box.add_child(level_label)
 	status_label = Label.new()
 	status_label.text = _t(&"system.status.map")
 	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	status_label.custom_minimum_size.x = 380.0
+	status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	status_label.custom_minimum_size.x = 240.0
+	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	status_label.max_lines_visible = 2
+	status_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	status_label.add_theme_color_override("font_color", WARNING)
 	row.add_child(status_label)
 	row.add_child(PlaytestMoments.make_workbench_button())
@@ -681,6 +688,7 @@ func _build_workbench_bar() -> Control:
 		button.pressed.connect(_toggle_instrument.bind(instrument_id))
 		instrument_open_buttons[instrument_id] = button
 		row.add_child(button)
+	preload("res://src/ui/instrument_theme.gd").tool_row(row)
 	return panel
 
 
@@ -861,7 +869,6 @@ func _add_instrument(id: StringName, title_text: String, content: Control) -> vo
 	var panel: FloatingInstrumentPanel = FloatingPanelType.new()
 	panel.name = "%sInstrument" % String(id).to_pascal_case()
 	panel.custom_minimum_size = Vector2(350.0, 250.0)
-	panel.add_theme_stylebox_override("panel", _instrument_surface(false))
 	desktop_host.add_child(panel)
 	panel.setup(id, title_text)
 	panel.set_minimizable(id != &"mission")
@@ -1218,6 +1225,7 @@ func _build_playback_bar() -> Control:
 	var handbook_space := Control.new()
 	handbook_space.custom_minimum_size.x = 128.0
 	row.add_child(handbook_space)
+	preload("res://src/ui/instrument_theme.gd").tool_row(row)
 	return panel
 
 
@@ -3213,19 +3221,14 @@ func _close_instrument(id: StringName) -> void:
 		button.set_pressed_no_signal(false)
 
 
-func _instrument_surface(focused: bool) -> StyleBoxFlat:
-	var frame: StyleBoxFlat = InstrumentTheme.surface(Color("111d29"),Color(ACCENT,0.65) if focused else InstrumentTheme.EDGE,8)
-	frame.content_margin_top = 10
-	frame.content_margin_bottom = 10
-	return frame
 
 
 func _focus_instrument(id: StringName) -> void:
 	var panel: FloatingInstrumentPanel = instrument_windows.get(id)
 	if panel == null:
 		return
-	for key: StringName in instrument_windows:
-		(instrument_windows[key] as FloatingInstrumentPanel).add_theme_stylebox_override("panel",_instrument_surface(key==id))
+	# The shared window design marks the focused tool active and the rest idle.
+	(instrument_windows[id] as FloatingInstrumentPanel).mark_active()
 	instrument_z_counter += 1
 	panel.z_index = instrument_z_counter
 	# Control input follows sibling order independently of draw order.

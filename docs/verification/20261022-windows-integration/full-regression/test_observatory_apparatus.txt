@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SETUP: actual tutorial five controller actions and isolated C/P/G work; no synthetic completion fixture is persisted
+NOT_RUN: actual renderer ordinary/tester F8 and exact focus stack
+NOT_RUN: actual renderer ordinary/tester F8 and exact focus stack
+PASS: observatory apparatus 3319 checks

@@ -119,7 +119,9 @@ func run() -> void:
 	var card: Control = bench.yi_help_card
 	check(card != null and card.visible and not bench.hint_mode, "Hint opens Yi's help card without leaving the board")
 	check(card != null and card.body.is_playing() and card.body.caret_visible(), "Yi's help is typed with the trailing caret")
-	check(card != null and not card.get_rect().intersects(bench.tutorial_coach.get_rect()), "The help card does not cover the step card")
+	# One voice at a time: help replaces the step instruction inside the docked guide.
+	check(card != null and bench.tutorial_coach.help_slot.is_ancestor_of(card) and not bench.tutorial_coach.instruction.visible, "Help takes the step instruction's place in the docked guide")
+	check(card != null and not bench.graph_stack.get_global_rect().intersects(card.get_global_rect()), "Help in the guide does not cover the canvas")
 	check(bench.get_viewport().gui_get_focus_owner() == null or not card.is_ancestor_of(bench.get_viewport().gui_get_focus_owner()), "The help card does not take keyboard focus")
 	check(JSON.stringify(bench.call("_capture_workbench_snapshot")) == before, "Opening help leaves the player's board unchanged")
 	card.option_selected.emit(&"self"); await settle(2)
@@ -134,12 +136,16 @@ func run() -> void:
 	bench.call("_exit_hint_workbench"); await settle(4)
 	check(JSON.stringify(bench.call("_capture_workbench_snapshot")) == before, "Leaving the hint canvas restores the same board")
 
-	# Step card: the instruction is immediate, only Yi's short reply is typed.
+	# Step guide: Yi's instruction and short reply are both written with the caret.
+	bench.graph.connect_node(&"A_IN", 0, &"NOT_1", 0)
+	bench.graph.connect_node(&"NOT_1", 0, &"LAMP", 0)
 	bench.set("tutorial_created_wire", true)
 	bench.call("_update_tutorial_goal"); await settle(2)
 	var coach: Control = bench.tutorial_coach
-	check(not coach.instruction.text.is_empty() and coach.instruction is Label, "Step instructions stay in an ordinary, immediate label")
 	check(coach.praise.text == "接上了。" and coach.praise.caret_visible(), "Yi's step reply is typed with the caret")
+	check(not coach.instruction.caret_visible(), "One voice at a time: the next guidance waits for the reply")
+	await create_timer(1.6).timeout
+	check(not coach.instruction.text.is_empty() and coach.instruction.caret_visible(), "Step guidance then carries Yi's trailing caret")
 	bench.queue_free(); await settle()
 
 	# Completion: the system result is immediate; Yi's reply follows, layout fixed.

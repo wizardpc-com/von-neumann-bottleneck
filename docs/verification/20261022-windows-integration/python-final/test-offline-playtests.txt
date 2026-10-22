@@ -1,0 +1,19 @@
+test_archived_sessions_reuse_reducer_and_label_incomplete_logs (__main__.OfflinePlaytestsTests.test_archived_sessions_reuse_reducer_and_label_incomplete_logs) ... ok
+test_batch_validation_is_all_or_nothing (__main__.OfflinePlaytestsTests.test_batch_validation_is_all_or_nothing) ... ok
+test_cli_rejects_invalid_zip_without_report_or_archive (__main__.OfflinePlaytestsTests.test_cli_rejects_invalid_zip_without_report_or_archive) ... ok
+test_context_and_metadata_shapes_are_checked (__main__.OfflinePlaytestsTests.test_context_and_metadata_shapes_are_checked) ... ok
+test_copy_hash_and_publication_failures_preserve_existing_archives (__main__.OfflinePlaytestsTests.test_copy_hash_and_publication_failures_preserve_existing_archives) ... ok
+test_corruption_traversal_duplicate_manifest_coverage_and_size_limit (__main__.OfflinePlaytestsTests.test_corruption_traversal_duplicate_manifest_coverage_and_size_limit) ... ok
+test_exclusive_file_publication_follows_verified_copies (__main__.OfflinePlaytestsTests.test_exclusive_file_publication_follows_verified_copies) ... ok
+test_large_context_and_godot_compatible_zip_mode (__main__.OfflinePlaytestsTests.test_large_context_and_godot_compatible_zip_mode) ... ok
+test_large_materialized_note_matches_producer_limit (__main__.OfflinePlaytestsTests.test_large_materialized_note_matches_producer_limit) ... ok
+test_later_export_keeps_original_capture_build (__main__.OfflinePlaytestsTests.test_later_export_keeps_original_capture_build) ... ok
+test_pending_marker_never_hides_old_or_published_damage (__main__.OfflinePlaytestsTests.test_pending_marker_never_hides_old_or_published_damage) ... ok
+test_raw_preservation_dedupe_and_conflicting_id (__main__.OfflinePlaytestsTests.test_raw_preservation_dedupe_and_conflicting_id) ... ok
+test_revisions_multiplayer_html_escaping_and_links (__main__.OfflinePlaytestsTests.test_revisions_multiplayer_html_escaping_and_links) ... ok
+test_unpublished_markers_skip_only_known_new_partial_imports (__main__.OfflinePlaytestsTests.test_unpublished_markers_skip_only_known_new_partial_imports) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.994s
+
+OK

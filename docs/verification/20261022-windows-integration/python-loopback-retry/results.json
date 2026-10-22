@@ -1,0 +1,18 @@
+[
+  {
+    "script": "server/test_receiver.py",
+    "exit": 0
+  },
+  {
+    "script": "server/test_community.py",
+    "exit": 0
+  },
+  {
+    "script": "server/test_delivery.py",
+    "exit": 0
+  },
+  {
+    "script": "server/test_maintenance.py",
+    "exit": 0
+  }
+]

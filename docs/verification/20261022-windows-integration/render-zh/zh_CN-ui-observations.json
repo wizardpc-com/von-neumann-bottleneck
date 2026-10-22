@@ -1,0 +1,450 @@
+[
+	{
+		"check": "Fresh ordinary Game starts in the laboratory.",
+		"ok": true
+	},
+	{
+		"check": "The first invitation waits for the player.",
+		"ok": true
+	},
+	{
+		"check": "Enter wakes the terminal and exposes its primary action.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: invitation",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "NOT opens on one concrete step without a briefing or solution overlay.",
+		"ok": true
+	},
+	{
+		"check": "A genuinely fresh first lesson automatically offers the read-only pointer after layout settles",
+		"ok": true
+	},
+	{
+		"check": "Automatic demonstration follows the settled visible port after entry reframing.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: not-entry",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Replay shows a virtual wiring gesture anchored to actual ports",
+		"ok": true
+	},
+	{
+		"check": "Watching the demonstration does not wire or earn progress",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible Stop demo dismisses without completing the lesson",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Replay keeps the docked guide geometry stable.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Folding the guide stops its demonstration.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Settings interrupts the demonstration",
+		"ok": true
+	},
+	{
+		"check": "Demo and Settings leave the player's board untouched",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Offscreen demonstration targets explain how to recover instead of pointing at empty space",
+		"ok": true
+	},
+	{
+		"check": "Viewport recovery advice does not move components or alter wiring",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → NOT_1:0",
+		"ok": true
+	},
+	{
+		"check": "The first wire earns a wiring action without inventing a run.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: not-first-wire",
+		"ok": true
+	},
+	{
+		"check": "One wire does not claim both lesson wires are connected.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Changing A still leaves the run action outstanding.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "After early input toggle, replay still shows the missing lamp connection.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "A run alone does not earn the remaining removal and reconnection actions.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: not-incomplete-run",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOT_1:0 → LAMP:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "A valid NOT run leaves removal and reconnection outstanding.",
+		"ok": true
+	},
+	{
+		"check": "Connected A=1 produces LAMP=0 in the actual simulation trace.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: not-result",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Changing to A=0 and running produces LAMP=1, without granting the remaining actions.",
+		"ok": true
+	},
+	{
+		"check": "Trying both inputs still preserves the remaining action requirements.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: not-other-input",
+		"ok": true
+	},
+	{
+		"check": "The instructed right-button sweep actually removes the lamp wire.",
+		"ok": true
+	},
+	{
+		"check": "Four actions do not earn completion.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: not-removed",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOT_1:0 → LAMP:0",
+		"ok": true
+	},
+	{
+		"check": "Reconnecting the removed wire earns the unchanged fifth requirement.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: not-complete",
+		"ok": true
+	},
+	{
+		"check": "The earned result offers an explicit next action.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Continue reaches half adder with its short goal and build guide.",
+		"ok": true
+	},
+	{
+		"check": "The half-adder goal names the two outputs the player must produce.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Closed palette gives named recovery advice without overriding the player's window choice",
+		"ok": true
+	},
+	{
+		"check": "Recovery advice never places components or changes wires",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Reopening the palette restores ordinary drag demonstration",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "An empty palette filter explains how to recover instead of silently doing nothing",
+		"ok": true
+	},
+	{
+		"check": "Filtering and recovery leave the circuit untouched",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: half-adder-entry",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The optional full briefing opens through its visible button.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: half-adder-briefing",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Start building returns directly to the player's circuit without revealing a solution.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes components.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes test_bench.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Playback Hz can be edited through its text field, then focus returns to the graph.",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → OR_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire B_IN:0 → OR_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire OR_1:0 → SUM_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire A_IN:0 → AND_1_COPY_002:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire B_IN:0 → AND_1_COPY_002:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_1_COPY_002:0 → CARRY_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Incorrect SUM cannot seal or complete half adder.",
+		"ok": true
+	},
+	{
+		"check": "The real 1+1 case exposes SUM=1 instead of 0 while CARRY=1 is correct.",
+		"ok": true
+	},
+	{
+		"check": "The failed row puts expected SUM and CARRY alongside the actual outputs.",
+		"ok": true
+	},
+	{
+		"check": "The full failed row, including expected values, stays visible at 720p.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: half-adder-failed-11",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The visible window close control closes test_bench.",
+		"ok": true
+	},
+	{
+		"check": "UI wire OR_1:0 → AND_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_1_COPY_002:0 → NOT_1:0",
+		"ok": true
+	},
+	{
+		"check": "UI wire NOT_1:0 → AND_1:1",
+		"ok": true
+	},
+	{
+		"check": "UI wire AND_1:0 → SUM_OUT:0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "The player's corrected circuit passes all four original cases.",
+		"ok": true
+	},
+	{
+		"check": "Passing cases alone has not installed the reusable part.",
+		"ok": true
+	},
+	{
+		"check": "The pre-seal result is labelled Tests passed, distinct from completion.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: half-adder-tested-before-seal",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "The explicit seal action earns completion and the reusable part.",
+		"ok": true
+	},
+	{
+		"check": "The completed part now receives the completion title.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: half-adder-sealed",
+		"ok": true
+	}
+]

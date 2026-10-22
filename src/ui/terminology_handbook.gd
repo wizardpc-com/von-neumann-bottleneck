@@ -275,6 +275,8 @@ func _ready() -> void:
 	z_index = 900
 	_build_theme()
 	_build_interface()
+	# The open Handbook is a reading layer: level guidance steps aside under it.
+	preload("res://src/ui/guide_stage.gd").mark_blocker(modal)
 	Localization.locale_changed.connect(_on_locale_changed)
 	_refresh_localized_copy()
 	entry_button.visible = standalone_entry

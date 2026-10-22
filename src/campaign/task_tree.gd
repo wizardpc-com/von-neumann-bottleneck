@@ -81,10 +81,9 @@ func _ready() -> void:
 	section_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER; navigation.add_child(section_label)
 	region_choice = OptionButton.new(); region_choice.name = "JourneyRegionChoice"
 	region_choice.custom_minimum_size = Vector2(300,42); navigation.add_child(region_choice)
-	var legend := Label.new(); legend.name = "JourneyConnectionLegend"
-	legend.text = "实线：前置 → 后续 · 虚线：推荐，非门槛 · 悬停追踪" if Localization.current_locale() != "en" else "Solid: prerequisite → next · Dashed: suggestion, not a gate · Hover to trace"
-	legend.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; legend.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	legend.size_flags_vertical = Control.SIZE_SHRINK_CENTER; legend.add_theme_font_size_override("font_size",14); navigation.add_child(legend)
+	# Line styles explain themselves on the map; their key is a hover, not a row.
+	var spacer := Control.new(); spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL; navigation.add_child(spacer)
+	region_choice.tooltip_text = "实线：前置 → 后续 · 虚线：推荐，非门槛 · 悬停追踪" if Localization.current_locale() != "en" else "Solid: prerequisite → next · Dashed: suggestion, not a gate · Hover to trace"
 	var observatory := Button.new(); observatory.name = "OpenJourneyObservatory"
 	observatory.text = "观察站" if Localization.current_locale() != "en" else "Observatory"
 	observatory.custom_minimum_size.y = 42; navigation.add_child(observatory)
@@ -297,7 +296,8 @@ func _build_route_shortcuts() -> void:
 	for task: Dictionary in rows:
 		if task.completed: finished += 1
 	journey_scope.text = ("已完成 %d / %d · 可进入 %d" if not english else "Completed %d / %d · open %d") % [finished,rows.size(),available]
-	journey_scope.text += "  ·  "+_t("controls")
+	journey_scope.tooltip_text = _t("controls")
+	journey_scope.mouse_filter = Control.MOUSE_FILTER_PASS
 
 func _open_core_review() -> void:
 	if not OverlapChapter.completed().has("synthesis") and not LayoutChapter.completed().has("mixed"): return
@@ -485,7 +485,7 @@ func _refresh_task_list() -> void:
 	list_scroll.scroll_vertical=0
 
 func _task_status(task: Dictionary) -> String:
-	var state: String = _t("completed" if task.completed else "available" if task.unlocked else "locked")
+	var state: String = _t("completed" if task.completed else "available" if task.unlocked else "locked_short")
 	if str(task.get("evidence_status","")) == "unavailable": state += " · 成果待确认" if Localization.current_locale() != "en" else " · work unconfirmed"
 	if str(task.get("progress_source","")) == "session": state += " · 仅本次会话" if Localization.current_locale() != "en" else " · session only"
 	return state

@@ -504,13 +504,16 @@ func _run() -> void:
 		var palette_item: Control = palette_items[template_key]
 		var palette_preview: Control = palette_item.get("component_preview") as Control
 		var palette_template: LogicComponent = menu_templates[template_key]
+		var palette_node: GraphNode = palette_preview.get_child(0) as GraphNode if palette_preview != null and palette_preview.get_child_count() > 0 else null
+		var palette_symbol: CircuitComponentSymbol = palette_node.get_child(0) as CircuitComponentSymbol if palette_node != null else null
 		_assert(
-			palette_preview is CircuitComponentSymbol
-			and palette_preview.component_kind == palette_template.kind
+			palette_symbol != null
+			and palette_symbol.component_kind == palette_template.kind
 			and palette_preview.position.y >= 0.0
 			and palette_preview.position.y + palette_preview.size.y * palette_preview.scale.y <= palette_item.size.y
-			and palette_preview.position.x + palette_preview.size.x * palette_preview.scale.x <= 105.0,
-			"Palette entries must reuse the actual gate renderer, fit the preview column, and stay clear of aligned text."
+			and palette_preview.position.x >= 0.0
+			and palette_preview.position.x + palette_preview.size.x * palette_preview.scale.x <= palette_item.size.x,
+			"Palette entries must show the canvas node view of the gate and fit inside their card."
 		)
 	var and_menu_item: int = _component_menu_item_for_kind(main, &"and")
 	_assert(and_menu_item >= 0, "The allowed-components menu must contain an AND gate item.")

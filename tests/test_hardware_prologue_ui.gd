@@ -446,16 +446,18 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 		var template: LogicComponent = templates[key]
 		var item: Control = items[key]
 		var preview: Control = item.get("component_preview") as Control
-		var expected_symbol: bool = template.is_basic_gate() or template.kind == LogicComponentType.KIND_CONSTANT
+		var palette_node: GraphNode = preview.get_child(0) as GraphNode if preview != null and preview.get_child_count() > 0 else null
+		var ghost: Control = main.call("_create_component_placement_ghost", template)
+		# What the card shows is what the canvas places: same rows, ports and geometry.
 		_assert(
-			preview != null and (preview is CircuitComponentSymbol if expected_symbol else preview is CircuitModuleRow)
-			and preview.get("component_kind") == template.kind
-			and preview.position.x + preview.size.x * preview.scale.x <= 105.0
+			palette_node != null and preview.get_meta("component_kind", &"") == template.kind
+			and _component_visual_signature(palette_node) == _component_visual_signature(ghost.get_child(0) as GraphNode)
+			and preview.position.x >= 0.0
+			and preview.position.x + preview.size.x * preview.scale.x <= item.size.x
 			and preview.position.y + preview.size.y * preview.scale.y <= item.size.y,
-			"%s palette item %s must reuse its actual schematic renderer and fit beside its description." % [level_id, template.kind]
+			"%s palette item %s must show the placed component exactly and fit inside its card." % [level_id, template.kind]
 		)
-		if not expected_symbol:
-			_assert_module_thumbnail(preview, template)
+		ghost.free()
 
 	if level_id != &"register":
 		return
@@ -469,14 +471,14 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 		return
 	var latch_template: LogicComponent = templates[latch_key]
 	var palette_preview: Control = (items[latch_key] as Control).get("component_preview") as Control
-	var palette_row := palette_preview as CircuitModuleRow
+	var palette_node: GraphNode = palette_preview.get_child(0) as GraphNode
 	var placement_preview: Control = main.call("_create_component_placement_ghost", latch_template)
 	var placement_node: GraphNode = placement_preview.get_child(0) as GraphNode
 	var canvas_node: GraphNode = (main.get("component_nodes") as Dictionary)[&"LATCH"] as GraphNode
 	_assert(
-		palette_row != null and palette_row.shape_profile() == &"register_module"
+		_component_visual_signature(palette_node) == _component_visual_signature(canvas_node)
 		and _component_visual_signature(placement_node) == _component_visual_signature(canvas_node),
-		"SRLatch catalogue preserves the register symbol; placement ghost preserves the complete canvas rows, ports, state and geometry."
+		"SRLatch catalogue and placement ghost both preserve the complete canvas rows, ports, state and geometry."
 	)
 	placement_preview.free()
 

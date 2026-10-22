@@ -9,11 +9,13 @@ const BORDER := Color("354866")
 const ACCENT := Color("7fcbd6")
 const TEXT := Color("e2ebef")
 const MUTED := Color("8fa3ad")
-## Compact card: symbol well on the left, name and one-line purpose on the
-## right. Ports and widths stay in the tooltip and the well's width captions.
-const PREVIEW_RECT := Rect2(Vector2(8.0, 6.0), Vector2(74.0, 40.0))
-const WELL := Rect2(5.0, 4.0, 80.0, 58.0)
-const CARD_HEIGHT := 66.0
+## A parts-bin card: the name, then the very component the canvas will place,
+## drawn by the canvas renderer at one shared reduced scale. Purpose, ports and
+## widths are on the component itself or in the tooltip, not extra captions.
+const NAME_HEIGHT := 24.0
+const PREVIEW_SCALE := 0.6
+const PREVIEW_MAX := Vector2(224.0, 112.0)
+const PAD := 8.0
 
 var template_key: String = ""
 var component_kind: StringName = &""
@@ -48,7 +50,7 @@ func configure(key: String, kind: StringName, label: String, widest_port: int = 
 	port_widths.assign([width_hint])
 	purpose_text = purpose
 	ports_text = ports
-	custom_minimum_size = Vector2(240.0, CARD_HEIGHT)
+	custom_minimum_size = Vector2(240.0, NAME_HEIGHT + PAD * 2.0 + 40.0)
 	tooltip_text = label
 	queue_redraw()
 
@@ -65,7 +67,10 @@ func set_component_preview(preview: Control) -> void:
 	component_preview = preview
 	if component_preview == null:
 		return
+	# The whole card stays one click/drag target.
 	component_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for node: Node in component_preview.find_children("*", "Control", true, false):
+		(node as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(component_preview)
 	_layout_component_preview()
 	call_deferred("_layout_component_preview")
@@ -131,22 +136,9 @@ func _drag_payload() -> Dictionary:
 
 
 func _draw() -> void:
-	# Rows, not boxes: a hover/armed fill and a hairline between cards.
-	if hovered or armed:
-		draw_style_box(_stylebox(SURFACE_HOVER if hovered else Color(0.5, 0.8, 0.84, 0.08), Color.TRANSPARENT, 7.0, 0.0), Rect2(Vector2.ZERO, size))
-	else:
-		draw_line(Vector2(WELL.end.x + 8.0, size.y - 0.5), Vector2(size.x - 6.0, size.y - 0.5), Color(BORDER, 0.55), 1.0)
-	draw_style_box(_stylebox(Color("0b1720"), Color("22394a"), 6.0, 1.0), WELL)
-	var slot_width: float = WELL.size.x / maxi(1,port_widths.size())
-	var notation = preload("res://src/ui/signal_notation.gd")
-	for index: int in range(port_widths.size()):
-		var width: int = port_widths[index]
-		var caption: String = notation.width_text(width)
-		var font: Font = get_theme_default_font()
-		var x: float = WELL.position.x+index*slot_width+(slot_width-font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x)*0.5
-		draw_string(font,Vector2(x,WELL.end.y-4.0),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11,notation.width_color(width))
-	if armed:
-		draw_rect(Rect2(0,10,3,size.y-20),ACCENT)
+	# The card is a patch of canvas: same ground the component will sit on.
+	var fill: Color = SURFACE_HOVER if hovered else (Color("10232e") if armed else Color("0b1720"))
+	draw_style_box(_stylebox(fill, ACCENT if armed else Color("1d3140"), 8.0, 1.0), Rect2(Vector2.ZERO, size))
 
 
 func _build_labels() -> void:
@@ -158,23 +150,18 @@ func _build_labels() -> void:
 	box.name = "CardText"
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(box)
-	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	box.offset_left = WELL.end.x + 10.0
-	box.offset_right = -8.0
-	box.offset_top = 0.0
-	box.offset_bottom = 0.0
-	box.alignment = BoxContainer.ALIGNMENT_CENTER
-	box.add_theme_constant_override("separation", 1)
-	# Ports stay available in the tooltip; the card keeps name and purpose.
-	var lines: Array[String] = [label_text, purpose_text]
-	for index: int in range(lines.size()):
-		var label := Label.new()
-		label.text = lines[index]
-		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		label.add_theme_font_size_override("font_size", 15 if index == 0 else 12)
-		label.add_theme_color_override("font_color", TEXT if index == 0 else MUTED)
-		box.add_child(label)
+	box.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
+	box.offset_left = PAD + 2.0
+	box.offset_right = -PAD
+	box.offset_top = PAD - 2.0
+	box.offset_bottom = PAD - 2.0 + NAME_HEIGHT
+	var label := Label.new()
+	label.text = label_text
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", TEXT)
+	box.add_child(label)
 
 
 func _layout_component_preview() -> void:
@@ -185,14 +172,17 @@ func _layout_component_preview() -> void:
 		visual_size = component_preview.custom_minimum_size
 	if visual_size.x <= 0.0 or visual_size.y <= 0.0:
 		return
-	var preview_scale: float = minf(
-		PREVIEW_RECT.size.x / visual_size.x,
-		PREVIEW_RECT.size.y / visual_size.y
-	)
+	# One scale for every card keeps the relative sizes the canvas will show;
+	# only components too large for the card shrink further.
+	var preview_scale: float = minf(PREVIEW_SCALE, minf(
+		PREVIEW_MAX.x / visual_size.x,
+		PREVIEW_MAX.y / visual_size.y
+	))
+	var drawn: Vector2 = visual_size * preview_scale
+	custom_minimum_size.y = NAME_HEIGHT + PAD * 2.0 + drawn.y
 	component_preview.scale = Vector2.ONE * preview_scale
-	component_preview.position = PREVIEW_RECT.position + (
-		PREVIEW_RECT.size - visual_size * preview_scale
-	) * 0.5
+	var area := Rect2(0.0, PAD + NAME_HEIGHT, maxf(size.x, custom_minimum_size.x), maxf(size.y, custom_minimum_size.y) - PAD * 2.0 - NAME_HEIGHT)
+	component_preview.position = area.position + (area.size - drawn) * 0.5
 
 
 func _stylebox(fill: Color, border: Color, radius: float, border_width: float) -> StyleBoxFlat:

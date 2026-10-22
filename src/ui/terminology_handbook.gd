@@ -545,7 +545,9 @@ func _refresh_localized_copy() -> void:
 	search_edit.placeholder_text = _t(&"terminology.search.placeholder")
 	future_toggle.text = _t(&"terminology.future_topics")
 	recommended_toggle.text = _t(&"terminology.recommended")
-	footer_label.text = _t(&"terminology.footer")
+	# The ○ marks in the list explain themselves; the key stays on hover.
+	footer_label.text = ""
+	footer_label.tooltip_text = _t(&"terminology.footer")
 	detail_example_heading_label.text = _t(&"terminology.example.title")
 	var selected_category: StringName = _selected_category()
 	category_selector.clear()

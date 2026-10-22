@@ -31,6 +31,8 @@ func open_creation(lab: Control) -> void:
 	if lab.terminal.asleep():
 		await key(KEY_ENTER)
 		await create_timer(0.8).timeout
+		# Enter walks up to the terminal; wait for the camera to arrive.
+		while lab.zooming: await process_frame
 	await press(lab.terminal.find_child("TerminalWorks", true, false))
 	await create_timer(1.0).timeout
 	var journal: Control = current_scene.journey_journal

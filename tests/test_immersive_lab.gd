@@ -31,11 +31,10 @@ func check_blocked(lab: LabHome, label: String) -> void:
 		check(not bool(lab.get_parent().get("options_overlay").visible), label + " does not leak into Settings")
 
 func check_returned(lab: LabHome, label: String) -> void:
+	# A page opened from a room object closes back to that object in the room.
 	lab._process_immersive_room(0.016)
-	check(not lab._room_blocked() and lab.room_focus and lab.terminal.visible, label + " returns to the full-screen terminal")
-	lab._on_terminal_action("look")
-	lab._process_immersive_room(0.016)
-	check(lab.room._interaction_enabled and lab.room.visible, label + " returns to an interactive room on request")
+	check(not lab._room_blocked() and not lab.room_focus and not lab.terminal.visible, label + " returns to the room, not the terminal")
+	check(lab.room._interaction_enabled and lab.room.visible, label + " returns to an interactive room")
 	check(not lab.room_input_shield.visible and lab.is_visible_in_tree(), label + " returns to the laboratory")
 
 func run() -> void:
@@ -145,6 +144,8 @@ func run() -> void:
 	check_returned(lab, "Achievements")
 	check(not (hub.get_node("HubSurface") as Control).visible, "Closing achievements does not reveal the classic homepage")
 	var settings_launcher := lab.terminal.find_child("TerminalSettings",true,false) as Button
+	lab._on_room_action("terminal")
+	await settle(3)
 	for cycle in range(3):
 		settings_launcher.grab_focus()
 		settings_launcher.pressed.emit()
@@ -429,6 +430,7 @@ func check_global_settings(lab: LabHome) -> void:
 	lab.room._process(1.0)
 	lab._process_immersive_room(0.0)
 	lab._on_room_action("terminal")
+	while lab.zooming: await process_frame
 	await send_key(KEY_F10)
 	await settle(8)
 	lab._process_immersive_room(0.016)

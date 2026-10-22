@@ -24,6 +24,7 @@ const ArchiveType = preload("res://src/lab/lab_archive.gd")
 const Passage = preload("res://src/ui/terminal_passage.gd")
 const Naming = preload("res://src/campaign/journey_naming.gd")
 const Dialogues = preload("res://src/lab/chapter_dialogues.gd")
+const PageSkin = preload("res://src/lab/room_page_skin.gd")
 const DESIGN := Vector2(1600, 900)
 # Optional art overrides. Drop a PNG at these paths (1600×900, transparent where
 # the drawn layer should show) and it is used instead of the code-drawn layer.
@@ -80,6 +81,30 @@ class Painter extends Control:
 	func _draw() -> void:
 		if paint.is_valid(): paint.call(self)
 
+## The pane of glass that grows out of an object into its page, and folds
+## back into it when the page closes. Pure presentation.
+class GlassMorph extends Control:
+	var frame := Rect2()
+	var radius: float = 14.0
+	var fill := Color.WHITE
+	var edge := Color.WHITE
+	var _box := StyleBoxFlat.new()
+	func _init() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		hide()
+	func set_frame(rect: Rect2, corner: float) -> void:
+		frame = rect; radius = corner; queue_redraw()
+	func _draw() -> void:
+		if not frame.has_area(): return
+		_box.bg_color = fill
+		_box.border_color = Color(edge, 0.85)
+		_box.set_border_width_all(1)
+		_box.set_corner_radius_all(int(radius))
+		_box.shadow_color = Color(0.05, 0.08, 0.1, 0.22)
+		_box.shadow_size = int(radius * 1.6)
+		_box.anti_aliasing = true
+		draw_style_box(_box, frame)
+
 const RoomType = preload("res://src/lab/lab_room_3d.gd")
 var room: RoomType
 var room_input_shield: Control
@@ -130,6 +155,18 @@ const WORK_COLORS := [Color("7fcbd6"), Color("f0c674"), Color("aab6e6"), Color("
 var reduced_motion: bool = false
 # Carries only the current terminal view through a language reload; never saved.
 static var _language_checkpoint: Dictionary = {}
+# The object the player left the room through; coming back pulls out of it.
+static var _departure: String = ""
+# The room object whose page is open. Closing it travels back to that object.
+var _page_origin: String = ""
+var _pending_caption: Array = []
+# Pages wearing their room object's material while open from that object.
+var _skinned: Array[Control] = []
+var _skin_id: String = ""
+var morph: GlassMorph
+var _morph_settle: Tween
+# While the glass grows, the room stays in view and the page waits behind it.
+var _revealing: bool = false
 
 func _ready() -> void:
 	var localization: Node = get_node_or_null("/root/Localization")
@@ -195,6 +232,9 @@ func _ready() -> void:
 		archive.terminal_page = true
 		terminal_pages.mount(archive)
 		process_mode = Node.PROCESS_MODE_ALWAYS
+	morph = GlassMorph.new(); morph.name = "LabGlassMorph"
+	morph.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(morph)
 	fade = ColorRect.new(); fade.name = "LabFade"; fade.color = Palette.TERM_SCREEN
 	fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); fade.modulate.a = 0.0
@@ -262,10 +302,19 @@ func _process_immersive_room(_delta: float) -> void:
 	_terminal_was_asleep = terminal.asleep()
 	var page_open: bool = terminal_pages != null and terminal_pages.active()
 	if page_open:
+		# A page opened from the room (shortcut key, globally opened feedback)
+		# returns to the room, just like one opened by clicking an object.
+		if not room_focus and _page_origin.is_empty() and not _page_was_open: _page_origin = "room"
 		room_focus = true
 		if terminal.asleep(): terminal.wake()
 	elif _page_was_open:
-		terminal._focus_primary()
+		if _page_origin.is_empty():
+			terminal._focus_primary()
+		else:
+			var origin: String = _page_origin
+			_page_origin = ""
+			_clear_skins()
+			_travel_out(origin)
 	_page_was_open = page_open
 	var blocked: bool = _room_blocked()
 	room.set_interaction_enabled(not blocked and not room_focus)
@@ -279,16 +328,24 @@ func _process_immersive_room(_delta: float) -> void:
 		room.set_look(Vector2.ZERO if blocked or room_focus or reduced_motion or not room_pointer_seen or not Rect2(Vector2.ZERO,size).has_point(pointer) else normalized.clamp(Vector2(-1,-1),Vector2.ONE))
 		_sync_room_terminal()
 	var was_visible: bool = terminal.visible
-	terminal.visible = room_focus and not page_open
-	terminal_background.visible = room_focus
+	# While the glass grows the room stays in view; the destination waits.
+	var covered: bool = room_focus and not _revealing
+	terminal.visible = covered and not page_open
+	terminal_background.visible = covered
 	# The room cannot contribute pixels or input while the workspace fills the view.
-	room.visible = not room_focus
-	room.viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED if room_focus else SubViewport.UPDATE_ALWAYS
-	terminal_pages.align_to(Rect2(Vector2.ZERO, size), page_open)
+	room.visible = not covered
+	room.viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED if covered else SubViewport.UPDATE_ALWAYS
+	terminal_pages.align_to(Rect2(Vector2.ZERO, size), page_open and not _revealing)
 	if terminal.visible and not was_visible and not blocked and not terminal.asleep() and not terminal.confirming():
 		terminal._focus_primary()
 	terminal.mouse_filter = Control.MOUSE_FILTER_IGNORE if blocked else Control.MOUSE_FILTER_PASS
 	room_hover.visible = not room_focus
+	# Room captions belong to the room; a page or the terminal covers them.
+	caption.visible = not room_focus
+	if not room_focus and not zooming and not _pending_caption.is_empty():
+		var held: Array = _pending_caption
+		_pending_caption = []
+		_show_caption(str(held[0]), float(held[1]))
 	if blocked: room_hover.text = ""
 
 func _sync_room_terminal() -> void:
@@ -300,35 +357,211 @@ func _sync_room_terminal() -> void:
 
 func _on_room_hover(id: String) -> void:
 	if room_hover == null: return
+	# The object brightens under the pointer; the hint only names it.
 	var labels: Dictionary = {
-		"terminal":["计算终端 · 开始 / 继续","Terminal · Start / Continue"],
-		"archive":["档案板 · 已解锁的记录","Archive · Unlocked records"],
-		"journey":["旅程板 · 真实任务进度","Journey · Your task progress"],
-		"works":["作品墙 · 已保存的作品","Works · Saved creations"],
-		"achievements":["成就 · 旅程记录","Achievements · Journey records"],
-		"handbook":["电子阅读器 · 图解手册","Reader · Illustrated handbook"],
-		"settings":["控制器 · 设置","Controller · Settings"],
-		"feedback":["信笺 · 本地现场反馈","Letter · Local feedback"],
-		"globe":["地球仪 · 旅程回顾","Globe · Journey journal"]}
-	room_hover.text = str(labels[id][1 if english else 0]) if labels.has(id) else ("移动鼠标轻转视角 · 点击物件进入" if not english else "Move the pointer to look around · Select an object")
-	if id == "journey": room_hover.text += " · %d / %d" % [completed_keys.size(),LabState.tasks().size()]
-	elif id == "works": room_hover.text += " · %d" % works.size()
-	elif id == "archive": room_hover.text += " · %d" % fragments_open
+		"terminal":["终端","Terminal"], "archive":["档案","Archive"], "journey":["旅程地图","Journey map"],
+		"works":["作品","Works"], "achievements":["成就","Achievements"], "handbook":["手册","Handbook"],
+		"settings":["设置","Settings"], "feedback":["反馈","Feedback"], "globe":["旅程回顾","Journey journal"]}
+	room_hover.text = str(labels[id][1 if english else 0]) if labels.has(id) else ""
 
 func _on_room_action(id: String) -> void:
 	if _room_blocked(): return
 	match id:
-		"terminal":
-			room_focus = true
-			if terminal.asleep(): terminal.wake()
-		"look": room_focus = false; terminal.release_focus_inside()
-		"archive": open_archive()
-		"journey": _enter(journey_requested)
-		"works", "globe": works_requested.emit()
-		"achievements": achievements_requested.emit()
-		"handbook": handbook_requested.emit()
-		"settings": settings_requested.emit()
-		"feedback": get_node("/root/PlaytestMoments").toggle()
+		"terminal": open_terminal()
+		"look": leave_terminal()
+		"archive": _open_from_room(id, _present_archive)
+		"journey": _enter(journey_requested, null, "journey")
+		"works", "globe": _open_from_room(id, func() -> void: works_requested.emit())
+		"achievements": _open_from_room(id, func() -> void: achievements_requested.emit())
+		"handbook": _open_from_room(id, func() -> void: handbook_requested.emit())
+		"settings": _open_from_room(id, func() -> void: settings_requested.emit())
+		"feedback": _open_from_room(id, func() -> void: get_node("/root/PlaytestMoments").toggle())
+
+## Walk up to the terminal: the camera pushes into the glass, then the menu.
+func open_terminal() -> void:
+	if room == null:
+		room_focus = true
+		if terminal.asleep(): terminal.wake()
+		return
+	_travel_in("terminal", func() -> bool:
+		room_focus = true
+		if terminal.asleep(): terminal.wake()
+		else: terminal._focus_primary()
+		return true)
+
+## Step back from the terminal into the room.
+func leave_terminal() -> void:
+	terminal.release_focus_inside()
+	if room == null:
+		room_focus = false
+		return
+	_travel_out("terminal")
+
+## A room object opens its page after the camera reaches it; closing the page
+## travels back out to the same object instead of falling into the terminal.
+func _open_from_room(id: String, open: Callable) -> void:
+	if room == null:
+		open.call()
+		return
+	_travel_in(id, func() -> bool:
+		_page_origin = id
+		var before: Array[Control] = _open_pages()
+		open.call()
+		if not _page_open_now():
+			_page_origin = ""
+			return false
+		# Rows a page builds later are dressed as they enter the tree.
+		_dress_pages(id, before)
+		return true)
+
+## Visible page roots hosted on the terminal display (the archive included).
+func _open_pages() -> Array[Control]:
+	var result: Array[Control] = []
+	if terminal_pages == null: return result
+	for indicator: CanvasItem in terminal_pages.indicators:
+		if is_instance_valid(indicator) and indicator is Control and indicator.visible:
+			result.append(indicator as Control)
+	return result
+
+func _dress_pages(id: String, before: Array[Control]) -> void:
+	if not PageSkin.has(id): return
+	_skin_id = id
+	for page: Control in _open_pages():
+		if page in before: continue
+		PageSkin.apply(page, id)
+		_skinned.append(page)
+	if not get_tree().node_added.is_connected(_on_node_added):
+		get_tree().node_added.connect(_on_node_added)
+
+func _on_node_added(node: Node) -> void:
+	if not node is Control: return
+	for page: Control in _skinned:
+		if is_instance_valid(page) and page.is_ancestor_of(node):
+			# After the node's own setup has assigned its colours.
+			(func() -> void: if is_instance_valid(node) and is_instance_valid(page) and page.is_ancestor_of(node): PageSkin.apply(node as Control, _skin_id)).call_deferred()
+			return
+
+func _clear_skins() -> void:
+	if get_tree().node_added.is_connected(_on_node_added):
+		get_tree().node_added.disconnect(_on_node_added)
+	for page: Control in _skinned:
+		if is_instance_valid(page): PageSkin.revert(page)
+	_skinned.clear()
+
+func _page_open_now() -> bool:
+	return (terminal_pages != null and terminal_pages.active()) or archive.visible
+
+## True while a page opened from a room object is showing.
+func returns_to_room() -> bool:
+	return not _page_origin.is_empty()
+
+const TRAVEL_IN := 0.85
+const GROW_DELAY := 0.28
+const GROW := 0.46
+const TRAVEL_OUT := 0.9
+const FOLD := 0.6
+
+## The camera steps toward the object; partway there a pane of the object's
+## glass grows out of it to fill the view, and the page settles in behind it.
+## `arrive` opens the destination and returns whether anything opened.
+func _travel_in(id: String, arrive: Callable) -> void:
+	if zooming: return
+	if bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+		arrive.call()
+		_process_immersive_room(0.0)
+		return
+	zooming = true
+	room.set_look(Vector2.ZERO)
+	room.focus_on(id)
+	room_hover.text = ""
+	var camera := create_tween()
+	camera.tween_method(_apply_zoom, 0.0, 1.0, TRAVEL_IN).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN_OUT)
+	await get_tree().create_timer(GROW_DELAY).timeout
+	_revealing = true
+	if not bool(arrive.call()):
+		# Nothing to show: step back to where the player stood.
+		_revealing = false
+		camera.kill()
+		zooming = false
+		_travel_out_from(id, room.get("_zoom"))
+		return
+	_process_immersive_room(0.0)
+	_morph_colors(id)
+	morph.modulate.a = 1.0
+	morph.show()
+	var grow := create_tween()
+	grow.tween_method(func(t: float) -> void: _morph_between(_object_rect(id), Rect2(Vector2.ZERO, size), t),
+		0.0, 1.0, GROW).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	await grow.finished
+	# Behind the full pane the rest of the camera move is invisible.
+	camera.kill()
+	# The page appears under the opaque pane of its own ground colour, then
+	# the pane dissolves: only the content seems to fade in.
+	_revealing = false
+	terminal_pages.modulate.a = 1.0
+	# The destination is usable now; the dissolve below is only cosmetic.
+	zooming = false
+	_process_immersive_room(0.0)
+	_morph_settle = create_tween()
+	_morph_settle.tween_property(morph, "modulate:a", 0.0, 0.22)
+	_morph_settle.tween_callback(morph.hide)
+
+## Closing folds the page's glass back into the object while the camera
+## steps back to the observation point.
+func _travel_out(id: String) -> void:
+	_travel_out_from(id, 0.0 if id == "room" else 1.0)
+
+func _travel_out_from(id: String, start_zoom: float) -> void:
+	room_focus = false
+	terminal.release_focus_inside()
+	if room == null or bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+		fade.modulate.a = 0.0
+		morph.hide()
+		_process_immersive_room(0.0)
+		return
+	if _morph_settle != null and _morph_settle.is_valid(): _morph_settle.kill()
+	zooming = true
+	room.set_look(Vector2.ZERO)
+	room.focus_on(id)
+	_apply_zoom(start_zoom)
+	_process_immersive_room(0.0)
+	var full := Rect2(Vector2.ZERO, size)
+	var covered: bool = start_zoom > 0.5 or id == "room"
+	if covered:
+		_morph_colors(id)
+		morph.modulate.a = 1.0
+		morph.set_frame(full, 0.0)
+		morph.show()
+	var tween := create_tween().set_parallel(true)
+	if start_zoom > 0.0:
+		tween.tween_method(_apply_zoom, start_zoom, 0.0, TRAVEL_OUT).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	if covered:
+		var target: Callable = func() -> Rect2: return full.grow(-minf(size.x, size.y) * 0.08) if id == "room" else _object_rect(id)
+		tween.tween_method(func(t: float) -> void: _morph_between(full, target.call(), t),
+			0.0, 1.0, FOLD).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(morph, "modulate:a", 0.0, FOLD * 0.45).set_delay(FOLD * 0.55)
+	await tween.finished
+	morph.hide()
+	zooming = false
+	room.focus_on("terminal")
+
+func _morph_colors(id: String) -> void:
+	morph.fill = PageSkin.ground(id) if PageSkin.has(id) else Palette.TERM_SCREEN
+	morph.edge = PageSkin.accent(id) if PageSkin.has(id) else Palette.ACCENT
+
+## The object's place on screen right now; a small pane at the centre when
+## it is out of view.
+func _object_rect(id: String) -> Rect2:
+	var rect: Rect2 = room.region_screen_rect(id) if room != null else Rect2()
+	if not rect.has_area():
+		rect = Rect2(size * 0.5 - size * 0.06, size * 0.12)
+	return rect.intersection(Rect2(Vector2.ZERO, size).grow(size.x)).abs()
+
+func _morph_between(from: Rect2, to: Rect2, t: float) -> void:
+	var rect := Rect2(from.position.lerp(to.position, t), from.size.lerp(to.size, t))
+	# Corners open out as the pane becomes the screen.
+	var near_full: float = clampf(rect.size.x / maxf(1.0, size.x), 0.0, 1.0)
+	morph.set_frame(rect, lerpf(14.0, 0.0, smoothstep(0.85, 1.0, near_full)))
 
 func _add_layer(key: String, painter: Callable) -> void:
 	var layer := Painter.new(); layer.name = "Layer" + key.capitalize()
@@ -361,7 +594,7 @@ func _build_hotspots() -> void:
 	board.tooltip_text = "旅程板 · 打开任务树" if not english else "Journey board · open the task tree"
 	board.focus_mode = Control.FOCUS_NONE
 	for state: String in ["normal", "hover", "pressed", "focus"]: board.add_theme_stylebox_override(state, StyleBoxEmpty.new())
-	board.pressed.connect(func() -> void: _enter(journey_requested))
+	board.pressed.connect(func() -> void: _enter(journey_requested, null, "journey"))
 	board.mouse_entered.connect(func() -> void: hover_board = true)
 	board.mouse_exited.connect(func() -> void: hover_board = false)
 	layers.mid.add_child(board)
@@ -413,14 +646,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]:
 		if (terminal.asleep() or (room != null and not room_focus)) and not terminal.confirming():
-			room_focus = true
-			terminal.wake(); get_viewport().set_input_as_handled()
+			get_viewport().set_input_as_handled()
+			open_terminal()
 
 func _gui_input(event: InputEvent) -> void:
 	var button := event as InputEventMouseButton
 	if button != null and button.pressed and button.button_index == MOUSE_BUTTON_LEFT and hover_terminal and terminal.asleep():
-		room_focus = true
-		terminal.wake(); accept_event()
+		accept_event()
+		open_terminal()
 
 # --- progress and environmental response ----------------------------------
 
@@ -496,22 +729,37 @@ func _refresh_archive_counts() -> void:
 func _arrive() -> void:
 	var returning: bool = LabState.note_visit() > 1
 	var response: Dictionary = terminal.response
-	if returning:
-		# Coming back out of the terminal: start inside the screen and pull back.
+	var departure: String = _departure if not _departure.is_empty() else "terminal"
+	_departure = ""
+	if returning and room != null and departure == "terminal":
+		# Leaving through the terminal comes back through it: the screen opens
+		# from its line of light and Yi answers. The room's own response waits
+		# until the player steps back from the desk.
+		room_focus = true
+		terminal.wake(true)
+		_process_immersive_room(0.0)
+		fade.modulate.a = 1.0
+		Passage.play_arrival(self, true)
+		create_tween().tween_property(fade, "modulate:a", 0.0, 0.0 if reduced_motion else 0.3)
+	elif returning:
+		# Leaving through a room object (the journey board) pulls back out of it.
 		zooming = true
+		if room != null: room.focus_on(departure)
 		_apply_zoom(1.0); fade.modulate.a = 1.0
 		var tween := create_tween().set_parallel(true)
 		tween.tween_property(fade, "modulate:a", 0.0, 0.0 if reduced_motion else 0.35)
 		tween.tween_method(_apply_zoom, 1.0, 0.0, 0.0 if reduced_motion else 0.9).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		await tween.finished
 		zooming = false
-		room_focus = true
-		terminal.wake(true)
+		if room != null:
+			room.focus_on("terminal")
+			room_focus = false
+		else:
+			terminal.wake(true)
 	else:
 		modulate.a = 1.0 if reduced_motion else 0.0
 		if not reduced_motion: create_tween().tween_property(self, "modulate:a", 1.0, 0.6)
 	if response.is_empty():
-		if not returning: _show_caption("实验室。终端在等你。" if not english else "The laboratory. The terminal is waiting.", 4.0)
 		return
 	await get_tree().create_timer(0.4).timeout
 	if bool(response.get("first_light", false)):
@@ -524,6 +772,10 @@ func _arrive() -> void:
 		_show_caption("旅程板上又亮起了一格。" if not english else "Another cell lights up on the journey board.", 4.0)
 
 func _show_caption(text: String, seconds: float) -> void:
+	# A room caption is about the room: hold it until the room is in view.
+	if room != null and (room_focus or zooming):
+		_pending_caption = [text, seconds]
+		return
 	caption.text = text
 	var tween := create_tween()
 	tween.tween_property(caption, "modulate:a", 1.0, 0.5)
@@ -544,7 +796,7 @@ func _on_terminal_action(id: String) -> void:
 		"works": works_requested.emit()
 		"achievements": achievements_requested.emit()
 		"feedback": get_node("/root/PlaytestMoments").toggle()
-		"look": room_focus = false; terminal.release_focus_inside()
+		"look": leave_terminal()
 		"quit": terminal.ask_quit()
 		"quit_confirmed": quit_requested.emit()
 		"language":
@@ -563,8 +815,7 @@ func escape() -> void:
 	if terminal.confirming():
 		terminal.cancel_quit()
 	elif room != null and room_focus:
-		room_focus = false
-		terminal.release_focus_inside()
+		leave_terminal()
 	else:
 		room_focus = true
 		terminal.ask_quit()
@@ -577,6 +828,10 @@ func preview_chapter_dialogue() -> void:
 
 func open_archive() -> void:
 	if zooming or archive.visible: return
+	_present_archive()
+
+func _present_archive() -> void:
+	if archive.visible: return
 	_archive_opener = get_viewport().gui_get_focus_owner()
 	archive.present(english)
 
@@ -589,10 +844,13 @@ func _on_archive_closed() -> void:
 		terminal._focus_primary()
 	_archive_opener = null
 
-func _enter(signal_to_emit: Signal, argument: Variant = null) -> void:
+func _enter(signal_to_emit: Signal, argument: Variant = null, from: String = "terminal") -> void:
 	if zooming: return
 	zooming = true
-	if room != null: room.set_look(Vector2.ZERO)
+	if room != null:
+		room.set_look(Vector2.ZERO)
+		room.focus_on(from)
+		room_hover.text = ""
 	caption.modulate.a = 0.0
 	terminal.release_focus_inside()
 	var tween := create_tween().set_parallel(true)
@@ -603,6 +861,7 @@ func _enter(signal_to_emit: Signal, argument: Variant = null) -> void:
 	tween.tween_property(passage, "progress", 1.0, duration * 0.42).set_delay(duration * 0.58)
 	await tween.finished
 	var tree: SceneTree = get_tree()
+	_departure = from
 	if not reduced_motion: Passage.mark_departure()
 	if argument == null: signal_to_emit.emit()
 	else: signal_to_emit.emit(argument)
@@ -610,6 +869,7 @@ func _enter(signal_to_emit: Signal, argument: Variant = null) -> void:
 	await tree.create_timer(0.6).timeout
 	if is_instance_valid(self) and is_inside_tree():
 		Passage.pending_arrival_msec = -1
+		_departure = ""
 		if bool(ProjectSettings.get_setting("game/reduced_motion", false)):
 			passage.progress = 0.0
 			terminal.modulate.a = 1.0

@@ -215,7 +215,7 @@ func _build_laboratory(background: Control, surface: Control) -> void:
 	laboratory.works_requested.connect(_open_journey_journal)
 	laboratory.achievements_requested.connect(_open_hub_navigation)
 	if laboratory.terminal_pages != null:
-		options_resume_button.text = "返回终端" if Localization.current_locale() != "en" else "Back to terminal"
+		options_resume_button.text = "返回" if Localization.current_locale() != "en" else "Back"
 		for page: Control in [options_overlay, navigation_overlay, new_game_overlay, yi_introduction]:
 			laboratory.terminal_pages.mount(page)
 		laboratory.terminal_pages.mount(terminology_handbook, terminology_handbook.modal)
@@ -385,10 +385,8 @@ func _build_hub_navigation() -> void:
 	title.add_theme_font_size_override("font_size",30); title.add_theme_font_override("font",UiTypographyType.HEADING_FONT)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; header.add_child(title)
 	var close := Button.new(); close.name = "HubNavigationClose"
-	close.text = "返回首页 · Esc" if Localization.current_locale() != "en" else "Home · Esc"
+	close.text = "返回 · Esc" if Localization.current_locale() != "en" else "Back · Esc"
 	close.custom_minimum_size = Vector2(150,42); close.pressed.connect(_close_hub_navigation); header.add_child(close)
-	var note := Label.new(); note.text = "回看已获得的成果，管理已有进度。游玩与任务选择统一在旅程地图。" if Localization.current_locale() != "en" else "Revisit earned work and manage saved progress. Play and task selection share the journey map."
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART; note.add_theme_color_override("font_color",MUTED); content.add_child(note)
 	var panel := PanelContainer.new(); panel.name = "HubSaveManagement"
 	panel.add_theme_stylebox_override("panel",InstrumentTheme.surface(Color("101e2b"),Color("365463"),8)); content.add_child(panel)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",12); panel.add_child(column)
@@ -414,8 +412,10 @@ func _close_hub_navigation() -> void:
 	(get_node("HubSurface") as Control).visible = not is_instance_valid(laboratory)
 	if is_instance_valid(navigation_previous_focus) and navigation_previous_focus.is_visible_in_tree(): navigation_previous_focus.grab_focus()
 	elif is_instance_valid(laboratory) and laboratory.terminal != null:
-		laboratory.room_focus = true
-		laboratory.terminal.wake(true)
+		# Opened from a room object: the laboratory travels back to that object.
+		if not laboratory.returns_to_room():
+			laboratory.room_focus = true
+			laboratory.terminal.wake(true)
 	else: (find_child("HubSettings",true,false) as Button).grab_focus()
 	navigation_previous_focus = null
 
@@ -592,9 +592,8 @@ func _build_options_menu() -> void:
 	# Wrapped headings shrink after the hidden panel receives its real width.
 	column.minimum_size_changed.connect(panel.fit_to_bounds, CONNECT_DEFERRED)
 	_settings_label(column,"hub.options.title",28)
-	_settings_label(column,"settings.subtitle",14)
 	if not settings_only:
-		var manage := _options_button("成果与存档 · 回顾 / 手册 / 重开核心" if Localization.current_locale() != "en" else "Achievements and saves · Reviews / Handbook / Restart core")
+		var manage := _options_button("成果与存档" if Localization.current_locale() != "en" else "Achievements and saves")
 		manage.name = "HubManageProgress"; manage.pressed.connect(_open_hub_navigation); column.add_child(manage)
 	panel.setup(column.get_child(0), Vector2(760, 780))
 	var scroll := ScrollContainer.new(); scroll.name="SettingsScroll"; scroll.follow_focus=true

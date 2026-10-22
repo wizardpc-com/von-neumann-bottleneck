@@ -62,10 +62,8 @@ func _build() -> void:
 	var heading := _label(header, "档案架" if not english else "Archive shelf", 24, Palette.LAB_INK)
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	close_button = Button.new(); close_button.name = "ArchiveClose"
-	close_button.text = "回到终端 · Esc" if not english else "Back to terminal · Esc"
+	close_button.text = "返回 · Esc" if not english else "Back · Esc"
 	_style_button(close_button, false); close_button.pressed.connect(close); header.add_child(close_button)
-	var hint := _label(column, "每走完一段旅程，这里会多一页壹留下的记录。" if not english else "Each stage of the journey adds a page from Yi's records.", 13, Palette.LAB_INK_SOFT)
-	hint.name = "ArchiveHint"
 	var split := HBoxContainer.new(); split.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	split.add_theme_constant_override("separation", 22); column.add_child(split)
 	var scroll := ScrollContainer.new(); scroll.custom_minimum_size.x = 290
@@ -90,19 +88,26 @@ func _fill() -> void:
 	var titles: Dictionary = {}
 	for row: Dictionary in rows: titles[str(row.key)] = str(row.title)
 	var first_open: String = ""
+	var page: int = 0
 	for fragment: Dictionary in Fragments.FRAGMENTS:
+		page += 1
 		var open: bool = str(fragment.requires) in completed
 		var entry := Button.new(); entry.name = "Fragment_" + str(fragment.id)
 		entry.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		entry.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		# Pages are numbered slots: an unwritten page is just its number, dimmed.
+		# What unlocks it stays on hover.
 		if open:
-			entry.text = Fragments.title(fragment, english) + ("" if str(fragment.id) in read else ("  · 新" if not english else "  · new"))
+			entry.text = "%02d  %s" % [page, Fragments.title(fragment, english)]
 			if first_open.is_empty() or not str(fragment.id) in read: first_open = str(fragment.id) if first_open.is_empty() or not first_open in read else first_open
 		else:
 			var task_title: String = str(titles.get(str(fragment.requires), "…"))
-			entry.text = ("未开启 · 完成「%s」" if not english else "Locked · finish \"%s\"") % task_title
-			entry.tooltip_text = entry.text
+			entry.text = "%02d" % page
+			entry.tooltip_text = ("完成「%s」后开启" if not english else "Opens after \"%s\"") % task_title
+		entry.set_meta("page", page)
 		_style_button(entry, open)
+		if open and not str(fragment.id) in read:
+			entry.add_theme_color_override("font_color", Palette.ACCENT_DEEP)
 		entry.disabled = not open
 		var id: String = str(fragment.id)
 		entry.pressed.connect(func() -> void: _show(id))
@@ -110,7 +115,7 @@ func _fill() -> void:
 	if first_open.is_empty():
 		close_button.call_deferred("grab_focus")
 		title_label.text = "还没有记录" if not english else "No records yet"
-		body_label.text = "完成第一项任务后，这里会出现第一页。" if not english else "The first page appears after your first completed task."
+		body_label.text = ""
 		note_label.text = ""
 	else:
 		_show(first_open)
@@ -125,13 +130,13 @@ func _show(id: String) -> void:
 		body_label.text = Fragments.body(fragment, english)
 		body_label.visible_ratio = 0.0
 		create_tween().tween_property(body_label, "visible_ratio", 1.0, clampf(body_label.text.length() * 0.012, 0.3, 1.4))
-		if bool(fragment.get("candidate", true)):
-			note_label.text = "叙事候选 · 故事设定待确认" if not english else "Story draft · setting awaiting confirmation"
-		else:
-			note_label.text = "旅程记录 · 可回到工作台核对" if not english else "Journey note · check it at the workbench"
+		note_label.text = ("叙事候选 · 故事设定待确认" if not english else "Story draft · setting awaiting confirmation") if bool(fragment.get("candidate", true)) else ""
 		LabState.mark_fragment_read(id)
 		var entry: Button = list.get_node_or_null("Fragment_" + id)
-		if entry != null: entry.text = Fragments.title(fragment, english)
+		if entry != null:
+			entry.text = "%02d  %s" % [int(entry.get_meta("page", 0)), Fragments.title(fragment, english)]
+			entry.remove_theme_color_override("font_color")
+			entry.add_theme_color_override("font_color", Palette.LAB_INK)
 
 func _label(parent: Node, text: String, font_size: int, color: Color) -> Label:
 	var node := Label.new(); node.text = text; node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

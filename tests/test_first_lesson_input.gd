@@ -11,6 +11,12 @@ func _run() -> void:
 	var terminal: Control = current_scene.get_node("Laboratory").terminal
 	check(terminal.asleep(), "The first invitation waits for the player.")
 	await key(KEY_ENTER)
+	# Enter walks the camera up to the glass before the menu appears.
+	var lab: Control = current_scene.get_node("Laboratory")
+	var travel_deadline: int = Time.get_ticks_msec() + 3000
+	while lab.zooming and Time.get_ticks_msec() < travel_deadline:
+		await process_frame
+	await settle(4)
 	check(not terminal.asleep() and terminal.primary.is_visible_in_tree(), "Enter wakes the terminal and exposes its primary action.")
 	await click(terminal.message.get_global_rect().get_center())
 	await capture("invitation")

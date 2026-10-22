@@ -21,7 +21,8 @@ removed; recover historical task books from Git when needed.
 
 ## Development and distribution
 
-- **[Claude 美术接手：当前整合基线与验证边界（2026-10-22）](development/CLAUDE_ART_HANDOFF_20261022.md)**
+- **[实验室进出过场、元件台一致性与文案精简（2026-10-22，当前入口）](development/LAB_TRANSITIONS_HANDOFF_20261022.md)**
+- [Claude 美术接手：当前整合基线与验证边界（2026-10-22）](development/CLAUDE_ART_HANDOFF_20261022.md)
 
 - **[团队试玩与工程收尾（当前交付入口）](development/team-handoff.md)** · [验证记录](verification/20261019-team-closeout/README.md)
 - **[实验室旅程交接与待办（2026-10-19，当前入口）](development/LAB_JOURNEY_HANDOFF_20261019.md)**

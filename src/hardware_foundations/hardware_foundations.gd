@@ -3660,16 +3660,10 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 			item.set_meta("palette_allowed", allowed)
 			item.set_meta("palette_owned", owned)
 			item.set_meta("palette_search", (palette_catalog.search_words(template) + " " + _component_menu_label(template) + " " + purpose).to_lower())
-			if template.is_basic_gate() or template.kind == LogicComponentType.KIND_CONSTANT:
-				var symbol := CircuitComponentSymbolType.new()
-				symbol.configure(template.kind, "", 60.0)
-				symbol.size = Vector2(108.0, 60.0)
-				item.call("set_component_preview", symbol)
-			else:
-				var module := CircuitModuleThumbnailType.new()
-				module.configure_thumbnail(template.kind, template.input_port_widths, template.output_port_widths)
-				_apply_component_visual(module,template)
-				item.call("set_component_preview", module)
+			# The card shows the same node view the canvas places, ports included.
+			var preview: Control = _create_component_placement_ghost(template)
+			preview.set_meta("component_kind", template.kind)
+			item.call("set_component_preview", preview)
 			if allowed:
 				item.connect("placement_requested", Callable(self, "_arm_component_template"))
 				component_palette_items[key] = item
@@ -4286,9 +4280,7 @@ func _build_official_case_rows() -> void:
 		try_input.pressed.connect(_try_half_adder_input.bind(index))
 		row.add_child(try_input)
 		var label := Label.new()
-		label.text = _t(&"hardware.cases.row_not_run", [
-			index + 1, int(official_case["A"]), int(official_case["B"]),
-		])
+		label.text = _t(&"hardware.cases.row_not_run")
 		label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -6624,9 +6616,7 @@ func _start_next_official_case() -> void:
 func _start_half_adder_official_case() -> void:
 	var official_case: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[official_sequence_index]
 	var label: Label = official_case_labels[official_sequence_index]
-	label.text = _t(&"hardware.cases.row_running", [
-		official_sequence_index + 1, int(official_case["A"]), int(official_case["B"]),
-	])
+	label.text = _t(&"hardware.cases.row_running")
 	label.add_theme_color_override("font_color", ACCENT)
 	call_deferred("_ensure_official_case_visible", label)
 	var trace: CircuitTrace = HalfAdderTestBenchType.new().run_debug(
@@ -6727,9 +6717,7 @@ func _reveal_half_adder_official_case() -> void:
 		else "S%d C%d" % [int(actual_sum), int(actual_carry)]
 	var label: Label = official_case_labels[official_sequence_index]
 	label.text = _t(&"hardware.cases.row_result", [
-		official_sequence_index + 1,
-		int(result["A"]), int(result["B"]), actual_text,
-		_t(&"outcome.pass") if bool(result["passed"]) else _t(&"outcome.fail"),
+		actual_text, _t(&"outcome.pass") if bool(result["passed"]) else _t(&"outcome.fail"),
 	])
 	if not bool(result["passed"]):
 		label.text += "\n" + _t(&"hardware.cases.expected_outputs", [
@@ -6838,13 +6826,10 @@ func _reset_official_case_rows() -> void:
 	alu_case_outcomes.clear()
 	_refresh_alu_groups()
 	for index: int in range(official_case_labels.size()):
-		var official_case: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
 		var label: Label = official_case_labels[index]
 		if label == null or not is_instance_valid(label):
 			continue
-		label.text = _t(&"hardware.cases.row_not_run", [
-			index + 1, int(official_case["A"]), int(official_case["B"]),
-		])
+		label.text = _t(&"hardware.cases.row_not_run")
 		label.add_theme_color_override("font_color", MUTED)
 	var steps: Array = current_level_definition.get("official_steps", [])
 	for index: int in range(prologue_case_labels.size()):

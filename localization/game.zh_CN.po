@@ -1051,7 +1051,7 @@ msgid "hardware.tutorial.status"
 msgstr "从“元件”菜单放置；左拖元件/端口移动或接线，空白拖框选择；Shift 增量多选/移动线端；右键划过删除。"
 
 msgid "hardware.tutorial.trace_hint"
-msgstr "观察 A 和 LAMP 的 0/1；低电平也是正常信号。"
+msgstr "低电平 0 也是正常信号"
 
 msgid "hardware.tutorial.zero_delay"
 msgstr "普通连线延迟为 0 tick"
@@ -1105,13 +1105,13 @@ msgid "hardware.challenge.status"
 msgstr "请自行设计拓扑。门电路、测试台端子和线节点都可以移动。"
 
 msgid "hardware.challenge.trace_note"
-msgstr "追踪 — 正式成功只取决于画面中实际存在的电路"
+msgstr "追踪"
 
 msgid "hardware.challenge.diagnostics"
 msgstr "只要求正确性 · 门数量与延迟仅作诊断"
 
 msgid "hardware.challenge.ready_unwired"
-msgstr "准备搭建 · 当前尚未接线，这不是故障；未连接端口按低电平 0 实时计算"
+msgstr "尚未接线，这不是故障 · 未接端口按 0 计算"
 
 msgid "hardware.challenge.heading"
 msgstr "半加器挑战"
@@ -1156,7 +1156,7 @@ msgid "hardware.cases.heading_subtitle"
 msgstr "只验证正确性 · 不使用分析器"
 
 msgid "hardware.cases.truth_table_definition"
-msgstr "[[truth_table|真值表]]列出所有输入和正确输出；这里会按 00、01、10、11 逐个运行，一个案例结束后才开始下一个。"
+msgstr "[[truth_table|真值表]]"
 
 msgid "hardware.cases.run_debug"
 msgstr "运行当前调试用例 · F6"
@@ -1171,13 +1171,13 @@ msgid "hardware.cases.official_running"
 msgstr "正式测试 %d/%d"
 
 msgid "hardware.cases.row_not_run"
-msgstr "#%d  A%d B%d  ·  未运行"
+msgstr "未运行"
 
 msgid "hardware.cases.row_running"
-msgstr "#%d  A%d B%d  ·  正在运行"
+msgstr "正在运行"
 
 msgid "hardware.cases.row_result"
-msgstr "#%d  A%d B%d  →  实际 %s  ·  %s"
+msgstr "实际 %s · %s"
 
 msgid "hardware.cases.expected_outputs"
 msgstr "期望 SUM%d · CARRY%d"
@@ -1468,7 +1468,7 @@ msgid "hardware.diagnostics.trace"
 msgstr "有效门电路 %d · 传播 %d tick · 连线成本 0"
 
 msgid "hardware.live.summary"
-msgstr "实时端口 · 绿色高电平 %d · 红色低电平 %d · 灰色高阻 Z %d"
+msgstr "高 %d · 低 %d · Z %d"
 
 msgid "hardware.live.invalid"
 msgstr "绿=高 · 红=低 · 灰=高阻 Z · %s"
@@ -1657,7 +1657,7 @@ msgid "hardware.prologue.level.status"
 msgstr "请连接元件并用调试输入观察实时端口，再运行全部正式用例。"
 
 msgid "hardware.prologue.level.trace"
-msgstr "等待运行 · 同一因果波次中的元件和导线会并行动画。"
+msgstr "等待运行"
 
 msgid "hardware.prologue.level.zero_wire_delay"
 msgstr "普通导线与线节点均为 0 tick；只有元件处理增加传播时间。"
@@ -1696,7 +1696,7 @@ msgid "hardware.prologue.no_result"
 msgstr "仿真没有产生结果。"
 
 msgid "hardware.prologue.live.summary"
-msgstr "实时端口已收敛 · %d 个离散 tick · %d 段零延迟连线"
+msgstr "已收敛 · %d tick · %d 段连线"
 
 msgid "hardware.prologue.trace.metrics"
 msgstr "本次结果 %d 个收敛 tick · %d 段零延迟连线 · %d 个可视事件"
@@ -4682,7 +4682,7 @@ msgid "hardware.view.focus.tooltip"
 msgstr "Home：聚焦选中元件；未选中时显示整张电路。Shift+Home：显示全部。只调整视野，不移动元件。"
 
 msgid "hardware.view.focused"
-msgstr "视野 %d%% · 滚轮缩放，中键拖动；Shift+Home 查看全部"
+msgstr "视野 %d%%"
 
 msgid "hardware.wire.inspect"
 msgstr "%d 位线路\n%s.%s → %s.%s\n高亮部分属于同一网络。拖动分支，右键删除此线；交叉不相连。"
@@ -4798,7 +4798,7 @@ msgstr "%d 位端口"
 
 
 msgid "terminology.progress"
-msgstr "已开放 %d / %d 条 · 新知识会随关卡逐步开放"
+msgstr "已开放 %d / %d 条"
 
 
 msgid "terminology.unlock_at"
@@ -4885,7 +4885,7 @@ msgid "hardware.prologue.observe.status"
 msgstr "计算机已经接好。运行程序，跟随数据在 CPU 与 RAM 之间的往返。"
 
 msgid "hardware.prologue.outputs_empty"
-msgstr "运行用例后查看实际输出值。"
+msgstr "实际：—"
 
 msgid "hardware.goal.tutorial_complete"
 msgstr "五项练习已完成 5/5 · 继续挑战运算或存储"
@@ -6385,7 +6385,7 @@ msgid "hub.settings.reduce_interface_motion"
 msgstr "减少界面动效"
 
 msgid "hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan"
-msgstr "切到后台时降低画面帧率；不改变仿真成绩。F11 / Alt+Enter 切换全屏。"
+msgstr "切到后台时降低帧率，不影响成绩。"
 
 msgid "sharing.rating.fun"
 msgstr "有趣吗"

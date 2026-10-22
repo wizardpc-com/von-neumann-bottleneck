@@ -1051,7 +1051,7 @@ msgid "hardware.tutorial.status"
 msgstr "Place from Components; left-drag parts/ports to move or wire, and drag empty canvas to select; Shift adds selection or moves a wire end; sweep right mouse to erase."
 
 msgid "hardware.tutorial.trace_hint"
-msgstr "Observe A and LAMP at 0/1; low is a normal signal."
+msgstr "Low 0 is a normal signal"
 
 msgid "hardware.tutorial.zero_delay"
 msgstr "Wires have 0 tick delay"
@@ -1105,13 +1105,13 @@ msgid "hardware.challenge.status"
 msgstr "Design the topology. Gates, Test Bench terminals, and wire nodes are all movable."
 
 msgid "hardware.challenge.trace_note"
-msgstr "TRACE — official success comes only from the displayed circuit"
+msgstr "Trace"
 
 msgid "hardware.challenge.diagnostics"
 msgstr "Correctness required  ·  gates/delay diagnostic only"
 
 msgid "hardware.challenge.ready_unwired"
-msgstr "Ready to build · no wires yet; this is not an error. Unconnected ports are evaluated as low 0"
+msgstr "No wires yet, not an error · open ports read 0"
 
 msgid "hardware.challenge.heading"
 msgstr "HALF ADDER CHALLENGE"
@@ -1156,7 +1156,7 @@ msgid "hardware.cases.heading_subtitle"
 msgstr "Correctness only · no Profiler"
 
 msgid "hardware.cases.truth_table_definition"
-msgstr "A [[truth_table|truth table]] lists every input and correct output. This test runs 00, 01, 10, and 11 one at a time."
+msgstr "[[truth_table|Truth table]]"
 
 msgid "hardware.cases.run_debug"
 msgstr "Run This Debug Case · F6"
@@ -1171,13 +1171,13 @@ msgid "hardware.cases.official_running"
 msgstr "Official Test %d/%d"
 
 msgid "hardware.cases.row_not_run"
-msgstr "#%d  A%d B%d  ·  not run"
+msgstr "not run"
 
 msgid "hardware.cases.row_running"
-msgstr "#%d  A%d B%d  ·  running"
+msgstr "running"
 
 msgid "hardware.cases.row_result"
-msgstr "#%d  A%d B%d  →  actual %s  ·  %s"
+msgstr "actual %s · %s"
 
 msgid "hardware.cases.expected_outputs"
 msgstr "Expected SUM%d · CARRY%d"
@@ -1468,7 +1468,7 @@ msgid "hardware.diagnostics.trace"
 msgstr "Active gates %d  ·  Propagation %d ticks  ·  wires cost 0"
 
 msgid "hardware.live.summary"
-msgstr "LIVE PORTS · GREEN HIGH %d · RED LOW %d · GRAY HIGH-Z %d"
+msgstr "High %d · Low %d · Z %d"
 
 msgid "hardware.live.invalid"
 msgstr "GREEN=HIGH · RED=LOW · GRAY=HIGH-Z · %s"
@@ -1657,7 +1657,7 @@ msgid "hardware.prologue.level.status"
 msgstr "Wire the components, inspect live ports with debug inputs, then run every official case."
 
 msgid "hardware.prologue.level.trace"
-msgstr "Awaiting run · components and wires in the same causal wave animate in parallel."
+msgstr "Awaiting run"
 
 msgid "hardware.prologue.level.zero_wire_delay"
 msgstr "Ordinary wires and wire nodes cost 0 ticks; only component processing adds propagation time."
@@ -1696,7 +1696,7 @@ msgid "hardware.prologue.no_result"
 msgstr "Simulation produced no result."
 
 msgid "hardware.prologue.live.summary"
-msgstr "Live ports settled · %d discrete ticks · %d zero-delay wire segments"
+msgstr "Settled · %d ticks · %d wires"
 
 msgid "hardware.prologue.trace.metrics"
 msgstr "Result: %d settle ticks · %d zero-delay segments · %d visual events"
@@ -4682,7 +4682,7 @@ msgid "hardware.view.focus.tooltip"
 msgstr "Home: focus selected components, or the whole circuit when none are selected. Shift+Home: show all. Changes only the view."
 
 msgid "hardware.view.focused"
-msgstr "View %d%% · wheel to zoom, middle-drag to pan; Shift+Home shows all"
+msgstr "View %d%%"
 
 msgid "hardware.wire.inspect"
 msgstr "%d-bit wire\n%s.%s → %s.%s\nHighlighted wires share this network. Drag to branch, right-click to erase this wire. Crossings do not connect."
@@ -4798,7 +4798,7 @@ msgstr "%d-bit ports"
 
 
 msgid "terminology.progress"
-msgstr "%d / %d entries available · more open as you progress"
+msgstr "%d / %d entries available"
 
 
 msgid "terminology.unlock_at"
@@ -4885,7 +4885,7 @@ msgid "hardware.prologue.observe.status"
 msgstr "The computer is already connected. Run the program and follow data between CPU and RAM."
 
 msgid "hardware.prologue.outputs_empty"
-msgstr "Run a case to inspect its output values."
+msgstr "Actual: —"
 
 msgid "hardware.goal.tutorial_complete"
 msgstr "All 5/5 actions complete · continue to arithmetic or storage"
@@ -6386,7 +6386,7 @@ msgid "hub.settings.reduce_interface_motion"
 msgstr "Reduce interface motion"
 
 msgid "hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan"
-msgstr "Background rendering uses less power; simulation scores are unchanged. F11 / Alt+Enter: fullscreen."
+msgstr "Lower frame rate in the background; scores are unchanged."
 
 msgid "sharing.rating.fun"
 msgstr "Fun"

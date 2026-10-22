@@ -169,12 +169,16 @@ func _refresh() -> void:
 	core_records = PersonalRecords.snapshot()
 	saved_work_state = CandidateFiles.read_session(CreationSession.launch_path(), CreationSession.decode)
 	_refresh_works()
-	title_label.text = _copy("旅程档案 · 回看自己的来路", "Journey journal · Revisit your work")
+	title_label.text = _copy("旅程档案", "Journey journal")
 	var done: int = 0
 	for row: Dictionary in rows:
 		if earned(row): done += 1
-	overview_label.text = _copy("本次启动目录：%d / %d 已完成；原核心记录：%d / %d，已有方案 %d。", "This launch's catalog: %d / %d complete; original core records: %d / %d, saved plans %d.") % [done, rows.size(), core_records.completed, core_records.total, core_records.saved_schemes]
-	scope_label.text = _copy("这里根据现有记录事后回看，不是按时间补写的事件历史。候选内容取决于启动配置；测试者能进入不代表已完成。", "This view is derived from existing records, not a reconstructed event timeline. Candidate content follows this launch's settings; tester access never means earned completion.")
+	overview_label.text = _copy("已完成 %d / %d", "Completed %d / %d") % [done, rows.size()]
+	# Scope and provenance stay on hover; the page itself shows the record.
+	scope_label.text = ""
+	scope_label.hide()
+	overview_label.tooltip_text = _copy("这里根据现有记录事后回看，不是按时间补写的事件历史。候选内容取决于启动配置；测试者能进入不代表已完成。", "This view is derived from existing records, not a reconstructed event timeline. Candidate content follows this launch's settings; tester access never means earned completion.")
+	overview_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	enter_button.text = _copy("进入原任务", "Open original task")
 	help_button.text = _copy("回看规则手册", "Review rule handbook")
 	reflection_button.text = _copy("回看已有主题里程碑", "Review existing milestones")
@@ -246,7 +250,7 @@ func show_task(key: String) -> void:
 			if best.has(field): provenance.append(field + ": " + str(best[field]))
 		paragraphs.append(_copy("已有本地成绩（历史回顾，不与当前草稿作同条件比较）", "Existing local result (historical review, not a matched comparison with the current draft)") + "\n" + " · ".join(metric_lines) + ("\n" + " · ".join(provenance) if not provenance.is_empty() else ""))
 	if str(row.domain) == "creation": paragraphs.append(work_summary())
-	paragraphs.append(_copy("来源：", "Source: ") + str(row.key) + " · " + str(row.get("progress_source", "campaign")) + " / " + str(row.get("evidence_status", "saved campaign completion")))
+	detail.tooltip_text = _copy("来源：", "Source: ") + str(row.key) + " · " + str(row.get("progress_source", "campaign")) + " / " + str(row.get("evidence_status", "saved campaign completion"))
 	detail.text = "\n\n".join(paragraphs)
 
 
@@ -322,7 +326,7 @@ func _refresh_work_note() -> void:
 					saved_work_preview.visible=saved_work_preview.configure_work(work,bool(saved_work_state.get("ok",false)))
 					break
 	if work_view_button.disabled:
-		work_note.text = _copy("作品来源无法确认或尚未保存；这里不会补造作品或完成记录。", "No confirmed saved work is available; this view invents no work or completion.")
+		work_note.text = ""
 	elif not saved_work_state.get("ok", false):
 		work_note.text = _copy("只读恢复快照 · 原支持证据不可确认；不授予完成，也没有生成回放证据。", "Read-only recovery snapshot · support evidence is unconfirmed; no completion or generation replay is supplied.")
 	else:

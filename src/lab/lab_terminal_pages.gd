@@ -62,7 +62,9 @@ func align_to(rect: Rect2, revealed: bool) -> void:
 		viewport.size_2d_override = resolution
 		for window: Window in viewport.get_embedded_subwindows(): _fit_window(window)
 	viewport.render_target_update_mode = SubViewport.UPDATE_WHEN_VISIBLE if active() else SubViewport.UPDATE_DISABLED
-	modulate.a = 1.0 if revealed else 0.0
+	# Pages rise out of the dark screen instead of cutting in.
+	var settled: bool = not revealed or bool(ProjectSettings.get_setting("game/reduced_motion", false))
+	modulate.a = (1.0 if revealed else 0.0) if settled else move_toward(modulate.a, 1.0, get_process_delta_time() * 6.0)
 	mouse_filter = Control.MOUSE_FILTER_STOP if revealed else Control.MOUSE_FILTER_IGNORE
 
 func _watch_windows(node: Node) -> void:

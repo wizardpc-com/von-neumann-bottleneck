@@ -42,6 +42,14 @@ var _work_pixels: Array[Label3D] = []
 var _achievement_label: Label3D
 var _colliders: Array[CollisionObject3D] = []
 var _collider_meshes: Array[MeshInstance3D] = []
+## Visible meshes per semantic object: camera travel aims at them, hover lights them.
+var _region_meshes: Dictionary = {}
+var _focus_point: Vector3 = TARGET
+var _focus_fov: float = 12.0
+# How far along the line to the object the camera travels at full zoom.
+var _focus_dolly: float = 0.0
+var _hover_material: StandardMaterial3D
+var _hover_glow: float = 0.0
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -89,6 +97,11 @@ func _ready() -> void:
 			mesh.hide()
 		_add_mesh_collision(mesh)
 	_setup_status_displays()
+	_hover_material = StandardMaterial3D.new()
+	_hover_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_hover_material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	_hover_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_hover_material.albedo_color = Color(0.0, 0.0, 0.0, 0.0)
 	update_progress([], 0, 0, 0)
 
 func set_look(normalized: Vector2) -> void:
@@ -97,6 +110,50 @@ func set_look(normalized: Vector2) -> void:
 
 func set_zoom(amount: float) -> void:
 	_zoom = clampf(amount, 0.0, 1.0)
+
+## Aim later set_zoom() travel at one object. The terminal keeps the original
+## straight push into the glass; other objects turn the camera toward themselves.
+## The camera walks part of the way (a dolly, not a telephoto squeeze) and
+## narrows its view until the object fills the frame.
+func focus_on(id: String) -> void:
+	_focus_point = TARGET
+	_focus_dolly = 0.0
+	_focus_fov = 12.0
+	var bounds := region_bounds(id)
+	var half_extent: float = tan(deg_to_rad(6.0)) * OBSERVATION.distance_to(TARGET)
+	if id != "terminal":
+		if not bounds.has_volume():
+			return
+		_focus_point = bounds.get_center()
+		half_extent = maxf(bounds.size.x, bounds.size.y) * 0.5 * 1.25
+	_focus_dolly = 0.42 if id == "terminal" else 0.5
+	var distance: float = OBSERVATION.distance_to(_focus_point) * (1.0 - _focus_dolly)
+	_focus_fov = clampf(rad_to_deg(2.0 * atan(half_extent / distance)), 8.0, 46.0)
+
+## Projected bounds of one object, in this container's pixels, for the
+## current camera. Empty when the object is unknown or behind the camera.
+func region_screen_rect(id: String) -> Rect2:
+	var bounds := region_bounds(id)
+	if id == "terminal": return screen_rect()
+	if camera == null or not bounds.has_volume(): return Rect2()
+	var result := Rect2()
+	for index in range(8):
+		var point: Vector3 = bounds.get_endpoint(index)
+		if camera.is_position_behind(point): return Rect2()
+		var pixel := camera.unproject_position(point) * size / Vector2(viewport.size)
+		result = Rect2(pixel, Vector2.ZERO) if index == 0 else result.expand(pixel)
+	return result
+
+func region_bounds(id: String) -> AABB:
+	var result := AABB()
+	var first: bool = true
+	for mesh: MeshInstance3D in _region_meshes.get(id, []):
+		if not mesh.is_visible_in_tree() or mesh.mesh == null:
+			continue
+		var box: AABB = mesh.global_transform * mesh.get_aabb()
+		result = box if first else result.merge(box)
+		first = false
+	return result
 
 func set_interaction_enabled(enabled: bool) -> void:
 	_interaction_enabled = enabled
@@ -114,8 +171,17 @@ func _process(delta: float) -> void:
 		_look_current = Vector2.ZERO
 	else:
 		_look_current = _look_current.lerp(_look_target, 1.0 - exp(-10.0 * delta))
-	camera.basis = _neutral_basis * Basis(Vector3.UP, deg_to_rad(_look_current.x)) * Basis(Vector3.RIGHT, deg_to_rad(_look_current.y))
-	camera.fov = lerpf(rad_to_deg(2.0 * atan(20.25 / 48.0)), 12.0, _zoom)
+	var looking: Basis = _neutral_basis * Basis(Vector3.UP, deg_to_rad(_look_current.x)) * Basis(Vector3.RIGHT, deg_to_rad(_look_current.y))
+	var aim: Basis = Transform3D(Basis(), OBSERVATION).looking_at(_focus_point, Vector3.UP).basis
+	# Turn toward the object early, walk toward it, and narrow the view last,
+	# so the move reads as one step forward rather than a zoom lens.
+	camera.basis = looking.slerp(aim, smoothstep(0.0, 0.55, _zoom))
+	camera.position = OBSERVATION.lerp(_focus_point, _focus_dolly * smoothstep(0.0, 1.0, _zoom))
+	var base_fov: float = rad_to_deg(2.0 * atan(20.25 / 48.0))
+	camera.fov = base_fov * pow(_focus_fov / base_fov, smoothstep(0.15, 1.0, _zoom))
+	var glow_target: float = 0.0 if _hovered.is_empty() or not _interaction_enabled else 1.0
+	_hover_glow = glow_target if reduced else move_toward(_hover_glow, glow_target, delta * 6.0)
+	_hover_material.albedo_color = Color(0.13, 0.18, 0.21, _hover_glow)
 
 ## Return projected glass bounds in this container's local pixel coordinates.
 func screen_rect() -> Rect2:
@@ -217,7 +283,12 @@ func _pick(pixel: Vector2) -> String:
 
 func _set_hover(id: String) -> void:
 	if id != _hovered:
+		for mesh: MeshInstance3D in _region_meshes.get(_hovered, []):
+			mesh.material_overlay = null
 		_hovered = id
+		# The pointed-at object itself brightens; no floating label is needed.
+		for mesh: MeshInstance3D in _region_meshes.get(_hovered, []):
+			if id != "terminal": mesh.material_overlay = _hover_material
 		hover_changed.emit(id)
 
 func _add_mesh_collision(mesh: MeshInstance3D) -> void:
@@ -228,6 +299,10 @@ func _add_mesh_collision(mesh: MeshInstance3D) -> void:
 		if str(mesh.name).begins_with(prefix):
 			id = str(PREFIXES[prefix])
 			break
+	if not id.is_empty():
+		var meshes: Array = _region_meshes.get(id, [])
+		meshes.append(mesh)
+		_region_meshes[id] = meshes
 	if id.is_empty() and not _has_opaque_surface(mesh):
 		return
 	var shape := mesh.mesh.create_trimesh_shape()
@@ -288,10 +363,10 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 		station_states.append({"index": index, "name": title, "done": done, "total": station_total,
 			"available": available, "current": current, "locked": has_tasks and not available and not finished, "status": status})
 		if index < _station_labels.size():
+			# Colour carries the state: green done, amber current, pale open, dim locked.
 			var label := _station_labels[index]
-			var statuses: Dictionary = {"completed": "Done" if english else "完成", "current": "Current" if english else "当前", "available": "Open" if english else "可进入", "locked": "Locked" if english else "锁定", "unknown": ""}
-			label.text = "%s  %d/%d  %s" % [title, done, station_total, str(statuses[status])]
-			label.modulate = Color("8ed8c5") if finished else (Color("f0c674") if current else (Color("b8d0dc") if available else Color("8c9da9")))
+			label.text = "%s  %d/%d" % [title, done, station_total]
+			label.modulate = Color("8ed8c5") if finished else (Color("f0c674") if current else (Color("b8d0dc") if available else Color("5f707c")))
 	var count := maxi(0, works_count)
 	var latest: Dictionary = works[-1] if count > 0 and not works.is_empty() and works[-1] is Dictionary else {}
 	var latest_name := str(latest.get("name", ""))
@@ -299,20 +374,18 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 	_display_state = {"stations": station_states, "works_count": count, "latest_name": latest_name,
 		"latest_output": output.duplicate(), "completed": maxi(0, completed), "total": maxi(0, total), "current_key": current_key}
 	if _works_title != null:
-		_works_title.text = ("Works · %d" if english else "作品 · %d 件") % count
-		if count == 0:
-			_works_name.text = "Empty, until you keep one" if english else "空着，等你留下第一件作品"
-		elif latest.is_empty():
-			_works_name.text = "Open to view saved works" if english else "打开查看已保存的作品"
+		_works_title.text = ("Works · %d" if english else "作品 · %d") % count
+		if count == 0 or latest.is_empty():
+			_works_name.text = ""
 		else:
-			_works_name.text = latest_name.substr(0, 24) if not latest_name.is_empty() else ("Untitled saved work" if english else "未命名的已保存作品")
+			_works_name.text = latest_name.substr(0, 24) if not latest_name.is_empty() else ("Untitled" if english else "未命名")
 	for index in range(_work_pixels.size()):
 		var pixel := _work_pixels[index]
 		pixel.visible = index < output.size()
 		if pixel.visible:
 			pixel.modulate = WORK_COLORS[clampi(int(output[index]), 0, WORK_COLORS.size() - 1)]
 	if _achievement_label != null:
-		_achievement_label.text = ("Completed tasks\n%d / %d" if english else "已完成任务\n%d / %d") % [maxi(0, completed), maxi(0, total)]
+		_achievement_label.text = ("Completed\n%d / %d" if english else "已完成\n%d / %d") % [maxi(0, completed), maxi(0, total)]
 
 func _setup_status_displays() -> void:
 	var board := model.find_child("Journey | blank panel", true, false) as MeshInstance3D

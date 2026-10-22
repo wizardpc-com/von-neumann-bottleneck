@@ -751,8 +751,10 @@ func request_quit() -> void:
 
 func _show_save_failure() -> void:
 	if not is_inside_tree(): return
+	get_tree().call_group("cinematic_playback", "_finish")
 	if not is_instance_valid(_failure_dialog):
 		_failure_dialog=AcceptDialog.new()
+		_failure_dialog.process_mode=Node.PROCESS_MODE_ALWAYS
 		_failure_dialog.name="SaveFailureDialog"
 		_failure_dialog.min_size=Vector2i(520,230)
 		get_tree().root.add_child(_failure_dialog)
@@ -769,11 +771,12 @@ func _show_save_failure() -> void:
 func _choose_rescue_path() -> void:
 	if is_instance_valid(_failure_export): _failure_export.queue_free()
 	_failure_export=FileDialog.new()
+	_failure_export.process_mode=Node.PROCESS_MODE_ALWAYS
 	_failure_export.access=FileDialog.ACCESS_FILESYSTEM
 	_failure_export.file_mode=FileDialog.FILE_MODE_SAVE_FILE
 	_failure_export.filters=PackedStringArray(["*.json ; Recovery data"])
 	_failure_export.current_file="vnb-recovery-"+str(int(Time.get_unix_time_from_system()))+".json"
-	get_tree().root.add_child(_failure_export)
+	_failure_dialog.add_child(_failure_export)
 	_failure_export.file_selected.connect(func(path: String) -> void:
 		if export_rescue(path):
 			_failure_dialog.dialog_text=_autoload(&"Localization").text(&"save.failure.exported")+"\n"+path

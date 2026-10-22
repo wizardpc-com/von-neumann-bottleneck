@@ -559,8 +559,15 @@ func _leave_to_lab() -> void:
 		LayoutChapter.store_draft(level,design)
 		PlaytestData.level_exited(&"chapter_4",StringName(level))
 	get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
+func _input(event: InputEvent) -> void:
+	# Native tooltip popups must not consume the Hint/workbench's first Escape.
+	if event is InputEventKey and event.keycode == KEY_ESCAPE: _unhandled_key_input(event)
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
+	if event.keycode == KEY_ESCAPE:
+		var modal: Window = get_window().get_last_exclusive_window()
+		if modal != null and modal != get_window() and modal.visible: return
+		if is_instance_valid(WindowMode.settings_layer) or PlaytestData._feedback_visible or completion.visible: return
 	if event.keycode == KEY_ESCAPE and is_instance_valid(hint_layer) and hint_layer.visible: hint_layer.hide(); get_viewport().set_input_as_handled(); return
 	if event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()

@@ -1,5 +1,13 @@
 ## Game/Test mode access — 2026-10-23
 
+For final handoff, also run `test_lab_terminal_routing`, `test_terminal_language_input`,
+`test_layout_ui` and `test_layout_navigation`. Layout Escape must close Hint before
+leaving even with a native tooltip open, while exclusive dialogs, settings,
+feedback and completion retain priority. `test_cinematics` also checks autosave
+failure during playback, recovery while already paused, nested rescue export and
+protection against exporting over the real save. See the
+[final audit](../verification/20261023-final-audit/README.md).
+
 Run `test_mode_access`, `test_hardware_foundations_ui`, `test_system_lab_ui`,
 `test_ui`, `test_global_save` and laboratory/settings regressions through the
 isolated verifier. Check the actual exported binary as well: `free_candidate`

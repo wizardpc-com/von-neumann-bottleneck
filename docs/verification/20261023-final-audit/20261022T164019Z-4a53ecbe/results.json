@@ -1,0 +1,58 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T164019Z-4a53ecbe/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T164019Z-4a53ecbe/user_directory"
+    },
+    {
+      "name": "test_cinematics",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_cinematics.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T164019Z-4a53ecbe/test_cinematics"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Layout Esc closes Hint before leaving",
+        "ERROR: Layout Esc returns to the map",
+        "FAIL: lab terminal routing 37 checks, 2 failures"
+      ],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T164019Z-4a53ecbe/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_mode_access",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_mode_access.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T164019Z-4a53ecbe/test_mode_access"
+    },
+    {
+      "name": "test_terminal_language_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_language_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T164019Z-4a53ecbe/test_terminal_language_input"
+    }
+  ]
+}

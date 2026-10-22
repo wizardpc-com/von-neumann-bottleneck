@@ -57,6 +57,9 @@ static func take_once(id: StringName) -> bool:
 static func present_once(host: Node, id: StringName) -> CinematicPlayer:
 	if automated_launch() or not host.get_tree().get_nodes_in_group("cinematic_playback").is_empty():
 		return null
+	var recovery: Window = host.get_node("/root/GlobalSave").get("_failure_dialog") as Window
+	if is_instance_valid(recovery) and recovery.visible:
+		return null
 	if not take_once(id):
 		return null
 	var player := CinematicPlayer.new()

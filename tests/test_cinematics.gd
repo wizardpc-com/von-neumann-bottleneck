@@ -97,6 +97,26 @@ func _run() -> void:
 	global_save._failure_dialog.hide()
 	closing.queue_free()
 	await process_frame
+	var autosaving := Cinematic.new()
+	autosaving.clip_id = &"prologue_complete"
+	root.add_child(autosaving)
+	global_save._show_save_failure()
+	_check(not paused and not autosaving.visible and global_save._failure_dialog.visible, "An autosave failure releases CG before opening recovery controls.")
+	autosaving.queue_free()
+	await process_frame
+	global_save._failure_dialog.hide()
+	paused = true
+	global_save._show_save_failure()
+	_check(global_save._failure_dialog.can_process(), "Save recovery remains interactive when another modal owns pause.")
+	global_save._choose_rescue_path()
+	_check(global_save._failure_export.can_process() and global_save._failure_export.get_parent() == global_save._failure_dialog, "Rescue export is a nested, interactive recovery window while paused.")
+	global_save._failure_export.file_selected.emit("user://cinematic-recovery.json")
+	var rescued: Variant = JSON.parse_string(FileAccess.get_file_as_string("user://cinematic-recovery.json"))
+	_check(rescued is Dictionary and int(rescued.get("recovery_format", 0)) == 1 and rescued.has("progress"), "The recovery picker exports the real recovery document while paused.")
+	_check(not global_save.export_rescue(global_save.storage_path), "Recovery export cannot overwrite the actual player save.")
+	global_save._failure_export.hide()
+	global_save._failure_dialog.hide()
+	paused = false
 	change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 	for frame: int in range(12):
 		await process_frame

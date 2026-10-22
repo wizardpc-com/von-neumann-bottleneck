@@ -1,0 +1,27 @@
+[
+  {
+    "path": "src/layout_chapter/layout_chapter.gd",
+    "sha256": "3137142efe4ff69a823934c3993db91ef1f83ec81a7442ba4b1742c88599d1d1",
+    "matches_final_QA_source": true
+  },
+  {
+    "path": "src/save/global_save.gd",
+    "sha256": "6d3905f35942c98de844bceaaa59c0599b108eb71ccd275187d1da59d1ed37a9",
+    "matches_final_QA_source": true
+  },
+  {
+    "path": "src/ui/cinematic_player.gd",
+    "sha256": "f40e45508141f65dcda4d10f4541ae9187400d61aa21c821e80e08163624d662",
+    "matches_final_QA_source": true
+  },
+  {
+    "path": "tests/test_cinematics.gd",
+    "sha256": "71a764dece07bae8656264941a44cb499fa317956fb9d71c5ecbbb9b969500cc",
+    "matches_final_QA_source": true
+  },
+  {
+    "path": "tests/test_lab_terminal_routing.gd",
+    "sha256": "4b4230edeb9b17245cb6517475a52c5126af59abcbd5477c116ec3b0821d09ab",
+    "matches_final_QA_source": true
+  }
+]

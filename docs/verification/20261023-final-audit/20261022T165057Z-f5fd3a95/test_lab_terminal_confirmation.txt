@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCREEN zh_CN button=(347.0, 166.0) pixel=(720.4811, 411.034) mapped=(347.0, 166.0) view=[P: (0.0, 0.0), S: (512.0, 235.0)] scale=(1.0, 1.0)
+SCREEN en button=(347.0, 166.0) pixel=(720.4811, 411.034) mapped=(347.0, 166.0) view=[P: (0.0, 0.0), S: (512.0, 235.0)] scale=(1.0, 1.0)
+PASS: physical terminal confirmation 34 checks, 0 failures

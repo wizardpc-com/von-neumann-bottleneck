@@ -1,0 +1,25 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Decoded CG: opening natural_end=1
+Decoded CG: prologue_complete natural_end=1
+ERROR: Attempting to make child window exclusive, but the parent window already has another exclusive child. This window: /root/@FileDialog@395, parent window: /root, current exclusive child window: /root/SaveFailureDialog
+   at: _set_transient_exclusive_child (scene/main/window.cpp:1160)
+   GDScript backtrace (most recent call first):
+       [0] _choose_rescue_path (res://src/save/global_save.gd:782)
+       [1] _run (res://tests/test_cinematics.gd:111)
+ERROR: A profile without player records is new.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_cinematics.gd:128)
+ERROR: An autosave failure releases CG before opening recovery controls.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_cinematics.gd:128)
+ERROR: Save recovery remains interactive when another modal owns pause.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_cinematics.gd:128)
+ERROR: Rescue export remains interactive while paused.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_cinematics.gd:128)

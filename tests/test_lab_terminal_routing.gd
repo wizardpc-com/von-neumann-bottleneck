@@ -68,6 +68,15 @@ func run() -> void:
 	var layout: Control = current_scene
 	var before: Dictionary = layout.design.duplicate(true)
 	layout._hint_advance(); await settle()
+	root.get_node("WindowMode").open_settings(); await settle()
+	await key(KEY_ESCAPE)
+	check(current_scene == layout and layout.hint_layer.visible and not is_instance_valid(root.get_node("WindowMode").settings_layer), "Settings Esc closes only settings above Layout Hint")
+	layout._hint_request(); await settle()
+	var guarded_escape := InputEventKey.new()
+	guarded_escape.keycode = KEY_ESCAPE; guarded_escape.pressed = true
+	layout._input(guarded_escape)
+	check(layout.confirmation.visible and layout.hint_layer.visible and current_scene == layout, "The native hint confirmation owns Escape before the underlying Hint")
+	layout.confirmation.hide(); await settle()
 	await key(KEY_ESCAPE)
 	check(current_scene == layout and not layout.hint_layer.visible, "Layout Esc closes Hint before leaving")
 	await key(KEY_ESCAPE, true)

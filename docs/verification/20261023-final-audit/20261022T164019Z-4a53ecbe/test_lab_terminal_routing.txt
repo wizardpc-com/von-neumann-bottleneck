@@ -1,0 +1,17 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Layout Esc closes Hint before leaving
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_lab_terminal_routing.gd:8)
+       [1] run (res://tests/test_lab_terminal_routing.gd:72)
+       [2] key (res://tests/test_lab_terminal_routing.gd:17)
+       [3] settle (res://tests/test_lab_terminal_routing.gd:10)
+ERROR: Layout Esc returns to the map
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_lab_terminal_routing.gd:8)
+       [1] run (res://tests/test_lab_terminal_routing.gd:77)
+       [2] key (res://tests/test_lab_terminal_routing.gd:17)
+       [3] settle (res://tests/test_lab_terminal_routing.gd:10)
+FAIL: lab terminal routing 37 checks, 2 failures

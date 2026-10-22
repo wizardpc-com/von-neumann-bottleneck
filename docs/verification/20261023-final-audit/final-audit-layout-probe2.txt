@@ -1,0 +1,54 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PROBE window @PopupMenu@26 visible=false
+PROBE window @PopupMenu@36 visible=false
+PROBE window @PopupMenu@47 visible=false
+PROBE window @PopupMenu@58 visible=false
+PROBE window @PopupMenu@78 visible=false
+PROBE window @PopupMenu@90 visible=false
+PROBE window @PopupMenu@124 visible=false
+PROBE window @PopupMenu@135 visible=false
+PROBE window DeleteUploadsConfirm visible=false
+PROBE window @PopupMenu@166 visible=false
+PROBE window @PopupMenu@184 visible=false
+PROBE window @PopupMenu@12327 visible=false
+PROBE window @PopupMenu@12340 visible=false
+PROBE window @PopupMenu@12353 visible=false
+PROBE window @PopupMenu@12366 visible=false
+PROBE window @PopupMenu@12379 visible=false
+PROBE window @PopupMenu@12392 visible=false
+PROBE window @PopupMenu@12406 visible=false
+PROBE window @PopupPanel@12423 visible=true
+PROBE window @ConfirmationDialog@12176 visible=false
+PROBE window @PopupMenu@12207 visible=false
+PROBE window @PopupMenu@12219 visible=false
+PROBE window @PopupMenu@12231 visible=false
+PROBE layout process key=true
+PROBE hint visible=true focus=<Object#null> popup=false level=fields paused=false
+PROBE layout _input true echo=false handled=false
+PROBE layout _input false echo=false handled=false
+PROBE layout unhandled false echo=false
+PROBE after Esc hint=true focus=<Object#null> scene=res://src/layout_chapter/layout_chapter.tscn
+ERROR: Layout Esc closes Hint before leaving
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_lab_terminal_routing.gd:8)
+       [1] run (res://tests/test_lab_terminal_routing.gd:76)
+       [2] key (res://tests/test_lab_terminal_routing.gd:17)
+       [3] settle (res://tests/test_lab_terminal_routing.gd:10)
+PROBE layout _input true echo=true handled=false
+PROBE layout unhandled true echo=true
+PROBE layout _input false echo=false handled=false
+PROBE layout unhandled false echo=false
+PROBE layout _input true echo=false handled=false
+PROBE layout unhandled true echo=false
+PROBE layout _input false echo=false handled=false
+PROBE layout unhandled false echo=false
+ERROR: Layout Esc returns to the map
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_lab_terminal_routing.gd:8)
+       [1] run (res://tests/test_lab_terminal_routing.gd:81)
+       [2] key (res://tests/test_lab_terminal_routing.gd:17)
+       [3] settle (res://tests/test_lab_terminal_routing.gd:10)
+FAIL: lab terminal routing 37 checks, 2 failures

@@ -1,0 +1,16 @@
+{
+  "build_id": "playtest-FinalAudit20261023-1479c452bd1d",
+  "source_commit": "1479c452bd1d954a2b5d4012935d0c5f158b0363",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "Windows",
+  "native_validation": "See verification record; export is not native acceptance",
+  "files_sha256": {
+    "CHANGELOG.txt": "b66b324932d01549cca8c41f7b20ddd31a948361a87d48c6f572c7bb65d7dc7b",
+    "ENGINE-LICENSES.txt": "83d1228be30e56c9549fee1b322c8c46fb6cb08ac5545a799a62582613687fff",
+    "FONT-LICENSE.txt": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "KNOWN-ISSUES.txt": "94457346f5725ce6fba3e8e9c8ecd91521f55ea0c7cb5cbcbaa517f66aaa1860",
+    "LICENSE.txt": "4169e9c39ab401f2f7850040164eb760e58ec606b7a547477c17de9b3a3c9b30",
+    "README.txt": "8c8168a3f40b195d0761ffc4cb189a5fc4bb863ba198f8c6923e1424a529bbcb",
+    "Von-Neumann-Bottleneck.exe": "b16231d400936eae5945ccc8d9cd0fbcc882de969e344e2c267d64d60f45b173"
+  }
+}

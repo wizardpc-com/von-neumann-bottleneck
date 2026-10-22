@@ -28,7 +28,17 @@
 
 Claude 的正式入口是 [CLAUDE_HANDOFF_20261023.md](../../development/CLAUDE_HANDOFF_20261023.md)，包括已完成工作、60 项内容地图、共享绘制／真实封装规则、代码位置、模式与存档边界、待做 UI／内容优化和最简提示词。共享 `E:/VNB/briefs/CURRENT_TASK.md` 也指向该入口。
 
-最终源码身份和更新后的 Windows 包信息由本节后续交付回执补充；包继续使用稳定 `ModeDebug20261023` 渠道，不覆盖旧包或玩家数据。
+游戏代码提交：`1479c452bd1d954a2b5d4012935d0c5f158b0363`。其后的交付记录提交只补文档／收据，不改变运行代码。运行改动仅涉及 Layout 输入、保存恢复窗口和 CG 启动门禁三个文件。
+
+- 构建：`playtest-FinalAudit20261023-1479c452bd1d`，固定提交、官方 Godot 4.7.1 Windows x86_64 release 模板。
+- ZIP：`E:/VNB/deliveries/20261023-FinalAudit/VNB-Windows-FinalAudit-20261023.zip`，**115,818,327 字节**。
+- SHA-256：`90826c91a01ea80ff1a6b57f6ad56f2098ae82668045f2e2b3cddb3358e2ded8`。
+- 分享包继续使用稳定 `ModeDebug20261023` 渠道，不覆盖旧包或玩家数据；完整 60 项，保留正常 Game 前置，主动选择 Test 才自由测试，无配置反馈接收端。
+- 真实解压 EXE：模式 **14 项**、CG／保存恢复 **37 项**、导航 **39 项**通过；保留 release 的 `free_candidate=true`。见[实际包收据](exported-receipt.json)、同目录 `exported-test_*.txt`、[构建清单](package-manifest.json)及[逐文件身份](windows-build-manifest.json)。
+
+EXE 为 188,860,992 字节的 Windows x86_64 PE，内嵌 PCK 结构、ZIP CRC 与全部文件哈希通过。副本验证使用 QA 启动场景、专用用户目录和源测试断言，不向共享包放入控制器／覆盖／测试存档。共享 ZIP 和原 EXE 的哈希前后不变。控制器快照 `verify-exported-controller.py` 的原捕获位置为仓库 `.godot/`；原始导出日志在 `.godot/candidates/20261022T165903Z-1479c452/`，真实包验证在 `.godot/package-qa/final-audit-20261023-1479c45/`。
+
+交付目录附 `SHA256.txt`、`manifest.json` 与可复制的 `CLAUDE_PROMPT.txt`。主线文档入口已更新，外部共享任务书指向最新交接；旧包保留作历史，不再作为本次收尾版本。
 
 ## 验收边界
 

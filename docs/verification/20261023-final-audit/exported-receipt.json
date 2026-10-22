@@ -1,0 +1,45 @@
+{
+  "source_commit": "1479c452bd1d954a2b5d4012935d0c5f158b0363",
+  "build_id": "playtest-FinalAudit20261023-1479c452bd1d",
+  "zip_sha256": "90826c91a01ea80ff1a6b57f6ad56f2098ae82668045f2e2b3cddb3358e2ded8",
+  "zip_bytes": 115818327,
+  "executable": {
+    "bytes": 188860992,
+    "sha256": "b16231d400936eae5945ccc8d9cd0fbcc882de969e344e2c267d64d60f45b173",
+    "embedded_pack_bytes": 79762996,
+    "pe_architecture": "x86_64"
+  },
+  "actual_exported_tests": [
+    {
+      "suite": "test_mode_access",
+      "passed": true,
+      "output": "test_mode_access.txt",
+      "qa_profile": "VonNeumannBottleneckChecks/package-final-audit-test_mode_access"
+    },
+    {
+      "suite": "test_cinematics",
+      "passed": true,
+      "output": "test_cinematics.txt",
+      "qa_profile": "VonNeumannBottleneckChecks/package-final-audit-test_cinematics"
+    },
+    {
+      "suite": "test_lab_terminal_routing",
+      "passed": true,
+      "output": "test_lab_terminal_routing.txt",
+      "qa_profile": "VonNeumannBottleneckChecks/package-final-audit-test_lab_terminal_routing"
+    }
+  ],
+  "zip_inventory": [
+    "Windows/BUILD-MANIFEST.json",
+    "Windows/CHANGELOG.txt",
+    "Windows/ENGINE-LICENSES.txt",
+    "Windows/FONT-LICENSE.txt",
+    "Windows/KNOWN-ISSUES.txt",
+    "Windows/LICENSE.txt",
+    "Windows/README.txt",
+    "Windows/Von-Neumann-Bottleneck.exe"
+  ],
+  "qa_only_override_removed": true,
+  "candidate_and_archive_unchanged": true,
+  "native_graphics_audio_verified": false
+}

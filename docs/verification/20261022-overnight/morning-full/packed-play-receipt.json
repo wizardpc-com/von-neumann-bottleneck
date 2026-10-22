@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-10-22T02:47:59.196951+00:00",
+  "platform": "Linux cloud desktop",
+  "engine": "Godot 4.7.1 official Linux",
+  "scope": "native mouse/keyboard playing embedded PCK of Windows export, NOT Windows PE execution",
+  "package_sha256": "e7ab587c00907ef4b3b0cded2188e1a4a8e70492af922123a71acc9bc28cbc28",
+  "earned_completed_levels": [
+    "alu",
+    "cpu",
+    "full_adder",
+    "half_adder",
+    "latch",
+    "ram",
+    "register",
+    "tutorial"
+  ],
+  "save_sha256": "0ffed335ccdd32ccbf1b66dde50fd666b1e098524f276edd60992756e14e9f71",
+  "notes": "Actual ALU32/RAM5/CPU7 official cases passed, explicit sealing; map and terminal showed8/60; normal quit and relaunch retained8/60 and LOAD/STORE Bridge next action. English terminal inspected after in-app language switch. Not Windows native execution.",
+  "restart_verified_at": "2026-10-22T02:50:13.427303+00:00",
+  "english_native_layout": "1364x1024 terminal/map/CPU details inspected; prerequisites, next task and fixed Enter button visible"
+}

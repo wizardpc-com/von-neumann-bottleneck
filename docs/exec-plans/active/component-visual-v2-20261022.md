@@ -254,3 +254,26 @@ progression changes. Native play and automated Godot runs remain sequential.
   20261022T014926Z-c17eab70. Native SR Latch F6 advanced the coach to 3/3 and
   hidden Components/Test Bench advice was visibly confirmed. Full regression
   and final export remain pending; no remote writes.
+
+- 10:20 Beijing: uninterrupted full current-source regression completed with
+  all 214 suites plus import/user-directory checks passing (216/216 stages),
+  snapshot 20261022T015812Z-6761a02d. Compared 1,025 source/test/tool files with
+  the checkout; exact match. Nine Python gates also exit 0. Rebuilding the
+  candidate from this exact passed snapshot; no remote upload attempted.
+
+- 10:24–10:33 Beijing: measured actual rendered cloud llvmpipe room and terminal.
+  Production arrival/look-around ≈2.9/2.8 FPS; fullscreen terminal ≈60.2 FPS.
+  QA-only no-shadow/MSAA experiment ≈16 FPS; half-size room ≈27–28 FPS but
+  noticeably unreadable small wall text. Neither shipped. No Windows/GPU/audio
+  claim. Source code remains f40bf89 and package hash remains unchanged.
+- 10:34 onward: launching the new exported embedded PCK with Linux Godot in
+  another isolated QA profile. Earned 5/60 progress restored; actual ALU wiring
+  and its official cases are being exercised. This tests packaged content,
+  not the Windows executable loader. No user save or external feedback sent.
+
+- 10:51 Beijing: new exported PCK content passed actual ALU32/RAM5/CPU7 formal
+  cases and explicit sealing. Normal quit/relaunch retained earned8/60 and the
+  bridge next action. English terminal/map/CPU detail checked. All game windows
+  closed normally. No production edits after f40bf89; only verification/report
+  documentation changed. Preparing the requested MD delivery. Remote main
+  freshly read at10:50 remains a5965e3; renewed upload approval still pending.

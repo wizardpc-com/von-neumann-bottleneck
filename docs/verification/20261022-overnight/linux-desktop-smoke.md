@@ -66,3 +66,43 @@ state sequences (reset/set/hold and write/hold). Both circuits were built throug
 real mouse drags using the earned SRLatch module for Register1. Sealing is an
 explicit action, not the visual animation itself granting completion. This adds
 arithmetic and storage-branch coverage, not all fourteen prologue lessons.
+
+## 10:34–10:41 Beijing: new exported-content smoke
+
+Launched the exact morning-1020 Windows candidate's embedded PCK using the
+Linux Godot 4.7.1 executable on Ray's cloud desktop. This is **not** running the
+Windows executable loader and is not Windows compatibility acceptance. A new
+isolated XDG profile received only the two files containing earlier genuinely
+earned QA progress/workbenches. Room and fullscreen terminal showed 5/60.
+
+- Continued into ALU; opened the actual full objective card to read 00 AND,
+  01 OR, 10 ADD, 11 NOT A. Manually dragged 16 wires using the previously earned
+  FullAdder, AND, OR, NOT and four-way MUX. F6 advanced the teaching state.
+  All 32 formal input combinations passed (four groups of 8); explicitly sealed
+  ALU1. Next challenge skipped the already completed storage prerequisites.
+- Continued directly into RAM2x4; manually dragged 10 wires between address,
+  write enable, decoder, four-bit DATA, two earned Register4 components and
+  word MUX. Five formal state steps passed: write M0=3, write M1=12, read M0,
+  overwrite M0=5, read M1=12. Explicitly selected sealing RAM2x4.
+- No injected connections/completion, no external feedback or user-save reset.
+  Only the intended local QA saves changed. Packaged source fixes behaved as
+  the earlier source-only checks, closing an export-versus-source gap.
+
+- 10:42–10:46: continued to CPU after both branches. Read all instruction and
+  controller semantics through player-visible cards. Closed the three floating
+  panels and used Shift+Home: canvas fit changed from 53% to 100%, exposing a
+  real default-layout readability issue, not a blocker. Manually made 19 wires
+  using Controller, the earned ALU4/Register4/RAM2x4, two MUXes and constants.
+  F6 LOAD_IMM3 produced ACC=3. The seven-step official program passed every
+  state: LOAD_IMM3, STORE[0], LOAD_IMM5, ADD_IMM2, STORE[1], LOAD[0], ADD_IMM4.
+  Final observed ACC=7, M0=3, M1=7; explicitly clicked seal TinyComputer.
+  No extra game code changes were needed during this packaged-content smoke.
+
+- 10:47–10:50: map visibly showed the two prerequisites ALU and RAM joining
+  CPU, CPU completed, and load/store as available next. Laboratory terminal
+  showed8/60. Used normal Quit and confirmed; window disappeared. Relaunched
+  the same package with the same isolated profile: room and terminal retained
+  8/60 and continued to LOAD/STORE Bridge. Switched to English through the UI;
+  terminal, map and CPU details stayed readable at1364×1024. CPU prerequisites,
+  next task and fixed Enter task button were all visible. This is one concrete
+  English native layout check, not every English screen or a1280×720 capture.

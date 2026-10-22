@@ -1,0 +1,63 @@
+{
+	"adapter": "llvmpipe (LLVM 19.1.7, 256 bits)",
+	"engine": {
+		"build": "official",
+		"hash": "a13da4feb8d8aefc283c3763d33a2f170a18d541",
+		"hex": 263937,
+		"major": 4,
+		"minor": 7,
+		"patch": 1,
+		"status": "stable",
+		"string": "4.7.1-stable (official)",
+		"timestamp": 0
+	},
+	"frame_limit": 60,
+	"locale": "zh_CN",
+	"measurements": [
+		{
+			"draw_calls": 431,
+			"fps": 2.91325775047948,
+			"frames": 180,
+			"max_ms": 412.786,
+			"mean_ms": 343.258333333333,
+			"p50_ms": 343.461,
+			"p95_ms": 380.585,
+			"p99_ms": 404.454,
+			"primitives": 45408,
+			"room_rendering": true,
+			"state": "arrival"
+		},
+		{
+			"draw_calls": 443,
+			"fps": 2.77621692692775,
+			"frames": 180,
+			"max_ms": 441.178,
+			"mean_ms": 360.2024,
+			"p50_ms": 361.981,
+			"p95_ms": 409.648,
+			"p99_ms": 434.476,
+			"primitives": 45624,
+			"room_rendering": true,
+			"state": "look-around"
+		},
+		{
+			"draw_calls": 0,
+			"fps": 60.2020783095257,
+			"frames": 180,
+			"max_ms": 24.427,
+			"mean_ms": 16.6107222222222,
+			"p50_ms": 16.558,
+			"p95_ms": 18.506,
+			"p99_ms": 19.821,
+			"primitives": 0,
+			"room_rendering": false,
+			"state": "terminal"
+		}
+	],
+	"renderer": "gl_compatibility",
+	"scope": "Rendered wall-frame samples after warmup; not GPU-only timing or native input",
+	"size": [
+		1364,
+		1024
+	]
+}

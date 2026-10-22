@@ -1,0 +1,51 @@
+{
+  "recorded_at": "2026-10-22T02:02:09.557088+00:00",
+  "scope": "Nine Python commands executed sequentially and returned exit 0; no external service used",
+  "logs": [
+    {
+      "name": "check-branding",
+      "sha256": "3d1ac5ff483f6a40df46af69c85ab303b12afb2656e1459a2c80514f68ad57a7",
+      "bytes": 54
+    },
+    {
+      "name": "test-report-playtests",
+      "sha256": "e50af953d3bf54e46a34aeb1f6c73afe370c4dffdb5dffb5734566bbb1bb362f",
+      "bytes": 273
+    },
+    {
+      "name": "test_storage",
+      "sha256": "2b13a461c17962a672d6173f3cbe49ee89d3bcdb5d08fa4874d12f5b6a531e2c",
+      "bytes": 405
+    },
+    {
+      "name": "test_receiver",
+      "sha256": "1fe0a223b1d75a47712d721a1e9d7276b0460782d92f09da21565f06ddbb3aa0",
+      "bytes": 818
+    },
+    {
+      "name": "test_community",
+      "sha256": "23f7813998df3acaeae6661dca2e1abedf70d0d0a70a511a9d86b878d9a972ad",
+      "bytes": 1756
+    },
+    {
+      "name": "test_delivery",
+      "sha256": "80ddb8c5e15c624b7a259180cc00033ae34fa08fe153465f4e5f8fb109c33b88",
+      "bytes": 496
+    },
+    {
+      "name": "test_private_report",
+      "sha256": "eea5ac421e1999687771b823037d146854903694f2928414e48a932eb01b692d",
+      "bytes": 825
+    },
+    {
+      "name": "test-verify-process",
+      "sha256": "dbce192c81c0f19bef314b2200e653632119442fea8694b53e7b6b5a2d92c1ac",
+      "bytes": 102
+    },
+    {
+      "name": "test-package-structure",
+      "sha256": "d094b1bd2c8318c96097f80c50da282add5b2972970a77046de8db6c8935f6ca",
+      "bytes": 102
+    }
+  ]
+}

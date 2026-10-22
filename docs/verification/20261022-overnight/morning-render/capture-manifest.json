@@ -1,0 +1,200 @@
+[
+  {
+    "profile": "actual",
+    "file": "01-arrival.png",
+    "sha256": "1643ff3f04e3beca7b46fa8015f77ab6c8873162dfbaf9640c876dc9ab634de9",
+    "bytes": 363053
+  },
+  {
+    "profile": "actual",
+    "file": "02-left.png",
+    "sha256": "55df3fa354853260a7213c10c76c0291eb799dbf6d18ca0f7901814187337fa0",
+    "bytes": 407326
+  },
+  {
+    "profile": "actual",
+    "file": "03-right.png",
+    "sha256": "36df4393999a537446855edccb0264499e83f9f3034254da8d626ac9244a19c6",
+    "bytes": 404064
+  },
+  {
+    "profile": "actual",
+    "file": "04-terminal.png",
+    "sha256": "c199c517fe1b3e63f47e853101b153c463f88482f3050dffcf5a3fc6b2061803",
+    "bytes": 75123
+  },
+  {
+    "profile": "actual",
+    "file": "panel-achievements.png",
+    "sha256": "57fcc9ac7bdd3d59a4dcb1336b555f54de20ca80b4624a1e9554e049469de4e4",
+    "bytes": 83077
+  },
+  {
+    "profile": "actual",
+    "file": "panel-archive.png",
+    "sha256": "3ea6a326587cd2515d2bb9a37c7206eb352d34bc44542b847e4f77c99ac1bec4",
+    "bytes": 119840
+  },
+  {
+    "profile": "actual",
+    "file": "panel-feedback.png",
+    "sha256": "41cec1eb4d6cd12d1f983e8fc23fd687f9e0c1e9f985d7b14001e3335adaaa0e",
+    "bytes": 225498
+  },
+  {
+    "profile": "actual",
+    "file": "panel-handbook.png",
+    "sha256": "9ac9010bc8686b185fe70190e78b6c9db7cd83ce88f8d6b590edbf9e88a8dcf7",
+    "bytes": 182497
+  },
+  {
+    "profile": "actual",
+    "file": "panel-review.png",
+    "sha256": "6d09549fec9b53b38e9205763f064a9ba7db6c0e52151f760aee9696dc3beb0c",
+    "bytes": 38824
+  },
+  {
+    "profile": "actual",
+    "file": "panel-settings.png",
+    "sha256": "629a58a2cb1f9024c619da016e65fac068b1d7b1ab1f8844984628efc0cf7778",
+    "bytes": 133935
+  },
+  {
+    "profile": "actual",
+    "file": "panel-works.png",
+    "sha256": "20812a81ba1e2c0eaf5502e83c1c4d0f438e6915b64ee1e167da0e40482a83ee",
+    "bytes": 285539
+  },
+  {
+    "profile": "low",
+    "file": "01-arrival.png",
+    "sha256": "2d4e1710ccc62a3b087b937bc84fee111ec13ac1d8d5ec4fef3222b58e76da50",
+    "bytes": 241413
+  },
+  {
+    "profile": "low",
+    "file": "02-left.png",
+    "sha256": "4072f3228c8ebca93b8dff35612f41fa672536fb76e9a20d57071e5d6038677e",
+    "bytes": 256950
+  },
+  {
+    "profile": "low",
+    "file": "03-right.png",
+    "sha256": "e25cd07a912148e9d3ce82b17adb7889750bd8961184146b3b2875f077a6e613",
+    "bytes": 261417
+  },
+  {
+    "profile": "low",
+    "file": "04-terminal.png",
+    "sha256": "b2f4ec49e6303183c961b9f5d9644a26471e22308c41e66a023029c5b4aedd33",
+    "bytes": 77099
+  },
+  {
+    "profile": "low",
+    "file": "panel-achievements.png",
+    "sha256": "57fcc9ac7bdd3d59a4dcb1336b555f54de20ca80b4624a1e9554e049469de4e4",
+    "bytes": 83077
+  },
+  {
+    "profile": "low",
+    "file": "panel-archive.png",
+    "sha256": "3ea6a326587cd2515d2bb9a37c7206eb352d34bc44542b847e4f77c99ac1bec4",
+    "bytes": 119840
+  },
+  {
+    "profile": "low",
+    "file": "panel-feedback.png",
+    "sha256": "41cec1eb4d6cd12d1f983e8fc23fd687f9e0c1e9f985d7b14001e3335adaaa0e",
+    "bytes": 225498
+  },
+  {
+    "profile": "low",
+    "file": "panel-handbook.png",
+    "sha256": "9ac9010bc8686b185fe70190e78b6c9db7cd83ce88f8d6b590edbf9e88a8dcf7",
+    "bytes": 182497
+  },
+  {
+    "profile": "low",
+    "file": "panel-review.png",
+    "sha256": "6d09549fec9b53b38e9205763f064a9ba7db6c0e52151f760aee9696dc3beb0c",
+    "bytes": 38824
+  },
+  {
+    "profile": "low",
+    "file": "panel-settings.png",
+    "sha256": "629a58a2cb1f9024c619da016e65fac068b1d7b1ab1f8844984628efc0cf7778",
+    "bytes": 133935
+  },
+  {
+    "profile": "low",
+    "file": "panel-works.png",
+    "sha256": "20812a81ba1e2c0eaf5502e83c1c4d0f438e6915b64ee1e167da0e40482a83ee",
+    "bytes": 285539
+  },
+  {
+    "profile": "half",
+    "file": "01-arrival.png",
+    "sha256": "8b166385110d93958cef723e446e1c99b3068734c505f62570997304a29d871a",
+    "bytes": 270147
+  },
+  {
+    "profile": "half",
+    "file": "02-left.png",
+    "sha256": "86f1dc9629637a32a3bcc17d082bc9d67192c0bf6dc4a219098262054d4ff5ea",
+    "bytes": 296720
+  },
+  {
+    "profile": "half",
+    "file": "03-right.png",
+    "sha256": "93e4db5680c8d3654c175d31c39a187885ead7443656beb2b58e5c216e7cf267",
+    "bytes": 293401
+  },
+  {
+    "profile": "half",
+    "file": "04-terminal.png",
+    "sha256": "a4dc4958a71e24ce65be796a09012b1d0cc7b8c4efc86a04423113ea3e2e63de",
+    "bytes": 77314
+  },
+  {
+    "profile": "half",
+    "file": "panel-achievements.png",
+    "sha256": "57fcc9ac7bdd3d59a4dcb1336b555f54de20ca80b4624a1e9554e049469de4e4",
+    "bytes": 83077
+  },
+  {
+    "profile": "half",
+    "file": "panel-archive.png",
+    "sha256": "3ea6a326587cd2515d2bb9a37c7206eb352d34bc44542b847e4f77c99ac1bec4",
+    "bytes": 119840
+  },
+  {
+    "profile": "half",
+    "file": "panel-feedback.png",
+    "sha256": "41cec1eb4d6cd12d1f983e8fc23fd687f9e0c1e9f985d7b14001e3335adaaa0e",
+    "bytes": 225498
+  },
+  {
+    "profile": "half",
+    "file": "panel-handbook.png",
+    "sha256": "9ac9010bc8686b185fe70190e78b6c9db7cd83ce88f8d6b590edbf9e88a8dcf7",
+    "bytes": 182497
+  },
+  {
+    "profile": "half",
+    "file": "panel-review.png",
+    "sha256": "6d09549fec9b53b38e9205763f064a9ba7db6c0e52151f760aee9696dc3beb0c",
+    "bytes": 38824
+  },
+  {
+    "profile": "half",
+    "file": "panel-settings.png",
+    "sha256": "629a58a2cb1f9024c619da016e65fac068b1d7b1ab1f8844984628efc0cf7778",
+    "bytes": 133935
+  },
+  {
+    "profile": "half",
+    "file": "panel-works.png",
+    "sha256": "20812a81ba1e2c0eaf5502e83c1c4d0f438e6915b64ee1e167da0e40482a83ee",
+    "bytes": 285539
+  }
+]

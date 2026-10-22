@@ -1,3 +1,27 @@
+# 上午延长轮状态 2026-10-22
+
+用户将独立云电脑优化延长至北京时间 11:00 左右，并要求 Markdown 汇报。
+上午功能提交 `f40bf89` 修复原生试玩发现的 F6 教学同步和关闭工具面板后演示无反馈；
+六个针对性套件已通过；10:20 完成本轮 214 个套件的单次不中断全量回归，
+连同导入与用户目录检查共 216/216 阶段通过。9 项 Python 检查通过。
+从同一已通过快照重新导出候选程序，见 [全量结果](morning-full/results.json)
+和 [包回执](morning-full/package-receipt.json)。此前 09:20 状态保留为历史记录。
+
+现在已有局部 Linux 原生鼠标/键盘试玩证据，不能再把“没有图形环境”当作当前状态。
+半加器、全加器、SR 锁存器和一位寄存器均通过真实连接、正式测试和显式封装；
+仍不是全部 60 项任务、Windows 性能或音效验收。
+详见 [原生试玩记录](linux-desktop-smoke.md) 与 [上午针对性检查](morning-focused/results.json)。
+
+实际渲染发现云端 llvmpipe 房间约 2.8–2.9 FPS，终端约 60 FPS；
+两组降低画质的隔离试验不足以达到流畅目标，未并入生产版本。
+详见 [真实渲染与低负载对照](morning-render/README.md)。
+
+GitHub 上传取消后的重新授权仍未收到；本地提交不代表 main 已更新。
+
+以下为逐轮历史记录，阅读时以每节日期及验证范围为准。
+
+---
+
 # Overnight candidate — work in progress
 
 Baseline main: a5965e3725638cb87e93ffb0a05b95abe12c4dba.

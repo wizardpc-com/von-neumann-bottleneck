@@ -23,3 +23,46 @@ No user save was used, and no completion was fabricated in the user's profile.
 Later levels, Windows input/rendering, sustained FPS, accessibility and new-player
 comprehension remain outside this small smoke check. Do not call it full graphical
 acceptance or a complete end-to-end playthrough.
+
+## Extended ordinary-profile play, 09:40–09:46 Beijing
+
+The owner extended work to about 11:00 Beijing. On the same isolated ordinary
+QA profile, native mouse input connected the complete HalfAdder circuit from its
+unwired initial parts. F6 produced SUM=0/CARRY=0; all four official cases passed.
+The explicit seal action persisted HalfAdder and exposed the next challenge.
+The FullAdder board visibly reused the player's layout-derived HalfAdder outline
+both on canvas and in the palette. Native mouse input connected two HalfAdders
+and an OR gate; all eight official input cases passed, and the explicit seal
+saved FullAdder. The map and terminal showed 3/60 after returning. Normal Quit
+completed and the native window disappeared. No seeded completion was injected.
+
+Two reproducible usability defects were identified in this packed candidate:
+
+1. Closing Components or Test Bench, then selecting Show gesture, did nothing.
+2. FullAdder F6 ran the actual circuit but left the coach at Try it. The shortcut
+   called the lower-level prologue runner rather than the common button route.
+
+These observations motivate subsequent source fixes and separate retesting.
+The previously exported executable still has these defects until rebuilt.
+
+## Source repair retest, 09:52–09:54 Beijing
+
+A new isolated imported source copy included the targeted fixes and reused only
+a copy of the two QA save/workbench JSON files from the earned 3/60 playthrough.
+The terminal restored 3/60 and the player's reusable components after restart.
+On the available, uncompleted SR Latch board, real drags connected the two NOR
+feedback paths and both outputs. Pressing F6 now visibly advanced the coach to
+step 3/3 (Official test), with actual NQ=1/Q=0 for S=0/R=1. Closing Components or
+Test Bench then selecting Show gesture displayed the correct named bottom-button
+recovery instruction and did not forcibly reopen the panel or modify the circuit.
+The revised build instruction correctly acknowledges the existing canvas parts.
+
+Runtime log identifies Mesa llvmpipe software rendering. Audio output fell back
+to the dummy driver, so sound quality is not tested. These facts must accompany
+any later performance report; no hardware-accelerated or audible-play claim.
+
+The same native session subsequently passed the SR Latch and Register1 official
+state sequences (reset/set/hold and write/hold). Both circuits were built through
+real mouse drags using the earned SRLatch module for Register1. Sealing is an
+explicit action, not the visual animation itself granting completion. This adds
+arithmetic and storage-branch coverage, not all fourteen prologue lessons.

@@ -29,8 +29,8 @@ const STEPS := [
 
 const BUILD_STEPS := [
 	{"id": "wire", "zh_title": "搭电路", "en_title": "Build",
-		"zh": "从右侧「元件」拖出门电路，接到每一个输出上。不确定时可以先只接一个输出试试。",
-		"en": "Drag gates from Components on the right and wire every output. Unsure? Wire just one output first."},
+		"zh": "先连接画布上已有的元件，需要时再从右侧「元件」拖入。每个输出都要接线；不确定时先试一个输出。",
+		"en": "Start with the parts already on the canvas; drag in more from Components if needed. Wire every output, or try one first."},
 	{"id": "debug", "zh_title": "试一试", "en_title": "Try it",
 		"zh": "在左侧测试台换一组输入，运行调试用例。对照期望与实际输出，找出不一致的那一项。",
 		"en": "Change an input case in Test Bench and run it. Compare expected and actual outputs to find a mismatch."},

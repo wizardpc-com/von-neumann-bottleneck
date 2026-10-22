@@ -236,3 +236,21 @@ conflicts cannot be safely resolved, preserve the branch and report the blocker.
   batches, and compared 1,025 files across snapshots. All 214 current suites are
   covered by passing results; documented as combined rather than a single run.
   Production code and the already exported package remain unchanged.
+
+## Owner extension — 2026-10-22 09:39 Beijing
+Continue solo cloud QA and bounded usability improvements until about 11:00
+Beijing (03:00 UTC). Deliver an updated Chinese Markdown report with actual
+changes, evidence, remaining limitations and next priorities. GitHub upload
+retry remains awaiting separate approval after cancellation. Prioritize native
+HalfAdder → seal → reuse, teaching recovery and navigation; no simulation or
+progression changes. Native play and automated Godot runs remain sequential.
+
+- 09:54 Beijing: native play earned HalfAdder and FullAdder with four/eight real
+  official cases and sealing, then restored 3/60 in a separate process/profile
+  copy. Fixed F6 prologue dispatch to use the button's common debug path; ignored
+  debug during official playback no longer invents a teaching attempt. Hidden
+  instruments/empty search now offer recovery instructions. Build text first
+  points to existing canvas parts. Six focused suites pass at snapshot
+  20261022T014926Z-c17eab70. Native SR Latch F6 advanced the coach to 3/3 and
+  hidden Components/Test Bench advice was visibly confirmed. Full regression
+  and final export remain pending; no remote writes.

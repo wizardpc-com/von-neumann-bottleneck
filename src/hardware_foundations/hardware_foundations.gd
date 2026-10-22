@@ -4858,10 +4858,8 @@ func _advance_graph_pan(delta: float, direction: Vector2) -> void:
 
 func _run_current_debug() -> void:
 	match current_phase:
-		&"tutorial", &"half_adder":
+		&"tutorial", &"half_adder", &"prologue":
 			_run_debug()
-		&"prologue":
-			_run_prologue_debug()
 		&"sealed":
 			_run_sealed_official()
 
@@ -6178,10 +6176,10 @@ func _update_signal_control(toggle: CheckButton, signal_name: String) -> void:
 
 
 func _run_debug() -> void:
-	guided_debug_ran = true
-	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if official_sequence_active:
 		return
+	guided_debug_ran = true
+	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if current_phase in [&"prologue", &"prologue_complete"]:
 		_run_prologue_debug()
 		return
@@ -8877,11 +8875,22 @@ func _freeze_visual_layout(circuit: LogicCircuit) -> Dictionary:
 func _show_operation_demonstration() -> void:
 	if operation_demo == null or graph == null or _editor_locked() or mission_briefing_active or is_instance_valid(WindowMode.settings_layer):
 		return
+	operation_demo.stop()
 	var points := PackedVector2Array()
 	var message: String = ""
 	var english: bool = Localization.current_locale() == "en"
 	var step: int = tutorial_coach.last_states.find(false)
 	if step < 0: return
+	# Closed/minimized instruments are deliberate player choices. Point to their
+	# existing dock button instead of doing nothing or reopening a panel silently.
+	var required_tool: StringName = &""
+	if current_phase == &"tutorial" and step in [1,2]: required_tool = &"test_bench"
+	elif current_phase != &"tutorial": required_tool = &"components" if step == 0 else &"test_bench"
+	if not required_tool.is_empty():
+		var required_panel: FloatingInstrumentPanel = desktop_windows.get(required_tool)
+		if required_panel != null and (not required_panel.is_visible_in_tree() or required_panel.minimized):
+			_demonstrate_tool_recovery(required_tool, english)
+			return
 	if current_phase == &"tutorial" and step in [0,4]:
 		# Demonstrate the first missing connection of the authored NOT lesson only.
 		# Never reveal a construction puzzle solution or execute the gesture.
@@ -8930,7 +8939,9 @@ func _show_operation_demonstration() -> void:
 			var clipped: Rect2 = item.get_global_rect().intersection(instrument.get_global_rect())
 			if clipped.size.y >= 40.0 and clipped.size.x >= 80.0:
 				visible_item=item;visible_rect=clipped;break
-		if visible_item == null: return
+		if visible_item == null:
+			status_label.text = "No part is visible. Clear the component search or scroll to a part, then replay." if english else "当前没有可见元件。清空元件搜索，或滚动到一个元件后再看演示。"
+			return
 		var destination := Vector2.ZERO
 		var found: bool=false
 		for y: float in [0.72,0.55,0.85]:
@@ -8942,7 +8953,9 @@ func _show_operation_demonstration() -> void:
 					if node.get_global_rect().grow(20).has_point(candidate): occupied=true;break
 				if not occupied: destination=candidate;found=true;break
 			if found: break
-		if not found: return
+		if not found:
+			status_label.text = "No clear canvas space for a drag demo. Move a panel or pan the view, then replay." if english else "演示需要一块空白画布。移动面板或平移视野后，再看演示。"
+			return
 		var transform: Transform2D=operation_demo.get_global_transform_with_canvas().affine_inverse()
 		points.append(transform*visible_rect.get_center())
 		points.append(transform*destination)
@@ -8954,6 +8967,19 @@ func _show_operation_demonstration() -> void:
 			return
 	operation_demo.english = english
 	operation_demo.demonstrate(points,message,bool(ProjectSettings.get_setting("game/reduced_motion",false)))
+
+
+func _demonstrate_tool_recovery(tool_id: StringName, english: bool) -> void:
+	var dock_button: Button = desktop_window_buttons.get(tool_id)
+	var tool_name: String = _desktop_window_name(tool_id)
+	status_label.text = ("Open %s using its bottom button, then replay the gesture." if english else "点击底部「%s」打开面板，再看操作演示。") % tool_name
+	if dock_button == null or not dock_button.is_visible_in_tree(): return
+	var point: Vector2 = operation_demo.get_global_transform_with_canvas().affine_inverse() * dock_button.get_global_rect().get_center()
+	# The dock can sit below graph_stack. Keep recovery in text in that case;
+	# never draw a pointer outside the demonstration's actual canvas.
+	if not Rect2(Vector2.ZERO, operation_demo.size).has_point(point): return
+	operation_demo.english = english
+	operation_demo.demonstrate(PackedVector2Array([point]),("Open %s" if english else "打开「%s」") % tool_name,bool(ProjectSettings.get_setting("game/reduced_motion",false)))
 
 
 func _offer_first_operation_demo() -> void:

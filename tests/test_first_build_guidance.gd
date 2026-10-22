@@ -94,7 +94,30 @@ func run() -> void:
 		var wire: Dictionary = main.current_level_definition.reference_wires[0]
 		main._on_connection_request(wire.from, int(wire.get("from_port", 0)), wire.to, int(wire.get("to_port", 0)))
 		check_edit(main, true, locale + " fresh prologue board")
-		main._run_debug()
+		check(not main.guided_debug_ran, locale + ": prologue starts without invented debug evidence")
+		main._focus_graph_for_keyboard()
+		var debug_key := InputEventKey.new()
+		debug_key.keycode = KEY_F6
+		debug_key.pressed = true
+		root.push_input(debug_key)
+		debug_key = InputEventKey.new()
+		debug_key.keycode = KEY_F6
+		debug_key.pressed = false
+		root.push_input(debug_key)
+		await settle()
+		check(main.guided_debug_ran and main.board_has_explicit_run, locale + ": actual F6 dispatch records the same teaching attempt as the debug button")
+		main._close_desktop_window(&"test_bench")
+		var pending_debug: Array[bool] = [true, false, false]
+		main.tutorial_coach.last_states = pending_debug
+		main._show_operation_demonstration()
+		check(main.status_label.text.contains(main._desktop_window_name(&"test_bench")), locale + ": hidden test bench explains its recovery action")
+		check(not main.desktop_windows[&"test_bench"].visible, locale + ": recovery advice respects a hidden instrument")
+		main._show_desktop_window(&"test_bench")
+		main.guided_debug_ran = false
+		main.official_sequence_active = true
+		main._run_current_debug()
+		check(not main.guided_debug_ran, locale + ": ignored debug during official playback does not invent teaching evidence")
+		main.official_sequence_active = false
 		main._on_disconnection_request(wire.from, int(wire.get("from_port", 0)), wire.to, int(wire.get("to_port", 0)))
 		check_edit(main, false, locale + " prologue debug attempt")
 		main._start_campaign_level(&"half_adder", false)

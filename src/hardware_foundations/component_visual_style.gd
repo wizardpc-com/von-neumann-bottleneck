@@ -24,12 +24,14 @@ static func outline_color(kind: StringName, selected: bool, hovered: bool = fals
 static func shell(kind: StringName, rect: Rect2) -> PackedVector2Array:
 	var x: float=rect.position.x;var y: float=rect.position.y
 	var w: float=rect.size.x;var h: float=rect.size.y
-	var c: float=minf(10.0,minf(w,h)*0.18)
+	var unit: float = w / 264.0
+	var c: float = minf((7.0 if family(kind) == &"storage" else 10.0) * unit, h * 0.18)
+	var slope: float = minf(18.0 * unit, h * 0.3)
 	match kind:
 		&"mux4",&"mux2_word":
-			return PackedVector2Array([Vector2(x,y),Vector2(x+w,y+c),Vector2(x+w,y+h-c),Vector2(x,y+h)])
+			return PackedVector2Array([Vector2(x,y),Vector2(x+w,y+slope),Vector2(x+w,y+h-slope),Vector2(x,y+h)])
 		&"decoder1_to_2":
-			return PackedVector2Array([Vector2(x,y+c),Vector2(x+w,y),Vector2(x+w,y+h),Vector2(x,y+h-c)])
+			return PackedVector2Array([Vector2(x,y+slope),Vector2(x+w,y),Vector2(x+w,y+h),Vector2(x,y+h-slope)])
 		&"alu1",&"alu4":
-			return PackedVector2Array([Vector2(x,y),Vector2(x+w-c,y),Vector2(x+w,y+h/2),Vector2(x+w-c,y+h),Vector2(x,y+h),Vector2(x+c,y+h/2)])
+			return PackedVector2Array([Vector2(x+c,y),Vector2(x+w-slope,y),Vector2(x+w,y+h/2),Vector2(x+w-slope,y+h),Vector2(x+c,y+h),Vector2(x,y+h-c),Vector2(x+c,y+h/2),Vector2(x,y+c)])
 	return PackedVector2Array([Vector2(x+c,y),Vector2(x+w-c,y),Vector2(x+w,y+c),Vector2(x+w,y+h-c),Vector2(x+w-c,y+h),Vector2(x+c,y+h),Vector2(x,y+h-c),Vector2(x,y+c)])

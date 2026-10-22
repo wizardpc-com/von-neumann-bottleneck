@@ -275,13 +275,14 @@ func ask_quit() -> void:
 	quit_no.text = "否，留下" if zh else "No, stay"
 	sleep_view.hide(); awake_view.hide(); quit_view.show()
 	quit_view.modulate.a = 1.0
-	quit_yes.call_deferred("grab_focus")
+	quit_no.call_deferred("grab_focus")
 
 func cancel_quit() -> void:
 	if not _confirming: return
 	_confirming = false
 	quit_view.hide(); awake_view.show()
 	if not message.caret_visible(): message.play(_passage)
+	action.emit("quit_cancelled")
 	_focus_primary()
 
 func confirming() -> bool:

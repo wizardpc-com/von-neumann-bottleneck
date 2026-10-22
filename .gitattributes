@@ -14,6 +14,7 @@
 *.webp binary
 *.wav binary
 *.ogg binary
+*.ogv binary
 *.ttf binary
 *.woff2 binary
 
@@ -53,3 +54,10 @@ docs/verification/20261021-immersive-lab/terminal-evidence/** -text -whitespace
 docs/verification/20261021-guide-convergence/** -text -whitespace
 docs/verification/20261021-window-redesign/** -text -whitespace
 docs/verification/20261022-windows-integration/** -text -whitespace
+
+docs/verification/20261022-component-refactor/** -text -whitespace
+docs/verification/20261022-component-reference-shapes/** -text -whitespace
+docs/verification/20261022-lab-placement-polish/** -text -whitespace
+docs/verification/20261022-palette-canvas-parity/** -text -whitespace
+docs/verification/20261023-cinematics/** -text -whitespace
+docs/verification/20261023-mode-debug/** -text -whitespace

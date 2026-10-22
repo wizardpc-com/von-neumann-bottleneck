@@ -29,6 +29,7 @@ const STYLE_ITEMS := ["panel", "normal", "hover", "pressed", "focus", "disabled"
 	"scroll", "grabber", "grabber_highlight", "grabber_pressed", "slider", "tab_selected",
 	"tab_unselected", "tab_hovered", "button_pressed", "custom_button", "title_button_normal"]
 const META := &"room_skin_restore"
+const RESIZE_CALLBACK := &"room_skin_resize_callback"
 
 static func has(id: String) -> bool:
 	return ACCENTS.has(id)
@@ -70,11 +71,15 @@ static func apply(root: Control, id: String) -> void:
 				rule.size = Vector2(root.size.x, 2.0)
 		place.call()
 		root.resized.connect(place)
+		rule.set_meta(RESIZE_CALLBACK, place)
 
 static func revert(root: Control) -> void:
 	if root == null: return
 	var rule: Node = root.get_node_or_null(RULE_NAME)
 	if rule != null:
+		var place: Callable = rule.get_meta(RESIZE_CALLBACK, Callable())
+		if place.is_valid() and root.resized.is_connected(place):
+			root.resized.disconnect(place)
 		root.remove_child(rule)
 		rule.queue_free()
 	var nodes: Array[Node] = root.find_children("*", "Control", true, false)

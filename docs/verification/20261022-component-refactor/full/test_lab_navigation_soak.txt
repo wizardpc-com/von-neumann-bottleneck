@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SOAK node_counts=[1487, 1487, 1487, 1487, 1487, 1487, 1487, 1487] orphan_counts=[0, 0, 0, 0, 0, 0, 0, 0]
+PASS: test_lab_navigation_soak 162 checks, 0 failures

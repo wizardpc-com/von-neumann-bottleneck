@@ -1,0 +1,166 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/user_directory"
+    },
+    {
+      "name": "test_cinematics",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_cinematics.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_cinematics"
+    },
+    {
+      "name": "test_component_palette_parity",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_palette_parity.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_component_palette_parity"
+    },
+    {
+      "name": "test_component_placement_flow",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_placement_flow.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_component_placement_flow"
+    },
+    {
+      "name": "test_component_reference_design",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_reference_design.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_component_reference_design"
+    },
+    {
+      "name": "test_component_reference_symbols",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_reference_symbols.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_component_reference_symbols"
+    },
+    {
+      "name": "test_component_runtime_contracts",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_runtime_contracts.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_component_runtime_contracts"
+    },
+    {
+      "name": "test_component_visual_persistence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_component_visual_persistence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_component_visual_persistence"
+    },
+    {
+      "name": "test_first_lesson_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_lesson_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_first_lesson_input"
+    },
+    {
+      "name": "test_global_save",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_global_save.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_global_save"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_foundations_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_hardware_foundations_ui"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_prologue_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_hardware_prologue_ui"
+    },
+    {
+      "name": "test_lab_terminal_confirmation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_confirmation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_lab_terminal_confirmation"
+    },
+    {
+      "name": "test_lab_terminal_pages",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_pages.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_lab_terminal_pages"
+    },
+    {
+      "name": "test_mode_access",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_mode_access.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_mode_access"
+    },
+    {
+      "name": "test_room_page_skin_lifecycle",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_room_page_skin_lifecycle.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_room_page_skin_lifecycle"
+    },
+    {
+      "name": "test_system_device_visual_state",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_device_visual_state.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_system_device_visual_state"
+    },
+    {
+      "name": "test_two_worlds",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_two_worlds.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_two_worlds"
+    },
+    {
+      "name": "test_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161600Z-8d41d2c2/test_ui"
+    }
+  ]
+}

@@ -77,9 +77,9 @@ func _run() -> void:
 	_assert(not bool(terminology_handbook.call("is_open")) and (main.get("chapter_map_host") as Control).visible, "Escape must close the handbook before navigating away from the Chapter 2 map.")
 	_assert(
 		main.get("mode_selector") != null
-		and not (main.get("mode_selector") as Control).visible
+		and (main.get("mode_selector") as Control).visible
 		and not bool(game_mode.call("is_test_mode")),
-		"A normal launch must start in Game mode with the developer selector hidden."
+		"A normal launch starts in Game mode with the shared mode selector available."
 	)
 	_assert((main.get("chapter_map_host") as Control).visible, "Chapter 2 must open on its seven-level investigation map rather than dropping directly into the old lab.")
 	game_mode.call("set_mode", &"test")

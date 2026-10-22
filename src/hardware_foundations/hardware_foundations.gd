@@ -26,7 +26,6 @@ const CircuitTraceOverlayType = preload("res://src/hardware_foundations/circuit_
 const SignalNotationType = preload("res://src/ui/signal_notation.gd")
 const CircuitComponentSymbolType = preload("res://src/hardware_foundations/circuit_component_symbol.gd")
 const CircuitModuleRowType = preload("res://src/hardware_foundations/circuit_module_row.gd")
-const CircuitModuleThumbnailType = preload("res://src/hardware_foundations/circuit_module_thumbnail.gd")
 const ComponentPaletteItemType = preload("res://src/hardware_foundations/component_palette_item.gd")
 const CircuitWorkbenchStoreType = preload("res://src/hardware_foundations/circuit_workbench_store.gd")
 const CampaignMapViewType = preload("res://src/hardware_foundations/campaign_map_view.gd")
@@ -461,7 +460,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and not armed_component_template_key.is_empty() and graph != null:
 		graph.placement_pointer = graph.get_global_transform_with_canvas().affine_inverse() * event.position
 		graph.placement_has_pointer = _component_placement_position_allowed(event.position)
-		graph.queue_redraw()
+		graph._draw_component_placement_preview()
 	if _handle_palette_drop_release(event):
 		get_viewport().set_input_as_handled()
 		return
@@ -3660,9 +3659,7 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 			item.set_meta("palette_allowed", allowed)
 			item.set_meta("palette_owned", owned)
 			item.set_meta("palette_search", (palette_catalog.search_words(template) + " " + _component_menu_label(template) + " " + purpose).to_lower())
-			# The card shows the same node view the canvas places, ports included.
-			var preview: Control = _create_component_placement_ghost(template)
-			preview.set_meta("component_kind", template.kind)
+			var preview: Control = _create_component_palette_preview(template)
 			item.call("set_component_preview", preview)
 			if allowed:
 				item.connect("placement_requested", Callable(self, "_arm_component_template"))
@@ -3742,6 +3739,12 @@ func _arm_component_template(key: String) -> void:
 	status_label.add_theme_color_override("font_color", ACCENT)
 
 
+func _create_component_palette_preview(template: LogicComponent) -> Control:
+	var preview: Control = _create_component_placement_ghost(template)
+	preview.set_meta("component_kind", template.kind)
+	return preview
+
+
 func _create_component_placement_ghost(template: LogicComponent) -> Control:
 	var footprint: Vector2 = _component_node_size(template)
 	var ghost := Control.new()
@@ -3759,8 +3762,8 @@ func _create_component_placement_ghost(template: LogicComponent) -> Control:
 
 
 func _layout_detached_component_node(node: GraphNode, component: LogicComponent) -> void:
-	var child_position := GRAPH_NODE_CONTENT_ORIGIN
-	var child_width: float = _component_node_size(component).x - GRAPH_NODE_CONTENT_ORIGIN.x * 2.0
+	var child_position := Vector2(4.0, 30.0) if component.is_routing_node() else GRAPH_NODE_CONTENT_ORIGIN
+	var child_width: float = _component_node_size(component).x - child_position.x * 2.0
 	for child: Node in node.get_children():
 		if not child is Control:
 			continue
@@ -3813,7 +3816,6 @@ func _on_empty_canvas_pressed(local_position: Vector2) -> void:
 
 
 func _on_component_drop_requested(template_key: String, local_position: Vector2) -> void:
-	_arm_component_template(template_key)
 	_place_component_template(template_key, local_position)
 	# A drag places one item. Repeated placement belongs to clicking the card.
 	_cancel_component_placement(false)
@@ -3931,19 +3933,19 @@ func _configure_component_node_view(
 func _component_node_size(component: LogicComponent) -> Vector2:
 	match component.kind:
 		LogicComponentType.KIND_JUNCTION:
-			return Vector2(62.0, 34.0)
+			return Vector2(62.0, 60.0)
 		LogicComponentType.KIND_AND, LogicComponentType.KIND_OR, LogicComponentType.KIND_XOR, LogicComponentType.KIND_NOR:
-			return Vector2(124.0, 78.0)
+			return Vector2(124.0, 102.0)
 		LogicComponentType.KIND_NOT:
-			return Vector2(112.0, 54.0)
+			return Vector2(112.0, 78.0)
 		LogicComponentType.KIND_INPUT, LogicComponentType.KIND_OUTPUT, LogicComponentType.KIND_LAMP:
-			return Vector2(138.0, 72.0)
+			return Vector2(138.0, 94.0)
 		LogicComponentType.KIND_CONSTANT:
-			return Vector2(92.0, 56.0)
+			return Vector2(92.0, 86.0)
 		_:
 			var row_count: int = maxi(1, maxi(component.input_count(), component.output_count()))
-			var state_height: float = 26.0 if component.is_stateful() else 0.0
-			return Vector2(264.0, maxf(64.0, float(row_count) * 34.0 + 46.0 + state_height))
+			var state_height: float = 24.0 if component.is_stateful() else 0.0
+			return Vector2(264.0, float(row_count) * 34.0 + 66.0 + state_height)
 
 
 func _add_schematic_slots(
@@ -3956,7 +3958,10 @@ func _add_schematic_slots(
 	var row_height: float = float(metrics["row_height"])
 	var symbol := CircuitComponentSymbolType.new()
 	symbol.custom_minimum_size = Vector2(_component_node_size(component).x - 14.0, row_height)
-	symbol.configure(component.kind, String(component.signal_name), height, component.output_width(0) if component.kind == LogicComponentType.KIND_INPUT else component.input_width(0))
+	symbol.configure(component.kind, String(component.signal_name), height, component.output_width(0) if component.kind in [LogicComponentType.KIND_INPUT, LogicComponentType.KIND_CONSTANT] else component.input_width(0))
+	if component.kind == LogicComponentType.KIND_CONSTANT:
+		var value := DigitalValueType.known(component.output_width(0), int(component.properties.get("value", 0)))
+		symbol.set_signal_state(true, value.value != 0, [], [], value.display_text(), value.value)
 	node.add_child(symbol)
 	if register_visuals:
 		component_symbols[component.id] = symbol
@@ -6262,7 +6267,7 @@ func _set_component_digital_port_states(
 			input_bits.append(value.is_known() and value.value != 0)
 			input_known.append(value.is_known())
 		var first_output: DigitalValue = outputs[0] if not outputs.is_empty() else DigitalValueType.high_z()
-		var terminal_value: DigitalValue = first_output if symbol.component_kind == &"input" else inputs[0] if not inputs.is_empty() else null
+		var terminal_value: DigitalValue = first_output if symbol.component_kind in [&"input", &"constant"] else inputs[0] if not inputs.is_empty() else null
 		symbol.set_signal_state(
 			first_output.is_known(), first_output.is_known() and first_output.value != 0,
 			input_bits, input_known,
@@ -6961,7 +6966,7 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 			_refresh_workbench_menu()
 			_refresh_hint_controls()
 			if newly_completed:
-				call_deferred("_show_level_completion", current_level_id)
+				call_deferred("_show_prologue_completion", current_level_id)
 		else:
 			seal_button.disabled = false
 			seal_button.text = _t(&"hardware.prologue.seal_verified", [
@@ -7123,31 +7128,13 @@ func _build_sealed_graph() -> void:
 	_create_graph()
 	graph.branch_edit_enabled = false
 	var node := GraphNode.new()
-	node.name = &"HalfAdder"
-	node.title = _t(&"hardware.sealed.node_title")
-	node.draggable = true
-	node.resizable = false
-	node.custom_minimum_size = Vector2(430.0, 260.0)
 	graph.add_child(node)
+	var component := LogicComponentType.new(&"HalfAdder", &"half_adder", "HalfAdder")
+	_configure_component_node_view(node, component, true, true)
+	for child: Node in node.get_children():
+		if child is CircuitModuleRow:
+			child.set_visual_snapshot(pending_visual_snapshot, sealed_half_adder.source_signature)
 	node.position_offset = Vector2(690.0, 190.0)
-	_add_port_row(node, 0, "A                         SUM", true, true, PURPLE, GOOD)
-	_add_port_row(node, 1, "B                       CARRY", true, true, PURPLE, GOOD)
-	var preview_center := CenterContainer.new()
-	preview_center.name = "SealedVisualPreview"
-	preview_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var preview := CircuitModuleThumbnailType.new()
-	preview.configure_thumbnail(&"half_adder",[1,1],[1,1])
-	preview.set_visual_snapshot(pending_visual_snapshot,sealed_half_adder.circuit_snapshot.canonical_signature())
-	preview_center.add_child(preview)
-	node.add_child(preview_center)
-	var ownership := Label.new()
-	ownership.text = _t(&"hardware.sealed.ownership")
-	ownership.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ownership.add_theme_font_size_override("font_size", 18)
-	ownership.add_theme_color_override("font_color", GOOD)
-	node.add_child(ownership)
-	node.add_theme_stylebox_override("panel", _stylebox(Color("172b33"), 12, 3, GOOD))
-	node.add_theme_stylebox_override("titlebar", _stylebox(Color("213f46"), 10, 2, GOOD))
 	component_nodes[&"HalfAdder"] = node
 	graph.connection_validator = func(_a: StringName, _b: int, _c: StringName, _d: int) -> bool: return false
 	graph.right_disconnects = false
@@ -8032,6 +8019,17 @@ func _library_names_for_level(level_id: StringName) -> Array[StringName]:
 	return level_catalog.reward_names(level_id)
 
 
+func _show_prologue_completion(level_id: StringName) -> void:
+	if current_level_id != level_id:
+		return
+	if level_id == &"load_store":
+		var movie: CinematicPlayer = preload("res://src/ui/cinematic_player.gd").present_once(self, &"prologue_complete")
+		if movie != null:
+			await movie.finished
+			movie.queue_free()
+	_show_level_completion(level_id)
+
+
 func _build_prologue_complete_side(component_name: StringName = &"") -> void:
 	if current_level_id == &"load_store":
 		SystemChapter.capture_prologue(player_content.component_library)
@@ -8672,6 +8670,9 @@ func _set_component_activity(
 	var rows: Array = component_row_labels.get(component_id, [])
 	if component == null or rows.is_empty():
 		return
+	var heading := component_nodes[component_id].get_node_or_null("ModuleHeading") as CircuitModuleRow
+	if heading != null:
+		heading.set_processing_state(visual_progress, input_visuals, output_visual, output_port)
 	for row_index: int in range(rows.size()):
 		var row: Variant = rows[row_index]
 		if row == null:
@@ -8743,6 +8744,9 @@ func _reset_component_feedback() -> void:
 		var symbol: CircuitComponentSymbol = component_symbols.get(component_id)
 		if symbol != null:
 			symbol.clear_processing_state()
+		var heading := component_nodes[component_id].get_node_or_null("ModuleHeading") as CircuitModuleRow
+		if heading != null:
+			heading.clear_processing_state()
 		var rows: Array = component_row_labels.get(component_id, [])
 		for row_index: int in range(rows.size()):
 			var row: Variant = rows[row_index]
@@ -9190,15 +9194,16 @@ func _freeze_visual_layout(circuit: LogicCircuit) -> Dictionary:
 	# The animation cannot subsequently change this frozen presentation record.
 	var placements: Dictionary = {}
 	for id: StringName in circuit.components:
+		var part: LogicComponent = circuit.components[id]
+		# External test terminals define the interface, not the packaged body.
+		if part.fixed_terminal:
+			continue
 		var node: GraphNode = component_nodes.get(id)
 		if node == null:
 			return {}
-		var part: LogicComponent=circuit.components[id]
-		# Stable interface footprint, not localized label/font-driven widget size.
-		# Positions still come from the player's actual workbench arrangement.
-		var port_rows: int=maxi(part.input_count(),part.output_count())
+		var footprint: Vector2 = _component_node_size(part)
 		placements[String(id)] = {"x":node.position_offset.x,"y":node.position_offset.y,
-			"w":96.0,"h":maxf(72.0,float(port_rows+1)*24.0)}
+			"w":footprint.x,"h":footprint.y}
 	return VisualLayout.freeze(circuit.canonical_signature(),placements)
 
 

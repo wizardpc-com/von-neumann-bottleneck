@@ -1,0 +1,48 @@
+{
+  "encoder_sha256": "2ce797a0f88d7f067180338fb227f7b1928ea727bd9a4d7a1d022f7c52af71a3",
+  "records": [
+    {
+      "id": "opening",
+      "source_file": "2bddc8bdb5198c62db25dcc3c5574428_raw.mp4",
+      "source_sha256": "122fe1f170e659c6ee5a6e522886490132c5d416cf4b9e3ac984268199b40d25",
+      "source_bytes": 53598870,
+      "asset": "assets/cinematics/opening.ogv",
+      "sha256": "74a82c4b86bd91efad95528c4ae02efca6822b5e93fd92c967df276e98f852e7",
+      "bytes": 32627725,
+      "full_ffmpeg_decode": true
+    },
+    {
+      "id": "prologue_complete",
+      "source_file": "0414adbe1b47af721ce15d3b93512099.mp4",
+      "source_sha256": "7625abeebba6c80007d7acdca22beb029d7d326896b5193401a31a457caaf1a2",
+      "source_bytes": 2644104,
+      "asset": "assets/cinematics/prologue_complete.ogv",
+      "sha256": "9e18948fce8baad5440a2d9fc4de6c8010474a9ebbec0a4a6aff68ed37a4147c",
+      "bytes": 18987098,
+      "full_ffmpeg_decode": true
+    }
+  ],
+  "encoding": "-map 0:v:0 -map 0:a:0? -map_metadata -1 -c:v libtheora -q:v 7 -g:v 64 -pix_fmt yuv420p -c:a libvorbis -q:a 5",
+  "metadata": {
+    "opening": {
+      "size": [
+        1920,
+        1080
+      ],
+      "fps": 30,
+      "seconds": 45.72,
+      "audio_hz": 44100,
+      "audio_channels": 2
+    },
+    "prologue_complete": {
+      "size": [
+        1280,
+        720
+      ],
+      "fps": 30,
+      "seconds": 52.36,
+      "audio_hz": 44100,
+      "audio_channels": 1
+    }
+  }
+}

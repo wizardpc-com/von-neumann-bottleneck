@@ -742,6 +742,7 @@ func _is_automated_launch(arguments: PackedStringArray) -> bool:
 
 
 func request_quit() -> void:
+	get_tree().call_group("cinematic_playback", "_finish")
 	get_tree().call_group("workspace_owners","flush_workspace")
 	if save_game():
 		get_tree().quit()

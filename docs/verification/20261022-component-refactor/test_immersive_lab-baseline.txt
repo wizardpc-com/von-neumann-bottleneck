@@ -1,0 +1,292 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+LAYOUT room=(1280.0, 720.0) viewport=(1280, 720) glass=[P: (407.1256, 263.4816), S: (465.7488, 206.4688)] terminal=[P: (140.0, 140.0), S: (1000.0, 440.0)]
+LAYOUT focused 1280x720 zh glass=[P: (407.1256, 263.4816), S: (465.7488, 206.4688)] terminal=[P: (140.0, 140.0), S: (1000.0, 440.0)]
+LAYOUT control 1280x720 zh TerminalPrimary=[P: (162.0, 471.0), S: (956.0, 48.0)]
+LAYOUT control 1280x720 zh @HFlowContainer@860=[P: (162.0, 528.0), S: (956.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalLanguage=[P: (1074.0, 156.0), S: (44.0, 24.0)]
+LAYOUT control 1280x720 zh TerminalJourney=[P: (162.0, 528.0), S: (84.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalArchive=[P: (252.0, 528.0), S: (65.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalHandbook=[P: (323.0, 528.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalSettings=[P: (381.0, 528.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalWorks=[P: (439.0, 528.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalAchievements=[P: (497.0, 528.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalFeedback=[P: (555.0, 528.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalLook=[P: (613.0, 528.0), S: (133.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalQuit=[P: (752.0, 528.0), S: (84.0, 36.0)]
+LAYOUT focused 1280x720 en glass=[P: (407.1256, 263.4816), S: (465.7488, 206.4688)] terminal=[P: (140.0, 140.0), S: (1000.0, 440.0)]
+LAYOUT control 1280x720 en TerminalPrimary=[P: (162.0, 471.0), S: (956.0, 48.0)]
+LAYOUT control 1280x720 en @HFlowContainer@860=[P: (162.0, 528.0), S: (956.0, 36.0)]
+LAYOUT control 1280x720 en TerminalLanguage=[P: (1074.0, 156.0), S: (44.0, 24.0)]
+LAYOUT control 1280x720 en TerminalJourney=[P: (162.0, 528.0), S: (120.0, 36.0)]
+LAYOUT control 1280x720 en TerminalArchive=[P: (288.0, 528.0), S: (89.0, 36.0)]
+LAYOUT control 1280x720 en TerminalHandbook=[P: (383.0, 528.0), S: (100.0, 36.0)]
+LAYOUT control 1280x720 en TerminalSettings=[P: (489.0, 528.0), S: (82.0, 36.0)]
+LAYOUT control 1280x720 en TerminalWorks=[P: (577.0, 528.0), S: (67.0, 36.0)]
+LAYOUT control 1280x720 en TerminalAchievements=[P: (650.0, 528.0), S: (126.0, 36.0)]
+LAYOUT control 1280x720 en TerminalFeedback=[P: (782.0, 528.0), S: (93.0, 36.0)]
+LAYOUT control 1280x720 en TerminalLook=[P: (881.0, 528.0), S: (169.0, 36.0)]
+LAYOUT control 1280x720 en TerminalQuit=[P: (1056.0, 528.0), S: (53.0, 36.0)]
+LAYOUT focused 1600x900 zh glass=[P: (508.907, 329.352), S: (582.186, 258.0861)] terminal=[P: (175.0, 175.0), S: (1250.0, 550.0)]
+LAYOUT control 1600x900 zh TerminalPrimary=[P: (202.5, 588.75), S: (1195.0, 60.0)]
+LAYOUT control 1600x900 zh @HFlowContainer@860=[P: (202.5, 660.0), S: (1195.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalLanguage=[P: (1342.5, 195.0), S: (55.0, 30.0)]
+LAYOUT control 1600x900 zh TerminalJourney=[P: (202.5, 660.0), S: (105.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalArchive=[P: (315.0, 660.0), S: (81.25, 45.0)]
+LAYOUT control 1600x900 zh TerminalHandbook=[P: (403.75, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalSettings=[P: (476.25, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalWorks=[P: (548.75, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalAchievements=[P: (621.25, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalFeedback=[P: (693.75, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalLook=[P: (766.25, 660.0), S: (166.25, 45.0)]
+LAYOUT control 1600x900 zh TerminalQuit=[P: (940.0, 660.0), S: (105.0, 45.0)]
+LAYOUT focused 1600x900 en glass=[P: (508.907, 329.352), S: (582.186, 258.0861)] terminal=[P: (175.0, 175.0), S: (1250.0, 550.0)]
+LAYOUT control 1600x900 en TerminalPrimary=[P: (202.5, 588.75), S: (1195.0, 60.0)]
+LAYOUT control 1600x900 en @HFlowContainer@860=[P: (202.5, 660.0), S: (1195.0, 45.0)]
+LAYOUT control 1600x900 en TerminalLanguage=[P: (1342.5, 195.0), S: (55.0, 30.0)]
+LAYOUT control 1600x900 en TerminalJourney=[P: (202.5, 660.0), S: (150.0, 45.0)]
+LAYOUT control 1600x900 en TerminalArchive=[P: (360.0, 660.0), S: (111.25, 45.0)]
+LAYOUT control 1600x900 en TerminalHandbook=[P: (478.75, 660.0), S: (125.0, 45.0)]
+LAYOUT control 1600x900 en TerminalSettings=[P: (611.25, 660.0), S: (102.5, 45.0)]
+LAYOUT control 1600x900 en TerminalWorks=[P: (721.25, 660.0), S: (83.75, 45.0)]
+LAYOUT control 1600x900 en TerminalAchievements=[P: (812.5, 660.0), S: (157.5, 45.0)]
+LAYOUT control 1600x900 en TerminalFeedback=[P: (977.5, 660.0), S: (116.25, 45.0)]
+LAYOUT control 1600x900 en TerminalLook=[P: (1101.25, 660.0), S: (211.25, 45.0)]
+LAYOUT control 1600x900 en TerminalQuit=[P: (1320.0, 660.0), S: (66.25, 45.0)]
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+LAYOUT focused 1280x800 zh glass=[P: (381.2507, 292.7573), S: (517.4987, 229.4099)] terminal=[P: (140.0, 180.0), S: (1000.0, 440.0)]
+LAYOUT control 1280x800 zh TerminalPrimary=[P: (162.0, 511.0), S: (956.0, 48.0)]
+LAYOUT control 1280x800 zh @HFlowContainer@860=[P: (162.0, 568.0), S: (956.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalLanguage=[P: (1074.0, 196.0), S: (44.0, 24.0)]
+LAYOUT control 1280x800 zh TerminalJourney=[P: (162.0, 568.0), S: (84.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalArchive=[P: (252.0, 568.0), S: (65.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalHandbook=[P: (323.0, 568.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalSettings=[P: (381.0, 568.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalWorks=[P: (439.0, 568.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalAchievements=[P: (497.0, 568.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalFeedback=[P: (555.0, 568.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalLook=[P: (613.0, 568.0), S: (133.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalQuit=[P: (752.0, 568.0), S: (84.0, 36.0)]
+LAYOUT focused 1280x800 en glass=[P: (381.2507, 292.7573), S: (517.4987, 229.4099)] terminal=[P: (140.0, 180.0), S: (1000.0, 440.0)]
+LAYOUT control 1280x800 en TerminalPrimary=[P: (162.0, 511.0), S: (956.0, 48.0)]
+LAYOUT control 1280x800 en @HFlowContainer@860=[P: (162.0, 568.0), S: (956.0, 36.0)]
+LAYOUT control 1280x800 en TerminalLanguage=[P: (1074.0, 196.0), S: (44.0, 24.0)]
+LAYOUT control 1280x800 en TerminalJourney=[P: (162.0, 568.0), S: (120.0, 36.0)]
+LAYOUT control 1280x800 en TerminalArchive=[P: (288.0, 568.0), S: (89.0, 36.0)]
+LAYOUT control 1280x800 en TerminalHandbook=[P: (383.0, 568.0), S: (100.0, 36.0)]
+LAYOUT control 1280x800 en TerminalSettings=[P: (489.0, 568.0), S: (82.0, 36.0)]
+LAYOUT control 1280x800 en TerminalWorks=[P: (577.0, 568.0), S: (67.0, 36.0)]
+LAYOUT control 1280x800 en TerminalAchievements=[P: (650.0, 568.0), S: (126.0, 36.0)]
+LAYOUT control 1280x800 en TerminalFeedback=[P: (782.0, 568.0), S: (93.0, 36.0)]
+LAYOUT control 1280x800 en TerminalLook=[P: (881.0, 568.0), S: (169.0, 36.0)]
+LAYOUT control 1280x800 en TerminalQuit=[P: (1056.0, 568.0), S: (53.0, 36.0)]
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+LAYOUT focused 1440x1080 zh glass=[P: (370.6884, 395.2224), S: (698.6233, 309.7033)] terminal=[P: (157.5, 292.5), S: (1125.0, 495.0)]
+LAYOUT control 1440x1080 zh TerminalPrimary=[P: (182.25, 664.875), S: (1075.5, 54.0)]
+LAYOUT control 1440x1080 zh @HFlowContainer@860=[P: (182.25, 729.0), S: (1075.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalLanguage=[P: (1208.25, 310.5), S: (49.5, 27.0)]
+LAYOUT control 1440x1080 zh TerminalJourney=[P: (182.25, 729.0), S: (94.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalArchive=[P: (283.5, 729.0), S: (73.125, 40.5)]
+LAYOUT control 1440x1080 zh TerminalHandbook=[P: (363.375, 729.0), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalSettings=[P: (428.625, 729.0), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalWorks=[P: (493.875, 729.0), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalAchievements=[P: (559.125, 729.0), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalFeedback=[P: (624.375, 729.0), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalLook=[P: (689.625, 729.0), S: (149.625, 40.5)]
+LAYOUT control 1440x1080 zh TerminalQuit=[P: (846.0, 729.0), S: (94.5, 40.5)]
+LAYOUT focused 1440x1080 en glass=[P: (370.6884, 395.2224), S: (698.6233, 309.7033)] terminal=[P: (157.5, 292.5), S: (1125.0, 495.0)]
+LAYOUT control 1440x1080 en TerminalPrimary=[P: (182.25, 664.875), S: (1075.5, 54.0)]
+LAYOUT control 1440x1080 en @HFlowContainer@860=[P: (182.25, 729.0), S: (1075.5, 40.5)]
+LAYOUT control 1440x1080 en TerminalLanguage=[P: (1208.25, 310.5), S: (49.5, 27.0)]
+LAYOUT control 1440x1080 en TerminalJourney=[P: (182.25, 729.0), S: (135.0, 40.5)]
+LAYOUT control 1440x1080 en TerminalArchive=[P: (324.0, 729.0), S: (100.125, 40.5)]
+LAYOUT control 1440x1080 en TerminalHandbook=[P: (430.875, 729.0), S: (112.5, 40.5)]
+LAYOUT control 1440x1080 en TerminalSettings=[P: (550.125, 729.0), S: (92.25, 40.5)]
+LAYOUT control 1440x1080 en TerminalWorks=[P: (649.125, 729.0), S: (75.375, 40.5)]
+LAYOUT control 1440x1080 en TerminalAchievements=[P: (731.25, 729.0), S: (141.75, 40.5)]
+LAYOUT control 1440x1080 en TerminalFeedback=[P: (879.75, 729.0), S: (104.625, 40.5)]
+LAYOUT control 1440x1080 en TerminalLook=[P: (991.125, 729.0), S: (190.125, 40.5)]
+LAYOUT control 1440x1080 en TerminalQuit=[P: (1188.0, 729.0), S: (59.625, 40.5)]
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:241)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+LAYOUT focused 1920x900 zh glass=[P: (668.907, 329.352), S: (582.186, 258.0861)] terminal=[P: (335.0, 175.0), S: (1250.0, 550.0)]
+LAYOUT control 1920x900 zh TerminalPrimary=[P: (362.5, 588.75), S: (1195.0, 60.0)]
+LAYOUT control 1920x900 zh @HFlowContainer@860=[P: (362.5, 660.0), S: (1195.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalLanguage=[P: (1502.5, 195.0), S: (55.0, 30.0)]
+LAYOUT control 1920x900 zh TerminalJourney=[P: (362.5, 660.0), S: (105.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalArchive=[P: (475.0, 660.0), S: (81.25, 45.0)]
+LAYOUT control 1920x900 zh TerminalHandbook=[P: (563.75, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalSettings=[P: (636.25, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalWorks=[P: (708.75, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalAchievements=[P: (781.25, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalFeedback=[P: (853.75, 660.0), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalLook=[P: (926.25, 660.0), S: (166.25, 45.0)]
+LAYOUT control 1920x900 zh TerminalQuit=[P: (1100.0, 660.0), S: (105.0, 45.0)]
+LAYOUT focused 1920x900 en glass=[P: (668.907, 329.352), S: (582.186, 258.0861)] terminal=[P: (335.0, 175.0), S: (1250.0, 550.0)]
+LAYOUT control 1920x900 en TerminalPrimary=[P: (362.5, 588.75), S: (1195.0, 60.0)]
+LAYOUT control 1920x900 en @HFlowContainer@860=[P: (362.5, 660.0), S: (1195.0, 45.0)]
+LAYOUT control 1920x900 en TerminalLanguage=[P: (1502.5, 195.0), S: (55.0, 30.0)]
+LAYOUT control 1920x900 en TerminalJourney=[P: (362.5, 660.0), S: (150.0, 45.0)]
+LAYOUT control 1920x900 en TerminalArchive=[P: (520.0, 660.0), S: (111.25, 45.0)]
+LAYOUT control 1920x900 en TerminalHandbook=[P: (638.75, 660.0), S: (125.0, 45.0)]
+LAYOUT control 1920x900 en TerminalSettings=[P: (771.25, 660.0), S: (102.5, 45.0)]
+LAYOUT control 1920x900 en TerminalWorks=[P: (881.25, 660.0), S: (83.75, 45.0)]
+LAYOUT control 1920x900 en TerminalAchievements=[P: (972.5, 660.0), S: (157.5, 45.0)]
+LAYOUT control 1920x900 en TerminalFeedback=[P: (1137.5, 660.0), S: (116.25, 45.0)]
+LAYOUT control 1920x900 en TerminalLook=[P: (1261.25, 660.0), S: (211.25, 45.0)]
+LAYOUT control 1920x900 en TerminalQuit=[P: (1480.0, 660.0), S: (66.25, 45.0)]
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:267)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:267)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:267)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:267)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] align_to (res://src/lab/lab_terminal_pages.gd:62)
+       [1] _process_immersive_room (res://src/lab/lab_home.gd:338)
+       [2] check_terminal_layout (res://tests/test_immersive_lab.gd:267)
+       [3] settle (res://tests/test_immersive_lab.gd:22)
+RAY_GRID look_degrees=(0.0, 0.0) hits={ "works": 105, "achievements": 44, "archive": 188, "journey": 188, "terminal": 714, "globe": 26, "handbook": 46, "feedback": 19, "settings": 4 }
+RAY_REACH terminal { "pixel": (414.0, 258.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH archive { "pixel": (66.0, 234.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH journey { "pixel": (1086.0, 234.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH works { "pixel": (450.0, 162.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH achievements { "pixel": (726.0, 162.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH handbook { "pixel": (414.0, 498.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH settings { "pixel": (954.0, 534.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH feedback { "pixel": (810.0, 522.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH globe { "pixel": (318.0, 426.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+PASS: immersive lab 400 checks, 0 failures
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://src/ui/prototype_hub.gd:232)
+ERROR: Lambda capture at index 0 was freed. Passed "null" instead.
+   at: call (modules/gdscript/gdscript_lambda_callable.cpp:110)
+   GDScript backtrace (most recent call first):
+       [0] <anonymous lambda> (res://src/ui/prototype_hub.gd:232)

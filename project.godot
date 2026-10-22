@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Von Neumann Bottleneck"
 config/version="free-alpha-development"
-run/main_scene="res://src/ui/prototype_hub.tscn"
+run/main_scene="res://src/ui/startup.tscn"
 config/features=PackedStringArray("4.7")
 config/icon="res://assets/branding/game-icon.svg"
 

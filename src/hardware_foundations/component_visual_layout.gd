@@ -1,9 +1,10 @@
 class_name ComponentVisualLayout
 extends RefCounted
 ## Presentation only. Never use this record as simulation/progression evidence.
-## V1 is frozen so old saved silhouettes do not change with later algorithms.
+## Versioned geometry keeps saved silhouettes stable across algorithm changes.
 const SCHEMA: int = 1
-const ALGORITHM: String = "layout-envelope-v1"
+const ALGORITHM: String = "layout-envelope-v2"
+const LEGACY_ALGORITHM: String = "layout-envelope-v1"
 const COLUMNS: int = 12
 const ROWS: int = 10
 const MAX_COMPONENTS: int = 512
@@ -36,43 +37,30 @@ static func freeze(source_signature: String, placements: Dictionary) -> Dictiona
 		var box := Rect2(x, y, w, h)
 		bounds = box if boxes.is_empty() else bounds.merge(box)
 		boxes.append(box)
-	# Normalize first, then snap small editing jitter before envelope quantization.
-	# Snapping absolute world coordinates would make translation change the shape.
-	var origin: Vector2 = bounds.position
-	bounds = Rect2()
-	for index: int in boxes.size():
-		var box: Rect2 = boxes[index]
-		box.position = (box.position-origin).snapped(Vector2(8,8))
-		box.size = box.size.snapped(Vector2(8,8)).max(Vector2(8,8))
-		boxes[index] = box
-		bounds = box if index == 0 else bounds.merge(box)
-	# Quantized occupied cells, sorted independently of dictionary insertion order.
+	# Preserve relative aspect while fitting inside a one-cell margin. Quantize in
+	# normalized cells so zoom, translation and world-unit scale cannot distort it.
+	var scale: float = minf(float(COLUMNS-2)/bounds.size.x,float(ROWS-2)/bounds.size.y)
+	var padding: Vector2 = (Vector2(COLUMNS,ROWS)-bounds.size*scale)*0.5
 	var occupied: Dictionary = {}
 	for box: Rect2 in boxes:
-		var start := Vector2i(floori((box.position.x-bounds.position.x)/bounds.size.x*COLUMNS), floori((box.position.y-bounds.position.y)/bounds.size.y*ROWS))
-		var finish := Vector2i(ceili((box.end.x-bounds.position.x)/bounds.size.x*COLUMNS)-1, ceili((box.end.y-bounds.position.y)/bounds.size.y*ROWS)-1)
-		for y: int in range(clampi(start.y,0,ROWS-1),clampi(finish.y,0,ROWS-1)+1):
-			for x: int in range(clampi(start.x,0,COLUMNS-1),clampi(finish.x,0,COLUMNS-1)+1):
+		var start: Vector2 = ((box.position-bounds.position)*scale+padding).snapped(Vector2(0.25,0.25))
+		var finish: Vector2 = ((box.end-bounds.position)*scale+padding).snapped(Vector2(0.25,0.25))
+		# A tiny real component must survive quarter-cell quantization.
+		var first := Vector2i(clampi(floori(start.x),0,COLUMNS-1),clampi(floori(start.y),0,ROWS-1))
+		var last := Vector2i(clampi(maxi(first.x,ceili(finish.x)-1),0,COLUMNS-1),clampi(maxi(first.y,ceili(finish.y)-1),0,ROWS-1))
+		for y: int in range(first.y,last.y+1):
+			for x: int in range(first.x,last.x+1):
 				occupied[y*COLUMNS+x] = true
 	var cells: Array = occupied.keys()
 	cells.sort()
-	# A solid central spine guarantees one connected, grabbable body and label room.
-	# Row envelopes preserve major left/right branches without thin wire-shaped tails.
-	var bands: Array = []
-	for y: int in ROWS:
-		var left: int = 4
-		var right: int = 7
-		for x: int in COLUMNS:
-			if occupied.has(y*COLUMNS+x):
-				left = mini(left,x)
-				right = maxi(right,x)
-		bands.append([left,right+1])
+	var bands: Array = _bands_for(cells,ALGORITHM)
 	return {"visual_schema":SCHEMA,"visual_algorithm":ALGORITHM,"source_signature":source_signature,
 		"layout_source":"verified_workbench","cells":cells,"bands":bands,
 		"layout_digest":JSON.stringify(cells).sha256_text()}
 
 static func is_valid(snapshot: Dictionary, source_signature: String) -> bool:
-	if snapshot.get("visual_schema") != SCHEMA or snapshot.get("visual_algorithm") != ALGORITHM:
+	var algorithm: Variant = snapshot.get("visual_algorithm")
+	if snapshot.get("visual_schema") != SCHEMA or not algorithm is String or algorithm not in [ALGORITHM,LEGACY_ALGORITHM]:
 		return false
 	if source_signature.is_empty() or snapshot.get("source_signature") != source_signature or snapshot.get("layout_source") != "verified_workbench":
 		return false
@@ -87,8 +75,9 @@ static func is_valid(snapshot: Dictionary, source_signature: String) -> bool:
 			return false
 		previous = int(cell)
 		canonical_cells.append(previous)
-	if String(snapshot.get("layout_digest","")) != JSON.stringify(canonical_cells).sha256_text():
+	if not snapshot.get("layout_digest") is String or snapshot.layout_digest != JSON.stringify(canonical_cells).sha256_text():
 		return false
+	var expected: Array = _bands_for(canonical_cells,algorithm)
 	for row: int in ROWS:
 		var band: Variant = bands[row]
 		if not band is Array or band.size() != 2:
@@ -96,20 +85,28 @@ static func is_valid(snapshot: Dictionary, source_signature: String) -> bool:
 		for edge: Variant in band:
 			if not (edge is int or edge is float) or not is_finite(float(edge)) or float(edge) < 0.0 or float(edge) > COLUMNS or float(edge) != float(int(edge)):
 				return false
-		if int(band[0]) < 0 or int(band[0]) > 4 or int(band[1]) < 8 or int(band[1]) > COLUMNS:
-			return false
-		var expected_left: int = 4
-		var expected_right: int = 8
-		for cell: Variant in cells:
-			if int(cell) / COLUMNS == row:
-				expected_left = mini(expected_left,int(cell) % COLUMNS)
-				expected_right = maxi(expected_right,int(cell) % COLUMNS + 1)
-		if int(band[0]) != expected_left or int(band[1]) != expected_right:
+		if int(band[0]) != expected[row][0] or int(band[1]) != expected[row][1]:
 			return false
 	return true
 
+static func _bands_for(cells: Array, algorithm: String) -> Array:
+	var bands: Array = []
+	for row: int in ROWS:
+		# The middle island protects name/icon space. Elsewhere a two-cell spine
+		# connects sparse source islands without the legacy full-height wide fill.
+		var legacy: bool = algorithm == LEGACY_ALGORITHM
+		var label_row: bool = row >= 3 and row <= 7
+		var left: int = 4 if legacy else (3 if label_row else 5)
+		var right: int = 8 if legacy else (9 if label_row else 7)
+		for cell: Variant in cells:
+			if int(cell) / COLUMNS == row:
+				left = mini(left,int(cell) % COLUMNS)
+				right = maxi(right,int(cell) % COLUMNS+1)
+		bands.append([left,right])
+	return bands
+
 static func outline(snapshot: Dictionary, source_signature: String, rect: Rect2) -> PackedVector2Array:
-	if not is_valid(snapshot,source_signature) or not rect.has_area():
+	if not is_valid(snapshot,source_signature) or not rect.has_area() or not rect.position.is_finite() or not rect.size.is_finite():
 		return PackedVector2Array()
 	var bands: Array = snapshot.bands
 	var points := PackedVector2Array()

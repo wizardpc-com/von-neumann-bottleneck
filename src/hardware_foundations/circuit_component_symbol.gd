@@ -98,7 +98,7 @@ func set_selection_active(active: bool) -> void:
 
 
 func symbol_color() -> Color:
-	return SELECTION if selection_active else SYMBOL
+	return SELECTION if selection_active else VisualStyle.accent(component_kind)
 
 
 func gate_label() -> String:
@@ -141,9 +141,13 @@ func name_layout() -> Dictionary:
 			max_width = 76.0
 			preferred_font_size = 13
 		&"constant":
-			text = str(int(output_value)) if output_known else "C"
+			text = str(terminal_numeric_value if terminal_width > 1 else int(output_value)) if output_known else "C"
 			center.x = width * 0.48
 			max_width = 24.0
+			if terminal_width > 1:
+				center = Vector2(width * 0.5, -7.0)
+				max_width = width - 8.0
+				preferred_font_size = 13
 		&"output", &"lamp":
 			text = terminal_label
 			center = Vector2(width - 43.0, -7.0)
@@ -215,7 +219,7 @@ func visual_hit_test(point: Vector2, tolerance: float = 3.0) -> bool:
 		&"input", &"output":
 			var output: bool = component_kind == &"output"
 			var end := Vector2(0.0 if output else width, center_y)
-			var tip := Vector2(width - 100.0 if output else 100.0, center_y)
+			var tip := Vector2(width - 84.0 if output else 100.0, center_y)
 			return Geometry2D.is_point_in_polygon(point, terminal_body()) or _near_segment(point, tip, end, tolerance + 2.0)
 		&"lamp":
 			var center := Vector2(width - 43.0, center_y)
@@ -257,7 +261,8 @@ func visual_hit_test(point: Vector2, tolerance: float = 3.0) -> bool:
 				point, center + Vector2(16.0, 0.0), Vector2(width, center.y), tolerance + 2.0
 			)
 		&"junction":
-			return _near_segment(point, Vector2(0.0, center_y), Vector2(width, center_y), tolerance + 3.0)
+			return point.distance_to(Vector2(width * 0.5, center_y)) <= 8.0 + tolerance \
+				or _near_segment(point, Vector2(0.0, center_y), Vector2(width, center_y), tolerance + 2.0)
 	return Rect2(Vector2.ZERO, Vector2(width, display_height)).grow(-4.0).has_point(point)
 
 
@@ -435,11 +440,13 @@ func _draw_not() -> void:
 
 func terminal_body() -> PackedVector2Array:
 	var cy: float = display_height * 0.5
-	var points := PackedVector2Array([Vector2(6, cy - 21), Vector2(84, cy - 21), Vector2(100, cy), Vector2(84, cy + 23), Vector2(6, cy + 23)])
 	if component_kind == &"output":
-		for index: int in range(points.size()):
-			points[index].x = size.x - points[index].x
-	return points
+		return PackedVector2Array([
+			Vector2(size.x - 100, cy - 21), Vector2(size.x - 6, cy - 21),
+			Vector2(size.x - 6, cy + 23), Vector2(size.x - 100, cy + 23),
+			Vector2(size.x - 84, cy),
+		])
+	return PackedVector2Array([Vector2(6, cy - 21), Vector2(84, cy - 21), Vector2(100, cy), Vector2(84, cy + 23), Vector2(6, cy + 23)])
 
 
 func _draw_source() -> void:
@@ -497,22 +504,27 @@ func _draw_constant() -> void:
 		center + Vector2(0.0, 16.0), center + Vector2(-16.0, 0.0),
 		center + Vector2(0.0, -16.0),
 	])
+	draw_colored_polygon(diamond, SURFACE)
 	draw_polyline(diamond, body_color, 4.0, true)
 	_draw_output_lead(center + Vector2(16.0, 0.0), Vector2(width, center.y), output_color)
 	_draw_processing_dot(
 		center + Vector2(4.0, 0.0), Vector2(width, center.y), 0.22, 1.0,
 		_processing_output_visual()
 	)
+	if terminal_width > 1:
+		_draw_centered("C", Rect2(center - Vector2(12.0, 10.0), Vector2(24.0, 20.0)), 13, base)
+		_draw_centered(SignalNotationType.width_text(terminal_width), Rect2(center + Vector2(-24.0, 17.0), Vector2(48.0, 16.0)), 11, SignalNotationType.width_color(terminal_width))
 
 
 func _draw_observer(lamp: bool) -> void:
 	var center := Vector2(size.x - 43.0, display_height * 0.5)
-	var finish := Vector2(size.x - 100.0, display_height * 0.5)
+	var finish := Vector2(size.x - 84.0, display_height * 0.5)
 	if lamp:
 		finish = center - Vector2(23.0, 0.0)
 		var lit: bool = not input_known.is_empty() and input_known[0] and not input_values.is_empty() and input_values[0]
 		draw_circle(center, 23.0, Color("234238") if lit else Color("132333"))
 		draw_circle(center, 23.0, SELECTION if selection_active else SignalNotationType.width_color(1), false, 2.0, true)
+		draw_circle(center, 16.0, SELECTION if selection_active else SignalNotationType.width_color(1), false, 1.0, true)
 		if lit:
 			for index: int in range(8):
 				var direction := Vector2.from_angle(float(index) * TAU / 8.0)
@@ -577,12 +589,8 @@ func _draw_junction() -> void:
 	var center := Vector2(size.x * 0.5, display_height * 0.5)
 	var color: Color = _stage_color(symbol_color(), 0.0, 1.0)
 	SignalNotationType.draw_cable(self, PackedVector2Array([Vector2(0.0, center.y), Vector2(size.x, center.y)]), color, terminal_width)
-	if terminal_width > 1:
-		draw_rect(Rect2(center - Vector2(7, 7), Vector2(14, 14)), SURFACE)
-		draw_rect(Rect2(center - Vector2(6, 6), Vector2(12, 12)), color, false, 2.0)
-	else:
-		draw_circle(center, 8.0, SURFACE)
-		draw_circle(center, 6.0, color)
+	draw_circle(center, 8.0, SURFACE)
+	draw_circle(center, 6.0, color)
 	_draw_processing_dot(
 		Vector2(0.0, center.y), Vector2(size.x, center.y), 0.0, 1.0,
 		_processing_input_visual(0)

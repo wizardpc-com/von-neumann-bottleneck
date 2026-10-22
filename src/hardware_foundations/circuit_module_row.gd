@@ -15,6 +15,8 @@ const ROUTING := Color("f0c674")
 const SIGNAL_LOW := Color("e8848c")
 const SIGNAL_HIGH := Color("7fd8a4")
 const SIGNAL_HIGH_Z := Color("8b929d")
+const HEADING_HEIGHT := 30.0
+const PORT_ROW_HEIGHT := 34.0
 
 var visual_bands: Array = []
 var component_kind: StringName = &""
@@ -104,7 +106,7 @@ func shape_profile() -> StringName:
 			return &"mux_wedge"
 		&"alu1", &"alu4":
 			return &"alu_notched"
-		&"decoder1_to_2", &"control":
+		&"decoder1_to_2":
 			return &"fanout_module"
 		&"sr_latch", &"register1", &"register4":
 			return &"register_module"
@@ -149,58 +151,42 @@ func _near_segment(point: Vector2, start: Vector2, finish: Vector2, tolerance: f
 
 func visible_component_name() -> String:
 	match component_kind:
-		&"half_adder": return "Half Adder"
-		&"full_adder": return "Full Adder"
-		&"mux4": return "Mux4"
-		&"mux2_word": return component_label if component_label != "word mux" else "Word MUX"
+		&"half_adder": return "HA"
+		&"full_adder": return "FA"
+		&"mux4": return "MUX 4:1"
+		&"mux2_word":
+			if component_label.contains("SOURCE"): return "SRC MUX"
+			if component_label.contains("RESULT"): return "RES MUX"
+			return "MUX 2:1"
 		&"alu1": return "ALU1"
 		&"alu4": return "ALU4"
-		&"sr_latch": return "SR Latch"
-		&"register1": return "Register1"
-		&"register4": return "ACC · Register4" if component_label.contains("ACC") else "Register4"
-		&"decoder1_to_2": return "Decoder"
-		&"control": return component_label if not component_label.is_empty() else "Controller"
-		&"ram2x4": return "RAM2x4"
-		&"tiny_computer": return "CPU + RAM"
+		&"sr_latch": return "SR"
+		&"register1": return "REG1"
+		&"register4": return "ACC" if component_label.contains("ACC") else "REG4"
+		&"decoder1_to_2": return "DEC 1:2"
+		&"control": return "CTRL"
+		&"ram2x4": return "RAM 2x4"
+		&"tiny_computer": return "CPU+RAM"
 	return component_label if not component_label.is_empty() else String(component_kind)
 
 
 func name_layout() -> Dictionary:
 	var text: String = visible_component_name()
 	var safe_rect: Rect2 = _central_content_rect()
-	var preferred_icon_width: float = 24.0
-	var icon_gap: float = 7.0
-	var font_size: int = _name_font_size(
-		text, 16, maxf(1.0, safe_rect.size.x - preferred_icon_width - icon_gap)
-	)
+	var font_size: int = _name_font_size(text, 18, maxf(1.0, safe_rect.size.x - 4.0))
 	var text_width: float = _text_width(text, font_size)
-	var text_box_width: float = text_width + 4.0
-	var icon_width: float = preferred_icon_width
-	if font_size < 14 or text_box_width + icon_width + icon_gap > safe_rect.size.x:
-		icon_width = 0.0
-		icon_gap = 0.0
-		font_size = _name_font_size(text, 16, maxf(1.0, safe_rect.size.x - 4.0))
-		text_width = _text_width(text, font_size)
-		text_box_width = text_width + 4.0
-	var group_width: float = minf(safe_rect.size.x, icon_width + icon_gap + text_box_width)
-	var group_left: float = safe_rect.get_center().x - group_width * 0.5
-	var center_y: float = size.y * 0.5
-	var text_left: float = group_left + icon_width + icon_gap + 2.0
+	var center_y: float = _module_height() * 0.5 - _row_origin_y()
+	var text_center := Vector2(safe_rect.get_center().x, center_y - 13.0)
 	var text_rect := Rect2(
-		Vector2(text_left - 2.0, center_y - float(font_size) * 0.58 - 2.0),
+		Vector2(text_center.x - text_width * 0.5 - 2.0, text_center.y - float(font_size) * 0.58 - 2.0),
 		Vector2(text_width + 4.0, float(font_size) + 4.0)
 	)
-	var icon_rect := Rect2()
-	if icon_width > 0.0:
-		icon_rect = Rect2(
-			Vector2(group_left, center_y - 10.0),
-			Vector2(icon_width, 20.0)
-		)
+	var icon_rect := Rect2(Vector2(text_center.x - 17.0, center_y + 4.0), Vector2(34.0, 26.0))
 	return {
 		"text": text,
 		"font_size": font_size,
 		"text_width": text_width,
-		"center": Vector2(text_left + text_width * 0.5, center_y),
+		"center": text_center,
 		"rect": text_rect,
 		"icon_rect": icon_rect,
 		"safe_rect": safe_rect,
@@ -216,19 +202,17 @@ func port_label_layouts() -> Array[Dictionary]:
 	if has_input:
 		var text: String = _width_label(input_label, input_width)
 		layouts.append(_text_layout(
-			Vector2(left + 7.0, center_y), text, HORIZONTAL_ALIGNMENT_LEFT, 12, &"input"
+			Vector2(6.0, center_y - 12.0) if not visual_bands.is_empty() else Vector2(left + 7.0, center_y), text, HORIZONTAL_ALIGNMENT_LEFT, 12, &"input"
 		))
 	if has_output:
 		var text: String = _width_label(output_label, output_width)
 		layouts.append(_text_layout(
-			Vector2(right - 7.0, center_y), text, HORIZONTAL_ALIGNMENT_RIGHT, 12, &"output"
+			Vector2(size.x - 6.0, center_y - 12.0) if not visual_bands.is_empty() else Vector2(right - 7.0, center_y), text, HORIZONTAL_ALIGNMENT_RIGHT, 12, &"output"
 		))
 	return layouts
 
 
 func function_mark_rect() -> Rect2:
-	if row_index >= 0:
-		return _body_icon_rect().grow(2.0) if row_index == row_count / 2 else Rect2()
 	var layout: Dictionary = name_layout()
 	var result: Rect2 = layout["rect"]
 	var icon_rect: Rect2 = layout["icon_rect"]
@@ -241,17 +225,20 @@ func _draw() -> void:
 	if size.x <= 0.0 or size.y <= 0.0:
 		return
 	if row_index < 0:
-		var header := Rect2(Vector2(_body_left(0.0), 0.0), Vector2(_body_right(0.0) - _body_left(0.0), size.y))
-		draw_rect(header, _outline_color().darkened(0.70), true)
-		draw_rect(header, SELECTION if selection_active else _outline_color(), false, 2.0)
-		_draw_function_mark()
+		var cap: PackedVector2Array = body_polygon()
+		draw_colored_polygon(cap, SURFACE)
+		draw_polyline(cap, SELECTION if selection_active else _outline_color(), 2.0, true)
+		if visual_bands.is_empty():
+			_draw_family_tab()
+			_draw_storage_rails()
 		return
 	_draw_module_surface()
 	_draw_pin_leads()
 	_draw_processing_route()
 	_draw_port_labels()
-	if row_index == row_count / 2:
-		_draw_function_icon(_body_icon_rect(), SYMBOL.lerp(PROCESS, _stage_strength(0.24, 0.76)))
+	if row_index == row_count - 1:
+		# The last row paints the shared mark above earlier row fills.
+		_draw_function_mark()
 
 
 func _body_icon_rect() -> Rect2:
@@ -270,7 +257,11 @@ func body_edge_points(side: int) -> PackedVector2Array:
 	if not visual_bands.is_empty():
 		for index: int in visual_bands.size():
 			var t: float=float(index)/float(visual_bands.size()-1)
-			if t>top and t<bottom: samples.append(t)
+			if t>top and t<bottom and t not in samples: samples.append(t)
+	else:
+		for point: Vector2 in _builtin_polygon():
+			var t: float = (point.y - HEADING_HEIGHT) / (_module_height() - HEADING_HEIGHT)
+			if t > top and t < bottom and t not in samples: samples.append(t)
 	samples.sort()
 	var points:=PackedVector2Array()
 	for t: float in samples:
@@ -280,7 +271,24 @@ func body_edge_points(side: int) -> PackedVector2Array:
 
 func body_polygon() -> PackedVector2Array:
 	if row_index<0:
-		return PackedVector2Array([Vector2(_body_left(0),0),Vector2(_body_right(0),0),Vector2(_body_right(0),size.y),Vector2(_body_left(0),size.y)])
+		if visual_bands.is_empty():
+			var left_edge := PackedVector2Array()
+			var right_edge := PackedVector2Array()
+			var levels: Array[float] = [0.0, HEADING_HEIGHT]
+			for point: Vector2 in _builtin_polygon():
+				if point.y > 0.0 and point.y < HEADING_HEIGHT and point.y not in levels: levels.append(point.y)
+			levels.sort()
+			for y: float in levels:
+				left_edge.append(Vector2(_builtin_edge(y, 0), y))
+				right_edge.append(Vector2(_builtin_edge(y, 1), y))
+			left_edge.reverse()
+			left_edge.append_array(right_edge)
+			return left_edge
+		var left: float = _body_left(0.0)
+		var right: float = _body_right(0.0)
+		return PackedVector2Array([Vector2(left, size.y), Vector2(left, 8.0),
+			Vector2(left + 8.0, 0.0), Vector2(right - 8.0, 0.0),
+			Vector2(right, 8.0), Vector2(right, size.y)])
 	var points: PackedVector2Array=body_edge_points(0)
 	var right: PackedVector2Array=body_edge_points(1)
 	right.reverse()
@@ -295,8 +303,45 @@ func _draw_module_surface() -> void:
 	var outline: Color = SELECTION if selection_active else _outline_color()
 	draw_polyline(left,outline,3.0,true)
 	draw_polyline(right,outline,3.0,true)
-	if row_index==0: draw_line(left[0],right[0],outline,3.0,true)
 	if row_index==row_count-1: draw_line(left[-1],right[-1],outline,3.0,true)
+	_draw_storage_rails()
+
+func _draw_storage_rails() -> void:
+	if visual_bands.is_empty() and VisualStyle.family(component_kind) == &"storage":
+		var first: float = maxf(0.0, 21.0 - _row_origin_y())
+		var last: float = minf(size.y, _module_height() - 21.0 - _row_origin_y())
+		if last > first:
+			for x: float in [23.0, size.x - 23.0]: draw_line(Vector2(x, first), Vector2(x, last), _outline_color(), 1.2, true)
+
+func _draw_family_tab() -> void:
+	draw_colored_polygon(family_tab_polygon(), _outline_color())
+
+func family_tab_polygon() -> PackedVector2Array:
+	var x: float = 40.0
+	var y: float = 18.0 if component_kind == &"decoder1_to_2" else 9.0
+	return PackedVector2Array([Vector2(x, y), Vector2(x + 38, y), Vector2(x + 33, y + 5), Vector2(x, y + 5)])
+
+func _module_height() -> float:
+	return HEADING_HEIGHT + float(row_count) * (PORT_ROW_HEIGHT if row_index < 0 else size.y)
+
+func _row_origin_y() -> float:
+	return 0.0 if row_index < 0 else HEADING_HEIGHT + float(row_index) * size.y
+
+func _builtin_polygon() -> PackedVector2Array:
+	return VisualStyle.shell(component_kind, Rect2(28.0, 0.0, size.x - 56.0, _module_height()))
+
+func _builtin_edge(y: float, side: int) -> float:
+	var polygon: PackedVector2Array = _builtin_polygon()
+	var crossings: Array[float] = []
+	for index: int in polygon.size():
+		var a: Vector2 = polygon[index]
+		var b: Vector2 = polygon[(index + 1) % polygon.size()]
+		if is_equal_approx(a.y, b.y):
+			if is_equal_approx(y, a.y): crossings.append(a.x); crossings.append(b.x)
+		elif y >= minf(a.y, b.y) and y <= maxf(a.y, b.y):
+			crossings.append(lerpf(a.x, b.x, (y - a.y) / (b.y - a.y)))
+	crossings.sort()
+	return crossings.front() if side == 0 else crossings.back()
 
 
 func _draw_pin_leads() -> void:
@@ -330,7 +375,9 @@ func _draw_function_mark() -> void:
 	var layout: Dictionary = name_layout()
 	var icon_rect: Rect2 = layout["icon_rect"]
 	if icon_rect.has_area():
-		_draw_function_icon(icon_rect, color)
+		draw_set_transform(icon_rect.get_center(), 0.0, Vector2(1.35, 1.35))
+		_draw_function_icon(Rect2(-12, -10, 24, 20), _outline_color().lerp(PROCESS, strength))
+		draw_set_transform(Vector2.ZERO)
 	var name_rect: Rect2 = layout["rect"]
 	draw_rect(name_rect.grow(1.5), Color(SURFACE, 0.98), true)
 	_draw_text(
@@ -343,7 +390,9 @@ func _draw_function_icon(rect: Rect2, color: Color) -> void:
 	var center: Vector2 = rect.get_center()
 	match component_kind:
 		&"half_adder", &"full_adder":
-			_draw_text(center, "Σ", color, HORIZONTAL_ALIGNMENT_CENTER, 13)
+			draw_circle(center, 9.0, color, false, 1.5, true)
+			draw_line(center - Vector2(5, 0), center + Vector2(5, 0), color, 1.5, true)
+			draw_line(center - Vector2(0, 5), center + Vector2(0, 5), color, 1.5, true)
 		&"mux4", &"mux2_word":
 			_draw_mux_mark(center, color)
 		&"alu1", &"alu4":
@@ -454,6 +503,10 @@ func _draw_alu_mark(center: Vector2, color: Color) -> void:
 func _draw_latch_mark(center: Vector2, color: Color) -> void:
 	var rect := Rect2(center - Vector2(9.0, 7.0), Vector2(18.0, 14.0))
 	draw_rect(rect, color, false, 2.0)
+	if component_kind == &"register4":
+		for bit: int in range(1, 4):
+			var x: float = rect.position.x + rect.size.x * float(bit) / 4.0
+			draw_line(Vector2(x, rect.position.y), Vector2(x, rect.end.y), color, 1.0, true)
 	draw_line(center + Vector2(-9.0, -3.0), center + Vector2(-5.0, -3.0), color, 1.5, true)
 	draw_line(center + Vector2(-9.0, 3.0), center + Vector2(-5.0, 3.0), color, 1.5, true)
 	draw_line(center + Vector2(5.0, -3.0), center + Vector2(9.0, -3.0), color, 1.5, true)
@@ -581,42 +634,24 @@ func _central_content_rect() -> Rect2:
 			safe_left = maxf(safe_left, rect.end.x + 7.0)
 		else:
 			safe_right = minf(safe_right, rect.position.x - 7.0)
-	if safe_right <= safe_left:
-		var center_x: float = (_body_left(global_t) + _body_right(global_t)) * 0.5
-		safe_left = center_x - 1.0
-		safe_right = center_x + 1.0
+	var half_width: float = maxf(1.0, minf(size.x * 0.5 - safe_left, safe_right - size.x * 0.5))
+	var center_y: float = _module_height() * 0.5 - _row_origin_y()
 	return Rect2(
-		Vector2(safe_left, 3.0),
-		Vector2(safe_right - safe_left, maxf(1.0, size.y - 6.0))
+		Vector2(size.x * 0.5 - half_width, center_y - 28.0),
+		Vector2(half_width * 2.0, 60.0)
 	)
 
 
 func _body_left(t: float) -> float:
 	if not visual_bands.is_empty():
 		return 28.0 + _visual_edge(t,0) / 4.0 * 24.0
-	var distance: float = absf(clampf(t, 0.0, 1.0) - 0.5) * 2.0
-	match shape_profile():
-		&"mux_wedge":
-			return 34.0 + distance * 12.0
-		&"alu_notched":
-			return 46.0 - distance * 10.0
-		&"fanout_module":
-			return 38.0
-	return 36.0
+	return _builtin_edge(HEADING_HEIGHT + clampf(t, 0, 1) * (_module_height() - HEADING_HEIGHT), 0)
 
 
 func _body_right(t: float) -> float:
 	if not visual_bands.is_empty():
 		return size.x - 28.0 - (12.0-_visual_edge(t,1)) / 4.0 * 24.0
-	var distance: float = absf(clampf(t, 0.0, 1.0) - 0.5) * 2.0
-	match shape_profile():
-		&"mux_wedge":
-			return size.x - 40.0 + distance * 5.0
-		&"alu_notched":
-			return size.x - 35.0 - distance * 11.0
-		&"fanout_module":
-			return size.x - 34.0 - distance * 7.0
-	return size.x - 36.0
+	return _builtin_edge(HEADING_HEIGHT + clampf(t, 0, 1) * (_module_height() - HEADING_HEIGHT), 1)
 
 
 func _outline_color() -> Color:

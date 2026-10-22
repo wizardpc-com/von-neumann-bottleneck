@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Invalid access to property or key 'laboratory' on a base object of type 'Control (task_tree.gd)'.
+   at: _run (res://tests/test_terminal_language_input.gd:74)

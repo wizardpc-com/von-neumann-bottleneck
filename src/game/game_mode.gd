@@ -22,7 +22,6 @@ func _ready() -> void:
 
 
 func set_mode(mode: StringName) -> bool:
-	if OS.has_feature("free_candidate") and mode!=MODE_GAME: return false
 	if mode not in MODES:
 		return false
 	if current_mode == mode:

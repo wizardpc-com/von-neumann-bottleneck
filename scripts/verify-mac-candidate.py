@@ -39,7 +39,7 @@ func _ready() -> void:
 		"creation_export_configuration":bool(ProjectSettings.get_setting("candidate/creation_enabled",false))==EXPECTED_CREATION,
 		"creation_resources":not EXPECTED_CREATION or ResourceLoader.exists("res://experiments/creation/workbench.tscn"),
 		"candidate_feature":OS.has_feature("free_candidate"),
-		"game_only":not mode.is_test_mode() and not mode.developer_tools_enabled() and not mode.set_mode(&"test"),
+		"mode_selection":not mode.is_test_mode() and not mode.developer_tools_enabled() and mode.set_mode(&"test") and mode.is_test_mode() and mode.set_mode(&"game") and not mode.is_test_mode(),
 		"capture_disabled":mode.capture_arguments().is_empty(),
 		"forty_tasks":get_node("/root/TaskNavigation").tasks().size()==40,
 		"candidate_journey_tasks":journey_keys==EXPECTED_KEYS,
@@ -73,4 +73,4 @@ if result.returncode or 'PACKAGE_CHECKS' not in output or 'false' in next((line 
 for name,digest in hashes.items():assert hashlib.sha256((app/name).read_bytes()).hexdigest()==digest
 report={'build_id':manifest['build_id'],'source_commit':manifest['source_commit'],'passed':True,'source_app':str(original),'qa_app':str(app),'user_suffix':user_suffix,'binary_and_pack_unchanged':hashes,'qa_override_only':str(override),'public_release':False}
 (work/'result.json').write_text(json.dumps(report,indent=2)+'\n')
-print('PASS: actual Mac release binary, Game-only/capture boundary, '+str(expected_tasks)+' journey tasks, repeated workbench auto-save, remote off, excluded development files, isolated user directory. '+str(work))
+print('PASS: actual Mac release binary, Game/Test selection and capture boundary, '+str(expected_tasks)+' journey tasks, repeated workbench auto-save, remote off, excluded development files, isolated user directory. '+str(work))

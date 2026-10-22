@@ -33,11 +33,11 @@ func run() -> void:
 	escape(hub); await settle(2)
 	check(terminal.confirming() and terminal.quit_view.visible and not terminal.awake_view.visible, "Esc in the laboratory shows the quit question on the terminal")
 	check(not hub.options_overlay.visible, "Esc in the laboratory does not open Settings")
-	check(root.gui_get_focus_owner() == terminal.quit_yes, "The question focuses the Yes button")
+	check(lab.room.standby_viewport.gui_get_focus_owner() == terminal.quit_no, "The question focuses No on the physical screen")
 	check(terminal.quit_title.text == "要退出游戏吗？" and terminal.quit_yes.text == "是，退出", "The question is plain and named")
 	check(quits.is_empty(), "Asking never quits by itself")
 	escape(hub); await settle(2)
-	check(not terminal.confirming() and terminal.awake_view.visible and not terminal.quit_view.visible, "A second Esc returns to the terminal menu")
+	check(not terminal.confirming() and not lab.room_focus and lab.room.visible and not terminal.quit_view.visible, "A second Esc returns to the original room")
 
 	# The terminal's Quit button asks the same question; No keeps the player here.
 	(terminal.find_child("TerminalQuit", true, false) as Button).pressed.emit(); await settle(2)

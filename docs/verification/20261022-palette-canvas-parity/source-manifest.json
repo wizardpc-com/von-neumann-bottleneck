@@ -1,0 +1,31 @@
+{
+  "baseline": "30a92f8eda23528a7212d6017655d0b0394a09ac",
+  "run": "20261022T152037Z-5a21f4a6",
+  "gui_opened": false,
+  "files": {
+    "src/hardware_foundations/hardware_foundations.gd": "c7fb7a4ba327ff20cf1a2f5ee8ba5126eebba57e4c59f99373535aa037af5eae",
+    "src/hardware_foundations/component_palette_item.gd": "ec01f9273bcb7281ff4e389afab6ac3b816ca7ea476e8230994ddc27cba4f72e",
+    "tests/test_component_palette_parity.gd": "5df3fdb4d928f13cebdd2c5b8ca0d6e26dca67581a5c7d40abc48dfe08b055cf",
+    "tests/test_component_placement_flow.gd": "86c3d3dc32e896e7e381e08fd561bade4147a7cbae686d18ead670a2936a2c09",
+    "tests/test_component_runtime_contracts.gd": "26c12f66745f9d3147359361092ddff2764326a4088e835cbb315d4f57975c93",
+    "tests/test_component_visual_geometry.gd": "611846a9f9e3b3b30b951cceeedfb971564a86d618500a7c0ec3aceb7f6ceeb2",
+    "tests/test_component_visual_layout.gd": "7c93f280049632129106173f70c7d2854f5966eba6cc567c1b8fb02799bfa647",
+    "tests/test_component_visual_persistence.gd": "dba4b8cd47b9c57fea233d583b4be1af5ed9e76a5c213a6393102dd1f450c9d2",
+    "tests/test_hardware_foundations_ui.gd": "9ceeaf6e55702079158ba30a17dc6b3c09ba51d0bd26a5f963e55775b732e85e",
+    "tests/test_hardware_prologue_ui.gd": "e28f9d7338f1ebc5e10a35923a751bac7f9cedd18c443b184004206915f2fa36",
+    "tests/test_operation_coach_layout.gd": "8634924804581684f845968b23beb319fc1af3b8bbb0fe3bca2090a53f1d476e"
+  },
+  "protected_contracts_unchanged": {
+    "src/circuit/logic_component.gd": "8020c98fa1d15e3b0a00850abbfb97136dc81d2e9a9595313a4e8efe39d1f28d",
+    "src/circuit/logic_circuit.gd": "fc52a5f8441d2dfc086f8efd2e6f62e6b9c843339674ac871f9fa8692cc8c4c0",
+    "src/circuit/reusable_component.gd": "3c3e22fa5f69fe4de455166286d2827ed8be501f3b20b67a19b2689f97737eca",
+    "src/circuit/prologue_simulator.gd": "ea22934e27dc08fcc1cc64c7158f5f028bf6a5a7150eee02b56c834bf502b371",
+    "src/circuit/half_adder_test_bench.gd": "9cde5e8063529247dd050ad1ffd26a21e12c0715a5127a4c778d60d43f02284f",
+    "src/content/player_content_state.gd": "7337fb86393ad87126424f2c5f393b7dd345045bb74a02ee41c0362fb0895bfa",
+    "src/save/global_save.gd": "b35bed017e46d97f9946b665a53ca3e3c9c4fdd9986cd66a9945b9a1e44dd6d4",
+    "src/system_lab/system_part_spec.gd": "609536963c28652a667c7a172376d8f956c2b5c1a062fe44ce6a3bcb7510c043",
+    "src/system_lab/system_simulation_core.gd": "c4e9af5878be775caadc492ee85562d588dbaafef05112d2be6c09acdcbd55dc",
+    "src/system_lab/system_topology.gd": "437bbd5eb676ecbfb9ed46a1f82fe782bd93eb08fc73c3a7ebda1d9d9fa299c3",
+    "src/system_lab/system_lab.gd": "54b0634cc9b2cfcb068cfaa5dc7972fb695f31454de0dada57528078194f3608"
+  }
+}

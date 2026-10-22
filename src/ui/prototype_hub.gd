@@ -603,6 +603,11 @@ func _build_options_menu() -> void:
 	body.add_theme_constant_override("separation",12); scroll.add_child(body)
 	var section: VBoxContainer = null
 	section = _settings_card(body,"settings.interface")
+	if not settings_only:
+		var settings_mode := GameModeSelectorType.new()
+		settings_mode.name = "SettingsGameMode"
+		settings_mode.show_label = false
+		_settings_row(section,"mode.selector.label",settings_mode)
 	var language := OptionButton.new(); language.name="LanguageChoice"
 	language.add_item("简体中文"); language.add_item("English")
 	language.select(0 if Localization.current_locale()=="zh_CN" else 1)
@@ -702,7 +707,7 @@ func _build_options_menu() -> void:
 func _quit_from_settings() -> void:
 	if laboratory != null and laboratory.is_inside_tree() and not settings_only:
 		_close_options_menu()
-		laboratory.terminal.ask_quit()
+		laboratory.ask_quit()
 	else:
 		_quit_game()
 

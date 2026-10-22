@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+NOT_RUN: renderer clip/focus/F8/Escape; run this suite without headless and with --capture-size=1280x720 --efficiency-fragment-capture
+NOT_RUN: renderer clip/focus/F8/Escape; run this suite without headless and with --capture-size=1280x720 --efficiency-fragment-capture
+PASS: efficiency fragment 55 checks; real official System-model controller fixtures, not player-built prologue or native input

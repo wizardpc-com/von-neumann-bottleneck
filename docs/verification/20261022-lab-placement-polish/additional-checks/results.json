@@ -1,0 +1,27 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "ERROR: Map Esc returns to the laboratory once",
+        "SCRIPT ERROR: Invalid access to property or key 'laboratory' on a base object of type 'Control (task_tree.gd)'."
+      ],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T135413Z-7ccc7c7e/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_terminal_language_input",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Invalid access to property or key 'laboratory' on a base object of type 'Control (task_tree.gd)'."
+      ],
+      "log": "test_terminal_language_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T135413Z-7ccc7c7e/test_terminal_language_input"
+    }
+  ]
+}

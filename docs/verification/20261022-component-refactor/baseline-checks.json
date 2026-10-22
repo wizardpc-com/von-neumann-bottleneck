@@ -1,0 +1,50 @@
+[
+  {
+    "name": "test_immersive_lab",
+    "exit": 0,
+    "passed": false,
+    "errors": [
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead.",
+      "ERROR: Lambda capture at index 0 was freed. Passed \"null\" instead."
+    ],
+    "baseline": "30a92f8"
+  },
+  {
+    "name": "test_lab_terminal_routing",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Layout Esc closes Hint before leaving",
+      "ERROR: Layout Esc returns to the map",
+      "FAIL: lab terminal routing 37 checks, 2 failures"
+    ],
+    "baseline": "30a92f8"
+  },
+  {
+    "name": "test_terminal_language_input",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "baseline": "30a92f8"
+  }
+]

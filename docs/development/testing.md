@@ -1,3 +1,43 @@
+## Game/Test mode access — 2026-10-23
+
+Run `test_mode_access`, `test_hardware_foundations_ui`, `test_system_lab_ui`,
+`test_ui`, `test_global_save` and laboratory/settings regressions through the
+isolated verifier. Check the actual exported binary as well: `free_candidate`
+must allow explicit Game/Test selection while keeping developer capture disabled.
+Laboratory settings expose both modes; generic workbench settings do not offer an
+unsafe in-place namespace switch. The mode round trip must preserve the Game
+signature and must not copy temporary Test components into player rewards.
+
+## Cinematics — 2026-10-23
+
+Run `test_cinematics`, `test_hardware_prologue_ui`, `test_first_lesson_input`,
+`test_global_save`, `test_offline_feedback`, `test_hub_first_screen`,
+`test_lab_terminal_confirmation` and `test_two_worlds` through the isolated verifier.
+The cinematic suite requires its isolated QA user directory. It decodes both real
+assets to the engine's natural end, checks existing/backup-only profiles, persistent
+history across cache reset and New Game, skip, failed-save recovery and global
+shortcuts. Automated startup/completion must not consume `user://cinematics.cfg`.
+Headless playback does not establish GPU framing or audible audio synchronization;
+native acceptance remains separate. See [evidence](../verification/20261023-cinematics/README.md).
+
+## Component runtime refactor — 2026-10-22
+
+Run `test_component_runtime_contracts`, `test_component_visual_geometry`,
+`test_component_visual_layout`, `test_component_visual_persistence` and
+`test_system_device_visual_state`, alongside hardware UI/prologue/seal navigation,
+global-save, signal-width and system UI suites. These check actual ports and
+widths, source-bound frozen geometry, external-terminal exclusion, legacy visual
+records and trace-driven device states without changing simulation authority.
+
+For comparable real GPU frames, run `scripts/capture-component-refactor.gd` in a
+fresh isolated project with an explicitly named QA custom user directory and
+`--evidence-dir=ABSOLUTE_PATH --phase=before|after`. It rejects headless rendering
+and existing saves. It earns HalfAdders through official cases and timed sealing,
+then reloads them with GlobalSave. Only this strictly isolated harness enables
+automated disk writes; synthetic catalog boards disable persistence first. Catalog
+nodes are visual QA, never player awards. Screenshots and viewport geometry checks
+do not establish native mouse/keyboard or newcomer acceptance.
+
 ## Overnight candidate — 2026-10-22
 
 Use `test_component_visual_layout`, `test_component_visual_persistence`,
@@ -1100,6 +1140,27 @@ rendered viewport input are separate from actual exported-package/native input.
 Render acceptance must inspect perspective on the room-mode glass, full-screen page controls and nested confirmation boundaries, including the return to the room. Use `--capture-size=1280x720` or `1600x900` with `scripts/capture-immersive-lab.gd`; its performance JSON reports rendered wall-frame samples, separately from native input acceptance.
 
 ### Overnight presentation regressions
+
+- `test_component_reference_design`: explicit silhouettes from the supplied
+  reference, distinct MUX/decoder/ALU profiles, full-shell row continuity, centered
+  name/icon clearance, family tabs and unchanged source-bound frozen sampling.
+- `test_component_reference_symbols`: source/sink silhouettes, lamp/junction
+  semantic hit regions and preserved logic-gate identities. These are geometry
+  checks, not native pixel or user-recognition acceptance.
+
+- `test_component_palette_parity`: compares palette and placement previews with
+  visible, settled GraphEdit nodes for all 23 logic kinds, configured constants
+  and two source-bound frozen shapes. Checks real indexed ports, geometry, full
+  card bounds and matching footprints; no player rewards or persistence writes.
+
+- `test_lab_terminal_confirmation`: bilingual confirmation on the physical glass,
+  projected screen coordinates, root-dispatched mouse/keyboard input, clipped
+  content bounds, menu cancellation and quitting from room Settings. No actual
+  quit or normal player save is performed.
+- `test_room_page_skin_lifecycle`: repeated apply/revert/free/resize with listener
+  counts; a closed page must not retain a callback capturing its freed rule.
+- `test_component_placement_flow`: four zoom levels, scroll, snap and unsnapped
+  precision, immediate ghost transforms, pointer exclusion and cancellation.
 
 - `test_component_visual_geometry`: every sampled module-row boundary and pin
   endpoint shares geometry; no simulation behavior is tested by this suite.

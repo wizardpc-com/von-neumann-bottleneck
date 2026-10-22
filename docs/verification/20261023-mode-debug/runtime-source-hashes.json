@@ -1,0 +1,22 @@
+[
+  {
+    "path": "src/game/game_mode.gd",
+    "sha256": "e3a286a216b9a07d1e58ccc3bf4b0d8085715e4a754f03af95efaa93b20af013"
+  },
+  {
+    "path": "src/ui/game_mode_selector.gd",
+    "sha256": "552a5ae61d95523a07faff5a6ced64029005cbcd41d763b53455eff4c85081fa"
+  },
+  {
+    "path": "src/ui/prototype_hub.gd",
+    "sha256": "662e0e15be6de74adadef9d44a5ed2da92da011d607f10f471755953480c198c"
+  },
+  {
+    "path": "src/ui/cinematic_player.gd",
+    "sha256": "f3d9d9673903ed4799c85802a0d40fb21500f73b26d40bdd1b7855fb6935d3e2"
+  },
+  {
+    "path": "tests/test_mode_access.gd",
+    "sha256": "e51da7e79c1cd0cbcde4d48d92705a8967ba951c523b631965e24ecc454ed6c4"
+  }
+]

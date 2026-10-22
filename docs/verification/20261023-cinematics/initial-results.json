@@ -1,0 +1,62 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160550Z-65ef4820/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160550Z-65ef4820/user_directory"
+    },
+    {
+      "name": "test_cinematics",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_cinematics.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160550Z-65ef4820/test_cinematics"
+    },
+    {
+      "name": "test_first_lesson_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_lesson_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160550Z-65ef4820/test_first_lesson_input"
+    },
+    {
+      "name": "test_global_save",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_global_save.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160550Z-65ef4820/test_global_save"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_prologue_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160550Z-65ef4820/test_hardware_prologue_ui"
+    },
+    {
+      "name": "test_two_worlds",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_two_worlds.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160550Z-65ef4820/test_two_worlds"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+Input #0, ogg, from 'E:\VNB\game\assets\cinematics\opening.ogv':
+  Duration: 00:00:45.72, start: 0.000000, bitrate: 5709 kb/s
+  Stream #0:0: Video: theora, yuv420p, 1920x1080 [SAR 1:1 DAR 16:9], 30 fps, 30 tbr, 30 tbn
+      Metadata:
+        encoder         : Lavc61.19.100 libtheora
+  Stream #0:1: Audio: vorbis, 44100 Hz, stereo, fltp, 160 kb/s
+      Metadata:
+        encoder         : Lavc61.19.100 libvorbis
+At least one output file must be specified

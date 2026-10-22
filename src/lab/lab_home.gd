@@ -167,6 +167,7 @@ var morph: GlassMorph
 var _morph_settle: Tween
 # While the glass grows, the room stays in view and the page waits behind it.
 var _revealing: bool = false
+var _quit_from_room: bool = false
 
 func _ready() -> void:
 	var localization: Node = get_node_or_null("/root/Localization")
@@ -283,6 +284,7 @@ func _build_immersive_room() -> void:
 	add_child(room_hover)
 
 func _room_blocked() -> bool:
+	if terminal != null and terminal.confirming(): return true
 	if terminal_pages != null and terminal_pages.active(): return true
 	var window_mode: Node = get_node_or_null("/root/WindowMode")
 	if window_mode != null and is_instance_valid(window_mode.get("settings_layer")): return true
@@ -298,7 +300,7 @@ func _room_blocked() -> bool:
 
 func _process_immersive_room(_delta: float) -> void:
 	reduced_motion = bool(ProjectSettings.get_setting("game/reduced_motion", false))
-	if _terminal_was_asleep and not terminal.asleep(): room_focus = true
+	if _terminal_was_asleep and not terminal.asleep() and not terminal.confirming(): room_focus = true
 	_terminal_was_asleep = terminal.asleep()
 	var page_open: bool = terminal_pages != null and terminal_pages.active()
 	if page_open:
@@ -318,7 +320,7 @@ func _process_immersive_room(_delta: float) -> void:
 	_page_was_open = page_open
 	var blocked: bool = _room_blocked()
 	room.set_interaction_enabled(not blocked and not room_focus)
-	room_input_shield.visible = blocked
+	room_input_shield.visible = blocked and not terminal.confirming()
 	room_input_shield.mouse_filter = Control.MOUSE_FILTER_IGNORE if page_open else Control.MOUSE_FILTER_STOP
 	if not zooming:
 		room_focus_amount = 0.0
@@ -339,9 +341,9 @@ func _process_immersive_room(_delta: float) -> void:
 	if terminal.visible and not was_visible and not blocked and not terminal.asleep() and not terminal.confirming():
 		terminal._focus_primary()
 	terminal.mouse_filter = Control.MOUSE_FILTER_IGNORE if blocked else Control.MOUSE_FILTER_PASS
-	room_hover.visible = not room_focus
+	room_hover.visible = not room_focus and not terminal.confirming()
 	# Room captions belong to the room; a page or the terminal covers them.
-	caption.visible = not room_focus
+	caption.visible = not room_focus and not terminal.confirming()
 	if not room_focus and not zooming and not _pending_caption.is_empty():
 		var held: Array = _pending_caption
 		_pending_caption = []
@@ -642,6 +644,15 @@ func _input(event: InputEvent) -> void:
 		room_pointer_seen = true
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if room != null and room.confirmation_active():
+		var confirmation_key := event as InputEventKey
+		if confirmation_key != null and confirmation_key.keycode == KEY_ESCAPE:
+			if confirmation_key.pressed and not confirmation_key.echo: escape()
+			get_viewport().set_input_as_handled()
+			return
+		room.standby_viewport.push_input(event, true)
+		get_viewport().set_input_as_handled()
+		return
 	if zooming or archive.visible or (room != null and _room_blocked()): return
 	var key := event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE]:
@@ -785,7 +796,7 @@ func _show_caption(text: String, seconds: float) -> void:
 # --- terminal actions and the zoom transition ----------------------------
 
 func _on_terminal_action(id: String) -> void:
-	if zooming or (room != null and _room_blocked()): return
+	if zooming or (room != null and _room_blocked() and id != "quit_confirmed"): return
 	match id:
 		"start": _enter(start_requested, next_key)
 		"journey": _enter(journey_requested)
@@ -797,7 +808,13 @@ func _on_terminal_action(id: String) -> void:
 		"achievements": achievements_requested.emit()
 		"feedback": get_node("/root/PlaytestMoments").toggle()
 		"look": leave_terminal()
-		"quit": terminal.ask_quit()
+		"quit": ask_quit()
+		"quit_cancelled":
+			if room != null and room.confirmation_active():
+				room.dismiss_confirmation()
+				room_focus = not _quit_from_room
+				_process_immersive_room(0.0)
+				if _quit_from_room: terminal.release_focus_inside()
 		"quit_confirmed": quit_requested.emit()
 		"language":
 			get_node("/root/Localization").set_locale("en" if not english else "zh_CN")
@@ -817,8 +834,21 @@ func escape() -> void:
 	elif room != null and room_focus:
 		leave_terminal()
 	else:
-		room_focus = true
-		terminal.ask_quit()
+		ask_quit()
+
+func ask_quit() -> void:
+	if zooming or terminal.confirming(): return
+	_quit_from_room = not room_focus or returns_to_room()
+	# Closing Settings must not start a competing return-to-object transition.
+	_page_origin = ""
+	_page_was_open = false
+	_clear_skins()
+	terminal.release_focus_inside()
+	terminal.ask_quit()
+	if room != null:
+		room_focus = false
+		room.show_confirmation(terminal.quit_view)
+		_process_immersive_room(0.0)
 
 ## Developer route only (`--dev-call=laboratory:preview_chapter_dialogue`):
 ## shows the chapter 2 ending conversation for screenshots. No progress changes.

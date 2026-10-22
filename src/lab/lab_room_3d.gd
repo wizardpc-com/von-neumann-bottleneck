@@ -50,6 +50,10 @@ var _focus_fov: float = 12.0
 var _focus_dolly: float = 0.0
 var _hover_material: StandardMaterial3D
 var _hover_glow: float = 0.0
+var _confirmation: Control
+var _confirmation_parent: Node
+var _screen_events: Array[InputEventMouse] = []
+var _standby_text: Label
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -208,11 +212,13 @@ func _setup_screen() -> void:
 	standby_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 	viewport.add_child(standby_viewport)
 	standby_viewport.disable_3d = true
+	standby_viewport.handle_input_locally = false
 	var background := ColorRect.new()
 	background.color = Color("101f29")
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	standby_viewport.add_child(background)
 	var text := Label.new()
+	_standby_text = text
 	var localization: Node = get_node_or_null("/root/Localization")
 	var english: bool = localization != null and localization.current_locale() == "en"
 	text.text = "Yi\nOpen terminal · Enter" if english else "壹\n打开终端 · Enter"
@@ -230,6 +236,49 @@ func _setup_screen() -> void:
 	material.set_shader_parameter("screen_bounds", Vector4(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y))
 	_screen.material_override = material
 
+## Reuse the terminal's controls on its actual glass, including perspective and occlusion.
+func show_confirmation(view: Control) -> void:
+	_confirmation_parent = view.get_parent()
+	_confirmation = view
+	_standby_text.hide()
+	standby_viewport.size_2d_override = Vector2i(512, 235)
+	standby_viewport.size_2d_override_stretch = true
+	view.reparent(standby_viewport)
+	view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	standby_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	_screen_events.clear()
+
+func dismiss_confirmation() -> void:
+	if not is_instance_valid(_confirmation): return
+	_confirmation.reparent(_confirmation_parent)
+	_confirmation.scale = Vector2.ONE
+	_confirmation.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_confirmation = null
+	_confirmation_parent = null
+	standby_viewport.size_2d_override = Vector2i.ZERO
+	_standby_text.show()
+	_screen_events.clear()
+	standby_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+
+func confirmation_active() -> bool:
+	return is_instance_valid(_confirmation)
+
+## The nearest visible surface must be the glass; the bezel and other objects block clicks.
+func screen_position(pixel: Vector2) -> Vector2:
+	if camera == null or _screen == null or not Rect2(Vector2.ZERO, size).has_point(pixel): return Vector2(-1, -1)
+	var viewport_pixel := pixel * Vector2(viewport.size) / size.max(Vector2.ONE)
+	var origin := camera.project_ray_origin(viewport_pixel)
+	var query := PhysicsRayQueryParameters3D.create(origin, origin + camera.project_ray_normal(viewport_pixel) * 60.0, HOTSPOT_LAYER | BLOCKER_LAYER)
+	query.collide_with_areas = true
+	query.hit_back_faces = true
+	var hit := model.get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty() or hit.collider.get_parent() != _screen: return Vector2(-1, -1)
+	var point: Vector3 = _screen.to_local(hit.position)
+	var bounds := _screen.get_aabb()
+	var uv := (Vector2(point.x, point.y) - Vector2(bounds.position.x, bounds.position.y)) / Vector2(bounds.size.x, bounds.size.y)
+	var resolution: Vector2i = standby_viewport.size_2d_override if confirmation_active() else standby_viewport.size
+	return Vector2(uv.x, 1.0 - uv.y) * Vector2(resolution)
+
 ## Immediate test/API pick; call after the physics world has settled.
 ## Normal GUI input is queued instead, so physics space is never queried locked.
 func activate_at(pixel: Vector2) -> String:
@@ -239,6 +288,11 @@ func activate_at(pixel: Vector2) -> String:
 	return id
 
 func _gui_input(event: InputEvent) -> void:
+	if confirmation_active():
+		if event is InputEventMouse:
+			_screen_events.append(event.duplicate() as InputEventMouse)
+			accept_event()
+		return
 	if not _interaction_enabled:
 		return
 	if event is InputEventMouseButton:
@@ -256,6 +310,16 @@ func _physics_process(_delta: float) -> void:
 		var mesh := _collider_meshes[index]
 		var layer: int = HOTSPOT_LAYER if collider.has_meta("region") else BLOCKER_LAYER
 		collider.collision_layer = layer if mesh.is_visible_in_tree() else 0
+	if confirmation_active():
+		var events: Array[InputEventMouse] = _screen_events.duplicate()
+		_screen_events.clear()
+		for event: InputEventMouse in events:
+			var point := screen_position(event.position)
+			# Forward outside releases too, so dragging off a button cannot leave it held.
+			event.position = point
+			event.global_position = point
+			standby_viewport.push_input(event, true)
+		return
 	if not _interaction_enabled or not is_visible_in_tree():
 		_pending_clicks.clear()
 		_set_hover("")
@@ -458,10 +522,10 @@ func _setup_environment() -> void:
 	var world_environment := WorldEnvironment.new()
 	var environment := Environment.new()
 	var sky_material := ProceduralSkyMaterial.new()
-	sky_material.sky_top_color = Color(0.33, 0.42, 0.57)
-	sky_material.sky_horizon_color = Color(0.82, 0.85, 0.89)
-	sky_material.ground_bottom_color = Color(0.16, 0.18, 0.23)
-	sky_material.ground_horizon_color = Color(0.63, 0.63, 0.64)
+	sky_material.sky_top_color = Color(0.52, 0.56, 0.60)
+	sky_material.sky_horizon_color = Color(0.89, 0.87, 0.82)
+	sky_material.ground_bottom_color = Color(0.23, 0.22, 0.21)
+	sky_material.ground_horizon_color = Color(0.67, 0.65, 0.60)
 	var sky := Sky.new()
 	sky.sky_material = sky_material
 	environment.sky = sky

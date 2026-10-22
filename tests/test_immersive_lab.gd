@@ -370,11 +370,13 @@ func check_interaction_details(lab: LabHome) -> void:
 	check(not lab.terminal.visible, "Rotated look-around hides the flat terminal")
 	lab.escape()
 	await create_timer(0.8).timeout
-	check(lab.terminal.confirming() and lab.terminal.visible, "ESC from look-around reveals confirmation after recentering")
-	check(root.gui_get_focus_owner() == lab.terminal.quit_yes, "Recentered quit confirmation recovers keyboard focus")
+	check(lab.terminal.confirming() and room.confirmation_active() and room.visible and not lab.terminal.visible, "ESC keeps confirmation on the physical screen in the visible room")
+	check(room.standby_viewport.gui_get_focus_owner() == lab.terminal.quit_no, "Physical quit confirmation focuses No")
 	lab.escape()
 	await settle(3)
-	check(not lab.terminal.confirming() and root.gui_get_focus_owner() == lab.terminal.primary, "Second ESC returns keyboard focus to primary")
+	check(not lab.terminal.confirming() and not lab.room_focus and not room.confirmation_active(), "Second ESC restores the original room")
+	lab.open_terminal()
+	await create_timer(0.9).timeout
 	var opener: Button = lab.terminal.archive_button
 	for cycle: int in 3:
 		opener.grab_focus()

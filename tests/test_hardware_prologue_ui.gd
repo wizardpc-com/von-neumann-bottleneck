@@ -104,6 +104,7 @@ func _run() -> void:
 	main.call("_run_official")
 	await _finish_official_sequence(main)
 	_assert(bool(completed.get(&"load_store", false)), "The final fixed LOAD/STORE program must complete through the sealed TinyComputer contract.")
+	_assert(not FileAccess.file_exists("user://cinematics.cfg") and get_nodes_in_group("cinematic_playback").is_empty(), "Automated official prologue completion must neither play nor consume the player's CG.")
 	_assert(StringName(main.get("current_phase")) == &"prologue_complete", "Successful LOAD/STORE must finish the construction prologue.")
 	var bridge_completion: Control = main.get("level_completion_overlay")
 	_assert(
@@ -327,10 +328,10 @@ func _assert_cpu_playback(main: Control) -> void:
 		if not rows.is_empty():
 			visible_names[String(rows[rows.size() / 2].call("visible_component_name"))] = true
 	_assert(
-		visible_names.has("Controller") and visible_names.has("ALU4")
-		and visible_names.has("ACC · Register4") and visible_names.has("RAM2x4")
-		and visible_names.has("SOURCE MUX") and visible_names.has("RESULT MUX"),
-		"CPU modules must render their role-specific complete names rather than generic or line-obscured abbreviations. names=%s" % [visible_names.keys()]
+		visible_names.has("CTRL") and visible_names.has("ALU4")
+		and visible_names.has("ACC") and visible_names.has("RAM 2x4")
+		and visible_names.has("SRC MUX") and visible_names.has("RES MUX"),
+		"CPU module short names must distinguish their actual roles. names=%s" % [visible_names.keys()]
 	)
 	var component_kinds: Dictionary[StringName, bool] = {}
 	var parallel_component_wave: bool = false
@@ -365,6 +366,8 @@ func _assert_cpu_playback(main: Control) -> void:
 			var ram_row: Variant = ram_rows[ram_rows.size() / 2]
 			_assert(StringName(ram_row.call("shape_profile")) == &"ram_grid", "RAM must use a visible cell-grid silhouette, not a generic text card.")
 			_assert(int(ram_row.call("ram_cursor_index")) >= 0, "A known RAM address must light a cursor on the actual RAM grid during processing.")
+			var heading: CircuitModuleRow = ram_row.get_parent().get_node("ModuleHeading")
+			_assert(heading.processing_active and heading.ram_cursor_index() == ram_row.ram_cursor_index(), "The single visible header glyph receives the same actual RAM address as its port rows.")
 	_assert(word_wire_event != null, "CPU playback must include a four-bit data word moving over a displayed connection.")
 	if word_wire_event != null:
 		var expected_path: PackedVector2Array = main.call(
@@ -400,10 +403,9 @@ func _assert_module_text_clearance(main: Control, level_id: StringName) -> void:
 		var rows: Array = rows_variant
 		if rows.is_empty():
 			continue
-		var row: Control = rows[rows.size() / 2]
+		var row: Control = rows[-1]
 		var name: String = String(row.call("visible_component_name"))
-		var heading: Control = row.get_parent().get_node("ModuleHeading")
-		var layout: Dictionary = heading.call("name_layout")
+		var layout: Dictionary = row.call("name_layout")
 		var name_rect: Rect2 = layout.get("rect", Rect2())
 		var safe_rect: Rect2 = layout.get("safe_rect", Rect2())
 		var icon_rect: Rect2 = layout.get("icon_rect", Rect2())
@@ -411,7 +413,7 @@ func _assert_module_text_clearance(main: Control, level_id: StringName) -> void:
 			String(layout.get("text", "")) == name
 			and safe_rect.encloses(name_rect)
 			and name_rect.size.x > 4.0 and int(layout.get("font_size", 0)) >= 14,
-			"%s %s must keep its complete name in a readable dedicated header above the port rows; safe=%s name=%s." % [level_id, name, safe_rect, name_rect]
+			"%s %s must keep its short name readable in the central content island; safe=%s name=%s." % [level_id, name, safe_rect, name_rect]
 		)
 		_assert(
 			not icon_rect.has_area() or (
@@ -446,18 +448,20 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 		var template: LogicComponent = templates[key]
 		var item: Control = items[key]
 		var preview: Control = item.get("component_preview") as Control
-		var palette_node: GraphNode = preview.get_child(0) as GraphNode if preview != null and preview.get_child_count() > 0 else null
+		_assert(preview != null and preview.get_meta("component_kind", &"") == template.kind,
+			"%s palette item must identify its actual component kind." % level_id)
+		if preview == null:
+			continue
+		var palette_node: GraphNode = preview.get_child(0) as GraphNode if preview.get_child_count() > 0 else null
 		var ghost: Control = main.call("_create_component_placement_ghost", template)
-		# What the card shows is what the canvas places: same rows, ports and geometry.
-		_assert(
-			palette_node != null and preview.get_meta("component_kind", &"") == template.kind
-			and _component_visual_signature(palette_node) == _component_visual_signature(ghost.get_child(0) as GraphNode)
-			and preview.position.x >= 0.0
+		_assert(palette_node != null and not bool(preview.get_meta("compact_thumbnail",false))
+			and _component_visual_signature(palette_node) == _component_visual_signature(ghost.get_child(0) as GraphNode),
+			"%s palette item %s must retain the complete placed node geometry." % [level_id,template.kind])
+		ghost.free()
+		_assert(preview.position.x >= 0.0 and preview.position.y >= 0.0
 			and preview.position.x + preview.size.x * preview.scale.x <= item.size.x
 			and preview.position.y + preview.size.y * preview.scale.y <= item.size.y,
-			"%s palette item %s must show the placed component exactly and fit inside its card." % [level_id, template.kind]
-		)
-		ghost.free()
+			"%s palette item %s must fit inside its card." % [level_id,template.kind])
 
 	if level_id != &"register":
 		return
@@ -471,40 +475,15 @@ func _assert_palette_previews_match_canvas(main: Control, level_id: StringName) 
 		return
 	var latch_template: LogicComponent = templates[latch_key]
 	var palette_preview: Control = (items[latch_key] as Control).get("component_preview") as Control
-	var palette_node: GraphNode = palette_preview.get_child(0) as GraphNode
+	_assert(palette_preview.get_child(0) is GraphNode, "Latch palette retains the same complete node as placement.")
 	var placement_preview: Control = main.call("_create_component_placement_ghost", latch_template)
 	var placement_node: GraphNode = placement_preview.get_child(0) as GraphNode
 	var canvas_node: GraphNode = (main.get("component_nodes") as Dictionary)[&"LATCH"] as GraphNode
 	_assert(
-		_component_visual_signature(palette_node) == _component_visual_signature(canvas_node)
-		and _component_visual_signature(placement_node) == _component_visual_signature(canvas_node),
-		"SRLatch catalogue and placement ghost both preserve the complete canvas rows, ports, state and geometry."
+		_component_visual_signature(placement_node) == _component_visual_signature(canvas_node),
+		"SRLatch placement ghost preserves the complete canvas rows, ports, state and geometry."
 	)
 	placement_preview.free()
-
-
-func _assert_module_thumbnail(preview: Control, component: LogicComponent) -> void:
-	var thumbnail := preview as CircuitModuleThumbnail
-	_assert(thumbnail != null, "Palette modules need a complete miniature, not a compressed port row.")
-	if thumbnail == null:
-		return
-	_assert(thumbnail.port_label_layouts().is_empty(), "Miniatures must not draw unnamed [1] port labels over their function mark.")
-	var body: PackedVector2Array = thumbnail.body_polygon()
-	var mark: Rect2 = thumbnail.function_mark_rect().grow(3.0)
-	for corner: Vector2 in [mark.position, mark.end, Vector2(mark.end.x, mark.position.y), Vector2(mark.position.x, mark.end.y)]:
-		_assert(Geometry2D.is_point_in_polygon(corner, body), "The complete function mark needs breathing room inside every miniature body.")
-	var pins: Array[Dictionary] = thumbnail.pin_segments()
-	_assert(pins.size() == component.input_count() + component.output_count(), "Miniature pins must represent the actual interface, including selector and enable inputs.")
-	var widths: Array[int] = component.input_port_widths + component.output_port_widths
-	for index: int in range(pins.size()):
-		var pin: Dictionary = pins[index]
-		_assert(int(pin.width) == widths[index], "Word and single-bit pins must not be falsely rendered as identical widths.")
-		var endpoint: Vector2 = pin.body
-		_assert(not mark.has_point(endpoint), "Pin leads must stop outside the function mark.")
-		var on_edge: bool = false
-		for edge: int in range(body.size()):
-			on_edge = on_edge or endpoint.distance_to(Geometry2D.get_closest_point_to_segment(endpoint, body[edge], body[(edge + 1) % body.size()])) < 0.1
-		_assert(on_edge, "Miniature pins must meet the module outline without gaps or crossing its interior.")
 
 
 func _component_visual_signature(node: GraphNode) -> String:

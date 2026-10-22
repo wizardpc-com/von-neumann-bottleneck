@@ -19,6 +19,22 @@ func run() -> void:
 	check(Visual.freeze("verified-source",shifted)==first,"Translation and insertion order invariant")
 	var jittered := {"A":{"x":0,"y":0},"B":{"x":121,"y":1}}
 	check(Visual.freeze("verified-source",jittered)==first,"Sub-grid editing jitter keeps the same footprint")
+	check(first.visual_algorithm == "layout-envelope-v2","New seals use the aspect-preserving version")
+	var scaled := {"A":{"x":0,"y":0,"w":192,"h":144},"B":{"x":240,"y":0,"w":192,"h":144}}
+	check(Visual.freeze("verified-source",scaled)==first,"Uniform world scaling preserves envelope")
+	var wide: Dictionary = Visual.freeze("verified-source",{"A":{"x":0,"y":0,"w":360,"h":72}})
+	var tall: Dictionary = Visual.freeze("verified-source",{"A":{"x":0,"y":0,"w":72,"h":360}})
+	check(wide.cells != tall.cells and wide.bands != tall.bands,"Aspect ratio survives normalization")
+	check(wide.bands[0]==[5,7],"Empty edge rows use a narrow connector rather than a wide spine")
+	check(wide.bands[5][0]<=3 and wide.bands[5][1]>=9,"Central name and icon island remains solid")
+	var legacy_cells: Array[int] = []
+	var legacy_bands: Array = []
+	for cell: int in Visual.ROWS*Visual.COLUMNS: legacy_cells.append(cell)
+	for row: int in Visual.ROWS: legacy_bands.append([0,12])
+	var legacy: Dictionary = {"visual_schema":1,"visual_algorithm":"layout-envelope-v1","source_signature":"verified-source","layout_source":"verified_workbench","cells":legacy_cells,"bands":legacy_bands,"layout_digest":JSON.stringify(legacy_cells).sha256_text()}
+	check(Visual.is_valid(legacy,"verified-source"),"Frozen V1 footprint is still accepted")
+	var legacy_shape: PackedVector2Array = Visual.outline(legacy,"verified-source",Rect2(0,0,240,160))
+	check(legacy_shape[0]==Vector2(240,0) and legacy_shape[9]==Vector2(240,160) and legacy_shape[-1]==Vector2.ZERO,"V1 rendered coordinates remain unchanged")
 	var roundtrip: Dictionary = JSON.parse_string(JSON.stringify(second))
 	check(Visual.is_valid(roundtrip,"verified-source"),"JSON restart representation accepted")
 	var rect := Rect2(0,0,240,160)
@@ -66,6 +82,12 @@ func run() -> void:
 	corrupt = first.duplicate(true)
 	corrupt.bands[0][0] = -1.0e100
 	check(not Visual.is_valid(corrupt,"verified-source"),"Out-of-range finite edges reject before integer conversion")
+	corrupt = first.duplicate(true)
+	corrupt.layout_digest = {"unexpected":"object"}
+	check(not Visual.is_valid(corrupt,"verified-source"),"Malformed digest type safely falls back")
+	corrupt = first.duplicate(true)
+	corrupt.visual_algorithm = "layout-envelope-v999"
+	check(not Visual.is_valid(corrupt,"verified-source"),"Unknown future algorithm safely falls back")
 	corrupt = first.duplicate(true)
 	corrupt.layout_digest = "not-the-footprint"
 	check(not Visual.is_valid(corrupt,"verified-source"),"Footprint checksum mismatch falls back")

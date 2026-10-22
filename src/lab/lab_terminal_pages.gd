@@ -78,7 +78,7 @@ func _watch_windows(node: Node) -> void:
 		node.visibility_changed.connect(_fit_window.bind(node), CONNECT_DEFERRED)
 
 func _fit_window(window: Window) -> void:
-	if not window.visible: return
+	if not is_instance_valid(window) or not window.visible: return
 	# Native exclusivity blocks input to the parent SubViewportContainer.
 	window.exclusive = false
 	window.position = Vector2i.ZERO

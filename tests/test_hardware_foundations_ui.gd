@@ -37,9 +37,9 @@ func _run() -> void:
 	_assert(StringName(main.get("current_phase")) == &"campaign", "Hardware Foundations must open on the prerequisite-gated level map.")
 	_assert(
 		main.get("mode_selector") != null
-		and not (main.get("mode_selector") as Control).visible
+		and (main.get("mode_selector") as Control).visible
 		and not bool(game_mode.call("is_test_mode")),
-		"An ordinary Hardware Foundations launch must default to Game mode without exposing the developer selector."
+		"An ordinary Hardware Foundations launch defaults to Game and exposes both modes."
 	)
 	_assert(not bool(game_mode.call("set_mode", &"unknown")) and not bool(game_mode.call("is_test_mode")), "The global mode boundary must reject unknown modes without changing state.")
 	var campaign_buttons: Dictionary = main.get("campaign_level_buttons")
@@ -508,6 +508,8 @@ func _run() -> void:
 		var palette_symbol: CircuitComponentSymbol = palette_node.get_child(0) as CircuitComponentSymbol if palette_node != null else null
 		_assert(
 			palette_symbol != null
+			and palette_preview.get_meta("component_kind", &"") == palette_template.kind
+			and not bool(palette_preview.get_meta("compact_thumbnail",false))
 			and palette_symbol.component_kind == palette_template.kind
 			and palette_preview.position.y >= 0.0
 			and palette_preview.position.y + palette_preview.size.y * palette_preview.scale.y <= palette_item.size.y

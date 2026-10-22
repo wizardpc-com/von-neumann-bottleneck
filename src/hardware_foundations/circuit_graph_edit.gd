@@ -237,7 +237,9 @@ func displayed_node_rect(node: GraphNode) -> Rect2:
 
 func graph_position_for_local_pointer(local_pointer: Vector2, footprint: Vector2) -> Vector2:
 	var graph_top_left: Vector2 = (local_pointer + scroll_offset) / zoom - footprint * 0.5
-	var snap_distance: float = float(snapping_distance) if snapping_enabled else 1.0
+	if not snapping_enabled:
+		return graph_top_left
+	var snap_distance: float = float(snapping_distance)
 	return Vector2(
 		snappedf(graph_top_left.x, snap_distance),
 		snappedf(graph_top_left.y, snap_distance)
@@ -534,7 +536,8 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and component_placement_enabled:
 		placement_pointer = (event as InputEventMouseMotion).position
 		placement_has_pointer = true
-		queue_redraw()
+		# Moving the child ghost does not change any settled cable geometry.
+		_draw_component_placement_preview()
 	if event is InputEventMouseMotion and selection_dragging:
 		var selection_motion := event as InputEventMouseMotion
 		if (selection_motion.button_mask & MOUSE_BUTTON_MASK_LEFT) == 0 and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):

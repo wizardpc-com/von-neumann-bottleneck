@@ -1,5 +1,22 @@
 # Candidate builds and Windows team handoff
 
+## Windows mode debugging package — 2026-10-23
+
+Normal builds start in Game and expose Game/Test selection in laboratory Settings.
+Hardware and Chapters 1/2 also retain their supported in-place selectors. Other
+workbenches use their existing save/departure flow before returning home to switch;
+their generic settings do not change a live draft's namespace. Test components and
+completion remain separate from Game. Developer capture commands remain disabled
+in exported candidates.
+
+Use the existing builder with a fixed main commit, `--platform Windows`, a matching
+`--windows-template`, `--second-act-profile ModeDebug20261023`, `--creation-journey`
+and `--test-batch ModeDebug20261023`. Omit `--offline-tester` to retain Game's normal
+prerequisites; explicitly selecting Test supplies free testing access. The stable
+profile is separate from production data. Share the emitted ZIP and its manifest;
+never include QA saves. Packaging and headless binary checks do not establish
+native graphical/audio acceptance.
+
 The current Windows team procedure and Chinese player guide are in
 [team handoff](../development/team-handoff.md). The offline package includes
 four actual screenshots and uses a separate named `OfflineTeammate-<suffix>`
@@ -49,7 +66,7 @@ python scripts/build-free-candidate.py --godot 'C:\path\to\Godot_v4.7.1-stable_w
 python scripts/check-candidate-identity.py "build/playtest-$batch-$($frozenCommit.Substring(0,12))"
 ```
 
-The helper archives the specified commit to an ignored staging directory, imports with separate build userdata, exports both platforms from the same source, adds instructions/known issues/change log/project/font/engine licenses, checks ZIP integrity and writes per-file and archive SHA-256 manifests. It never copies player saves, test scripts, local logs, credentials or the feedback database. Candidate builds force ordinary Game and disable switching into Test mode. The first-use normal game is offline; feedback endpoint is empty and automatic upload is disabled.
+The helper archives the specified commit to an ignored staging directory, imports with separate build userdata, exports both platforms from the same source, adds instructions/known issues/change log/project/font/engine licenses, checks ZIP integrity and writes per-file and archive SHA-256 manifests. It never copies player saves, test scripts, local logs, credentials or the feedback database. Candidate builds start in ordinary Game and allow explicit Game/Test selection from the normal UI. The first-use normal game is offline; feedback endpoint is empty and automatic upload is disabled.
 
 The macOS preset requests a universal binary and ad-hoc signing; verify the resulting signature on a Mac. Windows x86_64 is a validation candidate until tested on Windows. Export success does not establish installation or native play. Current evidence and exact source/hash are linked from [CURRENT_STATE](../CURRENT_STATE.md).
 

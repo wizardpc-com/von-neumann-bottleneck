@@ -9,12 +9,10 @@ const BORDER := Color("354866")
 const ACCENT := Color("7fcbd6")
 const TEXT := Color("e2ebef")
 const MUTED := Color("8fa3ad")
-## A parts-bin card: the name, then the very component the canvas will place,
-## drawn by the canvas renderer at one shared reduced scale. Purpose, ports and
-## widths are on the component itself or in the tooltip, not extra captions.
+## The same full node is uniformly scaled; tall modules retain all of their rows.
 const NAME_HEIGHT := 24.0
-const PREVIEW_SCALE := 0.6
-const PREVIEW_MAX := Vector2(224.0, 112.0)
+const PREVIEW_SCALE := 0.75
+const PREVIEW_MAX_WIDTH := 224.0
 const PAD := 8.0
 
 var template_key: String = ""
@@ -172,12 +170,7 @@ func _layout_component_preview() -> void:
 		visual_size = component_preview.custom_minimum_size
 	if visual_size.x <= 0.0 or visual_size.y <= 0.0:
 		return
-	# One scale for every card keeps the relative sizes the canvas will show;
-	# only components too large for the card shrink further.
-	var preview_scale: float = minf(PREVIEW_SCALE, minf(
-		PREVIEW_MAX.x / visual_size.x,
-		PREVIEW_MAX.y / visual_size.y
-	))
+	var preview_scale: float = minf(PREVIEW_SCALE, PREVIEW_MAX_WIDTH / visual_size.x)
 	var drawn: Vector2 = visual_size * preview_scale
 	custom_minimum_size.y = NAME_HEIGHT + PAD * 2.0 + drawn.y
 	component_preview.scale = Vector2.ONE * preview_scale

@@ -1,0 +1,124 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/user_directory"
+    },
+    {
+      "name": "test_first_lesson_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_lesson_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/test_first_lesson_input"
+    },
+    {
+      "name": "test_global_save",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_global_save.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/test_global_save"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: ordinary-zh_CN-1280x720: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-zh_CN-1280x720: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: ordinary-zh_CN-1280x720-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-zh_CN-1280x720: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-zh_CN-1280x720: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: candidate-zh_CN-1280x720-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-en-1280x720: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-en-1280x720: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: ordinary-en-1280x720-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-en-1280x720: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-en-1280x720: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: candidate-en-1280x720-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-zh_CN-1920x1080: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-zh_CN-1920x1080: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: ordinary-zh_CN-1920x1080-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-zh_CN-1920x1080: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-zh_CN-1920x1080: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: candidate-zh_CN-1920x1080-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-en-1920x1080: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-en-1920x1080: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: ordinary-en-1920x1080-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-en-1920x1080: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-en-1920x1080: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: candidate-en-1920x1080-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-zh_CN-1440x900: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-zh_CN-1440x900: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: ordinary-zh_CN-1440x900-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-zh_CN-1440x900: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-zh_CN-1440x900: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: candidate-zh_CN-1440x900-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-en-1440x900: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: ordinary-en-1440x900: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: ordinary-en-1440x900-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-en-1440x900: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "ERROR: candidate-en-1440x900: header keeps language and settings only (fullscreen lives in Settings)",
+        "ERROR: candidate-en-1440x900-recovery: only named journey/optional-space/header actions and applicable recovery details are exposed",
+        "FAIL: test_hub_first_screen 7399 checks, 36 failures"
+      ],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/test_hub_first_screen"
+    },
+    {
+      "name": "test_lab_terminal_pages",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_pages.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/test_lab_terminal_pages"
+    },
+    {
+      "name": "test_mode_access",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_mode_access.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/test_mode_access"
+    },
+    {
+      "name": "test_system_lab_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_lab_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/test_system_lab_ui"
+    },
+    {
+      "name": "test_two_worlds",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_two_worlds.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/test_two_worlds"
+    },
+    {
+      "name": "test_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T161824Z-58460d15/test_ui"
+    }
+  ]
+}

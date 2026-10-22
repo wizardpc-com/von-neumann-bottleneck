@@ -1,0 +1,551 @@
+{
+	"captures": [
+		{
+			"file": "after-half-adder-layout-0-zoom-065.png",
+			"height": 720,
+			"sha256": "f69cf9e3a468ca20e270701be1d480f8b9b0e1f43c05d348cadf4be6a447bf29",
+			"width": 1280
+		},
+		{
+			"file": "after-half-adder-zoom-100.png",
+			"height": 720,
+			"sha256": "3fb98f0534c6fcf41d55b42fcb5fbc5d166aa9ccd5effeb426678942a486d2f3",
+			"width": 1280
+		},
+		{
+			"file": "after-half-adder-zoom-135.png",
+			"height": 720,
+			"sha256": "2be54f19e40671127df4fe73f2f5581945f8ea9eb24de4c6c29d0e8c25d86ea4",
+			"width": 1280
+		},
+		{
+			"file": "after-earned-half-adder-layout-0.png",
+			"height": 720,
+			"sha256": "e397d39a3750b7c71ed01a04d0577905a5306b6d4b2c86ea2d151b726df78f9b",
+			"width": 1280
+		},
+		{
+			"file": "after-earned-palette-layout-0.png",
+			"height": 720,
+			"sha256": "e820706eed155b75461d8348fcca5ac4910b4fdb69a5199ec3831e53d3a02e61",
+			"width": 1280
+		},
+		{
+			"file": "after-half-adder-layout-1-zoom-065.png",
+			"height": 720,
+			"sha256": "c5ac27341d01da94eea20cd4a0f14f158c589aeeec06d6af70a916bbb698c4fe",
+			"width": 1280
+		},
+		{
+			"file": "after-earned-half-adder-layout-1.png",
+			"height": 720,
+			"sha256": "b0f4a92de2058c7085c932fea8f41935396f1916771838df1ebd789f9b4d7c5c",
+			"width": 1280
+		},
+		{
+			"file": "after-earned-palette-layout-1.png",
+			"height": 720,
+			"sha256": "5dbe3b63700d55f25810e38d14f359f692ca9f8f693fc84d88f563f8cf90cb17",
+			"width": 1280
+		},
+		{
+			"file": "after-qa-catalog-0.png",
+			"height": 720,
+			"sha256": "ec2618ad2303fd448c92bbb348564f5d63514399b46f692113b562f15e320e40",
+			"width": 1280
+		},
+		{
+			"file": "after-qa-catalog-1.png",
+			"height": 720,
+			"sha256": "40b68fe0b420a2fb616ea8c8b636bb5aaf0968cb8f2c54886cec9cb35e77e0c4",
+			"width": 1280
+		},
+		{
+			"file": "after-qa-catalog-2.png",
+			"height": 720,
+			"sha256": "9b9be8ec100ee3dfdd2963be5db41d407d249dab5b05b266786f46810317a99f",
+			"width": 1280
+		},
+		{
+			"file": "after-qa-catalog-3.png",
+			"height": 720,
+			"sha256": "fabfa1a09bb6e9e42a5ef4f5672362121c669e51d41e0249624c4875ad973fc2",
+			"width": 1280
+		},
+		{
+			"file": "after-qa-dense-mixed-alu-ram.png",
+			"height": 720,
+			"sha256": "a5644652db74db37709c4e93bbd3257fbbd160141bb7938c57f75c200c51a4d5",
+			"width": 1280
+		},
+		{
+			"file": "after-qa-mixed-width-zoom-100.png",
+			"height": 720,
+			"sha256": "7db0ad1f9ef70044f4c5be69b1facc0f3ec8f9507c4bfbaca6a63112b602e8a5",
+			"width": 1280
+		},
+		{
+			"file": "after-system-production-cpu-ram-bus.png",
+			"height": 720,
+			"sha256": "3c2063a0b01c264bb20b750e5d514b98d839e083c3c412d82c40b83c52d22c37",
+			"width": 1280
+		},
+		{
+			"file": "after-system-trace-ram_read.png",
+			"height": 720,
+			"sha256": "1e5b538fc36156c0d7f203cbf609c45fd3b068e02c5d992c8fc4149e387c103c",
+			"width": 1280
+		},
+		{
+			"file": "after-system-trace-read_data.png",
+			"height": 720,
+			"sha256": "317b59e15955a4bdbee8c7489e96e9f9c012d43fd3598fe8af678aa26555c14f",
+			"width": 1280
+		},
+		{
+			"file": "after-system-trace-compute.png",
+			"height": 720,
+			"sha256": "5c53d1b440d671ca99ae16669a198f0b726820806e92e28940e140f945dc0b45",
+			"width": 1280
+		},
+		{
+			"file": "after-system-trace-write_data.png",
+			"height": 720,
+			"sha256": "441c757328eda3505a72b861f0077c6e5bc605abee63c36739e6bd17f6a3522f",
+			"width": 1280
+		},
+		{
+			"file": "after-system-trace-ram_write.png",
+			"height": 720,
+			"sha256": "d129c246516d16163df197c1538c527d756f0c8e6f8946f08ed358fec6bb69e7",
+			"width": 1280
+		}
+	],
+	"checks": 223,
+	"display": "Windows",
+	"engine": {
+		"build": "official",
+		"hash": "a13da4feb8d8aefc283c3763d33a2f170a18d541",
+		"hex": 263937,
+		"major": 4,
+		"minor": 7,
+		"patch": 1,
+		"status": "stable",
+		"string": "4.7.1-stable (official)",
+		"timestamp": 0
+	},
+	"failures": [],
+	"logic_catalog_kinds": [
+		"input",
+		"output",
+		"lamp",
+		"and",
+		"or",
+		"xor",
+		"not",
+		"nor",
+		"junction",
+		"half_adder",
+		"full_adder",
+		"mux4",
+		"alu1",
+		"sr_latch",
+		"register1",
+		"register4",
+		"decoder1_to_2",
+		"mux2_word",
+		"alu4",
+		"ram2x4",
+		"control",
+		"constant",
+		"tiny_computer"
+	],
+	"native_pointer_acceptance": false,
+	"phase": "after",
+	"prerequisite": "QA tutorial access only; HalfAdder earned through official cases and seal callback",
+	"profile": "VNBComponentRefactorQA/accepted-after-layouts",
+	"qa_only": true,
+	"seals": [
+		{
+			"official_report": {
+				"cases": [
+					{
+						"A": false,
+						"B": false,
+						"actual_carry": false,
+						"actual_sum": false,
+						"expected_carry": false,
+						"expected_sum": false,
+						"passed": true,
+						"trace": "<RefCounted#-9223371829991698839>"
+					},
+					{
+						"A": false,
+						"B": true,
+						"actual_carry": false,
+						"actual_sum": true,
+						"expected_carry": false,
+						"expected_sum": true,
+						"passed": true,
+						"trace": "<RefCounted#-9223371828011987415>"
+					},
+					{
+						"A": true,
+						"B": false,
+						"actual_carry": false,
+						"actual_sum": true,
+						"expected_carry": false,
+						"expected_sum": true,
+						"passed": true,
+						"trace": "<RefCounted#-9223371825612845478>"
+					},
+					{
+						"A": true,
+						"B": true,
+						"actual_carry": true,
+						"actual_sum": false,
+						"expected_carry": true,
+						"expected_sum": false,
+						"passed": true,
+						"trace": "<RefCounted#-9223371822559391933>"
+					}
+				],
+				"passed": true
+			},
+			"source_signature": "{\"components\":[{\"display_name\":\"AND · 1\",\"fixed_terminal\":false,\"id\":\"AND_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · CARRY\",\"fixed_terminal\":false,\"id\":\"AND_1_COPY_002\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · 2\",\"fixed_terminal\":false,\"id\":\"AND_2\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"TEST BENCH A\",\"fixed_terminal\":true,\"id\":\"A_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"A\"},{\"display_name\":\"TEST BENCH B\",\"fixed_terminal\":true,\"id\":\"B_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"B\"},{\"display_name\":\"PROBE CARRY\",\"fixed_terminal\":true,\"id\":\"CARRY_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"CARRY\"},{\"display_name\":\"NOT · 1\",\"fixed_terminal\":false,\"id\":\"NOT_1\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"NOT · 2\",\"fixed_terminal\":false,\"id\":\"NOT_1_COPY_001\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"OR · 1\",\"fixed_terminal\":false,\"id\":\"OR_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"or\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"PROBE SUM\",\"fixed_terminal\":true,\"id\":\"SUM_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"SUM\"}],\"wires\":[{\"from_component\":\"AND_1\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":0},{\"from_component\":\"AND_1_COPY_002\",\"from_port\":0,\"to_component\":\"CARRY_OUT\",\"to_port\":0},{\"from_component\":\"AND_2\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":1},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"NOT_1_COPY_001\",\"to_port\":0},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"NOT_1\",\"to_port\":0},{\"from_component\":\"NOT_1\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":1},{\"from_component\":\"NOT_1_COPY_001\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":0},{\"from_component\":\"OR_1\",\"from_port\":0,\"to_component\":\"SUM_OUT\",\"to_port\":0}]}",
+			"visual_snapshot": {
+				"bands": [
+					[
+						5,
+						7
+					],
+					[
+						5,
+						7
+					],
+					[
+						5,
+						7
+					],
+					[
+						1,
+						11
+					],
+					[
+						3,
+						9
+					],
+					[
+						3,
+						9
+					],
+					[
+						3,
+						11
+					],
+					[
+						3,
+						9
+					],
+					[
+						5,
+						7
+					],
+					[
+						5,
+						7
+					]
+				],
+				"cells": [
+					37,
+					38,
+					39,
+					40,
+					41,
+					45,
+					46,
+					75,
+					76,
+					77,
+					78,
+					79,
+					80,
+					81,
+					82
+				],
+				"layout_digest": "2f57f9dd8b149c8344c9f0a7e556ad7bfdafe1dd09388bd98bde56fac1f64569",
+				"layout_source": "verified_workbench",
+				"source_signature": "{\"components\":[{\"display_name\":\"AND · 1\",\"fixed_terminal\":false,\"id\":\"AND_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · CARRY\",\"fixed_terminal\":false,\"id\":\"AND_1_COPY_002\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · 2\",\"fixed_terminal\":false,\"id\":\"AND_2\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"TEST BENCH A\",\"fixed_terminal\":true,\"id\":\"A_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"A\"},{\"display_name\":\"TEST BENCH B\",\"fixed_terminal\":true,\"id\":\"B_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"B\"},{\"display_name\":\"PROBE CARRY\",\"fixed_terminal\":true,\"id\":\"CARRY_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"CARRY\"},{\"display_name\":\"NOT · 1\",\"fixed_terminal\":false,\"id\":\"NOT_1\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"NOT · 2\",\"fixed_terminal\":false,\"id\":\"NOT_1_COPY_001\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"OR · 1\",\"fixed_terminal\":false,\"id\":\"OR_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"or\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"PROBE SUM\",\"fixed_terminal\":true,\"id\":\"SUM_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"SUM\"}],\"wires\":[{\"from_component\":\"AND_1\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":0},{\"from_component\":\"AND_1_COPY_002\",\"from_port\":0,\"to_component\":\"CARRY_OUT\",\"to_port\":0},{\"from_component\":\"AND_2\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":1},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"NOT_1_COPY_001\",\"to_port\":0},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"NOT_1\",\"to_port\":0},{\"from_component\":\"NOT_1\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":1},{\"from_component\":\"NOT_1_COPY_001\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":0},{\"from_component\":\"OR_1\",\"from_port\":0,\"to_component\":\"SUM_OUT\",\"to_port\":0}]}",
+				"visual_algorithm": "layout-envelope-v2",
+				"visual_schema": 1
+			}
+		},
+		{
+			"official_report": {
+				"cases": [
+					{
+						"A": false,
+						"B": false,
+						"actual_carry": false,
+						"actual_sum": false,
+						"expected_carry": false,
+						"expected_sum": false,
+						"passed": true,
+						"trace": "<RefCounted#-9223371766137614615>"
+					},
+					{
+						"A": false,
+						"B": true,
+						"actual_carry": false,
+						"actual_sum": true,
+						"expected_carry": false,
+						"expected_sum": true,
+						"passed": true,
+						"trace": "<RefCounted#-9223371764560557255>"
+					},
+					{
+						"A": true,
+						"B": false,
+						"actual_carry": false,
+						"actual_sum": true,
+						"expected_carry": false,
+						"expected_sum": true,
+						"passed": true,
+						"trace": "<RefCounted#-9223371762178191220>"
+					},
+					{
+						"A": true,
+						"B": true,
+						"actual_carry": true,
+						"actual_sum": false,
+						"expected_carry": true,
+						"expected_sum": false,
+						"passed": true,
+						"trace": "<RefCounted#-9223371759326064138>"
+					}
+				],
+				"passed": true
+			},
+			"source_signature": "{\"components\":[{\"display_name\":\"AND · 1\",\"fixed_terminal\":false,\"id\":\"AND_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · CARRY\",\"fixed_terminal\":false,\"id\":\"AND_1_COPY_002\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · 2\",\"fixed_terminal\":false,\"id\":\"AND_2\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"TEST BENCH A\",\"fixed_terminal\":true,\"id\":\"A_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"A\"},{\"display_name\":\"TEST BENCH B\",\"fixed_terminal\":true,\"id\":\"B_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"B\"},{\"display_name\":\"PROBE CARRY\",\"fixed_terminal\":true,\"id\":\"CARRY_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"CARRY\"},{\"display_name\":\"NOT · 1\",\"fixed_terminal\":false,\"id\":\"NOT_1\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"NOT · 2\",\"fixed_terminal\":false,\"id\":\"NOT_1_COPY_001\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"OR · 1\",\"fixed_terminal\":false,\"id\":\"OR_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"or\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"PROBE SUM\",\"fixed_terminal\":true,\"id\":\"SUM_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"SUM\"}],\"wires\":[{\"from_component\":\"AND_1\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":0},{\"from_component\":\"AND_1_COPY_002\",\"from_port\":0,\"to_component\":\"CARRY_OUT\",\"to_port\":0},{\"from_component\":\"AND_2\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":1},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"NOT_1_COPY_001\",\"to_port\":0},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"NOT_1\",\"to_port\":0},{\"from_component\":\"NOT_1\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":1},{\"from_component\":\"NOT_1_COPY_001\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":0},{\"from_component\":\"OR_1\",\"from_port\":0,\"to_component\":\"SUM_OUT\",\"to_port\":0}]}",
+			"visual_snapshot": {
+				"bands": [
+					[
+						5,
+						7
+					],
+					[
+						2,
+						10
+					],
+					[
+						5,
+						10
+					],
+					[
+						3,
+						10
+					],
+					[
+						3,
+						9
+					],
+					[
+						3,
+						10
+					],
+					[
+						3,
+						10
+					],
+					[
+						3,
+						10
+					],
+					[
+						5,
+						10
+					],
+					[
+						5,
+						7
+					]
+				],
+				"cells": [
+					14,
+					15,
+					16,
+					17,
+					18,
+					19,
+					20,
+					21,
+					29,
+					30,
+					31,
+					32,
+					33,
+					43,
+					44,
+					45,
+					67,
+					68,
+					69,
+					79,
+					80,
+					81,
+					91,
+					92,
+					93,
+					103,
+					104,
+					105
+				],
+				"layout_digest": "823bd2d0f8f18ac393e407633627b6799b2ae71f58684af1a55790a20004902d",
+				"layout_source": "verified_workbench",
+				"source_signature": "{\"components\":[{\"display_name\":\"AND · 1\",\"fixed_terminal\":false,\"id\":\"AND_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · CARRY\",\"fixed_terminal\":false,\"id\":\"AND_1_COPY_002\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"AND · 2\",\"fixed_terminal\":false,\"id\":\"AND_2\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"and\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"TEST BENCH A\",\"fixed_terminal\":true,\"id\":\"A_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"A\"},{\"display_name\":\"TEST BENCH B\",\"fixed_terminal\":true,\"id\":\"B_IN\",\"input_port_names\":[],\"input_port_widths\":[],\"kind\":\"input\",\"output_port_names\":[\"OUT\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"B\"},{\"display_name\":\"PROBE CARRY\",\"fixed_terminal\":true,\"id\":\"CARRY_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"CARRY\"},{\"display_name\":\"NOT · 1\",\"fixed_terminal\":false,\"id\":\"NOT_1\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"NOT · 2\",\"fixed_terminal\":false,\"id\":\"NOT_1_COPY_001\",\"input_port_names\":[\"A\"],\"input_port_widths\":[1],\"kind\":\"not\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"OR · 1\",\"fixed_terminal\":false,\"id\":\"OR_1\",\"input_port_names\":[\"A\",\"B\"],\"input_port_widths\":[1,1],\"kind\":\"or\",\"output_port_names\":[\"Y\"],\"output_port_widths\":[1],\"properties\":{},\"signal_name\":\"\"},{\"display_name\":\"PROBE SUM\",\"fixed_terminal\":true,\"id\":\"SUM_OUT\",\"input_port_names\":[\"IN\"],\"input_port_widths\":[1],\"kind\":\"output\",\"output_port_names\":[],\"output_port_widths\":[],\"properties\":{},\"signal_name\":\"SUM\"}],\"wires\":[{\"from_component\":\"AND_1\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":0},{\"from_component\":\"AND_1_COPY_002\",\"from_port\":0,\"to_component\":\"CARRY_OUT\",\"to_port\":0},{\"from_component\":\"AND_2\",\"from_port\":0,\"to_component\":\"OR_1\",\"to_port\":1},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":0},{\"from_component\":\"A_IN\",\"from_port\":0,\"to_component\":\"NOT_1_COPY_001\",\"to_port\":0},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_1_COPY_002\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":1},{\"from_component\":\"B_IN\",\"from_port\":0,\"to_component\":\"NOT_1\",\"to_port\":0},{\"from_component\":\"NOT_1\",\"from_port\":0,\"to_component\":\"AND_1\",\"to_port\":1},{\"from_component\":\"NOT_1_COPY_001\",\"from_port\":0,\"to_component\":\"AND_2\",\"to_port\":0},{\"from_component\":\"OR_1\",\"from_port\":0,\"to_component\":\"SUM_OUT\",\"to_port\":0}]}",
+				"visual_algorithm": "layout-envelope-v2",
+				"visual_schema": 1
+			}
+		}
+	],
+	"source_sha256": {
+		"src/circuit/logic_component.gd": "8020c98fa1d15e3b0a00850abbfb97136dc81d2e9a9595313a4e8efe39d1f28d",
+		"src/hardware_foundations/circuit_component_symbol.gd": "6b9e90f9212da1542296a06e32ff44c6b61229c7c771427b2f9e790ee8838e8e",
+		"src/hardware_foundations/circuit_module_row.gd": "2ef58d25347fc587205064c9f2e0cedbaa80906feaea84424e5b7974c38fa471",
+		"src/hardware_foundations/circuit_module_thumbnail.gd": "402de10d76bd13457925a8c7aa4116eb103944ca4ce22dbfc06a261146d84658",
+		"src/hardware_foundations/component_palette_item.gd": "57bdf694fd317d2f14d8e4aafaffd2855c3d78d725c37086477d5f3aeaf3e921",
+		"src/hardware_foundations/component_visual_layout.gd": "5b9c16204e4b11ebc78abdf3d610f26af529d659e127db650b5c0ae8a20c042b",
+		"src/hardware_foundations/hardware_foundations.gd": "27b6cf68bc8814ef4d2cc3e636eddf622d030f2bd22e1059da973a79d459a09d",
+		"src/save/global_save.gd": "b35bed017e46d97f9946b665a53ca3e3c9c4fdd9986cd66a9945b9a1e44dd6d4",
+		"src/system_lab/system_device_surface.gd": "f84f9440e8c2157bcabba7528c206efe798c4b8d76dbf0f190a32efe0cb7a540"
+	},
+	"system_catalog_kinds": [
+		"cpu",
+		"ram",
+		"bus"
+	],
+	"system_trace": {
+		"expected_output": [
+			8
+		],
+		"metrics": {
+			"bus_control_cycles": 2,
+			"bus_segments_per_word": 1,
+			"bus_transfer_cycles": 2,
+			"bytes_transferred": 2,
+			"cpu_compute_cycles": 2,
+			"cpu_wait_cycles": 20,
+			"hardware_cost": 27,
+			"memory_requests": 2,
+			"ram_service_cycles": 16,
+			"total_cycles": 22
+		},
+		"output_data": [
+			8
+		],
+		"passed": true,
+		"signature": "c5fe897ff472e6c1dee465dc902eea6743811d7c29cb8c1f97f67a0e3c007e1c"
+	},
+	"system_trace_frames": [
+		{
+			"cycle": 1,
+			"details": {
+				"cpu_waiting": true,
+				"index": 0,
+				"phase": "ram",
+				"value": 7
+			},
+			"duration": 8,
+			"kind": "ram_read",
+			"route_devices": [
+				"RAM"
+			],
+			"source_line": 1
+		},
+		{
+			"cycle": 9,
+			"details": {
+				"bits_per_cycle": 8,
+				"cpu_waiting": true,
+				"index": 0,
+				"phase": "bus_data",
+				"segments": 1,
+				"value": 7
+			},
+			"duration": 1,
+			"kind": "read_data",
+			"route_devices": [
+				"RAM",
+				"BUS",
+				"CPU"
+			],
+			"source_line": 1
+		},
+		{
+			"cycle": 10,
+			"details": {
+				"cpu_waiting": false,
+				"phase": "cpu",
+				"value": 8
+			},
+			"duration": 2,
+			"kind": "compute",
+			"route_devices": [
+				"CPU"
+			],
+			"source_line": 2
+		},
+		{
+			"cycle": 13,
+			"details": {
+				"bits_per_cycle": 8,
+				"cpu_waiting": true,
+				"index": 0,
+				"phase": "bus_data",
+				"segments": 1,
+				"value": 8
+			},
+			"duration": 1,
+			"kind": "write_data",
+			"route_devices": [
+				"CPU",
+				"BUS",
+				"RAM"
+			],
+			"source_line": 3
+		},
+		{
+			"cycle": 14,
+			"details": {
+				"cpu_waiting": true,
+				"index": 0,
+				"phase": "ram",
+				"value": 8
+			},
+			"duration": 8,
+			"kind": "ram_write",
+			"route_devices": [
+				"RAM"
+			],
+			"source_line": 3
+		}
+	],
+	"wire_geometry": [
+		{
+			"checked": 12,
+			"zoom": 0.65
+		},
+		{
+			"checked": 12,
+			"zoom": 1.0
+		},
+		{
+			"checked": 12,
+			"zoom": 1.35
+		},
+		{
+			"checked": 12,
+			"zoom": 0.65
+		}
+	]
+}

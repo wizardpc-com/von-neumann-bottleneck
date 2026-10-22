@@ -141,6 +141,7 @@ func _input(event: InputEvent) -> void:
 		close_panel(); get_viewport().set_input_as_handled()
 
 func open_panel(feedback_task: Dictionary = {}) -> void:
+	if not get_tree().get_nodes_in_group("cinematic_playback").is_empty(): return
 	if busy or backdrop.visible: return
 	busy=true
 	var context: Dictionary = Context.capture(get_tree())

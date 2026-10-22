@@ -1,0 +1,62 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160745Z-287bc6cc/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160745Z-287bc6cc/user_directory"
+    },
+    {
+      "name": "test_cinematics",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_cinematics.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160745Z-287bc6cc/test_cinematics"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_prologue_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160745Z-287bc6cc/test_hardware_prologue_ui"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160745Z-287bc6cc/test_hub_first_screen"
+    },
+    {
+      "name": "test_lab_terminal_confirmation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_confirmation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160745Z-287bc6cc/test_lab_terminal_confirmation"
+    },
+    {
+      "name": "test_offline_feedback",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_offline_feedback.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261022T160745Z-287bc6cc/test_offline_feedback"
+    }
+  ]
+}

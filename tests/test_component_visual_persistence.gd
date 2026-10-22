@@ -36,6 +36,36 @@ func _run() -> void:
 		_assert(restored.canonical_signature()==half.canonical_signature(),"Restart logical identity unchanged")
 	var derived: ReusableComponent=reader.game_player_content.component_library.get(&"ALU4")
 	_assert(derived!=null and derived.visual_snapshot.is_empty(),"Derived wrapper safely uses family fallback without invented layout")
+	# Existing V1 records retain their own bands rather than being regenerated.
+	var legacy: Dictionary = b.duplicate(true)
+	legacy.visual_algorithm = "layout-envelope-v1"
+	legacy.bands = []
+	for row: int in Visual.ROWS:
+		var left: int = 4
+		var right: int = 8
+		for cell: Variant in legacy.cells:
+			if int(cell)/Visual.COLUMNS == row:
+				left = mini(left,int(cell)%Visual.COLUMNS)
+				right = maxi(right,int(cell)%Visual.COLUMNS+1)
+		legacy.bands.append([left,right])
+	half.visual_snapshot = legacy
+	_assert(writer.save_game(true),"Frozen V1 presentation still saves")
+	reader = _service(); _assert(reader.load_game(),"V1 source remains usable after restart")
+	restored = reader.game_player_content.component_library.get(&"HalfAdder")
+	_assert(restored!=null,"V1 presentation preserves the earned reusable component")
+	if restored!=null:
+		_assert(Visual.is_valid(restored.visual_snapshot,restored.source_signature),"Restored V1 footprint remains valid")
+		_assert(restored.visual_snapshot.get("visual_algorithm")==Visual.LEGACY_ALGORITHM,"V1 presentation retains its frozen algorithm")
+		var legacy_rect:=Rect2(0,0,240,160)
+		_assert(Visual.outline(restored.visual_snapshot,restored.source_signature,legacy_rect)==Visual.outline(legacy,half.source_signature,legacy_rect),"V1 saved bands retain identical rendered geometry across JSON numeric types")
+		_assert(restored.visual_snapshot.get("layout_digest")==legacy.layout_digest,"V1 saved footprint retains its occupancy digest")
+	var wrong_source: Dictionary = b.duplicate(true)
+	wrong_source.source_signature = "unrelated-source"
+	half.visual_snapshot = wrong_source
+	_assert(writer.save_game(true),"Mismatched visual source fixture saves independently")
+	reader = _service(); _assert(reader.load_game(),"Wrong visual source never invalidates actual earned logic")
+	restored = reader.game_player_content.component_library.get(&"HalfAdder")
+	_assert(restored!=null and restored.visual_snapshot.is_empty(),"Presentation from another source safely falls back")
 	# Malformed presentation is ignored while actual source and unlock remain valid.
 	half.visual_snapshot={"visual_schema":999,"bands":["bad"]}
 	_assert(writer.save_game(true),"Presentation corruption fixture can be persisted independently")

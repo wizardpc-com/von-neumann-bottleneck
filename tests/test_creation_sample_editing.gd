@@ -166,6 +166,8 @@ func exercise(locale: String) -> void:
 	check(scene.session.data.works == protected_works,"All invalid, capacity, stale and read-only edits retain both chosen works")
 	scene.writable = true; scene.cancel_sample_edit(); await settle()
 	await exercise_leave_protection(scene)
+	if scene.english != (locale == "en"): scene.toggle_language(); await settle()
+	await exercise_initial_leave_protection(scene, locale)
 	scene.queue_free(); await settle()
 
 func exercise_leave_protection(scene: LeaveProbe) -> void:
@@ -206,3 +208,59 @@ func exercise_leave_protection(scene: LeaveProbe) -> void:
 	var noop_calls: int = scene.leave_calls
 	scene.request_leave(true); await settle()
 	check(scene.leave_calls == noop_calls+1 and not scene.sample_leave_dialog.visible and not scene.has_pending_sample_text(),"Opening an unchanged passage adds no departure ceremony")
+
+func exercise_initial_leave_protection(scene: LeaveProbe, locale: String) -> void:
+	scene.cancel_sample_edit()
+	scene.change_task(7); await settle()
+	(scene.find_child("DraftTabs",true,false) as TabContainer).current_tab = 2
+	await settle()
+	check(scene.english == (locale == "en"), "Pending Initial uses the requested test language")
+	var legal_initial: Array = scene.session.data.draft.initial.duplicate()
+	for to_hub: bool in [true,false]:
+		for dirty: bool in [false,true]:
+			check(scene.session.save() == OK,"Save the legal initial before checking transient departure")
+			var saved_bytes: String = FileAccess.get_file_as_string(scene.session.path)
+			if dirty: scene.session.data.draft.seed += 1; scene.edit_draft()
+			field(scene,"Initial").text = "A X"; field(scene,"Initial").text_changed.emit("A X")
+			var calls_before: int = scene.leave_calls
+			if to_hub: scene.request_leave(true)
+			else: scene._notification(Node.NOTIFICATION_WM_CLOSE_REQUEST)
+			await settle()
+			var guard := scene.get_node_or_null("PendingInitialProtection") as ConfirmationDialog
+			check(guard != null and guard.visible and not scene.leave_dialog.visible and scene.leave_calls == calls_before,"Invalid Initial blocks clean and dirty Home/OS close before any departure")
+			if guard == null: return
+			check(guard.size.x <= 600 and root.get_visible_rect().encloses(Rect2(Vector2(guard.position),Vector2(guard.size))), "Pending Initial remains a compact dialog within the viewport")
+			if to_hub and not dirty: await capture("pending-initial-"+locale)
+			check(scene.session.dirty == dirty and scene.session.data.draft.initial == legal_initial,"Invalid Initial does not masquerade as a saved recipe edit")
+			guard.hide(); guard.canceled.emit(); await settle()
+			check(field(scene,"Initial").text == "A X" and root.gui_get_focus_owner() == field(scene,"Initial") and scene.leave_calls == calls_before,"Cancel preserves invalid Initial and returns keyboard focus")
+			check(FileAccess.get_file_as_string(scene.session.path) == saved_bytes,"Cancel of pending Initial preserves saved bytes")
+			scene.request_leave(to_hub)
+			guard.hide(); guard.confirmed.emit(); await settle()
+			check(scene.valid_initial_input() and field(scene,"Initial").text == Catalog.symbols(legal_initial) and not scene.run_button.disabled,"Explicit discard restores the actual legal recipe text and enables generation")
+			check(scene.leave_dialog.visible == dirty and scene.leave_calls == calls_before+(0 if dirty else 1),"Initial discard resumes the existing clean or dirty draft departure")
+			if dirty:
+				scene.leave_dialog.hide(); scene.leave_dialog.confirmed.emit(); await settle()
+				check(scene.leave_calls == calls_before+1 and not scene.session.dirty,"Save and leave still saves only the legal draft after explicit text discard")
+			check(not FileAccess.get_file_as_string(scene.session.path).contains("A X") and scene.session.data.draft.initial == legal_initial,"Invalid Initial never enters the persistent recipe")
+
+	check(scene.session.save() == OK,"Start combined pending fields from a clean profile")
+	var combined_bytes: String = FileAccess.get_file_as_string(scene.session.path)
+	(scene.find_child("DraftTabs",true,false) as TabContainer).current_tab = 0
+	await press(scene,"EditExample0")
+	check(scene.sample_edit_index == 0, "Visible sample edit button opens the pending editor")
+	field(scene,"SampleEditText").text = "A X"
+	(scene.find_child("DraftTabs",true,false) as TabContainer).current_tab = 2
+	await settle()
+	field(scene,"Initial").text = "B X"; field(scene,"Initial").text_changed.emit("B X")
+	var calls_before: int = scene.leave_calls
+	scene.request_leave(true); await settle()
+	var initial_guard := scene.get_node("PendingInitialProtection") as ConfirmationDialog
+	check(scene.sample_leave_dialog.visible and not initial_guard.visible,"Pending sample keeps its existing first position when both fields are unsubmitted")
+	scene.sample_leave_dialog.hide(); scene.sample_leave_dialog.confirmed.emit(); await settle()
+	check(initial_guard.visible and scene.leave_calls == calls_before and field(scene,"Initial").text == "B X","Discarding the sample still guards the pending Initial")
+	initial_guard.hide(); initial_guard.canceled.emit(); await settle()
+	check(root.gui_get_focus_owner() == field(scene,"Initial") and field(scene,"Initial").text == "B X","Cancel of the second guard retains Initial text and focus")
+	check(FileAccess.get_file_as_string(scene.session.path) == combined_bytes,"Combined transient guards do not write either input")
+	scene.request_leave(true); initial_guard.hide(); initial_guard.confirmed.emit(); await settle()
+	check(scene.leave_calls == calls_before+1 and scene.valid_initial_input(),"Only explicitly discarding both fields permits clean departure")

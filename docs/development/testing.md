@@ -1,3 +1,24 @@
+## Settings input and pending work — 2026-10-23
+
+Run `test_hardware_settings_input`, `test_chapter_settings_input`,
+`test_workbench_escape` and `test_creation_sample_editing` with the isolated
+verifier. The input suites send viewport keys through real Settings with a
+non-text focus target; they cover undo/redo, deletion, held pan, and a Settings
+button whose pointer position overlaps an underlying card. After dismissal,
+ordinary editing must resume. The departure suite intercepts only final process
+exit while executing the real Settings button handler and each workbench's own
+unsaved-work guard. The creation suite checks pending sample/initial text before
+the valid-draft decision, cancellation focus and unchanged saved bytes.
+
+Run early-chapter UI/input, save/recovery, creation editing/navigation, laboratory
+routing and Settings language suites alongside these checks. For optional GPU
+replay, use a fresh isolated profile and run the creation sample suite with
+`-- --creation-sample-edit-capture`; it saves both languages' pending-initial
+dialogs alongside its existing captures. Automated events do not establish
+physical keyboard/mouse or full human play-through acceptance.
+See the [player-flow verification](../verification/20261023-player-flow/README.md)
+for old-runtime failures, final checks, GUI frames and retained diagnostic exits.
+
 ## Game/Test mode access — 2026-10-23
 
 For final handoff, also run `test_lab_terminal_routing`, `test_terminal_language_input`,
@@ -18,15 +39,20 @@ signature and must not copy temporary Test components into player rewards.
 
 ## Cinematics — 2026-10-23
 
-Run `test_cinematics`, `test_hardware_prologue_ui`, `test_first_lesson_input`,
+Run `test_cinematics`, `test_chapter5_cinematic`, `test_hardware_prologue_ui`, `test_first_lesson_input`,
 `test_global_save`, `test_offline_feedback`, `test_hub_first_screen`,
 `test_lab_terminal_confirmation` and `test_two_worlds` through the isolated verifier.
-The cinematic suite requires its isolated QA user directory. It decodes both real
+The cinematic suite requires its isolated QA user directory. It decodes all three real
 assets to the engine's natural end, checks existing/backup-only profiles, persistent
 history across cache reset and New Game, skip, failed-save recovery and global
 shortcuts. Automated startup/completion must not consume `user://cinematics.cfg`.
 Headless playback does not establish GPU framing or audible audio synchronization;
-native acceptance remains separate. See [evidence](../verification/20261023-cinematics/README.md).
+native acceptance remains separate. Chapter-five checks execute the real five-plan
+acceptance path, including out-of-order completion, failed runs, already completed
+support sets, blocked writing and repeated runs. Run Representation session,
+closure/navigation and candidate-journey review regressions alongside it.
+See [opening/prologue evidence](../verification/20261023-cinematics/README.md)
+and [chapter-five evidence](../verification/20261023-chapter5-cinematic/README.md).
 
 ## Component runtime refactor — 2026-10-22
 
@@ -1188,3 +1214,12 @@ the verifier's temporary user-directory override, exports the existing Windows
 preset and records executable/PCK hashes. It rejects partial or failed runs and
 never overwrites an existing package directory. A successful export is not native
 graphical acceptance or evidence that the game is competition-ready.
+
+
+Finale and handbook checks:
+
+- `test_ending_cinematic`: successful final-task Keep after UI refresh, earlier saves, empty names, failed-save rollback, legacy reload and automated history protection.
+- `test_cinematics`: all four complete decoder playbacks, history, pause and recovery. Its verifier timeout is 300 seconds to accommodate full authored runtimes.
+- `test_handbook_diagrams`: bilingual concept bindings and narrow/wide vector diagram text bounds; reading grants no progress.
+- `test_late_handbook_access`: four workbenches, task context, Escape, settings priority, language rebuild and unchanged drafts. `--handbook-capture` saves actual frames in the isolated user directory.
+- `test_learning_handbook` and `test_yi_introduction_media`: progressive concepts, quick reference, unchanged progression, three opening steps and fixed actions at small viewport sizes.

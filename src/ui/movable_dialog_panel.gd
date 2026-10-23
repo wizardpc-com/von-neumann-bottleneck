@@ -3,6 +3,8 @@ extends PanelContainer
 var desired_size := Vector2(760, 780)
 var _moved: bool = false
 var docked: bool = false
+## When docked, content keeps this readable column width, centred (0 = full width).
+var docked_column_width: float = 0.0
 var title_handle: Control
 var _dragging: bool = false
 var _pointer_origin := Vector2.ZERO
@@ -32,6 +34,15 @@ func fit_to_bounds() -> void:
 		custom_minimum_size = Vector2.ZERO
 		position = Vector2.ZERO
 		size = bounds.size
+		if docked_column_width > 0.0:
+			var box := get_theme_stylebox("panel") as StyleBoxFlat
+			if box != null:
+				box = box.duplicate()
+				var side: float = maxf(28.0, (bounds.size.x - docked_column_width) * 0.5)
+				box.content_margin_left = side; box.content_margin_right = side
+				box.content_margin_top = 30; box.content_margin_bottom = 26
+				box.set_border_width_all(0); box.set_corner_radius_all(0)
+				add_theme_stylebox_override("panel", box)
 		return
 	var available := (bounds.size - Vector2(32, 32)).max(Vector2.ONE)
 	custom_minimum_size = desired_size.min(available)

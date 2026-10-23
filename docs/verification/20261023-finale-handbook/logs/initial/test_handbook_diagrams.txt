@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Compile Error: Identifier not found: Localization
+   at: GDScript::reload (res://src/ui/terminology_diagram.gd:45)
+SCRIPT ERROR: Compile Error: Identifier not found: Localization
+   at: GDScript::reload (res://src/ui/terminology_handbook.gd:334)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/test_handbook_diagrams.gd:0)

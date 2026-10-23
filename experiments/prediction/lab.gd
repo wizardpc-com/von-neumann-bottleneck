@@ -5,6 +5,7 @@ const Catalog = preload("res://experiments/prediction/catalog.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
 const Event = preload("res://src/simulation/simulation_event.gd")
 const Context = preload("res://experiments/candidate_session/context.gd")
+var terminology_handbook: Control
 var english: bool = false
 var candidate_journey: bool = false
 var previous_auto_quit: bool = true
@@ -61,7 +62,7 @@ func text2(zh: String, en: String) -> String: return en if english else zh
 
 func label(text: String, parent: Node, size: int = 15) -> Label:
 	var item := Label.new(); item.text = text; item.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	item.add_theme_font_size_override("font_size",size); parent.add_child(item); return item
+	item.add_theme_font_size_override("font_size",maxi(size,13)); parent.add_child(item); return item
 
 func button(text: String, handle: String, parent: Node, action: Callable) -> Button:
 	var item := Button.new(); item.name = handle; item.text = text
@@ -136,6 +137,8 @@ func build() -> void:
 	var boundary: Label = label(text2("可选临时探索 · 规则、历史与结果离开后不保留", "Optional temporary exploration · rules, history and results are discarded on leaving"),page,14)
 	boundary.name = "TemporaryBoundary"; boundary.add_theme_color_override("font_color",MUTED)
 	var nav := HBoxContainer.new(); page.add_child(nav)
+	nav.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
+	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, nav, "prediction", preload("res://src/campaign/second_act_tasks.gd").IDS["prediction"][task])
 	for i: int in 3:
 		var stage_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("prediction", i))
 		var item: Button = button(stage_label if not stage_label.is_empty() else [text2("1 · 规律流","1 · Regular stream"),text2("2 · 规律改变","2 · Pattern changes"),text2("3 · 交替热点","3 · Alternating hotspots")][i],"Task"+str(i),nav,func() -> void: change_task(i))
@@ -203,6 +206,9 @@ func has_session_work() -> bool:
 	return not history.is_empty() or active_trace != null or policy != Model.default_policy()
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open():
+		if terminology_handbook.handle_escape(event): get_viewport().set_input_as_handled()
+		return
 	if candidate_journey and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		request_hub()

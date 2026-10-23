@@ -36,6 +36,10 @@ var display_state: Dictionary:
 		return _display_state.duplicate(true)
 var _display_state: Dictionary = {}
 var _station_labels: Array[Label3D] = []
+var _board_viewport: SubViewport
+var _board_title: Label
+var _board_total: Label
+var _board_rows: Array[Dictionary] = []
 var _works_title: Label3D
 var _works_name: Label3D
 var _work_pixels: Array[Label3D] = []
@@ -53,7 +57,16 @@ var _hover_glow: float = 0.0
 var _confirmation: Control
 var _confirmation_parent: Node
 var _screen_events: Array[InputEventMouse] = []
-var _standby_text: Label
+var _standby_text: Control
+## Standby glass: what the terminal is about to offer, readable from the room.
+var _standby_header: Label
+var _standby_count: Label
+var _standby_kicker: Label
+var _standby_title: Label
+var _standby_note: Label
+var _standby_bar: ProgressBar
+var _standby_prompt: Label
+var _standby_info: Dictionary = {}
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -81,7 +94,7 @@ func _ready() -> void:
 	camera.name = "FixedObservationCamera"
 	viewport.add_child(camera)
 	camera.position = OBSERVATION
-	camera.fov = rad_to_deg(2.0 * atan(20.25 / 48.0))
+	camera.fov = _room_fov()
 	camera.look_at(TARGET, Vector3.UP)
 	_neutral_basis = camera.basis
 	camera.current = true
@@ -111,6 +124,11 @@ func _ready() -> void:
 func set_look(normalized: Vector2) -> void:
 	# Camera forward is -Z; screen Y grows downwards. Turn toward the pointer.
 	_look_target = -normalized.clamp(Vector2(-1.0, -1.0), Vector2.ONE) * Vector2(12.0, 6.0)
+
+func _room_fov() -> float:
+	# Preserve the side-wall composition when the window is narrower than 16:9.
+	var aspect: float = size.x / maxf(size.y, 1.0)
+	return rad_to_deg(2.0 * atan((20.25 / 48.0) * maxf(1.0, (16.0 / 9.0) / maxf(aspect, 0.01))))
 
 func set_zoom(amount: float) -> void:
 	_zoom = clampf(amount, 0.0, 1.0)
@@ -181,11 +199,13 @@ func _process(delta: float) -> void:
 	# so the move reads as one step forward rather than a zoom lens.
 	camera.basis = looking.slerp(aim, smoothstep(0.0, 0.55, _zoom))
 	camera.position = OBSERVATION.lerp(_focus_point, _focus_dolly * smoothstep(0.0, 1.0, _zoom))
-	var base_fov: float = rad_to_deg(2.0 * atan(20.25 / 48.0))
+	var base_fov: float = _room_fov()
 	camera.fov = base_fov * pow(_focus_fov / base_fov, smoothstep(0.15, 1.0, _zoom))
 	var glow_target: float = 0.0 if _hovered.is_empty() or not _interaction_enabled else 1.0
 	_hover_glow = glow_target if reduced else move_toward(_hover_glow, glow_target, delta * 6.0)
-	_hover_material.albedo_color = Color(0.13, 0.18, 0.21, _hover_glow)
+	# A warm lift that breathes slowly, like the object answering the pointer.
+	var breathe: float = 1.0 if reduced else 0.82 + 0.18 * sin(Time.get_ticks_msec() * 0.0035)
+	_hover_material.albedo_color = Color(0.16, 0.14, 0.11, _hover_glow * breathe)
 
 ## Return projected glass bounds in this container's local pixel coordinates.
 func screen_rect() -> Rect2:
@@ -217,24 +237,85 @@ func _setup_screen() -> void:
 	background.color = Color("101f29")
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	standby_viewport.add_child(background)
-	var text := Label.new()
-	_standby_text = text
 	var localization: Node = get_node_or_null("/root/Localization")
 	var english: bool = localization != null and localization.current_locale() == "en"
-	text.text = "Yi\nOpen terminal · Enter" if english else "壹\n打开终端 · Enter"
-	text.add_theme_font_override("font", DISPLAY_FONT)
-	text.add_theme_font_size_override("font_size", 48)
-	text.add_theme_color_override("font_color", Color("b9dcd9"))
-	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	text.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	standby_viewport.add_child(text)
+	var margin := MarginContainer.new(); margin.name = "StandbyGlass"
+	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for side: String in ["left", "right"]: margin.add_theme_constant_override("margin_" + side, 64)
+	margin.add_theme_constant_override("margin_top", 40); margin.add_theme_constant_override("margin_bottom", 38)
+	standby_viewport.add_child(margin)
+	_standby_text = margin
+	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 10)
+	margin.add_child(column)
+	var top := HBoxContainer.new(); column.add_child(top)
+	_standby_header = _glass_label(top, "Yi · learning program" if english else "壹 · 学习程序", 26, Color("7f98a6"))
+	_standby_header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_standby_count = _glass_label(top, "", 26, Color("7f98a6"))
+	var rule := ColorRect.new(); rule.color = Color("2a4254"); rule.custom_minimum_size.y = 2; column.add_child(rule)
+	var space := Control.new(); space.size_flags_vertical = Control.SIZE_EXPAND_FILL; column.add_child(space)
+	_standby_kicker = _glass_label(column, "", 28, Color("7fcbd6"))
+	_standby_title = _glass_label(column, "", 54, Color("e2ebef"))
+	_standby_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_standby_title.clip_text = true
+	_standby_note = _glass_label(column, "", 26, Color("a9bccb"))
+	_standby_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var space2 := Control.new(); space2.size_flags_vertical = Control.SIZE_EXPAND_FILL; column.add_child(space2)
+	_standby_bar = ProgressBar.new(); _standby_bar.show_percentage = false
+	_standby_bar.custom_minimum_size.y = 8
+	var track := StyleBoxFlat.new(); track.bg_color = Color("1b2e3c"); track.set_corner_radius_all(4)
+	var fill := StyleBoxFlat.new(); fill.bg_color = Color("7fcbd6"); fill.set_corner_radius_all(4)
+	_standby_bar.add_theme_stylebox_override("background", track); _standby_bar.add_theme_stylebox_override("fill", fill)
+	column.add_child(_standby_bar)
+	_standby_prompt = _glass_label(column, "", 28, Color("b9dcd9"))
+	_standby_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	set_standby(_standby_info if not _standby_info.is_empty() else {"english": english, "new_player": true})
 	var bounds: AABB = _screen.get_aabb()
 	var material := ShaderMaterial.new()
 	material.shader = preload("res://src/lab/lab_screen.gdshader")
 	material.set_shader_parameter("display_texture", standby_viewport.get_texture())
 	material.set_shader_parameter("screen_bounds", Vector4(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y))
 	_screen.material_override = material
+
+func _glass_label(parent: Node, value: String, font_size: int, color: Color) -> Label:
+	var label := Label.new()
+	label.text = value
+	label.add_theme_font_override("font", DISPLAY_FONT)
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", color)
+	parent.add_child(label)
+	return label
+
+## Presentation only: the same next task and counts the terminal itself offers.
+## info: english, new_player, next_label, next_chapter, completed, total, just_done
+func set_standby(info: Dictionary) -> void:
+	_standby_info = info.duplicate()
+	if _standby_title == null: return
+	var english: bool = bool(info.get("english", false))
+	var completed: int = int(info.get("completed", 0))
+	var total: int = int(info.get("total", 0))
+	_standby_header.text = "Yi · learning program" if english else "壹 · 学习程序"
+	_standby_count.text = ("%d / %d" % [completed, total]) if total > 0 else ""
+	_standby_bar.max_value = maxi(1, total)
+	_standby_bar.value = completed
+	_standby_bar.visible = total > 0
+	var just_done: String = str(info.get("just_done", ""))
+	if bool(info.get("new_player", false)):
+		_standby_kicker.text = "First step" if english else "第一步"
+		_standby_title.text = "Connect one wire" if english else "从一根线开始"
+		_standby_note.text = "Connect it, run it, see why the lamp is on or off." if english else "接好、运行，再看看灯为什么亮或灭。"
+	else:
+		var chapter: String = str(info.get("next_chapter", ""))
+		_standby_kicker.text = ("Next" if english else "下一项") + ((" · " + chapter) if not chapter.is_empty() else "")
+		var title: String = str(info.get("next_label", ""))
+		# The kicker already names the chapter (序章·半加器 → 半加器).
+		for separator: String in [" · ", "·"]:
+			if not chapter.is_empty() and title.begins_with(chapter + separator): title = title.trim_prefix(chapter + separator)
+		_standby_title.text = title
+		_standby_note.text = (("Just finished: " if english else "刚完成：") + just_done) if not just_done.is_empty() else ""
+	_standby_note.visible = not _standby_note.text.is_empty()
+	_standby_prompt.text = "Enter · open terminal" if english else "Enter · 打开终端"
+	if standby_viewport != null and not confirmation_active():
+		standby_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 ## Reuse the terminal's controls on its actual glass, including perspective and occlusion.
 func show_confirmation(view: Control) -> void:
@@ -426,11 +507,7 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 		var title := str(progress.get("en" if english else "zh", definition.get("en" if english else "zh", "")))
 		station_states.append({"index": index, "name": title, "done": done, "total": station_total,
 			"available": available, "current": current, "locked": has_tasks and not available and not finished, "status": status})
-		if index < _station_labels.size():
-			# Colour carries the state: green done, amber current, pale open, dim locked.
-			var label := _station_labels[index]
-			label.text = "%s  %d/%d" % [title, done, station_total]
-			label.modulate = Color("8ed8c5") if finished else (Color("f0c674") if current else (Color("b8d0dc") if available else Color("5f707c")))
+	_refresh_board(station_states, maxi(0, completed), maxi(0, total), english)
 	var count := maxi(0, works_count)
 	var latest: Dictionary = works[-1] if count > 0 and not works.is_empty() and works[-1] is Dictionary else {}
 	var latest_name := str(latest.get("name", ""))
@@ -438,43 +515,121 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 	_display_state = {"stations": station_states, "works_count": count, "latest_name": latest_name,
 		"latest_output": output.duplicate(), "completed": maxi(0, completed), "total": maxi(0, total), "current_key": current_key}
 	if _works_title != null:
-		_works_title.text = ("Works · %d" if english else "作品 · %d") % count
+		_works_title.text = ("Works  %d" if english else "作品  %d") % count
 		if count == 0 or latest.is_empty():
 			_works_name.text = ""
 		else:
-			_works_name.text = latest_name.substr(0, 24) if not latest_name.is_empty() else ("Untitled" if english else "未命名")
+			_works_name.text = _fit_work_name(latest_name if not latest_name.is_empty() else ("Untitled" if english else "未命名"))
 	for index in range(_work_pixels.size()):
+		# Unlit cells read as an empty light-print matrix waiting for a saved work.
 		var pixel := _work_pixels[index]
-		pixel.visible = index < output.size()
-		if pixel.visible:
-			pixel.modulate = WORK_COLORS[clampi(int(output[index]), 0, WORK_COLORS.size() - 1)]
+		pixel.modulate = WORK_COLORS[clampi(int(output[index]), 0, WORK_COLORS.size() - 1)] if index < output.size() else Color(0.55, 0.68, 0.76, 0.16)
 	if _achievement_label != null:
 		_achievement_label.text = ("Completed\n%d / %d" if english else "已完成\n%d / %d") % [maxi(0, completed), maxi(0, total)]
+
+func _fit_work_name(value: String) -> String:
+	var title_width: float = DISPLAY_FONT.get_string_size(_works_title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, _works_title.font_size).x * _works_title.pixel_size
+	var available: float = maxf(0.0, (_works_name.position.x - _works_title.position.x - title_width - 0.14) / _works_name.pixel_size)
+	if DISPLAY_FONT.get_string_size(value, HORIZONTAL_ALIGNMENT_LEFT, -1, _works_name.font_size).x <= available:
+		return value
+	var clipped := value
+	while not clipped.is_empty():
+		clipped = clipped.left(clipped.length() - 1)
+		if DISPLAY_FONT.get_string_size(clipped + "…", HORIZONTAL_ALIGNMENT_LEFT, -1, _works_name.font_size).x <= available:
+			return clipped + "…"
+	return ""
 
 func _setup_status_displays() -> void:
 	var board := model.find_child("Journey | blank panel", true, false) as MeshInstance3D
 	if board != null:
-		var bounds := board.get_aabb()
-		for index in range(LabState.STATIONS.size()):
-			var position_3d := Vector3(bounds.position.x + 0.08, bounds.end.y - 0.23 - float(index) * 0.25, bounds.end.z + 0.012)
-			_station_labels.append(_surface_label(board, position_3d, 0.0055, 24))
+		_setup_board(board)
 	var works_board := model.find_child("Works | blue graphite recess", true, false) as MeshInstance3D
 	if works_board != null:
 		var bounds := works_board.get_aabb()
 		var front: float = bounds.end.z + 0.02
-		_works_title = _surface_label(works_board, Vector3(bounds.position.x + 0.13, bounds.end.y - 0.13, front), 0.0055, 32)
-		_works_name = _surface_label(works_board, Vector3(bounds.position.x + 0.13, bounds.end.y - 0.34, front), 0.0055, 26)
+		# Title and name share one baseline across the top; the light-print
+		# matrix fills the rest, centred.
+		_works_title = _surface_label(works_board, Vector3(bounds.position.x + 0.16, bounds.end.y - 0.17, front), 0.0055, 30)
+		_works_name = _surface_label(works_board, Vector3(bounds.end.x - 0.16, bounds.end.y - 0.17, front), 0.0055, 26)
+		_works_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		var pitch: float = (bounds.size.x - 0.6) / 7.0
+		var rows_top: float = bounds.end.y - 0.42
+		var row_pitch: float = minf(0.13, (rows_top - bounds.position.y - 0.12) / 3.0)
 		for index in range(32):
-			var point := Vector3(bounds.position.x + 0.20 + float(index % 8) * 0.46, bounds.end.y - 0.52 - floorf(float(index) / 8.0) * 0.12, front)
+			var point := Vector3(bounds.position.x + 0.3 + float(index % 8) * pitch, rows_top - floorf(float(index) / 8.0) * row_pitch, front)
 			var pixel := _surface_label(works_board, point, 0.004, 28)
 			pixel.text = "●"
-			pixel.hide()
 			_work_pixels.append(pixel)
 	var achievements := model.find_child("Achievements | ceramic inset", true, false) as MeshInstance3D
 	if achievements != null:
 		var bounds := achievements.get_aabb()
 		_achievement_label = _surface_label(achievements, Vector3(bounds.position.x + 0.15, bounds.end.y - 0.30, bounds.end.z + 0.025), 0.006, 32)
 		_achievement_label.modulate = Color("253949")
+
+## The journey board is drawn like the terminal glass: a 2D sheet on the
+## panel, so the current chapter can lead and the rest stay quiet.
+func _setup_board(board: MeshInstance3D) -> void:
+	var bounds := board.get_aabb()
+	var aspect: float = bounds.size.x / maxf(bounds.size.y, 0.01)
+	_board_viewport = SubViewport.new(); _board_viewport.name = "JourneyBoardSheet"
+	# Kept within 1280×720 like the terminal glass.
+	_board_viewport.size = Vector2i(roundi(680.0 * aspect), 680)
+	_board_viewport.disable_3d = true
+	_board_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	viewport.add_child(_board_viewport)
+	var ground := ColorRect.new(); ground.color = Color("141c22")
+	ground.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); _board_viewport.add_child(ground)
+	var margin := MarginContainer.new(); margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for side: String in ["left", "right"]: margin.add_theme_constant_override("margin_" + side, 20)
+	margin.add_theme_constant_override("margin_top", 22); margin.add_theme_constant_override("margin_bottom", 18)
+	_board_viewport.add_child(margin)
+	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 4); margin.add_child(column)
+	var top := HBoxContainer.new(); column.add_child(top)
+	_board_title = _glass_label(top, "", 38, Color("e2ebef")); _board_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_board_total = _glass_label(top, "", 30, Color("8fa3ad"))
+	_board_total.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+	var rule := ColorRect.new(); rule.color = Color("2c3c47"); rule.custom_minimum_size.y = 3; column.add_child(rule)
+	for index in range(LabState.STATIONS.size()):
+		var strip := PanelContainer.new(); strip.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		column.add_child(strip)
+		var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 10)
+		strip.add_child(row)
+		var mark := _glass_label(row, "", 26, Color("5f707c")); mark.custom_minimum_size.x = 26
+		mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER; mark.size_flags_vertical = Control.SIZE_FILL
+		var name_label := _glass_label(row, "", 30, Color("b8d0dc")); name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER; name_label.size_flags_vertical = Control.SIZE_FILL
+		name_label.clip_text = true; name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		var count := _glass_label(row, "", 27, Color("8fa3ad"))
+		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT; count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		count.size_flags_vertical = Control.SIZE_FILL
+		_board_rows.append({"strip": strip, "mark": mark, "name": name_label, "count": count})
+	var material := ShaderMaterial.new()
+	material.shader = preload("res://src/lab/lab_screen.gdshader")
+	material.set_shader_parameter("display_texture", _board_viewport.get_texture())
+	material.set_shader_parameter("screen_bounds", Vector4(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y))
+	board.material_override = material
+
+func _refresh_board(stations: Array[Dictionary], completed: int, total: int, english: bool) -> void:
+	if _board_viewport == null: return
+	_board_title.text = "Journey" if english else "旅程"
+	_board_total.text = "%d / %d" % [completed, total]
+	# Colour carries the state: green done, amber current, pale open, dim locked.
+	for index in range(mini(stations.size(), _board_rows.size())):
+		var state: Dictionary = stations[index]
+		var row: Dictionary = _board_rows[index]
+		var status: String = str(state.status)
+		var color: Color = {"completed": Color("8ed8c5"), "current": Color("f0c674"), "available": Color("c4d6e0")}.get(status, Color("5f707c"))
+		var strip_box := StyleBoxFlat.new()
+		strip_box.bg_color = Color(color, 0.14) if status == "current" else Color.TRANSPARENT
+		strip_box.set_corner_radius_all(8); strip_box.content_margin_left = 8; strip_box.content_margin_right = 10
+		(row.strip as PanelContainer).add_theme_stylebox_override("panel", strip_box)
+		(row.mark as Label).text = {"completed": "✓", "current": "▸"}.get(status, "")
+		(row.mark as Label).add_theme_color_override("font_color", color)
+		(row.name as Label).text = str(state.name)
+		(row.name as Label).add_theme_color_override("font_color", color)
+		(row.count as Label).text = "%d/%d" % [int(state.done), int(state.total)]
+		(row.count as Label).add_theme_color_override("font_color", color.darkened(0.15) if status != "locked" else Color("4f5e69"))
+	_board_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 ## Labels share the panel's physical transform, face its +Z front and depth-test
 ## normally. No billboarding/no-depth overlays, so walls still occlude them.
@@ -522,23 +677,31 @@ func _setup_environment() -> void:
 	var world_environment := WorldEnvironment.new()
 	var environment := Environment.new()
 	var sky_material := ProceduralSkyMaterial.new()
-	sky_material.sky_top_color = Color(0.52, 0.56, 0.60)
-	sky_material.sky_horizon_color = Color(0.89, 0.87, 0.82)
-	sky_material.ground_bottom_color = Color(0.23, 0.22, 0.21)
-	sky_material.ground_horizon_color = Color(0.67, 0.65, 0.60)
+	# Warm white, continuing the light spilling round the door at the end of the opening film.
+	sky_material.sky_top_color = Color(0.58, 0.58, 0.58)
+	sky_material.sky_horizon_color = Color(0.93, 0.89, 0.82)
+	sky_material.ground_bottom_color = Color(0.26, 0.24, 0.22)
+	sky_material.ground_horizon_color = Color(0.72, 0.67, 0.60)
 	var sky := Sky.new()
 	sky.sky_material = sky_material
 	environment.sky = sky
 	environment.background_mode = Environment.BG_COLOR
 	environment.background_color = Color(0.15, 0.17, 0.20)
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	environment.ambient_light_energy = 0.55
+	environment.ambient_light_energy = 0.62
 	environment.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	environment.tonemap_exposure = 1.06
+	# Only the ceiling strip and the screens bloom, softly.
+	environment.glow_enabled = true
+	environment.glow_intensity = 0.35
+	environment.glow_strength = 0.9
+	environment.glow_hdr_threshold = 0.95
+	environment.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	world_environment.environment = environment
 	viewport.add_child(world_environment)
-	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color(1.0, 0.91, 0.78), 0.6, 75.0, 19.0, true)
-	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color(0.76, 0.87, 1.0), 0.3, 75.0, 18.0, true)
+	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color(1.0, 0.89, 0.74), 0.66, 75.0, 19.0, true)
+	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color(0.86, 0.91, 1.0), 0.26, 75.0, 18.0, true)
 	_add_light(Vector3(0, 5.6, 1.5), Vector3(0, 1.4, 2.4), Color(1.0, 0.95, 0.86), 0.35, 48.0, 9.0, false)
 	_add_light(Vector3(-1.2, 6.8, -8.6), Vector3(-1.2, 5.1, -11.7), Color(1.0, 0.90, 0.75), 0.8, 62.0, 10.0, false)
 

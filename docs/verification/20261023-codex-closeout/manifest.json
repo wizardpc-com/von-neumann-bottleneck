@@ -1,0 +1,43 @@
+{
+  "base_commit": "f830bcf8832ff108795bdb8bce741ddfbe9187df",
+  "working_tree": "Claude final polish plus local Codex closeout; uncommitted",
+  "sources": {
+    "src/lab/lab_room_3d.gd": "720c5d616cb6924316784acd403d7fbb211bb337129eaff2f7eae982ba346e68",
+    "src/ui/yi_typewriter.gd": "26c97a5ed41330266c993b445f5bee0f403bacfab28864422f89d1e2dfd29077",
+    "tests/test_immersive_lab.gd": "b84031badef3301d772e28b0507c2e6805f5a4529b89fe6c6cebdc00271c0470",
+    "tests/test_yi_typewriter.gd": "71316612bd22d8764067b11abf4e221144823585c5a9cc82a849f4f04ab1f9bf"
+  },
+  "source_matches_final_test_snapshot": true,
+  "runs": {
+    "baseline": {
+      "run": "20261023T094316Z-404f9b11",
+      "stages": 5
+    },
+    "yi": {
+      "run": "20261023T094703Z-a0f7cd6a",
+      "stages": 7
+    },
+    "final": {
+      "run": "20261023T094819Z-dd4f63ff",
+      "stages": 17
+    }
+  },
+  "claude_baseline_modified_paths": [
+    "src/lab/lab_room_3d.gd"
+  ],
+  "video_directory": "excluded; not traversed or modified",
+  "assets": {
+    "after-1280x720.png": "0c7fb9fc59cda459c4dda794c57b8d32857daa774ef8ae897aa6c09f438e7ff7",
+    "after-1280x800.png": "076ddbd530a96c4b7fcc5bec22d94cce3a7f3d5472e9b5a998ffdf881026fc41",
+    "after-1440x1080.png": "2615c6ba3aa3987e8b13045f3d6b1ca28163a6ef2e8ec417c9fac27b332dbe6a",
+    "after-1920x900.png": "b2591d85091a14a82a264570ce0068d4a872203be5c1f20f811499073e3a625a",
+    "after-long-work.png": "9b4fc74d73e8d2aa499406b11619fc33583dd759cef61a2287b48dbd8fdd3a2e",
+    "before-1280x720.png": "0c7fb9fc59cda459c4dda794c57b8d32857daa774ef8ae897aa6c09f438e7ff7",
+    "before-1280x800.png": "9defc61c4e6acfab78172b7a5cf233437abe2a29e7ee760466140799cc9c0c1f",
+    "before-1440x1080.png": "1aa1bb5b083178bc91dd360e5b81773134ea0e1e5b8c6f358342ca9c8d9f03a3",
+    "before-1920x900.png": "b2591d85091a14a82a264570ce0068d4a872203be5c1f20f811499073e3a625a",
+    "before-long-work.png": "9637a9d7b2e218d5779dbfec169a3993f75bd96380b2c705a2a7affda9455897",
+    "yi-en.gif": "eb7ee8db01d815d246bb23d25b977918a10a1898aceb4b4093fb060efcf88798",
+    "yi-zh.gif": "33abb318c2fbee4bf3cd224b01d0e401f4864e32198290d09e0a887ad03d30bd"
+  }
+}

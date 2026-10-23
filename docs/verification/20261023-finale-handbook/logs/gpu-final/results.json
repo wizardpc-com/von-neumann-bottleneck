@@ -1,0 +1,9 @@
+[
+  {
+    "name": "test_late_handbook_access",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/gpu-final/test_late_handbook_access"
+  }
+]

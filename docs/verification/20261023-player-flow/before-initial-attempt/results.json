@@ -1,0 +1,42 @@
+[
+  {
+    "name": "import",
+    "exit": 0,
+    "expected": "pass",
+    "script_error": false,
+    "log": "import.txt",
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-before/import"
+  },
+  {
+    "name": "test_creation_sample_editing",
+    "exit": 1,
+    "expected": "assertion failure",
+    "script_error": false,
+    "log": "test_creation_sample_editing.txt",
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-before/test_creation_sample_editing"
+  },
+  {
+    "name": "test_workbench_escape",
+    "exit": -2,
+    "expected": "assertion failure",
+    "script_error": true,
+    "log": "test_workbench_escape.txt",
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-before/test_workbench_escape"
+  },
+  {
+    "name": "test_hardware_settings_input",
+    "exit": -2,
+    "expected": "assertion failure",
+    "script_error": true,
+    "log": "test_hardware_settings_input.txt",
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-before/test_hardware_settings_input"
+  },
+  {
+    "name": "test_chapter_settings_input",
+    "exit": -2,
+    "expected": "assertion failure",
+    "script_error": true,
+    "log": "test_chapter_settings_input.txt",
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-before/test_chapter_settings_input"
+  }
+]

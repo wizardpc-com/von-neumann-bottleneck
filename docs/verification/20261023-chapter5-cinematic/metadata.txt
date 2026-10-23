@@ -1,0 +1,9 @@
+Input #0, ogg, from 'E:\VNB\game\assets\cinematics\chapter5_complete.ogv':
+  Duration: 00:01:02.44, start: 0.000000, bitrate: 4965 kb/s
+  Stream #0:0: Video: theora, yuv420p, 1280x720 [SAR 1:1 DAR 16:9], 30 fps, 30 tbr, 30 tbn
+      Metadata:
+        encoder         : Lavc61.19.100 libtheora
+  Stream #0:1: Audio: vorbis, 44100 Hz, mono, fltp, 96 kb/s
+      Metadata:
+        encoder         : Lavc61.19.100 libvorbis
+At least one output file must be specified

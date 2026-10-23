@@ -1,0 +1,23 @@
+[
+  {
+    "name": "test_prelaunch_settings",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-delivery-headless/test_prelaunch_settings"
+  },
+  {
+    "name": "test_room_page_skin_lifecycle",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-delivery-headless/test_room_page_skin_lifecycle"
+  },
+  {
+    "name": "test_settings_feedback_layout",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-delivery-headless/test_settings_feedback_layout"
+  }
+]

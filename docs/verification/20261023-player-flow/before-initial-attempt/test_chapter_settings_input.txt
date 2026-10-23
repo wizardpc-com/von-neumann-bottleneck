@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Invalid type in function '_set_selected_system_devices' in base 'Control (system_lab.gd)'. The array of argument 1 (Array) does not have the same element type as the expected typed array argument.
+   at: system_input (res://tests/test_chapter_settings_input.gd:46)

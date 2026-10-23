@@ -12,6 +12,10 @@ class ServiceProbe extends "res://experiments/service_plan/lab.gd":
 class PredictionProbe extends "res://experiments/prediction/lab.gd":
 	var departures: int = 0
 	func finish_leave() -> void: departures += 1
+class ExtraQuitOwner extends Node:
+	var close_requests: int = 0
+	func _notification(what: int) -> void:
+		if what == NOTIFICATION_WM_CLOSE_REQUEST: close_requests += 1
 
 var checks: int = 0
 var failures: int = 0
@@ -28,6 +32,21 @@ func key(code: Key, echo: bool = false) -> void:
 		event.pressed = down; event.echo = echo and down
 		root.push_input(event, true); await process_frame
 	await settle()
+
+func open_settings_probe() -> Control:
+	var mode: Node = root.get_node("WindowMode")
+	var layer := CanvasLayer.new()
+	layer.layer = 100
+	mode.settings_layer = layer
+	root.add_child(layer)
+	var settings: Control = load("res://tests/fixture_settings_quit_probe.gd").new()
+	settings.settings_only = true
+	settings.settings_closed.connect(func() -> void:
+		layer.queue_free()
+		mode.settings_layer = null)
+	layer.add_child(settings)
+	await settle()
+	return settings
 
 func run() -> void:
 	root.size = Vector2i(1280, 720)
@@ -82,6 +101,28 @@ func run() -> void:
 				"creation": check(scene.session.data == before, prefix + "Cancel preserves the draft and works")
 				"representation", "service": check(scene.plan == before.plan, prefix + "Cancel preserves the plan")
 				"prediction": check(scene.policy == before, prefix + "Cancel preserves the policy")
+			# Intercept only the final process exit, so the former bypass reports a
+			# failed assertion instead of terminating this test before its summary.
+			var extra_owner := ExtraQuitOwner.new()
+			root.add_child(extra_owner)
+			extra_owner.add_to_group("candidate_quit_owners")
+			var settings: Control = await open_settings_probe()
+			settings.options_quit_button.pressed.emit()
+			check(settings.direct_quits == 0, prefix + "Settings Quit does not bypass the candidate owner")
+			check(extra_owner.close_requests == 0, prefix + "Settings Quit dispatches to only one owner")
+			extra_owner.queue_free()
+			await settle()
+			check(not is_instance_valid(mode.settings_layer) and guard.visible and scene.departures == 0, prefix + "Settings Quit hands over to the existing unsaved guard")
+			if is_instance_valid(mode.settings_layer):
+				mode.settings_layer.queue_free(); mode.settings_layer = null
+			if guard.visible:
+				await create_timer(0.3).timeout
+				await key(KEY_ESCAPE)
+			check(not guard.visible and scene.is_inside_tree() and scene.departures == 0, prefix + "Cancelling Settings Quit returns to the task")
+			match kind:
+				"creation": check(scene.session.data == before, prefix + "Settings Quit cancellation preserves draft and works")
+				"representation", "service": check(scene.plan == before.plan, prefix + "Settings Quit cancellation preserves plan")
+				"prediction": check(scene.policy == before, prefix + "Settings Quit cancellation preserves policy")
 			if kind == "creation":
 				var tabs := scene.find_child("DraftTabs", true, false) as TabContainer
 				tabs.current_tab = 0; await settle()
@@ -103,6 +144,22 @@ func run() -> void:
 				await create_timer(0.3).timeout
 				await key(KEY_ESCAPE)
 				check(sample.text == "invalid" and scene.departures == 0, prefix + "Cancel preserves unsubmitted sample text")
+				settings = await open_settings_probe()
+				settings.options_quit_button.pressed.emit()
+				check(settings.direct_quits == 0, prefix + "Settings Quit cannot bypass pending sample protection")
+				await settle()
+				check(scene.sample_leave_dialog.visible and not scene.leave_dialog.visible and scene.departures == 0, prefix + "Settings Quit protects pending sample before the draft")
+				if is_instance_valid(mode.settings_layer):
+					mode.settings_layer.queue_free(); mode.settings_layer = null
+				if scene.sample_leave_dialog.visible:
+					await create_timer(0.3).timeout
+					await key(KEY_ESCAPE)
+				check(sample.text == "invalid" and scene.departures == 0, prefix + "Cancelling Settings Quit preserves pending sample text")
 			scene.queue_free(); await settle()
+	var ordinary_settings: Control = await open_settings_probe()
+	ordinary_settings.options_quit_button.pressed.emit()
+	check(ordinary_settings.direct_quits == 1, "Without a candidate owner Settings Quit keeps the ordinary quit path")
+	ordinary_settings._close_options_menu()
+	await settle()
 	print(("PASS: " if failures == 0 else "FAIL: ") + "workbench Escape %d checks, %d failures" % [checks, failures])
 	quit(1 if failures > 0 else 0)

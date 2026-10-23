@@ -1,0 +1,193 @@
+{
+  "headless_distinct_suites": 17,
+  "headless_final_results": [
+    {
+      "name": "test_settings_feedback_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-delivery-headless/test_settings_feedback_layout",
+      "run": "20261023-layout-delivery-headless"
+    },
+    {
+      "name": "test_prelaunch_settings",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-delivery-headless/test_prelaunch_settings",
+      "run": "20261023-layout-delivery-headless"
+    },
+    {
+      "name": "test_feedback_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-footer-headless/test_feedback_presentation",
+      "run": "20261023-layout-footer-headless"
+    },
+    {
+      "name": "test_offline_feedback",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_offline_feedback",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_candidate_feedback",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-footer-headless/test_candidate_feedback",
+      "run": "20261023-layout-footer-headless"
+    },
+    {
+      "name": "test_playtest_feedback_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_playtest_feedback_ui",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_remote_feedback",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_remote_feedback",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_ui_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_ui_convergence",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_lab_terminal_pages",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-final-polish-headless/test_lab_terminal_pages",
+      "run": "20261023-layout-final-polish-headless"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_lab_terminal_routing",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_settings_language_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_settings_language_input",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_terminal_language_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_terminal_language_input",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_workbench_escape",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_workbench_escape",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_hardware_settings_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_hardware_settings_input",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_chapter_settings_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_chapter_settings_input",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_two_worlds",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-accepted-headless/test_two_worlds",
+      "run": "20261023-layout-accepted-headless"
+    },
+    {
+      "name": "test_room_page_skin_lifecycle",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-delivery-headless/test_room_page_skin_lifecycle",
+      "run": "20261023-layout-delivery-headless"
+    }
+  ],
+  "gpu_results": [
+    {
+      "name": "test_settings_feedback_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-final-polish-gpu/test_settings_feedback_layout",
+      "run": "20261023-layout-final-polish-gpu"
+    },
+    {
+      "name": "test_feedback_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-final-polish-gpu/test_feedback_presentation",
+      "run": "20261023-layout-final-polish-gpu"
+    },
+    {
+      "name": "test_lab_terminal_pages",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-final-polish-gpu/test_lab_terminal_pages",
+      "run": "20261023-layout-final-polish-gpu"
+    },
+    {
+      "name": "test_settings_feedback_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-delivery-gpu/test_settings_feedback_layout",
+      "run": "20261023-layout-delivery-gpu"
+    }
+  ],
+  "gpu_delivery_checks": 160,
+  "rendered_frames": 20,
+  "sources_match_verified_project": true,
+  "transient_graphical_exits": {
+    "suites": [
+      "test_feedback_presentation",
+      "test_lab_terminal_pages"
+    ],
+    "initial_run": "20261023-layout-accepted-gpu",
+    "exit": 1,
+    "diagnostic_error": false,
+    "serial_recheck": "20261023-layout-final-polish-gpu",
+    "recheck_passed": true,
+    "cause": "unlocated"
+  },
+  "native_human_acceptance": false,
+  "committed": false,
+  "packaged": false
+}

@@ -6,9 +6,19 @@ const TerminologyDiagramType = preload("res://src/ui/terminology_diagram.gd")
 const PrologueCatalogType = preload("res://src/hardware_foundations/prologue_level_catalog.gd")
 const SystemCatalogType = preload("res://src/system_lab/system_level_catalog.gd")
 const LocalityCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
+const SecondActTasks = preload("res://src/campaign/second_act_tasks.gd")
+const CreationCatalog = preload("res://experiments/creation/catalog.gd")
 
 # Availability follows the first playable lesson that needs the concept.
 const LESSON_TERMS := {
+	&"representation:mixed_scan": [&"block_representation", &"raw_rle"],
+	&"representation:prepare_once": [&"online_preparation"],
+	&"service:move_state": [&"persistent_state", &"dirty_writeback", &"quantization"],
+	&"service:prompt_response": [&"response_latency"],
+	&"prediction:regular": [&"address_prediction"],
+	&"creation:C1_restore": [&"context_model", &"predictive_packet"],
+	&"creation:P1_commit": [&"commit_reveal"],
+	&"creation:G1_feedback": [&"output_feedback", &"work_recipe"],
 	&"layout:fields": [&"data_layout"],
 	&"layout:hot_cold": [&"field_group"],
 	&"layout:relocation": [&"copy_cost"],
@@ -19,7 +29,7 @@ const LESSON_TERMS := {
 	&"overlap:backpressure": [&"backpressure"],
 	&"overlap:prefetch": [&"prefetch"],
 	&"overlap:distance": [&"prefetch_distance"],
-	&"hardware:tutorial": [&"bit_width", &"bit", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit", &"logic_gate", &"not_gate", &"input_output", &"port", &"wire", &"junction", &"tick", &"test_bench", &"debug_run", &"official_test", &"trace", &"clock_period", &"topology", &"truth_table"],
+	&"hardware:tutorial": [&"operation_wiring", &"operation_review", &"operation_navigation", &"bit_width", &"bit", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit", &"logic_gate", &"not_gate", &"input_output", &"port", &"wire", &"junction", &"tick", &"test_bench", &"debug_run", &"official_test", &"trace", &"clock_period", &"topology", &"truth_table"],
 	&"hardware:half_adder": [&"binary", &"and_gate", &"or_gate", &"xor_gate", &"abstraction", &"encapsulation", &"half_adder", &"sum", &"carry"],
 	&"hardware:full_adder": [&"full_adder", &"cin_cout"],
 	&"hardware:selector": [&"multiplexer"],
@@ -41,6 +51,26 @@ const LESSON_TERMS := {
 }
 
 const RECOMMENDED := {
+	&"representation:mixed_scan": [&"block_representation", &"raw_rle"],
+	&"representation:interior_hotspots": [&"block_representation", &"raw_rle"],
+	&"representation:dense_sparse": [&"block_representation", &"raw_rle"],
+	&"representation:prepare_once": [&"online_preparation", &"raw_rle"],
+	&"representation:cross_assets": [&"online_preparation", &"block_representation"],
+	&"service:move_state": [&"persistent_state", &"dirty_writeback"],
+	&"service:prompt_response": [&"response_latency", &"dirty_writeback"],
+	&"service:one_plan": [&"quantization", &"response_latency", &"dirty_writeback"],
+	&"prediction:regular": [&"address_prediction"],
+	&"prediction:changed": [&"address_prediction"],
+	&"prediction:alternating": [&"address_prediction"],
+	&"creation:C1_restore": [&"context_model", &"predictive_packet"],
+	&"creation:C2_cost": [&"predictive_packet", &"context_model"],
+	&"creation:C3_conditions": [&"context_model", &"predictive_packet"],
+	&"creation:P1_commit": [&"commit_reveal", &"context_model"],
+	&"creation:P2_memory": [&"commit_reveal", &"context_model"],
+	&"creation:P3_check": [&"commit_reveal", &"predictive_packet"],
+	&"creation:G1_feedback": [&"output_feedback", &"context_model"],
+	&"creation:G2_intent": [&"output_feedback", &"context_model"],
+	&"creation:G3_keep": [&"work_recipe", &"output_feedback"],
 	&"layout:fields": [&"data_layout"],
 	&"layout:hot_cold": [&"field_group"],
 	&"layout:relocation": [&"copy_cost"],
@@ -92,6 +122,7 @@ const TEXT := Color("e2ebef")
 const ENTRY_BUTTON_WIDTH := 118.0
 
 const CATEGORIES: Array[Dictionary] = [
+	{"id": &"later", "key": &"terminology.category.later"},
 	{"id": &"layout", "key": &"terminology.category.layout"},
 	{"id": &"overlap", "key": &"terminology.category.overlap"},
 	{"id": &"basics", "key": &"terminology.category.basics"},
@@ -101,6 +132,11 @@ const CATEGORIES: Array[Dictionary] = [
 ]
 
 const DIRECTORIES: Array[Dictionary] = [
+	{"id": &"operations", "category": &"basics", "key": &"terminology.directory.operations", "terms": [&"operation_wiring", &"operation_review", &"operation_navigation"]},
+	{"id": &"representation", "category": &"later", "key": &"terminology.directory.representation", "terms": [&"block_representation", &"raw_rle", &"online_preparation"]},
+	{"id": &"service", "category": &"later", "key": &"terminology.directory.service", "terms": [&"persistent_state", &"dirty_writeback", &"response_latency", &"quantization"]},
+	{"id": &"prediction", "category": &"later", "key": &"terminology.directory.prediction", "terms": [&"address_prediction"]},
+	{"id": &"creation", "category": &"later", "key": &"terminology.directory.creation", "terms": [&"context_model", &"predictive_packet", &"commit_reveal", &"output_feedback", &"work_recipe"]},
 	{"id": &"layout", "category": &"layout", "key": &"terminology.category.layout", "terms": [&"data_layout",&"field_group",&"copy_cost",&"bounded_batch"]},
 	{"id": &"overlap", "category": &"overlap", "key": &"terminology.category.overlap", "terms": [&"async_transfer", &"double_buffer", &"backpressure", &"prefetch", &"prefetch_distance", &"request_queue"]},
 	{"id": &"signals", "category": &"basics", "key": &"terminology.directory.signals", "terms": [&"bit_width", &"bit", &"binary", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit"]},
@@ -120,6 +156,22 @@ const DIRECTORIES: Array[Dictionary] = [
 ]
 
 const TERMS: Array[Dictionary] = [
+	{"id": &"operation_navigation", "category": &"basics", "title": &"terminology.term.operation_navigation.title", "body": &"terminology.term.operation_navigation.body", "diagram": &"operation_navigation"},
+	{"id": &"operation_wiring", "category": &"basics", "title": &"terminology.term.operation_wiring.title", "body": &"terminology.term.operation_wiring.body", "diagram": &"operation_wiring"},
+	{"id": &"operation_review", "category": &"basics", "title": &"terminology.term.operation_review.title", "body": &"terminology.term.operation_review.body", "diagram": &"operation_review"},
+	{"id": &"block_representation", "category": &"later", "title": &"terminology.term.block_representation.title", "body": &"terminology.term.block_representation.body", "diagram": &"block_representation"},
+	{"id": &"raw_rle", "category": &"later", "title": &"terminology.term.raw_rle.title", "body": &"terminology.term.raw_rle.body", "diagram": &"raw_rle"},
+	{"id": &"online_preparation", "category": &"later", "title": &"terminology.term.online_preparation.title", "body": &"terminology.term.online_preparation.body", "diagram": &"online_preparation"},
+	{"id": &"persistent_state", "category": &"later", "title": &"terminology.term.persistent_state.title", "body": &"terminology.term.persistent_state.body", "diagram": &"persistent_state"},
+	{"id": &"dirty_writeback", "category": &"later", "title": &"terminology.term.dirty_writeback.title", "body": &"terminology.term.dirty_writeback.body", "diagram": &"dirty_writeback"},
+	{"id": &"response_latency", "category": &"later", "title": &"terminology.term.response_latency.title", "body": &"terminology.term.response_latency.body", "diagram": &"response_latency"},
+	{"id": &"quantization", "category": &"later", "title": &"terminology.term.quantization.title", "body": &"terminology.term.quantization.body", "diagram": &"quantization"},
+	{"id": &"address_prediction", "category": &"later", "title": &"terminology.term.address_prediction.title", "body": &"terminology.term.address_prediction.body", "diagram": &"address_prediction"},
+	{"id": &"context_model", "category": &"later", "title": &"terminology.term.context_model.title", "body": &"terminology.term.context_model.body", "diagram": &"context_model"},
+	{"id": &"predictive_packet", "category": &"later", "title": &"terminology.term.predictive_packet.title", "body": &"terminology.term.predictive_packet.body", "diagram": &"predictive_packet"},
+	{"id": &"commit_reveal", "category": &"later", "title": &"terminology.term.commit_reveal.title", "body": &"terminology.term.commit_reveal.body", "diagram": &"commit_reveal"},
+	{"id": &"output_feedback", "category": &"later", "title": &"terminology.term.output_feedback.title", "body": &"terminology.term.output_feedback.body", "diagram": &"output_feedback"},
+	{"id": &"work_recipe", "category": &"later", "title": &"terminology.term.work_recipe.title", "body": &"terminology.term.work_recipe.body", "diagram": &"work_recipe"},
 	{"id": &"data_layout", "category": &"layout", "title": &"terminology.term.data_layout.title", "body": &"terminology.term.data_layout.body", "diagram": &"layout_data_layout"},
 	{"id": &"field_group", "category": &"layout", "title": &"terminology.term.field_group.title", "body": &"terminology.term.field_group.body", "diagram": &"layout_field_group"},
 	{"id": &"copy_cost", "category": &"layout", "title": &"terminology.term.copy_cost.title", "body": &"terminology.term.copy_cost.body", "diagram": &"layout_copy_cost"},
@@ -138,8 +190,8 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"signal", "category": &"basics", "title": &"terminology.term.signal.title", "body": &"terminology.term.signal.body", "diagram": &"signal", "example": &"terminology.term.signal.example"},
 	{"id": &"low_level", "category": &"basics", "title": &"terminology.term.low_level.title", "body": &"terminology.term.low_level.body", "diagram": &"signal"},
 	{"id": &"high_level", "category": &"basics", "title": &"terminology.term.high_level.title", "body": &"terminology.term.high_level.body", "diagram": &"signal"},
-	{"id": &"high_impedance", "category": &"basics", "title": &"terminology.term.high_impedance.title", "body": &"terminology.term.high_impedance.body"},
-	{"id": &"short_circuit", "category": &"basics", "title": &"terminology.term.short_circuit.title", "body": &"terminology.term.short_circuit.body"},
+	{"id": &"high_impedance", "category": &"basics", "title": &"terminology.term.high_impedance.title", "body": &"terminology.term.high_impedance.body", "diagram": &"high_impedance"},
+	{"id": &"short_circuit", "category": &"basics", "title": &"terminology.term.short_circuit.title", "body": &"terminology.term.short_circuit.body", "diagram": &"short_circuit"},
 	{"id": &"logic_gate", "category": &"basics", "title": &"terminology.term.logic_gate.title", "body": &"terminology.term.logic_gate.body"},
 	{"id": &"not_gate", "category": &"basics", "title": &"terminology.term.not_gate.title", "body": &"terminology.term.not_gate.body", "diagram": &"gate_not"},
 	{"id": &"and_gate", "category": &"basics", "title": &"terminology.term.and_gate.title", "body": &"terminology.term.and_gate.body", "diagram": &"gate_and"},
@@ -147,7 +199,7 @@ const TERMS: Array[Dictionary] = [
 	{"id": &"xor_gate", "category": &"basics", "title": &"terminology.term.xor_gate.title", "body": &"terminology.term.xor_gate.body", "diagram": &"gate_xor"},
 	{"id": &"nor_gate", "category": &"basics", "title": &"terminology.term.nor_gate.title", "body": &"terminology.term.nor_gate.body", "diagram": &"gate_nor"},
 	{"id": &"input_output", "category": &"basics", "title": &"terminology.term.input_output.title", "body": &"terminology.term.input_output.body"},
-	{"id": &"port", "category": &"basics", "title": &"terminology.term.port.title", "body": &"terminology.term.port.body"},
+	{"id": &"port", "category": &"basics", "title": &"terminology.term.port.title", "body": &"terminology.term.port.body", "diagram": &"port"},
 	{"id": &"wire", "category": &"basics", "title": &"terminology.term.wire.title", "body": &"terminology.term.wire.body", "diagram": &"junction", "example": &"terminology.term.junction.example"},
 	{"id": &"junction", "category": &"basics", "title": &"terminology.term.junction.title", "body": &"terminology.term.junction.body", "diagram": &"junction", "example": &"terminology.term.junction.example"},
 	{"id": &"combinational_loop", "category": &"basics", "title": &"terminology.term.combinational_loop.title", "body": &"terminology.term.combinational_loop.body"},
@@ -252,10 +304,12 @@ var detail_example_heading_label: Label
 var detail_example_label: RichTextLabel
 var footer_label: Label
 var close_button: Button
+var quick_start_button: Button
 var visible_term_ids: Array[StringName] = []
 var visible_term_items: Dictionary = {}
 var experience_notes: Dictionary = {}
 var available_term_ids: Array[StringName] = []
+var _later_available_tasks: Dictionary = {}
 var prologue_catalog := PrologueCatalogType.new()
 var system_catalog := SystemCatalogType.new()
 var locality_catalog := LocalityCatalogType.new()
@@ -297,8 +351,6 @@ func open_handbook(term_id: StringName = &"") -> void:
 		recommended_toggle.set_pressed_no_signal(false)
 		search_edit.clear()
 		category_selector.select(0)
-		if not is_term_unlocked(term_id):
-			future_toggle.set_pressed_no_signal(true)
 	_refresh_terms(term_id)
 	search_edit.grab_focus()
 
@@ -412,6 +464,11 @@ func _build_interface() -> void:
 	close_button.custom_minimum_size = Vector2(104.0, 44.0)
 	close_button.pressed.connect(close_handbook)
 	header.add_child(close_button)
+	quick_start_button = Button.new()
+	quick_start_button.name = "HandbookQuickStart"
+	quick_start_button.pressed.connect(func() -> void: open_handbook(&"operation_wiring"))
+	header.add_child(quick_start_button)
+	header.move_child(quick_start_button, close_button.get_index())
 
 	var filter_row := HBoxContainer.new()
 	shell_box.add_child(filter_row)
@@ -537,6 +594,7 @@ func _build_interface() -> void:
 
 
 func _refresh_localized_copy() -> void:
+	quick_start_button.text = _t(&"terminology.quick_start")
 	entry_button.text = _t(&"terminology.button")
 	entry_button.tooltip_text = _t(&"terminology.button.tooltip")
 	title_label.text = _t(&"terminology.title")
@@ -564,6 +622,12 @@ func _refresh_localized_copy() -> void:
 
 
 func _refresh_terms(preferred_term_id: StringName = &"") -> void:
+	_later_available_tasks.clear()
+	for task: Dictionary in TaskNavigation.journey_tasks():
+		if str(task.get("domain", "")) in ["representation", "service", "prediction", "creation"]:
+			_later_available_tasks[str(task.key)] = bool(task.unlocked)
+	if not preferred_term_id.is_empty() and not is_term_unlocked(preferred_term_id):
+		future_toggle.set_pressed_no_signal(true)
 	if term_tree == null:
 		return
 	var previous_term_id: StringName = preferred_term_id
@@ -748,6 +812,12 @@ func is_term_unlocked(term_id: StringName) -> bool:
 			return preload("res://src/overlap_chapter/overlap_catalog.gd").unlocked(String(level_id),OverlapChapter.completed(),OverlapChapter.chapter_unlocked(),false)
 		"locality":
 			return locality_catalog.is_unlocked(level_id, LocalityChapter.game_completed, bool(SystemChapter.game_completed.get(&"bottleneck", false)))
+		"representation", "service", "prediction", "creation":
+			var domain: String = parts[0]
+			var ids: Array = CreationCatalog.IDS if domain == "creation" else SecondActTasks.IDS[domain]
+			if String(context_lesson).get_slice(":", 0) == domain and ids.find(String(level_id)) >= 0 and ids.find(String(context_lesson).get_slice(":", 1)) >= ids.find(String(level_id)):
+				return true
+			return bool(_later_available_tasks.get(domain + "/" + String(level_id), false))
 	return false
 
 
@@ -769,6 +839,10 @@ func _lesson_title(term_id: StringName) -> String:
 		"hardware": return _t(prologue_catalog.title_key(level_id))
 		"system": return _t(system_catalog.title_key(level_id))
 		"locality": return _t(locality_catalog.title_key(level_id))
+		"creation": return CreationCatalog.title(CreationCatalog.IDS.find(String(level_id)), Localization.current_locale() == "en")
+		"representation", "service", "prediction":
+			for row: Dictionary in SecondActTasks.build({}, Localization.current_locale() == "en"):
+				if row.key == parts[0] + "/" + String(level_id): return str(row.title)
 	return ""
 
 

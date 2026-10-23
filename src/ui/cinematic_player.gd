@@ -7,8 +7,10 @@ const HISTORY_PATH: String = "user://cinematics.cfg"
 const FILES: Dictionary = {
 	&"opening": "res://assets/cinematics/opening.ogv",
 	&"prologue_complete": "res://assets/cinematics/prologue_complete.ogv",
+	&"chapter5_complete": "res://assets/cinematics/chapter5_complete.ogv",
+	&"journey_complete": "res://assets/cinematics/journey_complete.ogv",
 }
-const DURATIONS: Dictionary = {&"opening": 45.74, &"prologue_complete": 52.37}
+const DURATIONS: Dictionary = {&"opening": 45.74, &"prologue_complete": 52.37, &"chapter5_complete": 62.44, &"journey_complete": 36.34}
 static var _consumed: Dictionary = {}
 
 var clip_id: StringName

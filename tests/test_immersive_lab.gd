@@ -208,7 +208,7 @@ func run() -> void:
 	check(room.activate_at(room.size * 0.5).is_empty(), "Disabled room refuses immediate API picks")
 	check_display_state(lab)
 	await check_terminal_layout(lab)
-	await check_surface_reachability(room)
+	await check_room_aspects(room)
 	finish(hub, prior_reduced, prior_offline)
 
 func finish(hub: Control, prior_reduced: bool, prior_offline: bool) -> void:
@@ -286,6 +286,24 @@ func check_terminal_layout(lab: LabHome) -> void:
 	lab._sync_room_terminal()
 
 
+func check_room_aspects(room: Room) -> void:
+	for dimensions: Vector2i in [Vector2i(1280, 720), Vector2i(1280, 800), Vector2i(1440, 1080), Vector2i(1920, 900)]:
+		root.size = dimensions
+		root.content_scale_size = dimensions
+		await settle(8)
+		ProjectSettings.set_setting("game/reduced_motion", true)
+		room.set_zoom(0.0)
+		room._process(0.0)
+		for id: String in ["archive", "journey"]:
+			var bounds: Rect2 = room.region_screen_rect(id)
+			print("ROOM_BOUNDS ", dimensions, " ", id, " ", bounds)
+			check(bounds.has_area() and Rect2(Vector2.ZERO, room.size).grow(1.0).encloses(bounds), "%s keeps %s fully framed at rest" % [dimensions, id])
+		await check_surface_reachability(room)
+	root.size = Vector2i(1280, 720)
+	root.content_scale_size = Vector2i(1280, 720)
+	await settle(8)
+
+
 func check_surface_reachability(room: Room) -> void:
 	var expected: Array[String] = ["terminal", "archive", "journey", "works", "achievements", "handbook", "settings", "feedback", "globe"]
 	var evidence: Dictionary = {}
@@ -300,8 +318,8 @@ func check_surface_reachability(room: Room) -> void:
 		await physics_frame
 		await physics_frame
 		var counts: Dictionary = {}
-		for y: int in range(6, 720, 12):
-			for x: int in range(6, 1280, 12):
+		for y: int in range(6, int(room.size.y), 12):
+			for x: int in range(6, int(room.size.x), 12):
 				var pixel := Vector2(x, y)
 				var id: String = room._pick(pixel)
 				if id.is_empty(): continue
@@ -320,12 +338,12 @@ func check_surface_reachability(room: Room) -> void:
 			var center: Vector3 = mesh.global_transform * mesh.get_aabb().get_center()
 			if room.camera.is_position_behind(center): continue
 			var pixel: Vector2 = room.camera.unproject_position(center) * room.size / Vector2(room.viewport.size)
-			if room._pick(pixel) == id:
+			if Rect2(Vector2.ZERO, room.size).has_point(pixel) and room._pick(pixel) == id:
 				evidence[id] = {"pixel": pixel, "look_degrees": room._look_current, "source": str(mesh.name) + " center surface ray"}
 		if evidence.size() == expected.size(): break
 	for id: String in expected:
 		print("RAY_REACH ", id, " ", evidence.get(id, "NO VERIFIED SURFACE HIT; toolbar alone is not geometric reachability"))
-		check(evidence.has(id), "A real visible triangle ray reaches " + id + " at neutral or bounded side view")
+		check(evidence.has(id), "%s real visible triangle ray reaches %s at neutral or bounded side view" % [room.size, id])
 	ProjectSettings.set_setting("game/reduced_motion", true)
 	room.set_look(Vector2.ZERO)
 	room._process(0.0)
@@ -355,6 +373,15 @@ func check_display_state(lab: LabHome) -> void:
 	check(fixture.latest_name == "Explicit local QA work" and fixture.latest_output == [0,1,2,3], "The works wall uses the supplied real output, not a decorative concept")
 	fixture.stations[0].done = 999
 	check(room.display_state.stations[0].done == 2, "Display state is returned as an isolated read-only copy")
+	var long_name: String = "宽".repeat(48)
+	room.update_progress(rows,2,22,9999,tasks,[{"name":long_name,"output":[0,1,2,3]}],true)
+	var title: Label3D = room._works_title
+	var name_label: Label3D = room._works_name
+	var title_end: float = title.position.x + title.font.get_string_size(title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, title.font_size).x * title.pixel_size
+	var name_start: float = name_label.position.x - name_label.font.get_string_size(name_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, name_label.font_size).x * name_label.pixel_size
+	check(title.text == "Works  9999" and name_label.text.ends_with("…"), "Long fullwidth work names are ellipsized beside an English title and large count")
+	check(name_start - title_end >= 0.139, "Work title and measured name retain a physical gap")
+	check(room.display_state.latest_name == long_name, "Ellipsizing the work wall preserves its full read-only source name")
 	room.update_progress(rows,0,22,0,tasks,[],false)
 	check(room.display_state.works_count == 0 and room.display_state.latest_name.is_empty() and room.display_state.latest_output.is_empty(), "An empty collection has explicit empty data and no sample work")
 	room.update_progress(lab.station_progress,lab.completed_keys.size(),LabHome.LabState.tasks().size(),lab.works.size(),LabHome.LabState.tasks(),lab.works,lab.english)

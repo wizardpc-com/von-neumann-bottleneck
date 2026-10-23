@@ -17,6 +17,11 @@ func run() -> void:
 	var page := Control.new()
 	page.size = Vector2(640, 360)
 	root.add_child(page)
+	var tabs := TabContainer.new()
+	page.add_child(tabs); tabs.add_child(Control.new())
+	var bar: TabBar = tabs.get_tab_bar()
+	var original_ink := Color("8fa3ad")
+	tabs.add_theme_color_override("font_unselected_color", original_ink)
 	var initial_listeners: int = page.resized.get_connections().size()
 	for cycle: int in 12:
 		PageSkin.apply(page, "settings")
@@ -29,6 +34,8 @@ func run() -> void:
 		await process_frame
 		check(rule.size == Vector2(page.size.x, 2.0), "The active rule follows page width")
 		PageSkin.revert(page)
+		await process_frame
+		check(not tabs.has_meta(PageSkin.META) and tabs.has_theme_color_override("font_unselected_color") and bar.get_theme_color("font_unselected_color").is_equal_approx(original_ink), "Returning to the terminal restores category label ink")
 		check(page.resized.get_connections().size() == initial_listeners, "Revert disconnects before freeing the rule")
 		check(page.get_node_or_null(PageSkin.RULE_NAME) == null, "Revert removes the active rule")
 		await process_frame

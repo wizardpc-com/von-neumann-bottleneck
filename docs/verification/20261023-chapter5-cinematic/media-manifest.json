@@ -1,0 +1,46 @@
+{
+  "id": "chapter5_complete",
+  "source_file": "707bf0f74baf901d5ae51afe56eaf1b8.mp4",
+  "source_sha256": "fbef21de360da6e7f143eb67e5e1a99688dd63d6448278930150dbbb01f6cf1b",
+  "source_bytes": 21477070,
+  "asset": "assets/cinematics/chapter5_complete.ogv",
+  "sha256": "cad2368990e796c7497fa0d3d0f823739f019c1eafe10163c80d3603904cb880",
+  "bytes": 38754165,
+  "full_ffmpeg_decode": true,
+  "encoder_sha256": "2ce797a0f88d7f067180338fb227f7b1928ea727bd9a4d7a1d022f7c52af71a3",
+  "encoding": [
+    "-map",
+    "0:v:0",
+    "-map",
+    "0:a:0?",
+    "-map_metadata",
+    "-1",
+    "-c:v",
+    "libtheora",
+    "-q:v",
+    "7",
+    "-g:v",
+    "64",
+    "-pix_fmt",
+    "yuv420p",
+    "-c:a",
+    "libvorbis",
+    "-q:a",
+    "5",
+    "-threads",
+    "4"
+  ],
+  "source_unchanged": true,
+  "prior_assets_unchanged": {
+    "opening.ogv": "74a82c4b86bd91efad95528c4ae02efca6822b5e93fd92c967df276e98f852e7",
+    "prologue_complete.ogv": "9e18948fce8baad5440a2d9fc4de6c8010474a9ebbec0a4a6aff68ed37a4147c"
+  },
+  "metadata": {
+    "width": 1280,
+    "height": 720,
+    "fps": 30,
+    "source_seconds": 62.44,
+    "audio_hz": 44100,
+    "audio_channels": 1
+  }
+}

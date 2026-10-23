@@ -1,0 +1,33 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+ENDING_GPU user_dir=E:/VNB/temp/finale-handbook-20261023/ending-gpu-final/runtime/FinaleCinematicGpuChecks/ending-gpu-final display=Windows
+ENDING_GPU PASS Explicit isolated QA user directory
+ENDING_GPU PASS Ordinary GPU display
+ENDING_GPU PASS Fresh isolated work profile and viewing history
+ENDING_GPU PASS Ordinary Game launch enables the real cinematic presenter
+ENDING_GPU PASS Effects audio bus exists
+ENDING_GPU PASS Real session acquires the isolated profile
+ENDING_GPU PASS Actual learning, transport, commit/reveal and generation produce a saveable work
+ENDING_GPU PASS Task7 Keep persists the actual work
+ENDING_GPU PASS Task7 save does not play the ending
+ENDING_GPU PASS Task8 Keep completes its saved UI before deferred presentation
+ENDING_GPU PASS Task8 Keep commits exactly one new work
+ENDING_GPU PASS Real ending pauses the actual workbench
+ENDING_GPU PASS Final task presents the correct clip
+ENDING_GPU PASS Actual muted GPU video advances during tree pause
+ENDING_GPU PASS Saved work and selection remain intact during the film
+ENDING_GPU PASS Viewing history records the ending before playback
+ENDING_GPU PASS GPU framebuffer contains an image
+ENDING_GPU PASS Screenshot saved: ending-playback.png
+ENDING_GPU PASS Viewport Escape skips and restores workbench processing
+ENDING_GPU PASS Skipping restores the selected protected work
+ENDING_GPU PASS Playback and skip do not rewrite the work profile
+ENDING_GPU PASS GPU framebuffer contains an image
+ENDING_GPU PASS Screenshot saved: ending-saved-work.png
+ENDING_GPU PASS Another successful task8 Keep does not replay the ending
+ENDING_GPU PASS Fresh session reloads all protected works on the final task
+ENDING_GPU PASS Reload after clearing process caches never autoplays
+ENDING_GPU PASS Actual learning, transport, commit/reveal and generation produce a saveable work
+ENDING_GPU PASS Persisted viewing history prevents replay after cache reset and another real Keep
+ENDING_GPU_RESULT checks=28 failures=0

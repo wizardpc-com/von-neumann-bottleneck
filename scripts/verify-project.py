@@ -130,7 +130,9 @@ def main():
         suites = [p for p in suites if p.stem in args.suite]
     for suite in suites:
         if suite.stem != 'test_recovery_game_input':
-            run(suite.stem, ['--headless', '--script', 'res://tests/' + suite.name], True)
+            # Cinematic checks decode every complete clip, including the finale.
+            run(suite.stem, ['--headless', '--script', 'res://tests/' + suite.name], True,
+                timeout=300 if suite.stem == 'test_cinematics' else 180)
     if args.gui:
         arguments = ['--script', 'res://tests/test_recovery_game_input.gd', '--',
                      '--locale=' + args.locale, '--recovery-capture',

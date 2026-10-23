@@ -591,16 +591,50 @@ func _build_options_menu() -> void:
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",14); panel.add_child(column)
 	# Wrapped headings shrink after the hidden panel receives its real width.
 	column.minimum_size_changed.connect(panel.fit_to_bounds, CONNECT_DEFERRED)
-	_settings_label(column,"hub.options.title",28)
+	var heading_row := HBoxContainer.new(); column.add_child(heading_row)
+	_settings_label(heading_row,"hub.options.title",28)
+	var heading_label := heading_row.get_child(0) as Label
+	heading_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if not settings_only:
 		var manage := _options_button("成果与存档" if Localization.current_locale() != "en" else "Achievements and saves")
-		manage.name = "HubManageProgress"; manage.pressed.connect(_open_hub_navigation); column.add_child(manage)
-	panel.setup(column.get_child(0), Vector2(760, 780))
-	var scroll := ScrollContainer.new(); scroll.name="SettingsScroll"; scroll.follow_focus=true
-	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL; column.add_child(scroll)
-	var body := VBoxContainer.new(); body.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	body.add_theme_constant_override("separation",12); scroll.add_child(body)
+		manage.name = "HubManageProgress"; manage.pressed.connect(_open_hub_navigation); heading_row.add_child(manage)
+		manage.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		manage.custom_minimum_size.x = 220
+	panel.setup(heading_label, Vector2(760, 780))
+	# Opened from the room, Settings is a readable column, not a full-width form.
+	panel.docked_column_width = 820.0
+	var tabs := TabContainer.new(); tabs.name = "SettingsCategories"
+	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tabs.use_hidden_tabs_for_min_size = false
+	column.add_child(tabs)
+	tabs.get_tab_bar().focus_mode = Control.FOCUS_ALL
+	tabs.add_theme_color_override("font_unselected_color", MUTED)
+	tabs.add_theme_font_size_override("font_size", 18)
+	var bodies: Array[VBoxContainer] = []
+	var english: bool = Localization.current_locale() == "en"
+	var titles: Array[String] = []
+	titles.assign((["Interface & display", "Audio", "Feedback & support"] if english else ["界面与显示", "声音", "反馈与支持"]))
+	var icons: Array[String] = ["settings_display", "settings_audio", "settings_support"]
+	for index: int in 3:
+		var scroll := ScrollContainer.new(); scroll.name = "SettingsScroll" if index == 0 else "SettingsScroll%d" % index
+		scroll.follow_focus = true
+		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		tabs.add_child(scroll)
+		tabs.set_tab_title(index, titles[index])
+		tabs.set_tab_icon(index, load("res://assets/ui/%s.svg" % icons[index]) as Texture2D)
+		tabs.set_tab_icon_max_width(index, 24)
+		var page_margin := MarginContainer.new()
+		page_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		page_margin.add_theme_constant_override("margin_top", 12)
+		page_margin.add_theme_constant_override("margin_right", 8)
+		scroll.add_child(page_margin)
+		var page := VBoxContainer.new()
+		page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		page.add_theme_constant_override("separation", 12)
+		page_margin.add_child(page)
+		bodies.append(page)
+	tabs.tab_changed.connect(func(_index: int) -> void: _refresh_settings_focus())
+	var body: VBoxContainer = bodies[0]
 	var section: VBoxContainer = null
 	section = _settings_card(body,"settings.interface")
 	if not settings_only:
@@ -623,7 +657,8 @@ func _build_options_menu() -> void:
 	_settings_row(section,"settings.yi_text_speed.label",speed_choice)
 	section = _settings_card(body,"settings.display")
 	options_fullscreen_button=_options_button(""); options_fullscreen_button.name="OptionsFullscreenButton"
-	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen); section.add_child(options_fullscreen_button)
+	options_fullscreen_button.pressed.connect(WindowMode.toggle_fullscreen)
+	_settings_row(section,"settings.window_label",options_fullscreen_button)
 	var reduced := CheckButton.new(); reduced.name="ReducedMotion"
 	reduced.text=Localization.text(&"hub.settings.reduce_interface_motion")
 	reduced.button_pressed=bool(ProjectSettings.get_setting("game/reduced_motion",false))
@@ -634,7 +669,7 @@ func _build_options_menu() -> void:
 	frame_choice.item_selected.connect(func(index: int) -> void: WindowMode.set_frame_limit([60,120,0][index]))
 	_settings_row(section,"settings.frame_label",frame_choice)
 	_settings_label(section,"hub.settings.background_rendering_uses_less_power_simulation_scores_are_unchan")
-	section = _settings_card(body,"settings.audio")
+	section = _settings_card(bodies[1],"settings.audio")
 	var sound := CheckButton.new(); sound.name="SoundEnabled"; sound.text=Localization.text(&"settings.sound")
 	sound.button_pressed=WindowMode.sound_enabled; section.add_child(sound)
 	var volume := HSlider.new(); volume.name="SoundVolume"; volume.max_value=100; volume.step=1
@@ -660,10 +695,10 @@ func _build_options_menu() -> void:
 	ambience_volume.value_changed.connect(func(value: float) -> void: update_ambience.call(); ambience_percent.text="%d%%" % value)
 	steady.toggled.connect(func(_value: bool) -> void: update_ambience.call())
 	_settings_label(section,"settings.ambience.help")
-	section = _settings_card(body,"settings.privacy")
+	section = _settings_card(bodies[2],"settings.privacy")
 	_settings_label(section,"settings.privacy_hint")
 	section.add_child(PlaytestMoments.make_button())
-	section = _settings_card(body,"settings.support")
+	section = _settings_card(bodies[2],"settings.support")
 	var build := Label.new(); build.text=str(ProjectSettings.get_setting("application/config/version",""))
 	build.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; section.add_child(build)
 	options_export_button=_options_button(Localization.text(&"playtest.export.button")); options_export_button.name="OptionsExportPlaytestButton"
@@ -693,22 +728,29 @@ func _build_options_menu() -> void:
 	reset.pressed.connect(func() -> void: confirm.popup_centered(Vector2i(520,180)))
 	confirm.confirmed.connect(func() -> void: WindowMode.reset_presentation(); call_deferred("_reload_settings_locale"))
 	var footer := HBoxContainer.new(); footer.add_theme_constant_override("separation",14); column.add_child(footer)
-	options_resume_button=_options_button(Localization.text(&"hub.options.resume")); options_resume_button.name="OptionsResumeButton"
-	options_resume_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	options_resume_button.pressed.connect(_close_options_menu); footer.add_child(options_resume_button)
+	# Leaving the game sits apart on the left; returning is the right-hand action.
 	options_quit_button=_options_button(Localization.text(&"hub.options.quit")); options_quit_button.name="OptionsQuitButton"
+	options_quit_button.custom_minimum_size.x=150
 	options_quit_button.pressed.connect(_quit_from_settings); footer.add_child(options_quit_button)
+	var footer_gap := Control.new(); footer_gap.size_flags_horizontal=Control.SIZE_EXPAND_FILL; footer.add_child(footer_gap)
+	options_resume_button=_options_button(Localization.text(&"hub.options.resume")); options_resume_button.name="OptionsResumeButton"
+	options_resume_button.custom_minimum_size.x=240
+	options_resume_button.pressed.connect(_close_options_menu); footer.add_child(options_resume_button)
 	_style_quit_button(options_quit_button)
 	resized.connect(_fit_settings_panel); _fit_settings_panel()
 	_refresh_options_fullscreen_label(); options_overlay.hide()
 
-## In the laboratory every quit is confirmed on the terminal screen; inside a
-## workbench (no terminal on screen) the Settings quit stays direct.
+## Keep the current scene's existing confirmation and unsaved-work guards.
 func _quit_from_settings() -> void:
 	if laboratory != null and laboratory.is_inside_tree() and not settings_only:
 		_close_options_menu()
 		laboratory.ask_quit()
 	else:
+		var owner: Node = get_tree().get_first_node_in_group("candidate_quit_owners")
+		if owner != null:
+			_close_options_menu()
+			owner.notification(NOTIFICATION_WM_CLOSE_REQUEST)
+			return
 		_quit_game()
 
 
@@ -722,10 +764,18 @@ func _settings_card(parent: Node, key: String) -> VBoxContainer:
 	parent.add_child(card)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 10)
 	card.add_child(column)
+	var heading_row := HBoxContainer.new(); heading_row.add_theme_constant_override("separation", 10)
+	column.add_child(heading_row)
+	var icons: Dictionary = {"interface":"settings_text", "display":"settings_display", "audio":"settings_audio", "privacy":"feedback_privacy", "support":"settings_support"}
+	var icon := TextureRect.new()
+	icon.texture = load("res://assets/ui/%s.svg" % icons[key.get_slice(".", 1)]) as Texture2D
+	icon.custom_minimum_size = Vector2(32, 32); icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED; icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	heading_row.add_child(icon)
 	var heading := Label.new(); heading.text = Localization.text(StringName(key))
 	heading.add_theme_font_size_override("font_size", 19)
 	heading.add_theme_color_override("font_color", ACCENT)
-	column.add_child(heading)
+	heading_row.add_child(heading)
 	return column
 
 
@@ -743,6 +793,12 @@ func _settings_row(parent: Node, key: String, control: Control) -> void:
 
 
 func _slider_row(parent: Node, slider: HSlider, value_label: Label) -> void:
+	var track := StyleBoxFlat.new(); track.bg_color = Color("33434e"); track.set_corner_radius_all(3)
+	track.content_margin_top = 3; track.content_margin_bottom = 3
+	slider.add_theme_stylebox_override("slider", track)
+	var fill := track.duplicate() as StyleBoxFlat; fill.bg_color = ACCENT
+	slider.add_theme_stylebox_override("grabber_area", fill)
+	slider.add_theme_stylebox_override("grabber_area_highlight", fill)
 	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 14)
 	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -807,6 +863,9 @@ func _refresh_settings_focus() -> void:
 	var controls: Array[Control] = []
 	for node: Node in options_overlay.find_children("*","Control",true,false):
 		if node.focus_mode==Control.FOCUS_ALL and node.is_visible_in_tree(): controls.append(node)
+	var tabs := options_overlay.find_child("SettingsCategories", true, false) as TabContainer
+	if tabs != null and tabs.is_visible_in_tree() and tabs.get_tab_bar() not in controls:
+		controls.push_front(tabs.get_tab_bar())
 	for index: int in range(controls.size()):
 		controls[index].focus_next=controls[index].get_path_to(controls[(index+1)%controls.size()])
 		controls[index].focus_previous=controls[index].get_path_to(controls[(index-1+controls.size())%controls.size()])

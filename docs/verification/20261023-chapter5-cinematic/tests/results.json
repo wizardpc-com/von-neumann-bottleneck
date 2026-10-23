@@ -1,0 +1,118 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/user_directory"
+    },
+    {
+      "name": "test_candidate_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_candidate_journey"
+    },
+    {
+      "name": "test_candidate_journey_review",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_journey_review.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_candidate_journey_review"
+    },
+    {
+      "name": "test_chapter5_cinematic",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter5_cinematic.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_chapter5_cinematic"
+    },
+    {
+      "name": "test_cinematics",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_cinematics.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_cinematics"
+    },
+    {
+      "name": "test_global_save",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_global_save.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_global_save"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_prologue_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_hardware_prologue_ui"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_hub_first_screen"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_representation_closure_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_representation_closure_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_representation_closure_navigation"
+    },
+    {
+      "name": "test_representation_region",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_representation_region.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_representation_region"
+    },
+    {
+      "name": "test_representation_session",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_representation_session.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_representation_session"
+    },
+    {
+      "name": "test_workbench_escape",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_workbench_escape.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T100058Z-fc90e720/test_workbench_escape"
+    }
+  ]
+}

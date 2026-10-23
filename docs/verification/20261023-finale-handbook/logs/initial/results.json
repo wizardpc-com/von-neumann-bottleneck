@@ -1,0 +1,102 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/user_directory"
+    },
+    {
+      "name": "test_cinematics",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_cinematics.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_cinematics"
+    },
+    {
+      "name": "test_creation_measured_closure",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_measured_closure.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_creation_measured_closure"
+    },
+    {
+      "name": "test_creation_sample_editing",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Compile Error: Identifier not found: Localization",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "ERROR: Failed to load script \"res://tests/test_creation_sample_editing.gd\" with error \"Compilation failed\"."
+      ],
+      "log": "test_creation_sample_editing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_creation_sample_editing"
+    },
+    {
+      "name": "test_ending_cinematic",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Compile Error: Identifier not found: Localization",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "ERROR: Failed to load script \"res://tests/test_ending_cinematic.gd\" with error \"Compilation failed\"."
+      ],
+      "log": "test_ending_cinematic.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_ending_cinematic"
+    },
+    {
+      "name": "test_full_journey_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_full_journey_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_full_journey_narrative"
+    },
+    {
+      "name": "test_handbook_diagrams",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Compile Error: Identifier not found: Localization",
+        "SCRIPT ERROR: Compile Error: Identifier not found: Localization",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts."
+      ],
+      "log": "test_handbook_diagrams.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_handbook_diagrams"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_localization"
+    },
+    {
+      "name": "test_yi_introduction_media",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_yi_introduction_media.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_yi_introduction_media"
+    }
+  ]
+}

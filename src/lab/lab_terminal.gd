@@ -104,12 +104,22 @@ func _build() -> void:
 	echo.hide()
 	message = Typewriter.new(); message.name = "YiMessage"
 	message.font_size = 17; message.font_color = Palette.TERM_TEXT; message.line_spacing = 5.0
-	message.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	message.custom_minimum_size.y = 96
 	message.skip_scope = self
 	awake_view.add_child(message)
+	var breath := Control.new(); breath.custom_minimum_size.y = 10; breath.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	awake_view.add_child(breath)
+	# What to do next is one card under Yi's words, not a slab across the screen.
 	primary = _button(awake_view, "", "start", true); primary.name = "TerminalPrimary"
-	primary.custom_minimum_size.y = 44; primary.add_theme_font_size_override("font_size", 17)
-	secondary = HFlowContainer.new(); secondary.add_theme_constant_override("h_separation", 6); secondary.add_theme_constant_override("v_separation", 4)
+	_style_task_card(primary)
+	var rest := Control.new(); rest.name = "TerminalRest"; rest.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	rest.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	awake_view.add_child(rest)
+	var footer_rule := ColorRect.new(); footer_rule.name = "TerminalFooterRule"
+	footer_rule.color = Palette.with_alpha(Palette.TERM_EDGE, 0.6); footer_rule.custom_minimum_size.y = 1
+	footer_rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	awake_view.add_child(footer_rule)
+	secondary = HFlowContainer.new(); secondary.add_theme_constant_override("h_separation", 4); secondary.add_theme_constant_override("v_separation", 2)
 	awake_view.add_child(secondary)
 	var labels: Array = [["旅程地图", "Journey map", "journey"], ["档案", "Archive", "archive"], ["手册", "Handbook", "handbook"], ["设置", "Settings", "settings"], ["作品", "Works", "works"], ["成就", "Achievements", "achievements"], ["反馈", "Feedback", "feedback"], ["返回房间 · Esc", "Back to room · Esc", "look"], ["退出游戏", "Quit", "quit"]]
 	for entry: Array in labels:
@@ -119,8 +129,8 @@ func _build() -> void:
 		button.size_flags_horizontal = Control.SIZE_FILL
 		button.custom_minimum_size.y = 32
 		button.add_theme_font_size_override("font_size", 14)
+		_style_link(button, Palette.QUIT if str(entry[2]) == "quit" else Palette.TERM_MUTED)
 		if str(entry[2]) == "archive": archive_button = button
-		if str(entry[2]) == "quit": _style_quit(button)
 	choices = HBoxContainer.new(); choices.name = "DialogueChoices"
 	choices.add_theme_constant_override("separation", 8)
 	choices.hide(); awake_view.add_child(choices)
@@ -291,6 +301,7 @@ func confirming() -> bool:
 func _compose() -> void:
 	_passage = ""
 	_compose_text()
+	_sync_task_card()
 	# Yi speaks only while awake; on standby the passage waits for wake().
 	if _asleep:
 		message.prepare(_passage)
@@ -378,6 +389,75 @@ func _gui_input(event: InputEvent) -> void:
 		if _confirming: return
 		if _asleep: wake(); accept_event()
 		elif message.complete_now(): accept_event()
+
+## The task card: dark glass with an accent edge; the kicker and the task
+## title are separate lines drawn over the button, which keeps its full text.
+func _style_task_card(node: Button) -> void:
+	for state: String in ["normal", "hover", "pressed", "focus"]:
+		var box := StyleBoxFlat.new()
+		box.bg_color = Palette.TERM_SCREEN_LIFT.lightened(0.04 if state == "hover" else 0.0) if state != "pressed" else Palette.TERM_PANEL
+		box.border_color = Palette.ACCENT if state in ["hover", "focus"] else Palette.with_alpha(Palette.ACCENT_DEEP, 0.75)
+		box.set_border_width_all(1); box.border_width_left = 4
+		box.set_corner_radius_all(10)
+		box.draw_center = state != "focus"
+		box.content_margin_left = 22; box.content_margin_right = 22
+		node.add_theme_stylebox_override(state, box)
+	for color_name: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		node.add_theme_color_override(color_name, Color.TRANSPARENT)
+	node.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	node.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	node.custom_minimum_size = Vector2(520, 78)
+	var lines := VBoxContainer.new(); lines.name = "CardLines"
+	lines.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	lines.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	lines.offset_left = 24; lines.offset_right = -70
+	lines.alignment = BoxContainer.ALIGNMENT_CENTER
+	lines.add_theme_constant_override("separation", 2)
+	node.add_child(lines)
+	var kicker := _label(lines, "", 14, Palette.ACCENT); kicker.name = "CardKicker"
+	kicker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var title := _label(lines, "", 22, Palette.TERM_TEXT); title.name = "CardTitle"
+	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	title.clip_text = true
+	var enter := _label(node, "Enter ↵", 13, Palette.TERM_MUTED); enter.name = "CardEnter"
+	enter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	enter.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT)
+	enter.offset_left = -78; enter.offset_right = -18; enter.offset_top = -10; enter.offset_bottom = 10
+	enter.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+
+func _sync_task_card() -> void:
+	var kicker: Label = primary.get_node_or_null("CardLines/CardKicker")
+	var title: Label = primary.get_node_or_null("CardLines/CardTitle")
+	if kicker == null or title == null: return
+	var text: String = primary.text
+	var split: int = text.find("
+")
+	if split < 0: split = text.find(" · ")
+	if split < 0:
+		kicker.text = ""; title.text = text
+	else:
+		kicker.text = text.substr(0, split).strip_edges()
+		title.text = text.substr(split + (1 if text[split] == "
+" else 3)).strip_edges()
+	kicker.visible = not kicker.text.is_empty()
+
+## Everything else reads as quiet text; it lifts only under the pointer or focus.
+func _style_link(node: Button, ink: Color) -> void:
+	for state: String in ["normal", "hover", "pressed", "focus"]:
+		var box := StyleBoxFlat.new()
+		box.bg_color = Palette.TERM_SCREEN_LIFT if state in ["hover", "pressed"] else Color.TRANSPARENT
+		box.border_color = Palette.ACCENT if state == "focus" else Color.TRANSPARENT
+		box.set_border_width_all(1 if state == "focus" else 0)
+		box.set_corner_radius_all(6)
+		box.draw_center = state != "focus"
+		box.content_margin_left = 10; box.content_margin_right = 10
+		node.add_theme_stylebox_override(state, box)
+	node.add_theme_color_override("font_color", ink)
+	node.add_theme_color_override("font_focus_color", ink)
+	node.add_theme_color_override("font_hover_color", Palette.TERM_TEXT if ink != Palette.QUIT else Palette.QUIT.lightened(0.15))
+	node.add_theme_color_override("font_pressed_color", Palette.TERM_TEXT)
 
 func _style_quit(node: Button) -> void:
 	# Leaving the game reads clearly apart from the other functions.

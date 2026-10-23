@@ -22,6 +22,7 @@ var leave_scene: String = ""
 var leave_from_review: bool = false
 var candidate_journey: bool = false
 var drafts: Dictionary = {}
+var terminology_handbook: Control
 var english: bool = false
 var task: int = 0
 var plan: Array[Dictionary] = Model.initial_plan()
@@ -113,7 +114,7 @@ func _task_label(index: int) -> String:
 func make_label(text: String, parent: Node, size: int = 16) -> Label:
 	var node := Label.new(); node.text = text
 	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	node.add_theme_font_size_override("font_size",size); parent.add_child(node)
+	node.add_theme_font_size_override("font_size",maxi(size,13)); parent.add_child(node)
 	return node
 
 func make_button(text: String, parent: Node, action: Callable, handle: String) -> Button:
@@ -163,6 +164,8 @@ func build() -> void:
 	preload("res://src/ui/workbench_chrome.gd").quit_style(quit)
 	preload("res://src/ui/workbench_chrome.gd").frame(top)
 	var nav := HBoxContainer.new(); page.add_child(nav)
+	nav.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
+	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, nav, "representation", preload("res://src/campaign/second_act_tasks.gd").IDS["representation"][task])
 	for i: int in 5:
 		var task_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("representation", i))
 		var b := make_button(task_label if not task_label.is_empty() else Catalog.title(i,english),nav,func() -> void: change_task(i),"Task"+str(i))
@@ -512,6 +515,7 @@ func refresh_actions() -> void:
 	set_action_disabled(undo_button,undo_stack.is_empty()); set_action_disabled(redo_button,redo_stack.is_empty())
 
 func run_current() -> void:
+	var chapter_was_complete: bool = candidate_journey and representation_review_evidence().size() == 5
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	mark_session_dirty()
 	var traces: Array[Trace] = []
@@ -537,6 +541,14 @@ func run_current() -> void:
 	elif not completed.has(false):
 		var review_action: Button = find_child("CompletedRegionReview",true,false) as Button
 		status.text = text2("五份任务均已达标。点击“%s”回顾成果；保存方案与比较记录后继续，也可留在这里探索。", "All five tasks met. Open “%s” to revisit your achievements; save your plans and comparisons to continue, or keep exploring here.") % review_action.text
+	if accepted and candidate_journey and not chapter_was_complete and representation_review_evidence().size() == 5:
+		call_deferred("_present_chapter5_cinematic")
+
+func _present_chapter5_cinematic() -> void:
+	var movie: CinematicPlayer = preload("res://src/ui/cinematic_player.gd").present_once(self, &"chapter5_complete")
+	if movie != null:
+		await movie.finished
+		movie.queue_free()
 
 func refresh_history() -> void:
 	history_list.clear()
@@ -818,6 +830,9 @@ func reuse_recorded_plan() -> void:
 	status.text = text2("已取回方案#%d；可以改一点再运行。旧记录保留，原草稿可撤销恢复。", "Plan #%d is ready to vary and run. Its old record is preserved; Undo can restore the previous draft.") % [record_index+1]
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open():
+		if terminology_handbook.handle_escape(event): get_viewport().set_input_as_handled()
+		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		request_hub()

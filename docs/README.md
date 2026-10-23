@@ -4,6 +4,10 @@ Start with [CURRENT_STATE](CURRENT_STATE.md). It identifies the current source,
 frozen candidate and verification boundaries. Old execution instructions have been
 removed; recover historical task books from Git when needed.
 
+- **[设置与反馈页面布局（2026-10-23）](verification/20261023-settings-feedback/README.md)**
+
+- **[手册、开场与结尾收尾（2026-10-23，最新）](verification/20261023-finale-handbook/README.md)**
+
 ## Product and contracts
 
 - [Game constitution](briefs/codex-night/GAME_CONSTITUTION.md)
@@ -21,7 +25,10 @@ removed; recover historical task books from Git when needed.
 
 ## Development and distribution
 
-- **[Claude 最新接手：收尾修复、当前游戏与 UI／内容优化（2026-10-23）](development/CLAUDE_HANDOFF_20261023.md)**
+- **[操作流程、设置输入与未提交文字保护（2026-10-23）](verification/20261023-player-flow/README.md)**
+- [空间与文字收尾](verification/20261023-codex-closeout/README.md) · [第五章结束 CG（2026-10-23）](verification/20261023-chapter5-cinematic/README.md)
+- [Claude 最终打磨交接：已有改动与验证（2026-10-23）](development/CLAUDE_FINAL_POLISH_HANDOFF_20261023.md)
+- [Claude 接手：收尾修复、当前游戏与 UI／内容优化（2026-10-23）](development/CLAUDE_HANDOFF_20261023.md)
 - [实验室进出过场、元件台一致性与文案精简（2026-10-22，历史记录）](development/LAB_TRANSITIONS_HANDOFF_20261022.md)
 - [Claude 美术接手：当前整合基线与验证边界（2026-10-22）](development/CLAUDE_ART_HANDOFF_20261022.md)
 

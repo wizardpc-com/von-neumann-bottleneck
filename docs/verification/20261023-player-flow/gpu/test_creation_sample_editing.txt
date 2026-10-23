@@ -1,0 +1,16 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+ERROR: Pending sample keeps its existing first position when both fields are unsubmitted
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_sample_editing.gd:14)
+       [1] exercise_initial_leave_protection (res://tests/test_creation_sample_editing.gd:250)
+       [2] settle (res://tests/test_creation_sample_editing.gd:16)
+ERROR: Pending sample keeps its existing first position when both fields are unsubmitted
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_sample_editing.gd:14)
+       [1] exercise_initial_leave_protection (res://tests/test_creation_sample_editing.gd:250)
+       [2] settle (res://tests/test_creation_sample_editing.gd:16)
+FAIL: ["Pending sample keeps its existing first position when both fields are unsubmitted", "Pending sample keeps its existing first position when both fields are unsubmitted"]

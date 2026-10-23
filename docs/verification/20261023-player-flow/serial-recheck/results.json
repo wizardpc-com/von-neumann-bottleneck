@@ -1,0 +1,30 @@
+[
+  {
+    "name": "test_optional_challenges",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-serial-recheck/test_optional_challenges"
+  },
+  {
+    "name": "test_optional_result_feedback",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-serial-recheck/test_optional_result_feedback"
+  },
+  {
+    "name": "test_first_lesson_input",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-serial-recheck/test_first_lesson_input"
+  },
+  {
+    "name": "test_global_save",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-serial-recheck/test_global_save"
+  }
+]

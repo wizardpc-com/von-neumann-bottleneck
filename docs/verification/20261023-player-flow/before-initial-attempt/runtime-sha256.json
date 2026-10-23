@@ -1,0 +1,8 @@
+{
+  "src/ui/prototype_hub.gd": "1da2fcbd573bda60d8e9e5c1597ca6a64838195b0c08a8e509bb1f7831209d67",
+  "src/hardware_foundations/hardware_foundations.gd": "78e96b7c6b7d5acc1ab490550174cf6c26d234633e757c910229ce01db798ae6",
+  "experiments/creation/workbench.gd": "e2cf033f8ae53f98cb44f0259e6fa9ca4f2751a9eccc2e3c2957791f28c14f70",
+  "src/system_lab/system_lab.gd": "54b0634cc9b2cfcb068cfaa5dc7972fb695f31454de0dada57528078194f3608",
+  "src/overlap_chapter/overlap_chapter.gd": "ea30cb6ea57c71c989fe021c148c017f2c6f23cd2fa75aca58efd22cf6bab181",
+  "src/layout_chapter/layout_chapter.gd": "3137142efe4ff69a823934c3993db91ef1f83ec81a7442ba4b1742c88599d1d1"
+}

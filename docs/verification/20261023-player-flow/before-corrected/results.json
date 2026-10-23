@@ -1,0 +1,62 @@
+[
+  {
+    "name": "test_workbench_escape",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: zh_CN creation: Settings Quit does not bypass the candidate owner",
+      "ERROR: zh_CN creation: Settings Quit hands over to the existing unsaved guard",
+      "ERROR: zh_CN creation: Settings Quit cannot bypass pending sample protection",
+      "ERROR: zh_CN creation: Settings Quit protects pending sample before the draft",
+      "ERROR: zh_CN representation: Settings Quit does not bypass the candidate owner",
+      "ERROR: zh_CN representation: Settings Quit hands over to the existing unsaved guard",
+      "ERROR: zh_CN service: Settings Quit does not bypass the candidate owner",
+      "ERROR: zh_CN service: Settings Quit hands over to the existing unsaved guard",
+      "ERROR: zh_CN prediction: Settings Quit does not bypass the candidate owner",
+      "ERROR: zh_CN prediction: Settings Quit hands over to the existing unsaved guard",
+      "ERROR: en creation: Settings Quit does not bypass the candidate owner",
+      "ERROR: en creation: Settings Quit hands over to the existing unsaved guard",
+      "ERROR: en creation: Settings Quit cannot bypass pending sample protection",
+      "ERROR: en creation: Settings Quit protects pending sample before the draft",
+      "ERROR: en representation: Settings Quit does not bypass the candidate owner",
+      "ERROR: en representation: Settings Quit hands over to the existing unsaved guard",
+      "ERROR: en service: Settings Quit does not bypass the candidate owner",
+      "ERROR: en service: Settings Quit hands over to the existing unsaved guard",
+      "ERROR: en prediction: Settings Quit does not bypass the candidate owner",
+      "ERROR: en prediction: Settings Quit hands over to the existing unsaved guard",
+      "FAIL: workbench Escape 105 checks, 20 failures"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-before-corrected/test_workbench_escape"
+  },
+  {
+    "name": "test_hardware_settings_input",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Settings blocks undo beneath non-text focus",
+      "ERROR: Settings blocks component deletion",
+      "ERROR: Settings preserves both edit histories",
+      "ERROR: Settings blocks wire colors and running the board",
+      "FAIL: hardware settings input 4 failures"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-before-corrected/test_hardware_settings_input"
+  },
+  {
+    "name": "test_chapter_settings_input",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: System Settings clears already-held pan without a release event",
+      "ERROR: System Settings blocks undo",
+      "ERROR: System Settings blocks new pan keys",
+      "ERROR: Overlap Settings blocks undo",
+      "ERROR: Overlap Settings click cannot start a card drag underneath",
+      "ERROR: The Settings Return button still receives the card-overlapping click",
+      "ERROR: Overlap undo resumes after Settings",
+      "ERROR: Overlap redo resumes after Settings",
+      "ERROR: Layout Settings blocks undo",
+      "FAIL: chapter Settings input 27 checks, 9 failures"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-before-corrected/test_chapter_settings_input"
+  }
+]

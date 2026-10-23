@@ -1,0 +1,28 @@
+[
+  {
+    "name": "test_creation_sample_editing",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/compile-fix/test_creation_sample_editing"
+  },
+  {
+    "name": "test_ending_cinematic",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/compile-fix/test_ending_cinematic"
+  },
+  {
+    "name": "test_handbook_diagrams",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: high_impedance is bound to its actual Handbook entry",
+      "ERROR: short_circuit is bound to its actual Handbook entry",
+      "ERROR: port is bound to its actual Handbook entry",
+      "FAIL: handbook diagrams 931 checks, 3 failures"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/compile-fix/test_handbook_diagrams"
+  }
+]

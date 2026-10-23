@@ -1,0 +1,62 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094703Z-a0f7cd6a/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094703Z-a0f7cd6a/user_directory"
+    },
+    {
+      "name": "test_hardware_seal_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hardware_seal_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094703Z-a0f7cd6a/test_hardware_seal_navigation"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094703Z-a0f7cd6a/test_hub_first_screen"
+    },
+    {
+      "name": "test_ui_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094703Z-a0f7cd6a/test_ui_convergence"
+    },
+    {
+      "name": "test_unified_style",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_unified_style.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094703Z-a0f7cd6a/test_unified_style"
+    },
+    {
+      "name": "test_yi_typewriter",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_yi_typewriter.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094703Z-a0f7cd6a/test_yi_typewriter"
+    }
+  ]
+}

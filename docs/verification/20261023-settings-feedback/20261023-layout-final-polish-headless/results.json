@@ -1,0 +1,30 @@
+[
+  {
+    "name": "test_settings_feedback_layout",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-final-polish-headless/test_settings_feedback_layout"
+  },
+  {
+    "name": "test_prelaunch_settings",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-final-polish-headless/test_prelaunch_settings"
+  },
+  {
+    "name": "test_feedback_presentation",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-final-polish-headless/test_feedback_presentation"
+  },
+  {
+    "name": "test_lab_terminal_pages",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-final-polish-headless/test_lab_terminal_pages"
+  }
+]

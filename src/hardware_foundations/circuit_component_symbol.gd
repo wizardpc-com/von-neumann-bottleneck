@@ -186,6 +186,8 @@ func shape_profile() -> StringName:
 
 
 func _draw() -> void:
+	if selection_active and component_kind != &"junction":
+		_draw_selection_halo()
 	match component_kind:
 		&"and":
 			_draw_and()
@@ -210,6 +212,27 @@ func _draw() -> void:
 	_draw_name_overlay()
 	if component_kind in [&"input", &"output", &"lamp"]:
 		_draw_terminal_value()
+
+
+## Selected parts sit in a soft pool of light under their body, so the choice
+## reads at a glance without a box around it; the outline still turns white.
+func _draw_selection_halo() -> void:
+	var center := Vector2(size.x * 0.5, display_height * 0.5)
+	var radius := Vector2(size.x * 0.42, display_height * 0.5)
+	if component_kind == &"lamp":
+		center = Vector2(size.x - 43.0, display_height * 0.5)
+		radius = Vector2(36.0, 36.0)
+	elif component_kind in [&"input", &"output"]:
+		var body: Rect2 = Rect2(terminal_body()[0], Vector2.ZERO)
+		for point: Vector2 in terminal_body(): body = body.expand(point)
+		center = body.get_center()
+		radius = body.size * 0.5 + Vector2(6.0, 6.0)
+	var glow := Color("8fdde8")
+	for step: int in range(6):
+		var t: float = 1.15 - step * 0.15
+		draw_set_transform(center, 0.0, radius * t / maxf(radius.y, 1.0))
+		draw_circle(Vector2.ZERO, radius.y, Color(glow, 0.09 + step * 0.025))
+	draw_set_transform(Vector2.ZERO)
 
 
 func visual_hit_test(point: Vector2, tolerance: float = 3.0) -> bool:

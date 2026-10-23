@@ -21,12 +21,12 @@ const ACCENTS := {
 const RULE_NAME := "RoomSkinRule"
 const COLOR_ITEMS := ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color",
 	"font_hover_pressed_color", "font_disabled_color", "font_placeholder_color", "font_selected_color",
-	"font_uneditable_color", "font_readonly_color", "caret_color", "selection_color", "default_color",
+	"font_uneditable_color", "font_unselected_color", "font_readonly_color", "caret_color", "selection_color", "default_color",
 	"font_outline_color", "title_color", "children_hl_line_color", "relationship_line_color",
 	"parent_hl_line_color", "guide_color", "font_separator_color", "icon_normal_color"]
 const STYLE_ITEMS := ["panel", "normal", "hover", "pressed", "focus", "disabled", "hover_pressed",
 	"read_only", "background", "fill", "bg", "selected", "selected_focus", "cursor", "cursor_unfocused",
-	"scroll", "grabber", "grabber_highlight", "grabber_pressed", "slider", "tab_selected",
+	"scroll", "grabber", "grabber_highlight", "grabber_pressed", "slider", "grabber_area", "grabber_area_highlight", "tab_selected",
 	"tab_unselected", "tab_hovered", "button_pressed", "custom_button", "title_button_normal"]
 const META := &"room_skin_restore"
 const RESIZE_CALLBACK := &"room_skin_resize_callback"
@@ -128,6 +128,11 @@ static func _skin_control(control: Control, skin: Dictionary) -> void:
 		for side: int in 4:
 			copy.set_border_width(side, mini(copy.get_border_width(side), 1 if item != "focus" else 2))
 		copy.border_color = role_color(box.border_color, skin, false)
+		# At rest an accent outline is a hairline hint; hover and focus keep it full.
+		if item in ["normal", "disabled", "panel", "read_only"] and copy.border_color.is_equal_approx(Color(skin.accent, box.border_color.a)):
+			copy.border_color = Color(skin.accent, box.border_color.a * 0.38)
+		elif item in ["normal", "panel"] and copy.border_color.get_luminance() < 0.3 and box.border_color.a > 0.01:
+			copy.border_color = Color(skin.line, box.border_color.a)
 		copy.shadow_color = Color(skin.ink, box.shadow_color.a * 0.18)
 		control.add_theme_stylebox_override(item, copy)
 	if control is ColorRect:

@@ -57,6 +57,9 @@ func _build() -> void:
 		box.set_corner_radius_all(0)
 		box.shadow_size = 0
 		box.bg_color = Palette.TERM_SCREEN
+		box.border_color = Color(0, 0, 0, 0)
+		# Full screen, but the shelf and its reader keep a readable width.
+		box.content_margin_left = 110; box.content_margin_right = 110; box.content_margin_top = 40; box.content_margin_bottom = 34
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 14); paper.add_child(column)
 	var header := HBoxContainer.new(); column.add_child(header)
 	var heading := _label(header, "档案架" if not english else "Archive shelf", 24, Palette.LAB_INK)
@@ -115,7 +118,9 @@ func _fill() -> void:
 	if first_open.is_empty():
 		close_button.call_deferred("grab_focus")
 		title_label.text = "还没有记录" if not english else "No records yet"
-		body_label.text = ""
+		var first: Dictionary = Fragments.FRAGMENTS[0] if not Fragments.FRAGMENTS.is_empty() else {}
+		var first_task: String = str(titles.get(str(first.get("requires", "")), ""))
+		body_label.text = ("完成「%s」后，第一页会出现在这里。" if not english else "The first page appears here after \"%s\".") % first_task if not first_task.is_empty() else ""
 		note_label.text = ""
 	else:
 		_show(first_open)
@@ -136,7 +141,7 @@ func _show(id: String) -> void:
 		if entry != null:
 			entry.text = "%02d  %s" % [int(entry.get_meta("page", 0)), Fragments.title(fragment, english)]
 			entry.remove_theme_color_override("font_color")
-			entry.add_theme_color_override("font_color", Palette.LAB_INK)
+			entry.add_theme_color_override("font_color", Palette.TERM_TEXT if terminal_page else Palette.LAB_INK)
 
 func _label(parent: Node, text: String, font_size: int, color: Color) -> Label:
 	var node := Label.new(); node.text = text; node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -146,14 +151,20 @@ func _label(parent: Node, text: String, font_size: int, color: Color) -> Label:
 func _style_button(button: Button, emphasised: bool) -> void:
 	button.custom_minimum_size.y = 36
 	button.add_theme_font_size_override("font_size", 15)
-	for pair: Array in [["normal", Palette.LAB_WALL], ["hover", Palette.LAB_LIGHT], ["pressed", Palette.LAB_SIDE], ["disabled", Color(0, 0, 0, 0)], ["focus", Color(0, 0, 0, 0)]]:
+	# On the terminal workspace the page is written in terminal colours, which the
+	# room skin then maps onto its light glass; on paper it keeps the lab palette.
+	var fills: Array = [Palette.TERM_PANEL, Palette.TERM_SCREEN_LIFT, Palette.TERM_SCREEN] if terminal_page else [Palette.LAB_WALL, Palette.LAB_LIGHT, Palette.LAB_SIDE]
+	for pair: Array in [["normal", fills[0]], ["hover", fills[1]], ["pressed", fills[2]], ["disabled", Color(0, 0, 0, 0)], ["focus", Color(0, 0, 0, 0)]]:
 		var box := StyleBoxFlat.new(); box.bg_color = pair[1]
-		box.border_color = Palette.ACCENT_DEEP if str(pair[0]) in ["focus", "hover"] else Palette.LAB_TRIM
-		box.set_border_width_all(1 if str(pair[0]) != "focus" else 2); box.set_corner_radius_all(8)
+		box.border_color = Palette.ACCENT_DEEP if str(pair[0]) in ["focus", "hover"] else (Palette.TERM_EDGE if terminal_page else Palette.LAB_TRIM)
+		# An unwritten page is only its number: no box competes with the open ones.
+		box.set_border_width_all(0 if str(pair[0]) == "disabled" else 1 if str(pair[0]) != "focus" else 2); box.set_corner_radius_all(8)
 		box.content_margin_left = 12; box.content_margin_right = 12
 		box.draw_center = str(pair[0]) != "focus"
 		button.add_theme_stylebox_override(str(pair[0]), box)
-	button.add_theme_color_override("font_color", Palette.LAB_INK if emphasised else Palette.LAB_INK_SOFT)
-	button.add_theme_color_override("font_hover_color", Palette.LAB_INK)
-	button.add_theme_color_override("font_focus_color", Palette.LAB_INK)
-	button.add_theme_color_override("font_disabled_color", Palette.with_alpha(Palette.LAB_INK_SOFT, 0.7))
+	var ink: Color = Palette.TERM_TEXT if terminal_page else Palette.LAB_INK
+	var soft: Color = Palette.TERM_MUTED if terminal_page else Palette.LAB_INK_SOFT
+	button.add_theme_color_override("font_color", ink if emphasised else soft)
+	button.add_theme_color_override("font_hover_color", ink)
+	button.add_theme_color_override("font_focus_color", ink)
+	button.add_theme_color_override("font_disabled_color", Palette.with_alpha(soft, 0.7))

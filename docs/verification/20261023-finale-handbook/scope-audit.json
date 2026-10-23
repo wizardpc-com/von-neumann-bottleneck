@@ -1,0 +1,22 @@
+{
+  "baseline": "Prior completed settings/feedback snapshot hashes, with its final source hashes applied",
+  "changed_existing_files": [
+    "src/ui/cinematic_player.gd",
+    "src/ui/mission_narrative_catalog.gd",
+    "src/ui/terminology_diagram.gd",
+    "src/ui/terminology_handbook.gd",
+    "src/ui/workbench_chrome.gd",
+    "src/ui/yi_introduction.gd",
+    "experiments/creation/workbench.gd",
+    "experiments/prediction/lab.gd",
+    "experiments/representation_region/region.gd",
+    "experiments/service_plan/lab.gd",
+    "localization/game.en.po",
+    "localization/game.zh_CN.po",
+    "tests/test_cinematics.gd",
+    "tests/test_learning_handbook.gd",
+    "tests/test_yi_introduction_media.gd"
+  ],
+  "unchanged_files": 1009,
+  "excluded_directory": "E:/VNB/video was not traversed or modified"
+}

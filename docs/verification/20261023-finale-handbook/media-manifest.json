@@ -1,0 +1,29 @@
+{
+  "sources": [
+    {
+      "name": "概念手册 (3).docx",
+      "sha256": "ebf68763123788177fd7e8a3a27f8dc089bfff08c70aa49e01f54f7f5eb76528"
+    },
+    {
+      "name": "7484f4071da30f4bd86db36b6e0fff70_raw.mp4",
+      "sha256": "547bf36300fb268e82cae6e9f3364d0b0034a5add7a67f48ce9f03f884d3825e"
+    }
+  ],
+  "asset": {
+    "path": "assets/cinematics/journey_complete.ogv",
+    "bytes": 59019118,
+    "sha256": "6342124802fb015e4c175488d0745e3e9c94cc846dfbc01819720fd5ff526e4c",
+    "width": 2560,
+    "height": 1440,
+    "fps": 30,
+    "video_frames": 1090,
+    "duration_seconds": 36.333333333333336,
+    "video_codec": "theora",
+    "audio_codec": "vorbis",
+    "audio_channels": 2,
+    "audio_rate": 44100
+  },
+  "conversion": "Original frame size and 30 fps retained; libtheora q7, g64, yuv420p; libvorbis q5; authored sound retained. Metadata stripped. No crop or frame removal.",
+  "decode": "FFmpeg complete video/audio decode returned 0 with empty error log. Godot natural decoder end verified in test_cinematics (50 checks).",
+  "trigger": "Complete journey, chapter10 task G3_keep, after successful explicit work save; persistent once history; loading old saves does not autoplay."
+}

@@ -1,0 +1,142 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/user_directory"
+    },
+    {
+      "name": "test_bilingual_typography",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_bilingual_typography.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_bilingual_typography"
+    },
+    {
+      "name": "test_immersive_lab",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_immersive_lab.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_immersive_lab"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_lab_journey"
+    },
+    {
+      "name": "test_lab_navigation_soak",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_navigation_soak.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_lab_navigation_soak"
+    },
+    {
+      "name": "test_lab_terminal_confirmation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_confirmation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_lab_terminal_confirmation"
+    },
+    {
+      "name": "test_lab_terminal_pages",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_pages.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_lab_terminal_pages"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_prelaunch_settings",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prelaunch_settings.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_prelaunch_settings"
+    },
+    {
+      "name": "test_settings_language_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_settings_language_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_settings_language_input"
+    },
+    {
+      "name": "test_task_tree_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_task_tree_presentation"
+    },
+    {
+      "name": "test_terminal_language_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_language_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_terminal_language_input"
+    },
+    {
+      "name": "test_terminal_presentation_polish",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_presentation_polish.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_terminal_presentation_polish"
+    },
+    {
+      "name": "test_terminal_task_titles",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_task_titles.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_terminal_task_titles"
+    },
+    {
+      "name": "test_ui_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ui_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_ui_convergence"
+    },
+    {
+      "name": "test_yi_typewriter",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_yi_typewriter.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T094819Z-dd4f63ff/test_yi_typewriter"
+    }
+  ]
+}

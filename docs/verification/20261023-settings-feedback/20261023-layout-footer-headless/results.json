@@ -1,0 +1,23 @@
+[
+  {
+    "name": "test_settings_feedback_layout",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-footer-headless/test_settings_feedback_layout"
+  },
+  {
+    "name": "test_feedback_presentation",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-footer-headless/test_feedback_presentation"
+  },
+  {
+    "name": "test_candidate_feedback",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-layout-footer-headless/test_candidate_feedback"
+  }
+]

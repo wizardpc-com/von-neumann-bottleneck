@@ -1,0 +1,27 @@
+[
+  {
+    "name": "test_hardware_settings_input",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-gpu/test_hardware_settings_input"
+  },
+  {
+    "name": "test_chapter_settings_input",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-gpu/test_chapter_settings_input"
+  },
+  {
+    "name": "test_creation_sample_editing",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Pending sample keeps its existing first position when both fields are unsubmitted",
+      "ERROR: Pending sample keeps its existing first position when both fields are unsubmitted",
+      "FAIL: [\"Pending sample keeps its existing first position when both fields are unsubmitted\", \"Pending sample keeps its existing first position when both fields are unsubmitted\"]"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261023-flow-gpu/test_creation_sample_editing"
+  }
+]

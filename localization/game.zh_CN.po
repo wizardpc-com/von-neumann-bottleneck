@@ -16,7 +16,7 @@ msgid "common.auto_layout"
 msgstr "自动布局"
 
 msgid "common.chapter_select"
-msgstr "回到实验室"
+msgstr "实验室"
 
 msgid "common.open_named"
 msgstr "打开%s"
@@ -1027,7 +1027,7 @@ msgid "hardware.toolbar.cancel_cable.tooltip"
 msgstr "取消当前跟随鼠标的接线、选框或元件放置。"
 
 msgid "hardware.toolbar.level_map"
-msgstr "章节地图"
+msgstr "旅程地图"
 
 msgid "hardware.toolbar.level_map.tooltip"
 msgstr "打开硬件序章地图，查看已完成、已解锁和仍需前置元件的关卡。"
@@ -2097,7 +2097,7 @@ msgid "system.chapter.subtitle"
 msgstr "机器已经运转，时间花在了哪里？"
 
 msgid "system.action.map"
-msgstr "章节地图"
+msgstr "旅程地图"
 
 msgid "system.action.auto_wire"
 msgstr "标准布线"
@@ -2988,10 +2988,10 @@ msgid "chapter2.status.capstone_complete"
 msgstr "已达到目标。现在可以结束章节，也可以继续压低 周期 与成本。"
 
 msgid "chapter2.map.open"
-msgstr "章节地图"
+msgstr "旅程地图"
 
 msgid "chapter2.map.return"
-msgstr "返回地图"
+msgstr "返回旅程地图"
 
 msgid "chapter2.map.intro.title"
 msgstr "调查路线"
@@ -3759,13 +3759,13 @@ msgid "terminology.term.high_impedance.title"
 msgstr "高阻态（High-Z / Z）"
 
 msgid "terminology.term.high_impedance.body"
-msgstr "端口暂时不驱动 0 或 1 的状态，像是从线路上断开。它不是第三个布尔值；界面用灰色显示。"
+msgstr "端口暂时不驱动0或1的状态，界面用灰色显示。它不是第三个布尔值。\n\n已连接的Z与没有接线不同：本游戏零根输入线按低电平处理；连接明确的Z时仍保持高阻。"
 
 msgid "terminology.term.short_circuit.title"
 msgstr "信号冲突（Short Circuit）"
 
 msgid "terminology.term.short_circuit.body"
-msgstr "同一输入同时被低电平和高电平驱动。模拟器会把它报告为短路或驱动冲突，要求玩家修改连接。"
+msgstr "同一信号网络同时受到逻辑0与逻辑1的有效驱动，会报告短路／驱动冲突。\n\n相同有效值可以一致，高阻Z不参与有效驱动。修改造成相反驱动的连接；不要把所有多源连接都当成短路。"
 
 msgid "terminology.term.logic_gate.title"
 msgstr "逻辑门（Logic Gate）"
@@ -3831,13 +3831,13 @@ msgid "terminology.term.combinational_loop.title"
 msgstr "组合环路（Combinational Loop）"
 
 msgid "terminology.term.combinational_loop.body"
-msgstr "组合逻辑的输出在没有存储元件隔开的情况下又回到自身输入。它可能无法得到稳定结果，因此模拟器会予以阻止。"
+msgstr "组合逻辑的输出在没有存储边界隔开的情况下又回到自身输入。普通组合任务不允许这样的环路。\n\nSR锁存器挑战允许规定的反馈结构，但仍禁止S=R=1、冲突和无法稳定的振荡。不是画出一个圈就能获得合法记忆。"
 
 msgid "terminology.term.tick.title"
 msgstr "tick / 传播步"
 
 msgid "terminology.term.tick.body"
-msgstr "电路信号向前传播的一步。门电路经过若干 tick 后稳定；tick 用于观察逻辑传播，不等同于系统章节中的 CPU cycle。"
+msgstr "逻辑仿真的传播步，不是游戏渲染的一帧。本模型基本逻辑门增加传播tick，普通导线和分支点不增加tick。\n\n线更短、画得更直，或把回放调快，都不会改变仿真结果；系统章节另用cycle记录硬件操作成本。"
 
 msgid "terminology.term.truth_table.title"
 msgstr "真值表（Truth Table）"
@@ -3867,7 +3867,7 @@ msgid "terminology.term.official_test.title"
 msgstr "完整验证（本关测试）"
 
 msgid "terminology.term.official_test.body"
-msgstr "关卡规定的完整测试集合。只有全部官方用例满足正确性与目标条件，关卡才会判定通过。"
+msgstr "运行本关规定的全部官方用例，检查实际输出和任务目标。全部满足后，才获得本关通过证据。\n\n这证明当前方案通过这些公开约束，不是对所有可能输入的普遍保证。改线后，旧通过证据不再代表新方案。"
 
 msgid "terminology.term.trace.title"
 msgstr "执行记录（Trace）"
@@ -6986,3 +6986,162 @@ msgstr "壹的文字速度"
 
 msgid "settings.frame_label"
 msgstr "画面帧率"
+
+msgid "settings.window_label"
+msgstr "窗口"
+
+
+msgid "terminology.quick_start"
+msgstr "操作入门"
+
+
+msgid "terminology.category.later"
+msgstr "表示、服务与创造"
+
+
+msgid "terminology.directory.operations"
+msgstr "操作速查"
+
+
+msgid "terminology.directory.representation"
+msgstr "分块与表示"
+
+
+msgid "terminology.directory.service"
+msgstr "状态与服务"
+
+
+msgid "terminology.directory.prediction"
+msgstr "地址预测"
+
+
+msgid "terminology.directory.creation"
+msgstr "学习、预测与创造"
+
+
+msgid "terminology.term.operation_wiring.title"
+msgstr "先放置，再接线"
+
+
+msgid "terminology.term.operation_wiring.body"
+msgstr "① 从元件台拖到画布，或点击元件后连续放置。\n② 从输出端口接到同位宽输入；已有线可拉出分支。交叉处没有接点，就不相连。\n③ 右键或 Esc 取消当前放置／接线；Windows 用 Ctrl+Z 撤销、Ctrl+Y 重做，Mac 用 ⌘Z、⇧⌘Z。\n\n先接输入→非门→灯，切换输入，看输出是否反转。"
+
+
+msgid "terminology.term.operation_review.title"
+msgstr "调试→测试→封装"
+
+
+msgid "terminology.term.operation_review.body"
+msgstr "① 先读任务规格，确认端口、位宽和目标。\n② 调试指定输入，播放或单步查看信号经过哪里。一个样例正确，不等于本关通过。\n③ 运行本关完整测试。所有官方用例及目标通过后，再按任务提供的操作封装。\n\n需要帮助时逐层打开 Hint。调慢回放只便于观察，不会改善成绩；改线后须重新测试。"
+
+
+msgid "terminology.term.block_representation.title"
+msgstr "分块表示"
+
+
+msgid "terminology.term.block_representation.body"
+msgstr "把同一份64字节资产切成连续、不重叠的块，每个地址恰好属于一块。每块可选自己的编码。\n\n小块可能少读无关数据，却增加目录开销；大块减少目录，也可能让一次点读搬来更多字节。用同一方案检查全部订单，结果必须仍逐字节一致。"
+
+
+msgid "terminology.term.raw_rle.title"
+msgstr "RAW 与 RLE"
+
+
+msgid "terminology.term.raw_rle.body"
+msgstr "RAW 直接存原字节；RLE 把连续相同值记成“次数、值”。重复段可能变短，变化频繁时反而可能更大。\n\n本章每块还有目录成本，RLE 有头部和解码工作。不要只比较压缩后长度：同时看存储、搬运和解码周期。"
+
+
+msgid "terminology.term.online_preparation.title"
+msgstr "在线准备"
+
+
+msgid "terminology.term.online_preparation.body"
+msgstr "使用表示前，先读取源资产、编码并写出服务数据。这些发生在线上的工作要计入成本，不是免费的预处理。\n\n八次冷扫描可共同准备一次，但每个客户的缓存都重新开始。比较短读和多次服务时，检查准备成本是否被真实复用摊薄。"
+
+
+msgid "terminology.term.persistent_state.title"
+msgstr "持续状态"
+
+
+msgid "terminology.term.persistent_state.body"
+msgstr "每条请求流保留自己的八个数值。处理下一步时，要接着这条流上一次的状态计算，不能换成另一条流的状态。\n\n驻留空间有限：怎样分组和排列请求，会影响同一状态能否继续驻留。每条流内部的步骤顺序必须保持。"
+
+
+msgid "terminology.term.dirty_writeback.title"
+msgstr "脏状态与写回"
+
+
+msgid "terminology.term.dirty_writeback.body"
+msgstr "状态被更新后，驻留副本与后备存储不同，就成为脏状态。逐出前需要编码并写回，结束时也不能免费丢掉最终状态。\n\n看状态读取、打包、传输和写回事件；少读一次不一定省钱，若因此产生更多写回仍可能更慢。"
+
+
+msgid "terminology.term.response_latency.title"
+msgstr "响应延迟"
+
+
+msgid "terminology.term.response_latency.body"
+msgstr "从请求就绪到结果返回所经过的周期。本服务模型的24条请求都在周期0就绪；结果返回晚的请求，等待就更久。\n\n大组可减少状态切换，却可能推迟首个响应。流量少不等于响应及时，要同时检查公开响应限制。"
+
+
+msgid "terminology.term.quantization.title"
+msgstr "量化"
+
+
+msgid "terminology.term.quantization.body"
+msgstr "用较少的离散数值表示状态。本章8位表示把数值放在固定整数网格上，可能节省字节，也会改变数值。\n\n初始准备和每次更新都执行规定的量化，不是只在逐出时舍入。方案必须同时满足流量、响应和质量约束；不能把有损结果叫作完全复原。"
+
+
+msgid "terminology.term.address_prediction.title"
+msgstr "下一地址预测"
+
+
+msgid "terminology.term.address_prediction.body"
+msgstr "只根据已经观察到的需求地址，猜下一次会访问哪里。规则可利用步长和重复模式；猜测不能当作已经发生的历史。\n\n预测触发的提前读取会占总线和缓存。规律改变时可能猜错，比较真实等待、额外搬运和逐出，不只看命中次数。"
+
+
+msgid "terminology.term.context_model.title"
+msgstr "上下文规则盒"
+
+
+msgid "terminology.term.context_model.body"
+msgstr "从所选A／B／C／D样例中，统计有限上下文之后各符号出现的次数。记忆长度决定用多长的已见片段查规则。\n\n它是本游戏的有限计数模型，不是通用大模型。修改样例不会自动重学；显式学习后，再检查新规则和成本。"
+
+
+msgid "terminology.term.predictive_packet.title"
+msgstr "可复原的预测包"
+
+
+msgid "terminology.term.predictive_packet.body"
+msgstr "利用规则预测，把实际原文写成可解码的数据包。预测不同于原文时，包仍须携带足够的信息，才能按相同规则完整恢复。\n\n检查实际包字节、恢复结果和准备／解码成本。只给出压缩率，或只会生成相似内容，都不能证明原文已被无损保存。"
+
+
+msgid "terminology.term.commit_reveal.title"
+msgstr "先提交，再揭示"
+
+
+msgid "terminology.term.commit_reveal.body"
+msgstr "先用当前已见片段提交下一符号的预测，再揭示真实符号并比较。提交时不能偷看尚未揭示的真值。\n\n随后真实符号进入已见上下文。预测对错只是证据的一部分，还要看所用规则、记忆和实际准备成本。"
+
+
+msgid "terminology.term.output_feedback.title"
+msgstr "输出反馈生成"
+
+
+msgid "terminology.term.output_feedback.body"
+msgstr "从起始片段出发，用规则选择下一个符号，再把这次输出接回上下文，继续生成。后续路径取决于已经生成的输出。\n\n这里没有唯一标准续文。相同模型、合法配方和种子可复现结果；比较配方变化产生的真实光纹。"
+
+
+msgid "terminology.term.work_recipe.title"
+msgstr "作品与配方"
+
+
+msgid "terminology.term.work_recipe.body"
+msgstr "配方描述怎样生成；作品保存一次明确选择留下的实际输出和对应证据。改配方或生成新变化，不会自动替换旧作品。\n\n想留下这次结果，先确认它来自当前配方，再命名并选择保存。把“已生成”“草稿已保存”和“作品已留下”分开检查。"
+
+
+msgid "terminology.term.operation_navigation.title"
+msgstr "实验室与常用功能"
+
+
+msgid "terminology.term.operation_navigation.body"
+msgstr "实验室终端可继续当前任务，旅程地图可选关并查看任务规格。档案架阅读已开启的旅程记录；概念与操作图解在独立的“手册”入口，完成进度看旅程板／成就，不把档案页当作通关证据。\n\n作品墙回看已经保存的作品。进入任务后，先读目标；需要解题线索用 Hint，序章也可按 F1。返回实验室或地图仍会经过任务自身的未保存保护。\n\nF10 打开设置：可调文字速度、语言、音效与环境声音量、窗口／全屏、帧率和减少动态效果。Esc 先关闭当前上层页面。\n\nF8 打开反馈：可保留现场与意见。普通模式是否分享须主动选择；离线试玩先记录到本地，再按需要导出反馈包，不等于自动上传。"

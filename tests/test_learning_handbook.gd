@@ -35,7 +35,7 @@ func _run() -> void:
 	handbook.open_handbook()
 	check(handbook.visible_term_ids.size() == 3 and not handbook.future_toggle.button_pressed, "Future subjects do not flood the initial table of contents.")
 	handbook.open_handbook(&"cache")
-	check(handbook.available_term_ids.size() == 21, "First-lesson specifications remain available behind the three recommended topics.")
+	check(handbook.available_term_ids.filter(func(id: StringName) -> bool: return handbook._term_definition(id).category != &"later").size() == 24, "First-lesson specifications and three operation guides remain available behind the three recommended topics.")
 	check(not handbook.is_term_unlocked(&"cache") and not handbook.detail_diagram.visible, "Opening a future term directly cannot reveal its diagram.")
 	check(handbook.detail_body_label.text.contains(localization.text(&"terminology.locked.body", [handbook._lesson_title(&"cache")])), "Future topics explain the actual lesson that opens them.")
 	check(save.game_player_content.canonical_signature() == player_signature, "Reading the handbook cannot mark lessons complete or install components.")
@@ -76,13 +76,14 @@ func _run() -> void:
 		locality.game_completed[level] = true
 	handbook.open_handbook()
 	check(handbook.is_term_unlocked(&"data_layout") and not handbook.is_term_unlocked(&"copy_cost"), "Layout rules appear at entry; conversion waits for its task.")
-	check(handbook.available_term_ids.size() == 93, "Original campaign completion opens 90 original terms, two Chapter 3 arrival terms and one Chapter 4 layout term, not later branch concepts.")
+	check(handbook.available_term_ids.filter(func(id: StringName) -> bool: return handbook._term_definition(id).category != &"later").size() == 96, "Original campaign completion opens 90 original terms, three operation guides, two Chapter 3 arrival terms and one Chapter 4 layout term.")
 	check(not handbook.is_term_unlocked(&"prefetch"), "Entering Chapter 3 does not introduce the later prefetch branch early.")
 	var overlap: Node = root.get_node("OverlapChapter")
 	for level: String in preload("res://src/overlap_chapter/overlap_catalog.gd").IDS:
 		_check_recommendations(handbook, "overlap", level)
 		overlap.game_solutions[level] = {} # Availability fixture only, never a played solution.
 	overlap.game_solutions.clear()
+	_check_later_guidance(handbook, save, localization)
 	for context: StringName in handbook_type.RECOMMENDED:
 		check(handbook_type.RECOMMENDED[context].size() <= 3, "Each lesson recommends at most three subjects: "+String(context))
 	root.get_node("GameMode").set_mode(&"test")
@@ -122,6 +123,43 @@ func _run() -> void:
 func _check_required_links(handbook: Variant, text: String, level: String) -> void:
 	for term: StringName in LinkedTextType.linked_term_ids(text):
 		check(handbook.is_term_unlocked(term), "Required specification is readable before solving %s: %s" % [level, term])
+
+
+func _check_later_guidance(handbook: Variant, save: Node, localization: Node) -> void:
+	var signature: String = save.game_player_content.canonical_signature()
+	for locale: String in ["zh_CN", "en"]:
+		localization.set_locale(locale)
+		handbook.set_lesson("hardware", "tutorial")
+		handbook.quick_start_button.pressed.emit()
+		check(handbook.detail_title_label.text == localization.text(&"terminology.term.operation_wiring.title"), "Quick start opens actual wiring guidance in " + locale)
+		handbook.open_handbook(&"operation_review")
+		check(handbook.detail_diagram.visible and handbook.is_term_unlocked(&"operation_review"), "Official testing guidance is illustrated and readable from the first lesson")
+		handbook.open_handbook(&"operation_navigation")
+		var navigation_copy: String = handbook.detail_body_label.text
+		var functions: Array = ["终端", "旅程地图", "档案", "手册", "作品", "F10", "F8", "Hint", "本地"] if locale == "zh_CN" else ["terminal", "Journey map", "archive", "Handbook", "work", "F10", "F8", "Hint", "locally"]
+		for feature: String in functions:
+			check(feature in navigation_copy, "Functional quick guide explains " + feature + " in " + locale)
+		check(handbook.detail_diagram.visible and handbook.detail_diagram.diagram_id == &"operation_navigation", "Functional quick guide presents actual laboratory entry purposes")
+		check(("主动选择" in navigation_copy and "不等于自动上传" in navigation_copy) if locale == "zh_CN" else ("explicit choice" in navigation_copy and "not automatic upload" in navigation_copy), "Feedback guidance distinguishes sharing consent from local recording")
+		for context: StringName in handbook_type.RECOMMENDED:
+			var domain: String = String(context).get_slice(":", 0)
+			if domain not in ["representation", "service", "prediction", "creation"]: continue
+			handbook.set_lesson(domain, String(context).get_slice(":", 1))
+			handbook.open_handbook()
+			check(not handbook.visible_term_ids.is_empty() and handbook.visible_term_ids.size() <= 3, "Later task has focused guidance: " + String(context))
+			for term: StringName in handbook_type.RECOMMENDED[context]:
+				check(handbook.is_term_unlocked(term) and term in handbook.visible_term_ids, "Current task provides its required concept without completion: " + String(term))
+				check(not handbook._lesson_title(term).is_empty() and not handbook._lesson_title(term).begins_with("terminology."), "Later lock label names an actual task: " + String(term))
+				var definition: Dictionary = handbook._term_definition(term)
+				check(definition.get("diagram", &"") == term and not localization.text(definition.body).begins_with("terminology."), "Later concept has its own diagram and translated explanation: " + String(term))
+		# The task-tree snapshot is read-only; without its availability or a current
+		# later task, a future topic still uses the ordinary locked reading surface.
+		handbook.set_lesson("hardware", "tutorial")
+		handbook._later_available_tasks.clear()
+		handbook._show_term(&"work_recipe")
+		check(not handbook.detail_diagram.visible and handbook.detail_body_label.text.contains(handbook._lesson_title(&"work_recipe")), "Locked work recipes name their real Keep task without revealing the diagram")
+	check(save.game_player_content.canonical_signature() == signature, "Operation and later guidance never award campaign progress")
+	handbook.set_lesson("hardware", "tutorial")
 
 
 func _check_recommendations(handbook: Variant, chapter: String, level: String) -> void:

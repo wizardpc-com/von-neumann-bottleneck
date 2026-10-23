@@ -204,6 +204,9 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if is_instance_valid(WindowMode.settings_layer):
+		graph_pan_keys.clear()
+		return
 	if terminology_handbook != null and terminology_handbook.handle_escape(event):
 		get_viewport().set_input_as_handled()
 		return
@@ -353,7 +356,7 @@ func _process(delta: float) -> void:
 
 func _update_graph_keyboard_pan(delta: float) -> void:
 	if current_level_id.is_empty() or graph == null or not graph.is_visible_in_tree() \
-			or _system_keyboard_focus_accepts_text():
+			or is_instance_valid(WindowMode.settings_layer) or _system_keyboard_focus_accepts_text():
 		graph_pan_keys.clear()
 		return
 	var direction := Vector2(

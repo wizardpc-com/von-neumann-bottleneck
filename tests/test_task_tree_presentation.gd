@@ -11,12 +11,18 @@ func run() -> void:
 		var scene: Control = load("res://src/campaign/task_tree.tscn").instantiate(); root.add_child(scene)
 		scene.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT); scene.size=Vector2(1280,720)
 		for frame: int in range(4): await process_frame
-		var center: Vector2=(scene.canvas.positions[nav.selected]+scene.canvas.NODE_SIZE/2)*scene.canvas.magnification+scene.canvas.pan
-		check(center.distance_to(scene.canvas.size/2)<1,"Initial Continue target stays centered after bilingual container layout.")
+		# The Continue target is framed inside its chapter: fully visible, and a
+		# first task does not leave half the view empty left of the route.
+		var target := Rect2(scene.canvas.positions[nav.selected]*scene.canvas.magnification+scene.canvas.pan,scene.canvas.NODE_SIZE*scene.canvas.magnification)
+		check(Rect2(Vector2.ZERO,scene.canvas.size).encloses(target),"Initial Continue target is fully visible after bilingual container layout.")
+		var tray: Rect2 = scene.canvas.region_rects[0]
+		var tray_left: float = tray.position.x*scene.canvas.magnification+scene.canvas.pan.x
+		check(tray.size.x*scene.canvas.magnification <= scene.canvas.size.x or (tray_left >= -1.0 and tray_left <= 40.0),"A first task frames its chapter from the left edge.")
+		var framed_center: Vector2=(scene.canvas.size/2-scene.canvas.pan)/scene.canvas.magnification
 		scene.size=Vector2(1400,900)
 		for frame: int in range(4): await process_frame
-		center=(scene.canvas.positions[nav.selected]+scene.canvas.NODE_SIZE/2)*scene.canvas.magnification+scene.canvas.pan
-		check(center.distance_to(scene.canvas.size/2)<1,"Resizing preserves the centered task.")
+		var after: Vector2=(scene.canvas.size/2-scene.canvas.pan)/scene.canvas.magnification
+		check(after.distance_to(framed_center)<1,"Resizing preserves the framed map point.")
 		scene.size=Vector2(1280,720)
 		for row: Dictionary in scene.rows:
 			scene._select(row.key)

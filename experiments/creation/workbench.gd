@@ -17,6 +17,7 @@ const Typography = preload("res://src/ui/ui_typography.gd")
 var work_focus: Window
 var work_focus_return: Control
 var session = Session.new()
+var terminology_handbook: Control
 var english: bool = false
 var task: int = 0
 var commission: int = -1
@@ -104,6 +105,7 @@ var recovery_dialog: ConfirmationDialog
 var writer_dialog: ConfirmationDialog
 var leave_dialog: ConfirmationDialog
 var sample_leave_dialog: ConfirmationDialog
+var initial_leave_dialog: ConfirmationDialog
 
 func text2(zh: String, en: String) -> String:
 	return en if english else zh
@@ -155,6 +157,9 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST: request_leave(false)
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open():
+		if terminology_handbook.handle_escape(event): get_viewport().set_input_as_handled()
+		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		request_leave(true)
@@ -230,7 +235,8 @@ func build() -> void:
 	var title: Label = label(preload("res://src/campaign/journey_naming.gd").chapter_ordinal(8 + task / 3) + " · " + str(chapter_names[clampi(task / 3,0,2)]),header,22)
 	title.clip_text = true
 	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	title.custom_minimum_size.x = 150 if not english else 190
+	# Long enough for "Chapter 10 · Creation" without trimming.
+	title.custom_minimum_size.x = 150 if not english else 240
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_build_arc_stepper(header)
@@ -243,6 +249,8 @@ func build() -> void:
 	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	if not writable: _build_writer_controls(page)
 	var navigation := HBoxContainer.new()
+	navigation.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
+	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, navigation, "creation", Catalog.IDS[task])
 	page.add_child(navigation)
 	task_choice = OptionButton.new()
 	task_choice.name = "Unit"
@@ -1105,6 +1113,14 @@ func keep_work() -> void:
 	connection_records["work"] = kept_work.duplicate(true)
 	refresh()
 	works.select(session.data.works.size()-1)
+	if task == 8 and preload("res://experiments/candidate_session/context.gd").full_journey():
+		call_deferred("_present_ending_cinematic")
+
+func _present_ending_cinematic() -> void:
+	var movie: CinematicPlayer = preload("res://src/ui/cinematic_player.gd").present_once(self, &"journey_complete")
+	if movie != null:
+		await movie.finished
+		movie.queue_free()
 
 func play_work() -> void:
 	var result: Dictionary = session.play_work(selected_work())
@@ -1624,6 +1640,20 @@ func _build_leave_dialog() -> void:
 		if editor != null: editor.hide()
 		request_saved_draft_leave())
 	add_child(sample_leave_dialog)
+	initial_leave_dialog = ConfirmationDialog.new()
+	initial_leave_dialog.name = "PendingInitialProtection"
+	initial_leave_dialog.title = text2("起始文字尚未提交", "Unsubmitted initial context")
+	initial_leave_dialog.dialog_autowrap = true
+	initial_leave_dialog.dialog_text = text2("起始栏中有无法识别的符号，这段文字尚未保存。返回修改，或放弃这段文字并继续离开。", "Some symbols in Initial are not recognized, so this text has not been saved. Return to edit it, or discard it and continue leaving.")
+	initial_leave_dialog.ok_button_text = text2("放弃文字再离开", "Discard text and continue leaving")
+	initial_leave_dialog.cancel_button_text = text2("返回编辑", "Return to editing")
+	initial_leave_dialog.canceled.connect(func() -> void: call_deferred("focus_initial_editor"))
+	initial_leave_dialog.confirmed.connect(func() -> void:
+		var input := find_child("Initial",true,false) as LineEdit
+		if input != null: input.text = Catalog.symbols(session.data.draft.initial)
+		refresh()
+		request_saved_draft_leave())
+	add_child(initial_leave_dialog)
 	leave_dialog = ConfirmationDialog.new()
 	leave_dialog.name = "LeaveProtection"
 	leave_dialog.title = text2("草稿尚未保存","Unsaved draft")
@@ -1650,12 +1680,27 @@ func has_pending_sample_text() -> bool:
 	return not parsed.ok or parsed.symbols != sample_edit_source
 
 func request_saved_draft_leave() -> void:
+	if not valid_initial_input():
+		initial_leave_dialog.popup_centered(Vector2i(560,250))
+		return
 	if session.dirty:
 		leave_dialog.dialog_text = text2("保存草稿后离开，或放弃未保存的草稿修改。已有作品不受影响。", "Save the draft before leaving, or discard unsaved draft edits. Earlier works are kept.")
 		if can_keep_visible_work() and not visible_generation_saved():
 			leave_dialog.dialog_text += "\n\n" + text2("当前输出尚未保存为作品。想留下它，请返回编辑，命名后保存。", "This output is not yet a saved work. To keep it, return to editing, name it and save it.")
 		leave_dialog.popup_centered(Vector2i(560,230))
 	else: finish_leave()
+
+func focus_initial_editor() -> void:
+	var tabs := find_child("DraftTabs",true,false) as TabContainer
+	if tabs != null: tabs.current_tab = 2
+	await get_tree().process_frame
+	var input := find_child("Initial",true,false) as LineEdit
+	if input == null or not input.is_visible_in_tree(): return
+	var ancestor: Node = input.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer: ancestor.ensure_control_visible(input)
+		ancestor = ancestor.get_parent()
+	input.grab_focus()
 
 func finish_leave() -> void:
 	if leaving_to_hub:

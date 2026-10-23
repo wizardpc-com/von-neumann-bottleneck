@@ -1,0 +1,22 @@
+{
+  "changed_existing_files": [
+    "src\\lab\\room_page_skin.gd",
+    "src\\playtest\\offline_feedback.gd",
+    "src\\playtest\\playtest_moments.gd",
+    "src\\ui\\prototype_hub.gd",
+    "tests\\test_prelaunch_settings.gd",
+    "tests\\test_room_page_skin_lifecycle.gd"
+  ],
+  "unchanged_baseline_files": 1010,
+  "new_runtime_files": [],
+  "new_assets": [
+    "assets\\ui\\feedback_note.svg",
+    "assets\\ui\\feedback_privacy.svg",
+    "assets\\ui\\feedback_scene.svg",
+    "assets\\ui\\settings_audio.svg",
+    "assets\\ui\\settings_display.svg",
+    "assets\\ui\\settings_support.svg",
+    "assets\\ui\\settings_text.svg"
+  ],
+  "video": "excluded from traversal and writes"
+}

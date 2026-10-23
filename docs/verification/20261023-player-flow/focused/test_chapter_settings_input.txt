@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Overlap redo resumes after Settings
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] later_input (res://tests/test_chapter_settings_input.gd:125)
+       [2] key (res://tests/test_chapter_settings_input.gd:17)
+FAIL: chapter Settings input 26 checks, 1 failures

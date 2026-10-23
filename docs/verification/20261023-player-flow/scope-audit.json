@@ -1,0 +1,57 @@
+{
+  "runtime_changed": [
+    "experiments/creation/workbench.gd",
+    "src/hardware_foundations/hardware_foundations.gd",
+    "src/layout_chapter/layout_chapter.gd",
+    "src/overlap_chapter/overlap_chapter.gd",
+    "src/system_lab/system_lab.gd",
+    "src/ui/prototype_hub.gd"
+  ],
+  "unchanged_runtime_assets_localization": 547,
+  "files": {
+    "src/ui/prototype_hub.gd": {
+      "sha256": "a1c361dfe9ccaef73e0a73203b9ba29a1d366289ffdfa9d78a0bb7b1f6875ef6",
+      "matches_final_qa_copy": true
+    },
+    "src/hardware_foundations/hardware_foundations.gd": {
+      "sha256": "b9f23cd11556c7ad7df25ecece09edefc6b30fa230c47bc805a7384ba50e64f9",
+      "matches_final_qa_copy": true
+    },
+    "experiments/creation/workbench.gd": {
+      "sha256": "ab6ef705a7a4b4990f7dba14d2bc48a56086a673e269ffd253b8b12d967ff3cc",
+      "matches_final_qa_copy": true
+    },
+    "src/system_lab/system_lab.gd": {
+      "sha256": "1ae8ce310f8b954cb9b4ca5a28635aa79cf80e1b3489422b78759a74dc992dcd",
+      "matches_final_qa_copy": true
+    },
+    "src/overlap_chapter/overlap_chapter.gd": {
+      "sha256": "afecb09cf74172980c9c504d8c6d6f7c9459cde06cd40d7a9c1c876a2208d82c",
+      "matches_final_qa_copy": true
+    },
+    "src/layout_chapter/layout_chapter.gd": {
+      "sha256": "391374fcd1f1910736d87f8dc6564e757a14567a4a6a12e9b9a0f33aeb36b1a6",
+      "matches_final_qa_copy": true
+    },
+    "tests/test_workbench_escape.gd": {
+      "sha256": "18dedb79c6e5e00ba71561d51b052fd56c11d488c863156bc2f22da53ced7a0a",
+      "matches_final_qa_copy": true
+    },
+    "tests/test_creation_sample_editing.gd": {
+      "sha256": "96c569c0d631aeeb63f5401ce4d65222391e5c32e9d6dbcb8c7096c36e222ce9",
+      "matches_final_qa_copy": true
+    },
+    "tests/test_hardware_settings_input.gd": {
+      "sha256": "da3f22d3bd446119a832385bf8b4f6962ca9196824616c9a12e1bfdac395385b",
+      "matches_final_qa_copy": true
+    },
+    "tests/test_chapter_settings_input.gd": {
+      "sha256": "f1d294c8c3a242f6844f821bf476a51167bb2b8e85180ed6c4d76a6aee5a765c",
+      "matches_final_qa_copy": true
+    },
+    "tests/fixture_settings_quit_probe.gd": {
+      "sha256": "66658908200b3e92e7a3737d00540aeb1375808c7dcb91d1335dae8236cab11c",
+      "matches_final_qa_copy": true
+    }
+  }
+}

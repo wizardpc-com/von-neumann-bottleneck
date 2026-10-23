@@ -1,0 +1,16 @@
+{
+  "src/ui/prototype_hub.gd": "842d01360f45568df93a0b2b9ec0ee4c202dcc0b3973fad03ca173ace355929d",
+  "src/playtest/playtest_moments.gd": "b92baa59272dffa96876ef659f3b3ae97fc7dd9cb8092fb195fbe29ce90d731a",
+  "src/playtest/offline_feedback.gd": "297c7456de71cb12f22ca1f43a8b02b5c203376c09ea12a9793998c44d4089d6",
+  "src/lab/room_page_skin.gd": "8bee1b36f22c5f9291b85a09a25410e538c40b7af4d262bee3130d5f8c829205",
+  "tests/test_settings_feedback_layout.gd": "e0d876a32600fdbee5625b47ee3fd40a4829d41bdc716f4a1b2859de0c972547",
+  "tests/test_prelaunch_settings.gd": "421aff5002bc4617b7b0863d8d9f11888279ddd0692310009c8ddb6ff61da8b8",
+  "tests/test_room_page_skin_lifecycle.gd": "d57d13604e992397dbb5b1eb90c08b4f7a5a54a7c034720fe80aae5e2b919b39",
+  "assets/ui/feedback_note.svg": "5def1124dc2a201f85f9a169251085a1eddbb39f13cf9d91b40792862d42d82e",
+  "assets/ui/feedback_privacy.svg": "dfa68d4422b5f685e29adb951d8668618fa1e3be079188a488b0699bac5d5007",
+  "assets/ui/feedback_scene.svg": "0c491efc16bc467a7b2fc2619a17fc4fb7c4b08a9ea4e7e550fb08df37080582",
+  "assets/ui/settings_audio.svg": "7dc05c75ef2dee581692ce82f273e807b83d16c2e8c4a66ca9132155e76fe246",
+  "assets/ui/settings_display.svg": "4b8f7ac7b28a072ba8989544c01f6c52cc0ab41b49fe084dc255a19d2382d2f3",
+  "assets/ui/settings_support.svg": "b0c62eaa42959adffee0a9ecad6d5dd4e6b1d46eed8606d126b3ff40b5071ccf",
+  "assets/ui/settings_text.svg": "59a27e896c8030cb4633ec763a69df399cf6906c59023d2c52b42cf2ecf5a5c0"
+}

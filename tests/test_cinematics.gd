@@ -25,10 +25,17 @@ func _run() -> void:
 		DirAccess.remove_absolute(path)
 	_check(Cinematic.automated_launch(), "Automated launch is recognized.")
 	_check(Cinematic.present_once(root, &"opening") == null and not FileAccess.file_exists(Cinematic.HISTORY_PATH), "Automation does not display or consume CGs.")
+	_check(Cinematic.present_once(root, &"chapter5_complete") == null and not FileAccess.file_exists(Cinematic.HISTORY_PATH), "Automated chapter-five presentation does not consume history.")
 	_check(Cinematic.take_once(&"opening"), "Opening can be consumed once.")
 	Cinematic._consumed.clear()
 	_check(not Cinematic.take_once(&"opening"), "History persists across a fresh process cache.")
 	_check(Cinematic.take_once(&"prologue_complete"), "The two clips have independent history.")
+	_check(Cinematic.take_once(&"chapter5_complete"), "Chapter five has independent viewing history.")
+	Cinematic._consumed.clear()
+	_check(not Cinematic.take_once(&"chapter5_complete"), "Chapter-five history survives a fresh process cache.")
+	_check(Cinematic.take_once(&"journey_complete"), "Ending has independent viewing history.")
+	Cinematic._consumed.clear()
+	_check(not Cinematic.take_once(&"journey_complete"), "Ending history survives a fresh process cache.")
 	_check(not Cinematic.take_once(&"unknown"), "Unknown clips do not write history.")
 	var history_before: String = FileAccess.get_file_as_string(Cinematic.HISTORY_PATH)
 	var global_save: Node = root.get_node("GlobalSave")
@@ -36,7 +43,7 @@ func _run() -> void:
 	var reset: Dictionary = global_save.start_new_game(false)
 	_check(bool(reset.get("ok", false)) and FileAccess.get_file_as_string(Cinematic.HISTORY_PATH) == history_before, "New Game preserves viewing history separately from progression.")
 	global_save.disk_write_allowed = false
-	for id: StringName in [&"opening", &"prologue_complete"]:
+	for id: StringName in [&"opening", &"prologue_complete", &"chapter5_complete", &"journey_complete"]:
 		var movie := Cinematic.new()
 		movie.clip_id = id
 		var ended: Array[bool] = []
@@ -46,7 +53,7 @@ func _run() -> void:
 		movie.video.finished.connect(func() -> void: natural_end.append(true))
 		_check(paused and movie.video.is_playing(), "%s loads and starts with the scene paused." % id)
 		_check(movie.video.bus == &"Effects", "%s follows the existing global sound volume and mute bus." % id)
-		_check(movie.video.get_stream_length() > 40.0, "%s has the complete authored runtime." % id)
+		_check(absf(movie.video.get_stream_length() - float(Cinematic.DURATIONS[id])) < 0.25, "%s has the complete authored runtime." % id)
 		for property: Dictionary in movie.video.get_property_list():
 			if property.name == "speed_scale":
 				movie.video.set("speed_scale", 8.0)
@@ -75,7 +82,7 @@ func _run() -> void:
 	await process_frame
 	paused = true
 	var button_skip := Cinematic.new()
-	button_skip.clip_id = &"prologue_complete"
+	button_skip.clip_id = &"chapter5_complete"
 	root.add_child(button_skip)
 	button_skip.skip_button.pressed.emit()
 	_check(paused and not button_skip.visible, "Skip button restores a previously paused scene.")
@@ -98,7 +105,7 @@ func _run() -> void:
 	closing.queue_free()
 	await process_frame
 	var autosaving := Cinematic.new()
-	autosaving.clip_id = &"prologue_complete"
+	autosaving.clip_id = &"chapter5_complete"
 	root.add_child(autosaving)
 	global_save._show_save_failure()
 	_check(not paused and not autosaving.visible and global_save._failure_dialog.visible, "An autosave failure releases CG before opening recovery controls.")
@@ -126,7 +133,7 @@ func _run() -> void:
 	for frame: int in range(4):
 		await process_frame
 	if failures.is_empty():
-		print("PASS: cinematics ", checks, " checks, including both complete Godot decoder playbacks")
+		print("PASS: cinematics ", checks, " checks, including all four complete Godot decoder playbacks")
 	else:
 		for failure: String in failures:
 			push_error(failure)

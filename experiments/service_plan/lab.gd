@@ -31,6 +31,7 @@ var design_shelf: VBoxContainer
 var undo_stack: Array[Dictionary] = []
 var redo_stack: Array[Dictionary] = []
 var english: bool = false
+var terminology_handbook: Control
 var task: int = 0
 var unlocked: int = 0
 var hint_open: bool = false
@@ -142,7 +143,7 @@ func _ready() -> void:
 
 func label(text: String, parent: Node, size: int = 15) -> Label:
 	var node := Label.new(); node.text = text; node.autowrap_mode = TextServer.AUTOWRAP_OFF if parent is HBoxContainer else TextServer.AUTOWRAP_WORD_SMART
-	node.add_theme_font_size_override("font_size", size); parent.add_child(node); return node
+	node.add_theme_font_size_override("font_size", maxi(size, 13)); parent.add_child(node); return node
 func button(text: String, parent: Node, action: Callable, id: String = "") -> Button:
 	var node := Button.new(); node.text = text; node.name = id if not id.is_empty() else "Action"
 	node.custom_minimum_size.y = 32; node.pressed.connect(action); parent.add_child(node); return node
@@ -208,7 +209,9 @@ func build() -> void:
 	header.add_child(get_node("/root/WindowMode").settings_button())
 	preload("res://src/ui/workbench_chrome.gd").quit_style(button(tr2("退出游戏", "Quit"), header, request_quit, "Quit"))
 	preload("res://src/ui/workbench_chrome.gd").frame(header)
-	var stages := HBoxContainer.new(); page.add_child(stages)
+	var stages := HFlowContainer.new(); page.add_child(stages)
+	stages.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
+	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, stages, "service", preload("res://src/campaign/second_act_tasks.gd").IDS["service"][task])
 	for index: int in 3:
 		var stage_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("service", index))
 		var node: Button = button(stage_label if not stage_label.is_empty() else tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
@@ -783,6 +786,9 @@ func save_session() -> void:
 	if error != OK: refresh_recovery_controls()
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open():
+		if terminology_handbook.handle_escape(event): get_viewport().set_input_as_handled()
+		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		request_hub()

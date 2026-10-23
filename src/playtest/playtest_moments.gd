@@ -14,6 +14,7 @@ var panel: PanelContainer
 var note: LineEdit
 var status: Label
 var moment_box: VBoxContainer
+var moment_fold: CheckButton
 var exit_reason: OptionButton
 var moment_sequence: int = -1
 var last_export: String = ""
@@ -31,6 +32,8 @@ var saved_opinion: Dictionary = {}
 var content_scroll: ScrollContainer
 var entry_buttons: Array[WeakRef] = []
 var layer: CanvasLayer
+var feedback_layout: BoxContainer
+var context_card: PanelContainer
 
 func _ready() -> void:
 	_load_drafts()
@@ -58,7 +61,19 @@ func _ready() -> void:
 	margin.add_child(outer)
 	outer.add_child(content_scroll)
 	box.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	content_scroll.add_child(box)
+	feedback_layout = BoxContainer.new()
+	feedback_layout.add_theme_constant_override("separation",16)
+	feedback_layout.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content_scroll.add_child(feedback_layout)
+	context_card = _feedback_card("FeedbackContextCard")
+	feedback_layout.add_child(context_card)
+	var context := VBoxContainer.new()
+	context.add_theme_constant_override("separation",10)
+	context_card.add_child(context)
+	var form_card: PanelContainer = _feedback_card("FeedbackFormCard")
+	form_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	feedback_layout.add_child(form_card)
+	form_card.add_child(box)
 	var heading := HBoxContainer.new()
 	outer.add_child(heading)
 	outer.move_child(heading,0)
@@ -68,18 +83,39 @@ func _ready() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	heading.add_child(title)
 	_button(heading,"close",close)
-	var privacy := Label.new()
+	var context_heading := HBoxContainer.new()
+	context_heading.add_theme_constant_override("separation",12)
+	context.add_child(context_heading)
+	context_heading.add_child(_feedback_icon("feedback_scene",40))
+	var identity := VBoxContainer.new()
+	identity.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	context_heading.add_child(identity)
+	target_label=Label.new(); target_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	target_label.add_theme_font_size_override("font_size",17)
+	identity.add_child(target_label)
+	context_label=Label.new(); context_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	context_label.add_theme_font_size_override("font_size",13)
+	identity.add_child(context_label)
+	var privacy_row := HBoxContainer.new()
+	privacy_row.add_theme_constant_override("separation",10)
+	outer.add_child(privacy_row)
+	privacy_row.add_child(_feedback_icon("feedback_privacy",24))
+	var privacy := Label.new(); privacy.name="FeedbackPrivacy"
 	privacy.text = _t("privacy")
 	privacy.set_meta("translation","privacy")
 	privacy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	box.add_child(privacy)
-	target_label=Label.new(); target_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	box.add_child(target_label)
-	context_label=Label.new(); context_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; box.add_child(context_label)
+	privacy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	privacy.add_theme_font_size_override("font_size",13)
+	privacy_row.add_child(privacy)
+	var opinion_heading := HBoxContainer.new()
+	opinion_heading.add_theme_constant_override("separation",12)
+	box.add_child(opinion_heading)
+	opinion_heading.add_child(_feedback_icon("feedback_note",36))
 	category=OptionButton.new(); category.name="FeedbackCategory"
 	category.add_item(Localization.text(&"sharing.category"))
 	for value: String in CATEGORIES.slice(1): category.add_item(Localization.text(StringName("sharing.category."+value)))
-	box.add_child(category)
+	category.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	opinion_heading.add_child(category)
 	category.item_selected.connect(func(_index: int) -> void: _store_draft())
 	var rating_box := VBoxContainer.new(); rating_box.hide()
 	for key: String in ["fun","clarity","continue"]:
@@ -90,6 +126,7 @@ func _ready() -> void:
 		ratings.append(choice); rating_box.add_child(choice)
 		choice.item_selected.connect(func(_index: int) -> void: _store_draft())
 	opinion=LineEdit.new(); opinion.max_length=240
+	opinion.custom_minimum_size.y = 48
 	opinion.placeholder_text=Localization.text(&"sharing.opinion_even_before_passing_240_characters"); opinion.set_meta("locale_field",["placeholder_text","sharing.opinion_even_before_passing_240_characters"])
 	box.add_child(opinion)
 	opinion.text_changed.connect(func(_value: String) -> void: _store_draft())
@@ -101,6 +138,7 @@ func _ready() -> void:
 	var send_opinion := Button.new(); send_opinion.name="SendTaskFeedback"
 	send_opinion.text=Localization.text(&"sharing.send_feedback"); send_opinion.set_meta("locale_field",["text","sharing.send_feedback"])
 	send_opinion.custom_minimum_size.y=40; send_opinion.size_flags_horizontal=Control.SIZE_EXPAND_FILL; opinion_actions.add_child(send_opinion); send_opinion.pressed.connect(_send_opinion)
+	save_opinion.add_theme_stylebox_override("normal",preload("res://src/ui/instrument_theme.gd").panel(Color("203644"),Color("8fd3dc")))
 	opinion_status=Label.new(); opinion_status.name="OpinionDeliveryStatus"; opinion_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; box.add_child(opinion_status)
 	var rating_fold := CheckButton.new(); rating_fold.name="OptionalRatings"; rating_fold.text=Localization.text(&"sharing.optional_ratings"); rating_fold.set_meta("locale_field",["text","sharing.optional_ratings"])
 	box.add_child(rating_fold); box.add_child(rating_box)
@@ -165,8 +203,12 @@ func _ready() -> void:
 	confirm.confirmed.connect(RemoteFeedback.delete_uploaded_data)
 	remote_status=Label.new(); remote_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; remote_box.add_child(remote_status)
 	RemoteFeedback.status_changed.connect(_remote_updated); _remote_updated()
-	moment_box=VBoxContainer.new(); box.add_child(moment_box)
-	var moment_heading := Label.new(); moment_heading.text=Localization.text(&"sharing.mark_a_specific_moment_optional"); moment_heading.set_meta("locale_field",["text","sharing.mark_a_specific_moment_optional"]); moment_box.add_child(moment_heading)
+	moment_fold = CheckButton.new()
+	moment_fold.text=Localization.text(&"sharing.mark_a_specific_moment_optional")
+	moment_fold.set_meta("locale_field",["text","sharing.mark_a_specific_moment_optional"])
+	box.add_child(moment_fold)
+	moment_box=VBoxContainer.new(); box.add_child(moment_box); moment_box.hide()
+	moment_fold.toggled.connect(func(_value: bool) -> void: _update_context_controls())
 	var grid := GridContainer.new()
 	grid.columns = 2
 	moment_box.add_child(grid)
@@ -190,8 +232,8 @@ func _ready() -> void:
 		exit_reason.set_item_metadata(exit_reason.item_count-1,reason)
 	exit_reason.item_selected.connect(func(index: int) -> void:
 		if index > 0: status.text = _t("saved") if PlaytestData.set_exit_reason(StringName(exit_reason.get_item_metadata(index))) else _t("failed"))
-	box.add_child(exit_reason)
-	var source := OptionButton.new()
+	moment_box.add_child(exit_reason)
+	var source := OptionButton.new(); source.fit_to_longest_item=false
 	source_selector = source
 	source.add_item(_t("source.unknown"))
 	source.set_item_metadata(0,"unknown")
@@ -202,7 +244,8 @@ func _ready() -> void:
 	for index: int in range(source.item_count):
 		if source.get_item_metadata(index) == PlaytestData.source_kind: source.select(index)
 	source.item_selected.connect(func(index: int) -> void: PlaytestData.source_kind = source.get_item_metadata(index))
-	box.add_child(source)
+	context.add_child(source)
+	source.add_theme_font_size_override("font_size",13)
 	var actions := HBoxContainer.new()
 	box.add_child(actions)
 	_button(actions,"export",func() -> void:
@@ -215,7 +258,44 @@ func _ready() -> void:
 	status.custom_minimum_size.y = 32
 	outer.add_child(status)
 	panel.hide()
+	panel.resized.connect(_fit_feedback_layout)
+	# Wrapped text can briefly enlarge a newly mounted page before its width settles.
+	panel.minimum_size_changed.connect(func() -> void:
+		if panel.visible and panel.has_meta("terminal_page"):
+			panel.size = panel.get_viewport().get_visible_rect().size, CONNECT_DEFERRED)
+	_fit_feedback_layout()
 	Localization.locale_changed.connect(func(_locale: String) -> void: _refresh_language())
+
+func _feedback_card(handle: String) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.name = handle
+	card.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	var surface := StyleBoxFlat.new()
+	surface.bg_color = Color("10212d")
+	surface.border_color = Color("294453")
+	surface.set_border_width_all(1)
+	surface.set_corner_radius_all(12)
+	for side: String in ["left","right","top","bottom"]: surface.set("content_margin_"+side,14.0)
+	card.add_theme_stylebox_override("panel",surface)
+	return card
+
+func _feedback_icon(handle: String, pixels: int) -> TextureRect:
+	var icon := TextureRect.new()
+	icon.texture = load("res://assets/ui/"+handle+".svg") as Texture2D
+	icon.custom_minimum_size = Vector2(pixels,pixels)
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return icon
+
+func _fit_feedback_layout() -> void:
+	var wide: bool = panel.get_viewport().get_visible_rect().size.x >= 1008.0
+	feedback_layout.vertical = not wide
+	context_card.custom_minimum_size.x = 320.0 if wide else 0.0
+	context_card.size_flags_horizontal = Control.SIZE_FILL if wide else Control.SIZE_EXPAND_FILL
+	var context_index: int = 0 if wide else 1
+	if context_card.get_index() != context_index: feedback_layout.move_child(context_card,context_index)
 
 func make_button() -> Button:
 	var button := Button.new()
@@ -261,7 +341,8 @@ func toggle() -> void:
 	content_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL if in_terminal else Control.SIZE_FILL
 	panel.position = Vector2.ZERO if in_terminal else Vector2(24,80 if window == get_tree().root else 12)
 	content_scroll.custom_minimum_size.y=minf(550,panel.get_viewport().get_visible_rect().size.y-270)
-	panel.size = panel.get_viewport().get_visible_rect().size if in_terminal else Vector2(minf(680,panel.get_viewport().get_visible_rect().size.x-48),0)
+	_fit_feedback_layout()
+	panel.size = panel.get_viewport().get_visible_rect().size if in_terminal else Vector2(minf(960,panel.get_viewport().get_visible_rect().size.x-48),0)
 	status.text = "" if PlaytestData.questionnaires_enabled() else _t("disabled")
 	exit_reason.select(0)
 	PlaytestData.set_feedback_visible(true,&"moments")
@@ -367,7 +448,8 @@ func _prepare_target() -> void:
 func _update_context_controls() -> void:
 	var current: Dictionary = PlaytestData.current_task_context if not PlaytestData.current_task_context.is_empty() else PlaytestData.last_exit_context
 	var matches: bool = not current.is_empty() and current.get("chapter_id","")==target.get("chapter_id","") and current.get("level_id","")==target.get("level_id","")
-	moment_box.visible=matches
+	moment_fold.visible=matches
+	moment_box.visible=matches and moment_fold.button_pressed
 	exit_reason.visible=matches and PlaytestData.current_task_context.is_empty() and not PlaytestData.last_exit_context.is_empty()
 func _save_opinion() -> bool:
 	var chapter: String = str(target.get("chapter_id",""))

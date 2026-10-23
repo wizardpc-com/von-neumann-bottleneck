@@ -446,9 +446,11 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	# A modal owns its keyboard as well as its pointer. Editor shortcuts must
-	# not recolor, select or mutate the board beneath a completion or Handbook.
+	# not recolor, select or mutate the board beneath Settings, completion or Handbook.
 	if (terminology_handbook != null and terminology_handbook.is_open()) \
-			or (level_completion_overlay != null and level_completion_overlay.visible):
+			or (level_completion_overlay != null and level_completion_overlay.visible) \
+			or is_instance_valid(WindowMode.settings_layer):
+		graph_pan_keys.clear()
 		return
 	# Help is read-only, so it also works with text focus and on the hint canvas.
 	if event is InputEventKey and event.pressed and not event.echo \
@@ -1332,6 +1334,9 @@ func _build_interface() -> void:
 	diagnostics_label = Label.new()
 	diagnostics_label.text = _t(&"hardware.diagnostics.empty")
 	diagnostics_label.custom_minimum_size.x = 240.0
+	# Shares the free width with the trace caption so short readings stay whole.
+	diagnostics_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	diagnostics_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	diagnostics_label.clip_text = true
 	diagnostics_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	diagnostics_label.add_theme_color_override("font_color", MUTED)

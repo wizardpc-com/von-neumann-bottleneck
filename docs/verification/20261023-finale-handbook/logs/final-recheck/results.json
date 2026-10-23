@@ -1,0 +1,16 @@
+[
+  {
+    "name": "test_learning_handbook",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/final-recheck/test_learning_handbook"
+  },
+  {
+    "name": "test_handbook_diagrams",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/final-recheck/test_handbook_diagrams"
+  }
+]

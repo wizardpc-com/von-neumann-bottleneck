@@ -275,8 +275,24 @@ func locate(key: String) -> void:
 	if not positions.has(key): return
 	magnification = maxf(magnification,0.85)
 	pan = size/2-(positions[key]+NODE_SIZE/2)*magnification
+	_keep_region_in_view(key)
 	last_canvas_size=size
 	_save()
+
+
+## Centring on a task near the edge of its chapter would leave half the view
+## empty and push the route under the details panel; slide back to that edge.
+func _keep_region_in_view(key: String) -> void:
+	var region: Variant = region_by_key.get(key)
+	if region == null or not region_rects.has(region): return
+	var bounds: Rect2 = region_rects[region]
+	const PAD := 24.0
+	for axis: int in 2:
+		var low: float = bounds.position[axis]*magnification
+		var extent: float = bounds.size[axis]*magnification
+		if extent+PAD*2.0 <= size[axis]: continue
+		pan[axis] = clampf(pan[axis],size[axis]-PAD-low-extent,PAD-low)
+
 
 func _resize_view() -> void:
 	if size.x <= 0 or size.y <= 0: return # Ignore intermediate container dimensions.

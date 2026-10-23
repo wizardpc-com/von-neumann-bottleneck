@@ -16,7 +16,7 @@ msgid "common.auto_layout"
 msgstr "Auto Layout"
 
 msgid "common.chapter_select"
-msgstr "Back to the Lab"
+msgstr "Laboratory"
 
 msgid "common.open_named"
 msgstr "Open %s"
@@ -25,7 +25,7 @@ msgid "common.pause"
 msgstr "Pause"
 
 msgid "common.prototype_hub"
-msgstr "Chapter select"
+msgstr "Laboratory"
 
 msgid "common.replay"
 msgstr "Replay"
@@ -1027,7 +1027,7 @@ msgid "hardware.toolbar.cancel_cable.tooltip"
 msgstr "Cancel the cable, selection box, or component currently following the pointer."
 
 msgid "hardware.toolbar.level_map"
-msgstr "Chapter map"
+msgstr "Journey map"
 
 msgid "hardware.toolbar.level_map.tooltip"
 msgstr "Open the Hardware Prologue map to review completed, unlocked, and prerequisite-gated levels."
@@ -2097,7 +2097,7 @@ msgid "system.chapter.subtitle"
 msgstr "The machine works. Where does its time go?"
 
 msgid "system.action.map"
-msgstr "Chapter map"
+msgstr "Journey map"
 
 msgid "system.action.auto_wire"
 msgstr "STANDARD WIRING"
@@ -2988,10 +2988,10 @@ msgid "chapter2.status.capstone_complete"
 msgstr "Target met. Finish the chapter now, or keep optimizing cycles and cost."
 
 msgid "chapter2.map.open"
-msgstr "Chapter map"
+msgstr "Journey map"
 
 msgid "chapter2.map.return"
-msgstr "RETURN TO MAP"
+msgstr "Back to journey map"
 
 msgid "chapter2.map.intro.title"
 msgstr "The Investigation"
@@ -3759,13 +3759,13 @@ msgid "terminology.term.high_impedance.title"
 msgstr "High impedance (High-Z / Z)"
 
 msgid "terminology.term.high_impedance.body"
-msgstr "A port state that drives neither 0 nor 1, as though disconnected from the line. It is not a third Boolean value; the UI shows it in gray."
+msgstr "A port that actively drives neither 0 nor 1; shown gray. Z is not a third Boolean value.\n\nConnected Z differs from no wire: this game resolves an input with zero incoming wires to low, while explicit connected Z remains high impedance."
 
 msgid "terminology.term.short_circuit.title"
 msgstr "Signal conflict (Short Circuit)"
 
 msgid "terminology.term.short_circuit.body"
-msgstr "A single input is driven low and high at the same time. The simulator reports this as a short circuit or driver conflict so the wiring can be corrected."
+msgstr "A signal network driven actively to both 0 and 1 reports a short circuit or driver conflict.\n\nEqual active values agree; high impedance Z contributes no active drive. Fix conflicting connections rather than treating every multi-source net as a short."
 
 msgid "terminology.term.logic_gate.title"
 msgstr "Logic Gate"
@@ -3831,13 +3831,13 @@ msgid "terminology.term.combinational_loop.title"
 msgstr "Combinational Loop"
 
 msgid "terminology.term.combinational_loop.body"
-msgstr "A path where combinational output returns to its own input without a storage element in between. It may never settle, so the simulator rejects it."
+msgstr "Combinational output feeds back without an intervening storage boundary. Ordinary combinational tasks reject such cycles.\n\nThe SR-latch challenge permits its specified feedback structure, but rejects S=R=1, conflicts and unresolved oscillation. A drawn loop alone is not legal memory."
 
 msgid "terminology.term.tick.title"
 msgstr "tick / propagation step"
 
 msgid "terminology.term.tick.body"
-msgstr "One step of signal propagation through a circuit. Gates settle after one or more ticks; a tick is not the same as a CPU cycle in the system chapters."
+msgstr "A logical propagation step, not a rendered game frame. Basic gates add propagation ticks; ordinary wires and junctions add none.\n\nShorter or straighter wires and faster playback do not change simulation results. System chapters use cycles to account for hardware operations."
 
 msgid "terminology.term.truth_table.title"
 msgstr "Truth Table"
@@ -3867,7 +3867,7 @@ msgid "terminology.term.official_test.title"
 msgstr "Full Validation (level tests)"
 
 msgid "terminology.term.official_test.body"
-msgstr "The complete set of cases required by a level. A level passes only when every official case satisfies its correctness and target conditions."
+msgstr "Run every official case for this task and check actual outputs and goals. Passing them all earns the task’s evidence.\n\nThis establishes the published constraints for the current plan, not a universal guarantee over every possible input. After rewiring, old passing evidence no longer represents the new plan."
 
 msgid "terminology.term.trace.title"
 msgstr "Execution Record (Trace)"
@@ -5227,7 +5227,7 @@ msgid "overlap.map"
 msgstr "Journey map"
 
 msgid "overlap.hub"
-msgstr "Chapters"
+msgstr "Laboratory"
 
 msgid "overlap.fullscreen"
 msgstr "Fullscreen / window"
@@ -6987,3 +6987,162 @@ msgstr "Yi's text speed"
 
 msgid "settings.frame_label"
 msgstr "Frame rate"
+
+msgid "settings.window_label"
+msgstr "Window"
+
+
+msgid "terminology.quick_start"
+msgstr "Quick start"
+
+
+msgid "terminology.category.later"
+msgstr "Representation, service & creation"
+
+
+msgid "terminology.directory.operations"
+msgstr "Quick controls"
+
+
+msgid "terminology.directory.representation"
+msgstr "Blocks & representation"
+
+
+msgid "terminology.directory.service"
+msgstr "State & service"
+
+
+msgid "terminology.directory.prediction"
+msgstr "Address prediction"
+
+
+msgid "terminology.directory.creation"
+msgstr "Learning, prediction & creation"
+
+
+msgid "terminology.term.operation_wiring.title"
+msgstr "Place, then connect"
+
+
+msgid "terminology.term.operation_wiring.body"
+msgstr "① Drag a component onto the canvas, or click it for repeated placement.\n② Connect an output to an input of the same width. Branch from an existing wire; crossing lines alone do not connect.\n③ Right-click or Esc cancels placement or wiring. Undo/redo: Ctrl+Z/Ctrl+Y on Windows, ⌘Z/⇧⌘Z on Mac.\n\nStart with input → NOT → lamp. Toggle the input and check that the output reverses."
+
+
+msgid "terminology.term.operation_review.title"
+msgstr "Debug → test → seal"
+
+
+msgid "terminology.term.operation_review.body"
+msgstr "① Read the specification: ports, widths and goals.\n② Debug a chosen input. Play or step through the signal path. One correct example does not clear the task.\n③ Run all official cases. When the cases and goals pass, use the task’s sealing action if offered.\n\nOpen Hint one tier at a time when needed. Slower playback helps observation; it does not improve a score. Retest after changing connections."
+
+
+msgid "terminology.term.block_representation.title"
+msgstr "Block representation"
+
+
+msgid "terminology.term.block_representation.body"
+msgstr "Partition the same 64-byte asset into contiguous, non-overlapping blocks covering every address exactly once. Each block has its own encoding.\n\nSmall blocks may avoid irrelevant reads but add directory overhead. Large blocks need fewer entries but may fetch more for a point read. Check every order with the same plan and preserve exact bytes."
+
+
+msgid "terminology.term.raw_rle.title"
+msgstr "RAW and RLE"
+
+
+msgid "terminology.term.raw_rle.body"
+msgstr "RAW stores original bytes. RLE records consecutive equal values as count/value runs. Repeated runs can shrink; frequently changing values can grow.\n\nBlocks also pay directory costs, and RLE pays a header and decoding work. Compare storage, transfer and decode cycles, not encoded length alone."
+
+
+msgid "terminology.term.online_preparation.title"
+msgstr "Online preparation"
+
+
+msgid "terminology.term.online_preparation.body"
+msgstr "Before service, read the source, encode it and write the service data. Online preparation costs real work.\n\nEight cold scans share one preparation, while each client starts with a fresh cache. Compare a short read with repeated service and inspect whether actual reuse amortizes preparation."
+
+
+msgid "terminology.term.persistent_state.title"
+msgstr "Persistent state"
+
+
+msgid "terminology.term.persistent_state.body"
+msgstr "Each request stream retains its own eight values. Its next step continues from its previous state, never another stream’s state.\n\nResident capacity is limited. Grouping and ordering affect reuse, while each stream must keep its steps in order."
+
+
+msgid "terminology.term.dirty_writeback.title"
+msgstr "Dirty state and writeback"
+
+
+msgid "terminology.term.dirty_writeback.body"
+msgstr "An updated resident state differs from its backing record and is dirty. Eviction must encode and write it back; final state cannot be discarded for free.\n\nInspect state reads, packing, transfer and writeback events. Avoiding a read may still cost more if it causes extra writes."
+
+
+msgid "terminology.term.response_latency.title"
+msgstr "Response latency"
+
+
+msgid "terminology.term.response_latency.body"
+msgstr "Cycles from a request becoming ready until its result returns. All 24 requests in this service model are ready at cycle zero.\n\nLarge groups may reduce state switching but delay early responses. Less traffic does not guarantee prompt service; check the published response limits too."
+
+
+msgid "terminology.term.quantization.title"
+msgstr "Quantization"
+
+
+msgid "terminology.term.quantization.body"
+msgstr "Represent state with fewer discrete values. The 8-bit representation uses a fixed integer grid, reducing bytes while possibly changing values.\n\nQuantization occurs during initial preparation and every update, not only eviction. Meet traffic, response and quality constraints together; lossy output is not exact restoration."
+
+
+msgid "terminology.term.address_prediction.title"
+msgstr "Next-address prediction"
+
+
+msgid "terminology.term.address_prediction.body"
+msgstr "Guess the next demand address from addresses already observed. Rules can use strides and repetitions; a guess never becomes observed history.\n\nSpeculative reads occupy the bus and cache. When patterns change, inspect actual waiting, extra traffic and eviction, not correct guesses alone."
+
+
+msgid "terminology.term.context_model.title"
+msgstr "Context rule box"
+
+
+msgid "terminology.term.context_model.body"
+msgstr "Count which A/B/C/D symbols follow each bounded context in the selected examples. Memory length determines how much observed context selects a rule.\n\nThis is a finite count model, not a general language model. Editing examples does not retrain automatically. Learn explicitly, then inspect the new rules and costs."
+
+
+msgid "terminology.term.predictive_packet.title"
+msgstr "Restorable predictive packet"
+
+
+msgid "terminology.term.predictive_packet.body"
+msgstr "Use a rule model to encode actual source text into a decodable packet. When prediction differs, the packet must still carry enough information for exact restoration with the same rules.\n\nInspect actual packet bytes, restored text and preparation/decoding costs. A ratio or similar generated output does not prove lossless storage."
+
+
+msgid "terminology.term.commit_reveal.title"
+msgstr "Commit, then reveal"
+
+
+msgid "terminology.term.commit_reveal.body"
+msgstr "Commit a prediction using only the visible prefix, then reveal and compare the actual next symbol. Unrevealed truth is unavailable at commitment.\n\nThe revealed real symbol then enters the observed context. Inspect the rule, memory and actual preparation costs alongside correctness."
+
+
+msgid "terminology.term.output_feedback.title"
+msgstr "Output-feedback generation"
+
+
+msgid "terminology.term.output_feedback.body"
+msgstr "Start from an initial passage, choose a next symbol with the rules, then feed that output into the context to generate again. Later steps depend on the generated prefix.\n\nThere is no single correct continuation. The same model, legal recipe and seed reproduce a result. Compare the actual light traces from different recipes."
+
+
+msgid "terminology.term.work_recipe.title"
+msgstr "Work and recipe"
+
+
+msgid "terminology.term.work_recipe.body"
+msgstr "A recipe specifies generation. A kept work preserves the actual output explicitly chosen with its evidence. Editing a recipe or generating a variation does not replace an earlier work.\n\nTo keep a result, verify its recipe, name it and choose Save. Distinguish generated output, a saved draft and a kept work."
+
+
+msgid "terminology.term.operation_navigation.title"
+msgstr "Laboratory and useful controls"
+
+
+msgid "terminology.term.operation_navigation.body"
+msgstr "Continue the current task at the laboratory terminal, or choose a task and read its specifications on Journey map. The archive shelf holds unlocked journey records. Concepts and control diagrams have a separate Handbook entry; use the journey board or achievements to check progress. An archive page is not completion evidence.\n\nThe work wall reopens saved works. In a task, read its goal first. Hint offers clues; in the prologue F1 also opens help. Returning to the laboratory or map still uses that task’s unsaved-work guard.\n\nF10 opens Settings: text speed, language, effects and ambience volume, window/fullscreen, frame limit and reduced motion. Esc closes the current upper page first.\n\nF8 opens feedback to retain a scene and comments. Sharing in ordinary mode requires an explicit choice. Offline playtest feedback is recorded locally and can be exported as a package; recording is not automatic upload."

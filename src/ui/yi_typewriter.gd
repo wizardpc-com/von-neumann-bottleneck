@@ -175,9 +175,12 @@ func _notification(what: int) -> void:
 func _process(delta: float) -> void:
 	if _playing:
 		_progress += delta * _speed
-		var target: int = mini(text.length(), int(_progress))
-		if target != shown:
-			shown = target
+		var previous: int = shown
+		while _progress >= 1.0 and shown < text.length():
+			_progress -= 1.0
+			shown += 1
+			if shown < text.length(): _progress -= _pause_after(shown - 1)
+		if shown != previous:
 			queue_redraw()
 		if shown >= text.length():
 			_playing = false
@@ -186,6 +189,21 @@ func _process(delta: float) -> void:
 	else:
 		_blink = fmod(_blink + delta, BLINK_PERIOD)
 		queue_redraw()
+
+
+## Extra character times keep pauses proportional to the selected speed,
+## including the faster operational guidance.
+func _pause_after(index: int) -> float:
+	var character: String = text.substr(index, 1)
+	if character in [",", "，", "、", ":", "：", ";", "；"]: return 2.0
+	if character == "\n": return 3.0
+	if character in [".", "。", "!", "！", "?", "？", "…"]:
+		# Decimal points belong to the number rather than a sentence break.
+		if character == "." and index > 0 and index + 1 < text.length() \
+				and text.substr(index - 1, 1).is_valid_int() and text.substr(index + 1, 1).is_valid_int():
+			return 0.0
+		return 4.0
+	return 0.0
 
 
 func _gui_input(event: InputEvent) -> void:

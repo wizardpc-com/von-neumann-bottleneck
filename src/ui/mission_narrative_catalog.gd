@@ -116,8 +116,16 @@ static func introduction(english: bool) -> Dictionary:
 		"context": "我是壹。我曾参与重建你所在的文明。\n现在，我想把理解它的办法交给你。先接一条线路，看看你的操作怎样改变结果。" if not english else "I am Yi. I helped rebuild the civilization you live in.\nNow I want to share how it works. Connect a circuit and see how your actions change its result.",
 		"goal_title": "眼前的小目标 · 接通一条 NOT 电路" if not english else "Your first goal · Connect a NOT circuit",
 		"goal": "从输入 A 的输出端拖线到 NOT 的输入端，再从 NOT 的输出端接到输出灯。切换输入并点运行：0 应得到 1，1 应得到 0。灯灭也可能是正确结果。" if not english else "Drag from input A's output to NOT's input, then connect NOT's output to the output lamp. Change the input and Run: 0 should produce 1; 1 should produce 0. An unlit lamp can be the correct result.",
-		"operations": "进入后，按屏幕上的提示一步步做：接线、切换输入、运行、拆一条线、再接回去。" if not english else "The Mission tracks five real actions: connect, change an input, run, disconnect and reconnect. Reading or skipping this introduction does not complete the task.",
-		"help": "目标与操作：任务台  ·  元件规则与图示：手册  ·  解题方向：Hint\n这段讯息可以从首页回看。" if not english else "Goal and controls: Mission  ·  Component rules and diagrams: Handbook  ·  Strategy: Hint\nReplay this message from Home whenever you wish.",
+		"steps": [
+			["看目标", "先看任务台的目标与步骤；任务规格说明输入、输出和通过条件。"],
+			["放元件，接线路", "首关元件已摆好，先从输出端拖线到输入端；后续从元件台选件搭建。"],
+			["调试，再完整测试", "切换输入看结果，再运行完整测试。首关跟着步骤卡完成接线、切换、运行、拆线和接回。"]
+		] if not english else [
+			["Read the goal", "Mission shows the goal and steps. Task specifications explain inputs, outputs and passing conditions."],
+			["Place parts and connect", "The first task has its parts ready. Drag from an output port to an input port; use the component tray to build later circuits."],
+			["Debug, then test", "Change an input and inspect the result, then run the full tests. Follow the first task's five actions: connect, change, run, disconnect and reconnect."]
+		],
+		"help": "卡住：F1 / Hint 看解题线索  ·  概念与元件图示：手册\n任务规格查本关要求，旅程地图选任务。这段讯息可从首页回看；阅读或跳过不会完成关卡。" if not english else "Stuck? F1 / Hint offers clues. Handbook explains concepts and components.\nTask specifications show requirements; Journey map selects tasks. Replay this message from Home. Reading or skipping it does not complete a task.",
 	}
 
 

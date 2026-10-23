@@ -82,7 +82,11 @@ func run() -> void:
 		check(default_media != null and default_media.get_size().x > 0, "Bundled abstract media loads in " + locale)
 		check(intro.media_caption.text.contains("Candidate") if locale == "en" else intro.media_caption.text.contains("候选"), "Media is explicitly a candidate fictional archive")
 		var goal: String = intro.goal_label.text
-		for dimensions: Vector2i in [Vector2i(1280,720), Vector2i(1920,1080), Vector2i(1440,900)]:
+		var steps := intro.find_child("IntroductionSteps",true,false) as VBoxContainer
+		check(steps != null and steps.get_child_count() == 3,"The introduction presents three operation steps in "+locale)
+		var guidance: Dictionary = preload("res://src/ui/mission_narrative_catalog.gd").introduction(locale == "en")
+		check(str(guidance.help).contains("F1") and str(guidance.help).contains("Hint"),"The introduction names the actual help shortcut and entry")
+		for dimensions: Vector2i in [Vector2i(960,640), Vector2i(1280,720), Vector2i(1920,1080), Vector2i(1440,900)]:
 			root.size = dimensions; root.content_scale_size = dimensions
 			for reduced: bool in [false, true]:
 				ProjectSettings.set_setting("game/reduced_motion", reduced)
@@ -115,6 +119,16 @@ func run() -> void:
 				await key(KEY_ESCAPE)
 				check(not intro.visible and root.gui_get_focus_owner() == replay, "Replay restores its actual Home launcher focus")
 				check(snapshot() == before and nav.last_visited_task == original_selection, "Media/reduced motion/replay never grant progress or change navigation")
+		root.size = Vector2i(960,640); root.content_scale_size = root.size
+		for action: Button in [intro.start_button,intro.skip_button,intro.close_button]: action.add_theme_font_size_override("font_size",28)
+		intro.present(true); await settle()
+		check(in_clip(intro.start_button) and in_clip(intro.skip_button) and in_clip(intro.close_button),"Large-font actions stay visible outside the scrolling copy")
+		intro.content_scroll.scroll_vertical = int(intro.content_scroll.get_v_scroll_bar().max_value); await settle()
+		check(in_clip(intro.start_button) and in_clip(intro.skip_button) and in_clip(intro.close_button),"Scrolling the guidance never hides the actions")
+		check(snapshot() == before,"Reading the enlarged guidance never changes completion")
+		intro.close()
+		for action: Button in [intro.start_button,intro.skip_button,intro.close_button]: action.remove_theme_font_size_override("font_size")
+		intro.content_scroll.scroll_vertical = 0
 		intro.media_texture = default_media
 		for tester: bool in [false,true]:
 			ProjectSettings.set_setting("playtest/offline_tester", tester)

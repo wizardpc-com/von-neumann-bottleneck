@@ -2,7 +2,7 @@ extends RefCounted
 ## One look for every workbench header inside the terminal: a single light
 ## navigation line (no heavy frame, one hairline underneath) with the task name,
 ## then the scene's own actions, then the shared navigation in one order:
-##   章节地图 / 旅程地图 → 实验室 → 设置   (退出游戏 last, muted red, where a scene has it)
+##   旅程地图 → 实验室 → 设置   (退出游戏 last, muted red, where a scene has it)
 ## The line keeps one row at normal text size; the canvas gets the height back.
 ## Only presentation: nodes keep their names, signals and behaviour.
 
@@ -13,6 +13,16 @@ const TITLE_SIZE := 19
 const SUBTITLE_SIZE := 14
 ## Navigation bars join this group; level guidance places itself below them.
 const NAV_GROUP := &"workbench_nav"
+
+
+static func add_handbook(host: Control, navigation: Control, domain: String, lesson: String) -> Control:
+	var handbook: Control = load("res://src/ui/terminology_handbook.gd").new()
+	host.add_child(handbook)
+	handbook.set_lesson(domain, lesson)
+	handbook.entry_button.reparent(navigation)
+	handbook.entry_button.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	tidy_button(handbook.entry_button)
+	return handbook
 
 
 ## The navigation line's surface: a faint lift and a hairline, no box.

@@ -405,6 +405,11 @@ func _build_header() -> Control:
 	chapter_subtitle_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	chapter_subtitle_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
 	chapter_subtitle_label.add_theme_color_override("font_color", TEXT)
+	# A long English subtitle gives way before the navigation does.
+	chapter_subtitle_label.clip_text = true
+	chapter_subtitle_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	chapter_subtitle_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_box.add_child(chapter_subtitle_label)
 	status_label = Label.new()
 	status_label.text = _t(&"chapter2.status.map")
@@ -548,8 +553,13 @@ func _add_device_node(
 			port_label.text = [_t(&"port.memory"), _t(&"port.result"), _t(&"port.telemetry")][slot_index]
 		elif slot_index == 0:
 			port_label.text = detail
-		port_label.clip_text = true
-		port_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		if slot_index == 0 and id != &"CPU":
+			# A device's one reading (请求 2 · 传输缓存行 4 周期) wraps rather than losing its tail.
+			port_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			port_label.custom_minimum_size.x = 160.0
+		else:
+			port_label.clip_text = true
+			port_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		port_label.tooltip_text = port_label.text
 		row.add_child(port_label)
 		if slot_index == 0:
@@ -661,17 +671,19 @@ func _build_mission_instrument() -> Control:
 	mission_page_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	mission_page_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	mission_page_label.add_theme_color_override("font_color", MUTED)
-	panel.add_child(mission_page_label)
+	# The pager stays in the footer: a long page scrolls, its page turn does not.
 	var mission_navigation := HBoxContainer.new()
 	mission_navigation.alignment = BoxContainer.ALIGNMENT_CENTER
 	mission_navigation.add_theme_constant_override("separation", 10)
-	panel.add_child(mission_navigation)
+	footer.add_child(mission_navigation)
 	mission_previous_button = Button.new()
 	mission_previous_button.name = "MissionPreviousButton"
 	mission_previous_button.text = _t(&"hardware.briefing.previous")
 	mission_previous_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
 	mission_previous_button.pressed.connect(_change_mission_page.bind(-1))
 	mission_navigation.add_child(mission_previous_button)
+	mission_page_label.custom_minimum_size.x = 48
+	mission_navigation.add_child(mission_page_label)
 	mission_continue_button = Button.new()
 	mission_continue_button.name = "MissionContinueButton"
 	mission_continue_button.text = _t(&"hardware.briefing.continue")

@@ -25,6 +25,7 @@ var export_dialog: FileDialog
 var emergency_context: Dictionary = {}
 var emergency_image: PackedByteArray = PackedByteArray()
 var rescue_exported: bool = false
+var workspace: BoxContainer
 
 func enabled() -> bool:
 	return bool(ProjectSettings.get_setting("playtest/offline_tester",false))
@@ -50,44 +51,60 @@ func _ready() -> void:
 	preload("res://src/ui/instrument_theme.gd").apply_to(theme); panel.theme=theme
 	var margin := MarginContainer.new(); panel.add_child(margin)
 	for side: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+side,16)
-	var body := VBoxContainer.new(); margin.add_child(body)
+	var body := VBoxContainer.new(); body.add_theme_constant_override("separation",12); margin.add_child(body)
 	var heading := HBoxContainer.new(); body.add_child(heading)
 	var title := Label.new(); title.text=_t("离线试玩反馈","Offline playtest feedback")
 	title.set_meta("locale_pair",["离线试玩反馈","Offline playtest feedback"])
+	title.add_theme_font_size_override("font_size",24)
 	title.size_flags_horizontal=Control.SIZE_EXPAND_FILL; heading.add_child(title)
 	_button(heading,"返回游戏 · Esc","Back · Esc",close_panel)
 	var scroll := ScrollContainer.new(); scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; scroll.follow_focus=true; body.add_child(scroll)
 	var content := VBoxContainer.new(); content.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	content.add_theme_constant_override("separation",8); scroll.add_child(content)
+	content.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("separation",12); scroll.add_child(content)
+	workspace=BoxContainer.new(); workspace.name="OfflineFeedbackWorkspace"
+	workspace.add_theme_constant_override("separation",16); workspace.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	content.add_child(workspace)
+	var scene_column: VBoxContainer = _section(workspace,"现场与记录","Scene and history","res://assets/ui/feedback_scene.svg")
+	info=Label.new(); info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; info.add_theme_font_size_override("font_size",14); scene_column.add_child(info)
+	var image_frame := PanelContainer.new(); image_frame.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("101a23"),Color("3a4b56")))
+	image_frame.size_flags_vertical=Control.SIZE_EXPAND_FILL; scene_column.add_child(image_frame)
+	preview=TextureRect.new(); preview.name="OfflineFeedbackPreview"; preview.custom_minimum_size=Vector2(0,180)
+	preview.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; preview.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	image_frame.add_child(preview)
+	history=OptionButton.new(); history.name="OfflineFeedbackHistory"; history.fit_to_longest_item=false; scene_column.add_child(history)
+	history.item_selected.connect(func(index: int) -> void: _load_case(str(history.get_item_metadata(index))))
+	var note_column: VBoxContainer = _section(workspace,"记下你的反馈","Your feedback","res://assets/ui/feedback_note.svg")
+	category=OptionButton.new(); category.name="OfflineFeedbackCategory"
+	for index: int in CATEGORIES.size(): category.add_item(_category_text(index))
+	note_column.add_child(category)
+	category.item_selected.connect(func(_index: int) -> void: _edited())
+	note=TextEdit.new(); note.name="OfflineFeedbackNote"; note.custom_minimum_size=Vector2(0,150)
+	note.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	note.wrap_mode=TextEdit.LINE_WRAPPING_BOUNDARY
+	note.placeholder_text=_t("哪里卡住了？你想做什么、实际发生了什么？也可以只保存现场，稍后补充。","Where did you get stuck? What did you try, and what happened? You can also keep the scene now and add a note later.")
+	note_column.add_child(note); note.text_changed.connect(_edited)
+	var actions := VBoxContainer.new(); actions.add_theme_constant_override("separation",6); note_column.add_child(actions)
+	var mark: Button = _button(actions,"记下这条反馈","Mark feedback ready",func() -> void: _save_note(true))
+	mark.add_theme_stylebox_override("normal",InstrumentTheme.panel(Color("203644"),Color("8fd3dc")))
+	_button(actions,"记录新的现场","Capture another scene",capture_another)
+	var privacy_row := HBoxContainer.new(); privacy_row.add_theme_constant_override("separation",12); content.add_child(privacy_row)
+	_icon(privacy_row,"res://assets/ui/feedback_privacy.svg",32)
 	var privacy := Label.new(); privacy.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	privacy.size_flags_horizontal=Control.SIZE_EXPAND_FILL; privacy.add_theme_font_size_override("font_size",13)
 	privacy.text=_t("自动保留游戏截图、当前方案、运行数据和操作记录；文字输入会自动保存。仅在本机，导出后请把一个 ZIP 发给维护者。文件可能包含作品和自由文字，请勿填写密码或私人信息。",
 		"Game screenshots, designs, run data and action history stay on this device. Notes save as you type. Send the exported ZIP to the maintainer yourself. It can contain your work and free text; do not enter passwords or private information.")
 	privacy.set_meta("locale_pair",["自动保留游戏截图、当前方案、运行数据和操作记录；文字输入会自动保存。仅在本机，导出后请把一个 ZIP 发给维护者。文件可能包含作品和自由文字，请勿填写密码或私人信息。","Game screenshots, designs, run data and action history stay on this device. Notes save as you type. Send the exported ZIP to the maintainer yourself. It can contain your work and free text; do not enter passwords or private information."])
-	content.add_child(privacy)
-	info=Label.new(); info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; content.add_child(info)
-	preview=TextureRect.new(); preview.custom_minimum_size=Vector2(0,110)
-	preview.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; preview.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	content.add_child(preview)
-	category=OptionButton.new(); category.name="OfflineFeedbackCategory"
-	for index: int in CATEGORIES.size(): category.add_item(_category_text(index))
-	content.add_child(category)
-	category.item_selected.connect(func(_index: int) -> void: _edited())
-	note=TextEdit.new(); note.name="OfflineFeedbackNote"; note.custom_minimum_size=Vector2(0,140)
-	note.wrap_mode=TextEdit.LINE_WRAPPING_BOUNDARY
-	note.placeholder_text=_t("哪里卡住了？你想做什么、实际发生了什么？也可以只保存现场，稍后补充。","Where did you get stuck? What did you try, and what happened? You can also keep the scene now and add a note later.")
-	content.add_child(note); note.text_changed.connect(_edited)
-	var actions := HBoxContainer.new(); content.add_child(actions)
-	_button(actions,"记下这条反馈","Mark feedback ready",func() -> void: _save_note(true))
-	_button(actions,"记录新的现场","Capture another scene",capture_another)
-	history=OptionButton.new(); history.name="OfflineFeedbackHistory"; history.fit_to_longest_item=false; content.add_child(history)
-	history.item_selected.connect(func(index: int) -> void: _load_case(str(history.get_item_metadata(index))))
+	privacy_row.add_child(privacy)
+	var rule := HSeparator.new(); body.add_child(rule)
 	var footer := HBoxContainer.new(); body.add_child(footer)
 	_button(footer,"导出全部反馈（一个 ZIP）","Export all feedback (one ZIP)",export_all)
 	_button(footer,"另存到…","Save ZIP as…",choose_export_path)
 	_button(footer,"打开文件夹","Open folder",func() -> void:
 		OS.shell_show_in_file_manager(last_export if not last_export.is_empty() else ProjectSettings.globalize_path(store.root)))
 	status=Label.new(); status.name="OfflineFeedbackStatus"; status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	status.add_theme_font_size_override("font_size",13)
 	body.add_child(status)
 	_connect_panel_input(backdrop)
 	Localization.locale_changed.connect(func(_locale: String) -> void: _refresh_language(layer))
@@ -121,11 +138,12 @@ func _process(_delta: float) -> void:
 	toolbar.position=Vector2(maxf(8,size.x-toolbar.size.x-14),maxf(8,size.y-toolbar.size.y-10))
 	if backdrop.visible:
 		backdrop.size=size
-		panel.position=Vector2(maxf(8,(size.x-780)/2),12)
-		panel.size=Vector2(minf(780,size.x-16),maxf(250,size.y-24))
+		panel.position=Vector2(maxf(8,(size.x-960)/2),12)
+		panel.size=Vector2(minf(960,size.x-16),maxf(250,size.y-24))
 		if backdrop.has_meta("terminal_page"):
 			panel.position=Vector2.ZERO
 			panel.size=size
+		workspace.vertical=panel.size.x<900
 	# Polling also reaches embedded work/exhibition windows, whose input belongs to
 	# a different viewport. It never installs an OS-wide keyboard hook.
 	var choosing_file: bool = is_instance_valid(export_dialog) and export_dialog.visible
@@ -326,6 +344,27 @@ func _button(parent: Node, zh: String, en: String, action: Callable) -> Button:
 	var button := Button.new(); button.text=_t(zh,en); button.custom_minimum_size.y=36
 	button.set_meta("locale_pair",[zh,en])
 	button.pressed.connect(action); parent.add_child(button); return button
+
+func _section(parent: Node, zh: String, en: String, icon_path: String) -> VBoxContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	card.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	var box: StyleBoxFlat = InstrumentTheme.panel(Color("1a252e"),Color("3a4b56"))
+	box.content_margin_left=16; box.content_margin_right=16; box.content_margin_top=14; box.content_margin_bottom=14
+	card.add_theme_stylebox_override("panel",box); parent.add_child(card)
+	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",10); card.add_child(column)
+	var heading := HBoxContainer.new(); heading.add_theme_constant_override("separation",10); column.add_child(heading)
+	_icon(heading,icon_path,40)
+	var title := Label.new(); title.text=_t(zh,en); title.set_meta("locale_pair",[zh,en])
+	title.size_flags_horizontal=Control.SIZE_EXPAND_FILL; title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_size_override("font_size",18); heading.add_child(title)
+	return column
+
+func _icon(parent: Node, path: String, pixels: int) -> void:
+	var icon := TextureRect.new(); icon.texture=load(path) as Texture2D
+	icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size=Vector2(pixels,pixels); icon.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	parent.add_child(icon)
 
 func _category_text(index: int) -> String:
 	return _t(["理解/卡关","操作不顺","故障/错误","视听/布局","发现/建议","其他"][index],

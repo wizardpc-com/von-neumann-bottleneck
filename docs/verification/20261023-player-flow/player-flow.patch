@@ -1,0 +1,545 @@
+--- before/src/ui/prototype_hub.gd
++++ after/src/ui/prototype_hub.gd
+@@ -710,13 +710,17 @@
+ 	resized.connect(_fit_settings_panel); _fit_settings_panel()
+ 	_refresh_options_fullscreen_label(); options_overlay.hide()
+ 
+-## In the laboratory every quit is confirmed on the terminal screen; inside a
+-## workbench (no terminal on screen) the Settings quit stays direct.
++## Keep the current scene's existing confirmation and unsaved-work guards.
+ func _quit_from_settings() -> void:
+ 	if laboratory != null and laboratory.is_inside_tree() and not settings_only:
+ 		_close_options_menu()
+ 		laboratory.ask_quit()
+ 	else:
++		var owner: Node = get_tree().get_first_node_in_group("candidate_quit_owners")
++		if owner != null:
++			_close_options_menu()
++			owner.notification(NOTIFICATION_WM_CLOSE_REQUEST)
++			return
+ 		_quit_game()
+ 
+ 
+--- before/src/hardware_foundations/hardware_foundations.gd
++++ after/src/hardware_foundations/hardware_foundations.gd
+@@ -446,9 +446,11 @@
+ 		get_viewport().set_input_as_handled()
+ 		return
+ 	# A modal owns its keyboard as well as its pointer. Editor shortcuts must
+-	# not recolor, select or mutate the board beneath a completion or Handbook.
++	# not recolor, select or mutate the board beneath Settings, completion or Handbook.
+ 	if (terminology_handbook != null and terminology_handbook.is_open()) \
+-			or (level_completion_overlay != null and level_completion_overlay.visible):
++			or (level_completion_overlay != null and level_completion_overlay.visible) \
++			or is_instance_valid(WindowMode.settings_layer):
++		graph_pan_keys.clear()
+ 		return
+ 	# Help is read-only, so it also works with text focus and on the hint canvas.
+ 	if event is InputEventKey and event.pressed and not event.echo \
+--- before/experiments/creation/workbench.gd
++++ after/experiments/creation/workbench.gd
+@@ -104,6 +104,7 @@
+ var writer_dialog: ConfirmationDialog
+ var leave_dialog: ConfirmationDialog
+ var sample_leave_dialog: ConfirmationDialog
++var initial_leave_dialog: ConfirmationDialog
+ 
+ func text2(zh: String, en: String) -> String:
+ 	return en if english else zh
+@@ -1626,6 +1627,20 @@
+ 		if editor != null: editor.hide()
+ 		request_saved_draft_leave())
+ 	add_child(sample_leave_dialog)
++	initial_leave_dialog = ConfirmationDialog.new()
++	initial_leave_dialog.name = "PendingInitialProtection"
++	initial_leave_dialog.title = text2("起始文字尚未提交", "Unsubmitted initial context")
++	initial_leave_dialog.dialog_autowrap = true
++	initial_leave_dialog.dialog_text = text2("起始栏中有无法识别的符号，这段文字尚未保存。返回修改，或放弃这段文字并继续离开。", "Some symbols in Initial are not recognized, so this text has not been saved. Return to edit it, or discard it and continue leaving.")
++	initial_leave_dialog.ok_button_text = text2("放弃文字再离开", "Discard text and continue leaving")
++	initial_leave_dialog.cancel_button_text = text2("返回编辑", "Return to editing")
++	initial_leave_dialog.canceled.connect(func() -> void: call_deferred("focus_initial_editor"))
++	initial_leave_dialog.confirmed.connect(func() -> void:
++		var input := find_child("Initial",true,false) as LineEdit
++		if input != null: input.text = Catalog.symbols(session.data.draft.initial)
++		refresh()
++		request_saved_draft_leave())
++	add_child(initial_leave_dialog)
+ 	leave_dialog = ConfirmationDialog.new()
+ 	leave_dialog.name = "LeaveProtection"
+ 	leave_dialog.title = text2("草稿尚未保存","Unsaved draft")
+@@ -1652,12 +1667,27 @@
+ 	return not parsed.ok or parsed.symbols != sample_edit_source
+ 
+ func request_saved_draft_leave() -> void:
++	if not valid_initial_input():
++		initial_leave_dialog.popup_centered(Vector2i(560,250))
++		return
+ 	if session.dirty:
+ 		leave_dialog.dialog_text = text2("保存草稿后离开，或放弃未保存的草稿修改。已有作品不受影响。", "Save the draft before leaving, or discard unsaved draft edits. Earlier works are kept.")
+ 		if can_keep_visible_work() and not visible_generation_saved():
+ 			leave_dialog.dialog_text += "\n\n" + text2("当前输出尚未保存为作品。想留下它，请返回编辑，命名后保存。", "This output is not yet a saved work. To keep it, return to editing, name it and save it.")
+ 		leave_dialog.popup_centered(Vector2i(560,230))
+ 	else: finish_leave()
++
++func focus_initial_editor() -> void:
++	var tabs := find_child("DraftTabs",true,false) as TabContainer
++	if tabs != null: tabs.current_tab = 2
++	await get_tree().process_frame
++	var input := find_child("Initial",true,false) as LineEdit
++	if input == null or not input.is_visible_in_tree(): return
++	var ancestor: Node = input.get_parent()
++	while ancestor != null:
++		if ancestor is ScrollContainer: ancestor.ensure_control_visible(input)
++		ancestor = ancestor.get_parent()
++	input.grab_focus()
+ 
+ func finish_leave() -> void:
+ 	if leaving_to_hub:
+--- before/src/system_lab/system_lab.gd
++++ after/src/system_lab/system_lab.gd
+@@ -204,6 +204,9 @@
+ 
+ 
+ func _input(event: InputEvent) -> void:
++	if is_instance_valid(WindowMode.settings_layer):
++		graph_pan_keys.clear()
++		return
+ 	if terminology_handbook != null and terminology_handbook.handle_escape(event):
+ 		get_viewport().set_input_as_handled()
+ 		return
+@@ -353,7 +356,7 @@
+ 
+ func _update_graph_keyboard_pan(delta: float) -> void:
+ 	if current_level_id.is_empty() or graph == null or not graph.is_visible_in_tree() \
+-			or _system_keyboard_focus_accepts_text():
++			or is_instance_valid(WindowMode.settings_layer) or _system_keyboard_focus_accepts_text():
+ 		graph_pan_keys.clear()
+ 		return
+ 	var direction := Vector2(
+--- before/src/overlap_chapter/overlap_chapter.gd
++++ after/src/overlap_chapter/overlap_chapter.gd
+@@ -156,6 +156,7 @@
+ 	_save_draft()
+ 
+ func _placement_allowed(position: Vector2) -> bool:
++	if is_instance_valid(WindowMode.settings_layer): return false
+ 	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open(): return false
+ 	if not is_instance_valid(graph) or not graph.get_global_rect().has_point(position): return false
+ 	if is_instance_valid(hint_overlay) or completion.visible or confirmation.visible: return false
+@@ -164,6 +165,10 @@
+ 	return true
+ 
+ func _input(event: InputEvent) -> void:
++	if is_instance_valid(WindowMode.settings_layer):
++		_cancel_body_drag()
++		_cancel_placement()
++		return
+ 	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open(): return
+ 	if not is_instance_valid(graph): return
+ 	if _handle_body_drag(event):
+@@ -235,6 +240,7 @@
+ 	body_drag.clear()
+ 
+ func _unhandled_key_input(event: InputEvent) -> void:
++	if is_instance_valid(WindowMode.settings_layer): return
+ 	if terminology_handbook.handle_escape(event):
+ 		get_viewport().set_input_as_handled()
+ 		return
+--- before/src/layout_chapter/layout_chapter.gd
++++ after/src/layout_chapter/layout_chapter.gd
+@@ -564,10 +564,11 @@
+ 	if event is InputEventKey and event.keycode == KEY_ESCAPE: _unhandled_key_input(event)
+ func _unhandled_key_input(event: InputEvent) -> void:
+ 	if not event is InputEventKey or not event.pressed or event.echo: return
++	if is_instance_valid(WindowMode.settings_layer): return
+ 	if event.keycode == KEY_ESCAPE:
+ 		var modal: Window = get_window().get_last_exclusive_window()
+ 		if modal != null and modal != get_window() and modal.visible: return
+-		if is_instance_valid(WindowMode.settings_layer) or PlaytestData._feedback_visible or completion.visible: return
++		if PlaytestData._feedback_visible or completion.visible: return
+ 	if event.keycode == KEY_ESCAPE and is_instance_valid(hint_layer) and hint_layer.visible: hint_layer.hide(); get_viewport().set_input_as_handled(); return
+ 	if event.keycode == KEY_ESCAPE:
+ 		get_viewport().set_input_as_handled()
+--- before/tests/test_workbench_escape.gd
++++ after/tests/test_workbench_escape.gd
+@@ -12,6 +12,10 @@
+ class PredictionProbe extends "res://experiments/prediction/lab.gd":
+ 	var departures: int = 0
+ 	func finish_leave() -> void: departures += 1
++class ExtraQuitOwner extends Node:
++	var close_requests: int = 0
++	func _notification(what: int) -> void:
++		if what == NOTIFICATION_WM_CLOSE_REQUEST: close_requests += 1
+ 
+ var checks: int = 0
+ var failures: int = 0
+@@ -28,6 +32,21 @@
+ 		event.pressed = down; event.echo = echo and down
+ 		root.push_input(event, true); await process_frame
+ 	await settle()
++
++func open_settings_probe() -> Control:
++	var mode: Node = root.get_node("WindowMode")
++	var layer := CanvasLayer.new()
++	layer.layer = 100
++	mode.settings_layer = layer
++	root.add_child(layer)
++	var settings: Control = load("res://tests/fixture_settings_quit_probe.gd").new()
++	settings.settings_only = true
++	settings.settings_closed.connect(func() -> void:
++		layer.queue_free()
++		mode.settings_layer = null)
++	layer.add_child(settings)
++	await settle()
++	return settings
+ 
+ func run() -> void:
+ 	root.size = Vector2i(1280, 720)
+@@ -82,6 +101,28 @@
+ 				"creation": check(scene.session.data == before, prefix + "Cancel preserves the draft and works")
+ 				"representation", "service": check(scene.plan == before.plan, prefix + "Cancel preserves the plan")
+ 				"prediction": check(scene.policy == before, prefix + "Cancel preserves the policy")
++			# Intercept only the final process exit, so the former bypass reports a
++			# failed assertion instead of terminating this test before its summary.
++			var extra_owner := ExtraQuitOwner.new()
++			root.add_child(extra_owner)
++			extra_owner.add_to_group("candidate_quit_owners")
++			var settings: Control = await open_settings_probe()
++			settings.options_quit_button.pressed.emit()
++			check(settings.direct_quits == 0, prefix + "Settings Quit does not bypass the candidate owner")
++			check(extra_owner.close_requests == 0, prefix + "Settings Quit dispatches to only one owner")
++			extra_owner.queue_free()
++			await settle()
++			check(not is_instance_valid(mode.settings_layer) and guard.visible and scene.departures == 0, prefix + "Settings Quit hands over to the existing unsaved guard")
++			if is_instance_valid(mode.settings_layer):
++				mode.settings_layer.queue_free(); mode.settings_layer = null
++			if guard.visible:
++				await create_timer(0.3).timeout
++				await key(KEY_ESCAPE)
++			check(not guard.visible and scene.is_inside_tree() and scene.departures == 0, prefix + "Cancelling Settings Quit returns to the task")
++			match kind:
++				"creation": check(scene.session.data == before, prefix + "Settings Quit cancellation preserves draft and works")
++				"representation", "service": check(scene.plan == before.plan, prefix + "Settings Quit cancellation preserves plan")
++				"prediction": check(scene.policy == before, prefix + "Settings Quit cancellation preserves policy")
+ 			if kind == "creation":
+ 				var tabs := scene.find_child("DraftTabs", true, false) as TabContainer
+ 				tabs.current_tab = 0; await settle()
+@@ -103,6 +144,22 @@
+ 				await create_timer(0.3).timeout
+ 				await key(KEY_ESCAPE)
+ 				check(sample.text == "invalid" and scene.departures == 0, prefix + "Cancel preserves unsubmitted sample text")
++				settings = await open_settings_probe()
++				settings.options_quit_button.pressed.emit()
++				check(settings.direct_quits == 0, prefix + "Settings Quit cannot bypass pending sample protection")
++				await settle()
++				check(scene.sample_leave_dialog.visible and not scene.leave_dialog.visible and scene.departures == 0, prefix + "Settings Quit protects pending sample before the draft")
++				if is_instance_valid(mode.settings_layer):
++					mode.settings_layer.queue_free(); mode.settings_layer = null
++				if scene.sample_leave_dialog.visible:
++					await create_timer(0.3).timeout
++					await key(KEY_ESCAPE)
++				check(sample.text == "invalid" and scene.departures == 0, prefix + "Cancelling Settings Quit preserves pending sample text")
+ 			scene.queue_free(); await settle()
++	var ordinary_settings: Control = await open_settings_probe()
++	ordinary_settings.options_quit_button.pressed.emit()
++	check(ordinary_settings.direct_quits == 1, "Without a candidate owner Settings Quit keeps the ordinary quit path")
++	ordinary_settings._close_options_menu()
++	await settle()
+ 	print(("PASS: " if failures == 0 else "FAIL: ") + "workbench Escape %d checks, %d failures" % [checks, failures])
+ 	quit(1 if failures > 0 else 0)
+--- before/tests/test_creation_sample_editing.gd
++++ after/tests/test_creation_sample_editing.gd
+@@ -166,6 +166,8 @@
+ 	check(scene.session.data.works == protected_works,"All invalid, capacity, stale and read-only edits retain both chosen works")
+ 	scene.writable = true; scene.cancel_sample_edit(); await settle()
+ 	await exercise_leave_protection(scene)
++	if scene.english != (locale == "en"): scene.toggle_language(); await settle()
++	await exercise_initial_leave_protection(scene, locale)
+ 	scene.queue_free(); await settle()
+ 
+ func exercise_leave_protection(scene: LeaveProbe) -> void:
+@@ -206,3 +208,59 @@
+ 	var noop_calls: int = scene.leave_calls
+ 	scene.request_leave(true); await settle()
+ 	check(scene.leave_calls == noop_calls+1 and not scene.sample_leave_dialog.visible and not scene.has_pending_sample_text(),"Opening an unchanged passage adds no departure ceremony")
++
++func exercise_initial_leave_protection(scene: LeaveProbe, locale: String) -> void:
++	scene.cancel_sample_edit()
++	scene.change_task(7); await settle()
++	(scene.find_child("DraftTabs",true,false) as TabContainer).current_tab = 2
++	await settle()
++	check(scene.english == (locale == "en"), "Pending Initial uses the requested test language")
++	var legal_initial: Array = scene.session.data.draft.initial.duplicate()
++	for to_hub: bool in [true,false]:
++		for dirty: bool in [false,true]:
++			check(scene.session.save() == OK,"Save the legal initial before checking transient departure")
++			var saved_bytes: String = FileAccess.get_file_as_string(scene.session.path)
++			if dirty: scene.session.data.draft.seed += 1; scene.edit_draft()
++			field(scene,"Initial").text = "A X"; field(scene,"Initial").text_changed.emit("A X")
++			var calls_before: int = scene.leave_calls
++			if to_hub: scene.request_leave(true)
++			else: scene._notification(Node.NOTIFICATION_WM_CLOSE_REQUEST)
++			await settle()
++			var guard := scene.get_node_or_null("PendingInitialProtection") as ConfirmationDialog
++			check(guard != null and guard.visible and not scene.leave_dialog.visible and scene.leave_calls == calls_before,"Invalid Initial blocks clean and dirty Home/OS close before any departure")
++			if guard == null: return
++			check(guard.size.x <= 600 and root.get_visible_rect().encloses(Rect2(Vector2(guard.position),Vector2(guard.size))), "Pending Initial remains a compact dialog within the viewport")
++			if to_hub and not dirty: await capture("pending-initial-"+locale)
++			check(scene.session.dirty == dirty and scene.session.data.draft.initial == legal_initial,"Invalid Initial does not masquerade as a saved recipe edit")
++			guard.hide(); guard.canceled.emit(); await settle()
++			check(field(scene,"Initial").text == "A X" and root.gui_get_focus_owner() == field(scene,"Initial") and scene.leave_calls == calls_before,"Cancel preserves invalid Initial and returns keyboard focus")
++			check(FileAccess.get_file_as_string(scene.session.path) == saved_bytes,"Cancel of pending Initial preserves saved bytes")
++			scene.request_leave(to_hub)
++			guard.hide(); guard.confirmed.emit(); await settle()
++			check(scene.valid_initial_input() and field(scene,"Initial").text == Catalog.symbols(legal_initial) and not scene.run_button.disabled,"Explicit discard restores the actual legal recipe text and enables generation")
++			check(scene.leave_dialog.visible == dirty and scene.leave_calls == calls_before+(0 if dirty else 1),"Initial discard resumes the existing clean or dirty draft departure")
++			if dirty:
++				scene.leave_dialog.hide(); scene.leave_dialog.confirmed.emit(); await settle()
++				check(scene.leave_calls == calls_before+1 and not scene.session.dirty,"Save and leave still saves only the legal draft after explicit text discard")
++			check(not FileAccess.get_file_as_string(scene.session.path).contains("A X") and scene.session.data.draft.initial == legal_initial,"Invalid Initial never enters the persistent recipe")
++
++	check(scene.session.save() == OK,"Start combined pending fields from a clean profile")
++	var combined_bytes: String = FileAccess.get_file_as_string(scene.session.path)
++	(scene.find_child("DraftTabs",true,false) as TabContainer).current_tab = 0
++	await press(scene,"EditExample0")
++	check(scene.sample_edit_index == 0, "Visible sample edit button opens the pending editor")
++	field(scene,"SampleEditText").text = "A X"
++	(scene.find_child("DraftTabs",true,false) as TabContainer).current_tab = 2
++	await settle()
++	field(scene,"Initial").text = "B X"; field(scene,"Initial").text_changed.emit("B X")
++	var calls_before: int = scene.leave_calls
++	scene.request_leave(true); await settle()
++	var initial_guard := scene.get_node("PendingInitialProtection") as ConfirmationDialog
++	check(scene.sample_leave_dialog.visible and not initial_guard.visible,"Pending sample keeps its existing first position when both fields are unsubmitted")
++	scene.sample_leave_dialog.hide(); scene.sample_leave_dialog.confirmed.emit(); await settle()
++	check(initial_guard.visible and scene.leave_calls == calls_before and field(scene,"Initial").text == "B X","Discarding the sample still guards the pending Initial")
++	initial_guard.hide(); initial_guard.canceled.emit(); await settle()
++	check(root.gui_get_focus_owner() == field(scene,"Initial") and field(scene,"Initial").text == "B X","Cancel of the second guard retains Initial text and focus")
++	check(FileAccess.get_file_as_string(scene.session.path) == combined_bytes,"Combined transient guards do not write either input")
++	scene.request_leave(true); initial_guard.hide(); initial_guard.confirmed.emit(); await settle()
++	check(scene.leave_calls == calls_before+1 and scene.valid_initial_input(),"Only explicitly discarding both fields permits clean departure")
+--- before/tests/test_hardware_settings_input.gd
++++ after/tests/test_hardware_settings_input.gd
+@@ -0,0 +1,84 @@
++extends SceneTree
++
++var failures: int = 0
++
++func _init() -> void: call_deferred("run")
++
++func check(ok: bool, message: String) -> void:
++	if not ok: failures += 1; push_error(message)
++
++func settle(frames: int = 5) -> void:
++	for frame: int in frames: await process_frame
++
++func key(code: Key, control: bool = false) -> void:
++	for pressed: bool in [true, false]:
++		var event := InputEventKey.new()
++		event.keycode = code; event.physical_keycode = code
++		event.pressed = pressed; event.ctrl_pressed = control
++		root.push_input(event, true)
++		await process_frame
++
++func run() -> void:
++	preload("res://src/lab/lab_features.gd").classic = true
++	root.size = Vector2i(1280, 720)
++	var bench: Control = load("res://src/hardware_foundations/hardware_foundations.tscn").instantiate()
++	root.add_child(bench); current_scene = bench
++	await settle()
++	bench._show_tutorial(false)
++	await settle(12)
++	var graph: GraphEdit = bench.graph
++	var component: GraphNode = bench.component_nodes[&"NOT_1"]
++	var original: Vector2 = component.position_offset
++	bench._on_begin_node_move()
++	component.position_offset += Vector2(40, 20)
++	bench._on_end_node_move()
++	bench._set_selected_ids([&"NOT_1"] as Array[StringName])
++	var moved: Vector2 = component.position_offset
++	var undo_count: int = bench.wire_history.size()
++	var component_count: int = bench.component_catalog.size()
++	var wire_count: int = graph.get_connection_list().size()
++	var color: int = bench.active_wire_color_index
++	var result: String = bench.debug_result_label.text
++	await key(KEY_F10)
++	await settle()
++	var window_mode: Node = root.get_node("WindowMode")
++	check(is_instance_valid(window_mode.settings_layer), "F10 opens the real settings layer")
++	if not is_instance_valid(window_mode.settings_layer):
++		bench.queue_free(); quit(1); return
++	var resume: Button = window_mode.settings_layer.find_child("OptionsResumeButton", true, false)
++	check(resume != null, "Settings has a non-text focus target")
++	if resume == null:
++		window_mode.settings_layer.queue_free(); bench.queue_free(); quit(1); return
++	resume.grab_focus()
++	await settle(2)
++	check(root.gui_get_focus_owner() == resume, "Settings button owns actual viewport focus")
++	var scroll: Vector2 = graph.scroll_offset
++	await key(KEY_Z, true)
++	check(component.position_offset == moved and bench.wire_history.size() == undo_count and bench.redo_history.is_empty(), "Settings blocks undo beneath non-text focus")
++	await key(KEY_Y, true)
++	check(component.position_offset == moved and bench.wire_history.size() == undo_count and bench.redo_history.is_empty(), "Settings blocks undo and redo beneath non-text focus")
++	for code: Key in [KEY_BACKSPACE, KEY_DELETE, KEY_3, KEY_W, KEY_A, KEY_S, KEY_D, KEY_HOME, KEY_F6]:
++		await key(code)
++	check(bench.component_catalog.size() == component_count and graph.get_connection_list().size() == wire_count, "Settings blocks component deletion")
++	check(bench.wire_history.size() == undo_count and bench.redo_history.is_empty(), "Settings preserves both edit histories")
++	check(graph.scroll_offset.is_equal_approx(scroll) and bench.graph_pan_keys.is_empty(), "Settings blocks keyboard pan and circuit focus")
++	check(bench.active_wire_color_index == color and bench.debug_result_label.text == result, "Settings blocks wire colors and running the board")
++	await key(KEY_ESCAPE)
++	await settle()
++	check(not is_instance_valid(window_mode.settings_layer), "Escape closes settings without leaving the workbench")
++	if failures > 0:
++		bench.queue_free(); await settle()
++		print("FAIL: hardware settings input %d failures" % failures)
++		quit(1); return
++	graph.grab_focus()
++	await key(KEY_Z, true)
++	check(component.position_offset.is_equal_approx(original), "Undo resumes after settings closes")
++	await key(KEY_Y, true)
++	check(component.position_offset.is_equal_approx(moved), "Redo resumes after settings closes")
++	await key(KEY_BACKSPACE)
++	check(not bench.component_catalog.has(&"NOT_1"), "Deletion resumes after settings closes")
++	await key(KEY_Z, true)
++	check(bench.component_catalog.has(&"NOT_1"), "The resumed deletion remains undoable")
++	bench.queue_free(); await settle()
++	print(("PASS: " if failures == 0 else "FAIL: ") + "hardware settings input %d failures" % failures)
++	quit(1 if failures else 0)
+--- before/tests/test_chapter_settings_input.gd
++++ after/tests/test_chapter_settings_input.gd
+@@ -0,0 +1,127 @@
++extends SceneTree
++
++var failures: Array[String] = []
++var checks: int = 0
++
++func _init() -> void: call_deferred("run")
++func check(ok: bool, message: String) -> void:
++	checks += 1
++	if not ok: failures.append(message); push_error(message)
++func settle() -> void:
++	for frame: int in 6: await process_frame
++func key(code: Key, control: bool = false) -> void:
++	for down: bool in [true, false]:
++		var event := InputEventKey.new()
++		event.keycode = code; event.physical_keycode = code
++		event.pressed = down; event.ctrl_pressed = control
++		root.push_input(event, true); await process_frame
++func open_settings() -> void:
++	await key(KEY_F10); await settle()
++	var layer: CanvasLayer = root.get_node("WindowMode").settings_layer
++	check(is_instance_valid(layer), "F10 opens Settings")
++	if is_instance_valid(layer):
++		var button: Button = layer.find_child("OptionsResumeButton", true, false)
++		button.grab_focus()
++		await process_frame
++		check(root.gui_get_focus_owner() == button, "Settings owns non-text focus")
++func close_settings() -> void:
++	await key(KEY_ESCAPE); await settle()
++	check(not is_instance_valid(root.get_node("WindowMode").settings_layer), "Escape closes only Settings")
++
++func run() -> void:
++	root.size = Vector2i(1280, 720)
++	root.get_node("GameMode").set_mode(&"test")
++	await system_input()
++	await later_input(true)
++	await later_input(false)
++	print(("PASS: " if failures.is_empty() else "FAIL: ") + "chapter Settings input %d checks, %d failures" % [checks, failures.size()])
++	quit(0 if failures.is_empty() else 1)
++
++func system_input() -> void:
++	root.get_node("TaskNavigation").pending = "chapter_1/assembly"
++	var host: Control = load("res://src/system_lab/system_lab.tscn").instantiate()
++	root.add_child(host); await settle()
++	var cpu: GraphNode = host.device_nodes[&"CPU"]
++	var original: Vector2 = cpu.position_offset
++	host._set_selected_system_devices([&"CPU"] as Array[StringName])
++	host._on_system_begin_node_move()
++	cpu.position_offset += Vector2(50, 30)
++	host._on_system_end_node_move()
++	var moved: Vector2 = cpu.position_offset
++	var history: Array = host.editor_history.duplicate(true)
++	var topology: Array = host.graph.get_connection_list().duplicate(true)
++	# A held pan must stop even when Settings is opened by its button.
++	host.graph_pan_keys[KEY_D] = true
++	root.get_node("WindowMode").open_settings()
++	var scroll: Vector2 = host.graph.scroll_offset
++	await settle()
++	check(host.graph_pan_keys.is_empty() and host.graph.scroll_offset.is_equal_approx(scroll), "System Settings clears already-held pan without a release event")
++	var layer: CanvasLayer = root.get_node("WindowMode").settings_layer
++	(layer.find_child("OptionsResumeButton", true, false) as Button).grab_focus()
++	await key(KEY_Z, true)
++	check(cpu.position_offset == moved and host.editor_history == history, "System Settings blocks undo")
++	await key(KEY_Y, true)
++	for code: Key in [KEY_BACKSPACE, KEY_DELETE, KEY_3, KEY_W, KEY_D]: await key(code)
++	check(host.editor_history == history and host.graph.get_connection_list() == topology, "System Settings preserves wiring and history")
++	check(host.graph.scroll_offset.is_equal_approx(scroll) and host.graph_pan_keys.is_empty(), "System Settings blocks new pan keys")
++	await close_settings()
++	host.graph.grab_focus()
++	await key(KEY_Z, true)
++	check(cpu.position_offset == original, "System undo resumes after Settings")
++	await key(KEY_Y, true)
++	check(cpu.position_offset == moved, "System redo resumes after Settings")
++	host.queue_free(); await settle()
++
++func later_input(overlap: bool) -> void:
++	var domain: String = "Overlap" if overlap else "Layout"
++	root.get_node("TaskNavigation").pending = "chapter_3/buffers" if overlap else "chapter_4/fields"
++	var host: Control = load("res://src/overlap_chapter/overlap_chapter.tscn" if overlap else "res://src/layout_chapter/layout_chapter.tscn").instantiate()
++	root.add_child(host); await settle()
++	var original: Dictionary = (host.board if overlap else host.design).duplicate(true)
++	if overlap: host._add_part("buffer", Vector2(500, 300))
++	else: host._drop_field(0, 2)
++	await settle()
++	var edited: Dictionary = (host.board if overlap else host.design).duplicate(true)
++	check(edited != original, domain + " fixture has a real reversible edit")
++	var history: Array = host.undo_stack.duplicate(true)
++	await open_settings()
++	await key(KEY_Z, true)
++	check((host.board if overlap else host.design) == edited and host.undo_stack == history, domain + " Settings blocks undo")
++	await key(KEY_Y, true)
++	check((host.board if overlap else host.design) == edited and host.undo_stack == history, domain + " Settings blocks redo")
++	if overlap:
++		# Put an actual card behind a Settings button: _input must not steal its click.
++		var layer: CanvasLayer = root.get_node("WindowMode").settings_layer
++		var button: Button = layer.find_child("OptionsResumeButton", true, false)
++		var target: Vector2 = button.get_global_rect().get_center()
++		var card: GraphNode = host.graph.get_node("A")
++		var card_original: Vector2 = card.position_offset
++		var local: Vector2 = host.graph.get_global_transform_with_canvas().affine_inverse() * target
++		card.position_offset = host.graph.graph_position_for_local_pointer(local, card.size)
++		await settle()
++		check(card.get_global_rect().has_point(target), "Overlap pointer fixture places a real card behind Settings Return")
++		var before: Vector2 = card.position_offset
++		var press := InputEventMouseButton.new()
++		press.button_index = MOUSE_BUTTON_LEFT; press.pressed = true; press.position = target
++		root.push_input(press, true); await process_frame
++		check(host.body_drag.is_empty(), "Overlap Settings click cannot start a card drag underneath")
++		var motion := InputEventMouseMotion.new()
++		motion.position = target + Vector2(5, 3); motion.button_mask = MOUSE_BUTTON_MASK_LEFT
++		root.push_input(motion, true); await process_frame
++		var release := InputEventMouseButton.new()
++		release.button_index = MOUSE_BUTTON_LEFT; release.position = motion.position
++		root.push_input(release, true); await settle()
++		check(card.position_offset == before and host.body_drag.is_empty(), "Overlap Settings pointer leaves the card unchanged")
++		check(not is_instance_valid(root.get_node("WindowMode").settings_layer), "The Settings Return button still receives the card-overlapping click")
++		if is_instance_valid(root.get_node("WindowMode").settings_layer): await close_settings()
++		card.position_offset = card_original
++		host._capture_layout()
++		edited = host.board.duplicate(true)
++	else: await close_settings()
++	var focus: Control = root.gui_get_focus_owner()
++	if focus != null: focus.release_focus()
++	await key(KEY_Z, true)
++	check((host.board if overlap else host.design) == original, domain + " undo resumes after Settings")
++	await key(KEY_Y, true)
++	check((host.board if overlap else host.design) == edited, domain + " redo resumes after Settings")
++	host.queue_free(); await settle()
+--- before/tests/fixture_settings_quit_probe.gd
++++ after/tests/fixture_settings_quit_probe.gd
+@@ -0,0 +1,5 @@
++extends "res://src/ui/prototype_hub.gd"
++
++var direct_quits: int = 0
++
++func _quit_game() -> void: direct_quits += 1

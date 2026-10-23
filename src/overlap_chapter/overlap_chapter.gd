@@ -156,6 +156,7 @@ func _on_window_focus_exited() -> void:
 	_save_draft()
 
 func _placement_allowed(position: Vector2) -> bool:
+	if is_instance_valid(WindowMode.settings_layer): return false
 	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open(): return false
 	if not is_instance_valid(graph) or not graph.get_global_rect().has_point(position): return false
 	if is_instance_valid(hint_overlay) or completion.visible or confirmation.visible: return false
@@ -164,6 +165,10 @@ func _placement_allowed(position: Vector2) -> bool:
 	return true
 
 func _input(event: InputEvent) -> void:
+	if is_instance_valid(WindowMode.settings_layer):
+		_cancel_body_drag()
+		_cancel_placement()
+		return
 	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open(): return
 	if not is_instance_valid(graph): return
 	if _handle_body_drag(event):
@@ -235,6 +240,7 @@ func _cancel_body_drag() -> void:
 	body_drag.clear()
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if is_instance_valid(WindowMode.settings_layer): return
 	if terminology_handbook.handle_escape(event):
 		get_viewport().set_input_as_handled()
 		return

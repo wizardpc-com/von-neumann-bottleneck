@@ -1,0 +1,42 @@
+[
+  {
+    "name": "test_learning_handbook",
+    "exit": -2,
+    "passed": false,
+    "errors": [
+      "SCRIPT ERROR: Trying to assign an array of type \"Array\" to a variable of type \"Array[String]\"."
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/final-headless/test_learning_handbook"
+  },
+  {
+    "name": "test_handbook_diagrams",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: operation_navigation footer fits at 320",
+      "FAIL: handbook diagrams 992 checks, 1 failures"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/final-headless/test_handbook_diagrams"
+  },
+  {
+    "name": "test_localization",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/final-headless/test_localization"
+  },
+  {
+    "name": "test_bilingual_typography",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/final-headless/test_bilingual_typography"
+  },
+  {
+    "name": "test_late_handbook_access",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/final-headless/test_late_handbook_access"
+  }
+]

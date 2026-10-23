@@ -22,6 +22,7 @@ var media_caption: Label
 var context_label: Label
 var goal_label: Label
 var content_scroll: ScrollContainer
+var actions: BoxContainer
 
 
 func _ready() -> void:
@@ -40,10 +41,14 @@ func _ready() -> void:
 	for side: String in ["left", "right", "top", "bottom"]:
 		frame.add_theme_constant_override("margin_" + side, 32)
 	add_child(frame)
+	var page_layout := VBoxContainer.new()
+	page_layout.add_theme_constant_override("separation",12)
+	frame.add_child(page_layout)
 	content_scroll = ScrollContainer.new()
 	content_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	content_scroll.follow_focus = true
-	frame.add_child(content_scroll)
+	content_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	page_layout.add_child(content_scroll)
 	var center := CenterContainer.new()
 	center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	center.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -87,11 +92,25 @@ func _ready() -> void:
 	body.add_child(HSeparator.new())
 	_add_text(body, str(page.goal_title), Typography.SUBTITLE_SIZE, Color("a3d7d6"))
 	goal_label = _add_text(body, str(page.goal), Typography.BODY_SIZE)
-	_add_text(body, str(page.operations), Typography.CAPTION_SIZE)
+	var steps := VBoxContainer.new()
+	steps.name = "IntroductionSteps"
+	steps.add_theme_constant_override("separation",10)
+	body.add_child(steps)
+	for index: int in page.steps.size():
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation",12)
+		steps.add_child(row)
+		var number := _add_text(row, "%02d" % (index+1), Typography.SUBTITLE_SIZE, Color("a3d7d6"), 32)
+		number.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+		var copy := VBoxContainer.new()
+		copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(copy)
+		_add_text(copy, str(page.steps[index][0]), Typography.BODY_SIZE, Color("a3d7d6"), 604)
+		_add_text(copy, str(page.steps[index][1]), Typography.CAPTION_SIZE, Color("e0ecf2"), 604)
 	_add_text(body, str(page.help), Typography.CAPTION_SIZE, Color("a7bbc8"))
-	var actions := VBoxContainer.new()
+	actions = BoxContainer.new()
 	actions.add_theme_constant_override("separation", 8)
-	body.add_child(actions)
+	page_layout.add_child(actions)
 	start_button = _button(actions, "开始操作" if not english else "Begin building")
 	InstrumentTheme.primary(start_button)
 	start_button.pressed.connect(finish)
@@ -99,7 +118,20 @@ func _ready() -> void:
 	skip_button.pressed.connect(finish)
 	close_button = _button(actions, "返回首页 · Esc" if not english else "Back to Home · Esc")
 	close_button.pressed.connect(close)
+	resized.connect(_fit_actions)
+	for button: Button in [start_button,skip_button,close_button]: button.minimum_size_changed.connect(_fit_actions)
+	_fit_actions()
 	hide()
+
+func _fit_actions() -> void:
+	if not is_instance_valid(close_button): return
+	var width: float = 0.0
+	var count: int = 0
+	for button: Button in [start_button,skip_button,close_button]:
+		if button.visible:
+			width += button.get_combined_minimum_size().x
+			count += 1
+	actions.vertical = width + 8.0 * maxi(0,count-1) > size.x - 64.0
 
 
 func _add_text(parent: Control, text: String, font_size: int, color: Color = Color("e0ecf2"), minimum_width: float = 648.0) -> Label:
@@ -123,6 +155,7 @@ func _button(parent: Control, text: String) -> Button:
 	var button := Button.new()
 	button.text = text
 	button.custom_minimum_size.y = Typography.CONTROL_HEIGHT
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	parent.add_child(button)
 	return button
 
@@ -132,6 +165,7 @@ func present(should_launch: bool) -> void:
 	previous_focus = get_viewport().gui_get_focus_owner()
 	start_button.visible = should_launch
 	skip_button.visible = should_launch
+	_fit_actions()
 	var controls: Array[Button] = [close_button]
 	if should_launch: controls = [start_button, skip_button, close_button]
 	for index: int in controls.size():

@@ -112,6 +112,8 @@ var terminal_pages: SubViewportContainer
 var _page_was_open: bool = false
 var terminal_background: ColorRect
 var room_hover: Label
+var room_hover_frame: HoverFrame
+var _hover_id: String = ""
 var room_focus: bool = false
 var _terminal_was_asleep: bool = true
 var room_focus_amount: float = 0.0
@@ -225,8 +227,8 @@ func _ready() -> void:
 		layers.desk.add_child(terminal_background)
 		layers.desk.move_child(terminal_background, 0)
 		terminal.message.font_size = 20
-		terminal.primary.add_theme_font_size_override("font_size", 20)
-		terminal.primary.custom_minimum_size.y = 48
+		(terminal.primary.get_node("CardLines/CardTitle") as Label).add_theme_font_size_override("font_size", 26)
+		terminal.primary.custom_minimum_size = Vector2(600, 88)
 		for button: Control in terminal.secondary.get_children():
 			button.add_theme_font_size_override("font_size", 16)
 			button.custom_minimum_size.y = 36
@@ -260,6 +262,31 @@ func _ready() -> void:
 
 # Real 3D room; the existing terminal/controller and route ownership stay intact.
 # --flat-lab retains the previous presentation for diagnosis, not a second save.
+## The pointed-at room object gets four soft corner brackets that settle in
+## around it, and its name in a small pill just below. Presentation only.
+class HoverFrame extends Control:
+	var target := Rect2()
+	var shown := Rect2()
+	var strength: float = 0.0
+	func _process(delta: float) -> void:
+		var reduced: bool = bool(ProjectSettings.get_setting("game/reduced_motion", false))
+		var goal: float = 1.0 if target.has_area() else 0.0
+		strength = goal if reduced else move_toward(strength, goal, delta * 5.0)
+		if target.has_area():
+			var grown: Rect2 = target.grow(10.0 + 10.0 * (1.0 - strength))
+			shown = grown if reduced or not shown.has_area() else Rect2(shown.position.lerp(grown.position, 1.0 - exp(-14.0 * delta)), shown.size.lerp(grown.size, 1.0 - exp(-14.0 * delta)))
+		queue_redraw()
+	func _draw() -> void:
+		if strength <= 0.01 or not shown.has_area(): return
+		var color := Color(Palette.ACCENT, 0.9 * strength)
+		var arm: float = clampf(minf(shown.size.x, shown.size.y) * 0.22, 12.0, 34.0)
+		var corners: Array = [[shown.position, Vector2(1, 0), Vector2(0, 1)], [Vector2(shown.end.x, shown.position.y), Vector2(-1, 0), Vector2(0, 1)],
+			[shown.end, Vector2(-1, 0), Vector2(0, -1)], [Vector2(shown.position.x, shown.end.y), Vector2(1, 0), Vector2(0, -1)]]
+		for corner: Array in corners:
+			var p: Vector2 = corner[0]
+			draw_polyline(PackedVector2Array([p + corner[1] * arm, p, p + corner[2] * arm]), Color(0, 0, 0, 0.18 * strength), 5.0, true)
+			draw_polyline(PackedVector2Array([p + corner[1] * arm, p, p + corner[2] * arm]), color, 2.5, true)
+
 func _build_immersive_room() -> void:
 	if "--flat-lab" in OS.get_cmdline_user_args(): return
 	room = RoomType.new()
@@ -280,7 +307,18 @@ func _build_immersive_room() -> void:
 	room_hover.add_theme_font_size_override("font_size",16)
 	room_hover.add_theme_color_override("font_color",Color("253642"))
 	room_hover.add_theme_color_override("font_outline_color",Color("eef1ec"))
-	room_hover.add_theme_constant_override("outline_size",4)
+	room_hover_frame = HoverFrame.new(); room_hover_frame.name = "RoomObjectFrame"
+	room_hover_frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	room_hover_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(room_hover_frame)
+	room_hover.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	room_hover.add_theme_color_override("font_color",Color("eef3f2"))
+	room_hover.add_theme_constant_override("outline_size",0)
+	var pill := StyleBoxFlat.new(); pill.bg_color = Color(Palette.TERM_SCREEN, 0.86)
+	pill.set_corner_radius_all(14); pill.content_margin_left = 14; pill.content_margin_right = 14
+	pill.content_margin_top = 4; pill.content_margin_bottom = 5
+	pill.border_color = Color(Palette.ACCENT, 0.6); pill.set_border_width_all(1)
+	room_hover.add_theme_stylebox_override("normal", pill)
 	add_child(room_hover)
 
 func _room_blocked() -> bool:
@@ -341,7 +379,8 @@ func _process_immersive_room(_delta: float) -> void:
 	if terminal.visible and not was_visible and not blocked and not terminal.asleep() and not terminal.confirming():
 		terminal._focus_primary()
 	terminal.mouse_filter = Control.MOUSE_FILTER_IGNORE if blocked else Control.MOUSE_FILTER_PASS
-	room_hover.visible = not room_focus and not terminal.confirming()
+	room_hover.visible = not room_focus and not terminal.confirming() and not room_hover.text.is_empty()
+	_place_room_hover(blocked)
 	# Room captions belong to the room; a page or the terminal covers them.
 	caption.visible = not room_focus and not terminal.confirming()
 	if not room_focus and not zooming and not _pending_caption.is_empty():
@@ -354,8 +393,22 @@ func _sync_room_terminal() -> void:
 	if terminal == null or room == null: return
 	var ui_scale: float = minf(size.x / 1280.0, size.y / 720.0)
 	terminal.scale = Vector2.ONE * ui_scale
-	terminal.size = Vector2(1000, 440)
+	terminal.size = Vector2(1040, 500)
 	terminal.position = (size - terminal.size * ui_scale) * 0.5
+
+func _place_room_hover(blocked: bool) -> void:
+	if room_hover_frame == null: return
+	var rect: Rect2 = room.region_screen_rect(_hover_id) if room != null and not _hover_id.is_empty() and room_hover.visible and not blocked and not zooming else Rect2()
+	room_hover_frame.target = rect.intersection(Rect2(Vector2.ZERO, size)) if rect.has_area() else Rect2()
+	room_hover.reset_size()
+	if rect.has_area():
+		var below := Vector2(rect.get_center().x - room_hover.size.x * 0.5, rect.end.y + 18.0)
+		# High objects (works wall) name themselves above, clear of the terminal.
+		if rect.get_center().y < size.y * 0.35 or below.y + room_hover.size.y > size.y - 8.0:
+			below.y = rect.position.y - room_hover.size.y - 18.0
+		room_hover.position = below.clamp(Vector2(8, 8), size - room_hover.size - Vector2(8, 8))
+	else:
+		room_hover.position = Vector2((size.x - room_hover.size.x) * 0.5, size.y - room_hover.size.y - 14.0)
 
 func _on_room_hover(id: String) -> void:
 	if room_hover == null: return
@@ -365,6 +418,7 @@ func _on_room_hover(id: String) -> void:
 		"works":["作品","Works"], "achievements":["成就","Achievements"], "handbook":["手册","Handbook"],
 		"settings":["设置","Settings"], "feedback":["反馈","Feedback"], "globe":["旅程回顾","Journey journal"]}
 	room_hover.text = str(labels[id][1 if english else 0]) if labels.has(id) else ""
+	_hover_id = id if labels.has(id) and id != "terminal" else ""
 
 func _on_room_action(id: String) -> void:
 	if _room_blocked(): return
@@ -725,6 +779,12 @@ func _read_progress() -> void:
 		"total": rows.size(),
 		"fragments": fragments_open,
 	})
+	if room != null:
+		var just_done: String = ""
+		if not response.is_empty() and not bool(response.get("first_light", false)):
+			just_done = Naming.plain_title(str(response.get("task", {}).get("title", "")))
+		room.set_standby({"english": english, "new_player": completed.is_empty(), "next_label": status_next,
+			"next_chapter": status_chapter, "completed": completed.size(), "total": rows.size(), "just_done": just_done})
 	LabState.mark_seen(completed)
 
 func _refresh_archive_counts() -> void:

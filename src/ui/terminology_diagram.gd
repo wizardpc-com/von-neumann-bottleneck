@@ -11,6 +11,12 @@ const PrologueSimulatorType = preload("res://src/circuit/prologue_simulator.gd")
 const WIDTH_EXAMPLES: Array[int] = [1, 2, 4]
 const BATCH_RECORDS: int = 9
 const BATCH_CAPACITY: int = 4
+const CONCEPT_IDS: Array[StringName] = [
+	&"block_representation", &"raw_rle", &"online_preparation", &"persistent_state",
+	&"dirty_writeback", &"response_latency", &"quantization", &"address_prediction",
+	&"context_model", &"predictive_packet", &"commit_reveal", &"output_feedback", &"work_recipe",
+	&"high_impedance", &"short_circuit", &"port", &"operation_wiring", &"operation_review", &"operation_navigation",
+]
 
 const BACKGROUND := Color("101a2a")
 const PANEL := Color("18263a")
@@ -54,6 +60,8 @@ func _draw() -> void:
 		return
 	draw_rect(Rect2(Vector2.ZERO, size), BACKGROUND, true)
 	draw_rect(Rect2(Vector2.ZERO, size), BORDER, false, 1.0)
+	if diagram_id in CONCEPT_IDS:
+		_draw_concept(); return
 	if String(diagram_id).begins_with("gate_"):
 		_draw_gate_example()
 		return
@@ -821,3 +829,125 @@ func _draw_wrapped_text(rect: Rect2, value: String, color: Color, font_size: int
 	var layout: Dictionary = wrapped_text_layout(rect, value, font_size)
 	draw_multiline_string(font, rect.position + Vector2(0, font.get_ascent(int(layout.font_size))), value,
 		HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, int(layout.font_size), int(layout.max_lines), color)
+
+
+func _ui(zh: String, en: String) -> String:
+	return en if Localization.current_locale() == "en" else zh
+
+
+## Relationship sketches, never measured runs or an alternative simulator.
+func concept_example() -> Dictionary:
+	var steps: Array = []
+	var note: String = ""
+	match diagram_id:
+		&"operation_navigation":
+			steps = [[_ui("终端", "Terminal"), _ui("继续当前任务", "Continue a task")], [_ui("旅程地图", "Journey map"), _ui("选关与任务规格", "Tasks and specifications")], [_ui("作品墙", "Work wall"), _ui("回看已保存作品", "Reopen saved works")], [_ui("档案架", "Archive shelf"), _ui("阅读旅程记录", "Read journey records")]]
+			note = _ui("入口用途 · F10 设置，F8 反馈", "Entry guide · F10 settings / F8 feedback")
+		&"block_representation":
+			steps = [[_ui("同一原文","Same source"),"AAAA · BCDE"],[_ui("划分边界","Partition"),"[AAAA] [BCDE]"],[_ui("逐块表示","Per block"),"RLE + RAW"],[_ui("请求与解码","Read / decode"),_ui("还原请求的字节","Restore requested bytes")]]
+			note = _ui("关系示意 · 每个源字节恰好覆盖一次","Schematic · cover each source byte once")
+		&"raw_rle":
+			steps = [["RAW",_ui("保留原始字节","Original bytes")],["RLE",_ui("次数 + 值","Count + value")],[_ui("解码 RLE","Decode RLE"),_ui("还原同一原文","Restore the same source")],[_ui("读取 RAW","Read RAW"),_ui("还原同一原文","Restore the same source")]]
+			note = _ui("对照示意 · 头部、搬运、解码都计成本","Comparison · headers, transfer and decode cost")
+		&"online_preparation":
+			steps = [[_ui("读取源","Read source"),_ui("源仍占空间","Source occupies space")],[_ui("编码并写入","Encode / write"),_ui("准备计入本单","Preparation is charged")],[_ui("服务请求","Serve reads"),_ui("重复使用已准备表示","Reuse prepared form")],[_ui("合计","Total"),_ui("准备 + 服务","Preparation + service")]]
+			note = _ui("关系示意 · 同时检查准备峰值","Schematic · also check peak storage")
+		&"persistent_state":
+			steps = [[_ui("同流先前状态","Prior state"),"h(previous)"],[_ui("本次输入","Current input"),"x(current)"],[_ui("更新状态","Update state"),"h(new)"],[_ui("下一次继续","Next request"),_ui("沿用同流的新状态","Reuse this stream's state")]]
+			note = _ui("依赖示意 · 同一流内顺序不可颠倒","Dependency · preserve each stream's order")
+		&"dirty_writeback":
+			steps = [[_ui("读入状态","Read state"),_ui("进入有限驻留位","Finite resident slots")],[_ui("更新后变脏","Update: dirty"),_ui("内存值已改变","Resident value changed")],[_ui("逐出或结束","Evict / finish"),_ui("编码并写回","Encode and write back")],[_ui("后续再读","Read again"),_ui("取得最新状态","Read the updated state")]]
+			note = _ui("关系示意 · 最终脏状态也要写回","Schematic · final dirty states also flush")
+		&"response_latency":
+			steps = [[_ui("一组请求","Request group"),_ui("输入全部读取","Read all group inputs")],[_ui("逐项处理","Process in order"),_ui("每项更新与计算","Update and score each")],[_ui("整组返回","Return group"),_ui("现在才交付结果","Deliver scores now")],[_ui("比较两种指标","Compare metrics"),_ui("首次响应 / 总周期","First response / total")]]
+			note = _ui("关系示意 · 总量更省未必响应更早","Schematic · less total work can respond later")
+		&"quantization":
+			steps = [[_ui("原状态","Original state"),_ui("连续数值","Numerical values")],[_ui("量化格点","Quantize"),_ui("映到有限精度","Map to a finite grid")],[_ui("逐次更新","Every update"),_ui("按所选精度保存","Retain selected precision")],[_ui("检查取舍","Check trade-off"),_ui("空间、流量、误差","Space, traffic, error")]]
+			note = _ui("关系示意 · 量化改变精度，RLE不改变","Schematic · quantization is lossy; RLE is not")
+		&"address_prediction":
+			steps = [[_ui("已观察地址","Observed address"),_ui("只读真实需求历史","Actual demands only")],[_ui("形成规则","Form a rule"),_ui("步长与重复置信","Stride and repetitions")],[_ui("尝试预取","Try prefetch"),_ui("仍付搬运与占位成本","Transfer and space cost")],[_ui("真实需求到来","Next real demand"),_ui("核对猜测并更新历史","Check guess; update history")]]
+			note = _ui("因果示意 · 猜测不成为已观察历史","Causal sketch · guesses are not observations")
+		&"context_model":
+			steps = [[_ui("选择样例","Choose examples"),_ui("片段各自独立","Independent passages")],[_ui("明确学习","Learn explicitly"),_ui("统计上下文后继","Count context successors")],[_ui("规则盒","Rule box"),_ui("记忆长度与计数","History length and counts")],[_ui("供后续使用","Use frozen rules"),_ui("复原、预测或生成","Restore, predict, generate")]]
+			note = _ui("关系示意 · 编辑样例后需重新学习","Schematic · learn again after editing examples")
+		&"predictive_packet":
+			steps = [[_ui("原文与规则","Source + rules"),_ui("编码预测和例外","Encode guesses / exceptions")],[_ui("实际数据包","Actual packet"),_ui("规则、头部、修正","Rules, headers, corrections")],[_ui("接收端","Receiver"),_ui("只拿到包内字节","Packet bytes only")],[_ui("无损复原","Lossless restore"),_ui("与原文逐格相等","Equals every source cell")]]
+			note = _ui("关系示意 · 规则和修正都计字节","Schematic · rules and corrections count")
+		&"commit_reveal":
+			steps = [[_ui("已见前缀","Seen prefix"),_ui("未来仍封闭","Future stays sealed")],[_ui("提交下一格","Commit next guess"),_ui("锁定后再看答案","Commit before truth")],[_ui("揭晓真值","Reveal truth"),_ui("核对并延长前缀","Check; extend prefix")],[_ui("继续检查","Continue checking"),_ui("规则保持冻结","Rules remain frozen")]]
+			note = _ui("顺序示意 · 揭晓不训练；已见仍标已见","Sequence · reveal never trains the rules")
+		&"output_feedback":
+			steps = [[_ui("起始片段","Initial passage"),_ui("作为当前历史","Current history")],[_ui("同一规则盒","Same rule box"),_ui("选择下一个符号","Choose next symbol")],[_ui("实际输出","Actual output"),_ui("追加到历史","Append to history")],[_ui("回灌继续","Feed back"),_ui("再用规则选择下一格","Use rules for the next cell")]]
+			note = _ui("循环示意 · 无隐藏原文，不自动学习","Loop · no hidden target or automatic learning")
+		&"work_recipe":
+			steps = [[_ui("实际生成","Actual generation"),_ui("得到符号快照","Output snapshot")],[_ui("命名并确认","Name and confirm"),_ui("保存快照与配方","Keep snapshot + recipe")],[_ui("回看或再生","View / regenerate"),_ui("原快照 / 完整配方","Snapshot / full recipe")],[_ui("分叉探索","Fork and explore"),_ui("原作品保持不变","Original work preserved")]]
+			note = _ui("关系示意 · 保存选择，不评判美丑","Schematic · keep a choice, not a beauty score")
+		&"operation_wiring":
+			steps = [[_ui("选件放置","Place a part"),_ui("拖动或点击连续放置","Drag, or click to place")],[_ui("检查端口","Check ports"),_ui("输出接同宽输入","Output to same-width input")],[_ui("明确连接","Connect explicitly"),_ui("接点可分支，交叉不连","Junctions branch; crossings don't")],[_ui("修正操作","Revise"),_ui("右键 / Esc；撤销重做","Right-click / Esc; undo / redo")]]
+			note = _ui("操作示意 · 取消操作不等于离开关卡","Controls · cancel the gesture before leaving")
+		&"operation_review":
+			steps = [[_ui("读取规格","Read the task"),_ui("确认输入与预期输出","Inputs and expected outputs")],[_ui("单例调试","Debug one case"),_ui("查看实际执行记录","Inspect the actual trace")],[_ui("本关完整测试","Run task tests"),_ui("检查内置全部用例","Check all authored cases")],[_ui("符合条件再封装","Seal when eligible"),_ui("保留可复用成果","Keep a reusable component")]]
+			note = _ui("操作示意 · 回放速度不改变判定","Controls · playback speed never changes results")
+	return {"steps":steps,"note":note}
+
+
+func concept_boxes() -> Array[Rect2]:
+	var width: float = (size.x - 52.0) * 0.5
+	return [Rect2(16,30,width,76),Rect2(size.x*0.5+10,30,width,76),
+		Rect2(size.x*0.5+10,128,width,76),Rect2(16,128,width,76)]
+
+
+func _draw_concept() -> void:
+	if diagram_id == &"operation_navigation":
+		var navigation: Dictionary = concept_example()
+		var navigation_boxes: Array[Rect2] = concept_boxes()
+		for index: int in 4:
+			var rect: Rect2 = navigation_boxes[index]
+			draw_style_box(InstrumentTheme.panel(PANEL, ACCENT), rect)
+			_draw_wrapped_text(Rect2(rect.position + Vector2(8, 7), Vector2(rect.size.x - 16, 26)), str(navigation.steps[index][0]), ACCENT, 14)
+			_draw_wrapped_text(Rect2(rect.position + Vector2(8, 37), Vector2(rect.size.x - 16, 34)), str(navigation.steps[index][1]), TEXT, 13)
+		_draw_wrapped_text(Rect2(14, 212, size.x - 28, 34), str(navigation.note), MUTED, 13)
+		return
+	if diagram_id in [&"high_impedance",&"short_circuit",&"port"]:
+		_draw_port_states(); return
+	var example: Dictionary = concept_example()
+	var boxes: Array[Rect2] = concept_boxes()
+	var colors: Array[Color] = [ACCENT,WARNING,GOOD,ACCENT]
+	for index: int in example.steps.size():
+		var rect: Rect2 = boxes[index]
+		draw_style_box(InstrumentTheme.panel(PANEL,colors[index]),rect)
+		_draw_wrapped_text(Rect2(rect.position+Vector2(5,5),Vector2(rect.size.x-10,30)),str(example.steps[index][0]),colors[index],14)
+		_draw_wrapped_text(Rect2(rect.position+Vector2(5,37),Vector2(rect.size.x-10,35)),str(example.steps[index][1]),TEXT,13)
+	if diagram_id == &"raw_rle":
+		_draw_arrow(_bottom_center(boxes[0]),_top_center(boxes[3]),ACCENT)
+		_draw_arrow(_bottom_center(boxes[1]),_top_center(boxes[2]),WARNING)
+	else:
+		_draw_arrow(_right_center(boxes[0]),_left_center(boxes[1]),ACCENT)
+		_draw_arrow(_bottom_center(boxes[1]),_top_center(boxes[2]),WARNING)
+		_draw_arrow(_left_center(boxes[2]),_right_center(boxes[3]),GOOD)
+	if diagram_id == &"output_feedback":
+		_draw_arrow(_top_center(boxes[3]),_bottom_center(boxes[0]),ACCENT)
+	_draw_wrapped_text(Rect2(14,212,size.x-28,34),str(example.note),MUTED,13)
+
+
+func _draw_port_states() -> void:
+	var left := Vector2(46,112)
+	var right := Vector2(size.x-46,112)
+	_draw_text(Rect2(14,16,size.x-28,28),_ui("端口关系示意","Port relationships"),TEXT,17)
+	if diagram_id == &"port":
+		draw_circle(left,7,ACCENT); draw_circle(right,7,ACCENT)
+		_draw_arrow(left+Vector2(10,0),right-Vector2(10,0),ACCENT)
+		_draw_text(Rect2(12,57,100,30),_ui("输出 1 位","Output: 1 bit"),ACCENT,14)
+		_draw_text(Rect2(size.x-112,57,100,30),_ui("输入 1 位","Input: 1 bit"),ACCENT,14)
+		_draw_wrapped_text(Rect2(16,155,size.x-32,70),_ui("方向与位宽都要匹配。多位端口用方形；只交叉不算连接。","Match direction and width. Multi-bit ports are square; crossing wires do not connect."),TEXT,14)
+	elif diagram_id == &"high_impedance":
+		draw_circle(left,8,MUTED); draw_circle(right,8,WARNING)
+		_draw_text(Rect2(16,60,80,30),"Z",MUTED,24)
+		for x: int in range(60,int(size.x)-60,16): draw_line(Vector2(x,112),Vector2(x+8,112),MUTED,2)
+		_draw_text(Rect2(size.x-96,60,80,30),"?",WARNING,24)
+		_draw_wrapped_text(Rect2(16,155,size.x-32,70),_ui("Z 表示没有有效驱动，不等于 0。接收端不能把悬空当成已知值。","Z means no valid drive, not zero. An undriven input is not a known value."),TEXT,14)
+	else:
+		_draw_arrow(left,right,DANGER); _draw_arrow(right,left,DANGER)
+		_draw_text(Rect2(16,60,80,30),"1",GOOD,24)
+		_draw_text(Rect2(size.x-96,60,80,30),"0",DANGER,24)
+		_draw_wrapped_text(Rect2(16,155,size.x-32,70),_ui("同一网络被驱动成不同值会冲突。两个输出相同值不代表冲突；接线仍需符合端口规则。","Different driven values conflict. Equal values are not a conflict; port rules still apply."),TEXT,14)

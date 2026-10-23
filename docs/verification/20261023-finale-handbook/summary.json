@@ -1,0 +1,171 @@
+{
+  "headless_latest": [
+    {
+      "name": "test_cinematics",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_cinematics.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T121743Z-8c6ce347/test_cinematics",
+      "evidence_stage": "initial"
+    },
+    {
+      "name": "test_creation_measured_closure",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_measured_closure.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_creation_measured_closure",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_creation_sample_editing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_creation_sample_editing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_creation_sample_editing",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_ending_cinematic",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_ending_cinematic.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_ending_cinematic",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_full_journey_narrative",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_full_journey_narrative.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_full_journey_narrative",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_handbook_diagrams",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/final-recheck/test_handbook_diagrams",
+      "evidence_stage": "final-recheck"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/final-headless/test_localization",
+      "evidence_stage": "final-headless"
+    },
+    {
+      "name": "test_yi_introduction_media",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_yi_introduction_media.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_yi_introduction_media",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_first_build_guidance",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_first_build_guidance.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_first_build_guidance",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_guide_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_guide_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_guide_convergence",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_late_handbook_access",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/final-headless/test_late_handbook_access",
+      "evidence_stage": "final-headless"
+    },
+    {
+      "name": "test_learning_handbook",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/final-recheck/test_learning_handbook",
+      "evidence_stage": "final-recheck"
+    },
+    {
+      "name": "test_narrative_review",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_narrative_review.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_narrative_review",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_prediction_workbench_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_workbench_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_prediction_workbench_presentation",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_representation_workbench_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_representation_workbench_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_representation_workbench_presentation",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_workbench_escape",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_workbench_escape.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261023T122205Z-e74c5c74/test_workbench_escape",
+      "evidence_stage": "focused"
+    },
+    {
+      "name": "test_bilingual_typography",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/final-headless/test_bilingual_typography",
+      "evidence_stage": "final-headless"
+    }
+  ],
+  "headless_unique_suites": 17,
+  "headless_all_passed": true,
+  "handbook_entries": 116,
+  "new_diagrams": 19,
+  "handbook_checks": 1604,
+  "diagram_checks": 992,
+  "gpu_late_checks": 136,
+  "gpu_intro_checks": 278,
+  "ordinary_ending_checks": 28,
+  "ending_trigger_checks": 17,
+  "cinematics_checks": 50,
+  "frames": 38,
+  "original_sources_unchanged": true,
+  "not_verified": [
+    "physical mouse/keyboard",
+    "audible synchronization",
+    "newcomer comprehension",
+    "new exported package"
+  ]
+}

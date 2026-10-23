@@ -495,8 +495,19 @@ func _select_and_locate(key: String) -> void:
 	if selected.is_empty() or selected.key != key: return
 	canvas.locate(key)
 
+func _input(event: InputEvent) -> void:
+	# A native tooltip (e.g. over the progress line) must not swallow the first Escape.
+	if not event is InputEventKey or event.keycode != KEY_ESCAPE: return
+	# Overlays opened from the map (observatory, journal) close themselves first.
+	for overlay: Variant in [journey_observatory, journey_journal]:
+		if is_instance_valid(overlay) and (overlay as CanvasItem).is_visible_in_tree(): return
+	_unhandled_key_input(event)
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+		var modal: Window = get_window().get_last_exclusive_window()
+		if modal != null and modal != get_window() and modal.visible: return
+		if is_instance_valid(WindowMode.settings_layer) or PlaytestData._feedback_visible: return
 		TaskNavigation.from_tree = false
 		get_viewport().set_input_as_handled()
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")

@@ -1,0 +1,56 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: System Settings clears already-held pan without a release event
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] system_input (res://tests/test_chapter_settings_input.gd:58)
+       [2] settle (res://tests/test_chapter_settings_input.gd:11)
+ERROR: System Settings blocks undo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] system_input (res://tests/test_chapter_settings_input.gd:62)
+       [2] key (res://tests/test_chapter_settings_input.gd:17)
+ERROR: System Settings blocks new pan keys
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] system_input (res://tests/test_chapter_settings_input.gd:66)
+       [2] key (res://tests/test_chapter_settings_input.gd:17)
+ERROR: Overlap Settings blocks undo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] later_input (res://tests/test_chapter_settings_input.gd:89)
+       [2] key (res://tests/test_chapter_settings_input.gd:17)
+ERROR: Overlap Settings click cannot start a card drag underneath
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] later_input (res://tests/test_chapter_settings_input.gd:107)
+ERROR: The Settings Return button still receives the card-overlapping click
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] later_input (res://tests/test_chapter_settings_input.gd:115)
+       [2] settle (res://tests/test_chapter_settings_input.gd:11)
+ERROR: Overlap undo resumes after Settings
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] later_input (res://tests/test_chapter_settings_input.gd:123)
+       [2] key (res://tests/test_chapter_settings_input.gd:17)
+ERROR: Overlap redo resumes after Settings
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] later_input (res://tests/test_chapter_settings_input.gd:125)
+       [2] key (res://tests/test_chapter_settings_input.gd:17)
+ERROR: Layout Settings blocks undo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_chapter_settings_input.gd:9)
+       [1] later_input (res://tests/test_chapter_settings_input.gd:89)
+       [2] key (res://tests/test_chapter_settings_input.gd:17)
+FAIL: chapter Settings input 27 checks, 9 failures

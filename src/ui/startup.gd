@@ -12,6 +12,9 @@ func _begin() -> void:
 	if not Cinematic.automated_launch():
 		if bool(GlobalSave.game_player_content.completed_levels.get(&"load_store", false)):
 			Cinematic.take_once(&"prologue_complete")
+		var review: Dictionary = preload("res://src/campaign/second_act_tasks.gd").saved_review()
+		if str(review.get("representation", {}).get("status", "")) == "complete":
+			Cinematic.take_once(&"chapter5_complete")
 		if Cinematic.new_player(GlobalSave.storage_path, GlobalSave.workbench_storage_path):
 			var movie: CinematicPlayer = Cinematic.present_once(self, &"opening")
 			if movie != null:

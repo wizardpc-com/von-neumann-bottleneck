@@ -1,0 +1,7 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+   at: _check_later_guidance (res://tests/test_learning_handbook.gd:139)
+   GDScript backtrace (most recent call first):
+       [0] _check_later_guidance (res://tests/test_learning_handbook.gd:139)
+       [1] _run (res://tests/test_learning_handbook.gd:86)

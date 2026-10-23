@@ -84,12 +84,25 @@ func run() -> void:
 		var panel: Control = hub.find_child("ChapterOptionsPanel",true,false)
 		check(hub.size==Vector2(1280,720) and Rect2(Vector2.ZERO,hub.size).encloses(panel.get_global_rect()),"Settings panel fits minimum viewport in "+locale)
 		check(panel.get_global_rect().encloses(hub.options_resume_button.get_global_rect()),"Close stays visible below scrolling content.")
+		var tabs: TabContainer = hub.find_child("SettingsCategories",true,false)
+		check(tabs != null and tabs.get_tab_count() == 3,"Settings groups controls in three illustrated pages.")
+		if tabs == null: hub.queue_free(); continue
+		for index: int in 3:
+			tabs.current_tab = index
+			for frame: int in range(4): await process_frame
+			check(tabs.get_tab_icon(index) != null,"Settings category has a graphic icon.")
+			for node: Node in hub.options_overlay.find_children("*","Control",true,false):
+				var control := node as Control
+				if control.focus_mode != Control.FOCUS_ALL or not control.is_visible_in_tree(): continue
+				var next: Node = control.get_node_or_null(control.focus_next)
+				if next is Control: check(next.is_visible_in_tree(),"Settings focus stays on the visible category.")
+		check(hub.options_resume_button.is_visible_in_tree() and panel.get_global_rect().encloses(hub.options_resume_button.get_global_rect()),"Return stays visible while changing settings categories.")
 		var reset: Button = hub.find_child("ResetPresentation",true,false); reset.grab_focus()
 		var reset_dialog: ConfirmationDialog = hub.find_child("ResetPresentationConfirm",true,false)
 		check(reset_dialog.ok_button_text==localization.text(&"common.confirm") and reset_dialog.cancel_button_text==localization.text(&"common.cancel"),"Reset confirmation buttons follow the selected language.")
 		for frame: int in range(4): await process_frame
-		var scroll: ScrollContainer = hub.find_child("SettingsScroll",true,false)
-		check(scroll.scroll_vertical>0 and scroll.get_global_rect().encloses(reset.get_global_rect()),"Keyboard focus scrolls to the offscreen reset action.")
+		var scroll: ScrollContainer = hub.find_child("SettingsScroll2",true,false)
+		check(scroll.get_global_rect().encloses(reset.get_global_rect()),"Keyboard focus reveals the reset action within its support page.")
 		var export_button: Button = hub.find_child("ExportDiagnostics",true,false)
 		export_button.pressed.emit()
 		var folder_button: Button = hub.options_open_export_folder_button

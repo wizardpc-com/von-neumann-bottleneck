@@ -1,0 +1,133 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: zh_CN creation: Settings Quit does not bypass the candidate owner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:111)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN creation: Settings Quit hands over to the existing unsaved guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:115)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN creation: Settings Quit cannot bypass pending sample protection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:149)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN creation: Settings Quit protects pending sample before the draft
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:151)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN representation: Settings Quit does not bypass the candidate owner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:111)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN representation: Settings Quit hands over to the existing unsaved guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:115)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN service: Settings Quit does not bypass the candidate owner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:111)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN service: Settings Quit hands over to the existing unsaved guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:115)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN prediction: Settings Quit does not bypass the candidate owner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:111)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: zh_CN prediction: Settings Quit hands over to the existing unsaved guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:115)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en creation: Settings Quit does not bypass the candidate owner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:111)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en creation: Settings Quit hands over to the existing unsaved guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:115)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en creation: Settings Quit cannot bypass pending sample protection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:149)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en creation: Settings Quit protects pending sample before the draft
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:151)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en representation: Settings Quit does not bypass the candidate owner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:111)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en representation: Settings Quit hands over to the existing unsaved guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:115)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en service: Settings Quit does not bypass the candidate owner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:111)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en service: Settings Quit hands over to the existing unsaved guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:115)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en prediction: Settings Quit does not bypass the candidate owner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:111)
+       [2] open_settings_probe (res://tests/test_workbench_escape.gd:49)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en prediction: Settings Quit hands over to the existing unsaved guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:115)
+       [2] settle (res://tests/test_workbench_escape.gd:27)
+FAIL: workbench Escape 105 checks, 20 failures

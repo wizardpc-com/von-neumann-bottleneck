@@ -1,0 +1,40 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+CHAPTER5_GPU user_dir=E:/VNB/temp/codex-closeout-20261023/chapter5-gpu-runtime/Chapter5CinematicGpuChecks/20261023-closeout-1 display=Windows
+CHAPTER5_GPU PASS Explicit isolated QA user directory
+CHAPTER5_GPU PASS Ordinary GPU display
+CHAPTER5_GPU PASS Real presenter accepts ordinary Game launch
+CHAPTER5_GPU PASS Fresh isolated cinematic history
+CHAPTER5_GPU PASS Effects audio bus exists
+CHAPTER5_GPU PASS Real full-journey persistent region
+CHAPTER5_GPU PASS Isolated session writer lease acquired
+CHAPTER5_GPU PASS Real accepted run T0
+CHAPTER5_GPU PASS Partial chapter does not play
+CHAPTER5_GPU PASS Real accepted run T1
+CHAPTER5_GPU PASS Partial chapter does not play
+CHAPTER5_GPU PASS Real accepted run T2
+CHAPTER5_GPU PASS Partial chapter does not play
+CHAPTER5_GPU PASS Real accepted run T3
+CHAPTER5_GPU PASS Partial chapter does not play
+CHAPTER5_GPU PASS Real accepted run T4
+CHAPTER5_GPU PASS Fifth accepted run opens actual cinematic
+CHAPTER5_GPU PASS Cinematic pauses the scene tree
+CHAPTER5_GPU PASS Cinematic pauses actual region processing
+CHAPTER5_GPU PASS Correct chapter5 clip
+CHAPTER5_GPU PASS Actual video routes to muted QA Effects bus
+CHAPTER5_GPU PASS Actual video playback advances while tree is paused
+CHAPTER5_GPU PASS Watching record consumed chapter5
+CHAPTER5_GPU PASS Selected accepted result retained during CG
+CHAPTER5_GPU PASS Blocked writer retains unsaved result during CG
+CHAPTER5_GPU PASS GPU framebuffer contains an image
+CHAPTER5_GPU PASS Screenshot saved: godot-playback.png
+CHAPTER5_GPU PASS Viewport Escape skips and restores pause state
+CHAPTER5_GPU PASS Skipping restores region processing
+CHAPTER5_GPU PASS Region remains visible without a modal
+CHAPTER5_GPU PASS Skip retains selected result and unsaved blocked session
+CHAPTER5_GPU PASS GPU framebuffer contains an image
+CHAPTER5_GPU PASS Screenshot saved: result-after.png
+CHAPTER5_GPU PASS Repeating accepted run does not replay CG
+CHAPTER5_GPU PASS Repeated run remains in the real region
+CHAPTER5_GPU_RESULT checks=35 failures=0

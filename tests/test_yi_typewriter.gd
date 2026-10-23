@@ -92,6 +92,38 @@ func run() -> void:
 	writer.shown = 9
 	check(writer.shown_text() == "Hello. I ", "English output counts visible characters")
 
+	# Punctuation briefly holds the next character, with speed still authoritative.
+	writer.play("A,B", true)
+	writer.set_process(false)
+	writer._process(2.0 / 35.0)
+	check(writer.shown_text() == "A,", "A comma appears before its short pause")
+	writer._process(2.0 / 35.0)
+	check(writer.shown_text() == "A,", "The comma holds the following character for two character times")
+	writer._process(1.01 / 35.0)
+	check(writer.shown_text() == "A,B" and not writer.is_playing(), "Output resumes after the comma pause")
+	writer.play("好。继续", true)
+	writer.set_process(false)
+	writer._process(2.0 / 35.0)
+	writer._process(4.0 / 35.0)
+	check(writer.shown_text() == "好。", "A Chinese sentence ending gets a brief longer pause")
+	check(writer.complete_now() and writer.shown_text() == "好。继续", "Skipping during a punctuation pause completes immediately")
+	writer.play("1.5", true)
+	writer.set_process(false)
+	writer._process(3.01 / 35.0)
+	check(not writer.is_playing(), "A decimal point does not add a sentence pause")
+	writer.play("好。", true)
+	writer.set_process(false)
+	writer._process(2.01 / 35.0)
+	check(not writer.is_playing(), "Final punctuation completes without waiting for a pause")
+	writer.speed_scale = 2.2
+	writer.play("A,B", true)
+	writer.set_process(false)
+	writer._process(5.01 / (35.0 * 2.2))
+	check(not writer.is_playing(), "Operational speed_scale accelerates both characters and punctuation pauses")
+	writer.speed_scale = 1.0
+	writer.play("好。继续")
+	check(not writer.is_playing(), "A completed passage still rereads instantly after a punctuation pause")
+
 	# Reduced motion: complete text, steady caret, no running output.
 	writer.set_reduced_motion(true)
 	writer.play("减少动效时全文立即出现。", true)

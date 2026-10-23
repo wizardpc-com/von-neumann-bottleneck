@@ -564,10 +564,11 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.keycode == KEY_ESCAPE: _unhandled_key_input(event)
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
+	if is_instance_valid(WindowMode.settings_layer): return
 	if event.keycode == KEY_ESCAPE:
 		var modal: Window = get_window().get_last_exclusive_window()
 		if modal != null and modal != get_window() and modal.visible: return
-		if is_instance_valid(WindowMode.settings_layer) or PlaytestData._feedback_visible or completion.visible: return
+		if PlaytestData._feedback_visible or completion.visible: return
 	if event.keycode == KEY_ESCAPE and is_instance_valid(hint_layer) and hint_layer.visible: hint_layer.hide(); get_viewport().set_input_as_handled(); return
 	if event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()

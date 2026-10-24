@@ -1,0 +1,34 @@
+[
+  {
+    "file": "lab.png",
+    "source_workspace_relative": "video/05_参考与索引/实机参考/LAB_CURRENT_20261023.png",
+    "recorded_date": "2026-10-23",
+    "sha256": "bbc9e0a761a25aa69b097907d04df58c67b6e5520e529e637895e8b29309a096",
+    "scope": "Laboratory, isolated development render",
+    "pixels_unchanged": true
+  },
+  {
+    "file": "half-adder.png",
+    "source_workspace_relative": "video/05_参考与索引/实机参考/HA_FAILURE_REFERENCE_20261022.png",
+    "recorded_date": "2026-10-22",
+    "sha256": "1312f8f5e45139356b864b7d4d134f24bb5b6375184acecde23426f0d32cd0d6",
+    "scope": "Viewport-driven QA failure example, not a human first playthrough",
+    "pixels_unchanged": true
+  },
+  {
+    "file": "waiting.png",
+    "source_workspace_relative": "video/05_参考与索引/实机参考/ACCESS_BEFORE_REFERENCE_20261021.png",
+    "recorded_date": "2026-10-21",
+    "sha256": "6fbca43d37de2360c794444b916cbc696f3d17c18f0c0cfb9cec6304f2987cc0",
+    "scope": "Column-first access exceeds the teaching-model target;105 is a target, not an after-run measurement",
+    "pixels_unchanged": true
+  },
+  {
+    "file": "creation.png",
+    "source_workspace_relative": "video/05_参考与索引/实机参考/WORK_KEPT_REFERENCE_20261021.png",
+    "recorded_date": "2026-10-21",
+    "sha256": "0526cef8e9d71e44929fe142fb5ed62783fe57a6305dcb84bfc26a3a7c3d4261",
+    "scope": "Saved My first passage from an isolated controller replay, not a complete beginner journey",
+    "pixels_unchanged": true
+  }
+]

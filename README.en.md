@@ -14,9 +14,9 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Topics:** computer architecture · data movement · cache and locality · buffering and prefetching · memory layout · educational puzzle
 
-![Chapter 4 Common Ground: field grouping, actual memory addresses and measured costs for two workloads](docs/images/readme/layout-en.png)
+![Chinese UI: laboratory terminal, archive shelf, journey board and works wall](docs/images/player-guide/lab.png)
 
-*Common Ground, Chapter 4: the same data serves two workloads. Arrange it, batch it, and compare the real cost of moving it. [Capture provenance and metrics](docs/images/readme/layout-manifest.json).*
+*All four images show the Chinese UI, recorded during development on October 21–23, 2026 with isolated saves and unchanged pixels. They are not fresh Alpha4 binary captures or a complete newcomer playthrough. [Image sources and scope](docs/images/player-guide/README.md).*
 
 **Earlier Alpha (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The historical October 17 Windows build is `v0.5.0-alpha.3-offline.1`; current packages for both platforms are in Alpha4 above.
 
@@ -42,27 +42,31 @@ account or network. [Tester guide](distribution/OFFLINE-PLAYTEST-README.txt) ·
 - **Do the same work with less delay.** Change access order, reuse, scheduling or layout. A correct solution can be the starting point for a more efficient one.
 - **Learn when you need to.** Reopen the task specification at any time and explore a gradually unlocked illustrated handbook. Hints use a separate read-only canvas, with individual confirmation for the deeper two stages.
 
-![Published Alpha task tree branching from wiring into arithmetic and memory](docs/images/readme/tree-en.png)
-
-*These screenshots come from the actual game during the published Alpha phase; they do not depict the current full-journey interface. The hub and task tree use an isolated fresh profile; the level showcases use designs from a separate QA save. [Image provenance and verification scope](docs/images/readme/README.md)*
-
-## Two different kinds of puzzle
+## Build, improve and create
 
 ### Make the parts work together
 
-The prologue's **Four-bit Accumulator CPU** brings the arithmetic and memory branches together. Wire the modules you built into a small machine that loads, adds, stores and retrieves values. The internal wiring is yours to design; the values after each instruction reveal whether the whole machine works.
+Start with a half-adder and run the complete test over all four inputs. In this example, A=B=1 produces SUM=1 where the specification requires SUM=0. Compare the actual and expected outputs, then revise the wiring. Passing every official case lets you seal the circuit as a **HalfAdder** and reuse it in the full-adder and later tasks.
 
-![Prologue Four-bit Accumulator CPU: freely wired arithmetic, register and memory modules](docs/images/readme/cpu-en.png)
+![Chinese UI: the half-adder passes three rows but produces the wrong SUM for A=B=1](docs/images/player-guide/half-adder.png)
+
+The arithmetic and memory branches meet in the **Four-bit Accumulator CPU**. Wire the modules you built into a small machine that loads, adds, stores and retrieves values. The internal wiring is yours to design; the values after each instruction reveal whether the whole machine works.
 
 ### Put the waiting time to work
 
-In Chapter 3's **Taking Turns**, the next batch can arrive while the current one is being processed. Place buffers, connect their data and status signals, then coordinate the work. Extra parts alone won't do it: filling, using and releasing each buffer must happen at the right time. The timeline shows where you have removed waiting.
+Correct output can still spend too much time waiting. This Chapter 2 access-order example takes **321 cycles** with column-first traversal, exceeding the **105-cycle task target**. Change the loop order, apply the program and rerun, then compare fetches, cache hits and total cycles.
 
-![Chapter 3 Taking Turns: an editable double-buffer schedule and its transfer-compute timeline](docs/images/readme/buffers-en.png)
+![Chinese UI: correct output, but column-first traversal exceeds the cycle target](docs/images/player-guide/waiting.png)
 
-## The published Alpha's five regions
+Later, coordinate buffering, backpressure and prefetching so the next batch arrives during computation, or change field layout and batching to compare traffic, copy costs and scratch space. The timeline and profiler help you check whether an edit actually works.
 
-![Published Alpha English chapter hub with the task tree as its primary entry](docs/images/readme/hub-en.png)
+### Keep something you made
+
+The later light-pattern workbench connects compression, content prediction and creation. Learn rules from examples, choose an initial passage and generation settings, then save the actual output with its recipe. Revisit saved works on the laboratory wall or continue exploring from their recipes.
+
+![Chinese UI: My first passage saved with its actual output and recipe](docs/images/player-guide/creation.png)
+
+## The complete sixty-task journey
 
 | Region | What you explore |
 | --- | --- |
@@ -71,6 +75,12 @@ In Chapter 3's **Taking Turns**, the next batch can arrive while the current one
 | Chapter 2 · **Less to Carry** | Explore caches, locality, working sets and blocking to get more use from each fetch. |
 | Chapter 3 · **In the Meantime** | Coordinate buffering, backpressure and prefetching so transfers and computation can overlap. |
 | Chapter 4 · **A Place for Everything** | Arrange fields, groups and batches while accounting for real copy costs, traffic and limited scratch space. |
+| Chapter 5 · **Representation** (5 tasks) | Choose data representations and compare scans, hotspots and preparation costs. |
+| Chapter 6 · **Service** (3 tasks) | Arrange state, requests and a shared service plan; compare transfers and response. |
+| Chapter 7 · **Address prediction** (3 tasks) | Reveal requests, build rules from limited history and measure their costs. |
+| Chapters 8–10 · **Compression, content prediction and creation** (9 tasks) | Learn finite rules, test lossless restoration and prediction, then generate and save your own light patterns. |
+
+The prologue through Chapter 4 contain the core 40 tasks. Representation adds 5, Service 3, address Prediction 3, and compression/content prediction/creation 9, for 60 total. They are not sixty mandatory steps: optional content does not raise the original mainline prerequisites.
 
 The game uses deterministic, deliberately simplified models. Ordinary wires add no latency; waiting and bandwidth belong to modeled components such as Bus, RAM and Cache. Playback speed never changes the result.
 
@@ -79,8 +89,6 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 ## Getting started
 
 **Windows / macOS offline playtest:** open [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4), download the ZIP for your platform and fully extract it. Run `Windows/Von-Neumann-Bottleneck.exe` on Windows or `macOS/Von-Neumann-Bottleneck.app` on Mac. The runtime is included; Godot is not required.
-
-[Your first Alpha session](docs/distribution/astra-challenge/quickstart.en.md) · [September 2026 challenge preparation (archive)](docs/distribution/astra-challenge/README.md)
 
 [Claude development handoff and unmet requirements](docs/development/CLAUDE_HANDOFF_20261018.md)
 
@@ -100,7 +108,11 @@ godot --path .
 
 Alternatively, import `project.godot` in the Godot editor, wait for resource import and use **Run Project / F5**. Click the laboratory terminal or press Enter, then begin with Wiring Tutorial. The terminal's Journey action and right-wall journey board open the task map.
 
-The default interface language is Simplified Chinese. Select English using the bilingual language menu at the **top of the home screen**, or in **Settings → Language**; your choice is saved. You can also choose it at launch:
+Four cinematics accompany first launch, the official final LOAD/STORE pass in the prologue, all five officially accepted Representation plans, and a successful saved work in task 10-3. Each supports Esc/Skip; viewing history is stored separately and survives New Game.
+
+After waking the terminal, choose **Game** or **Test** beside Start/Continue. Game follows prerequisites and retains earned work; Test provides direct task access with temporary reference components and separate progress. Each launch defaults to Game, and switching back grants no Test rewards. Settings and the hardware/Chapter 1/Chapter 2 headers retain their mode controls; leave other workbenches through their save prompts before switching at the terminal.
+
+The default interface language is Simplified Chinese. Use **EN / 中文 in the awakened terminal's title bar**, or **Settings → Language**; your choice is saved. You can also choose it at launch:
 
 ```sh
 godot --path . -- --locale=en

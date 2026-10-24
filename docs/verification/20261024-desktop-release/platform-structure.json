@@ -1,0 +1,49 @@
+{
+  "source_commit": "2c4a9d8bdf132bd20491f4ef2a2ba2f25d770e51",
+  "build_id": "playtest-Release20261024-2c4a9d8bdf13",
+  "macOS": {
+    "architectures": [
+      "x86_64",
+      "arm64"
+    ],
+    "bundle_identifier": "com.wizardpc.von-neumann-bottleneck",
+    "bundle_version": "1.4.4",
+    "minimum_os": null,
+    "signature_structure": [
+      {
+        "arch": "x86_64",
+        "ad_hoc_flag": true,
+        "signature_blob_bytes": 1114112
+      },
+      {
+        "arch": "x86_64",
+        "ad_hoc_flag": true,
+        "signature_blob_bytes": 1114112
+      },
+      {
+        "arch": "arm64",
+        "ad_hoc_flag": true,
+        "signature_blob_bytes": 1048576
+      },
+      {
+        "arch": "arm64",
+        "ad_hoc_flag": true,
+        "signature_blob_bytes": 1048576
+      }
+    ],
+    "notarized": false,
+    "native_execution_performed": false,
+    "pck_sha256": "c9066d4fbcdea335a24976f457583132d7ba663fdd42477101423f18b78f8b5e"
+  },
+  "Windows": {
+    "architecture": "x86_64",
+    "embedded_pck_bytes": 177612748,
+    "exe_sha256": "9ba34870f4889d0f931b632509e3e052b8e83e13fead8cf9791be978d2fc3d0b"
+  },
+  "source_templates": {
+    "source": "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_export_templates.tpz",
+    "entry": "templates/macos.zip",
+    "sha256": "f9de131f5ed0210924b9b156aea43b1e20fd720dd97690e151081a65c0937a3e",
+    "bytes": 123444191
+  }
+}

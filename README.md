@@ -8,9 +8,9 @@
 
 **当前源码：实验室旅程 · 60 项任务 · 完全离线反馈 · 中英文界面**
 
-**版本说明（2026-10-24）：** 当前开发源码包含实验室、60 项旅程、手册与演出，以及存档恢复和双语界面修复；可按[源码运行说明](#从源码运行)体验。下方下载链接固定为 **2026-10-17 离线试玩版**（源码 `4df5bad46751`），不包含之后的更新。已提交的比赛包单独冻结，当前开发源码与该下载包均不代表比赛提交物。[当前状态](docs/CURRENT_STATE.md) · [近期修复与验证范围](docs/verification/20261024-dot-integration/README.md)。
+**最新公开试玩（2026-10-24）：** [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) 提供 **Windows x86_64 / macOS 通用版（Intel、Apple Silicon）**，完整60项旅程，无需安装Godot、账号或联网。实验室、手册、四段演出与近期恢复/双语界面修复均已包含；默认Game，Test成果隔离。Windows实包定向验证已通过；Mac已完成结构与哈希检查，尚未实机验收。比赛提交包单独冻结。[当前版本与核验](docs/verification/20261024-desktop-release/README.md)。
 
-**[⬇️ 下载 2026-10-17 Windows 离线试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [旧版 Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ 下载 Windows / macOS 离线试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4)** · [历史Windows离线版（2026-10-17）](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [旧版 Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **关键词：** 计算机体系结构 · 数据搬运 · 缓存与局部性 · 缓冲与预取 · 内存布局 · 教育解谜
 
@@ -18,11 +18,11 @@
 
 *第四章「两全之策」：同一份数据，两种查询需求。调整布局与分批，比较真实搬运成本。[截图来源与运行数值](docs/images/readme/layout-manifest.json)。*
 
-**旧版 Alpha（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建。此处 Windows 离线试玩链接为 `v0.5.0-alpha.3-offline.1`；本轮未提供新版 Mac 包。
+**旧版 Alpha（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建。10月17日历史离线版为 `v0.5.0-alpha.3-offline.1`；当前双平台包见上方 `v0.5.0-alpha.4`。
 
-**历史旅程候选（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。当时独立分支 `codex/journey-final-candidate-20261018` 的产品固定于 `5bd3792b022e`：60 项任务、双语语境、互动规则、成长档案、可选 3D 观察站和只读原作品回顾；第二章呈现同次实际周期、目标差值及取数证据入口，首次成果接入可替换的临时场景图。普通进度与全关测试采用独立存档，测试访问不授予成果。本轮 Windows 双包未公开发布；上方下载仍是10月17日离线版。[新版包、变化截图与验证范围](docs/verification/20261018-journey-final/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态](docs/CURRENT_STATE.md)。
+**历史旅程候选（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。当时独立分支 `codex/journey-final-candidate-20261018` 的产品固定于 `5bd3792b022e`：60 项任务、双语语境、互动规则、成长档案、可选 3D 观察站和只读原作品回顾；第二章呈现同次实际周期、目标差值及取数证据入口，首次成果接入可替换的临时场景图。普通进度与全关测试采用独立存档，测试访问不授予成果。本轮 Windows 双包未公开发布；该历史候选未独立公开发布，当前双平台下载见上方Alpha4。[新版包、变化截图与验证范围](docs/verification/20261018-journey-final/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态](docs/CURRENT_STATE.md)。
 
-[下载试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+[下载试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 早期固定7c夜间候选的工程交接已完成，包括其Windows实包与限定原生接线／重启观察；该历史范围见[7c验收记录](docs/verification/20261018-night-experience/README.md)。真人理解、最终美术／叙事与更广平台验收仍开放。
 
@@ -72,7 +72,7 @@
 
 ## 开始游玩
 
-**Windows 离线试玩（2026-10-17）：** 前往[离线 Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，下载 ZIP，完整解压后运行 `Windows/Von-Neumann-Bottleneck.exe`。Mac 可使用[旧版 Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)，其中不含本轮离线反馈系统。
+**Windows / macOS 离线试玩：** 前往 [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4)，按平台下载 ZIP 并完整解压。Windows 运行 `Windows/Von-Neumann-Bottleneck.exe`，Mac 运行 `macOS/Von-Neumann-Bottleneck.app`。两个包都包含运行时，无需安装 Godot。
 
 [公开 Alpha 第一次游玩指引](docs/distribution/astra-challenge/quickstart.zh-CN.md) · [2026 年 9 月参赛准备（历史资料）](docs/distribution/astra-challenge/README.md)
 
@@ -105,7 +105,7 @@ godot --path . -- --locale=en
 
 ### 公开 Alpha 与平台
 
-此处公开 Windows 试玩链接为[离线 Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，固定源码 `4df5bad46751`，附构建清单与哈希。此前联网草稿仍未公开；[旧版 Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) 保留原 Windows/Mac 同源冻结包。
+当前公开双平台试玩为 [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4)，固定源码 `2c4a9d8bdf13`，提供构建清单与SHA256；包内使用稳定的CloudPlaytest隔离存档，与10月17日OfflineTeammate存档分开，不自动迁移。Mac包未公证且尚未完成Mac实机验证。[发布与验收范围](docs/verification/20261024-desktop-release/README.md)。
 
 Mac 解压后打开 `.app`，Windows 解压后运行 `.exe`，无需另外安装 Godot。当前 macOS 构建为 ad-hoc 签名、未公证；Windows 构建已发布，但原生实机验证仍相对有限。Alpha 阶段仍可能存在平台兼容性问题，欢迎通过 GitHub Issues 反馈。
 

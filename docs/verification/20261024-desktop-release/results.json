@@ -1,0 +1,42 @@
+[
+  {
+    "suite": "package_probe",
+    "exit": 0,
+    "passed": true,
+    "gpu": false,
+    "log": "E:\\VNB\\temp\\release-20261024\\windows-qa\\package_probe.txt",
+    "qa_profile": "VonNeumannBottleneckChecks/Release20261024/probe"
+  },
+  {
+    "suite": "test_mode_access",
+    "exit": 0,
+    "passed": true,
+    "gpu": false,
+    "log": "E:\\VNB\\temp\\release-20261024\\windows-qa\\test_mode_access.txt",
+    "qa_profile": "VonNeumannBottleneckChecks/Release20261024/test_mode_access"
+  },
+  {
+    "suite": "test_lab_terminal_routing",
+    "exit": 0,
+    "passed": true,
+    "gpu": false,
+    "log": "E:\\VNB\\temp\\release-20261024\\windows-qa\\test_lab_terminal_routing.txt",
+    "qa_profile": "VonNeumannBottleneckChecks/Release20261024/test_lab_terminal_routing"
+  },
+  {
+    "suite": "test_lab_terminal_modes",
+    "exit": 0,
+    "passed": true,
+    "gpu": true,
+    "log": "E:\\VNB\\temp\\release-20261024\\windows-qa\\test_lab_terminal_modes.txt",
+    "qa_profile": "VonNeumannBottleneckChecks/Release20261024/test_lab_terminal_modes"
+  },
+  {
+    "suite": "test_cinematics",
+    "exit": 0,
+    "passed": true,
+    "gpu": false,
+    "log": "E:\\VNB\\temp\\release-20261024\\windows-qa\\test_cinematics.txt",
+    "qa_profile": "VonNeumannBottleneckChecks/Release20261024/test_cinematics-fresh-final"
+  }
+]

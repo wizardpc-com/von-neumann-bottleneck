@@ -1,3 +1,7 @@
+## 2026-10-24 · Windows / macOS Alpha4 已公开
+
+[v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) 已发布，固定游戏源码 `2c4a9d8bdf132bd20491f4ef2a2ba2f25d770e51`，包含两平台ZIP、SHA256SUMS与BUILD-INFO。完整60项旅程，默认Game、Test隔离，稳定CloudPlaytest渠道，不自动迁移旧试玩档。Windows实际导出EXE217项检查通过，普通GPU启动/终端/教程/正常退出已观察；macOS通用架构、资源、执行权限与哈希通过静态检查，Mac实机首启/存档/音画仍开放。已提交比赛包不变；后续main只更新发布记录与下载链接。[详细记录及初始核验脚本问题](verification/20261024-desktop-release/README.md)。
+
 ## 2026-10-24 · 双平台离线 Release 准备
 
 用户授权将终端模式、试玩小修、Dot整合和赛后反馈改进提交并推送 main，并准备 Windows x86_64 与 macOS 通用直接游玩包，供用户上传 Release。使用同一固定提交、完整60项旅程、正常 Game 规则和稳定 CloudPlaytest 隔离渠道；无在线接收端。保留冻结比赛 ZIP。分发说明更新实验室入口、四段演出和平台边界，两包随附团队素材与 Natural Earth 来源声明。实际构建身份、哈希及平台验收随本地交付提供；Mac 原生首启/存档和声音仍需 Mac 实机确认。本轮不代替用户发布 GitHub Release。

@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Decoded CG: opening natural_end=1
+Decoded CG: prologue_complete natural_end=1
+Decoded CG: chapter5_complete natural_end=1
+Decoded CG: journey_complete natural_end=1

@@ -1,5 +1,7 @@
 # Documentation map
 
+- [Windows/macOS Alpha4 发布与验收（2026-10-24）](verification/20261024-desktop-release/README.md)
+
 - [赛后调研即时改进与未改项（2026-10-24）](verification/20261024-postgame-research/README.md)
 
 Start with [CURRENT_STATE](CURRENT_STATE.md). It identifies the current source,

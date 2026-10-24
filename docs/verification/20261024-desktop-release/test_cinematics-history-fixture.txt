@@ -1,0 +1,18 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Decoded CG: opening natural_end=1
+Decoded CG: prologue_complete natural_end=1
+Decoded CG: chapter5_complete natural_end=1
+Decoded CG: journey_complete natural_end=1
+ERROR: Automation does not display or consume CGs.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+ERROR: Automated chapter-five presentation does not consume history.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+ERROR: Opening can be consumed once.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+ERROR: The two clips have independent history.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+ERROR: Chapter five has independent viewing history.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+ERROR: Ending has independent viewing history.
+   at: push_error (core/variant/variant_utility.cpp:1023)

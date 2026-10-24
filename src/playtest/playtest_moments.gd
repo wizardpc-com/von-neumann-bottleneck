@@ -25,6 +25,7 @@ var target_label: Label
 var receiver_label: Label
 var ratings: Array[OptionButton] = []
 var opinion: LineEdit
+var send_opinion: Button
 var remote_toggle: OptionButton
 var remote_status: Label
 var score_toggle: CheckButton
@@ -135,7 +136,7 @@ func _ready() -> void:
 	save_opinion.custom_minimum_size.y=40; save_opinion.size_flags_horizontal=Control.SIZE_EXPAND_FILL; opinion_actions.add_child(save_opinion)
 	save_opinion.name="KeepFeedbackLocally"
 	save_opinion.pressed.connect(_save_opinion)
-	var send_opinion := Button.new(); send_opinion.name="SendTaskFeedback"
+	send_opinion=Button.new(); send_opinion.name="SendTaskFeedback"
 	send_opinion.text=Localization.text(&"sharing.send_feedback"); send_opinion.set_meta("locale_field",["text","sharing.send_feedback"])
 	send_opinion.custom_minimum_size.y=40; send_opinion.size_flags_horizontal=Control.SIZE_EXPAND_FILL; opinion_actions.add_child(send_opinion); send_opinion.pressed.connect(_send_opinion)
 	save_opinion.add_theme_stylebox_override("normal",preload("res://src/ui/instrument_theme.gd").panel(Color("203644"),Color("8fd3dc")))
@@ -430,10 +431,9 @@ func _refresh_target_label() -> void:
 	for task: Dictionary in TaskNavigation.journey_tasks():
 		if task.key==key: title=task.title; break
 	target_label.text=Localization.text(&"sharing.feedback_for")+title if not target.get("level_id","").is_empty() else Localization.text(&"sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree")
+
 func _prepare_target() -> void:
 	_refresh_target_label()
-	var metadata: Dictionary = target
-	context_label.text=Localization.text(&"sharing.attached_context")+" · "+str(metadata.get("build_version","development"))+" · "+str(metadata.get("task_version",""))+" · "+str(metadata.get("source",PlaytestData.source_kind))
 	restoring_draft=true
 	var draft: Dictionary = drafts.get(_target_key(),{})
 	for index: int in ratings.size(): ratings[index].select(int(draft.get("ratings",[0,0,0])[index]))
@@ -468,12 +468,19 @@ func _send_opinion() -> void:
 	if id.is_empty(): opinion_status.text=Localization.text(StringName("sharing.state."+RemoteFeedback.status))
 
 func _remote_updated() -> void:
+	var metadata: Dictionary = RemoteFeedback.minimal_context(saved_opinion) if _matches_saved_opinion() else target
+	var commit: String = str(metadata.get("source_commit","unknown"))
+	if commit not in ["development","unknown"]: commit=commit.left(8)
+	context_label.text=Localization.text(&"sharing.attached_context")+" · "+str(metadata.get("build_version","development"))+" · "+commit+" · "+str(metadata.get("task_version",""))+" · "+str(metadata.get("source",PlaytestData.source_kind))
+	var configured: bool = RemoteFeedback.endpoint_allowed()
+	send_opinion.disabled=not configured
 	if is_instance_valid(opinion_status):
 		var id: String = RemoteFeedback.feedback_id(saved_opinion) if _matches_saved_opinion() else ""
 		var state: String = RemoteFeedback.feedback_state(id) if not id.is_empty() else "draft"
 		opinion_status.text=Localization.text(StringName("sharing.state."+state))
 		if not id.is_empty(): opinion_status.text += " · "+Localization.text(&"sharing.feedback_id")+id
 		if drafts_blocked: opinion_status.text += "\n"+Localization.text(&"sharing.draft_unavailable")
+		if not configured: opinion_status.text += "\n"+Localization.text(&"sharing.not_configured_in_this_build_save_and_export_still_work")
 	remote_status.text=Localization.text(StringName("sharing.status."+RemoteFeedback.status))+" · %d " % RemoteFeedback.queue.size()+Localization.text(&"sharing.pending")
 	remote_toggle.select(maxi(0,["local","basic","detailed"].find(RemoteFeedback.sharing_mode)))
 	if is_instance_valid(score_toggle): score_toggle.set_pressed_no_signal(RemoteFeedback.scores_enabled)

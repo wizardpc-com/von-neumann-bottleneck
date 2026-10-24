@@ -743,11 +743,23 @@ func _is_automated_launch(arguments: PackedStringArray) -> bool:
 
 func request_quit() -> void:
 	get_tree().call_group("cinematic_playback", "_finish")
-	get_tree().call_group("workspace_owners","flush_workspace")
+	for owner: Node in get_tree().get_nodes_in_group("workspace_owners"):
+		if owner.has_method("can_leave_workbench"):
+			if not owner.can_leave_workbench(): return
+		elif owner.has_method("flush_workspace"):
+			owner.flush_workspace()
 	if save_game():
 		get_tree().quit()
 	else:
 		_show_save_failure()
+
+## A rejected departure must explain the failure even if an earlier autosave
+## already reported it. Test workbenches do not mutate Game write-error state.
+func report_workbench_departure_failure(error: String) -> void:
+	last_error = error
+	if not _is_automated_launch(OS.get_cmdline_args()):
+		call_deferred("_show_save_failure")
+
 
 func _show_save_failure() -> void:
 	if not is_inside_tree(): return

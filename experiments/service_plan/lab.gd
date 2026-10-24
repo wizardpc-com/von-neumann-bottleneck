@@ -126,6 +126,8 @@ func _ready() -> void:
 		if arg == "--locale=en": english = true
 		if arg == "--candidate-save": persistent_session = true
 		if arg == "--candidate-journey": candidate_journey = true
+	# Offline tester profiles keep their own review records; ordinary Test is temporary.
+	if get_node("/root/GameMode").is_test_mode() and not get_node("/root/TaskNavigation").offline_tester_enabled(): persistent_session = false
 	if persistent_session:
 		add_to_group("candidate_quit_owners")
 		previous_auto_quit = get_tree().auto_accept_quit; get_tree().auto_accept_quit = false
@@ -136,7 +138,7 @@ func _ready() -> void:
 			notice_key = "locked"
 
 	var requested: int = get_node("/root/TaskNavigation").take_pending("service")
-	if requested >= 0 and (requested <= unlocked or get_node("/root/TaskNavigation").offline_tester_enabled()) and requested != task: change_task(requested)
+	if _task_available(requested) and requested != task: change_task(requested)
 	else: build()
 	get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
 	_playtest_start()
@@ -215,7 +217,7 @@ func build() -> void:
 	for index: int in 3:
 		var stage_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("service", index))
 		var node: Button = button(stage_label if not stage_label.is_empty() else tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
-		set_action_disabled(node,index > unlocked and not get_node("/root/TaskNavigation").offline_tester_enabled()); task_buttons.append(node)
+		set_action_disabled(node,not _task_available(index)); task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void:
 		hint_open = not hint_open
 		if hint_open: get_node("/root/PlaytestData").record_hint(&"service",_playtest_id(),1)
@@ -432,7 +434,18 @@ func toggle_language() -> void:
 	english = not english
 	var localization: Node = get_node_or_null("/root/Localization")
 	if localization != null: localization.call("set_locale","en" if english else "zh_CN")
+	reload_localized_scene()
+
+func reload_localized_scene() -> Error:
+	# Settings must keep this live session and its writer lease, not reload from disk.
+	var previous_move: float = move_to.value if is_instance_valid(move_to) else 1
+	var previous_split: float = split_at.value if is_instance_valid(split_at) else 1
+	var localization: Node = get_node_or_null("/root/Localization")
+	if localization != null: english = localization.current_locale() == "en"
 	build()
+	move_to.value = previous_move
+	split_at.value = previous_split
+	return OK
 
 func continue_service() -> void:
 	# Navigation follows protected earned plans; viewing a compatible old record is insufficient.
@@ -481,7 +494,7 @@ func run_current() -> void:
 	if accepted:
 		unlocked = maxi(unlocked, mini(task + 1, 2))
 		support_plans[task] = plan.duplicate(true)
-	for index: int in 3: set_action_disabled(task_buttons[index],index > unlocked and not get_node("/root/TaskNavigation").offline_tester_enabled())
+	for index: int in 3: set_action_disabled(task_buttons[index],not _task_available(index))
 	refresh_history(); history_list.select(selected_history); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_history); refresh_actions()
 func refresh_history() -> void:
 	history_list.clear()
@@ -729,8 +742,11 @@ func public_observation() -> Dictionary:
 		observations.append({"task": record.task, "plan": m.plan.duplicate(true), "metrics": m.duplicate(true), "trace": record.events.duplicate(true)})
 	return {"mission": mission_text(), "hint1": hint_text(), "public_data": public_data, "weights": Model.WEIGHTS.duplicate(), "task": task, "unlocked": unlocked, "draft": plan.duplicate(true), "selected_group": selected_group, "formats": Model.REPRESENTATIONS.duplicate(), "streams": [{"name": "A", "coordinates": "repeated"}, {"name": "B", "coordinates": "repeated"}, {"name": "C", "coordinates": "varied"}, {"name": "D", "coordinates": "varied"}], "rules": {"stream_steps": 6, "all_ready": 0, "link_bytes_per_cycle": 4, "setup_cycles": 4, "decoded_context_bytes": 64, "scratch_bytes": 512, "compute_ops": 24}, "measured": observations, "actions": ["select_group", "merge", "split", "move_up", "move_down", "move_to", "set_slots", "cycle_format", "undo", "redo", "run", "restore", "task", "hint", "data"]}
 
+func _task_available(index: int) -> bool:
+	return index >= 0 and index <= 2 and (index <= unlocked or get_node("/root/GameMode").is_test_mode() or get_node("/root/TaskNavigation").offline_tester_enabled())
+
 func change_task(index: int) -> void:
-	if index < 0 or index > 2 or (index > unlocked and not get_node("/root/TaskNavigation").offline_tester_enabled()) or (index == task and commission_mode < 0): return
+	if not _task_available(index) or (index == task and commission_mode < 0): return
 	commission_mode = -1
 	task = index; get_node("/root/TaskNavigation").remember_candidate_visit("service",task)
 	_playtest_start(); mark_session_dirty(); build()

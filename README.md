@@ -8,9 +8,9 @@
 
 **当前源码：实验室旅程 · 60 项任务 · 完全离线反馈 · 中英文界面**
 
-**2026-10-19 团队测试版：** 已保留 Claude 完成的实验室、工具停靠布局、早期关卡引导和任务文字，收敛同学反馈中的提示框/右键删除问题及 Windows 打包。新包由固定 main 提交生成，独立测试存档，60 项入口全开但仍需真实完成任务。新包仅供团队传递，本轮未公开 Release；下面公开下载仍是 10 月 17 日旧版。[队友试玩与开发交接](docs/development/team-handoff.md) · [本轮验证与版本身份](docs/verification/20261019-team-closeout/README.md)。
+**版本说明（2026-10-24）：** 当前开发源码包含实验室、60 项旅程、手册与演出，以及存档恢复和双语界面修复；可按[源码运行说明](#从源码运行)体验。下方下载链接固定为 **2026-10-17 离线试玩版**（源码 `4df5bad46751`），不包含之后的更新。已提交的比赛包单独冻结，当前开发源码与该下载包均不代表比赛提交物。[当前状态](docs/CURRENT_STATE.md) · [近期修复与验证范围](docs/verification/20261024-dot-integration/README.md)。
 
-**[⬇️ 下载 Windows 离线试玩 Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [旧版 Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ 下载 2026-10-17 Windows 离线试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [旧版 Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **关键词：** 计算机体系结构 · 数据搬运 · 缓存与局部性 · 缓冲与预取 · 内存布局 · 教育解谜
 
@@ -18,7 +18,7 @@
 
 *第四章「两全之策」：同一份数据，两种查询需求。调整布局与分批，比较真实搬运成本。[截图来源与运行数值](docs/images/readme/layout-manifest.json)。*
 
-**旧版 Alpha（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建。最新 Windows 离线试玩为 `v0.5.0-alpha.3-offline.1`；本轮未提供新版 Mac 包。
+**旧版 Alpha（2026-09-18）：** `v0.5.0-alpha.1` 包含五个区域、40 个任务以及 Windows / macOS 构建。此处 Windows 离线试玩链接为 `v0.5.0-alpha.3-offline.1`；本轮未提供新版 Mac 包。
 
 **历史旅程候选（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。当时独立分支 `codex/journey-final-candidate-20261018` 的产品固定于 `5bd3792b022e`：60 项任务、双语语境、互动规则、成长档案、可选 3D 观察站和只读原作品回顾；第二章呈现同次实际周期、目标差值及取数证据入口，首次成果接入可替换的临时场景图。普通进度与全关测试采用独立存档，测试访问不授予成果。本轮 Windows 双包未公开发布；上方下载仍是10月17日离线版。[新版包、变化截图与验证范围](docs/verification/20261018-journey-final/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态](docs/CURRENT_STATE.md)。
 
@@ -72,7 +72,7 @@
 
 ## 开始游玩
 
-**Windows 最新试玩：** 前往[离线 Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，下载 ZIP，完整解压后运行 `Windows/Von-Neumann-Bottleneck.exe`。Mac 可使用[旧版 Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)，其中不含本轮离线反馈系统。
+**Windows 离线试玩（2026-10-17）：** 前往[离线 Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，下载 ZIP，完整解压后运行 `Windows/Von-Neumann-Bottleneck.exe`。Mac 可使用[旧版 Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)，其中不含本轮离线反馈系统。
 
 [公开 Alpha 第一次游玩指引](docs/distribution/astra-challenge/quickstart.zh-CN.md) · [2026 年 9 月参赛准备（历史资料）](docs/distribution/astra-challenge/README.md)
 
@@ -95,7 +95,7 @@ godot --path .
 
 新玩家首次启动先播放开场 CG，结束或跳过后直接进入实验室。首次正式通过序章最终 LOAD/STORE 验证后播放序章结束 CG，再显示原有通关结果。两段均支持 Esc／跳过；观看记录独立保存，重新开始游戏不会重复播放。
 
-正常版本和导出包均可在实验室 **设置 → 模式** 自由切换游戏／测试模式；每次启动默认游戏模式。测试元件与进度隔离，切回游戏模式不会授予测试成果。硬件和第一／二章也有顶部模式选择；其他工作台先保存并返回实验室再切换。
+唤醒实验室终端后，可在“开始 / 继续”右侧直接选择**游戏模式**或**测试模式**，并查看两种模式的说明。游戏模式按前置推进，保留玩家成果；测试模式可直接查看各关，临时元件与进度隔离，切回游戏模式不会授予测试成果。每次启动默认游戏模式。设置中的模式入口及硬件和第一／二章顶部的选择仍可使用；其他工作台先保存并返回终端再切换。
 
 游戏默认简体中文，可在**首页顶部**直接切换 English，也可使用 **设置 → 语言**；选择会保存。也可指定启动语言：
 
@@ -105,7 +105,7 @@ godot --path . -- --locale=en
 
 ### 公开 Alpha 与平台
 
-最新公开 Windows 试玩是[离线 Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，固定源码 `4df5bad46751`，附构建清单与哈希。此前联网草稿仍未公开；[旧版 Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) 保留原 Windows/Mac 同源冻结包。
+此处公开 Windows 试玩链接为[离线 Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)，固定源码 `4df5bad46751`，附构建清单与哈希。此前联网草稿仍未公开；[旧版 Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) 保留原 Windows/Mac 同源冻结包。
 
 Mac 解压后打开 `.app`，Windows 解压后运行 `.exe`，无需另外安装 Godot。当前 macOS 构建为 ad-hoc 签名、未公证；Windows 构建已发布，但原生实机验证仍相对有限。Alpha 阶段仍可能存在平台兼容性问题，欢迎通过 GitHub Issues 反馈。
 

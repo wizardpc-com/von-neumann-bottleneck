@@ -1,8 +1,12 @@
 # Documentation map
 
+- [赛后调研即时改进与未改项（2026-10-24）](verification/20261024-postgame-research/README.md)
+
 Start with [CURRENT_STATE](CURRENT_STATE.md). It identifies the current source,
 frozen candidate and verification boundaries. Old execution instructions have been
 removed; recover historical task books from Git when needed.
+
+- **[Dot 成果整合与 Windows 实机迭代（2026-10-24）](verification/20261024-dot-integration/README.md)**
 
 - **[设置与反馈页面布局（2026-10-23）](verification/20261023-settings-feedback/README.md)**
 

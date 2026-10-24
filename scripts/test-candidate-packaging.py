@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check portable candidate ZIPs and their exact packaged-file inventory."""
 import contextlib
+import configparser
 import hashlib
 import io
 import importlib.util
@@ -64,7 +65,13 @@ test_root=root/'.godot/candidate-packaging-tests'
 test_root.mkdir(parents=True,exist_ok=True)
 with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     frozen=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
-    archive=io.BytesIO(subprocess.check_output(['git','archive',frozen],cwd=root))
+    # The exporter is mocked: keep committed configuration/code/license inputs,
+    # not hundreds of MB of unrelated verification images or cinematic media.
+    # Required packaging screenshots are explicit fixtures below.
+    fixture_paths=['project.godot','export_presets.cfg','scripts','src','experiments','server',
+        'distribution','LICENSE','README.md','README.en.md','CHANGELOG.md',
+        'assets/branding','assets/fonts/OFL-NotoSansSC.txt']
+    archive=io.BytesIO(subprocess.check_output(['git','archive',frozen,*fixture_paths],cwd=root))
     # Keep the engine mocked: this exercises packaging from committed UTF-8 sources.
     with tarfile.open(fileobj=archive,mode='a') as staged:
         for name in ['lab-home.png','task-map.png','hardware.png','feedback.png']:
@@ -107,6 +114,41 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
         assert 'screenshots/'+name in manifest['files_sha256']
     assert '许可' in (packaged/'Windows/ENGINE-LICENSES.txt').read_text(encoding='utf-8')
     assert 'OfflineTeammate-EncodingTest' in (packaged/'Windows/README.txt').read_text(encoding='utf-8')
+
+# Exercise the real committed-source configuration and manifest path with the
+# engine/exporter mocked. This is packaging-contract coverage, not native QA.
+source_project_before=(root/'project.godot').read_bytes()
+for case, scope_flags, expected_count in [
+        ('core', [], 40),
+        ('second-act', ['--second-act-profile', 'ScopeTest'], 51),
+        ('creation', ['--second-act-profile', 'ScopeTest', '--creation-journey'], 60)]:
+    with tempfile.TemporaryDirectory(dir=test_root) as temporary:
+        fixture=Path(temporary)/'builder';(fixture/'scripts').mkdir(parents=True)
+        arguments=['build-free-candidate.py', '--godot', 'mock-godot', '--commit', frozen,
+                   '--platform', 'Windows', *scope_flags]
+        with mock.patch.object(builder,'__file__',str(fixture/'scripts/build-free-candidate.py')), \
+                mock.patch.object(sys,'argv',arguments), \
+                mock.patch.object(subprocess,'check_output',side_effect=frozen_output), \
+                mock.patch.object(subprocess,'run',side_effect=engine_run),contextlib.redirect_stdout(io.StringIO()):
+            builder.main()
+        project=next((fixture/'.godot/candidates').glob('*/project'))
+        config=configparser.ConfigParser(interpolation=None)
+        config.read_string('[root]\n'+(project/'project.godot').read_text(encoding='utf-8'))
+        full=config.getboolean('game','full_journey',fallback=False)
+        second=config.getboolean('candidate','journey_enabled',fallback=False)
+        creation=config.getboolean('candidate','creation_enabled',fallback=False)
+        manifest=json.loads((fixture/'build'/('free-alpha-'+frozen[:12])/'manifest.json').read_text())
+        # These are the runtime feature gates used by LabFeatures/Context/Creation.
+        runtime_count=40+(11 if full or second else 0)+(9 if full or creation else 0)
+        expected_version='tasks-20260910-v1' if expected_count==40 else 'tasks-20261013-journey-v1'
+        print('Content scope:',case,'configured=',runtime_count,'manifest=',len(manifest['content_tasks']))
+        assert runtime_count==expected_count==len(manifest['content_tasks']),case
+        assert manifest['content_version']==expected_version,case
+        if expected_count < 60:
+            assert not full, 'Partial exports must not inherit the source/F5 full-journey override'
+        else:
+            assert full, 'The current full candidate retains the final cinematic gate'
+assert (root/'project.godot').read_bytes()==source_project_before, 'Exports never rewrite the source/F5 defaults'
 
 with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     output=Path(temporary)/build_id

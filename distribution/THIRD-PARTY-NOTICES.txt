@@ -1,0 +1,18 @@
+冯·诺依曼瓶颈 / Von Neumann Bottleneck
+
+Godot Engine 4.7.1 stable 使用 MIT 许可。完整引擎及内含第三方组件版权与许可见 ENGINE-LICENSES.txt。
+项目代码现有 MIT 许可及 Copyright (c) 2026 wizardpc-com 声明见 LICENSE.txt。
+Noto Sans SC 字体使用 SIL Open Font License 1.1，完整声明见 FONT-LICENSE.txt。
+Natural Earth 1:110m land v4.1.0 为公有领域地图数据，来源与身份见 NATURAL-EARTH-SOURCE.txt。
+
+实验室模型和四段 CG（包含内嵌音乐、音效与配音）为团队原创。
+电路器件、面板、手册图示与界面图形由项目代码绘制；完成提示及运行环境音由项目代码合成。
+第一束光背景 first-light-quiet-space.png 为团队于 2026-10-18 使用 OpenAI 内建图像生成工具制作的 AI 辅助图像。
+
+项目代码、引擎、字体和视听素材的权利分别适用。
+
+官方来源：
+https://godotengine.org/license/
+https://docs.godotengine.org/en/stable/about/complying_with_licenses.html
+https://github.com/google/fonts/tree/main/ofl/notosanssc
+https://www.naturalearthdata.com/about/terms-of-use/

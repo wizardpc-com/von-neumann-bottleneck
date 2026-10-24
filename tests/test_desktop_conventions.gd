@@ -8,12 +8,13 @@ func settle() -> void:
 func move_panel(panel: Control, handle: Control, delta: Vector2) -> void:
 	var start: Vector2 = handle.get_global_rect().get_center()
 	var down := InputEventMouseButton.new()
-	down.button_index = MOUSE_BUTTON_LEFT; down.pressed = true; down.global_position = start
-	handle.gui_input.emit(down)
-	var motion := InputEventMouseMotion.new(); motion.global_position = start + delta
-	panel._input(motion)
+	down.button_index = MOUSE_BUTTON_LEFT; down.pressed = true; down.position = start; down.global_position = start
+	root.push_input(down, true); await process_frame
+	var motion := InputEventMouseMotion.new(); motion.position = start + delta; motion.global_position = motion.position
+	root.push_input(motion, true); await process_frame
 	var up := InputEventMouseButton.new(); up.button_index = MOUSE_BUTTON_LEFT; up.pressed = false
-	panel._input(up)
+	up.position = motion.position; up.global_position = up.position
+	root.push_input(up, true); await process_frame
 func run() -> void:
 	preload("res://src/lab/lab_features.gd").classic = true # verifies the classic Home/tutorial surfaces
 	preload("res://src/lab/lab_features.gd").core_journey = true
@@ -21,15 +22,15 @@ func run() -> void:
 	for locale: String in ["zh_CN", "en"]:
 		root.get_node("Localization").set_locale(locale)
 		var hub: Control = load("res://src/ui/prototype_hub.tscn").instantiate()
-		root.add_child(hub); hub.size = Vector2(1600, 1000)
+		root.add_child(hub); hub.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT); hub.size = Vector2(1600, 1000)
 		hub._open_options_menu(); await settle()
 		var panel: Control = hub.find_child("ChapterOptionsPanel",true,false)
-		var handle: Control = panel.get_child(0).get_child(0)
+		var handle: Control = panel.title_handle # The actual label, not its row containing the saves button.
 		var before: Vector2 = panel.position
-		move_panel(panel,handle,Vector2(80,0)); await settle()
+		await move_panel(panel,handle,Vector2(80,0)); await settle()
 		check(panel.position.is_equal_approx(before+Vector2(80,0)), "Settings title moves its panel in "+locale)
 		check(panel.get_global_rect().encloses(hub.options_resume_button.get_global_rect()), "Moved settings keep Close inside the panel.")
-		move_panel(panel,handle,Vector2(-9000,-9000)); await settle()
+		await move_panel(panel,handle,Vector2(-9000,-9000)); await settle()
 		check(panel.position.x >= 16 and panel.position.y >= 16,"Dragging cannot lose the title offscreen.")
 		hub.size = Vector2(1280,720); await settle()
 		check(Rect2(Vector2.ZERO,hub.size).encloses(panel.get_global_rect()),"Moved settings remain reachable after shrinking the viewport.")
@@ -45,7 +46,7 @@ func run() -> void:
 		var shell: Control = book.find_child("HandbookPanel",true,false)
 		check(Rect2(Vector2.ZERO,hub.size).encloses(shell.get_global_rect()),"Handbook fits the minimum window in "+locale)
 		var heading: Control = book.title_label.get_parent()
-		move_panel(shell,heading,Vector2(-20,0)); await settle()
+		await move_panel(shell,heading,Vector2(-20,0)); await settle()
 		check(shell.get_global_rect().has_point(book.title_label.global_position),"Handbook title moves together with the panel.")
 		book.close_handbook(); hub.queue_free(); await process_frame
 	if OS.get_name()=="macOS":

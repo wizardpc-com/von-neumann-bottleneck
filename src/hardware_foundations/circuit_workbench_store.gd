@@ -395,6 +395,11 @@ func _recover_missing_main() -> bool:
 	return true
 
 
+## Retry the retained player snapshots without capturing a reference/display graph.
+func flush() -> bool:
+	return _persist()
+
+
 func _persist() -> bool:
 	if storage_path.is_empty():
 		last_error = ""

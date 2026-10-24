@@ -71,6 +71,8 @@ static func build(review: Dictionary,english: bool) -> Array[Dictionary]:
 	var prediction_titles: Array = ["Regular stream","Pattern changes","Alternating hotspots"] if english else ["规律流","规律改变","交替热点"]
 	var service: Dictionary = review.get("service",{})
 	var offline_tester: bool = ProjectSettings.get_setting("playtest/offline_tester",false) == true
+	var mode: Node = Engine.get_main_loop().root.get_node_or_null("GameMode")
+	var test_mode: bool = mode != null and mode.is_test_mode()
 	var service_available: int = 0
 	if str(service.get("status","unavailable")) != "unavailable":
 		for index: int in service.get("completed",[]): service_available = maxi(service_available,mini(index+1,2))
@@ -99,5 +101,6 @@ static func build(review: Dictionary,english: bool) -> Array[Dictionary]:
 				elif index == 1: eligibility = "Contract2 becomes available after a saved accepted contract1 plan. Existing valid later support also retains the original workbench's access." if english else "已保存的合同1达标方案使合同2可用；已有有效后续支持方案也沿原工作台规则保留进入资格。"
 				else: eligibility = "Contract3 becomes available after a saved accepted contract2 plan, or remains available through its own valid saved support. Representation and Prediction are not prerequisites." if english else "已保存的合同2达标方案使合同3可用；合同3自身有效已保存支持也保留资格。表示与预测不是前置。"
 				if offline_tester: eligibility = "Offline tester: enter this contract directly. Entry grants no accepted plan or completion." if english else "离线测试者：可直接进入本合同；进入不授予达标方案或完成记录。"
-			result.append({"key":key_for(domain,index),"id":str(IDS[domain][index]),"domain":domain,"region":region,"title":title,"body":body,"dependencies":[],"recommended_from":recommended,"unlocked":offline_tester or domain != "service" or index <= service_available,"completed":domain != "prediction" and status != "unavailable" and index in item.get("completed",[]),"optional":domain == "prediction","task_index":index,"evidence_status":status,"progress_source":"session" if domain == "prediction" else "saved","region_title":region_title,"eligibility_note":eligibility,"record_metrics":[],"bonus_goals":[]})
+				if test_mode: eligibility = "Test mode: inspect any contract with temporary results; Game progress is unchanged." if english else "测试模式：可直接查看各合同，结果仅用于临时探索，不授予游戏模式成果。"
+			result.append({"key":key_for(domain,index),"id":str(IDS[domain][index]),"domain":domain,"region":region,"title":title,"body":body,"dependencies":[],"recommended_from":recommended,"unlocked":test_mode or offline_tester or domain != "service" or index <= service_available,"completed":domain != "prediction" and status != "unavailable" and index in item.get("completed",[]),"optional":domain == "prediction","task_index":index,"evidence_status":status,"progress_source":"session" if domain == "prediction" else "saved","region_title":region_title,"eligibility_note":eligibility,"record_metrics":[],"bonus_goals":[]})
 	return result

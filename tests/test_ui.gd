@@ -53,13 +53,16 @@ func _run() -> void:
 	terminology_handbook.call("open_handbook", &"truth_table")
 	var terminology_tree: Tree = terminology_handbook.get("term_tree")
 	var terminology_ids: Array = terminology_handbook.get("visible_term_ids")
-	_assert(terminology_ids.size() == 21 and _unique_count(terminology_ids) == 21, "A direct specification link exposes the full first-lesson directory, not future lessons.")
+	_assert(terminology_ids.size() == 24 and _unique_count(terminology_ids) == 24, "A direct specification link exposes the full first-lesson directory, not future lessons.")
 	_assert(
 		terminology_tree.get_root().get_child_count() == 1
 		and _tree_max_depth(terminology_tree.get_root()) == 3
-		and _tree_directory_count(terminology_tree.get_root()) == 4,
-		"The initial handbook must organize readable basics into four directories without exposing all future subjects."
+		and _tree_directory_count(terminology_tree.get_root()) == 5,
+		"The initial handbook must organize readable basics into five directories without exposing all future subjects."
 	)
+	for guide: StringName in [&"operation_wiring", &"operation_review", &"operation_navigation"]:
+		_assert(guide in terminology_ids, "The first lesson includes its actual operation guide: " + String(guide))
+	_assert(&"multiplexer" not in terminology_ids and &"accumulator" not in terminology_ids, "Fresh Game does not expose future hardware concepts.")
 	var terminology_search: LineEdit = terminology_handbook.get("search_edit")
 	terminology_search.text = "真值表"
 	terminology_handbook.call("_refresh_terms")
@@ -69,7 +72,7 @@ func _run() -> void:
 	terminology_search.clear()
 	terminology_handbook.call("open_handbook", &"accumulator")
 	_assert(not (terminology_handbook.get("detail_diagram") as Control).visible, "Fresh Game must hide future CPU illustrations behind the original learning progression.")
-	_assert((terminology_handbook.get("available_term_ids") as Array).size() == 21, "Fresh Game keeps first-lesson specifications available without opening all future chapters.")
+	_assert((terminology_handbook.get("available_term_ids") as Array).size() == 24, "Fresh Game keeps first-lesson specifications available without opening all future chapters.")
 	var handbook_escape := InputEventKey.new()
 	handbook_escape.pressed = true
 	handbook_escape.keycode = KEY_ESCAPE

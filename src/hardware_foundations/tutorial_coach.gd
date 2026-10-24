@@ -323,7 +323,7 @@ func _mark_states(states: Array[bool]) -> int:
 			newly = index
 	last_states = states.duplicate()
 	var next: int = states.find(false)
-	demonstration_button.disabled = next < 0
+	demonstration_button.disabled = false
 	for index: int in dots.size():
 		if index >= states.size(): continue
 		dots[index].color = Palette.ACCENT if states[index] else (Palette.with_alpha(Palette.ACCENT, 0.4) if index == next else Palette.TERM_EDGE)

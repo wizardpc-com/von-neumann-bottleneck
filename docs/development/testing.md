@@ -1,3 +1,21 @@
+## Release-readiness continuity — 2026-10-24
+
+Run `test_late_settings_localization`, `test_recovery_settings_language`,
+`test_recovery_departure_paths`, `test_tutorial_resume_guidance`,
+`test_handbook_branch_order` and `test_half_adder_reseal_progression` through
+`scripts/verify-project.py` with pinned Godot 4.7.1. Keep save, mode, settings,
+chapter-navigation, handbook and hardware-prologue regressions alongside them.
+The recovery fixtures use only isolated QA paths and real temporary-file failure;
+they must not be pointed at player saves. The departure test replaces only the
+terminal quit call, so actual OS window-close/quit/relaunch needs separate native
+acceptance. The HalfAdder suite earns its ordinary Game hardware through official
+cases and real sealing timers; reference wires are construction inputs, not
+injected rewards. Its lineage check follows the composite CPU source contract.
+
+Run `python scripts/test-candidate-packaging.py` for staged 40/51/60 configuration
+and manifest consistency. Its mocked exporter does not establish any OS package's
+native behavior. See [current integration evidence and limits](../verification/20261024-dot-integration/README.md).
+
 ## Settings input and pending work — 2026-10-23
 
 Run `test_hardware_settings_input`, `test_chapter_settings_input`,
@@ -1223,3 +1241,16 @@ Finale and handbook checks:
 - `test_handbook_diagrams`: bilingual concept bindings and narrow/wide vector diagram text bounds; reading grants no progress.
 - `test_late_handbook_access`: four workbenches, task context, Escape, settings priority, language rebuild and unchanged drafts. `--handbook-capture` saves actual frames in the isolated user directory.
 - `test_learning_handbook` and `test_yi_introduction_media`: progressive concepts, quick reference, unchanged progression, three opening steps and fixed actions at small viewport sizes.
+
+## Saved-work room presentation — 2026-10-24
+
+Run `test_room_skin_dynamic_descendants`, `test_room_page_skin_lifecycle`, and
+`test_lab_saved_work_window` with an isolated user directory. The dynamic test
+hooks the actual laboratory room-origin listener before adding controls and a
+real saved-work viewer. A synchronous generated-rule limit fails safely rather
+than allowing an infinite deferred chain to starve the test. Independent child
+Windows keep their complete themes; room styling does not cross that boundary.
+The window fixture earns a valid bounded work through the real candidate APIs;
+it does not claim an end-user playthrough. Native acceptance must separately
+open the physical works wall, inspect both locales and popups, close/reopen the
+viewer, check focus and bounded memory, and verify unchanged saved-work bytes.

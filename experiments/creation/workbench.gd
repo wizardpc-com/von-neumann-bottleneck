@@ -14,6 +14,12 @@ const Explanation = preload("res://experiments/creation/explanation.gd")
 const SignalView = preload("res://experiments/creation/signal_view.gd")
 const ConnectionFragment = preload("res://experiments/creation/cpg_connection_fragment.gd")
 const Typography = preload("res://src/ui/ui_typography.gd")
+const OPENING_GUIDANCE := [
+	["先选一段样例，再点「学习」。", "Select an example, then press Learn."],
+	["已选 %d 段样例。点「学习」，让规则盒从中找出规律。", "%d examples selected. Press Learn so the rule box can find the pattern."],
+	["已打开上次保存的作品。可以回看，也可以从配方另开草稿。", "Your last saved work is open. View it or fork its recipe into a new draft."],
+	["草稿和已学规则已打开。按上方提示继续运行。", "Draft and learned rules loaded. Follow the next action above."],
+]
 var work_focus: Window
 var work_focus_return: Control
 var session = Session.new()
@@ -119,7 +125,7 @@ func _ready() -> void:
 	writable = bool(opened.get("writable",false))
 	recovery_choices = opened.get("choices",[]).duplicate(true)
 	recovery_fingerprint = str(opened.get("fingerprint",""))
-	status_text = (text2("已选 %d 段样例。点「学习」，让规则盒从中找出规律。","%d examples selected. Press Learn so the rule box can find the pattern.")%session.data.draft.examples.size() if not session.data.draft.examples.is_empty() else text2("先选一段样例，再点「学习」。","Select an example, then press Learn.")) if opened.get("ok",false) else str(opened.get("error",session.error))
+	status_text = opening_guidance(1 if not session.data.draft.examples.is_empty() else 0) if opened.get("ok",false) else str(opened.get("error",session.error))
 	if not writable: status_text = text2("当前候选档只读：可回看受保护快照；保存被禁用，原文件不会被覆盖。","Candidate profile is read-only: protected snapshots remain playable; saving is disabled and the original file stays intact.")+" "+str(opened.get("error",session.error))
 	if opened.get("error", "") == "raw_restore_readonly":
 		status_text = text2("旧候选档把 RAW 误记为模型复原，现以只读方式打开。已验证作品可回看，原文件不会改写；请保留备份，在新的候选档重新学习并发送预测包来取得复原证据。", "This older profile counted RAW as model restoration. It is now read-only: validated works remain viewable and the original file is untouched. Keep a backup; learn and send a predictive packet in a fresh candidate profile to earn restoration evidence.")
@@ -131,9 +137,9 @@ func _ready() -> void:
 		if requested >= 0: task = clampi(requested,0,8)
 		navigation.remember_candidate_visit("creation",task)
 	if writable and task == 8 and not session.data.works.is_empty():
-		status_text = text2("已打开上次保存的作品。可以回看，也可以从配方另开草稿。", "Your last saved work is open. View it or fork its recipe into a new draft.")
+		status_text = opening_guidance(2)
 	elif writable and not session.data.model.is_empty():
-		status_text = text2("草稿和已学规则已打开。按上方提示继续运行。", "Draft and learned rules loaded. Follow the next action above.")
+		status_text = opening_guidance(3)
 	_playtest_start()
 	previous_auto_quit = get_tree().auto_accept_quit
 	get_tree().auto_accept_quit = false
@@ -758,17 +764,36 @@ func _build_actions(parent: Node) -> void:
 		keep.disabled = not writable
 
 func toggle_language() -> void:
-	var editor_state: Dictionary = _capture_editor_state()
-	var previous_focus: int = focused_cell
-	var previous_page: int = signal_view.page
 	english = not english
 	var localization := get_node_or_null("/root/Localization")
 	if localization != null: localization.set_locale("en" if english else "zh_CN")
+	reload_localized_scene()
+
+func reload_localized_scene() -> Error:
+	# Retain unsubmitted/invalid input without saving or replacing the live session.
+	var editor_state: Dictionary = _capture_editor_state()
+	var previous_focus: int = focused_cell
+	var previous_page: int = signal_view.page
+	var localization := get_node_or_null("/root/Localization")
+	if localization != null: english = localization.current_locale() == "en"
+	# Translate only known opening guidance; keep diagnostic text intact.
+	for index: int in OPENING_GUIDANCE.size():
+		var messages: Array = OPENING_GUIDANCE[index]
+		if index == 1:
+			messages = [messages[0] % session.data.draft.examples.size(), messages[1] % session.data.draft.examples.size()]
+		if status_text in messages:
+			status_text = opening_guidance(index)
+			break
 	build()
 	_restore_editor_state(editor_state)
 	if previous_focus >= 0 and previous_focus < signal_view.output_length():
 		signal_view.page = previous_page
 		inspect_cell(previous_focus,focused_lane)
+	return OK
+
+func opening_guidance(index: int) -> String:
+	var message: String = OPENING_GUIDANCE[index][1 if english else 0]
+	return message % session.data.draft.examples.size() if index == 1 else message
 
 func change_task(index: int) -> void:
 	var editor_state: Dictionary = _capture_editor_state()

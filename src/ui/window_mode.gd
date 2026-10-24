@@ -262,13 +262,24 @@ func open_settings() -> void:
 	get_tree().root.add_child(settings_layer)
 	settings_layer.add_child(host)
 
-func reload_localized_scene(from_level: bool, return_to_settings: bool = true) -> void:
-	get_tree().call_group("workspace_owners","flush_workspace")
+func reload_localized_scene(from_level: bool, return_to_settings: bool = true, locale: String = "", reset_defaults: bool = false) -> bool:
+	# Check before changing preferences: a refused reload must not leave the
+	# visible workbench and persisted language/defaults disagreeing.
+	for owner: Node in get_tree().get_nodes_in_group("workspace_owners"):
+		if owner.has_method("can_leave_workbench"):
+			if not owner.can_leave_workbench(): return false
+		elif owner.has_method("flush_workspace"):
+			owner.flush_workspace()
 	var save: Node=get_node("/root/GlobalSave")
 	if not save.save_game() and save.disk_write_allowed:
-		return # Keep the current scene and unfinished work when storage fails.
+		return false # Keep the current scene and unfinished work when storage fails.
+	if reset_defaults:
+		reset_presentation()
+	elif not locale.is_empty() and not get_node("/root/Localization").set_preferred_locale(locale):
+		return false
 	var context: Dictionary=get_node("/root/PlaytestData").current_task_context
 	var navigation: Node=get_node("/root/TaskNavigation")
+	var previous_navigation := {"selected": navigation.selected, "from_tree": navigation.from_tree, "pending": navigation.pending}
 	if from_level and not context.is_empty():
 		navigation.selected=str(context.get("chapter_id",""))+"/"+str(context.get("level_id",""))
 		navigation.from_tree=true
@@ -278,9 +289,16 @@ func reload_localized_scene(from_level: bool, return_to_settings: bool = true) -
 	var scene: Node = get_tree().current_scene
 	if scene != null and scene.has_method("reload_localized_scene"):
 		scene.reload_localized_scene()
+		if get_tree().current_scene == scene:
+			# In-place translation has no new scene to consume a pending task.
+			# Keep the original return route rather than inventing a fresh entry.
+			navigation.selected = previous_navigation.selected
+			navigation.from_tree = previous_navigation.from_tree
+			navigation.pending = previous_navigation.pending
 	else:
 		get_tree().reload_current_scene()
 	if from_level and return_to_settings: call_deferred("open_settings")
+	return true
 
 func _process(delta: float) -> void:
 	if _display_is_headless() or _is_deterministic_capture(): return

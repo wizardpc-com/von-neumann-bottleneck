@@ -1,0 +1,67 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261024T084700Z-5103717f/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261024T084700Z-5103717f/user_directory"
+    },
+    {
+      "name": "test_feedback_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_feedback_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261024T084700Z-5103717f/test_feedback_presentation"
+    },
+    {
+      "name": "test_offline_feedback",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_offline_feedback.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261024T084700Z-5103717f/test_offline_feedback"
+    },
+    {
+      "name": "test_prediction_workbench_presentation",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 738.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+        "FAIL: test_prediction_workbench_presentation 1293 checks, 11 failures"
+      ],
+      "log": "test_prediction_workbench_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261024T084700Z-5103717f/test_prediction_workbench_presentation"
+    },
+    {
+      "name": "test_settings_feedback_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_settings_feedback_layout.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261024T084700Z-5103717f/test_settings_feedback_layout"
+    }
+  ]
+}

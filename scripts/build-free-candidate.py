@@ -17,6 +17,24 @@ def godot_path_literal(path):
     return json.dumps(path.resolve().as_posix(),ensure_ascii=False)
 
 
+def candidate_scoped_settings(source, creation_journey=False):
+    """Let export flags, not the source/F5 override, select 40/51/60 tasks."""
+    # Full current journeys also use this setting for their earned final CG.
+    # Preserve the existing sixty-task presentation contract verbatim.
+    if creation_journey:
+        return source
+    section = ''
+    lines = []
+    for line in source.splitlines(keepends=True):
+        stripped = line.strip()
+        if stripped.startswith('[') and stripped.endswith(']'):
+            section = stripped[1:-1]
+        if section == 'game' and stripped.split('=', 1)[0].strip() == 'full_journey':
+            line = 'full_journey=false\n'
+        lines.append(line)
+    return ''.join(lines)
+
+
 def offline_profile(profile):
     return isinstance(profile,str) and len(profile)<=40 and re.fullmatch(r'OfflineTeammate(?:-[A-Za-z0-9-]+)?',profile) is not None
 
@@ -126,7 +144,7 @@ def main():
     spec=importlib.util.spec_from_file_location('branding',project/'scripts/check-branding.py')
     branding=importlib.util.module_from_spec(spec);spec.loader.exec_module(branding)
     brand=branding.read_brand(project)
-    original=(project/'project.godot').read_text(encoding='utf-8')
+    original=candidate_scoped_settings((project/'project.godot').read_text(encoding='utf-8'), a.creation_journey)
     original=re.sub(r'config/icon="[^"]*"','config/icon="'+brand['app_icon']+'"',original)
     presets=(project/'export_presets.cfg').read_text(encoding='utf-8')
     # Native numeric versions identify the frozen Git content without reusing a date label.
@@ -185,7 +203,7 @@ def main():
         replacements={
             '- Mac 包为 ad-hoc 签名、未公证；仍需另一台 Mac 核对安装、首启与保存。Windows 包未进行正式代码签名。':'- 本次不提供 Mac 包；Mac 候选的异机首启与存档尚未验收。Windows 包未进行正式代码签名。',
             '- 离线包的云端反馈入口为空。可保存/导出意见；已配置私有验收入口的包会明确单独标记，不能当作公网可用包。':'- 本公开试玩包配置了下方 HTTPS 反馈入口；发送意见须单独确认，自动统计默认关闭。',
-            '- 公网反馈入口尚未启用；域名、TLS 与异机上传/删除验收完成前，仅准备发布草稿。离线游玩不依赖服务器。':'- 公开反馈入口与隐私说明见下方。构建本身不证明公网验收；离线游玩不依赖服务器。',
+            '- 未配置在线反馈接收端；本机保存与导出可用，离线游玩不依赖服务器。':'- 公开反馈入口与隐私说明见下方。构建本身不证明公网验收；离线游玩不依赖服务器。',
             'macOS is ad-hoc signed and unnotarized; independent Mac first-launch/save checks remain open.':'No macOS package is included in this prerelease; native Mac acceptance remains open.',
             'Offline packages have no feedback receiver. Explicit private acceptance builds are separately labelled.':'This public playtest configures the HTTPS receiver below. Automatic statistics remain off; sending an opinion requires separate consent. External acceptance is recorded separately.',
         }
@@ -230,7 +248,7 @@ def main():
         if a.platform!='both' and platform!=a.platform:continue
         folder=output/platform;folder.mkdir()
         run('export-'+platform,['--export-release',preset,str(folder/binary)])
-        for src,name in [('distribution/PLAYTEST-README.txt','README.txt'),('distribution/KNOWN-ISSUES.txt','KNOWN-ISSUES.txt'),('distribution/CHANGELOG.txt','CHANGELOG.txt'),('LICENSE','LICENSE.txt'),('assets/fonts/OFL-NotoSansSC.txt','FONT-LICENSE.txt'),('candidate-licenses.txt','ENGINE-LICENSES.txt')]:shutil.copy2(project/src,folder/name)
+        for src,name in [('distribution/PLAYTEST-README.txt','README.txt'),('distribution/KNOWN-ISSUES.txt','KNOWN-ISSUES.txt'),('distribution/CHANGELOG.txt','CHANGELOG.txt'),('LICENSE','LICENSE.txt'),('distribution/THIRD-PARTY-NOTICES.txt','THIRD-PARTY-NOTICES.txt'),('distribution/NATURAL-EARTH-SOURCE.txt','NATURAL-EARTH-SOURCE.txt'),('assets/fonts/OFL-NotoSansSC.txt','FONT-LICENSE.txt'),('candidate-licenses.txt','ENGINE-LICENSES.txt')]:shutil.copy2(project/src,folder/name)
         if a.second_act_profile:
             with (folder/'README.txt').open('a',encoding='utf-8') as notes:
                 notes.write('\nSecond-act isolated candidate journey\nProfile: '+a.second_act_profile+'\nRepresentation five tasks and Service three contracts have separate plans and endings. Save before leaving; the earned Representation review can continue to Service. Home recommends core construction/bottleneck work, the core ending, Representation, Service, and a saved four-page closing review. Timing and placement remain parallel; optional tasks are not required by this recommendation. The Journey map contains all core tasks, five Representation tasks, three Service contracts and three optional Prediction investigations. Select a task to enter its workbench and return through its existing save guard. Prediction remains temporary and is discarded on leaving; follow-up commissions remain optional. This build uses an isolated candidate profile and does not read or migrate production progress.\n')

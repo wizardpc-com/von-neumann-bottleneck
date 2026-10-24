@@ -30,6 +30,7 @@ const STYLE_ITEMS := ["panel", "normal", "hover", "pressed", "focus", "disabled"
 	"tab_unselected", "tab_hovered", "button_pressed", "custom_button", "title_button_normal"]
 const META := &"room_skin_restore"
 const RESIZE_CALLBACK := &"room_skin_resize_callback"
+const GENERATED_RULE := &"room_skin_generated_rule"
 
 static func has(id: String) -> bool:
 	return ACCENTS.has(id)
@@ -49,12 +50,19 @@ static func ground(id: String) -> Color:
 static func accent(id: String) -> Color:
 	return ACCENTS.get(id, Color.WHITE)
 
-static func apply(root: Control, id: String) -> void:
-	if not has(id) or root == null: return
+## Late content inherits the page palette, but never owns page decoration.
+static func remap_subtree(root: Control, id: String) -> void:
+	if not has(id) or root == null or root.has_meta(GENERATED_RULE): return
 	var tokens: Dictionary = skin(id)
 	_skin_control(root, tokens)
 	for node: Node in root.find_children("*", "Control", true, false):
-		_skin_control(node as Control, tokens)
+		if not node.has_meta(GENERATED_RULE) and (node as Control).get_window() == root.get_window():
+			_skin_control(node as Control, tokens)
+
+static func apply(root: Control, id: String) -> void:
+	if not has(id) or root == null or root.has_meta(GENERATED_RULE): return
+	remap_subtree(root, id)
+	var tokens: Dictionary = skin(id)
 	# The object's mark: one accent hairline across the top of its page.
 	if root.get_node_or_null(RULE_NAME) == null:
 		var rule := ColorRect.new(); rule.name = RULE_NAME
@@ -64,6 +72,7 @@ static func apply(root: Control, id: String) -> void:
 		rule.top_level = true
 		rule.z_index = 50
 		rule.set_meta(META, {"colors": {}, "styles": {}})
+		rule.set_meta(GENERATED_RULE, true)
 		root.add_child(rule)
 		var place := func() -> void:
 			if is_instance_valid(rule) and is_instance_valid(root):

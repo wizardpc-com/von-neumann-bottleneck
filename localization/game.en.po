@@ -904,7 +904,7 @@ msgid "hardware.briefing.half_adder.3"
 msgstr "Available tools: [[and_gate|AND]], [[or_gate|OR]] and [[not_gate|NOT]]. All ports are one bit wide.\n\nAND: output 1 when both inputs are 1.\nOR: output 1 when at least one input is 1.\nNOT: output the opposite of its input.\n\nDrag new components from Components and combine them your way. The full test checks the specified outputs and accepts different legal circuits."
 
 msgid "hardware.briefing.half_adder.4"
-msgstr "Use the [[test_bench|Test Bench]] to switch A/B one case at a time, and use a [[debug_run|debug run]] to find mistakes. Once all four cases work, run the [[official_test|Complete Truth Table test]]. Passing every row enables [[encapsulation|sealing]], which turns the verified circuit into a reusable HalfAdder component."
+msgstr "Once wired, you can run the [[official_test|Complete Truth Table test]] directly to check all four inputs. To investigate one row, switch A/B in the [[test_bench|Test Bench]] and use a [[debug_run|debug run]] to compare expected and actual outputs. Passing every row enables [[encapsulation|sealing]], which turns the verified circuit into a reusable HalfAdder component."
 
 msgid "hardware.briefing.full_adder.1"
 msgstr "Extend addition to another bit. CIN is the carry arriving from the previous bit. A [[full_adder|Full Adder]] includes it in the sum.\n\nInputs: A, B and CIN, one bit each.\nOutputs: SUM is the low bit of A+B+CIN; COUT is the high bit.\nExample: 1+1+1 is binary 11, so both outputs are 1.\n\nReuse your HalfAdder and choose your own wiring. The full test checks all eight input combinations."
@@ -1666,7 +1666,7 @@ msgid "hardware.prologue.back_map"
 msgstr "Back to Build Map"
 
 msgid "hardware.prologue.continue_next"
-msgstr "Continue"
+msgstr "Seal and continue"
 
 msgid "hardware.prologue.seal"
 msgstr "Pass Tests to Seal Component"

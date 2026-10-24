@@ -19,6 +19,10 @@ var awake_view: VBoxContainer
 var message: Typewriter
 var _passage: String = ""
 var primary: Button
+var mode_picker: VBoxContainer
+var game_mode_button: Button
+var test_mode_button: Button
+var mode_note: Label
 var secondary: HFlowContainer
 var archive_button: Button
 var progress_label: Label
@@ -59,6 +63,8 @@ func configure(values: Dictionary) -> void:
 	if message != null: _compose()
 
 func set_fragment_count(opened: int, unread: int) -> void:
+	state["fragments"] = opened
+	state["fragments_unread"] = unread
 	if archive_button == null: return
 	archive_button.text = ("档案 %d" if not english else "Archive %d") % opened
 	if unread > 0: archive_button.text += " ·" + ("新" if not english else "new")
@@ -110,8 +116,28 @@ func _build() -> void:
 	var breath := Control.new(); breath.custom_minimum_size.y = 10; breath.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	awake_view.add_child(breath)
 	# What to do next is one card under Yi's words, not a slab across the screen.
-	primary = _button(awake_view, "", "start", true); primary.name = "TerminalPrimary"
+	var actions := HBoxContainer.new(); actions.name = "TerminalActions"
+	actions.add_theme_constant_override("separation", 20)
+	awake_view.add_child(actions)
+	primary = _button(actions, "", "start", true); primary.name = "TerminalPrimary"
 	_style_task_card(primary)
+	mode_picker = VBoxContainer.new(); mode_picker.name = "TerminalModePicker"
+	mode_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	mode_picker.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	mode_picker.add_theme_constant_override("separation", 6)
+	actions.add_child(mode_picker)
+	var mode_buttons := HBoxContainer.new(); mode_buttons.add_theme_constant_override("separation", 6)
+	mode_picker.add_child(mode_buttons)
+	var mode_group := ButtonGroup.new()
+	game_mode_button = _button(mode_buttons, "", "mode_game", false); game_mode_button.name = "TerminalGameMode"
+	test_mode_button = _button(mode_buttons, "", "mode_test", false); test_mode_button.name = "TerminalTestMode"
+	for button: Button in [game_mode_button, test_mode_button]:
+		button.toggle_mode = true; button.button_group = mode_group
+		button.custom_minimum_size.y = 34
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.add_theme_font_size_override("font_size", 16)
+	mode_note = _label(mode_picker, "", 13, Palette.TERM_MUTED); mode_note.name = "TerminalModeNote"
+	get_node("/root/GameMode").mode_changed.connect(_sync_mode_choice)
 	var rest := Control.new(); rest.name = "TerminalRest"; rest.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	rest.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	awake_view.add_child(rest)
@@ -143,7 +169,7 @@ func play_dialogue(beats: Array, beat: int = 0, reply: Dictionary = {}) -> void:
 	_dialogue = beats
 	_beat = beat
 	_reply = reply
-	primary.hide(); secondary.hide(); choices.show()
+	primary.hide(); mode_picker.hide(); secondary.hide(); choices.show()
 	dialogue_skip.text = "返回" if not english else "Back"
 	dialogue_skip.tooltip_text = "跳过本段，回到终端" if not english else "Skip this conversation and return to the terminal"
 	dialogue_skip.show()
@@ -237,7 +263,7 @@ func _end_dialogue() -> void:
 	echo.hide(); choices.hide(); dialogue_skip.hide()
 	message.skip_scope = self
 	_set_choices([])
-	primary.show(); secondary.show()
+	primary.show(); mode_picker.show(); secondary.show()
 	response = {}
 	_compose()
 	_focus_primary()
@@ -310,13 +336,17 @@ func _compose() -> void:
 
 func _compose_text() -> void:
 	var zh: bool = not english
+	_sync_mode_choice()
+	mode_note.text = "游戏：按前置推进，保留自己的成果。\n测试：各关可进入，临时元件与进度隔离。" if zh else "Game: follow prerequisites and keep your own work.\nTest: visit any task with separate, temporary components and progress."
+	game_mode_button.tooltip_text = "适合首次游玩：亲手完成前置，逐步构建与保存自己的成果。" if zh else "For a first playthrough: earn prerequisites, build and save your own work."
+	test_mode_button.tooltip_text = "适合快速试玩：直接查看各章节，使用临时参考元件；测试成果不会成为游戏模式的通关记录。" if zh else "For a quick preview: visit any chapter with temporary reference components. Test results do not become Game-mode achievements."
 	sleep_hint.text = "壹 · 学习程序 · 待机\n点击屏幕，或按 Enter" if zh else "Yi · learning program · standby\nClick the screen or press Enter"
 	header_label.text = "壹 · 学习程序" if zh else "Yi · learning program"
 	language_button.text = "EN" if zh else "中文"
 	progress_label.text = ("%d / %d" % [int(state.get("completed", 0)), int(state.get("total", 0))]) if int(state.get("total", 0)) > 0 else ""
 	for button: Node in secondary.get_children():
 		(button as Button).text = str(button.get_meta("en" if english else "zh"))
-	set_fragment_count(int(state.get("fragments", 0)), 0)
+	set_fragment_count(int(state.get("fragments", 0)), int(state.get("fragments_unread", 0)))
 	var navigation: Node = get_node_or_null("/root/TaskNavigation")
 	var next_title: String = str(state.get("next_title", ""))
 	if next_title.is_empty() and navigation != null: next_title = str(navigation.resume_title())
@@ -346,6 +376,13 @@ func _compose_text() -> void:
 			_passage += "\n" + ("档案架上多了一页记录。" if zh else "A new record waits on the archive shelf.")
 		return
 	_passage = ("欢迎回来。\n下一项是「%s」。" if zh else "Welcome back.\nNext up: \"%s\".") % Naming.plain_title(next_title)
+
+func _sync_mode_choice(_mode: StringName = &"") -> void:
+	var testing: bool = get_node("/root/GameMode").is_test_mode()
+	game_mode_button.set_pressed_no_signal(not testing)
+	test_mode_button.set_pressed_no_signal(testing)
+	game_mode_button.text = ("✓ " if not testing else "") + ("游戏模式" if not english else "Game mode")
+	test_mode_button.text = ("✓ " if testing else "") + ("测试模式" if not english else "Test mode")
 
 func wake(instant: bool = false) -> void:
 	if not _asleep:

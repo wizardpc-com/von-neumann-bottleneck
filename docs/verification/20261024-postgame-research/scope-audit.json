@@ -1,0 +1,24 @@
+{
+  "changed_existing_files": [
+    "README.en.md",
+    "README.md",
+    "distribution/OFFLINE-PLAYTEST-README.txt",
+    "docs/CURRENT_STATE.md",
+    "docs/README.md",
+    "experiments/prediction/lab.gd",
+    "src/playtest/offline_feedback.gd",
+    "src/playtest/playtest_moments.gd",
+    "tests/test_feedback_presentation.gd",
+    "tests/test_offline_feedback.gd"
+  ],
+  "removed_files": [],
+  "unexpected_changes": [],
+  "verified_runtime_sha256": {
+    "experiments/prediction/lab.gd": "5c806f041417862e40c9f0223d443d73975be1b854c68dc41e0e89d0abb8db71",
+    "src/playtest/offline_feedback.gd": "903ea04fc2e49648b1a5531a9929f7f1248e4bd3d7752322c8d22701dc84a917",
+    "src/playtest/playtest_moments.gd": "0cfbac3c25d2f9a9ce5c16ce582e41ebe5d1484be243613cc9039680e44970bf",
+    "tests/test_feedback_presentation.gd": "9f434d5befc81fd19bb58161bed8f5a1d9ddbd1e2a596b1ae1a2439304071401",
+    "tests/test_offline_feedback.gd": "c7e3247eeb2494801913646d3b050d3c43ffb907275addb8c4fef9d9fdcf0bbb"
+  },
+  "competition_zip_sha256": "e4316e56389f216a6d9f3fa516393aadc726eebae3674764920d827696058b4f"
+}

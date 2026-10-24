@@ -8,9 +8,9 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Current source: laboratory journey · 60 tasks · Offline feedback · Chinese and English**
 
-**Team build, 2026-10-19:** The current source retains Claude's completed laboratory, docked tools, early lesson guidance and task copy, with tooltip/erase and Windows packaging fixes. The team ZIP is archived from a fixed merged main commit with isolated saves and all task entrances; task completion remains earned. This round does not publish a Release. The public download below is still the October 17 build. [Chinese team guide](docs/development/team-handoff.md) · [Engineering verification and build identity](docs/verification/20261019-team-closeout/README.md).
+**Version guide (2026-10-24):** Current development source includes the laboratory, 60-task journey, handbook and cinematics, plus save recovery and bilingual UI fixes. Follow [Run from source](#run-from-source) to try it. The download below is the **October 17 offline playtest** (source `4df5bad46751`) and does not include later updates. The submitted competition package is frozen separately; neither current development source nor this download identifies that submission. [Current status](docs/CURRENT_STATE.md) · [Recent fixes and verification scope](docs/verification/20261024-dot-integration/README.md).
 
-**[⬇️ Download the Windows offline Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [Earlier Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ Download the October 17 Windows offline playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)** · [Earlier Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **Topics:** computer architecture · data movement · cache and locality · buffering and prefetching · memory layout · educational puzzle
 
@@ -18,7 +18,7 @@ A construction and optimization puzzle about computers and the data they move. S
 
 *Common Ground, Chapter 4: the same data serves two workloads. Arrange it, batch it, and compare the real cost of moving it. [Capture provenance and metrics](docs/images/readme/layout-manifest.json).*
 
-**Earlier Alpha (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The latest offline Windows playtest is `v0.5.0-alpha.3-offline.1`; no updated Mac package is included in this round.
+**Earlier Alpha (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The linked offline Windows playtest is `v0.5.0-alpha.3-offline.1`; no updated Mac package is included in this round.
 
 **Historical journey candidate (2026-10-18):** PR #10 is merged into `main` (`bf8f616`). Product source `5bd3792b022e` on `codex/journey-final-candidate-20261018` retains all60 tasks, bilingual context, interactive rules, the earned-record journal, optional3D observatory and read-only original-work review. Chapter2 now shows the actual run's cycles, target margin and fetch-evidence entry; the first earned result has a replaceable temporary scene image. Ordinary progression and all-entrance testing use separate profiles; access grants no completion. This Windows pair is unpublished; the download above remains the October17 offline version. [New packages, change images and verification scope](docs/verification/20261018-journey-final/README.md) · [Next-day playtest and handoff](docs/development/night-handoff-20261018.md) · [Current status](docs/CURRENT_STATE.md).
 
@@ -78,7 +78,7 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 
 ## Getting started
 
-**Latest Windows playtest:** open the [offline Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1), download and fully extract the ZIP, then run `Windows/Von-Neumann-Bottleneck.exe`. Mac users can use [earlier Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1), which does not include this offline feedback system.
+**Windows offline playtest (2026-10-17):** open the [offline Pre-release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1), download and fully extract the ZIP, then run `Windows/Von-Neumann-Bottleneck.exe`. Mac users can use [earlier Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1), which does not include this offline feedback system.
 
 [Your first Alpha session](docs/distribution/astra-challenge/quickstart.en.md) · [September 2026 challenge preparation (archive)](docs/distribution/astra-challenge/README.md)
 
@@ -108,7 +108,7 @@ godot --path . -- --locale=en
 
 ### Public Alpha and platforms
 
-The latest public Windows playtest is [offline Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1), fixed source `4df5bad46751`, with build identity and hashes. The earlier online draft remains unpublished. [Earlier Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) retains its matching Windows/Mac packages.
+The linked public Windows playtest is [offline Pre-release v0.5.0-alpha.3-offline.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1), fixed source `4df5bad46751`, with build identity and hashes. The earlier online draft remains unpublished. [Earlier Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) retains its matching Windows/Mac packages.
 
 Extract the Mac ZIP and open the `.app`, or extract the Windows ZIP and run the `.exe`; Godot is not required. The macOS build is ad-hoc signed and not notarized. The Windows build is published, but native Windows validation is still more limited. Alpha-stage platform compatibility issues may remain, so bug reports are welcome on GitHub Issues.
 

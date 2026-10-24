@@ -490,11 +490,17 @@ func _dress_pages(id: String, before: Array[Control]) -> void:
 		get_tree().node_added.connect(_on_node_added)
 
 func _on_node_added(node: Node) -> void:
-	if not node is Control: return
+	if not node is Control or node.has_meta(PageSkin.GENERATED_RULE): return
 	for page: Control in _skinned:
-		if is_instance_valid(page) and page.is_ancestor_of(node):
-			# After the node's own setup has assigned its colours.
-			(func() -> void: if is_instance_valid(node) and is_instance_valid(page) and page.is_ancestor_of(node): PageSkin.apply(node as Control, _skin_id)).call_deferred()
+		if is_instance_valid(page) and page.is_ancestor_of(node) and (node as Control).get_window() == page.get_window():
+			# A child Window retains its complete theme and independent background.
+			# After setup, remap only content. Decorating every new Control also
+			# decorates each generated rule, recursively starving the idle queue.
+			var skin_id: String = _skin_id
+			(func() -> void:
+				if is_instance_valid(node) and is_instance_valid(page) and page in _skinned and skin_id == _skin_id and page.is_ancestor_of(node) and (node as Control).get_window() == page.get_window():
+					PageSkin.remap_subtree(node as Control, skin_id)
+			).call_deferred()
 			return
 
 func _clear_skins() -> void:
@@ -778,6 +784,7 @@ func _read_progress() -> void:
 		"completed": completed.size(),
 		"total": rows.size(),
 		"fragments": fragments_open,
+		"fragments_unread": fragments_unread,
 	})
 	if room != null:
 		var just_done: String = ""
@@ -800,7 +807,7 @@ func _refresh_archive_counts() -> void:
 func _arrive() -> void:
 	var returning: bool = LabState.note_visit() > 1
 	var response: Dictionary = terminal.response
-	var departure: String = _departure if not _departure.is_empty() else "terminal"
+	var departure: String = "globe" if bool(response.get("first_light", false)) else (_departure if not _departure.is_empty() else "terminal")
 	_departure = ""
 	if returning and room != null and departure == "terminal":
 		# Leaving through the terminal comes back through it: the screen opens
@@ -834,7 +841,7 @@ func _arrive() -> void:
 		return
 	await get_tree().create_timer(0.4).timeout
 	if bool(response.get("first_light", false)):
-		_show_caption("桌上的灯亮了。" if not english else "The lamp on the desk is lit.", 4.5)
+		_show_caption("地球仪亮起来了，档案架上多了一页记录。" if not english else "The globe is lit. A new page waits on the archive shelf.", 4.5)
 	elif response.has("chapter"):
 		_show_caption(str(response.chapter.en_caption if english else response.chapter.zh_caption), 5.0)
 	elif int(response.get("fragments", 0)) > 0:
@@ -859,6 +866,8 @@ func _on_terminal_action(id: String) -> void:
 	if zooming or (room != null and _room_blocked() and id != "quit_confirmed"): return
 	match id:
 		"start": _enter(start_requested, next_key)
+		"mode_game", "mode_test":
+			if not terminal.in_dialogue(): get_node("/root/GameMode").set_mode(&"test" if id == "mode_test" else &"game")
 		"journey": _enter(journey_requested)
 		"archive": open_archive()
 		"settings": settings_requested.emit()

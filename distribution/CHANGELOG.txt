@@ -1,3 +1,19 @@
+2026-10-24 · 桌面离线试玩 / Desktop offline playtest
+Build: @BUILD_ID@
+Source commit: @SOURCE_COMMIT@
+
+- 完整60项旅程、实体实验室、图解手册与四段演出；终端可直接选择游戏/测试模式。
+- 后期工作台切换语言保留当前草稿与观察现场；硬件保存失败时保留现场并提供重试。
+- 修正教程恢复引导、重新封装后的依赖进度、地图重复编号及作品查看窗口。
+- 反馈显示版本身份；无接收端时明确本地保存/导出路径。
+- Windows x86_64 与 macOS 通用包无需安装 Godot；Mac 实机验证仍待完成。
+
+- Full sixty-task journey, laboratory, illustrated handbook and four cinematics; explicit Game/Test selection at the terminal.
+- Language changes retain late-workbench drafts; failed hardware saves retain the current scene for retry.
+- Resume guidance, reseal dependencies, map numbering and saved-work windows corrected.
+- Feedback displays build identity and clearly offers local save/export without a receiver.
+- Windows x86_64 and universal macOS packages include the runtime; Mac native validation remains open.
+
 Whole-journey experience candidate — @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
 

@@ -249,13 +249,25 @@ func _edited() -> void:
 func _restore_fields() -> void:
 	restoring=true
 	note.text=str(current.get("note","")); category.select(maxi(0,CATEGORIES.find(str(current.get("category","other")))))
-	var task: Dictionary = current.get("task",{})
-	info.text=_t("现场：","Scene: ")+str(task.get("chapter_id","home"))+"/"+str(task.get("level_id",""))+" · "+str(current.get("captured_at_utc",""))
+	_refresh_info()
 	preview.texture=null
 	if current.get("screenshot_status","")=="captured":
 		var image := Image.new()
 		if image.load(store.root.path_join("cases").path_join(str(current.id)).path_join("screenshot.png"))==OK: preview.texture=ImageTexture.create_from_image(image)
 	restoring=false
+
+func _refresh_info() -> void:
+	var task: Dictionary = current.get("task",{})
+	var key: String = str(task.get("chapter_id","home"))+"/"+str(task.get("level_id",""))
+	var title: String = key
+	for item: Dictionary in TaskNavigation.journey_tasks():
+		if item.key==key:
+			title=str(item.title)+" · "+key
+			break
+	var build: Dictionary = current.get("build",{})
+	var commit: String = str(build.get("source_commit","unknown"))
+	if commit not in ["development","unknown"]: commit=commit.left(8)
+	info.text=_t("现场：","Scene: ")+title+" · "+str(current.get("captured_at_utc",""))+"\n"+str(build.get("version","development"))+" · "+commit
 
 func _load_case(id: String) -> void:
 	if not _save_note(false): return
@@ -381,6 +393,7 @@ func _refresh_language(node: Node) -> void:
 	if node==layer:
 		for index: int in CATEGORIES.size(): category.set_item_text(index,_category_text(index))
 		note.placeholder_text=_t("哪里卡住了？你想做什么、实际发生了什么？也可以只保存现场，稍后补充。","Where did you get stuck? What did you try, and what happened? You can also keep the scene now and add a note later.")
+		_refresh_info()
 
 func _connect_panel_input(node: Node) -> void:
 	if node is Control:

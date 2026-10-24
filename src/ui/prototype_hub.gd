@@ -262,7 +262,7 @@ func _build_hub_header(content: VBoxContainer) -> void:
 	language.add_item("简体中文"); language.add_item("English")
 	language.select(0 if Localization.current_locale() == "zh_CN" else 1)
 	language.item_selected.connect(func(index: int) -> void:
-		if Localization.set_preferred_locale(["zh_CN","en"][index]): WindowMode.call_deferred("reload_localized_scene",false,false))
+		call_deferred("_reload_settings_locale",["zh_CN","en"][index],false,false))
 	actions.add_child(language)
 	var settings := Button.new(); settings.name = "HubSettings"
 	settings.text = "设置" if Localization.current_locale() != "en" else "Settings"
@@ -646,7 +646,7 @@ func _build_options_menu() -> void:
 	language.add_item("简体中文"); language.add_item("English")
 	language.select(0 if Localization.current_locale()=="zh_CN" else 1)
 	language.item_selected.connect(func(index: int) -> void:
-		if Localization.set_preferred_locale(["zh_CN","en"][index]): call_deferred("_reload_settings_locale"))
+		call_deferred("_reload_settings_locale",["zh_CN","en"][index]))
 	_settings_row(section,"settings.language_label",language)
 	var speed_choice := OptionButton.new(); speed_choice.name="YiTextSpeed"
 	var speeds: Array[String] = ["slow","standard","fast","instant"]
@@ -726,7 +726,7 @@ func _build_options_menu() -> void:
 	confirm.get_label().autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; confirm.get_label().custom_minimum_size.x=480
 	add_child(confirm)
 	reset.pressed.connect(func() -> void: confirm.popup_centered(Vector2i(520,180)))
-	confirm.confirmed.connect(func() -> void: WindowMode.reset_presentation(); call_deferred("_reload_settings_locale"))
+	confirm.confirmed.connect(func() -> void: call_deferred("_reload_settings_locale","",true))
 	var footer := HBoxContainer.new(); footer.add_theme_constant_override("separation",14); column.add_child(footer)
 	# Leaving the game sits apart on the left; returning is the right-hand action.
 	options_quit_button=_options_button(Localization.text(&"hub.options.quit")); options_quit_button.name="OptionsQuitButton"
@@ -831,8 +831,11 @@ func _fit_settings_panel() -> void:
 	var panel: Control = options_overlay.find_child("ChapterOptionsPanel",true,false)
 	panel.call("fit_to_bounds")
 
-func _reload_settings_locale() -> void:
-	WindowMode.reload_localized_scene(settings_only)
+func _reload_settings_locale(locale: String = "", reset_defaults: bool = false, return_to_settings: bool = true) -> void:
+	if WindowMode.reload_localized_scene(settings_only, return_to_settings, locale, reset_defaults): return
+	for handle: String in ["LanguageChoice", "HubLanguageChoice"]:
+		var choice: OptionButton = find_child(handle, true, false) as OptionButton
+		if choice != null: choice.select(0 if Localization.current_locale() == "zh_CN" else 1)
 
 func reload_localized_scene() -> Error:
 	if is_instance_valid(laboratory):

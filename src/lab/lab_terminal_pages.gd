@@ -76,6 +76,13 @@ func _watch_windows(node: Node) -> void:
 		node.borderless = true
 		node.unresizable = true
 		node.visibility_changed.connect(_fit_window.bind(node), CONNECT_DEFERRED)
+		# Some review Windows start visible and configure exclusivity in _ready.
+		# They may never emit visibility_changed on the first popup. Fit only
+		# after their own setup, as well as on later visibility changes.
+		if node.is_node_ready():
+			_fit_window.call_deferred(node)
+		else:
+			node.ready.connect(_fit_window.bind(node), CONNECT_DEFERRED | CONNECT_ONE_SHOT)
 
 func _fit_window(window: Window) -> void:
 	if not is_instance_valid(window) or not window.visible: return

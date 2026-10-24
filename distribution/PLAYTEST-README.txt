@@ -4,14 +4,14 @@ Build: @BUILD_ID@
 Source commit: @SOURCE_COMMIT@
 
 解压 Windows ZIP 后运行 Von-Neumann-Bottleneck.exe；Mac 运行 .app。
-不需安装 Godot、创建账号或联网。请选择首页「开始/继续」或「旅程地图」。
+不需安装 Godot、创建账号或联网。开场后进入实验室，点击桌上终端屏幕或按 Enter 唤醒，再选「开始/继续」或「旅程」。
 界面语言可在首页或设置切换，按 F11 切换全屏。
 
-在实验室「设置 → 模式」可自由选择「游戏模式」或「测试模式」，原硬件、第一／二章顶部也有模式选择。
+终端「开始/继续」右侧及实验室「设置 → 模式」可自由选择「游戏模式」或「测试模式」，原硬件、第一／二章顶部也有模式选择。
 其他工作台请先经原有保存／离开流程返回实验室，再切换模式。
 每次启动默认游玩模式，按正常前置推进；测试模式开放测试入口并提供临时参考元件。
 测试状态与游玩进度分开；切回游玩模式不会把测试元件或测试完成记录变成玩家成果。
-新玩家首次启动播放开场 CG，首次正式通过序章最终 LOAD/STORE 后播放序章结束 CG；均可 Esc／跳过。
+新玩家首次启动播放开场 CG；序章 LOAD/STORE 正式通过、第五章全部方案达标、10-3 成功保存作品后，分别播放对应演出。均可 Esc／跳过。
 
 2026-10-18体验候选：首次开始可阅读或跳过壹的讯息，首页随时回看。
 NOT 的 0→1 与 1→0 都是正确规则，灯灭不表示失败；实际目标仍以任务台为准。
@@ -68,6 +68,8 @@ F8打开当前窗口的反馈，Esc逐层返回。保存失败时保留反馈面
 
 Von Neumann Bottleneck — playtest candidate
 Extract and run the Windows EXE or macOS app. No Godot installation, account or network is required.
+After the opening, click the laboratory terminal or press Enter, then choose Start/Continue or Journey. Game/Test selection is beside the main button; each launch defaults to Game.
+Cinematics accompany first launch, official prologue completion, all five Representation plans, and the final 10-3 saved work. Each can be skipped.
 The full-journey candidate has 60 tasks: core 40, Representation 5, Service 3, optional address Prediction 3, and C/P/G 9. The standard candidate retains the core 40 tasks.
 Optional content does not gate the original mainline. Each established journey keeps its own ending.
 The map offers readable chapter tasks and clickable search results. Prerequisite and recommended links locate the related task; recommendations never add a gate.

@@ -32,6 +32,12 @@ platforms and matching private Godot 4.7.1 templates. This enables core40 + Repr
 address Prediction3 + C/P/G9. The emitted manifest is the actual content/build/
 source/batch authority, not the historical default paragraph below.
 
+The source/F5 `game/full_journey=true` shortcut is not a partial-package selector.
+The builder clears it only in the exported 40/51-task copy; a current complete
+60-task candidate retains it, including the earned final cinematic. The source
+checkout is unchanged. Configuration/manifest regression checks cover all three
+scopes with a mocked exporter; they do not replace exported-binary acceptance.
+
 The profile is stable across builds and isolated from production saves. On Mac:
 `~/Library/Application Support/VonNeumannBottleneckCandidates/representation/CloudPlaytest/`
 and the `service/CloudPlaytest/` sibling. On Windows use the same suffix below

@@ -30,6 +30,8 @@ var _hovered: String = ""
 var _screen: MeshInstance3D
 var standby_viewport: SubViewport
 var _globe_player: AnimationPlayer
+var _globe_material: BaseMaterial3D
+var _globe_light: OmniLight3D
 ## Snapshot only: callers cannot mutate the renderer's authoritative input copy.
 var display_state: Dictionary:
 	get:
@@ -481,6 +483,12 @@ func _has_opaque_surface(mesh: MeshInstance3D) -> bool:
 
 ## All values are read-only presentation inputs. No unlocks or awards are created.
 func update_progress(stations: Array[Dictionary], completed: int, total: int, works_count: int, tasks: Array[Dictionary] = [], works: Array = [], english: bool = false) -> void:
+	var first_light: bool = false
+	for task: Dictionary in tasks:
+		if str(task.get("key", "")) == "hardware_foundations/tutorial":
+			first_light = bool(task.get("completed", false))
+	if _globe_material != null: _globe_material.emission_enabled = first_light
+	if _globe_light != null: _globe_light.visible = first_light
 	var current_key: String = ""
 	var navigation := get_node_or_null("/root/TaskNavigation") if is_inside_tree() else null
 	if navigation != null and navigation.has_method("next_task_key"):
@@ -513,7 +521,7 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 	var latest_name := str(latest.get("name", ""))
 	var output: Array = latest.get("output", []) if latest.get("output", []) is Array else []
 	_display_state = {"stations": station_states, "works_count": count, "latest_name": latest_name,
-		"latest_output": output.duplicate(), "completed": maxi(0, completed), "total": maxi(0, total), "current_key": current_key}
+		"latest_output": output.duplicate(), "completed": maxi(0, completed), "total": maxi(0, total), "current_key": current_key, "first_light": first_light}
 	if _works_title != null:
 		_works_title.text = ("Works  %d" if english else "作品  %d") % count
 		if count == 0 or latest.is_empty():
@@ -650,10 +658,45 @@ func _surface_label(surface: MeshInstance3D, position_3d: Vector3, pixel_scale: 
 	return label
 
 func _setup_globe() -> void:
-	var globe := model.find_child("Status globe | opal sphere", true, false) as Node3D
+	var globe := model.find_child("Status globe | opal sphere", true, false) as MeshInstance3D
 	_globe_player = model.find_child("AnimationPlayer", true, false) as AnimationPlayer
-	if globe == null or _globe_player == null:
-		return
+	if globe == null: return
+	var original := globe.get_active_material(0) as BaseMaterial3D
+	if original != null:
+		_globe_material = original.duplicate() as BaseMaterial3D
+		_globe_material.emission_enabled = false
+		_globe_material.emission = Color("bceee4")
+		_globe_material.emission_texture = _globe_material.albedo_texture
+		_globe_material.emission_energy_multiplier = 0.65
+		globe.material_override = _globe_material
+	_globe_light = OmniLight3D.new(); _globe_light.name = "FirstLight"
+	_globe_light.light_color = Color("bceee4")
+	_globe_light.light_energy = 1.1
+	_globe_light.omni_range = 2.0
+	_globe_light.visible = false
+	model.add_child(_globe_light)
+	_globe_light.global_position = globe.global_position
+	# A small additive halo stays visible in the release renderer without whitening the map.
+	var gradient := Gradient.new()
+	gradient.colors = PackedColorArray([Color(0.3, 1.0, 0.86, 0.65), Color(0.3, 1.0, 0.86, 0.0)])
+	var glow_texture := GradientTexture2D.new()
+	glow_texture.gradient = gradient
+	glow_texture.width = 128; glow_texture.height = 128
+	glow_texture.fill = GradientTexture2D.FILL_RADIAL
+	glow_texture.fill_from = Vector2(0.5, 0.5); glow_texture.fill_to = Vector2(1.0, 0.5)
+	var glow_material := StandardMaterial3D.new()
+	glow_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	glow_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	glow_material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	glow_material.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	glow_material.albedo_texture = glow_texture
+	var halo := MeshInstance3D.new(); halo.name = "FirstLightHalo"
+	var quad := QuadMesh.new()
+	quad.size = Vector2.ONE * globe.get_aabb().size.x * absf(globe.scale.x) * 2.0
+	halo.mesh = quad; halo.material_override = glow_material
+	halo.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_globe_light.add_child(halo)
+	if _globe_player == null: return
 	var initial_rotation := globe.quaternion
 	_globe_player.stop()
 	# glTF's imported timeline has a 1/24 s offset. Preserve Africa's initial

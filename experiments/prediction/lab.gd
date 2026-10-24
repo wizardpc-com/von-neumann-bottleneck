@@ -56,7 +56,33 @@ func toggle_language() -> void:
 	english = not english
 	var localization := get_node_or_null("/root/Localization")
 	if localization != null: localization.set_locale("en" if english else "zh_CN")
+	reload_localized_scene()
+
+func reload_localized_scene() -> Error:
+	# Temporary exploration has no saved copy to reload after a language change.
+	var selected_event: Event
+	if is_instance_valid(events):
+		var selected_row: TreeItem = events.get_selected()
+		if selected_row != null: selected_event = selected_row.get_metadata(0) as Event
+	var previous_tabs: Dictionary = {}
+	for handle: String in ["PredictionRuleTabs", "PredictionEvidenceTabs"]:
+		var tabs := find_child(handle, true, false) as TabContainer
+		if tabs != null: previous_tabs[handle] = tabs.current_tab
+	var localization := get_node_or_null("/root/Localization")
+	if localization != null: english = localization.current_locale() == "en"
 	build()
+	for handle: String in previous_tabs:
+		var tabs := find_child(handle, true, false) as TabContainer
+		if tabs != null: tabs.current_tab = clampi(int(previous_tabs[handle]), 0, tabs.get_tab_count() - 1)
+	# Only restore an event still exposed by refresh's revealed-prefix filter.
+	if selected_event != null and events.get_root() != null:
+		for row: TreeItem in events.get_root().get_children():
+			if row.get_metadata(0) == selected_event:
+				row.select(0)
+				details.text = event_text(selected_event)
+				events.scroll_to_item(row, true)
+				break
+	return OK
 
 func text2(zh: String, en: String) -> String: return en if english else zh
 
@@ -151,7 +177,7 @@ func build() -> void:
 	(editor.get_parent() as Control).custom_minimum_size.x = 470
 	var left_tabs := TabContainer.new(); left_tabs.name = "PredictionRuleTabs"; left_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; left_tabs.all_tabs_in_front = false; left_tabs.use_hidden_tabs_for_min_size = false; editor.add_child(left_tabs)
 	var rules: VBoxContainer = _tab_page(left_tabs,text2("构造规则","Build a rule"))
-	var instruction: Label = label(text2("选择规则，再逐步揭示真实请求。运行到结束才记录完整测量。", "Choose a rule; reveal demands or run to record results."),rules,16)
+	var instruction: Label = label(text2("选择规则，再逐步揭示真实请求。运行到结束才记录完整测量。", "Choose a rule. Reveal demands; only full runs are recorded."),rules,16)
 	instruction.name = "FirstOperation"
 	rule = choice(text2("规则","Rule"),"Rule",[text2("关闭猜测","Off"),text2("最近步长","Last stride"),text2("双步长循环","Two-stride cycle")],["off","stride","two_stride"].find(str(policy.rule)),rules)
 	confidence = choice(text2("所需重复次数","Required repetitions"),"Confidence",["1","2","3"],int(policy.confidence)-1,rules)
@@ -169,7 +195,7 @@ func build() -> void:
 	specification_body.move_child(journey_context, 0)
 	_refresh_journey_context()
 	label(text2("最近步长需要至少2个历史点；双步长至少3个。重复次数检验尾部差值模式。倍数改变猜测距离；错猜暂停抑制接下来的猜测。", "Last stride needs2 history points; two-stride needs3. Repetitions check the trailing delta pattern. Multiplier changes guessed distance; mismatch pause suppresses subsequent guesses."),specification_body,14)
-	label(text2("机器：2槽×4B自动LRU。每请求4周期+搬运2周期；查找1周期；每次真实消费后计算8周期。单总线不可抢占，预测与计算重叠；错误在途请求会阻塞回退。尾部请求必须完成。", "Machine: automatic LRU,2 slots ×4B. Each request costs4+2 transfer cycles; lookup1; compute8 after each demand. One non-preemptive bus overlaps prediction with compute. Wrong in-flight work blocks fallback; final work must drain."),specification_body,14)
+	label(text2("简化模型：2槽×4B自动LRU。每请求4周期+搬运2周期；查找1周期；每次真实消费后计算8周期。单总线不可抢占，预测与计算重叠；错误在途请求会阻塞回退。尾部请求必须完成。", "Model costs: automatic LRU,2 slots ×4B. Each request costs4+2 transfer cycles; lookup1; compute8 after each demand. One non-preemptive bus overlaps prediction with compute. Wrong in-flight work blocks fallback; final work must drain."),specification_body,14)
 	var actions := HBoxContainer.new(); actions.name = "PredictionRunActions"; editor.add_child(actions)
 	step_button = button(text2("揭示下一请求","Reveal next demand"),"Step",actions,step_current)
 	InstrumentTheme.primary(step_button); step_button.add_theme_color_override("font_focus_color",Color("071823"))

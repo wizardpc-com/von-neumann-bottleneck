@@ -1,0 +1,13 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "suites": {
+    "test_feedback_presentation": "feedback-context-final.txt",
+    "test_offline_feedback": "test_offline_feedback.txt",
+    "test_prediction_workbench_presentation": "prediction-final.txt",
+    "test_settings_feedback_layout_gpu": "gpu-feedback-final.txt"
+  },
+  "all_passed": true,
+  "native_exit": 0,
+  "network_transmission_performed": false,
+  "initial_results": "results.json"
+}

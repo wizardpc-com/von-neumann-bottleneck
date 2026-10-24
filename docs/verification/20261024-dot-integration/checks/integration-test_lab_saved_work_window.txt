@@ -1,0 +1,14 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+LAB_WORK_STAGE {"nodes":279,"stage":"start","static_bytes":62059288,"ticks_ms":1412}
+LAB_WORK_STAGE {"nodes":279,"stage":"valid-work-saved","static_bytes":62144068,"ticks_ms":1467}
+LAB_WORK_STAGE {"nodes":1486,"stage":"laboratory-ready","static_bytes":164651501,"ticks_ms":3073}
+LAB_WORK_STAGE {"nodes":1631,"stage":"before-open-work","static_bytes":169261173,"ticks_ms":3273}
+LAB_WORK_STAGE {"nodes":1632,"stage":"work-focus-entered-tree","static_bytes":169312273,"ticks_ms":3289,"window":{"embedded":true,"exclusive":false,"position":"(0, 0)","ready":false,"size":"(100, 100)","visible":true}}
+LAB_WORK_STAGE {"nodes":1713,"stage":"work-focus-ready","static_bytes":171146035,"ticks_ms":3305,"window":{"embedded":true,"exclusive":true,"position":"(0, 0)","ready":true,"size":"(1080, 620)","visible":true}}
+LAB_WORK_STAGE {"nodes":1714,"stage":"after-open-work-return","static_bytes":171372387,"ticks_ms":3309,"window":{"embedded":true,"exclusive":true,"position":"(100, 50)","ready":true,"size":"(640, 420)","visible":true}}
+LAB_WORK_STAGE {"nodes":1714,"stage":"first-process-frame","static_bytes":171776757,"ticks_ms":3315,"window":{"embedded":true,"exclusive":false,"position":"(0, 0)","ready":true,"size":"(1280, 720)","visible":true}}
+LAB_WORK_STAGE {"nodes":1714,"stage":"second-process-frame","static_bytes":171776757,"ticks_ms":3317,"window":{"embedded":true,"exclusive":false,"position":"(0, 0)","ready":true,"size":"(1280, 720)","visible":true}}
+LAB_WORK_STAGE {"nodes":1714,"stage":"window-settled","static_bytes":171778745,"ticks_ms":3370,"window":{"embedded":true,"exclusive":false,"position":"(0, 0)","ready":true,"size":"(1280, 720)","visible":true}}
+LAB_WORK_STAGE {"nodes":1631,"stage":"viewer-closed","static_bytes":169929909,"ticks_ms":3425}
+PASS: laboratory saved-work window 26 checks, 0 failures

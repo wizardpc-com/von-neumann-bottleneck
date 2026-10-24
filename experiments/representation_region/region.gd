@@ -102,7 +102,16 @@ func toggle_language() -> void:
 	english = not english
 	var localization := get_node_or_null("/root/Localization")
 	if localization != null: localization.set_locale("en" if english else "zh_CN")
+	reload_localized_scene()
+
+func reload_localized_scene() -> Error:
+	# Settings must keep this live session and its writer lease, not reload from disk.
+	var previous_split: float = split_at.value if is_instance_valid(split_at) else 16
+	var localization := get_node_or_null("/root/Localization")
+	if localization != null: english = localization.current_locale() == "en"
 	build()
+	split_at.value = previous_split
+	return OK
 
 func text2(zh: String, en: String) -> String: return en if english else zh
 

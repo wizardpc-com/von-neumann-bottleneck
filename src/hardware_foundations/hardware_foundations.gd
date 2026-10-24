@@ -135,6 +135,7 @@ var task_box: VBoxContainer
 var component_palette_box: VBoxContainer
 var component_inspector_box: VBoxContainer
 var workbench_store = null
+var workbench_save_pending: bool = false
 var workbench_menu_button: MenuButton
 var workbench_seed_preview: SavedContentPreview
 var workbench_seed_note: Label
@@ -772,7 +773,7 @@ func _offline_reference_notice() -> String:
 
 
 func _on_game_mode_changed(_mode: StringName) -> void:
-	_save_active_workbench()
+	# GameMode checked persistence before committing the new mode.
 	hint_mode = false
 	hint_level = 0
 	hint_return_level_id = &""
@@ -781,7 +782,7 @@ func _on_game_mode_changed(_mode: StringName) -> void:
 	sealing_level_id = &""
 	pending_sealed_circuit = null
 	_activate_content_state()
-	_open_campaign_map()
+	_open_campaign_map_after_save()
 
 
 func _is_level_unlocked(level_id: StringName) -> bool:
@@ -1192,10 +1193,10 @@ func _point_tutorial_guide(states: Array[bool]) -> void:
 	var next: int = states.find(false)
 	var target: Variant = null
 	match next:
-		0: target = component_nodes.get(&"A_IN")
+		0: target = null if _tutorial_needs_reconnection_practice() else component_nodes.get(&"A_IN")
 		1: target = input_a_button
 		2: target = bench_debug_button
-	_point_guide("tutorial:%d" % next, target)
+	_point_guide("tutorial:%d:%s" % [next, _tutorial_needs_reconnection_practice()], target)
 
 
 func _point_guide(key: String, target: Variant) -> void:
@@ -1404,8 +1405,9 @@ func _show_level_completion(level_id: StringName) -> void:
 	# The chapter-end primary action may open feedback before returning.
 	level_completion_overlay.return_button.visible = has_next or level_id == &"load_store"
 	if level_id == &"tutorial":
-		# The first result is answered by the room: going back lights the lab lamp.
-		level_completion_overlay.return_button.text = "回到实验室 · 看看那盏灯" if Localization.current_locale() != "en" else "Back to the lab · see the lamp"
+		level_completion_overlay.return_button.text = "回到实验室" if Localization.current_locale() != "en" else "Back to the lab"
+		if not GameMode.is_test_mode():
+			level_completion_overlay.return_button.text += " · 看看发光的地球仪" if Localization.current_locale() != "en" else " · see the glowing globe"
 		level_completion_overlay.return_button.visible = true
 		level_completion_overlay.emphasise(level_completion_overlay.return_button)
 
@@ -1433,6 +1435,7 @@ func _on_level_completion_continue(level_id: StringName) -> void:
 func _on_level_completion_return(level_id: StringName) -> void:
 	continue_after_seal = false
 	if level_id == &"tutorial":
+		preload("res://src/lab/lab_home.gd")._departure = "globe"
 		_return_to_prototype_hub()
 		return
 	_open_campaign_map()
@@ -2409,10 +2412,9 @@ func _is_automated_workbench_session() -> bool:
 
 
 func _return_to_prototype_hub() -> void:
-	if _seal_navigation_busy(): return
+	if not can_leave_workbench(): return
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"hardware_foundations", current_level_id, &"chapter_selection")
-	_save_active_workbench()
 	get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
 
 
@@ -2831,10 +2833,30 @@ func _save_active_workbench() -> bool:
 		active_workbench_name,
 		_capture_workbench_snapshot()
 	)
+	workbench_save_pending = not success
 	if not GameMode.is_test_mode():
 		GlobalSave.workbench_write_error = "" if success else workbench_store.last_error
 		if not success: GlobalSave.save_game()
 	return success
+
+
+func can_leave_workbench() -> bool:
+	if _seal_navigation_busy(): return false
+	if workbench_store == null: return true
+	if not hint_mode and not active_workbench_name.is_empty() and not current_level_id.is_empty() \
+		and current_phase in [&"tutorial", &"half_adder", &"prologue"] and graph != null:
+		_save_active_workbench()
+	elif workbench_save_pending:
+		# Hint and encapsulation display a different graph. Retry only the
+		# original player snapshots already retained in the same Store.
+		workbench_save_pending = not workbench_store.flush()
+		if not GameMode.is_test_mode():
+			GlobalSave.workbench_write_error = workbench_store.last_error if workbench_save_pending else ""
+	if not workbench_save_pending: return true
+	status_label.text = _t(&"save.failure.title")
+	status_label.add_theme_color_override("font_color", BAD)
+	GlobalSave.report_workbench_departure_failure(workbench_store.last_error)
+	return false
 
 
 func _tutorial_reference_wires() -> Array[Dictionary]:
@@ -2971,7 +2993,7 @@ func _open_yi_help() -> void:
 	_mount_yi_help()
 	if guide_highlight != null: guide_highlight.clear()
 	yi_help_card.present(_t(_hint_text_key(current_level_id, 1)), [
-		{"id": "more", "zh": "再具体一些", "en": "More specific"},
+		{"id": "more", "zh": "打开分层提示", "en": "Open layered hints"},
 		{"id": "self", "zh": "我自己试试", "en": "I'll try myself"},
 	])
 
@@ -7113,9 +7135,13 @@ func _finish_encapsulation() -> void:
 	)
 	reusable.visual_snapshot = pending_visual_snapshot.duplicate(true)
 	pending_visual_snapshot.clear()
-	player_content.install_reusable(&"half_adder", reusable, level_catalog)
+	var invalidated_levels: Array[StringName] = player_content.install_reusable(
+		&"half_adder", reusable, level_catalog
+	)
 	if TaskNavigation.offline_tester_enabled():
 		_install_offline_reference_library()
+	if not invalidated_levels.is_empty():
+		SystemChapter.invalidate_prologue()
 	PlaytestData.level_completed(&"hardware_foundations", &"half_adder")
 	_refresh_workbench_menu()
 	_refresh_hint_controls()
@@ -7149,11 +7175,14 @@ func _build_sealed_graph() -> void:
 
 
 func _open_campaign_map() -> void:
-	if _seal_navigation_busy(): return
+	if not can_leave_workbench(): return
+	_open_campaign_map_after_save()
+
+
+func _open_campaign_map_after_save() -> void:
 	_dismiss_level_completion()
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"hardware_foundations", current_level_id, &"map")
-	_save_active_workbench()
 	_cancel_official_sequence()
 	_stop_playback()
 	hint_mode = false
@@ -8068,8 +8097,14 @@ func _build_prologue_complete_side(component_name: StringName = &"") -> void:
 			"completion_action_key", &"hardware.prologue.open_locality"
 		)))
 		locality_button.pressed.connect(func() -> void:
+			if not can_leave_workbench(): return
 			if completion_scene == "res://src/system_lab/system_lab.tscn":
 				SystemChapter.capture_prologue(player_content.component_library)
+				if TaskNavigation.from_tree:
+					# The shared journey map replaces chapter maps. Focus the
+					# promised next chapter, not the completed prologue task.
+					TaskNavigation.selected = "chapter_1/assembly"
+					TaskNavigation.camera_saved = false
 			get_tree().change_scene_to_file(completion_scene)
 		)
 		task_box.add_child(locality_button)
@@ -8892,7 +8927,12 @@ func _update_tutorial_goal() -> void:
 	if bool(completed_levels.get(&"tutorial", false)):
 		states.fill(true)
 	if tutorial_coach != null and tutorial_coach.visible:
-		tutorial_coach.update_states(states)
+		if _tutorial_needs_reconnection_practice():
+			var english: bool = Localization.current_locale() == "en"
+			tutorial_coach.show_guidance(states, "Resume" if english else "继续接线练习",
+				"Your circuit is already wired. Hold the right mouse button across a wire to remove it, then reconnect it to continue practicing." if english else "电路已经接好了。按住右键划过一条线，把它拆掉，再接回去，继续练习。")
+		else:
+			tutorial_coach.update_states(states)
 		_point_tutorial_guide(states)
 	var steps: Array[StringName] = [&"wire", &"input", &"run", &"remove", &"reconnect"]
 	var completed: int = 0
@@ -9212,7 +9252,23 @@ func _freeze_visual_layout(circuit: LogicCircuit) -> Dictionary:
 	return VisualLayout.freeze(circuit.canonical_signature(),placements)
 
 
+func _tutorial_needs_reconnection_practice() -> bool:
+	return not tutorial_created_wire and not bool(completed_levels.get(&"tutorial", false)) \
+		and graph != null and graph.is_node_connected(&"A_IN", 0, &"NOT_1", 0) \
+		and graph.is_node_connected(&"NOT_1", 0, &"LAMP", 0)
+
+
+func _tutorial_demo_cut_points() -> PackedVector2Array:
+	var connections: Array = graph.get_connection_list()
+	if connections.is_empty(): return PackedVector2Array()
+	var gesture: PackedVector2Array = preload("res://src/hardware_foundations/operation_demonstration.gd").wire_cut_path(graph.connection_curve(connections[0]))
+	if gesture.size() != 2: return PackedVector2Array()
+	var transform: Transform2D = operation_demo.get_global_transform_with_canvas().affine_inverse() * graph.get_global_transform_with_canvas()
+	return PackedVector2Array([transform * gesture[0], transform * gesture[1]])
+
+
 func _tutorial_demo_wire_points() -> PackedVector2Array:
+	if _tutorial_needs_reconnection_practice(): return _tutorial_demo_cut_points()
 	var from_id: StringName = &"A_IN"
 	var to_id: StringName = &"NOT_1"
 	if graph.is_node_connected(from_id, 0, to_id, 0):
@@ -9233,7 +9289,7 @@ func _show_operation_demonstration() -> void:
 	var message: String = ""
 	var english: bool = Localization.current_locale() == "en"
 	var step: int = tutorial_coach.last_states.find(false)
-	if step < 0: return
+	if step < 0: step = 0
 	# Closed/minimized instruments are deliberate player choices. Point to their
 	# existing dock button instead of doing nothing or reopening a panel silently.
 	var required_tool: StringName = &""
@@ -9248,20 +9304,15 @@ func _show_operation_demonstration() -> void:
 		# Demonstrate the first missing connection of the authored NOT lesson only.
 		# Never reveal a construction puzzle solution or execute the gesture.
 		points = _tutorial_demo_wire_points()
-		message = "Hold left button, drag, release" if english else "按住左键，拖动，再松开"
+		if _tutorial_needs_reconnection_practice():
+			message = "Hold right button and sweep across" if english else "按住右键，划过这条线"
+		else:
+			message = "Hold left button, drag, release" if english else "按住左键，拖动，再松开"
 	elif current_phase == &"tutorial" and step == 1 and input_a_button != null:
 		points.append(operation_demo.get_global_transform_with_canvas().affine_inverse() * input_a_button.get_global_rect().get_center())
 		message = "Click to change the input" if english else "点击切换输入"
 	elif current_phase == &"tutorial" and step == 3:
-		var connections: Array = graph.get_connection_list()
-		if connections.is_empty(): return
-		var curve: PackedVector2Array = graph.connection_curve(connections[0])
-		if curve.size() < 2: return
-		var gesture: PackedVector2Array=preload("res://src/hardware_foundations/operation_demonstration.gd").wire_cut_path(curve)
-		if gesture.size()!=2:return
-		var transform: Transform2D = operation_demo.get_global_transform_with_canvas().affine_inverse() * graph.get_global_transform_with_canvas()
-		points.append(transform*gesture[0])
-		points.append(transform*gesture[1])
+		points = _tutorial_demo_cut_points()
 		message = "Hold right button and sweep across" if english else "按住右键，划过这条线"
 	elif step > 0:
 		var target_text: String = _t(&"hardware.practice.run") if current_phase == &"tutorial" else _t(&"hardware.cases.run_official") if step == 2 else _t(&"hardware.cases.run_debug")

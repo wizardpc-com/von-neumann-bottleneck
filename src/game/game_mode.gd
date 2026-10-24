@@ -26,6 +26,9 @@ func set_mode(mode: StringName) -> bool:
 		return false
 	if current_mode == mode:
 		return true
+	for owner: Node in get_tree().get_nodes_in_group("workspace_owners"):
+		if owner.has_method("can_leave_workbench") and not owner.can_leave_workbench():
+			return false
 	current_mode = mode
 	mode_changed.emit(current_mode)
 	return true

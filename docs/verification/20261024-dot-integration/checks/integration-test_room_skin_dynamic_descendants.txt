@@ -1,0 +1,9 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ROOM_SKIN_STAGE {"added_nodes":1,"added_rules":1,"guard_tripped":false,"max_rule_depth":1,"phase":"late-control","rules_now":1,"stage":"room-page-dressed"}
+ROOM_SKIN_STAGE {"added_nodes":3,"added_rules":1,"guard_tripped":false,"max_rule_depth":1,"phase":"late-control","rules_now":1,"stage":"late-control-settled"}
+ROOM_SKIN_STAGE {"added_nodes":1,"added_rules":1,"guard_tripped":false,"max_rule_depth":1,"phase":"saved-work-window","rules_now":1,"stage":"room-page-dressed"}
+ROOM_SKIN_STAGE {"added_nodes":84,"added_rules":1,"guard_tripped":false,"max_rule_depth":1,"phase":"saved-work-window","rules_now":1,"stage":"work-window-settled"}
+ROOM_SKIN_STAGE {"added_nodes":1,"added_rules":1,"guard_tripped":false,"max_rule_depth":1,"phase":"close-before-deferred-style","rules_now":1,"stage":"room-page-dressed"}
+ROOM_SKIN_STAGE {"added_nodes":3,"added_rules":1,"guard_tripped":false,"max_rule_depth":1,"phase":"close-before-deferred-style","rules_now":0,"stage":"closed-page-deferred-queue-drained"}
+PASS: room skin dynamic descendants 27 checks, 0 failures

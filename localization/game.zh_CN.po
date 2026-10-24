@@ -904,7 +904,7 @@ msgid "hardware.briefing.half_adder.3"
 msgstr "可用工具：[[and_gate|AND]]、[[or_gate|OR]] 和 [[not_gate|NOT]]，所有端口均为 1 位。\n\nAND：两个输入都为 1 时输出 1。\nOR：至少一个输入为 1 时输出 1。\nNOT：输出输入的相反值。\n\n从元件窗拖出新元件，按自己的思路组合。完整测试只检查表中的结果，接受不同的合法接法。"
 
 msgid "hardware.briefing.half_adder.4"
-msgstr "先在[[test_bench|测试台]]里一个案例一个案例切换 A/B，用[[debug_run|单次调试]]查看线路哪里不对。确认四种情况都能工作后，再运行[[official_test|完整真值表测试]]。\n\n四行全部通过时，“封装”按钮会亮起。[[encapsulation|封装]]就是把这套已验证的线路收进一个可重复使用的[[half_adder|HalfAdder]]元件里。"
+msgstr "接好电路后，可以直接运行[[official_test|完整真值表测试]]，一次检查全部四种输入。想排查某一行时，再在[[test_bench|测试台]]切换 A/B，用[[debug_run|单次调试]]对照期望与实际输出。\n\n四行全部通过时，“封装”按钮会亮起。[[encapsulation|封装]]就是把这套已验证的线路收进一个可重复使用的[[half_adder|HalfAdder]]元件里。"
 
 msgid "hardware.briefing.full_adder.1"
 msgstr "把加法接着往高位做。上一位送来的进位叫 CIN；把它也算进去，就得到[[full_adder|全加器]]。\n\n输入：A、B、CIN，各 1-bit。\n输出：SUM 是 A+B+CIN 的低位，COUT 是高位。\n例子：1+1+1=二进制 11，SUM 和 COUT 都是 1。\n\n复用你做好的 HalfAdder，按自己的方式接线；完整测试检查全部 8 种输入。"
@@ -1666,7 +1666,7 @@ msgid "hardware.prologue.back_map"
 msgstr "返回构建地图"
 
 msgid "hardware.prologue.continue_next"
-msgstr "继续"
+msgstr "封装并继续"
 
 msgid "hardware.prologue.seal"
 msgstr "通过测试后封存元件"

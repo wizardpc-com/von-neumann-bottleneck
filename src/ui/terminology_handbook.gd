@@ -803,6 +803,10 @@ func is_term_unlocked(term_id: StringName) -> bool:
 	var level_id := StringName(parts[1])
 	match parts[0]:
 		"hardware":
+			# RAM supplies a MUX on the independent storage route, before the
+			# arithmetic route necessarily opens the canonical selector lesson.
+			if term_id == &"multiplexer" and prologue_catalog.is_unlocked(&"ram", GlobalSave.game_player_content.completed_levels):
+				return true
 			return prologue_catalog.is_unlocked(level_id, GlobalSave.game_player_content.completed_levels)
 		"system":
 			return system_catalog.is_unlocked(level_id, SystemChapter.game_completed, SystemChapter.prologue_ready)

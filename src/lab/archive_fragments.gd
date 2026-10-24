@@ -10,8 +10,8 @@ extends RefCounted
 const FRAGMENTS := [
 	{"id": "first_light", "requires": "hardware_foundations/tutorial", "candidate": false,
 		"zh_title": "第一束光", "en_title": "The first light",
-		"zh": "你接好线路，改变输入，运行，又拆开重接。\n\n灯灭了，先看输入。NOT 把 1 变成 0，灭也可能是对的。想核对，就换个输入再运行一次。\n\n—— 壹",
-		"en": "You connected the circuit, changed its input, ran it, then disconnected and reconnected it.\n\nIf the lamp is dark, check the input. NOT turns 1 into 0; darkness can be correct. Try the other input and run again to check.\n\n— Yi"},
+		"zh": "你接好线路，改变输入，运行，又拆开重接。\n\n桌上的地球仪亮起，记下你完成的第一条线路。电路里的灯仍由输入决定：NOT 把 1 变成 0，灭也可能是对的。想核对，就换个输入再运行一次。\n\n—— 壹",
+		"en": "You connected the circuit, changed its input, ran it, then disconnected and reconnected it.\n\nThe globe on the desk lights up to remember your first circuit. The circuit lamp still follows its input: NOT turns 1 into 0, so darkness can be correct. Try the other input and run again to check.\n\n— Yi"},
 	{"id": "counting", "requires": "hardware_foundations/half_adder",
 		"zh_title": "数到二", "en_title": "Counting to two",
 		"zh": "孩子们学会的第一套算术，是用两根导线和一张表完成的。\"一加一为什么要进位？\"有人问。我没有直接回答，只给了他一个空的进位格子。\n\n他自己把它填上了。",

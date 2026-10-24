@@ -26,7 +26,8 @@ func _ready() -> void:
 
 
 func _on_item_selected(index: int) -> void:
-	GameMode.set_mode(GameMode.mode_at(index))
+	if not GameMode.set_mode(GameMode.mode_at(index)):
+		option_button.select(maxi(0, GameMode.mode_index()))
 
 
 func _on_mode_changed(_mode: StringName) -> void:

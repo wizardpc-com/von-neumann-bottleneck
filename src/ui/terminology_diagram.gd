@@ -18,6 +18,8 @@ const CONCEPT_IDS: Array[StringName] = [
 	&"high_impedance", &"short_circuit", &"port", &"operation_wiring", &"operation_review", &"operation_navigation",
 ]
 
+const LESSON_DIAGRAM_IDS: Array[StringName] = [&"packet_cost", &"context_history", &"frozen_check"]
+
 const BACKGROUND := Color("101a2a")
 const PANEL := Color("18263a")
 const PANEL_ACTIVE := Color("17384a")
@@ -60,6 +62,8 @@ func _draw() -> void:
 		return
 	draw_rect(Rect2(Vector2.ZERO, size), BACKGROUND, true)
 	draw_rect(Rect2(Vector2.ZERO, size), BORDER, false, 1.0)
+	if diagram_id in LESSON_DIAGRAM_IDS:
+		_draw_lesson_example(); return
 	if diagram_id in CONCEPT_IDS:
 		_draw_concept(); return
 	if String(diagram_id).begins_with("gate_"):
@@ -492,6 +496,8 @@ func _t(key: StringName, arguments: Array = []) -> String:
 func example_count() -> int:
 	if String(diagram_id).begins_with("gate_"): return 2 if diagram_id == &"gate_not" else 4
 	match diagram_id:
+		&"packet_cost": return 2
+		&"context_history", &"frozen_check": return 3
 		&"half_adder": return 4
 		&"sr_latch": return maxi(1, _latch_rows.size())
 		&"widths": return WIDTH_EXAMPLES.size()
@@ -928,6 +934,69 @@ func _draw_concept() -> void:
 	if diagram_id == &"output_feedback":
 		_draw_arrow(_top_center(boxes[3]),_bottom_center(boxes[0]),ACCENT)
 	_draw_wrapped_text(Rect2(14,212,size.x-28,34),str(example.note),MUTED,13)
+
+
+## Fixed bounded teaching examples, independent from the player's current run.
+func lesson_example() -> Dictionary:
+	match diagram_id:
+		&"context_history":
+			var contexts: Array[String] = ["∅", "A", "BA"]
+			var counts: Array = [[2,1,1,0],[0,1,1,0],[0,0,1,0]]
+			return {"order":example_step, "source":"ABAC", "context":contexts[example_step], "counts":counts[example_step],
+				"note":_ui("教学示意 · 只统计 ABAC，不跨片段", "Teaching example · ABAC only; no joined passages")}
+		&"packet_cost":
+			return {"predictive":example_step == 1,
+				"parts":[_ui("头部", "Header"), _ui("规则", "Rules"), _ui("种子", "Seed"), _ui("匹配\n修正", "Match\nfix"), _ui("校验", "Check")] if example_step == 1 else [_ui("头部", "Header"), _ui("原符号", "Symbols"), _ui("校验", "Check")],
+				"note":_ui("组成示意 · 色块不按字节比例；非当前成绩", "Schematic · not byte-scaled; not a run")}
+		&"frozen_check":
+			return {"stage":example_step, "prefix":"ABA" if example_step == 1 else "AB", "revealed":example_step == 1, "seen":example_step > 0,
+				"note":_ui("顺序示意 · 揭晓延长前缀，不训练规则", "Sequence sketch · reveal extends prefix, never trains")}
+	return {}
+
+
+func _draw_lesson_example() -> void:
+	var example: Dictionary = lesson_example()
+	var content_width: float = size.x - 28.0
+	if diagram_id == &"context_history":
+		_draw_text(Rect2(14,10,content_width,28), _ui("同一训练片段：ABAC", "Same training passage: ABAC"), TEXT, 17)
+		_draw_text(Rect2(14,45,content_width,28), _ui("记忆 %d · 查上下文 [%s]", "History %d · context [%s]") % [example.order,example.context], ACCENT, 16)
+		var cell_width: float = content_width / 4.0
+		for index: int in 4:
+			var cell := Rect2(14 + index * cell_width,87,cell_width-5,69)
+			draw_style_box(InstrumentTheme.panel(PANEL_ACTIVE if example.counts[index] > 0 else PANEL, ACCENT if example.counts[index] > 0 else BORDER),cell)
+			_draw_text(Rect2(cell.position+Vector2(3,3),Vector2(cell.size.x-6,26)), "ABCD".substr(index,1), ACCENT, 19)
+			_draw_text(Rect2(cell.position+Vector2(3,33),Vector2(cell.size.x-6,28)), "× %d" % example.counts[index], TEXT, 19)
+		_draw_wrapped_text(Rect2(14,166,content_width,38), _ui("不看历史 → A 后仍有 B/C → BA 后见过 C", "No context → A has B/C → BA has C"), TEXT, 14)
+	elif diagram_id == &"packet_cost":
+		_draw_text(Rect2(14,10,content_width,28), _ui("预测包", "Predictive packet") if example.predictive else "RAW", ACCENT, 18)
+		var parts: Array = example.parts
+		var part_width: float = content_width / parts.size()
+		for index: int in parts.size():
+			var cell := Rect2(14+index*part_width,48,part_width-3,54)
+			var color: Color = WARNING if example.predictive and index in [1,2,3] else ACCENT
+			draw_style_box(InstrumentTheme.panel(PANEL,color),cell)
+			_draw_wrapped_text(Rect2(cell.position+Vector2(3,7),Vector2(cell.size.x-6,40)),str(parts[index]),color,13)
+		var phases: Array[String] = [_ui("编码", "Encode"),_ui("搬运", "Transfer"),_ui("解码", "Decode")]
+		var phase_width: float = content_width / 3.0
+		for index: int in 3:
+			var cell := Rect2(14+index*phase_width,124,phase_width-13,32)
+			_draw_text(cell,phases[index],TEXT,15)
+			if index < 2: _draw_arrow(Vector2(cell.end.x,140),Vector2(cell.end.x+10,140),MUTED)
+		_draw_wrapped_text(Rect2(14,166,content_width,38),_ui("包更小 ≠ 周期更少；学习准备另列", "Smaller packet ≠ fewer cycles; learning is separate"),TEXT,14)
+	elif diagram_id == &"frozen_check":
+		var stages: Array[String] = [_ui("首次检查 · 先提交", "First check · commit"),_ui("揭晓一格 · 已见", "Reveal one · seen"),_ui("重复检查 · 已见", "Repeat check · seen")]
+		_draw_text(Rect2(14,10,content_width,28),stages[example.stage],WARNING if example.seen else ACCENT,17)
+		_draw_box(Rect2(14,48,content_width*0.42,66),_ui("规则固定", "Rules fixed"),_ui("同一规则盒", "Same rule box"),ACCENT)
+		_draw_arrow(Vector2(14+content_width*0.42+3,81),Vector2(14+content_width*0.5-3,81),ACCENT)
+		_draw_box(Rect2(14+content_width*0.5,48,content_width*0.5,66),_ui("已见前缀", "Seen prefix"),example.prefix,GOOD)
+		var cells: Array[String] = ["A","B","A" if example.revealed else "?","?"]
+		var cell_width: float = content_width/4.0
+		for index: int in 4:
+			var cell := Rect2(14+index*cell_width,132,cell_width-5,36)
+			draw_style_box(InstrumentTheme.panel(PANEL,GOOD if cells[index] != "?" else BORDER),cell)
+			_draw_text(cell,cells[index],GOOD if cells[index] != "?" else MUTED,19)
+		_draw_text(Rect2(14,176,content_width,27),_ui("重新封闭 ≠ 重新未见", "Sealing again ≠ unseen again") if example.stage == 2 else _ui("AB → ABA；未来仍封闭", "AB → ABA; future stays sealed"),TEXT,14)
+	_draw_wrapped_text(Rect2(14,212,content_width,34),str(example.note),MUTED,12)
 
 
 func _draw_port_states() -> void:

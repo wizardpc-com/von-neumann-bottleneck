@@ -1,0 +1,134 @@
+[
+	{
+		"check": "Control exists: Train",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Transport",
+		"ok": true
+	},
+	{
+		"check": "Control exists: ToPredict",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Practice",
+		"ok": true
+	},
+	{
+		"check": "P3 secondary Practice uses family material",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Commit",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Reveal",
+		"ok": true
+	},
+	{
+		"check": "Control exists: ContinuePrediction",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Check",
+		"ok": true
+	},
+	{
+		"check": "P3 secondary Check uses frozen family material",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Commit",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Reveal",
+		"ok": true
+	},
+	{
+		"check": "Control exists: ContinuePrediction",
+		"ok": true
+	},
+	{
+		"check": "Family comparison earns its real support",
+		"ok": true
+	},
+	{
+		"check": "Capture family-check",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "P3 guides the player to G1",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "G1 explicitly connects output feedback",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Generate",
+		"ok": true
+	},
+	{
+		"check": "Control exists: KeepCurrent",
+		"ok": true
+	},
+	{
+		"check": "G2 saves real output and recipe",
+		"ok": true
+	},
+	{
+		"check": "G2 Keep does not autoplay",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "G2 leads to explicit G3 closure",
+		"ok": true
+	},
+	{
+		"check": "Capture saved-closure",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Explicit closure starts actual ending playback",
+		"ok": true
+	},
+	{
+		"check": "Capture ending-film",
+		"ok": true
+	},
+	{
+		"check": "Ending reaches its natural finish",
+		"ok": true
+	},
+	{
+		"check": "Ending returns to the same protected work",
+		"ok": true
+	},
+	{
+		"check": "Closure neither rewrites the draft nor grants another work",
+		"ok": true
+	},
+	{
+		"check": "Capture protected-work",
+		"ok": true
+	}
+]

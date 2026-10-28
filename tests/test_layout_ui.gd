@@ -27,12 +27,18 @@ func run() -> void:
 				check(sum_text.contains("8") and list_text.contains("#0") and list_text.contains("#7"), "query summary preserves public repetition and record identities " + locale)
 				check(sum_text.contains("求和字段" if locale == "zh_CN" else "Fields to sum") and list_text.contains("依次输出字段" if locale == "zh_CN" else "Output fields in order"), "different query actions stay explicit " + locale)
 			localization.set_locale(original_locale)
+			host._run_all()
+			var first_metrics: Label = host.results.get_node("LayoutCaseMetrics0")
+			check(first_metrics.text.contains("RAM") and not first_metrics.text.contains("比上次") and not first_metrics.text.contains("Since last"),"first measured baseline shows traffic without inventing an earlier run")
 		host.design = C.reference_solution(id)
 		host._changed()
 		await process_frame
 		host._run_all()
 		check(host.runs.size() == 2,"both public orders "+id)
 		check(root.get_node("LayoutChapter").completed().has(id),"reference passes current targets "+id)
+		if id == "fields":
+			var compared: Label = host.results.get_node("LayoutCaseMetrics0")
+			check(compared.text.contains("比上次完整运行") or compared.text.contains("Since last complete run"),"single layout change compares complete measurements under the same case")
 		var before: String = JSON.stringify(host.design)
 		host._hint_advance(); host._hint_advance(); host._hint_advance()
 		check(JSON.stringify(host.design) == before,"read-only Hint cannot change draft "+id)
@@ -40,6 +46,18 @@ func run() -> void:
 		host._move_group(0,host._current().recipe.groups.size())
 		host._undo(false)
 		check(JSON.stringify(host.design) == before,"group edit undo restores exact design "+id)
+		if id == "mixed":
+			var summary: Label = host.results.get_node("LayoutOptionalGoals")
+			check(summary.text.contains("1300") and summary.text.contains("16"),"mixed result exposes both optional measured budgets")
+			var prior: Dictionary = host.comparable_runs.duplicate()
+			var bonuses: Dictionary = root.get_node("LayoutChapter").test_bonuses.duplicate(true)
+			host.design.strategy = "batch"; host.design.batch = 64; host.design.copy_fields = [0,1,2,3]
+			host._changed(); host._run_all()
+			summary = host.results.get_node("LayoutOptionalGoals")
+			check(not host.runs[0].passed and host.comparable_runs == prior,"incomplete space-limited attempts retain the last complete comparison")
+			check(summary.text.contains("未完成") or summary.text.contains("must finish"),"incomplete totals cannot count as optional improvements")
+			check(root.get_node("LayoutChapter").test_bonuses == bonuses,"a failed experiment preserves already earned optional goals")
+			if not bonuses.is_empty(): check(summary.text.contains("已获得") or summary.text.contains("Earned"),"historical optional achievements remain visibly earned after failure")
 		await process_frame
 		host.queue_free()
 		for frame: int in range(3): await process_frame

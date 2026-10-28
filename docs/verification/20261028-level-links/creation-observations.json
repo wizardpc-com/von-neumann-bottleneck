@@ -1,0 +1,450 @@
+[
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "C1 real restoration leads to cost comparison",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: c1-ready-for-cost",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "C1 main action opens C2, retaining rules",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "C2 earns its actual locked-codec comparison",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "C2 main action opens machine conditions",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: MachineCondition0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Transport",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "C3 records same-source and same-codec different-machine costs",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: c3-cost-evidence",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "C3 reaches P1 with restoration evidence intact",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Practice requires a manual commitment",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "One actual reveal enables the remainder",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Prediction completes a real round",
+		"ok": true
+	},
+	{
+		"check": "P1 real prediction leads to memory comparison",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: p1-ready-for-memory",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "P2 continues the preceding measured round without skipping the comparison",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Option menu opened: Order",
+		"ok": true
+	},
+	{
+		"check": "Option selection applied: Order",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Train",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Relearning in P2 requests restoration in the same unit",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: p2-relearn-stays-here",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "P2 restored rules continue here without returning to C1 or P1",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Practice requires a manual commitment",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "One actual reveal enables the remainder",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Prediction completes a real round",
+		"ok": true
+	},
+	{
+		"check": "Different history lengths with otherwise matching conditions earn P2",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "P2 leads to frozen-check unit",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Example5",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Train",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "P3 changed examples also revalidate in place",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Practice requires a manual commitment",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "One actual reveal enables the remainder",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Prediction completes a real round",
+		"ok": true
+	},
+	{
+		"check": "Family practice leads to an independent frozen check",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Practice requires a manual commitment",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "One actual reveal enables the remainder",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Prediction completes a real round",
+		"ok": true
+	},
+	{
+		"check": "P3 earns frozen-check evidence before guiding to creation",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: p3-ready-for-feedback",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: NextStepAction",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "G1 receives the same verified rules and generates actual output",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: g1-same-rules-output",
+		"ok": true
+	}
+]

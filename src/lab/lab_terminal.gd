@@ -344,6 +344,7 @@ func _compose_text() -> void:
 	header_label.text = "壹 · 学习程序" if zh else "Yi · learning program"
 	language_button.text = "EN" if zh else "中文"
 	progress_label.text = ("%d / %d" % [int(state.get("completed", 0)), int(state.get("total", 0))]) if int(state.get("total", 0)) > 0 else ""
+	progress_label.tooltip_text = ("临时探索 %d 项不计入完成数。" if zh else "%d temporary tasks are excluded from completion.") % int(state.get("temporary", 0)) if int(state.get("temporary", 0)) > 0 else ""
 	for button: Node in secondary.get_children():
 		(button as Button).text = str(button.get_meta("en" if english else "zh"))
 	set_fragment_count(int(state.get("fragments", 0)), int(state.get("fragments_unread", 0)))

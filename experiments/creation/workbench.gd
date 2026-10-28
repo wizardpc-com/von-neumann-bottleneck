@@ -738,10 +738,10 @@ func _build_actions(parent: Node) -> void:
 	elif task < 6:
 		button(text2("接到未见输入","Connect sealed input"),"ToPredict",parent,func() -> void: switch_mode("predict"))
 		(find_child("ToPredict",true,false) as Button).disabled = session.data.get("mode","") == "predict"
-		button(text2("练习","Practice"),"Practice",parent,func() -> void: begin_prediction("practice"))
+		button(text2("同族独立练习","Family practice") if task == 5 else text2("练习","Practice"),"Practice",parent,func() -> void: begin_prediction("practice-v2" if task == 5 else "practice"))
 		if task == 5: button(text2("训练片段对照","Training passage"),"TrainingPassage",parent,func() -> void: begin_prediction("training"))
 		if task == 5: button(text2("固定位置背诵基线","Position-memory baseline"),"Memorize",parent,func() -> void: begin_prediction("memorize"))
-		button(text2("冻结检查","Frozen check"),"Check",parent,func() -> void: begin_prediction("check"))
+		button(text2("同族冻结检查","Family check") if task == 5 else text2("冻结检查","Frozen check"),"Check",parent,func() -> void: begin_prediction("check-v2" if task == 5 else "check"))
 		commit_button = button(text2("先提交预测","Commit guess"),"Commit",parent,commit_prediction)
 		reveal_button = button(text2("再揭晓真值","Reveal truth"),"Reveal",parent,reveal_prediction)
 		var continuation := HBoxContainer.new()
@@ -819,6 +819,8 @@ func next_step() -> Dictionary:
 	if not writable:
 		if not session.data.works.is_empty(): return _step("此档只读；已保存作品仍可回看，原文件不会改写。", "This profile is read-only; saved works remain viewable and the file is untouched.", "查看作品", "View works", "works")
 		return _step("此档只读；可查看已有证据，不能从这里改动草稿。", "This profile is read-only; inspect existing evidence without changing the draft.", "查看证据", "View evidence", "evidence")
+	if task == 8 and (not can_keep_visible_work() or visible_generation_saved()) and not journey_closing_work().is_empty():
+		return _step("作品已保存，无需再次生成。查看作品，并播放尚未看过的结尾。", "Your work is saved; no new generation is needed. View it and play the ending if not already seen.", "查看作品与结尾", "View work and ending", "finish_journey")
 	var model: Dictionary = session.data.model
 	if model.is_empty():
 		if session.data.draft.examples.is_empty(): return _step("当前没有样例；先选择至少一段公开或自己的样例。", "No example is selected; choose at least one public or custom passage.", "查看样例", "See examples", "examples")
@@ -828,7 +830,7 @@ func next_step() -> Dictionary:
 	var predicted: bool = str(session.get("_prediction_model")) == model_id
 	if task == 0:
 		if not restored: return _step("当前：已有规则；下一步发送预测包，确认接收端无损复原。", "Now: rules are learned; send a predictive packet for exact restoration.", "发送并复原", "Send and restore", "transport")
-		return _step("复原已完成。下一步把同一规则盒接到未见输入。", "Restoration is complete. Connect these rules to sealed input next.", "接未见输入", "Connect sealed input", "predict")
+		return _step("原文已无损复原；接下来保留这套规则，比较它是否真的少搬了字节。", "The source is restored exactly. Keep these rules and compare whether they actually move fewer bytes.", "继续：规则也占位置", "Next: rules take space", "next")
 	if task == 1:
 		if not session.data.supports.has("C2_cost"): return _step("下一步锁定当前原文、规则和机器，运行 RAW／预测包字节对照。", "Next, hold source, rules and machine fixed and compare RAW / predictive bytes.", "运行传输对照", "Compare codecs", "compare")
 		return _step("本单元对照已留证；继续查看机器条件如何改变成本。", "This comparison is recorded; continue to machine conditions.", "下一单元", "Next unit", "next")
@@ -836,7 +838,7 @@ func next_step() -> Dictionary:
 		if session.data.supports.has("C3_conditions"): return _step("同路径换机器的成本证据已保存；配送订单可继续自由挑战。", "The same-codec machine comparison is saved; delivery orders remain open challenges.", "下一单元", "Next unit", "next")
 		return _step("本单元证据：同原文、规则和路径在两种机器下各发送一次。订单另计。", "Unit evidence: send the same source, rules and codec under two machines. Orders are separate.", "查看机器条件", "Machine conditions", "machine")
 	if not restored:
-		return _step("当前规则尚无预测包复原证据；先返回 C1 发送，再接未见输入。", "These rules lack predictive restoration evidence; send in C1 before sealed input.", "返回 C1", "Go to C1", "c1")
+		return _step("规则改变后，要重新确认无损复原。在这里发送一次，保留当前单元与比较记录。", "Changed rules need a fresh exact restoration. Send here while retaining this unit and its comparisons.", "验证当前规则的复原", "Verify restoration", "transport")
 	if task < 6:
 		if session.data.mode != "predict": return _step("复原已完成；下一步接到未见输入。", "Restoration is complete; connect sealed input next.", "接未见输入", "Connect sealed input", "predict")
 		if task == 4 and session.data.supports.has("P2_memory"): return _step("记忆长度对照已留证；继续同族冻结检查。", "The history comparison is saved; continue to the frozen family check.", "下一单元", "Next unit", "next")
@@ -846,16 +848,16 @@ func next_step() -> Dictionary:
 			return _step("旧冻结检查证据仍在；当前新规则还需整轮预测才能回灌。", "Earlier frozen-check evidence remains; these new rules need a full prediction round before feedback.", "返回 P1", "Go to P1", "p1")
 		if task == 5 and not Catalog.sample(5) in model.examples: return _step("先选择「稳定规律与稀少例外」样例并重新学习，再进行同族练习。", "Select the stable/rare-exception example and relearn before family practice.", "查看样例", "See examples", "examples")
 		if task == 5 and session.prediction.get("finished",false) and session.prediction.get("kind","") == "practice-v2": return _step("同族练习完成；下一步开始独立冻结检查。", "Family practice is complete; start the independent frozen check.", "开始冻结检查", "Start frozen check", "family_check")
-		if task == 3 and predicted and session.prediction.is_empty(): return _step("当前规则已有整轮预测证据；可以继续接上回灌。", "These rules have full-round prediction evidence; continue to feedback.", "接上回灌", "Connect feedback", "generate_mode")
+		if task == 3 and predicted and session.prediction.is_empty(): return _step("整轮预测已有证据；接下来保留材料和机器，只改变记忆长度。", "A full prediction round is recorded. Keep material and machine fixed and vary history length next.", "继续：需要记住多少", "Next: how much history?", "next")
 		if session.prediction.is_empty() or (task == 5 and session.prediction.get("kind","") not in ["practice-v2","check-v2"]):
 			return _step("未开始预测流；先开始练习，下一格仍未揭晓。", "No prediction round is active; start practice while the next cell stays sealed.", "开始练习", "Start practice", "family_practice" if task == 5 else "practice")
 		if not session.prediction.get("pending",{}).is_empty(): return _step("这一格的预测已提交；现在揭晓真值和修正。", "This guess is committed; reveal its truth and correction now.", "揭晓真值", "Reveal truth", "reveal")
 		if session.prediction.get("finished",false):
 			if task == 5: return _step("本轮已完成；可检查证据或进入回灌创造。", "This round is complete; inspect evidence or continue to feedback.", "下一单元", "Next unit", "next")
-			if predicted: return _step("整轮预测已完成；现在可把输出接回输入。", "The full prediction round is complete; feedback can now be connected.", "接上回灌", "Connect feedback", "generate_mode")
+			if predicted: return _step("整轮预测已完成；接下来保留材料和机器，只改变记忆长度。", "The full prediction round is complete. Keep material and machine fixed and vary history length next.", "继续：需要记住多少", "Next: how much history?", "next")
 			return _step("这一轮不能接入回灌；请开始当前规则的练习。", "This round cannot connect feedback; start practice with the current rules.", "开始练习", "Start practice", "practice")
 		if session.prediction.get("rows",[]).is_empty(): return _step("练习已开始；先亲手提交一格预测。", "Practice has started; commit one guess yourself first.", "提交预测", "Commit guess", "commit")
-		return _step("首格已揭晓；执行余段直至整轮结束，才能接入回灌。", "The first cell is revealed; finish the round before connecting feedback.", "执行余段", "Run remainder", "remainder")
+		return _step("首格已揭晓；执行余段，观察同一规则在整段上的表现。", "The first cell is revealed; finish the round to observe these rules across the whole passage.", "执行余段", "Run remainder", "remainder")
 	if not predicted: return _step("当前规则尚未完成整轮预测；返回 P1，提交并揭晓后执行余段。", "These rules need a full prediction round; return to P1, reveal a cell, then run the remainder.", "返回 P1", "Go to P1", "p1")
 	if session.data.mode != "generate": return _step("整轮预测已完成；下一步主动接上输出回灌。", "The full round is complete; connect output feedback next.", "接上回灌", "Connect feedback", "generate_mode")
 	if task >= 7 and visible_generation_saved():
@@ -890,6 +892,7 @@ func advance_step() -> void:
 		"generate_mode": switch_mode("generate")
 		"generate": generate_work()
 		"keep": keep_work()
+		"finish_journey": finish_saved_journey()
 		"c1": change_task(0)
 		"p1": change_task(3)
 		"next": change_task(mini(8,task+1))
@@ -983,7 +986,8 @@ func switch_mode(mode: String) -> void:
 		return
 	latest = {}
 	set_status(text2("同一规则盒接到未揭晓输入；下一格必须先提交。","The same rule box is connected to sealed input; commit before revealing.") if mode == "predict" else text2("标准下一段已断开；自己的输出成为下一次输入。","The standard continuation is disconnected; your output becomes the next input."))
-	change_task(3 if mode == "predict" else 6 if mode == "generate" else 0)
+	var first_unit: int = 3 if mode == "predict" else 6 if mode == "generate" else 0
+	change_task(task if task >= first_unit and task < first_unit + 3 else first_unit)
 
 func begin_prediction(kind: String) -> void:
 	var result: Dictionary = session.begin_prediction(kind)
@@ -1066,7 +1070,7 @@ func continue_prediction(stop_on_mismatch: bool = false) -> void:
 			set_status(text2("停在第 %d 格失配：预测与真值都已揭晓。点选因果，或继续余段。","Stopped at mismatch in cell %d: guess and truth are revealed. Trace its cause or continue.")%[int(row.index)+1])
 			return
 	if task != 4 or session.data.supports.has("P2_memory"):
-		set_status(text2("余段完成：逐格提交／揭晓 %d 格。规则盒未训练；可进入回灌创造。","Remainder completed: %d cells committed/revealed. Rules were not retrained; continue to feedback creation.")%[session.prediction.rows.size()-starting_rows])
+		set_status(text2("余段完成：逐格提交／揭晓 %d 格。规则盒未训练；本轮记录已保留。","Remainder completed: %d cells committed/revealed. Rules were not retrained; this round is recorded.")%[session.prediction.rows.size()-starting_rows])
 
 func generate_work() -> void:
 	if not valid_initial_input():
@@ -1140,6 +1144,33 @@ func keep_work() -> void:
 	works.select(session.data.works.size()-1)
 	if task == 8 and preload("res://experiments/candidate_session/context.gd").full_journey():
 		call_deferred("_present_ending_cinematic")
+
+func journey_closing_work() -> Dictionary:
+	if not preload("res://experiments/candidate_session/context.gd").full_journey(): return {}
+	var support: Dictionary = session.data.supports.get("G3_keep",{})
+	if support.get("kind","") != "generation": return {}
+	for i: int in range(session.data.works.size()-1,-1,-1):
+		var work: Dictionary = session.data.works[i]
+		if work.get("recipe",{}) == support.get("recipe",{}) and work.get("output",[]) == support.get("output",[]): return work
+	return {}
+
+func finish_saved_journey() -> void:
+	if not writable or task != 8: return
+	var work: Dictionary = journey_closing_work().duplicate(true)
+	if work.is_empty(): return
+	kept_work = work.duplicate(true)
+	latest = {"kind":"snapshot","output":work.output.duplicate(),"work":work.duplicate(true)}
+	playing = false
+	set_evidence_expanded(false)
+	refresh()
+	for i: int in session.data.works.size():
+		if session.data.works[i].id == work.id:
+			works.select(i)
+			break
+	refresh_tracks()
+	set_status(text2("已保存的作品与完整配方保留。观看后仍可继续分叉创作。", "Your saved work and complete recipe remain available. Continue by forking after viewing."))
+	await _present_ending_cinematic()
+	if is_inside_tree() and not is_queued_for_deletion(): show_saved_work(work)
 
 func _present_ending_cinematic() -> void:
 	var movie: CinematicPlayer = preload("res://src/ui/cinematic_player.gd").present_once(self, &"journey_complete")

@@ -1,0 +1,114 @@
+[
+	{
+		"check": "Isolated Test access enters service without granting progress",
+		"ok": true
+	},
+	{
+		"check": "Fresh isolated draft contains 24 groups and no measurements",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-24-single-groups",
+		"ok": true
+	},
+	{
+		"check": "Real Ctrl clicks select four consecutive groups",
+		"ok": true
+	},
+	{
+		"check": "Batch join is enabled and names four selected groups",
+		"ok": true
+	},
+	{
+		"check": "Multiple selection clearly reserves motion and splitting for a single group",
+		"ok": true
+	},
+	{
+		"check": "Selection guidance fits the Chinese 720p viewport",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-four-selected",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "One visible join combines exactly the first four groups",
+		"ok": true
+	},
+	{
+		"check": "Batch join preserves every request in order and adds one Undo",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-batch-joined",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The edited plan produces a real valid simulation record",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-batch-real-run",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "One Undo restores 24 groups while preserving the measured record",
+		"ok": true
+	},
+	{
+		"check": "Nonconsecutive Ctrl selection cannot join across the unselected middle group",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-nonconsecutive-disabled",
+		"ok": true
+	},
+	{
+		"check": "Ordinary single selection restores motion and Join next",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Original single-group Move down still moves exactly one group",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Original single-select Join next still enables splitting",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Original split reverses the two-item single-select join",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: service-single-controls-retained",
+		"ok": true
+	}
+]

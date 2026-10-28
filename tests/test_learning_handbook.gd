@@ -151,11 +151,21 @@ func _check_later_guidance(handbook: Variant, save: Node, localization: Node) ->
 				check(handbook.is_term_unlocked(term) and term in handbook.visible_term_ids, "Current task provides its required concept without completion: " + String(term))
 				check(not handbook._lesson_title(term).is_empty() and not handbook._lesson_title(term).begins_with("terminology."), "Later lock label names an actual task: " + String(term))
 				var definition: Dictionary = handbook._term_definition(term)
-				check(definition.get("diagram", &"") == term and not localization.text(definition.body).begins_with("terminology."), "Later concept has its own diagram and translated explanation: " + String(term))
+				check((term == &"controlled_change" or definition.get("diagram", &"") == term) and not localization.text(definition.body).begins_with("terminology."), "Task recommendation has translated guidance and its applicable diagram: " + String(term))
 		# The task-tree snapshot is read-only; without its availability or a current
 		# later task, a future topic still uses the ordinary locked reading surface.
 		handbook.set_lesson("hardware", "tutorial")
-		handbook._later_available_tasks.clear()
+		handbook._later_completed_tasks.clear()
+		handbook.set_lesson("creation", "C1_restore")
+		handbook._later_completed_tasks.clear()
+		for future: StringName in [&"commit_reveal", &"output_feedback", &"context_history", &"frozen_check"]:
+			check(not handbook.is_term_unlocked(future), "C1 does not disclose future prediction or creation concepts: " + String(future))
+		for lesson: String in ["C2_cost", "P2_memory", "P3_check"]:
+			handbook.set_lesson("creation", lesson)
+			var introduced: StringName = {"C2_cost": &"packet_cost", "P2_memory": &"context_history", "P3_check": &"frozen_check"}[lesson]
+			check(handbook.is_term_unlocked(introduced), "Current lesson provides its new concept: " + lesson)
+		handbook.set_lesson("hardware", "tutorial")
+		handbook._later_completed_tasks.clear()
 		handbook._show_term(&"work_recipe")
 		check(not handbook.detail_diagram.visible and handbook.detail_body_label.text.contains(handbook._lesson_title(&"work_recipe")), "Locked work recipes name their real Keep task without revealing the diagram")
 	check(save.game_player_content.canonical_signature() == signature, "Operation and later guidance never award campaign progress")

@@ -16,6 +16,7 @@ var source_view: Control
 var copy_view: Control
 var results: VBoxContainer
 var runs: Array[LayoutRun] = []
+var comparable_runs: Dictionary[String, LayoutRun] = {}
 var trace_indices: Array[int] = []
 var trace_filter: int = 1
 var trace_list: ItemList
@@ -112,6 +113,7 @@ func _ready() -> void:
 func _open(id: String) -> void:
 	if not C.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked(),GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()): _leave(); return
 	level = id
+	comparable_runs.clear()
 	# Chapter cards bypass TaskNavigation.enter(); remember the task actually opened.
 	# A matching tree selection keeps its existing pan/zoom on return.
 	if TaskNavigation.selected != "chapter_4/"+id:
@@ -347,6 +349,11 @@ func _run_all() -> void:
 	var report: Dictionary = C.evaluate(level,design)
 	runs = report.runs; stale=false
 	for child: Node in results.get_children(): child.free()
+	var optional_summary: Label
+	if level == "mixed":
+		optional_summary = _label("",true)
+		optional_summary.name = "LayoutOptionalGoals"
+		results.add_child(optional_summary)
 	var case_rows: Array[Dictionary] = []
 	var baseline: Dictionary = C.evaluate(level,C.starter_design())
 	var best: Dictionary = C.evaluate(level,LayoutChapter.completed()[level]) if LayoutChapter.completed().has(level) else {}
@@ -357,10 +364,20 @@ func _run_all() -> void:
 		caption += "\n"+_l("周期：准备 %d + 查询 %d + 输出 %d = %d","Cycles: prepare %d + query %d + output %d = %d") % [m.prepare_cycles,m.query_cycles,m.output_cycles,m.total_cycles]
 		caption += "\n"+_l("RAM 读取 %d B · 写入 %d B · 临时峰值 %d B","RAM read %d B · write %d B · scratch peak %d B") % [m.ram_read_bytes,m.ram_write_bytes,m.peak_extra_bytes]
 		if m.error == "space_limit": caption += "\n"+_l("这次申请需要 %d B；尚未分配或复制。","This allocation needs %d B; no allocation or copy occurred.") % int(m.required_extra_bytes)
-		caption += "\n"+_l("初始方案 %d 周期","Initial design: %d cycles") % int(baseline.runs[i].metrics.total_cycles)
+		var initial: Dictionary = baseline.runs[i].metrics
+		caption += "\n"+_l("初始：%d 周期 · RAM %d B","Initial: %d cycles · RAM %d B") % [int(initial.total_cycles),int(initial.ram_read_bytes)+int(initial.ram_write_bytes)]
 		if not best.is_empty(): caption += " · "+_l("我的已达标最佳 %d","My passing best: %d") % int(best.runs[i].metrics.total_cycles)
+		var prior: LayoutRun = comparable_runs.get(run.test_name)
+		if run.passed and _case_evidence_matches(run,C.cases(level)[i]):
+			if prior != null and prior.passed and prior.case_signature == run.case_signature and prior.model_version == run.model_version:
+				var before: Dictionary = prior.metrics
+				caption += "\n"+_l("比上次完整运行：周期%+d · RAM%+d B · 临时峰值%+d B","Since last complete run: cycles%+d · RAM%+d B · peak scratch%+d B") % [int(m.total_cycles)-int(before.total_cycles),int(m.ram_read_bytes)+int(m.ram_write_bytes)-int(before.ram_read_bytes)-int(before.ram_write_bytes),int(m.peak_extra_bytes)-int(before.peak_extra_bytes)]
+			# An incomplete attempt must not replace the last complete comparison.
+			comparable_runs[run.test_name] = run
 		caption += "\n" + _case_contract_feedback(run,C.cases(level)[i])
-		results.add_child(_label(caption.replace(" B", "\u00a0B"),true))
+		var metrics_label: Label = _label(caption.replace(" B", "\u00a0B"),true)
+		metrics_label.name = "LayoutCaseMetrics"+str(i)
+		results.add_child(metrics_label)
 		var outputs := _label(_l("实际输出：","Actual: ")+str(run.output_values)+"\n"+_l("预期输出：","Expected: ")+str(run.expected_values),true)
 		outputs.hide(); results.add_child(outputs)
 		_button(results,_l("展开／收起逐项输出","Show / hide exact outputs"),func() -> void: outputs.visible=not outputs.visible)
@@ -391,6 +408,25 @@ func _run_all() -> void:
 			# Completion never changes the design or automatically starts another task.
 			_button(results,_l("已完成 · 返回任务树选择下一站","Completed · choose the next task"),_leave)
 	core_review_button.visible = LayoutChapter.completed().has("mixed")
+	if optional_summary != null:
+		var traffic: int = 0
+		var peak: int = 0
+		var complete_evidence: bool = runs.size() == C.cases(level).size()
+		for i: int in runs.size():
+			complete_evidence = complete_evidence and runs[i].passed and _case_evidence_matches(runs[i],C.cases(level)[i])
+			traffic += int(runs[i].metrics.ram_read_bytes)+int(runs[i].metrics.ram_write_bytes)
+			peak = maxi(peak,int(runs[i].metrics.peak_extra_bytes))
+		if complete_evidence:
+			optional_summary.text = _l("本次两单合计 RAM %d / 1300 B · 临时峰值 %d / 16 B","Current cases: total RAM %d / 1300 B · peak scratch %d / 16 B") % [traffic,peak]
+			optional_summary.text += "\n"+_l("可选差额：流量还需减少 %d B · 峰值还需减少 %d B","Optional gaps: reduce traffic by %d B · peak by %d B") % [maxi(0,traffic-1300),maxi(0,peak-16)]
+			if not report.passed: optional_summary.text += _l("；先满足主目标。","; meet the main targets first.")
+		else:
+			optional_summary.text = _l("本次未完成两单，可选目标等待完整运行。","Both cases must finish before comparing optional goals.")
+		var bonuses: Dictionary = LayoutChapter.test_bonuses if GameMode.is_test_mode() else LayoutChapter.game_bonuses
+		var earned: Array[String] = []
+		if bonuses.has("flow"): earned.append(_l("低流量","low traffic"))
+		if bonuses.has("space"): earned.append(_l("小临时区","small scratch"))
+		if not earned.is_empty(): optional_summary.text += "\n"+_l("已获得可选成果：","Earned optional goals: ")+_l("、",", ").join(earned)
 	if level == "mixed" and LayoutChapter.completed().has("mixed"):
 		var review: Button = _button(results,_l("回看路径成果与下一段旅程","Review this path and the journey ahead"),_open_core_review)
 		review.name = "LayoutResultCoreReview"
@@ -531,12 +567,30 @@ func _hint_advance() -> void:
 	var margin := MarginContainer.new(); hint_layer.add_child(margin)
 	for side: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+side,36)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",20); margin.add_child(column)
-	column.add_child(_label("Hint %d · " % hint_tier+_l("独立只读画布","Independent read-only canvas")))
+	column.add_child(_label(_l("提示 %d · ","Hint %d · ") % hint_tier+_l("独立只读画布","Independent read-only canvas")))
 	_button(column,_l("回到自己的方案","Return to my design"),func() -> void: hint_layer.hide())
 	var clues: Array = [
 		_l("追踪一条查询：每次带回的四格里，几格真的用到了？","Follow a query: how many of the four fetched cells are used?"),
 		_l("让同一次查询会一起使用的字段靠近。复制题还要先比较重复次数和准备时间。","Keep fields used together near each other. For copying, compare repetition count against preparation time."),
 		_l("这只是一个有效方案，分组、顺序和批量仍可能有别的解法。","This is one valid design; other groupings, orders and batch sizes can work.")]
+	match level:
+		"fields":
+			clues[1] = _l("本单只求温度。看相邻记录的温度是否落在同一次 16 B 搬运里；全部字段仍须保留。","Only temperature is summed. Can neighboring temperatures share a 16 B transfer? Keep every field.")
+		"records":
+			clues[0] = _l("这次只抽查几条记录，却要每条的四个字段。沿一条记录找齐四格，需要搬回几行？","Only a few records are inspected, but all four fields are needed. How many lines bring back one whole record?")
+			clues[1] = _l("先看同一条记录的四个字段是否相邻。上一关节省整列读取的布局，可能让一次抽查跑更多趟。","Check whether one record's four fields are neighbors. A layout that saved full-column reads may make a record inspection fetch more lines.")
+		"hot_cold":
+			clues[0] = _l("分别追踪常用的温度、告警与偶尔抽查的编号、电量。哪类搬运占了大头？","Trace frequent temperature/alarm reads and occasional ID/battery inspections separately. Which accounts for more transfers?")
+			clues[1] = _l("先只改分组，把同一次常用查询需要的字段放近；测量后再只改每块记录数，比较两单。","First change only groups to place frequently co-read fields nearby. Measure, then change only records per block and compare both cases.")
+		"relocation":
+			clues[0] = _l("两单源数据相同，A 只查一次，B 反复八次。各自省下的查询时间，够付准备时间吗？","Both cases share the source layout; A queries once, B eight times. Does each case save enough query time to repay preparation?")
+			clues[1] = _l("订单 A、B 可以各选方案。先保持布局不动，对照直接读取与复制的准备、查询周期；不要只看查询变快。","A and B can use separate designs. Hold the layout fixed and compare direct reads with copying, counting preparation and query cycles together.")
+		"batches":
+			clues[0] = _l("先看一次复制申请多少字节，是否超过 48 B。除了缩小每批条数，还能少复制哪些查询不用的字段？","Compare the copy allocation with 48 B. Besides reducing batch size, which fields do the queries never need copied?")
+			clues[1] = _l("保留源数据的全部字段；临时副本只需满足查询。先只改复制字段，再只改批量，并核对第 17 条所在的末批。","Keep all source fields; scratch only needs to serve the queries. Change copied fields first, then batch size, checking the tail containing record 17.")
+		"mixed":
+			clues[0] = _l("同一方案要兼顾反复统计与稀疏抽查。分别看两单的准备、查询和搬运，哪一单先碰到目标？","One design serves repeated scans and sparse inspections. Compare preparation, queries and traffic in each case. Which reaches its limit first?")
+			clues[1] = _l("先只改复制哪些字段，核对两种查询都仍正确；再试批量。主目标达标后，可分别用命名方案追求低流量或小临时区。","Change only the copied fields and verify both queries, then try batch size. After the main targets pass, use named designs to pursue lower traffic or smaller scratch separately.")
 	column.add_child(_label(clues[hint_tier-1],true))
 	if hint_tier>=1:
 		var ref: Dictionary = C.reference_solution(level)

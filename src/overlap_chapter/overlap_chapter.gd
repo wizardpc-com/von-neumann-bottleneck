@@ -21,6 +21,7 @@ var goal: Button
 var journey_context
 var dock: HBoxContainer
 var editor: CodeEdit
+var experiment_note: Label
 var panels: Dictionary = {}
 var undo_stack: Array[Dictionary] = []
 var redo_stack: Array[Dictionary] = []
@@ -32,6 +33,7 @@ var completion: LevelCompletionOverlay
 var confirmation: ConfirmationDialog
 var runs: Array[SimulationTrace] = []
 var trace: SimulationTrace
+var previous_runs: Array[SimulationTrace] = []
 var timeline: OverlapTimeline
 var metrics: Label
 var events: ItemList
@@ -113,7 +115,10 @@ func _ready() -> void:
 	completion = preload("res://src/ui/level_completion_overlay.gd").new()
 	completion.questionnaire_enabled = PlaytestData.questionnaires_enabled()
 	completion.continue_requested.connect(func(_id: StringName) -> void: _show_map())
-	completion.primary_action_requested.connect(func(_id: StringName) -> void: _open_core_review())
+	completion.primary_action_requested.connect(func(_id: StringName) -> void:
+		if level == "synthesis": _open_core_review()
+		else: _continue_experiment())
+	completion.return_requested.connect(func(_id: StringName) -> void: _continue_experiment())
 	completion.feedback_submitted.connect(PlaytestData.submit_level_feedback)
 	completion.feedback_skipped.connect(func(chapter: StringName, id: StringName) -> void: PlaytestData.record_feedback_skipped(&"level",StringName("%s/%s" % [chapter,id])))
 	add_child(completion)
@@ -299,10 +304,12 @@ func _reset_workspace() -> void:
 	playing = false
 	graph = null
 	editor = null
+	experiment_note = null
 	copy_previous_button = null
 	copy_previous_note = null
 	trace = null
 	runs.clear()
+	previous_runs.clear()
 	measured_board_signature = ""
 	locate_issue_button = null
 	panels.clear()
@@ -711,6 +718,11 @@ func _build_program(source: String) -> void:
 	var panel: FloatingInstrumentPanel = _panel("program",_t("program"),Vector2(1040,18),Vector2(470,510))
 	var box := VBoxContainer.new()
 	panel.content_host.add_child(box)
+	experiment_note = _label("",true)
+	experiment_note.name = "OverlapExperimentNote"
+	experiment_note.add_theme_font_size_override("font_size",14)
+	experiment_note.hide()
+	box.add_child(experiment_note)
 	editor = CodeEdit.new()
 	editor.name = "OverlapProgram"
 	editor.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -788,6 +800,7 @@ func _run_official() -> void:
 	_save_draft()
 	var report: Dictionary = Catalog.evaluate(level,board,editor.text)
 	measured_board_signature = JSON.stringify(board).sha256_text()
+	previous_runs.assign(runs)
 	runs.assign(report.runs)
 	trace_stale = false
 	case_select.clear()
@@ -822,9 +835,12 @@ func _run_official() -> void:
 			PlaytestData.level_completed(&"chapter_3",StringName(level),{"cycles":trace.metrics.total_cycles,"cost":trace.metrics.cost})
 			if level == "synthesis":
 				completion.present_actions(StringName(level),_t(level+".title"),_t(level+".learned"),_t("title"),&"chapter_3",
-					"回看路径成果" if Localization.current_locale() != "en" else "Review this path",Localization.text(&"common.level_complete.continue"))
+					"回看路径成果" if Localization.current_locale() != "en" else "Review this path",Localization.text(&"common.level_complete.continue"),
+					"继续试一试" if Localization.current_locale() != "en" else "Stay and experiment")
 			else:
-				completion.present(StringName(level),_t(level+".title"),_t(level+".learned"),_t("title"),&"chapter_3")
+				completion.present_actions(StringName(level),_t(level+".title"),_t(level+".learned"),_t("title"),&"chapter_3",
+					"继续试一试" if Localization.current_locale() != "en" else "Stay and experiment",Localization.text(&"common.level_complete.continue"))
+				completion.emphasise(completion.continue_button)
 		status.text = _t("passed")
 		if level in ["distance","synthesis"]:
 			status.text += " · "+_t("bonus.done" if OverlapChapter.bonus_status(level).complete else "bonus.pending")
@@ -835,6 +851,25 @@ func _run_official() -> void:
 	core_review_button.visible = OverlapChapter.completed().has("synthesis")
 	_refresh_journey_context()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
+
+func _continue_experiment() -> void:
+	_select_run(case_select.selected)
+	if panels.has("trace"): panels.trace.hide()
+	_toggle("program",true,&"experiment")
+	var prompts: Dictionary = {
+		"arrival": ["只移动独立 work 的位置：先预测等待会不会减少，再运行比较。", "Move only the independent work: predict whether waiting will shrink, then rerun."],
+		"buffers": ["保留元件，只改变下一批 fetch 的时机：重叠增加时，总周期一定减少吗？", "Keep the parts and change when the next fetch starts: does more overlap always mean fewer cycles?"],
+		"backpressure": ["只改变一次 free 的时机：两组输入都会变快吗？分别查看结果。", "Change the timing of one free: will both input cases improve? Inspect each result."],
+		"prefetch": ["只移动一条 prefetch：先预测命中与等待，再运行核对。", "Move one prefetch: predict hits and waiting, then rerun to check."],
+		"distance": ["只改变一条预取的提前量：更早取回是否可能增加替换或等待？", "Change the lead of one prefetch: could fetching earlier increase evictions or waiting?"],
+		"synthesis": ["保留路线，只改一处请求时机：标准与带宽订单会有相同收益吗？", "Keep the route and change one request time: will standard and bandwidth cases benefit equally?"]
+	}
+	var prompt: Array = prompts.get(level,[])
+	if not prompt.is_empty():
+		experiment_note.text = str(prompt[1 if Localization.current_locale() == "en" else 0])
+		experiment_note.show()
+		status.text = "改一处 → 运行 → 时间线比较" if Localization.current_locale() != "en" else "Change one thing → Run → Compare in Timeline"
+		editor.grab_focus()
 
 func _open_core_review() -> void:
 	_refresh_journey_context()
@@ -877,6 +912,10 @@ func _select_run(index: int) -> void:
 	elif not trace.passed: metrics.text += "\n" + ("输出尚未通过核验；先对照实际与预期结果。" if Localization.current_locale() != "en" else "Output was not verified; compare actual and expected results first.")
 	elif int(trace.metrics.total_cycles)>int(task.target): metrics.text += "\n" + _t("too_slow") + (" 超出 %d 周期。" if Localization.current_locale() != "en" else " Over by %d cycles.") % (int(trace.metrics.total_cycles)-int(task.target))
 	else: metrics.text += "\n" + _t("passed")
+	if index < previous_runs.size():
+		var before: SimulationTrace = previous_runs[index]
+		if before.test_name == trace.test_name and before.passed and trace.passed:
+			metrics.text += "\n" + ("同一组输入，对比上次：总周期 %+d · 重叠 %+d · 等待 %+d（负数表示减少）。" if Localization.current_locale() != "en" else "Change from previous run of this case: cycles %+d · overlap %+d · wait %+d (negative means less).") % [int(trace.metrics.total_cycles)-int(before.metrics.total_cycles),int(trace.metrics.overlap)-int(before.metrics.overlap),int(trace.metrics.wait)-int(before.metrics.wait)]
 	if trace_stale: metrics.text = _t("stale")+"\n"+metrics.text
 	metrics.text += "\n" + _t("cache_metrics") % [trace.metrics.hits,trace.metrics.misses,trace.metrics.evictions,trace.metrics.queue_wait]
 	locate_issue_button.visible = not trace.passed or not str(trace.metrics.error).is_empty() or int(trace.metrics.total_cycles)>int(task.target)

@@ -1,0 +1,110 @@
+[
+	{
+		"check": "QA Test access: chapter_3/arrival",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Untouched arrival is correct at 14 cycles without granting completion",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-valid-baseline-14",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Moving only independent work reaches the unchanged 10-cycle target",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-overlap-10",
+		"ok": true
+	},
+	{
+		"check": "QA Test access: chapter_3/buffers",
+		"ok": true
+	},
+	{
+		"check": "New buffers task supplies one connected buffer, leaving the second to the player",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Untouched one-buffer schedule correctly takes 40 cycles and remains unmet",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: buffers-valid-baseline-40",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Two-buffer QA reference still reaches the unchanged 28-cycle target",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: buffers-qa-reference-28",
+		"ok": true
+	}
+]

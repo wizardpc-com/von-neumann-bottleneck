@@ -1,0 +1,118 @@
+[
+	{
+		"check": "Test access opens second representation task",
+		"ok": true
+	},
+	{
+		"check": "Missing previous success cannot supply a plan",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Task0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Split",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Control exists: RLE",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Real Split at 16 and RLE edits earn the mixed-scan support",
+		"ok": true
+	},
+	{
+		"check": "Control exists: ContinueRepresentationTask",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Measured success continues to the interior-hotspot order",
+		"ok": true
+	},
+	{
+		"check": "Previous success copy is available and fits at Chinese 720p",
+		"ok": true
+	},
+	{
+		"check": "Control exists: CopyPreviousSupport",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Explicit copy adopts own preceding solution with a single Undo",
+		"ok": true
+	},
+	{
+		"check": "Copy alone produces no completion or measured record",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: previous-plan-new-order",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Old successful plan must still satisfy the changed order and can fail",
+		"ok": true
+	},
+	{
+		"check": "Reusing the recipe leaves its old result intact",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: old-plan-new-cost",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Undo",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "One Undo restores the destination draft without deleting either measurement",
+		"ok": true
+	},
+	{
+		"check": "Control exists: Task0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Source draft and protected success stay unchanged",
+		"ok": true
+	}
+]

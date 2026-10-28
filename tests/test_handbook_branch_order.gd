@@ -38,6 +38,9 @@ func run() -> void:
 		save.game_player_content.completed_levels[&"half_adder"] = true
 		book.set_lesson("hardware", "selector")
 		check(book.is_term_unlocked(&"multiplexer"), locale + ": arithmetic-first selector guidance remains available")
+		save.game_player_content.completed_levels[&"full_adder"] = true
+		book.set_lesson("hardware", "alu")
+		check(book.prologue_catalog.is_unlocked(&"alu", save.game_player_content.completed_levels) and book.is_term_unlocked(&"multiplexer"), locale + ": ALU makes its required MUX readable without completing selector")
 	book.queue_free()
 	await process_frame
 	print("PASS: independent hardware-branch handbook availability" if failures.is_empty() else "FAIL: independent hardware-branch handbook availability")

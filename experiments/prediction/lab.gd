@@ -177,7 +177,7 @@ func build() -> void:
 	(editor.get_parent() as Control).custom_minimum_size.x = 470
 	var left_tabs := TabContainer.new(); left_tabs.name = "PredictionRuleTabs"; left_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; left_tabs.all_tabs_in_front = false; left_tabs.use_hidden_tabs_for_min_size = false; editor.add_child(left_tabs)
 	var rules: VBoxContainer = _tab_page(left_tabs,text2("构造规则","Build a rule"))
-	var instruction: Label = label(text2("选择规则，再逐步揭示真实请求。运行到结束才记录完整测量。", "Choose a rule. Reveal demands; only full runs are recorded."),rules,16)
+	var instruction: Label = label(first_experiment_text()+text2("\n完整运行才记录测量。", "\nOnly full runs are recorded."),rules,16)
 	instruction.name = "FirstOperation"
 	rule = choice(text2("规则","Rule"),"Rule",[text2("关闭猜测","Off"),text2("最近步长","Last stride"),text2("双步长循环","Two-stride cycle")],["off","stride","two_stride"].find(str(policy.rule)),rules)
 	confidence = choice(text2("所需重复次数","Required repetitions"),"Confidence",["1","2","3"],int(policy.confidence)-1,rules)
@@ -212,7 +212,7 @@ func build() -> void:
 	var outcome: VBoxContainer = _tab_page(right_tabs,text2("结果","Result"))
 	result = _bounded_label(outcome,"Result",80,true)
 	result.mouse_filter = Control.MOUSE_FILTER_PASS
-	result.tooltip_text = text2("基线：同一请求流，关闭猜测。\n浪费：预测搬来却未使用的数据。\n污染miss：本轮未命中，而基线命中的次数。", "Baseline: same stream, prediction Off.\nWasted: predicted bytes unused before eviction or run end.\nPollution misses: this run missed where Off hit.")
+	result.tooltip_text = text2("基线：同一请求流，关闭猜测。\n浪费：预测搬来却未使用的数据。\n污染未命中：本轮未命中，而基线命中的次数。", "Baseline: same stream, prediction Off.\nWasted: predicted bytes unused before eviction or run end.\nPollution misses: this run missed where Off hit.")
 	var trace_page: VBoxContainer = _tab_page(right_tabs,text2("事件详情","Event details"))
 	events = Tree.new(); events.name = "Events"; events.columns = 3; events.hide_root = true; events.column_titles_visible = true
 	events.custom_minimum_size.y = 80; events.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_page.add_child(events)
@@ -285,6 +285,11 @@ func purpose_text() -> String:
 	text2("调查目标：记录更慢且有浪费或污染的规则，再用非关闭规则做到不慢于基线。","Investigation: record a slower rule with waste or pollution, then a non-Off rule no slower than baseline."),
 	text2("调查目标：比较至少两种规则；记录更慢且有浪费或污染的规则，以及不慢于基线的非关闭规则。","Investigation: compare at least two rules; record a slower rule with waste or pollution and a non-Off rule no slower than baseline.")][task]
 
+func first_experiment_text() -> String:
+	return [text2("先用关闭猜测运行到结束，留下基线；再只换最近步长，逐步看它何时开始猜。", "Run Off to the end first. Then change only to Last stride and step through when guessing begins."),
+	text2("先选会猜测的规则跑完一轮，再只改错猜后暂停。猜错后少搬一些，会更快吗？", "Finish a run with prediction enabled, then change only Pause after mismatch. Can moving less after an error save time?"),
+	text2("先用最近步长观察交替热点，再只换双步长循环。每次揭示前，试着猜下一处。", "Observe the alternating hotspots with Last stride, then change only to Two-stride cycle. Guess the next address before revealing it.")][task]
+
 func mission_text() -> String:
 	return [text2("实验1：先记录关闭猜测的基线，再构造一个总周期更低且确实消费了预测数据的方案。逐步揭示历史，再比较等待与流量。","Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic."),
 	text2("实验2：相同机器，流会改变。记录一个比关闭猜测更慢且有浪费/污染的规则，再修改为非关闭规则，找到不慢于基线的方案。关闭猜测不算这份安全修订。失败也是证据。","Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise to a non-Off rule no slower than baseline. Off does not count as this safe revision. Failure is evidence."),
@@ -329,11 +334,16 @@ func _record() -> void:
 	_refresh_journey_context()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 
+func policy_caption(recipe: Dictionary) -> String:
+	if english: return "%s/%d/×%d/pause%d" % [recipe.rule,recipe.confidence,recipe.lookahead,recipe.cooldown]
+	var name: String = {"off":"关闭猜测","stride":"最近步长","two_stride":"双步长循环"}.get(str(recipe.rule),str(recipe.rule))
+	return "%s · 重复%d次 · 提前×%d · 错猜暂停%d" % [name,recipe.confidence,recipe.lookahead,recipe.cooldown]
+
 func refresh_history() -> void:
 	history_list.clear()
 	for i: int in history.size():
 		var row: Dictionary = history[i]
-		history_list.add_item("#%d · %d · %s/%d/×%d/pause%d · %d cycles" % [i+1,int(row.task)+1,row.policy.rule,row.policy.confidence,row.policy.lookahead,row.policy.cooldown,row.trace.metrics.total_cycles])
+		history_list.add_item(text2("#%d · 任务%d · %s · %d周期", "#%d · %d · %s · %d cycles") % [i+1,int(row.task)+1,policy_caption(row.policy),row.trace.metrics.total_cycles])
 	if selected_run >= 0:
 		history_list.select(selected_run)
 		history_list.call_deferred("ensure_current_is_visible")
@@ -376,6 +386,30 @@ func progress_text() -> String:
 	if goal_met(task): return text2("证据目标已满足；可继续比较。", "Evidence objective met; keep comparing.")+"\n"+summary
 	return summary
 
+func recorded_comparison_text() -> String:
+	if selected_run < 0 or selected_run >= history.size(): return ""
+	var current: Dictionary = history[selected_run]
+	for index: int in range(selected_run - 1, -1, -1):
+		var prior: Dictionary = history[index]
+		if int(prior.task) != int(current.task): continue
+		var changes: Array[String] = []
+		var names: Dictionary = {"rule":text2("规则", "rule"),"confidence":text2("重复次数", "repetitions"),"lookahead":text2("倍数", "multiplier"),"cooldown":text2("错猜暂停", "mismatch pause")}
+		for key: String in ["rule", "confidence", "lookahead", "cooldown"]:
+			if prior.policy[key] == current.policy[key]: continue
+			var old_value: String = str(prior.policy[key])
+			var new_value: String = str(current.policy[key])
+			if key == "rule":
+				var labels: Dictionary = {"off":text2("关闭", "Off"),"stride":text2("最近步长", "Last stride"),"two_stride":text2("双步长", "Two-stride")}
+				old_value = labels[old_value]; new_value = labels[new_value]
+			changes.append("%s %s→%s" % [names[key],old_value,new_value])
+		var m: Dictionary = current.trace.metrics
+		var before: Dictionary = prior.trace.metrics
+		var changed: String = text2("规则未变", "Same rule settings") if changes.is_empty() else " · ".join(changes)
+		var caption: String = text2("对比 #%d→#%d：%s\n较旧记录：周期%+d · 搬运%+dB · 浪费%+dB · 污染未命中%+d", "Compare #%d→#%d: %s\nCurrent minus prior: cycles%+d · traffic%+dB · waste%+dB · pollution misses%+d") % [index+1,selected_run+1,changed,int(m.total_cycles)-int(before.total_cycles),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.wasted_prediction_bytes)-int(before.wasted_prediction_bytes),int(m.pollution_misses)-int(before.pollution_misses)]
+		if changes.size() > 1: caption += text2("\n同时改了多项；再只改一项，分清原因。", "\nSeveral settings changed; vary one next to separate their effects.")
+		return caption
+	return text2("这是本任务首份记录；只改一项再跑，查看前后差值。", "First recording for this task. Change one setting and rerun to see measured differences.")
+
 func event_text(event: Event) -> String:
 	return "%s · t%d +%d · address%d\n%s" % [event.kind,event.cycle,event.duration,event.address,JSON.stringify(event.details,"  ")]
 
@@ -389,7 +423,7 @@ func source_caption() -> String:
 	if source.is_empty(): return text2("尚未运行当前草稿；没有选中的测量。", "Current draft has not run; no measurement selected.")
 	var names: Array[String] = [text2("规律流", "Regular stream"),text2("规律改变", "Pattern changes"),text2("交替热点", "Alternating hotspots")]
 	var recipe: Dictionary = source.policy
-	var rule_text: String = "%s/%d/×%d/pause%d" % [recipe.rule,recipe.confidence,recipe.lookahead,recipe.cooldown]
+	var rule_text: String = policy_caption(recipe)
 	var matches: bool = int(source.task) == task and recipe == policy
 	var relation: String = text2("与当前任务及草稿一致", "matches current task and draft") if matches else text2("与当前任务或草稿不同", "differs from current task or draft")
 	if selected_run < 0:
@@ -429,12 +463,12 @@ func refresh() -> void:
 		if finished:
 			var m: Dictionary = active_trace.metrics
 			observed.text = observed.text.replace(text2("下一地址：未知","Next address: unknown"),text2("本轮结束","Run ended"))
-			result.text = text2("总%d = 查找%d + 计算%d + 阻塞%d + 尾部%d\n基线%d周期/%dB · 实际%dB；预测有用%dB/浪费%dB\n回退%d · 排队%d · 在途匹配等待%d · 污染miss%d\n输出%s", "Total%d = lookup%d + compute%d + blocking%d + drain%d\nBaseline%d cycles/%dB · actual%dB; useful%dB/wasted%dB predictions\nFallback%d · queue%d · matching in-flight wait%d · pollution misses%d\nOutputs%s") % [m.total_cycles,m.lookup_cycles,m.compute_cycles,m.blocking_cycles,m.drain_cycles,m.baseline_cycles,m.baseline_traffic_bytes,m.traffic_bytes,m.useful_prediction_bytes,m.wasted_prediction_bytes,m.fallback_cycles,m.queue_wait_cycles,m.inflight_wait_cycles,m.pollution_misses,str(m.outputs)]
+			result.text = text2("总%d = 查找%d + 计算%d + 阻塞%d + 尾部%d\n基线%d周期/%dB · 实际%dB；预测有用%dB/浪费%dB\n回退%d · 排队%d · 在途匹配等待%d · 污染未命中%d\n输出%s", "Total%d = lookup%d + compute%d + blocking%d + drain%d\nBaseline%d cycles/%dB · actual%dB; useful%dB/wasted%dB predictions\nFallback%d · queue%d · matching in-flight wait%d · pollution misses%d\nOutputs%s") % [m.total_cycles,m.lookup_cycles,m.compute_cycles,m.blocking_cycles,m.drain_cycles,m.baseline_cycles,m.baseline_traffic_bytes,m.traffic_bytes,m.useful_prediction_bytes,m.wasted_prediction_bytes,m.fallback_cycles,m.queue_wait_cycles,m.inflight_wait_cycles,m.pollution_misses,str(m.outputs)]
 			var difference: int = int(m.total_cycles)-int(m.baseline_cycles)
 			var comparison: String = text2("与关闭猜测用时相同。", "Same time as prediction Off.")
 			if difference > 0: comparison = text2("比关闭猜测慢%d周期。", "%d cycles slower than prediction Off.") % difference
 			elif difference < 0: comparison = text2("比关闭猜测快%d周期。", "%d cycles faster than prediction Off.") % -difference
-			result.text = comparison+"\n"+result.text
+			result.text = comparison+"\n"+result.text+"\n\n"+recorded_comparison_text()
 	status.text = progress_text()
 
 func public_observation() -> Dictionary:

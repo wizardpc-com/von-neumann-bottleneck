@@ -248,7 +248,10 @@ func _ready() -> void:
 	resized.connect(_fit)
 	_fit()
 	_read_progress()
-	if room != null: room.update_progress(station_progress, completed_keys.size(), LabState.tasks().size(), works.size(), LabState.tasks(), works, english)
+	if room != null:
+		var rows: Array[Dictionary] = LabState.tasks()
+		var counts: Dictionary = LabState.progress_counts(rows)
+		room.update_progress(station_progress, counts.done, counts.total, works.size(), rows, works, english)
 	if _language_checkpoint.is_empty():
 		call_deferred("_arrive")
 	else:
@@ -731,6 +734,7 @@ func _gui_input(event: InputEvent) -> void:
 func _read_progress() -> void:
 	var rows: Array[Dictionary] = LabState.tasks()
 	var completed: Array[String] = LabState.completed_keys(rows)
+	var counts: Dictionary = LabState.progress_counts(rows)
 	station_progress = LabState.station_progress(rows)
 	var answered: Array[String] = LabState.seen()
 	var first_visit_ever: bool = answered.is_empty() and completed.is_empty()
@@ -781,8 +785,9 @@ func _read_progress() -> void:
 		"first_visit": first_visit_ever,
 		"returning": LabState.visits() > 0,
 		"response": response,
-		"completed": completed.size(),
-		"total": rows.size(),
+		"completed": counts.done,
+		"total": counts.total,
+		"temporary": counts.temporary,
 		"fragments": fragments_open,
 		"fragments_unread": fragments_unread,
 	})
@@ -791,7 +796,7 @@ func _read_progress() -> void:
 		if not response.is_empty() and not bool(response.get("first_light", false)):
 			just_done = Naming.plain_title(str(response.get("task", {}).get("title", "")))
 		room.set_standby({"english": english, "new_player": completed.is_empty(), "next_label": status_next,
-			"next_chapter": status_chapter, "completed": completed.size(), "total": rows.size(), "just_done": just_done})
+			"next_chapter": status_chapter, "completed": counts.done, "total": counts.total, "just_done": just_done})
 	LabState.mark_seen(completed)
 
 func _refresh_archive_counts() -> void:

@@ -1,0 +1,78 @@
+[
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Initial field layout is correct but wastes traffic",
+		"ok": true
+	},
+	{
+		"check": "First measurement invents no earlier comparison",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: initial-layout",
+		"ok": true
+	},
+	{
+		"check": "Option menu opened: DemoLayoutOrder",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "A real field-order edit meets both orders",
+		"ok": true
+	},
+	{
+		"check": "Results compare actual complete measurements",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: layout-comparison",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Earned optional goal appears after accepted fixture",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: mixed-goals",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Incomplete space overflow preserves last complete comparison",
+		"ok": true
+	},
+	{
+		"check": "Failed experiment does not erase earned goals",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: failed-experiment",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Returning after failure still compares to a complete result",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: restored-comparison",
+		"ok": true
+	}
+]

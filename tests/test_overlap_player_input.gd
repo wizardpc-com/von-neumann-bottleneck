@@ -28,7 +28,9 @@ func _run() -> void:
 	await settle(16)
 	ui = current_scene
 	await press(named_button(ui.dock,text(&"overlap.run")))
-	check(ui.trace.metrics.error == "not_ready" and ui.trace.metrics.error_line == 3,"The public starter stops at its actual early consume line.")
+	check(ui.trace.passed and ui.trace.metrics.total_cycles == 14 and not root.get_node("OverlapChapter").completed().has("arrival"),"The public starter is correct but slower than the unchanged target.")
+	await schedule("# First batch\nfetch A 0\nconsume A\nidle")
+	check(ui.trace.metrics.error == "not_ready" and ui.trace.metrics.error_line == 3,"Consuming before arrival stops at its actual early consume line.")
 	await shot("arrival-before-ready")
 	await press(ui.locate_issue_button)
 	check(ui.editor.get_caret_line() == 2 and ui.panels.program.visible,"Locate focuses the source line responsible for the recorded stop.")

@@ -353,7 +353,9 @@ func check_display_state(lab: LabHome) -> void:
 	var room: Room = lab.room
 	var real: Dictionary = room.display_state
 	check(real.stations.size() == lab.station_progress.size(), "Room displays every real journey station")
-	check(real.completed == lab.completed_keys.size() and real.total == LabHome.LabState.tasks().size(), "Room task totals come from the real navigation state")
+	var counts: Dictionary = LabHome.LabState.progress_counts(LabHome.LabState.tasks())
+	check(real.completed == counts.done and real.total == counts.total, "Room completion totals exclude temporary investigations")
+	check(real.stations[7].total == 0 and real.stations[7].temporary == 3, "Room address chapter exposes temporary exploration without an impossible completion count")
 	check(real.works_count == lab.works.size(), "Room saved-work count comes from the real local session")
 	var rows: Array[Dictionary] = []
 	for index: int in range(11):
@@ -384,7 +386,7 @@ func check_display_state(lab: LabHome) -> void:
 	check(room.display_state.latest_name == long_name, "Ellipsizing the work wall preserves its full read-only source name")
 	room.update_progress(rows,0,22,0,tasks,[],false)
 	check(room.display_state.works_count == 0 and room.display_state.latest_name.is_empty() and room.display_state.latest_output.is_empty(), "An empty collection has explicit empty data and no sample work")
-	room.update_progress(lab.station_progress,lab.completed_keys.size(),LabHome.LabState.tasks().size(),lab.works.size(),LabHome.LabState.tasks(),lab.works,lab.english)
+	room.update_progress(lab.station_progress,counts.done,counts.total,lab.works.size(),LabHome.LabState.tasks(),lab.works,lab.english)
 
 
 func check_interaction_details(lab: LabHome) -> void:

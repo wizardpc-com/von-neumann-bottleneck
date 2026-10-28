@@ -1,0 +1,202 @@
+[
+	{
+		"check": "QA Test access: chapter_3/arrival",
+		"ok": true
+	},
+	{
+		"check": "Task entry clears previous comparison runs",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Real arrival result earns completion",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-success",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Stay opens the actual program",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-stay",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Program typed through CodeEdit matches intended experiment",
+		"ok": true
+	},
+	{
+		"check": "Editing disables navigation into stale run evidence.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Moving only work produces real14 cycles",
+		"ok": true
+	},
+	{
+		"check": "Same case comparison is +4 cycles and -4 overlap",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: arrival-work-moved-comparison",
+		"ok": true
+	},
+	{
+		"check": "QA Test access: prediction/changed",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-entry",
+		"ok": true
+	},
+	{
+		"check": "Prediction choice popup visibly opened after stable layout",
+		"ok": true
+	},
+	{
+		"check": "Prediction choice accepted requested setting",
+		"ok": true
+	},
+	{
+		"check": "First measured policy is Last stride",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-stride",
+		"ok": true
+	},
+	{
+		"check": "Prediction choice popup visibly opened after stable layout",
+		"ok": true
+	},
+	{
+		"check": "Prediction choice accepted requested setting",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Unfinished prefix adds no completed cost record or new total",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Comparison identifies the changed pause setting",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: prediction-pause-comparison",
+		"ok": true
+	},
+	{
+		"check": "QA Test access: representation/prepare_once",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "Representation result and comparison are visible in scroll viewport",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: representation-orders-comparison",
+		"ok": true
+	},
+	{
+		"check": "QA Test access: chapter_3/synthesis",
+		"ok": true
+	},
+	{
+		"check": "QA reference synthesis satisfies real Catalog evaluation",
+		"ok": true
+	},
+	{
+		"check": "Official synthesis run shows actual completion",
+		"ok": true
+	},
+	{
+		"check": "Synthesis action visible at720p: 回看路径成果",
+		"ok": true
+	},
+	{
+		"check": "Synthesis action visible at720p: 继续并返回关卡选择",
+		"ok": true
+	},
+	{
+		"check": "Synthesis action visible at720p: 继续试一试",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: synthesis-three-actions-qa-reference",
+		"ok": true
+	}
+]

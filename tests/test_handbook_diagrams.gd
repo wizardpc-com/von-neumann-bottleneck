@@ -15,6 +15,24 @@ func run() -> void:
 	root.add_child(diagram)
 	await process_frame
 	var signature: String = root.get_node("GlobalSave").game_player_content.canonical_signature()
+	var model: GDScript = load("res://experiments/creation/model.gd")
+	for id: StringName in diagram_type.LESSON_DIAGRAM_IDS:
+		diagram.set_diagram(id)
+		var count: int = diagram.example_count()
+		check(count == (2 if id == &"packet_cost" else 3), "%s has its lesson pages" % id)
+		for page: int in count:
+			var example: Dictionary = diagram.lesson_example()
+			check(not example.note.is_empty(), "%s labels its schematic" % id)
+			if id == &"context_history":
+				var learned: Dictionary = model.learn([[0,1,0,2]],page,model.default_machine())
+				var prefix: Array = [] if page == 0 else [0] if page == 1 else [1,0]
+				check(learned.ok, "bounded ABAC learning succeeds")
+				var prediction: Dictionary = model.predict(learned.model,prefix)
+				check(prediction.counts == example.counts, "history page agrees with actual ABAC successor counts")
+			if id == &"frozen_check":
+				check(example.seen == (page > 0), "check becomes seen at first reveal")
+			diagram.advance_example(1)
+		check(diagram.example_step == 0, "%s pages wrap" % id)
 	for id: StringName in diagram_type.CONCEPT_IDS:
 		var mapped: bool = false
 		for term: Dictionary in handbook.TERMS:

@@ -17,7 +17,10 @@ const LESSON_TERMS := {
 	&"service:prompt_response": [&"response_latency"],
 	&"prediction:regular": [&"address_prediction"],
 	&"creation:C1_restore": [&"context_model", &"predictive_packet"],
+	&"creation:C2_cost": [&"packet_cost"],
 	&"creation:P1_commit": [&"commit_reveal"],
+	&"creation:P2_memory": [&"context_history"],
+	&"creation:P3_check": [&"frozen_check"],
 	&"creation:G1_feedback": [&"output_feedback", &"work_recipe"],
 	&"layout:fields": [&"data_layout"],
 	&"layout:hot_cold": [&"field_group"],
@@ -55,7 +58,7 @@ const RECOMMENDED := {
 	&"representation:interior_hotspots": [&"block_representation", &"raw_rle"],
 	&"representation:dense_sparse": [&"block_representation", &"raw_rle"],
 	&"representation:prepare_once": [&"online_preparation", &"raw_rle"],
-	&"representation:cross_assets": [&"online_preparation", &"block_representation"],
+	&"representation:cross_assets": [&"block_representation", &"raw_rle", &"controlled_change"],
 	&"service:move_state": [&"persistent_state", &"dirty_writeback"],
 	&"service:prompt_response": [&"response_latency", &"dirty_writeback"],
 	&"service:one_plan": [&"quantization", &"response_latency", &"dirty_writeback"],
@@ -63,13 +66,13 @@ const RECOMMENDED := {
 	&"prediction:changed": [&"address_prediction"],
 	&"prediction:alternating": [&"address_prediction"],
 	&"creation:C1_restore": [&"context_model", &"predictive_packet"],
-	&"creation:C2_cost": [&"predictive_packet", &"context_model"],
-	&"creation:C3_conditions": [&"context_model", &"predictive_packet"],
+	&"creation:C2_cost": [&"packet_cost", &"predictive_packet", &"context_model"],
+	&"creation:C3_conditions": [&"packet_cost", &"context_model", &"predictive_packet"],
 	&"creation:P1_commit": [&"commit_reveal", &"context_model"],
-	&"creation:P2_memory": [&"commit_reveal", &"context_model"],
-	&"creation:P3_check": [&"commit_reveal", &"predictive_packet"],
+	&"creation:P2_memory": [&"context_history", &"commit_reveal", &"context_model"],
+	&"creation:P3_check": [&"frozen_check", &"commit_reveal", &"context_model"],
 	&"creation:G1_feedback": [&"output_feedback", &"context_model"],
-	&"creation:G2_intent": [&"output_feedback", &"context_model"],
+	&"creation:G2_intent": [&"work_recipe", &"output_feedback", &"context_model"],
 	&"creation:G3_keep": [&"work_recipe", &"output_feedback"],
 	&"layout:fields": [&"data_layout"],
 	&"layout:hot_cold": [&"field_group"],
@@ -136,7 +139,7 @@ const DIRECTORIES: Array[Dictionary] = [
 	{"id": &"representation", "category": &"later", "key": &"terminology.directory.representation", "terms": [&"block_representation", &"raw_rle", &"online_preparation"]},
 	{"id": &"service", "category": &"later", "key": &"terminology.directory.service", "terms": [&"persistent_state", &"dirty_writeback", &"response_latency", &"quantization"]},
 	{"id": &"prediction", "category": &"later", "key": &"terminology.directory.prediction", "terms": [&"address_prediction"]},
-	{"id": &"creation", "category": &"later", "key": &"terminology.directory.creation", "terms": [&"context_model", &"predictive_packet", &"commit_reveal", &"output_feedback", &"work_recipe"]},
+	{"id": &"creation", "category": &"later", "key": &"terminology.directory.creation", "terms": [&"context_model", &"predictive_packet", &"packet_cost", &"commit_reveal", &"context_history", &"frozen_check", &"output_feedback", &"work_recipe"]},
 	{"id": &"layout", "category": &"layout", "key": &"terminology.category.layout", "terms": [&"data_layout",&"field_group",&"copy_cost",&"bounded_batch"]},
 	{"id": &"overlap", "category": &"overlap", "key": &"terminology.category.overlap", "terms": [&"async_transfer", &"double_buffer", &"backpressure", &"prefetch", &"prefetch_distance", &"request_queue"]},
 	{"id": &"signals", "category": &"basics", "key": &"terminology.directory.signals", "terms": [&"bit_width", &"bit", &"binary", &"signal", &"low_level", &"high_level", &"high_impedance", &"short_circuit"]},
@@ -156,30 +159,33 @@ const DIRECTORIES: Array[Dictionary] = [
 ]
 
 const TERMS: Array[Dictionary] = [
+	{"id": &"packet_cost", "category": &"later", "title": &"terminology.term.packet_cost.title", "body": &"terminology.term.packet_cost.body", "example": &"terminology.term.packet_cost.example", "diagram": &"packet_cost"},
+	{"id": &"context_history", "category": &"later", "title": &"terminology.term.context_history.title", "body": &"terminology.term.context_history.body", "example": &"terminology.term.context_history.example", "diagram": &"context_history"},
+	{"id": &"frozen_check", "category": &"later", "title": &"terminology.term.frozen_check.title", "body": &"terminology.term.frozen_check.body", "example": &"terminology.term.frozen_check.example", "diagram": &"frozen_check"},
 	{"id": &"operation_navigation", "category": &"basics", "title": &"terminology.term.operation_navigation.title", "body": &"terminology.term.operation_navigation.body", "diagram": &"operation_navigation"},
 	{"id": &"operation_wiring", "category": &"basics", "title": &"terminology.term.operation_wiring.title", "body": &"terminology.term.operation_wiring.body", "diagram": &"operation_wiring"},
 	{"id": &"operation_review", "category": &"basics", "title": &"terminology.term.operation_review.title", "body": &"terminology.term.operation_review.body", "diagram": &"operation_review"},
-	{"id": &"block_representation", "category": &"later", "title": &"terminology.term.block_representation.title", "body": &"terminology.term.block_representation.body", "diagram": &"block_representation"},
-	{"id": &"raw_rle", "category": &"later", "title": &"terminology.term.raw_rle.title", "body": &"terminology.term.raw_rle.body", "diagram": &"raw_rle"},
+	{"id": &"block_representation", "category": &"later", "title": &"terminology.term.block_representation.title", "body": &"terminology.term.block_representation.body", "example": &"terminology.term.block_representation.example", "diagram": &"block_representation"},
+	{"id": &"raw_rle", "category": &"later", "title": &"terminology.term.raw_rle.title", "body": &"terminology.term.raw_rle.body", "example": &"terminology.term.raw_rle.example", "diagram": &"raw_rle"},
 	{"id": &"online_preparation", "category": &"later", "title": &"terminology.term.online_preparation.title", "body": &"terminology.term.online_preparation.body", "diagram": &"online_preparation"},
 	{"id": &"persistent_state", "category": &"later", "title": &"terminology.term.persistent_state.title", "body": &"terminology.term.persistent_state.body", "diagram": &"persistent_state"},
 	{"id": &"dirty_writeback", "category": &"later", "title": &"terminology.term.dirty_writeback.title", "body": &"terminology.term.dirty_writeback.body", "diagram": &"dirty_writeback"},
-	{"id": &"response_latency", "category": &"later", "title": &"terminology.term.response_latency.title", "body": &"terminology.term.response_latency.body", "diagram": &"response_latency"},
+	{"id": &"response_latency", "category": &"later", "title": &"terminology.term.response_latency.title", "body": &"terminology.term.response_latency.body", "example": &"terminology.term.response_latency.example", "diagram": &"response_latency"},
 	{"id": &"quantization", "category": &"later", "title": &"terminology.term.quantization.title", "body": &"terminology.term.quantization.body", "diagram": &"quantization"},
 	{"id": &"address_prediction", "category": &"later", "title": &"terminology.term.address_prediction.title", "body": &"terminology.term.address_prediction.body", "diagram": &"address_prediction"},
 	{"id": &"context_model", "category": &"later", "title": &"terminology.term.context_model.title", "body": &"terminology.term.context_model.body", "diagram": &"context_model"},
 	{"id": &"predictive_packet", "category": &"later", "title": &"terminology.term.predictive_packet.title", "body": &"terminology.term.predictive_packet.body", "diagram": &"predictive_packet"},
 	{"id": &"commit_reveal", "category": &"later", "title": &"terminology.term.commit_reveal.title", "body": &"terminology.term.commit_reveal.body", "diagram": &"commit_reveal"},
 	{"id": &"output_feedback", "category": &"later", "title": &"terminology.term.output_feedback.title", "body": &"terminology.term.output_feedback.body", "diagram": &"output_feedback"},
-	{"id": &"work_recipe", "category": &"later", "title": &"terminology.term.work_recipe.title", "body": &"terminology.term.work_recipe.body", "diagram": &"work_recipe"},
+	{"id": &"work_recipe", "category": &"later", "title": &"terminology.term.work_recipe.title", "body": &"terminology.term.work_recipe.body", "example": &"terminology.term.work_recipe.example", "diagram": &"work_recipe"},
 	{"id": &"data_layout", "category": &"layout", "title": &"terminology.term.data_layout.title", "body": &"terminology.term.data_layout.body", "diagram": &"layout_data_layout"},
 	{"id": &"field_group", "category": &"layout", "title": &"terminology.term.field_group.title", "body": &"terminology.term.field_group.body", "diagram": &"layout_field_group"},
 	{"id": &"copy_cost", "category": &"layout", "title": &"terminology.term.copy_cost.title", "body": &"terminology.term.copy_cost.body", "diagram": &"layout_copy_cost"},
 	{"id": &"bounded_batch", "category": &"layout", "title": &"terminology.term.bounded_batch.title", "body": &"terminology.term.bounded_batch.body", "diagram": &"layout_bounded_batch"},
 
 	{"id": &"bit_width", "category": &"basics", "title": &"terminology.term.bit_width.title", "body": &"terminology.term.bit_width.body", "diagram": &"widths"},
-	{"id": &"async_transfer", "category": &"overlap", "title": &"terminology.term.async_transfer.title", "body": &"terminology.term.async_transfer.body", "diagram": &"arrival"},
-	{"id": &"double_buffer", "category": &"overlap", "title": &"terminology.term.double_buffer.title", "body": &"terminology.term.double_buffer.body", "diagram": &"double_buffer"},
+	{"id": &"async_transfer", "category": &"overlap", "title": &"terminology.term.async_transfer.title", "body": &"terminology.term.async_transfer.body", "example": &"terminology.term.async_transfer.example", "diagram": &"arrival"},
+	{"id": &"double_buffer", "category": &"overlap", "title": &"terminology.term.double_buffer.title", "body": &"terminology.term.double_buffer.body", "example": &"terminology.term.double_buffer.example", "diagram": &"double_buffer"},
 	{"id": &"backpressure", "category": &"overlap", "title": &"terminology.term.backpressure.title", "body": &"terminology.term.backpressure.body", "diagram": &"buffer_states"},
 	{"id": &"prefetch", "category": &"overlap", "title": &"terminology.term.prefetch.title", "body": &"terminology.term.prefetch.body", "diagram": &"prefetch"},
 	{"id": &"prefetch_distance", "category": &"overlap", "title": &"terminology.term.prefetch_distance.title", "body": &"terminology.term.prefetch_distance.body", "diagram": &"prefetch_distance"},
@@ -309,7 +315,7 @@ var visible_term_ids: Array[StringName] = []
 var visible_term_items: Dictionary = {}
 var experience_notes: Dictionary = {}
 var available_term_ids: Array[StringName] = []
-var _later_available_tasks: Dictionary = {}
+var _later_completed_tasks: Dictionary = {}
 var prologue_catalog := PrologueCatalogType.new()
 var system_catalog := SystemCatalogType.new()
 var locality_catalog := LocalityCatalogType.new()
@@ -480,6 +486,7 @@ func _build_interface() -> void:
 	filter_row.add_child(search_edit)
 	category_selector = OptionButton.new()
 	category_selector.name = "TerminologyCategory"
+	category_selector.fit_to_longest_item = false
 	category_selector.custom_minimum_size.x = 245.0
 	category_selector.item_selected.connect(func(_index: int) -> void: _refresh_terms())
 	filter_row.add_child(category_selector)
@@ -528,6 +535,7 @@ func _build_interface() -> void:
 	detail_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail_scroll_container.add_child(detail_box)
 	detail_category_label = Label.new()
+	detail_category_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail_category_label.add_theme_color_override("font_color", GOOD)
 	detail_box.add_child(detail_category_label)
 	detail_title_label = Label.new()
@@ -622,10 +630,10 @@ func _refresh_localized_copy() -> void:
 
 
 func _refresh_terms(preferred_term_id: StringName = &"") -> void:
-	_later_available_tasks.clear()
+	_later_completed_tasks.clear()
 	for task: Dictionary in TaskNavigation.journey_tasks():
 		if str(task.get("domain", "")) in ["representation", "service", "prediction", "creation"]:
-			_later_available_tasks[str(task.key)] = bool(task.unlocked)
+			_later_completed_tasks[str(task.key)] = bool(task.get("completed", false))
 	if not preferred_term_id.is_empty() and not is_term_unlocked(preferred_term_id):
 		future_toggle.set_pressed_no_signal(true)
 	if term_tree == null:
@@ -796,6 +804,8 @@ func is_term_unlocked(term_id: StringName) -> bool:
 		return false
 	if GameMode.is_test_mode() or experience_notes.has(term_id):
 		return true
+	if String(context_lesson).get_slice(":", 0) in ["representation", "service", "prediction", "creation"] and term_id in RECOMMENDED.get(context_lesson, []):
+		return true
 	var lesson: String = _lesson_for_term(term_id)
 	var parts: PackedStringArray = lesson.split(":")
 	if parts.size() != 2:
@@ -803,9 +813,8 @@ func is_term_unlocked(term_id: StringName) -> bool:
 	var level_id := StringName(parts[1])
 	match parts[0]:
 		"hardware":
-			# RAM supplies a MUX on the independent storage route, before the
-			# arithmetic route necessarily opens the canonical selector lesson.
-			if term_id == &"multiplexer" and prologue_catalog.is_unlocked(&"ram", GlobalSave.game_player_content.completed_levels):
+			# ALU and RAM both require a MUX without requiring the optional selector.
+			if term_id == &"multiplexer" and (prologue_catalog.is_unlocked(&"ram", GlobalSave.game_player_content.completed_levels) or prologue_catalog.is_unlocked(&"alu", GlobalSave.game_player_content.completed_levels)):
 				return true
 			return prologue_catalog.is_unlocked(level_id, GlobalSave.game_player_content.completed_levels)
 		"system":
@@ -818,10 +827,9 @@ func is_term_unlocked(term_id: StringName) -> bool:
 			return locality_catalog.is_unlocked(level_id, LocalityChapter.game_completed, bool(SystemChapter.game_completed.get(&"bottleneck", false)))
 		"representation", "service", "prediction", "creation":
 			var domain: String = parts[0]
-			var ids: Array = CreationCatalog.IDS if domain == "creation" else SecondActTasks.IDS[domain]
-			if String(context_lesson).get_slice(":", 0) == domain and ids.find(String(level_id)) >= 0 and ids.find(String(context_lesson).get_slice(":", 1)) >= ids.find(String(level_id)):
+			if term_id in LESSON_TERMS.get(context_lesson, []) or term_id in RECOMMENDED.get(context_lesson, []):
 				return true
-			return bool(_later_available_tasks.get(domain + "/" + String(level_id), false))
+			return bool(_later_completed_tasks.get(domain + "/" + String(level_id), false))
 	return false
 
 

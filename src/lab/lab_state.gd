@@ -42,14 +42,24 @@ static func completed_keys(rows: Array[Dictionary]) -> Array[String]:
 static func station_progress(rows: Array[Dictionary]) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for station: Dictionary in STATIONS:
-		var total: int = 0
-		var done: int = 0
+		var station_rows: Array[Dictionary] = []
 		for row: Dictionary in rows:
 			if int(row.get("region", -1)) in station.regions:
-				total += 1
-				if bool(row.get("completed", false)): done += 1
-		result.append({"total": total, "done": done, "zh": station.zh, "en": station.en})
+				station_rows.append(row)
+		var counts: Dictionary = progress_counts(station_rows)
+		counts["zh"] = station.zh; counts["en"] = station.en
+		result.append(counts)
 	return result
+
+static func progress_counts(rows: Array[Dictionary]) -> Dictionary:
+	var counts := {"done": 0, "total": 0, "temporary": 0}
+	for row: Dictionary in rows:
+		if str(row.get("progress_source", "")) == "session":
+			counts.temporary += 1
+			continue
+		counts.total += 1
+		if bool(row.get("completed", false)): counts.done += 1
+	return counts
 
 static func seen() -> Array[String]:
 	var config := ConfigFile.new()

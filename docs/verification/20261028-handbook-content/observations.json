@@ -1,0 +1,370 @@
+[
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "cost: current task opens readable guidance",
+		"ok": true
+	},
+	{
+		"check": "cost: tree click selects the matching illustration",
+		"ok": true
+	},
+	{
+		"check": "cost: actual page button advances to 0",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cost-0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "cost: actual page button advances to 1",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cost-1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "cost: pages wrap",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cost-example",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "cost: closing preserves the actual draft and supports",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory: current task opens readable guidance",
+		"ok": true
+	},
+	{
+		"check": "memory: tree click selects the matching illustration",
+		"ok": true
+	},
+	{
+		"check": "memory: actual page button advances to 0",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: memory-0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory: actual page button advances to 1",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: memory-1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory: actual page button advances to 2",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: memory-2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory: pages wrap",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: memory-example",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory: closing preserves the actual draft and supports",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check: current task opens readable guidance",
+		"ok": true
+	},
+	{
+		"check": "check: tree click selects the matching illustration",
+		"ok": true
+	},
+	{
+		"check": "check: actual page button advances to 0",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: check-0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check: actual page button advances to 1",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: check-1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check: actual page button advances to 2",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: check-2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check: pages wrap",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: check-example",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check: closing preserves the actual draft and supports",
+		"ok": true
+	},
+	{
+		"check": "Narrow reading capture uses a real 960x720 viewport",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory-narrow: current task opens readable guidance",
+		"ok": true
+	},
+	{
+		"check": "memory-narrow: tree click selects the matching illustration",
+		"ok": true
+	},
+	{
+		"check": "memory-narrow: actual page button advances to 0",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: memory-narrow-0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory-narrow: actual page button advances to 1",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: memory-narrow-1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory-narrow: actual page button advances to 2",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: memory-narrow-2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory-narrow: pages wrap",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: memory-narrow-example",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "memory-narrow: closing preserves the actual draft and supports",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "cost-narrow: current task opens readable guidance",
+		"ok": true
+	},
+	{
+		"check": "cost-narrow: tree click selects the matching illustration",
+		"ok": true
+	},
+	{
+		"check": "cost-narrow: actual page button advances to 0",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cost-narrow-0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "cost-narrow: actual page button advances to 1",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cost-narrow-1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "cost-narrow: pages wrap",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: cost-narrow-example",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "cost-narrow: closing preserves the actual draft and supports",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check-narrow: current task opens readable guidance",
+		"ok": true
+	},
+	{
+		"check": "check-narrow: tree click selects the matching illustration",
+		"ok": true
+	},
+	{
+		"check": "check-narrow: actual page button advances to 0",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: check-narrow-0",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check-narrow: actual page button advances to 1",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: check-narrow-1",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check-narrow: actual page button advances to 2",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: check-narrow-2",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check-narrow: pages wrap",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: check-narrow-example",
+		"ok": true
+	},
+	{
+		"check": "Requested UI control exists and is visible.",
+		"ok": true
+	},
+	{
+		"check": "check-narrow: closing preserves the actual draft and supports",
+		"ok": true
+	},
+	{
+		"check": "Handbook reading never awards campaign progress",
+		"ok": true
+	}
+]

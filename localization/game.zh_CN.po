@@ -5308,16 +5308,16 @@ msgid "overlap.arrival.goal"
 msgstr "完成独立工作并处理第 0 批，总用时不超过 10 周期。"
 
 msgid "overlap.arrival.body"
-msgstr "桌上是一台待修复的小机器。fetch 发出请求后立即返回；数据还要搬运 6 周期。现有程序却立刻 consume。\n\n你还有 4 周期不依赖这份数据的工作。尝试把它安排在合适的地方，再让计算器使用已到达的数据。\n\n查看失败行和时间线；请求、到达、完成是三个不同的时刻。"
+msgstr "桌上的机器已经能正确完成工作，但需要 14 周期。先运行一次，在时间线上找出计算器等待数据的时段。fetch 发出请求后立即返回；数据还要搬运 6 周期。\n\n末尾的 work 4 不依赖这份数据。只移动这行的位置，能不能让等待的时间也派上用场？\n\n保持工作量和输出不变，把总用时缩短到 10 周期。请求、到达、完成是三个不同的时刻。"
 
 msgid "overlap.buffers.title"
 msgstr "交替接力"
 
 msgid "overlap.buffers.goal"
-msgstr "自己放置并连线，按序处理四批数据，40 → 28 周期。"
+msgstr "扩展缓冲并安排交替工作，按序处理四批数据，40 → 28 周期。"
 
 msgid "overlap.buffers.body"
-msgstr "搬运每批需要 6 周期，计算每批需要 4 周期。只有一只缓冲时，搬运常常要等计算结束。\n\n这里不预摆解题元件。元件台允许你使用最多两只缓冲；拖到桌上并接通数据、ready 和 free。初始程序是串行安排，可修改。\n\n缓冲名字 A、B 会显示在元件标题上；程序里的名字必须对应自己的元件。"
+msgstr "搬运每批需要 6 周期，计算每批需要 4 周期。桌上已接好一只缓冲 A；先运行串行程序，观察四批数据为什么需要 40 周期。\n\nA 正在供计算器使用时，下一批还能放在哪里？元件台允许最多两只缓冲。试着增加 B，参照 A 接通数据、ready 和 free，再修改程序，让两只缓冲交替接力。\n\n缓冲名字 A、B 会显示在元件标题上；程序里的名字必须对应自己的元件。目标仍是输出正确且不超过 28 周期。"
 
 msgid "overlap.backpressure.title"
 msgstr "进退有度"
@@ -7098,6 +7098,51 @@ msgstr "下一地址预测"
 msgid "terminology.term.address_prediction.body"
 msgstr "只根据已经观察到的需求地址，猜下一次会访问哪里。规则可利用步长和重复模式；猜测不能当作已经发生的历史。\n\n预测触发的提前读取会占总线和缓存。规律改变时可能猜错，比较真实等待、额外搬运和逐出，不只看命中次数。"
 
+
+msgid "terminology.term.packet_cost.title"
+msgstr "规则成本与传输成本"
+
+msgid "terminology.term.packet_cost.body"
+msgstr "预测包不只保存例外，还要带上解码所需的规则、起始信息与校验。RAW 也有封装开销。比较同一原文时，要把这些字节一起算。\n\n包更小不保证更快：编码、规则读取与解码也花时间。学习准备单独记录，不要把它混成每次发送都重复支付的费用。"
+
+msgid "terminology.term.packet_cost.example"
+msgstr "在8-2先保留原文、规则和机器，点「锁定条件 · 两种传输对照」。再到8-3只换机器，观察同一路径的周期怎样变化。图中是教学样例，成绩以自己的实测为准。"
+
+msgid "terminology.term.context_history.title"
+msgstr "记忆长度与上下文"
+
+msgid "terminology.term.context_history.body"
+msgstr "记忆长度决定查规则时看最近几项。只看到 A，后面可能是 B，也可能是 C；多看到前面的 B，BA 后的计数可能更明确。\n\n更长记忆不保证更好：某个上下文可能从未出现，需要退回较短上下文；规则也占空间并有学习成本。改记忆后要主动重新学习。"
+
+msgid "terminology.term.context_history.example"
+msgstr "翻页比较同一段 ABAC 在记忆0、1、2下保留的信息。回到9-2，固定样例、机器和练习材料，只改记忆长度；重新学习、验证复原，再比较完整预测记录。"
+
+msgid "terminology.term.frozen_check.title"
+msgstr "练习与冻结检查"
+
+msgid "terminology.term.frozen_check.body"
+msgstr "练习让你观察规则的弱点，再决定是否改样例、改记忆并重新学习。冻结检查使用另一段独立材料，开始后规则保持不变。\n\n冻结的是规则，不是已见前缀：每次先提交预测，揭晓后真值才能加入上下文。揭晓不会训练；重复检查已看过的材料会标为「已见」。"
+
+msgid "terminology.term.frozen_check.example"
+msgstr "9-3先用同族独立练习检查新规则，再进行同族冻结检查。遇到失配，点选已揭晓格追因；不要把看过答案后再试的命中率当成首次未见表现。"
+
+msgid "terminology.term.async_transfer.example"
+msgstr "3-1先运行14周期的初始方案。找出搬运时计算器空等的区间，再只移动 work 4；比较两次时间线，独立工作是否与搬运重叠？ready 仍需保留。"
+
+msgid "terminology.term.double_buffer.example"
+msgstr "3-2从接好的 A 和40周期串行方案出发。增加 B 后，让下一批有地方等待；对照图中的状态，区分「数据已到」和「上一批已用完」。有两只缓冲仍需正确调度。"
+
+msgid "terminology.term.block_representation.example"
+msgstr "第五章可点「用上一任务成果试新订单」，把自己的边界与编码拿来比较。新订单的资产或请求不同，旧方案可能变慢；运行后看实际多读了哪些字节。复制不会替你达标，草稿改动可撤销。"
+
+msgid "terminology.term.raw_rle.example"
+msgstr "图中两段都要还原成原字节。先找连续重复段，再选中一块切换 RAW／RLE。观察载荷、目录和解码成本；不要把「块数更少」或「全部RLE」直接当成更优方案。"
+
+msgid "terminology.term.response_latency.example"
+msgstr "第六章按住 Ctrl 选择连续服务组，可一次合并并撤销。组要算完才逐项返回；合并后重新运行，看 A–D 谁最晚拿到首个回答，再决定怎样分组。"
+
+msgid "terminology.term.work_recipe.example"
+msgstr "先看实际生成的光纹，再命名并保存。播放快照是看旧作品；按配方再生是核对能否复现；分叉是另开草稿继续改。三种操作都不把新变化自动写回旧作品。"
 
 msgid "terminology.term.context_model.title"
 msgstr "上下文规则盒"

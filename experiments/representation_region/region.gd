@@ -235,6 +235,10 @@ func build() -> void:
 	data.visible = false
 	reading.add_child(data)
 	draft_label = make_label("",editor,14); draft_label.name = "DraftSummary"
+	if task > 0:
+		var previous_plan := make_button(text2("用上一任务成果试新订单", "Try previous success on this order"),editor,copy_previous_support,"CopyPreviousSupport")
+		set_action_disabled(previous_plan,not support_plans.has(task-1))
+		previous_plan.tooltip_text = text2("复制上一任务保留的达标方案到当前草稿，可撤销；旧记录不变，新订单仍需运行验收。", "Copy the previous task's protected success into this draft. Undo is available; records stay intact and this order still needs measuring.") if support_plans.has(task-1) else text2("上一任务尚无保留的达标方案。可先独立探索当前任务，或返回上一任务完成实测。", "No protected success for the previous task. Explore this task independently or measure a successful plan in the previous task first.")
 	blocks = Tree.new(); blocks.name = "Blocks"; blocks.columns = 4; blocks.hide_root = true; blocks.column_titles_visible = true
 	for i: int in 4: blocks.set_column_title(i,[text2("区间 [起点,终点)","Range [start,end)"),text2("表示","Codec"),text2("存储B","Stored B"),text2("载荷+目录","Payload + directory")][i])
 	blocks.custom_minimum_size.y = 112; editor.add_child(blocks)
@@ -413,11 +417,11 @@ func mission_text() -> String:
 
 func purpose_text() -> String:
 	match task:
-		0: return text2("用途 · 完整扫描混合资产，让表示同时满足时间与空间约束。", "Purpose · Deliver a mixed-asset scan within its time and storage limits.")
-		1: return text2("用途 · 反复读取内部热点；同一份表示回应重复访问。", "Purpose · Serve repeated interior reads from the same representation.")
-		2: return text2("用途 · 同一方案既要完成全扫描，也要回应稀疏的端点读取。", "Purpose · One plan must answer both a full scan and sparse endpoint reads.")
-		3: return text2("用途 · 短读与反复扫描，会怎样改变准备工作的取舍？", "Purpose · How does preparing data pay off for a short read or repeated scans?")
-		4: return text2("用途 · 资产A扫描＋资产B复访，共用同一分块与表示。各自编码、各自实测；两份订单都须达标，不能拼用不同方案。", "Purpose · Asset A scan + asset B revisits share one partition and codec plan. Each asset is encoded and measured separately; both orders must meet their limits.")
+		0: return text2("先运行原方案，再只换一块的 RAW/RLE。重复区与变化区，哪里值得压缩？", "Run the starting plan, then change only one block's RAW/RLE codec. Where does compression pay: runs or changing bytes?")
+		1: return text2("先运行，再只分割一块。反复读取20和43时，恢复了多少没用到的字节？", "Run, then split just one block. When revisiting 20 and 43, how many unwanted bytes are restored?")
+		2: return text2("同一方案服务扫描与端点复访。只增加一个分块，再比较两份订单：谁受益，谁多付请求费？", "One plan serves a scan and endpoint revisits. Add one split and compare both orders: who gains, who pays more request overhead?")
+		3: return text2("只换一块的表示，再比较短读与八次扫描。省下的服务时间，能抵过准备成本吗？", "Change one block's codec and compare the short read with eight scans. Do service savings repay preparation?")
+		4: return text2("A扫描与B复访共用一个方案。只分割一块，两份订单一起运行；别让一份的改善藏住另一份的退步。", "A scan and B revisits share one plan. Split one block and run both; check whether helping one hurts the other.")
 	return ""
 
 func change_task(index: int) -> void:
@@ -629,6 +633,8 @@ func show_trace(index: int) -> void:
 	else:
 		var prior: Trace = comparison.trace
 		var before: Dictionary = prior.metrics
+		var delta: String = text2("#%d→#%d（本次−旧记录）：周期%+d · 空间%+dB · 服务搬运%+dB", "#%d→#%d (current−prior): cycles%+d · stored%+dB · traffic%+dB") % [int(comparison.run_index)+1,selected_run+1,int(m.total_cycles)-int(before.total_cycles),int(m.stored_bytes)-int(before.stored_bytes),int(m.traffic_bytes)-int(before.traffic_bytes)]
+		result.text = delta + "\n" + result.text
 		metric_details.text += text2("\n比较来源：记录#%d → #%d · %s（同任务、同规格）\n本次减去旧记录：准备%+d、服务%+d、总计%+d周期\n实际空间%+dB · 服务搬运%+dB · 全阶段搬运%+dB", "\nComparison source: run #%d → #%d · %s (same task and spec)\nCurrent minus prior: prepare%+d, serve%+d, total%+d cycles\nActual storage%+dB · service traffic%+dB · all-phase traffic%+dB") % [int(comparison.run_index)+1,selected_run+1,display_order_name(str(m.spec.name)),int(m.preparation_cycles)-int(before.preparation_cycles),int(m.service_cycles)-int(before.service_cycles),int(m.total_cycles)-int(before.total_cycles),int(m.stored_bytes)-int(before.stored_bytes),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.total_traffic_bytes)-int(before.total_traffic_bytes)]
 	var limit_feedback: String = constraint_feedback(int(row.task),row.traces)
 	if not limit_feedback.is_empty(): result.text += "\n" + limit_feedback
@@ -939,6 +945,18 @@ func support_records() -> Array:
 	var records: Array = []
 	for id: int in support_plans: records.append({"task":id,"plan":support_plans[id].duplicate(true)})
 	return records
+
+func copy_previous_support() -> void:
+	if task <= 0 or not support_plans.has(task-1): return
+	var restored: Array[Dictionary] = []; restored.assign(support_plans[task-1].duplicate(true))
+	var traces: Array[Trace] = []
+	for spec: Dictionary in Model.orders(task-1): traces.append(Model.run(spec,restored))
+	if not Model.meets(task-1,traces):
+		status.text = text2("上一任务保留方案未通过重新核验，当前草稿不变。", "The previous protected plan failed revalidation; this draft is unchanged.")
+		return
+	edit_plan(restored)
+	status.text = text2("已取上一任务成果试新订单；资产或请求已变化，请重新运行。旧记录保留，草稿改动可撤销。", "Previous success copied for this new order. Assets or requests have changed: run again. Records are preserved; draft changes can be undone.")
+
 
 func restore_support() -> void:
 	if not support_plans.has(task): return

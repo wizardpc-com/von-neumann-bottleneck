@@ -1,0 +1,210 @@
+[
+	{
+		"check": "Test navigation carries the pending ALU task through hardware startup",
+		"ok": true
+	},
+	{
+		"check": "ALU navigation remains in the hardware workbench",
+		"ok": true
+	},
+	{
+		"check": "ALU trial 0 fits on the initial bench without scrolling",
+		"ok": true
+	},
+	{
+		"check": "ALU trial 1 fits on the initial bench without scrolling",
+		"ok": true
+	},
+	{
+		"check": "ALU trial 2 fits on the initial bench without scrolling",
+		"ok": true
+	},
+	{
+		"check": "ALU trial 3 fits on the initial bench without scrolling",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: alu-four-trials-entry",
+		"ok": true
+	},
+	{
+		"check": "ALU sample button exists",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 1 is fully exposed inside its real scroll viewport",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 1 is the actual pointer hit target",
+		"ok": true
+	},
+	{
+		"check": "Real viewport click emitted ALU sample 1 pressed",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Empty wiring sample visibly loads A=1 and executes real debug",
+		"ok": true
+	},
+	{
+		"check": "Unwired OR displays actual zero instead of supplying expected one",
+		"ok": true
+	},
+	{
+		"check": "Trying incomplete wiring preserves all official evidence",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: alu-empty-player-wiring-debug",
+		"ok": true
+	},
+	{
+		"check": "ALU sample button exists",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 0 is fully exposed inside its real scroll viewport",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 0 is the actual pointer hit target",
+		"ok": true
+	},
+	{
+		"check": "Real viewport click emitted ALU sample 0 pressed",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Try operation 0 applies its visible opcode through the real button",
+		"ok": true
+	},
+	{
+		"check": "QA reference fixture operation 0 produces a real valid debug result",
+		"ok": true
+	},
+	{
+		"check": "Debug operation 0 does not confer any official case completion",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: alu-qa-reference-operation-0",
+		"ok": true
+	},
+	{
+		"check": "ALU sample button exists",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 1 is fully exposed inside its real scroll viewport",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 1 is the actual pointer hit target",
+		"ok": true
+	},
+	{
+		"check": "Real viewport click emitted ALU sample 1 pressed",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Try operation 1 applies its visible opcode through the real button",
+		"ok": true
+	},
+	{
+		"check": "QA reference fixture operation 1 produces a real valid debug result",
+		"ok": true
+	},
+	{
+		"check": "Debug operation 1 does not confer any official case completion",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: alu-qa-reference-operation-1",
+		"ok": true
+	},
+	{
+		"check": "ALU sample button exists",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 2 is fully exposed inside its real scroll viewport",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 2 is the actual pointer hit target",
+		"ok": true
+	},
+	{
+		"check": "Real viewport click emitted ALU sample 2 pressed",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Try operation 2 applies its visible opcode through the real button",
+		"ok": true
+	},
+	{
+		"check": "QA reference fixture operation 2 produces a real valid debug result",
+		"ok": true
+	},
+	{
+		"check": "Debug operation 2 does not confer any official case completion",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: alu-qa-reference-operation-2",
+		"ok": true
+	},
+	{
+		"check": "ALU sample button exists",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 3 is fully exposed inside its real scroll viewport",
+		"ok": true
+	},
+	{
+		"check": "ALU sample 3 is the actual pointer hit target",
+		"ok": true
+	},
+	{
+		"check": "Real viewport click emitted ALU sample 3 pressed",
+		"ok": true
+	},
+	{
+		"check": "Visible playback and sealing finish without internal fast-forward calls.",
+		"ok": true
+	},
+	{
+		"check": "Try operation 3 applies its visible opcode through the real button",
+		"ok": true
+	},
+	{
+		"check": "QA reference fixture operation 3 produces a real valid debug result",
+		"ok": true
+	},
+	{
+		"check": "Debug operation 3 does not confer any official case completion",
+		"ok": true
+	},
+	{
+		"check": "The requested evidence frame is saved: alu-qa-reference-operation-3",
+		"ok": true
+	}
+]

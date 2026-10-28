@@ -373,7 +373,7 @@ const TASK_CONTEXTS := {
 		"想比较时只改一个条件；想直接留下也可以。", "To compare, change only one condition; or keep a work directly.",
 		"你的选择成了作品的一部分。好不好看，不由分数决定。", "Your choice became part of the work. Whether it is beautiful is not decided by a score."],
 	"creation/G3_keep": [
-		"想留下这一段，就在下方填个名称，再点保存。", "To keep this passage, give it a name below, then save it.",
+		"新生成可以命名保存；已有作品可以观看结尾，再继续分叉创作。", "Name and save a new output, or view a saved work and the ending before continuing with a fork.",
 		"确认保存成功，输出和配方才会一起留下。失败时保留当前草稿，查看状态栏原因。", "Keep must succeed to retain the output and recipe together. If it fails, keep the draft open and read the status message.",
 		"你选择留下这一段。可以回看它，也可以从原配方另开一份草稿。", "You chose to keep this passage. View it again, or fork its recipe into another draft."],
 }

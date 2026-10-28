@@ -66,6 +66,7 @@ var mission: Label
 var journey_context
 var status: Label
 var draft_source: Label
+var group_selection: Label
 var bill_button: Button
 var measured_verdict: Label
 var next_button: Button
@@ -232,13 +233,22 @@ func build() -> void:
 	var editor := VBoxContainer.new(); editor.custom_minimum_size.x = 430; body.add_child(editor)
 	draft_source = label("",editor,14); draft_source.name = "DraftSource"
 	group_list = preload("res://experiments/service_plan/group_list.gd").new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_EXPAND_FILL; group_list.custom_minimum_size.y = 100; editor.add_child(group_list)
+	group_list.select_mode = ItemList.SELECT_MULTI
 	group_list.tooltip_text = tr2("四格依次代表A/B/C/D；亮格表示组内包含该流。可拖动整组，运行核验同流保序。", "Four marks represent A/B/C/D; lit marks show streams present. Drag whole groups; Run validates stream order.")
-	group_list.group_moved.connect(func(source: int, target: int) -> void: edit(Model.move(plan,source,target-source),target))
-	group_list.item_selected.connect(func(index: int) -> void: selected_group = index; refresh_actions())
+	group_list.group_moved.connect(func(source: int, target: int) -> void:
+		if group_list.get_selected_items().size() > 1:
+			status.text = tr2("多选用于合并；移动时请先单选一组。", "Multiple selection joins groups; select one group to move it."); return
+		edit(Model.move(plan,source,target-source),target))
+	group_list.multi_selected.connect(func(index: int, chosen: bool) -> void:
+		if chosen: selected_group = index
+		elif not group_list.get_selected_items().is_empty(): selected_group = group_list.get_selected_items()[-1]
+		refresh_actions())
+	group_selection = label(tr2("按住Ctrl逐组选中；连续组可一次合并。", "Ctrl-click groups; consecutive groups can be joined at once."),editor,13)
+	group_selection.name = "GroupSelection"
 	var motion := HBoxContainer.new(); editor.add_child(motion)
 	up_button = button(tr2("上移", "Move up"), motion, func() -> void: edit(Model.move(plan, selected_group, -1), selected_group - 1), "MoveUp")
 	down_button = button(tr2("下移", "Move down"), motion, func() -> void: edit(Model.move(plan, selected_group, 1), selected_group + 1), "MoveDown")
-	merge_button = button(tr2("合并下一组", "Join next"), motion, func() -> void: edit(Model.merge(plan, selected_group), selected_group), "Merge")
+	merge_button = button(tr2("合并下一组", "Join next"), motion, merge_selected_groups, "Merge")
 	var destination := HBoxContainer.new(); editor.add_child(destination)
 	label(tr2("移到第几组", "Move to group"), destination, 14)
 	move_to = SpinBox.new(); move_to.name = "MoveTarget"; move_to.min_value = 1; move_to.max_value = plan.groups.size(); move_to.value = 1; destination.add_child(move_to)
@@ -381,8 +391,42 @@ func refresh_actions() -> void:
 	if evidence_tabs != null and evidence_tabs.get_tab_count() > 4: evidence_tabs.set_tab_disabled(4,not has_service_closure())
 	refresh_commission()
 	set_action_disabled(up_button,selected_group == 0); set_action_disabled(down_button,selected_group == plan.groups.size() - 1)
-	set_action_disabled(merge_button,down_button.disabled); refresh_split_action()
+	refresh_group_selection(); refresh_split_action()
 	set_action_disabled(undo_button,undo_stack.is_empty()); set_action_disabled(redo_button,redo_stack.is_empty()); set_action_disabled(restore_button,selected_history < 0)
+
+func consecutive_selected_groups() -> bool:
+	var selected: PackedInt32Array = group_list.get_selected_items()
+	if selected.size() < 2: return false
+	for index: int in range(1,selected.size()):
+		if selected[index] != selected[index-1]+1: return false
+	return true
+
+func refresh_group_selection() -> void:
+	var selected: PackedInt32Array = group_list.get_selected_items()
+	var multiple: bool = selected.size() > 1
+	var consecutive: bool = consecutive_selected_groups()
+	merge_button.text = tr2("合并选中%d组", "Join %d selected") % selected.size() if multiple else tr2("合并下一组", "Join next")
+	set_action_disabled(merge_button,not consecutive if multiple else selected.is_empty() or selected_group >= plan.groups.size()-1)
+	group_selection.text = tr2("已选%d组 · 按住Ctrl逐组选中", "%d selected · Ctrl-click groups") % selected.size()
+	if multiple and not consecutive:
+		group_selection.text += tr2("；仅连续组可合并。", "; select consecutive groups to join.")
+	elif multiple:
+		group_selection.text += tr2("；合并保留原顺序，可撤销。", "; joining preserves order and can be undone.")
+	else:
+		group_selection.text += tr2("；连续多选可一次合并。", "; join consecutive selections at once.")
+	for action: Button in [up_button,down_button,move_button]:
+		if multiple or selected.is_empty(): set_action_disabled(action,true)
+	if not multiple: set_action_disabled(move_button,selected.is_empty())
+
+func merge_selected_groups() -> void:
+	var selected: PackedInt32Array = group_list.get_selected_items()
+	if selected.is_empty(): return
+	if selected.size() == 1:
+		edit(Model.merge(plan,selected[0]),selected[0]); return
+	if not consecutive_selected_groups(): return
+	var next: Dictionary = plan.duplicate(true)
+	for index: int in range(selected.size()-1): next = Model.merge(next,selected[0])
+	edit(next,selected[0])
 
 func refresh_split_action() -> void:
 	var group_size: int = plan.groups[selected_group].size()
@@ -391,7 +435,7 @@ func refresh_split_action() -> void:
 	split_at.set_value_no_signal(clampi(int(split_at.value),1,last_boundary))
 	split_at.max_value = last_boundary
 	split_at.editable = group_size > 1
-	set_action_disabled(split_button,group_size < 2 or int(split_at.value) >= group_size)
+	set_action_disabled(split_button,group_list.get_selected_items().size() != 1 or group_size < 2 or int(split_at.value) >= group_size)
 
 func refresh_verdict() -> void:
 	if measured_verdict == null: return

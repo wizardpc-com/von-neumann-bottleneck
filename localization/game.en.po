@@ -5308,16 +5308,16 @@ msgid "overlap.arrival.goal"
 msgstr "Do independent work and process batch 0 within 10 cycles."
 
 msgid "overlap.arrival.body"
-msgstr "Repair the small machine. fetch returns immediately, but the data still takes 6 cycles to arrive. The starting program consumes it immediately.\n\nYou also have 4 cycles of work independent of that data. Find a useful place for it, then consume data that has arrived.\n\nInspect the failed line and timeline: request, arrival and completion are distinct moments."
+msgstr "The machine already finishes correctly, but takes 14 cycles. Run it first and find where compute waits for data. fetch returns immediately, but the data still takes 6 cycles to arrive.\n\nThe final work 4 does not depend on that data. Move only this line: can the waiting time do useful work?\n\nKeep the workload and output unchanged and reach 10 cycles. Request, arrival and completion are distinct moments."
 
 msgid "overlap.buffers.title"
 msgstr "Taking Turns"
 
 msgid "overlap.buffers.goal"
-msgstr "Place and connect storage; process four batches in order, 40 → 28 cycles."
+msgstr "Extend the buffers and arrange alternating work; process four batches in order, 40 → 28 cycles."
 
 msgid "overlap.buffers.body"
-msgstr "Each transfer takes 6 cycles and each computation takes 4. With one buffer, transfer often waits for compute to finish.\n\nThe interior starts empty. Place up to two buffers and connect data, ready and free. The starting program is serial and editable.\n\nNames A and B appear on your components. Program names must match your actual parts."
+msgstr "Each transfer takes 6 cycles and each computation takes 4. One buffer A is already connected. Run the serial program first and observe why four batches take 40 cycles.\n\nWhile compute uses A, where could the next batch go? You may use up to two buffers. Add B, use A as a guide for data, ready and free connections, then edit the program so they take turns.\n\nNames A and B appear on your components. Program names must match your actual parts. The target remains correct output within 28 cycles."
 
 msgid "overlap.backpressure.title"
 msgstr "Give and Take"
@@ -7099,6 +7099,51 @@ msgstr "Next-address prediction"
 msgid "terminology.term.address_prediction.body"
 msgstr "Guess the next demand address from addresses already observed. Rules can use strides and repetitions; a guess never becomes observed history.\n\nSpeculative reads occupy the bus and cache. When patterns change, inspect actual waiting, extra traffic and eviction, not correct guesses alone."
 
+
+msgid "terminology.term.packet_cost.title"
+msgstr "Rules and transfer cost"
+
+msgid "terminology.term.packet_cost.body"
+msgstr "Predictive packets carry decoding rules, initial information and integrity data as well as exceptions. RAW has packaging overhead too. Count all of these bytes for the same source.\n\nA smaller packet need not be faster: encoding, rule reads and decoding take time. Learning preparation is recorded separately, rather than charged again for every send."
+
+msgid "terminology.term.packet_cost.example"
+msgstr "In 8-2, keep source, rules and machine fixed and use Locked codec comparison. In 8-3, change only the machine and compare the same codec. The diagram is a teaching example; your recorded run determines your result."
+
+msgid "terminology.term.context_history.title"
+msgstr "History length and context"
+
+msgid "terminology.term.context_history.body"
+msgstr "History length determines how many recent symbols are used to look up a rule. A alone may be followed by B or C; seeing BA can distinguish that context.\n\nLonger history is not always better: an unseen context falls back to a shorter one. Rules also cost space and learning work. Relearn explicitly after changing history length."
+
+msgid "terminology.term.context_history.example"
+msgstr "Turn the pages to compare history lengths 0, 1 and 2 on the same ABAC sample. In 9-2, keep examples, machine and practice material fixed; change only history length, relearn, verify restoration, and compare full prediction rounds."
+
+msgid "terminology.term.frozen_check.title"
+msgstr "Practice and frozen checks"
+
+msgid "terminology.term.frozen_check.body"
+msgstr "Practice exposes weaknesses so you can revise examples or history and explicitly relearn. A frozen check uses a separate passage and keeps its rules fixed throughout the round.\n\nThe rules are frozen, not the observed prefix: commit first, then reveal truth and add it to context. Revealing never trains. Repeating an inspected check is labelled seen."
+
+msgid "terminology.term.frozen_check.example"
+msgstr "In 9-3, practise on the separate family passage before the frozen family check. Inspect revealed mismatches to trace their causes. Accuracy after seeing answers is not first-time unseen performance."
+
+msgid "terminology.term.async_transfer.example"
+msgstr "In 3-1, run the 14-cycle starter. Find where compute waits during transfer, then move only work 4. Compare the timelines: does independent work overlap transfer? Keep ready in the program."
+
+msgid "terminology.term.double_buffer.example"
+msgstr "In 3-2, start with connected buffer A and the 40-cycle serial plan. Add B to hold the next batch. Use the state diagram to distinguish data arrived from previous use finished. Two buffers still need a valid schedule."
+
+msgid "terminology.term.block_representation.example"
+msgstr "Use Try previous success on this order to carry your own boundaries and codecs into the next task. Different data or requests can make that plan slower; run it and inspect extra restored bytes. Copying does not complete the task, and draft edits can be undone."
+
+msgid "terminology.term.raw_rle.example"
+msgstr "Both illustrated routes must restore the original bytes. Find repeated runs, then change one block between RAW and RLE. Inspect payload, directory and decoding costs; fewer blocks or all-RLE is not automatically better."
+
+msgid "terminology.term.response_latency.example"
+msgstr "In chapter 6, Ctrl-select consecutive groups to join them in one undoable action. A group computes before returning its results. Rerun and inspect which of A–D receives its first answer last before deciding how to group requests."
+
+msgid "terminology.term.work_recipe.example"
+msgstr "Inspect the generated signal, then name and save it. Playing a snapshot views the saved work; regeneration checks its recipe; forking opens a new draft. None silently replaces the original work with a new variation."
 
 msgid "terminology.term.context_model.title"
 msgstr "Context rule box"

@@ -7501,6 +7501,8 @@ func _build_prologue_side() -> void:
 	_clear_test_bench()
 	storage_state_label = null
 	storage_reset_button = null
+	if current_level_id == &"alu":
+		_build_alu_operation_trials()
 	if current_level_id == &"cpu":
 		_build_cpu_stage_panel()
 	task_box.add_child(_side_heading(
@@ -7876,6 +7878,28 @@ func _build_prologue_case_rows() -> void:
 		group_rows.add_child(label)
 
 	_refresh_alu_groups()
+
+
+func _build_alu_operation_trials() -> void:
+	var row := HBoxContainer.new()
+	side_box.add_child(row)
+	var english: bool = Localization.current_locale() == "en"
+	for operation: int in range(4):
+		var sample: Dictionary = {&"A": 1, &"B": 1 if operation == 2 else 0, &"CIN": 0, &"OP0": operation & 1, &"OP1": (operation >> 1) & 1}
+		var button := Button.new()
+		button.name = "AluTryOperation%d" % operation
+		button.text = ("Try " if english else "试 ") + ["AND", "OR", "ADD", "NOT"][operation]
+		var inputs: String = "A=1 B=%d CIN=0 · OP1 OP0=%d%d" % [int(sample[&"B"]), operation >> 1, operation & 1]
+		button.tooltip_text = inputs + ("\nDebug your own circuit; not part of the 32 official cases." if english else "\n用自己的线路调试；不计入32项正式验收。")
+		button.pressed.connect(_try_alu_operation.bind(sample))
+		row.add_child(button)
+
+
+func _try_alu_operation(inputs: Dictionary) -> void:
+	if official_sequence_active or hint_mode:
+		return
+	_apply_investigation_inputs(inputs)
+	_run_debug()
 
 
 func _refresh_alu_groups(active: int = -1) -> void:

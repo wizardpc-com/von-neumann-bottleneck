@@ -8,6 +8,7 @@ const Reflection = preload("res://src/ui/theme_reflection.gd")
 const CreationSession = preload("res://experiments/creation/session.gd")
 const CandidateFiles = preload("res://experiments/candidate_session/files.gd")
 const WorkFocus = preload("res://experiments/creation/work_focus.gd")
+const LabState = preload("res://src/lab/lab_state.gd")
 
 var rows: Array[Dictionary] = []
 var regions: Array[int] = []
@@ -173,7 +174,9 @@ func _refresh() -> void:
 	var done: int = 0
 	for row: Dictionary in rows:
 		if earned(row): done += 1
-	overview_label.text = _copy("已完成 %d / %d", "Completed %d / %d") % [done, rows.size()]
+	var counts: Dictionary = LabState.progress_counts(rows)
+	overview_label.text = _copy("已完成 %d / %d", "Completed %d / %d") % [done, counts.total]
+	if counts.temporary > 0: overview_label.text += _copy(" · 临时探索 %d 项", " · %d temporary tasks") % counts.temporary
 	# Scope and provenance stay on hover; the page itself shows the record.
 	scope_label.text = ""
 	scope_label.hide()

@@ -514,6 +514,7 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 		var status: String = "completed" if finished else ("current" if current else ("available" if available else ("locked" if has_tasks else "unknown")))
 		var title := str(progress.get("en" if english else "zh", definition.get("en" if english else "zh", "")))
 		station_states.append({"index": index, "name": title, "done": done, "total": station_total,
+			"temporary": int(progress.get("temporary", 0)),
 			"available": available, "current": current, "locked": has_tasks and not available and not finished, "status": status})
 	_refresh_board(station_states, maxi(0, completed), maxi(0, total), english)
 	var count := maxi(0, works_count)
@@ -636,6 +637,8 @@ func _refresh_board(stations: Array[Dictionary], completed: int, total: int, eng
 		(row.name as Label).text = str(state.name)
 		(row.name as Label).add_theme_color_override("font_color", color)
 		(row.count as Label).text = "%d/%d" % [int(state.done), int(state.total)]
+		if int(state.get("temporary", 0)) > 0 and int(state.total) == 0:
+			(row.count as Label).text = ("临时探索 %d 项" if not english else "%d temporary") % int(state.temporary)
 		(row.count as Label).add_theme_color_override("font_color", color.darkened(0.15) if status != "locked" else Color("4f5e69"))
 	_board_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 

@@ -70,7 +70,7 @@ static func cache_board(capacity: int = 1) -> Dictionary:
 
 static func seed(id: String) -> Dictionary:
 	match id:
-		"arrival": return buffer_board(1)
+		"arrival", "buffers": return buffer_board(1)
 		"backpressure": return buffer_board(2)
 		"prefetch", "distance": return cache_board()
 	return terminal_board()
@@ -78,7 +78,7 @@ static func seed(id: String) -> Dictionary:
 
 static func starter(id: String) -> String:
 	match id:
-		"arrival": return "# 0 = first batch / 第一批\nfetch A 0\nconsume A\nidle\n"
+		"arrival": return "# 0 = first batch / 第一批\nfetch A 0\nready A\nconsume A\nidle\nwork 4\n"
 		"buffers": return serial_program()
 		"backpressure": return buffer_program().replace("free A", "tick 4").replace("free B", "tick 4")
 		"prefetch": return "read 0\nidle\nread 1\nidle\nread 2\nidle\nread 3\nidle\n"

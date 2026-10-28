@@ -3,6 +3,7 @@ const Canvas = preload("res://src/campaign/task_tree_canvas.gd")
 const ObservatoryType = preload("res://src/ui/journey_observatory.gd")
 const JournalType = preload("res://src/ui/journey_journal.gd")
 const Naming = preload("res://src/campaign/journey_naming.gd")
+const LabState = preload("res://src/lab/lab_state.gd")
 var journey_observatory: Control
 var journey_journal: Control
 var canvas: Control
@@ -264,14 +265,17 @@ func _build_route_shortcuts() -> void:
 		if int(task.region) in regions: continue
 		var region: int = int(task.region)
 		regions.append(region)
-		var done: int = 0; var total: int = 0
+		var region_rows: Array[Dictionary] = []
 		for other: Dictionary in rows:
 			if int(other.region) != region: continue
-			total += 1
-			if other.completed: done += 1
+			region_rows.append(other)
+		var region_counts: Dictionary = LabState.progress_counts(region_rows)
+		var done: int = region_counts.done; var total: int = region_counts.total
 		var button := Button.new()
 		button.name = ("CreationRegion" if task.domain == "creation" else "JourneyRegion")+str(region)
 		button.text = Naming.chapter_ordinal(region) + "\n" + _short_region(region) + "  " + str(done) + "/" + str(total)
+		if region_counts.temporary > 0 and total == 0:
+			button.text = Naming.chapter_ordinal(region) + "\n" + (("临时探索 %d 项" if not english else "Temporary · %d") % region_counts.temporary)
 		button.custom_minimum_size = Vector2(0, 40)
 		button.add_theme_constant_override("line_spacing", -2)
 		button.clip_text = true
@@ -292,10 +296,9 @@ func _build_route_shortcuts() -> void:
 	var available: int = 0
 	for task: Dictionary in rows:
 		if task.unlocked: available += 1
-	var finished: int = 0
-	for task: Dictionary in rows:
-		if task.completed: finished += 1
-	journey_scope.text = ("已完成 %d / %d · 可进入 %d" if not english else "Completed %d / %d · open %d") % [finished,rows.size(),available]
+	var counts: Dictionary = LabState.progress_counts(rows)
+	journey_scope.text = ("已完成 %d / %d · 可进入 %d" if not english else "Completed %d / %d · open %d") % [counts.done,counts.total,available]
+	if counts.temporary > 0: journey_scope.text += (" · 临时探索 %d 项" if not english else " · %d temporary") % counts.temporary
 	journey_scope.tooltip_text = _t("controls")
 	journey_scope.mouse_filter = Control.MOUSE_FILTER_PASS
 
@@ -464,11 +467,12 @@ func _refresh_task_list() -> void:
 		if not query.is_empty():
 			if task.key in matched: shown.append(task)
 		elif current_region < 0 or int(task.region) == current_region: shown.append(task)
-	var completed: int = 0
-	for task: Dictionary in shown:
-		if task.completed: completed += 1
+	var counts: Dictionary = LabState.progress_counts(shown)
 	list_title.text = (("搜索结果" if Localization.current_locale() != "en" else "Search results") if not query.is_empty() else _region_title(current_region))
-	list_count.text = ("%d 项匹配" % shown.size() if not query.is_empty() else "%d/%d 已完成" % [completed,shown.size()]) if Localization.current_locale() != "en" else ("%d matches" % shown.size() if not query.is_empty() else "%d/%d completed" % [completed,shown.size()])
+	list_count.text = ("%d 项匹配" % shown.size() if not query.is_empty() else "%d/%d 已完成" % [counts.done,counts.total]) if Localization.current_locale() != "en" else ("%d matches" % shown.size() if not query.is_empty() else "%d/%d completed" % [counts.done,counts.total])
+	if query.is_empty() and counts.temporary > 0:
+		var temporary_text: String = ("临时探索 %d 项" if Localization.current_locale() != "en" else "%d temporary tasks") % counts.temporary
+		list_count.text = temporary_text if counts.total == 0 else list_count.text + " · " + temporary_text
 	list_summary.text = ("点选结果查看任务并定位地图。" if Localization.current_locale() != "en" else "Select a result to inspect and locate it on the map.") if not query.is_empty() else _region_summary(current_region)
 	list_empty.text = "没有匹配任务。" if Localization.current_locale() != "en" else "No matching tasks."
 	list_empty.visible = shown.is_empty()

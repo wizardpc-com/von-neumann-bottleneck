@@ -99,6 +99,7 @@ func run() -> void:
 	host.add_child(journal)
 	journal.open()
 	check(journal.rows == nav.journey_tasks(), "Journal reads the actual launch catalog, not a synthetic sixty-row list")
+	check(journal.overview_label.text.contains("/ 57") and journal.overview_label.text.contains("3"), "Journal separates retained completion from temporary investigations")
 	check(journal.core_records.total == nav.tasks().size(), "Existing core record summary retains its original scope")
 	journal.show_task("hardware_foundations/tutorial")
 	check(journal.civilization_fragment(journal.selected_task()).is_empty(), "Fresh tutorial cannot reveal a completion fragment")

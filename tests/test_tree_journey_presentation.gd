@@ -93,6 +93,12 @@ func run() -> void:
 			scene.region_choice.add_item(str(row.get("region_title",root.get_node("Localization").text(StringName("tree.region."+str(region))))))
 			scene.region_choice.set_item_metadata(scene.region_choice.item_count-1,region)
 		check(scene.rows.size() == 60 and scene.region_choice.item_count == 12,"Fixture map exposes all sixty tasks and whole-journey plus eleven chapter choices: "+locale)
+		scene._build_route_shortcuts(); await settle()
+		check(scene.journey_scope.text.contains("/ 57") and scene.journey_scope.text.contains("3"),"Map separates retained completion from three temporary tasks: "+locale)
+		var address_chip := scene.creation_route.find_child("JourneyRegion7",false,false) as Button
+		check(address_chip != null and not address_chip.text.contains("0/3") and address_chip.text.contains("3"),"Address chapter chip shows temporary exploration instead of completion: "+locale)
+		scene._choose_region(7); await settle()
+		check(not scene.list_count.text.contains("0/3") and scene.list_count.text.contains("3"),"Address chapter list has no unattainable completion fraction: "+locale)
 		for row: Dictionary in scene.rows:
 			scene._select(row.key); scene.canvas.locate(row.key); await settle()
 			check(scene.detail_title.text == row.title and scene.enter_button.disabled == not row.unlocked,"Map detail reflects selected task and real eligibility: "+row.key)
@@ -121,7 +127,9 @@ func run() -> void:
 				check(scene.eligibility_heading.visible and scene.eligibility_rows.get_child_count() == 1 and str(scene.eligibility_rows.get_child(0).get_meta("task_key")) == "service/move_state","Locked Service contract explains saved-work eligibility and earlier-contract navigation")
 			if row.key == "creation/C1_restore":
 				check(scene.detail_kind.text.contains("创作") or scene.detail_kind.text.contains("Creation"),"C/P/G detail identifies creation content")
-				check(scene.recommendation_rows.get_child_count() == 1 and str(scene.recommendation_rows.get_child(0).get_meta("task_key")) == "representation/cross_assets","C/P/G recommendation remains a clickable relation, not a prerequisite")
+				var recommendations: Array[String] = []
+				for link: Node in scene.recommendation_rows.get_children(): recommendations.append(str(link.get_meta("task_key")))
+				check(recommendations == ["representation/cross_assets","service/one_plan","prediction/alternating"],"C/P/G has three clickable recommendations, with Representation first and no added prerequisites")
 			if row.key in ["representation/mixed_scan","service/move_state","prediction/regular"]: await capture_map(locale+"-"+row.domain)
 			if row.key in ["creation/C1_restore","creation/P1_commit","creation/G1_feedback"]: await capture_map(locale+"-"+row.id)
 		for index: int in scene.region_choice.item_count:

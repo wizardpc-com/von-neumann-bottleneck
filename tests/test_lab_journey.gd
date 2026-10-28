@@ -26,6 +26,12 @@ func run() -> void:
 	check(Fragments.unlocked([]).is_empty(), "No archive page is open before any completion")
 	check(Fragments.unlocked(["hardware_foundations/tutorial"]).size() == 1, "The first lesson opens exactly the first page")
 	check(LabState.station_progress(rows).size() == 11, "Journey board has one station per region")
+	var counts: Dictionary = LabState.progress_counts(rows)
+	check(counts.total == 57 and counts.temporary == 3, "The full journey separates 57 retained tasks from three temporary investigations")
+	var all_completed: Array[Dictionary] = rows.duplicate(true)
+	for row: Dictionary in all_completed: row.completed = true
+	check(LabState.progress_counts(all_completed).done == 57, "Temporary task flags never inflate retained completion")
+	check(LabState.station_progress(all_completed)[7] == {"done":0,"total":0,"temporary":3,"zh":"地址预测","en":"Address"}, "Address prediction has a temporary task count instead of an impossible completion fraction")
 
 	# Home is the laboratory; the classic surface stays built but hidden.
 	var hub: Control = load("res://src/ui/prototype_hub.tscn").instantiate()
@@ -38,6 +44,7 @@ func run() -> void:
 	check(terminal != null and terminal.asleep(), "Terminal starts on standby")
 	if terminal != null:
 		terminal.wake(true); await settle()
+		check(terminal.progress_label.text.ends_with("/ 57"), "Terminal completion denominator excludes temporary investigations")
 		check(not terminal.asleep() and terminal.primary.is_visible_in_tree(), "Waking shows the primary action")
 		check("壹" in terminal.message.text or "Yi" in terminal.message.text, "Yi greets a new player on the terminal")
 		check(not terminal.primary.text.is_empty(), "Primary action names the next step")

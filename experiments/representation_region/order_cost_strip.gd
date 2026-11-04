@@ -3,6 +3,11 @@ extends Control
 var measurements: Array[Dictionary] = []
 var english: bool = false
 var selected_order: int = -1
+var replay_cycle: int = -1
+
+func show_cycle(cycle: int) -> void:
+	replay_cycle = cycle
+	queue_redraw()
 
 func _init() -> void:
 	custom_minimum_size = Vector2(430,140)
@@ -10,6 +15,7 @@ func _init() -> void:
 	resized.connect(queue_redraw)
 
 func configure(rows: Array[Dictionary], en: bool, current: int = -1) -> void:
+	replay_cycle = -1
 	measurements.assign(rows.duplicate(true))
 	english = en; selected_order = current
 	queue_redraw()
@@ -42,5 +48,8 @@ func _draw() -> void:
 		var total: int = int(m.total_cycles)
 		var preparation_width: float = width * float(m.preparation_cycles) / float(total) if total > 0 else 0.0
 		draw_rect(Rect2(10,top+66,width,3),Color("223745"))
-		draw_rect(Rect2(10,top+66,preparation_width,3),Color("b29beb"))
-		if total > 0: draw_rect(Rect2(10+preparation_width,top+66,width-preparation_width,3),Color("51cbd4"))
+		var shown: int = mini(replay_cycle,total) if index == selected_order and replay_cycle >= 0 else total
+		var shown_width: float = width*float(maxi(0,shown))/float(total) if total > 0 else 0.0
+		draw_rect(Rect2(10,top+66,minf(preparation_width,shown_width),3),Color("b29beb"))
+		if shown_width > preparation_width:
+			draw_rect(Rect2(10+preparation_width,top+66,shown_width-preparation_width,3),Color("51cbd4"))

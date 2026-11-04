@@ -8,6 +8,7 @@ var path: PackedVector2Array = PackedVector2Array()
 var value_text: String = ""
 var player_color: Color = Color("7fcbd6")
 var wire_pulses: Array[Dictionary] = []
+var component_pulses: Array[Dictionary] = []
 var path_provider: Callable
 
 
@@ -38,12 +39,19 @@ func show_parallel(p_wire_pulses: Array[Dictionary]) -> void:
 func clear_event() -> void:
 	mode = &""
 	wire_pulses.clear()
+	component_pulses.clear()
 	path = PackedVector2Array()
 	value_text = ""
 	queue_redraw()
 
 
 func _draw() -> void:
+	for pulse: Dictionary in component_pulses:
+		var strength: float = sin(clampf(float(pulse.progress), 0.0, 1.0) * PI)
+		var node: GraphNode = pulse.node
+		if not is_instance_valid(node): continue
+		var rect := Rect2(get_global_transform().affine_inverse() * node.global_position, node.get_global_rect().size)
+		draw_rect(rect.grow(4.0), Color(pulse.color, 0.75 * strength), false, 3.0, true)
 	if mode == &"parallel":
 		for wire_pulse: Dictionary in wire_pulses:
 			path = resolved_path(wire_pulse)
@@ -73,9 +81,15 @@ func resolved_path(wire_pulse: Dictionary) -> PackedVector2Array:
 func _draw_wire_signal() -> void:
 	if path.size() < 2:
 		return
-	# One-bit flow is carried by the cable's growing state stroke. Wider values
-	# get one readable badge; no point/capsule competes with the cable color.
+	# Pulses carry the recorded one-bit value; bus events retain their value badge.
 	if value_text.length() <= 1:
+		if not bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+			var color: Color = Color("7fd8a4") if signal_value else Color("e8848c")
+			var current: Vector2 = _point_on_path(path, progress)
+			draw_circle(current, 7.0, Color(color, 0.22))
+			draw_circle(current, 3.5, color)
+			for endpoint: Vector2 in [path[0], path[path.size() - 1]]:
+				draw_circle(endpoint, 8.0, Color(color, sin(progress * PI) * 0.8), false, 2.0, true)
 		return
 	var color: Color = player_color.lightened(0.34)
 	var current: Vector2 = _point_on_path(path, progress)

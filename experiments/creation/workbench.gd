@@ -23,6 +23,7 @@ const OPENING_GUIDANCE := [
 var work_focus: Window
 var work_focus_return: Control
 var session = Session.new()
+var cue_completed: Dictionary = {}
 var terminology_handbook: Control
 var english: bool = false
 var task: int = 0
@@ -47,6 +48,7 @@ var previous_auto_quit: bool = true
 var leaving_to_hub: bool = false
 var status_text: String = ""
 var evidence_expanded: bool = false
+var more_tools: bool = false
 var evidence_toggle: Button
 var signal_area: VBoxContainer
 var signal_view: Control
@@ -122,6 +124,7 @@ func _ready() -> void:
 	for argument: String in OS.get_cmdline_user_args():
 		if argument == "--locale=en": english = true
 	var opened: Dictionary = session.open(Session.launch_path())
+	cue_completed = session.data.supports.duplicate(true)
 	writable = bool(opened.get("writable",false))
 	recovery_choices = opened.get("choices",[]).duplicate(true)
 	recovery_fingerprint = str(opened.get("fingerprint",""))
@@ -246,17 +249,17 @@ func build() -> void:
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_build_arc_stepper(header)
-	button("中文 / EN","Language",header,toggle_language)
 	header.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
 	button(text2("保存草稿","Save draft"),"SaveDraft",header,save_draft).disabled = not writable
 	button(text2("旅程地图","Journey map"),"Journey",header,func() -> void: request_leave(true))
 	header.add_child(get_node("/root/WindowMode").settings_button())
-	preload("res://src/ui/workbench_chrome.gd").quit_style(button(text2("退出游戏","Quit"),"Quit",header,func() -> void: request_leave(false)))
+	button(text2("退出游戏","Quit"),"Quit",header,func() -> void: request_leave(false))
 	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	if not writable: _build_writer_controls(page)
 	var navigation := HBoxContainer.new()
 	navigation.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
-	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, navigation, "creation", Catalog.IDS[task])
+	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, header, "creation", Catalog.IDS[task])
+	header.move_child(terminology_handbook.entry_button,1)
 	page.add_child(navigation)
 	task_choice = OptionButton.new()
 	task_choice.name = "Unit"
@@ -267,6 +270,7 @@ func build() -> void:
 	task_choice.select(task)
 	task_choice.item_selected.connect(change_task)
 	navigation.add_child(task_choice)
+	button("中文 / EN","Language",navigation,toggle_language)
 	button(text2("撤销","Undo"),"UndoDraft",navigation,func() -> void: restore_draft_history(false))
 	button(text2("重做","Redo"),"RedoDraft",navigation,func() -> void: restore_draft_history(true))
 	button(text2("上一单元","Previous"),"Previous",navigation,func() -> void: change_task(maxi(0,task-1)))
@@ -428,6 +432,12 @@ func build() -> void:
 	actions.name = "ModeActions"
 	right.add_child(actions)
 	_build_actions(actions)
+	var more := button(text2("更多工具", "More tools"),"MoreTools",navigation,func() -> void:
+		more_tools = not more_tools
+		refresh_tools())
+	more.toggle_mode = true
+	more.button_pressed = more_tools
+	refresh_tools()
 	status = label(status_text,page,13)
 	status.name = "Status"
 	# One line: the unified header is taller, so keep the page inside 720px.
@@ -1218,17 +1228,23 @@ func fork_work() -> void:
 func save_draft() -> void:
 	var saved: Error = session.save()
 	if saved == OK:
+		preload("res://src/ui/ui_cue.gd").play(self, &"save")
 		set_status(text2("草稿已保存；想留下当前输出，请命名后保存为作品。", "Draft saved. To keep this output as a work, name and save it.") if can_keep_visible_work() and not visible_generation_saved() else text2("草稿已保存。", "Draft saved."))
 	else:
 		set_status(text2("保存失败：","Save failed: ")+str(session.error))
 	refresh()
 
 func refresh() -> void:
+	refresh_tools()
+	if is_instance_valid(signal_view):
+		signal_view.stage_done = [not session.data.draft.examples.is_empty(), not session.data.model.is_empty(), not session.generated.is_empty(), not session.data.works.is_empty()]
+		signal_view.queue_redraw()
 	_refresh_journey_context()
 	_refresh_connection_fragment()
 	if is_instance_valid(next_step_label) and is_instance_valid(next_step_button):
 		var step: Dictionary = next_step()
 		next_step_label.text = step.text
+		if step.action == "finish_journey": next_step_label.text = str(journey_closing_work().get("name",""))+" · "+str(step.text)
 		next_step_button.text = step.button
 		next_step_button.disabled = not writable and step.action not in ["works","evidence"]
 	if is_instance_valid(saved_design_caption): saved_design_caption.text = saved_design_text()
@@ -1998,6 +2014,7 @@ func refresh_cost_comparison() -> void:
 
 func set_evidence_expanded(expanded: bool) -> void:
 	evidence_expanded = expanded
+	refresh_tools()
 	if not is_instance_valid(signal_area) or not is_instance_valid(evidence_toggle): return
 	if expanded:
 		playing = false
@@ -2028,10 +2045,11 @@ func _build_creation_comparison(parent: Node) -> void:
 		creation_intent = value
 		_refresh_creation_comparison())
 	parent.add_child(intent)
-	label(text2("这是你提出的目标，不控制模型或通关。先编辑所选样例，再学习；是否达到由真实后继计数与输出说明。", "This is your goal; it does not control the model or completion. Edit a selected example, then learn; actual successor counts and output show what happened."),parent,12)
+	label(text2("目标不控制模型或通关；用真实计数与输出核对。", "Goals do not control the model or completion; check actual counts and output."),parent,12)
 	label(text2("受控对照 · 先生成，再钉住 A", "Controlled comparison · generate, then pin A"),parent,14)
-	label(text2("钉住后锁定种子、起始片段和长度，并保持机器。只改一项：增删／替换一段样例、记忆或采样；样例／记忆改后重新学习，再生成 B。A 保持不变；确认保留 A/B 时保存有效设计观察。", "Pinning locks seed, initial passage and length; keep the machine fixed. Change one factor: one added/removed/replaced example, history or sampling. Learn again after examples/history edits, then generate B. A stays fixed; keeping A/B saves its valid design observation."),parent,12)
-	label(text2("可选起点：用 ABAD 样例、记忆2、起始 AB、种子17、长度64生成 A；钉住后仅将 ABAD 替换为 ACAD，学习并生成 B。自行设置；不会自动换入模型。", "Optional starting recipe: ABAD example, history2, initial AB, seed17, length64 for A. Pin it, replace only ABAD with ACAD, learn and generate B. Set it yourself; the model is never swapped automatically."),parent,12)
+	var pin_note: Label = label(text2("钉住 A，固定机器、种子、起始与长度；只改一项后生成 B。", "Pin A; fix machine, seed, initial and length. Change one factor for B."),parent,12)
+	pin_note.tooltip_text = text2("钉住后锁定种子、起始片段和长度，并保持机器。只改一项：增删／替换一段样例、记忆或采样；样例／记忆改后重新学习，再生成 B。A 保持不变；确认保留 A/B 时保存有效设计观察。", "Pinning locks seed, initial passage and length; keep the machine fixed. Change one factor: one added/removed/replaced example, history or sampling. Learn again after examples/history edits, then generate B. A stays fixed; keeping A/B saves its valid design observation.")
+	label(text2("可选配方：ABAD · 记忆2 · 起始AB · 种子17 · 长度64；仅换ACAD后学习并生成B。", "Optional recipe: ABAD, history2, initial AB, seed17, length64. Replace only with ACAD, learn and generate B."),parent,12)
 	var actions := HFlowContainer.new()
 	parent.add_child(actions)
 	button(text2("钉住当前输出为 A", "Pin current output as A"),"PinCreationA",actions,pin_creation_a)
@@ -2228,6 +2246,7 @@ func _playtest_exit() -> void:
 		get_node("/root/PlaytestData").level_exited(&"creation",_playtest_id(),&"departure")
 
 func _playtest_run(result: Dictionary) -> void:
+	preload("res://src/ui/ui_cue.gd").play(self, &"connect" if result.get("ok",false) else &"fail")
 	_refresh_journey_context()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	var details: Dictionary = {"result_class":"executed" if result.get("ok",false) else "failed_unspecified"}
@@ -2237,6 +2256,8 @@ func _playtest_run(result: Dictionary) -> void:
 
 func _playtest_completion() -> void:
 	if session.data.supports.has(String(_playtest_id())):
+		preload("res://src/ui/ui_cue.gd").met(self, cue_completed.has(String(_playtest_id())))
+		cue_completed = session.data.supports.duplicate(true)
 		get_node("/root/PlaytestData").level_completed(&"creation",_playtest_id())
 	_refresh_journey_context()
 
@@ -2352,3 +2373,10 @@ func _build_arc_stepper(parent: Node) -> void:
 			var arrow := Label.new(); arrow.text = "→"
 			arrow.add_theme_color_override("font_color",Color("4fa7b5"))
 			stepper.add_child(arrow)
+
+func refresh_tools() -> void:
+	var tabs := find_child("EvidenceTabs",true,false) as TabContainer
+	if tabs != null: tabs.tabs_visible = more_tools or evidence_expanded or not latest.is_empty()
+	for handle: String in ["CompareTransport","TrainingPassage","Memorize"]:
+		var action := find_child(handle,true,false) as Control
+		if action != null: action.visible = more_tools

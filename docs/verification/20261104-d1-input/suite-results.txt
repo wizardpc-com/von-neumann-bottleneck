@@ -1,0 +1,112 @@
+=== test_chapter_settings_input ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: chapter Settings input 26 checks, 0 failures
+
+=== test_d1_text_input ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: chapter_3/arrival opens
+PASS: chapter_3/arrival viewport Unicode replaces selection
+PASS: chapter_3/arrival committed Chinese Unicode inserts
+PASS: chapter_3/arrival keycode-only injection does not insert text
+PASS: chapter_3/arrival autosave retains focus and text
+PASS: chapter_3/arrival Ctrl+Shift+Up at first line retains legal caret
+PASS: chapter_3/arrival empty editor retains line zero
+PASS: chapter_1/assembly opens
+PASS: chapter_1/assembly viewport Unicode replaces selection
+PASS: chapter_1/assembly committed Chinese Unicode inserts
+PASS: chapter_1/assembly keycode-only injection does not insert text
+PASS: chapter_1/assembly autosave retains focus and text
+PASS: chapter_1/assembly Ctrl+Shift+Up at first line retains legal caret
+PASS: chapter_1/assembly empty editor retains line zero
+D1 checks: 14, failures: 0
+
+=== test_global_save ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: minimal global Save/Continue, provenance reconciliation, chapter gates, New Game, and mode isolation tests passed
+
+=== test_hardware_settings_input ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: hardware settings input 0 failures
+
+=== test_layout_ui ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: layout six hosts, gates, targets, undo and independent hints
+
+=== test_offline_feedback ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+OFFLINE_FALLBACK_DIAGNOSTIC: {"backdrop":false,"busy":false,"enabled":true,"entries":[{"ancestor_clips":[{"path":"/root/PrototypeHub/ChapterOptionsOverlay/ChapterOptionsPanel/@VBoxContainer@1043/SettingsCategories/SettingsScroll2","rect":"[P: (260.0, 16.0), S: (324.0, 0.0)]"}],"available_rect":"[P: (260.0, 16.0), S: (324.0, 0.0)]","can_process":true,"disabled":false,"inside_tree":true,"matches_local_predicate":false,"mouse_filter":0,"path":"/root/PrototypeHub/ChapterOptionsOverlay/ChapterOptionsPanel/@VBoxContainer@1043/SettingsCategories/SettingsScroll2/@MarginContainer@1059/@VBoxContainer@1060/SettingsCard_privacy/@VBoxContainer@1129/MomentFeedbackButton","queued_free":false,"rect":"[P: (260.0, 16.0), S: (97.0, 40.0)]","same_active_viewport":true,"tree_visible":false,"valid":true,"viewport":"/root"}],"focused_window":"/root","local_feedback_available":false,"role":true,"scene":"/root/PrototypeHub","scene_file":"res://src/ui/prototype_hub.tscn","toolbar_rect":"[P: (988.0, 674.0), S: (278.0, 36.0)]","toolbar_visible":true}
+PASS: offline feedback
+
+=== test_overlap_ui ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Chapter 3 topology, hints, timeline, editable completion and revalidated persistence
+
+=== test_recovery_departure_paths ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: recovery departure paths 161 checks, 0 failures
+
+=== test_recovery_settings_language ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: recovery Settings language 754 checks, 0 failures
+
+=== test_settings_language_input ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+MENU: LanguageChoice focus=1 want=1
+MENU: LanguageChoice focus=0 want=0
+MENU: LanguageChoice focus=1 want=1
+MENU: LanguageChoice focus=0 want=0
+MENU: LanguageChoice focus=1 want=1
+Terminal language checks: 120; failures: 0
+PASS: terminal language continuity
+
+=== test_system_lab_ui ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: five-level system chapter map, prediction, controlled comparison, evidence reveal, exact-path animation, and diagnosis tests passed
+
+=== test_terminal_language_input ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+Terminal language checks: 65; failures: 0
+PASS: terminal language continuity
+
+=== test_workbench_escape ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: workbench Escape 105 checks, 0 failures

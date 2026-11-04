@@ -318,6 +318,9 @@ func _run() -> void:
 	var assembly_receipt = main.get("latest_receipt")
 	_assert(assembly_receipt != null and assembly_receipt.all_passed, "Assembly official tests must produce a passing receipt.")
 	_assert(bool(chapter.call("completed_levels").get(&"assembly", false)), "A passing wired assembly must unlock progression.")
+	_assert(not main.run_comparison.visible,"A first correct run has no invented comparison.")
+	main.call("_run_official")
+	_assert(main.run_comparison.visible and main.run_comparison.text.contains(str(assembly_receipt.metrics.total_cycles)),"A second complete run compares real receipt totals.")
 	var conclusion_button: Button = main.get("conclusion_button")
 	_assert(
 		not (main.get("level_completion_overlay") as Control).visible and conclusion_button.visible,

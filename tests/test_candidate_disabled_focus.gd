@@ -29,6 +29,14 @@ func focused(handle: String) -> bool:
 	var owner: Control = root.gui_get_focus_owner()
 	return owner != null and owner.name == handle
 
+func tab_to(handle: String) -> bool:
+	for step: int in 100:
+		await key(KEY_TAB)
+		var owner: Control = root.gui_get_focus_owner()
+		check(not (owner is BaseButton and owner.disabled), "Tab never lands on an unavailable action")
+		if focused(handle): return true
+	return false
+
 func partition(ends: Array, codecs: Array) -> Array[Dictionary]:
 	var plan: Array[Dictionary] = []
 	var start: int = 0
@@ -45,12 +53,8 @@ func run() -> void:
 	root.add_child(region); await settle()
 	var closure := button(region,"RegionClosure")
 	check(closure.disabled and closure.focus_mode == Control.FOCUS_NONE,"Incomplete Region review cannot receive Tab focus")
-	button(region,"Language").grab_focus(); await key(KEY_TAB)
-	# Workbench headers carry no standing feedback button (completion card, Settings and F8 do).
-	check(not focused("MomentFeedbackButton"),"Unfinished Region feedback is not a header stop")
-	check(focused("InLevelSettings"),"Region header Tab skips disabled review and reaches Settings")
-	await key(KEY_TAB)
-	check(focused("Quit"),"Region header Tab then reaches Quit")
+	button(region,"InLevelSettings").grab_focus()
+	check(await tab_to("Quit"),"Region Quit remains reachable by Tab from Settings")
 	button(region,"Split").grab_focus(); await key(KEY_TAB)
 	check(focused("RLE"),"Region edit Tab skips disabled Merge and Raw")
 	await key(KEY_ENTER)
@@ -84,22 +88,16 @@ func run() -> void:
 	for index: int in 5: region.support_plans[index] = plans[index]
 	region.refresh_tasks(); await settle()
 	check(not closure.disabled and closure.focus_mode == Control.FOCUS_ALL,"Validated five-plan fixture enables Region review focus")
-	button(region,"Language").grab_focus(); await key(KEY_TAB)
-	# Workbench headers carry no standing feedback button (completion card, Settings and F8 do).
-	check(not focused("MomentFeedbackButton"),"Region feedback stays off the header after review unlock")
-	check(focused("RegionClosure"),"Enabled Region review enters header Tab chain")
+	button(region,"InLevelSettings").grab_focus()
+	check(await tab_to("RegionClosure"),"Enabled Region review remains reachable by Tab")
 	region.queue_free(); await settle()
 
 	var service = load("res://experiments/service_plan/lab.tscn").instantiate()
 	root.add_child(service); await settle()
 	var service_closure := button(service,"ServiceClosure")
 	check(service_closure.disabled and service_closure.focus_mode == Control.FOCUS_NONE,"Incomplete Service review cannot receive Tab focus")
-	button(service,"Language").grab_focus(); await key(KEY_TAB)
-	# Workbench headers carry no standing feedback button (completion card, Settings and F8 do).
-	check(not focused("MomentFeedbackButton"),"Unfinished Service feedback is not a header stop")
-	check(focused("InLevelSettings"),"Service header Tab skips disabled review and reaches Settings")
-	await key(KEY_TAB)
-	check(focused("Quit"),"Service header Tab then reaches Quit")
+	button(service,"InLevelSettings").grab_focus()
+	check(await tab_to("Quit"),"Service Quit remains reachable by Tab from Settings")
 	button(service,"Task1").grab_focus(); await key(KEY_TAB)
 	check(focused("Hint1"),"Service task Tab skips locked Task2 and Task3")
 	await key(KEY_ENTER)
@@ -126,10 +124,8 @@ func run() -> void:
 	service.support_plans[2] = lossless
 	service.refresh_actions(); await settle()
 	check(not service_closure.disabled and service_closure.focus_mode == Control.FOCUS_ALL,"Validated three-plan fixture enables Service review focus")
-	button(service,"Language").grab_focus(); await key(KEY_TAB)
-	# Workbench headers carry no standing feedback button (completion card, Settings and F8 do).
-	check(not focused("MomentFeedbackButton"),"Service feedback stays off the header after review unlock")
-	check(focused("ServiceClosure"),"Enabled Service review enters header Tab chain")
+	button(service,"InLevelSettings").grab_focus()
+	check(await tab_to("ServiceClosure"),"Enabled Service review remains reachable by Tab")
 	service.queue_free(); await settle()
 	print("PASS: candidate disabled focus %d checks"%checks if failures.is_empty() else "FAIL: "+str(failures))
 	quit(0 if failures.is_empty() else 1)

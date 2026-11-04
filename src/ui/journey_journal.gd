@@ -42,6 +42,7 @@ func _ready() -> void:
 	z_index = 1300
 	var skin := Theme.new()
 	preload("res://src/ui/instrument_theme.gd").apply_to(skin)
+	skin.default_font_size = 16
 	theme = skin
 	_build()
 	Localization.locale_changed.connect(func(_locale: String) -> void:
@@ -51,7 +52,7 @@ func _ready() -> void:
 
 func _build() -> void:
 	var shade := ColorRect.new()
-	shade.color = Color("08111a", 0.97)
+	shade.color = Color("08111a")
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(shade)
 	var margin := MarginContainer.new()
@@ -59,10 +60,16 @@ func _build() -> void:
 	for side: String in ["left", "right", "top", "bottom"]:
 		margin.add_theme_constant_override("margin_" + side, 24)
 	add_child(margin)
+	preload("res://src/lab/lab_terminal_pages.gd").fit_page_margin(margin)
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 12)
 	margin.add_child(column)
-	title_label = _label(column, 28)
+	var header := HBoxContainer.new()
+	column.add_child(header)
+	title_label = _label(header, 28)
+	title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	close_button = _button(header, "JournalClose", close)
+	preload("res://src/lab/lab_terminal_pages.gd").style_header(header,title_label,close_button)
 	overview_label = _label(column, 18)
 	scope_label = _label(column, 14)
 	var content := HBoxContainer.new()
@@ -97,7 +104,7 @@ func _build() -> void:
 	detail.fit_content = true
 	detail.scroll_active = false
 	detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	detail.add_theme_font_size_override("normal_font_size", 18)
+	detail.add_theme_font_size_override("normal_font_size", 16)
 	scroll.add_child(detail)
 	var work_row := HBoxContainer.new()
 	work_row.add_theme_constant_override("separation", 12)
@@ -125,7 +132,6 @@ func _build() -> void:
 	enter_button.pressed.connect(_enter_selected, CONNECT_DEFERRED)
 	help_button = _button(actions, "JournalHelp", _open_help)
 	reflection_button = _button(actions, "JournalReflection", _open_reflection)
-	close_button = _button(actions, "JournalClose", close)
 	var focus_order: Array[Control] = [region_selector, task_tree, work_selector, work_view_button, enter_button, help_button, reflection_button, close_button]
 	for index: int in range(focus_order.size()):
 		focus_order[index].focus_next = focus_order[index].get_path_to(focus_order[(index + 1) % focus_order.size()])
@@ -141,6 +147,7 @@ func open() -> void:
 	if not visible: previous_focus = get_viewport().gui_get_focus_owner()
 	_refresh()
 	show()
+	preload("res://src/ui/ui_motion.gd").reveal(get_child(1))
 	region_selector.grab_focus()
 
 
@@ -436,6 +443,7 @@ func _button(parent: Node, node_name: String, callback: Callable) -> Button:
 	var button := Button.new()
 	button.name = node_name
 	button.custom_minimum_size.y = 42
+	button.add_theme_font_size_override("font_size",16)
 	button.pressed.connect(callback)
 	parent.add_child(button)
 	return button

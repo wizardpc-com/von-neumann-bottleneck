@@ -42,4 +42,58 @@ const DIALOGUES := {
 
 
 static func for_key(key: String) -> Array:
-	return DIALOGUES.get(key, [])
+	var beats: Array = DIALOGUES.get(key, []).duplicate(true)
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree == null or beats.is_empty() or tree.root.get_node("GameMode").is_test_mode():
+		return beats
+	var result: Dictionary = _recorded_result(tree, key)
+	if not result.is_empty():
+		for language: String in ["zh", "en"]:
+			var original: String = beats[0][language]
+			beats[0][language] = result[language] + "\n" + original.substr(original.find("\n") + 1)
+	return beats
+
+
+static func _recorded_result(tree: SceneTree, key: String) -> Dictionary:
+	match key:
+		"chapter_2/capstone":
+			var state: Node = tree.root.get_node("LocalityChapter")
+			if not state.game_completed.get(&"capstone", false): return {}
+			var catalog := preload("res://src/locality_chapter/locality_level_catalog.gd").new()
+			var baseline: int = 0
+			var best: int = 0
+			var target: int = catalog.definition(&"capstone").get("target_cycles", 0)
+			for receipt: Variant in state.receipts_for(&"capstone"):
+				if receipt == null or not receipt.passed: continue
+				var cycles: int = int(receipt.metrics.get("total_cycles", 0))
+				if catalog.capstone_baseline_seen([receipt]): baseline = cycles
+				if cycles > 0 and cycles <= target and (best == 0 or cycles < best): best = cycles
+			if baseline > 0 and best > 0:
+				return _result(&"b2.reflection.capstone", [baseline, best])
+		"chapter_3/synthesis":
+			var state: Node = tree.root.get_node("OverlapChapter")
+			if not state.game_solutions.has("synthesis"): return {}
+			if not state.game_distance_bonus.is_empty():
+				return _result(&"b2.reflection.distance")
+		"chapter_4/mixed":
+			var state: Node = tree.root.get_node("LayoutChapter")
+			if not state.game_solutions.has("mixed"): return {}
+			var bonuses: Dictionary = state.game_bonuses
+			if bonuses.has("space") and bonuses.has("flow"):
+				return _result(&"b2.reflection.both")
+			if bonuses.has("space"):
+				return _result(&"b2.reflection.space")
+			if bonuses.has("flow"):
+				return _result(&"b2.reflection.flow")
+	return {}
+
+
+static func _result(key: StringName, arguments: Array = []) -> Dictionary:
+	var result: Dictionary = {}
+	for language: String in ["zh", "en"]:
+		var translation: Translation = TranslationServer.get_translation_object("zh_CN" if language == "zh" else "en")
+		if translation == null: return {}
+		var line: String = translation.get_message(key)
+		if line.is_empty(): return {}
+		result[language] = line if arguments.is_empty() else line % arguments
+	return result

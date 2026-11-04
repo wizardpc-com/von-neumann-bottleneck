@@ -965,19 +965,22 @@ func _draw_connection_target_guides(
 		pointer: Vector2,
 		allowed_connection: Dictionary = {}
 	) -> void:
+	var nearest: Dictionary = _port_at(pointer, 28.0)
 	for target: Dictionary in _connection_targets(
 		from_node, from_port, from_is_output, allowed_connection
 	):
 		var position: Vector2 = target["position"]
-		var hovered: bool = pointer.distance_to(position) <= 31.0
+		var hovered: bool = not nearest.is_empty() and nearest.node == target.node \
+			and nearest.port == target.port and bool(nearest.is_output) != from_is_output
 		var valid: bool = bool(target["valid"])
 		if not valid and not hovered:
 			continue
 		var color: Color = SIGNAL_HIGH if valid else SIGNAL_LOW
 		if hovered:
 			draw_circle(position, TARGET_GUIDE_RADIUS + 7.0, Color(color, 0.13))
-		draw_circle(position, TARGET_GUIDE_RADIUS, Color(color, 0.10))
-		draw_circle(position, TARGET_GUIDE_RADIUS, color, false, 3.0 if hovered else 2.0, true)
+		var radius: float = TARGET_GUIDE_RADIUS if hovered else 7.0
+		draw_circle(position, radius, Color(color, 0.10))
+		draw_circle(position, radius, color, false, 3.0 if hovered else 1.5, true)
 	var source: GraphNode = get_node_or_null(NodePath(String(from_node))) as GraphNode
 	if source == null:
 		return

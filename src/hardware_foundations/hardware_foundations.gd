@@ -849,6 +849,7 @@ func _process(delta: float) -> void:
 		status_label.tooltip_text = status_label.text
 	if sealing:
 		sealing_elapsed += delta
+		if bool(ProjectSettings.get_setting("game/reduced_motion", false)): sealing_elapsed = 1.55
 		encapsulation_effect.set_progress(sealing_elapsed / 1.55)
 		if sealing_elapsed >= 1.55:
 			_finish_encapsulation()
@@ -898,6 +899,12 @@ var operation_demo_seen: Dictionary = {}
 var operation_demo: Control
 var tutorial_coach: Control
 var tutorial_focus_applied: bool = false
+var automatic_view_zoom: float = 1.0
+var automatic_view_scroll := Vector2.ZERO
+var cpu_view_adjusted: bool = false
+var mismatch_markers: Array[Label] = []
+var selected_result_case: int = -1
+var recently_sealed_component: StringName = &""
 var guided_debug_ran: bool = false
 var guided_timer: Timer
 ## The control the guide currently points at, and what it last said (so the
@@ -1007,10 +1014,10 @@ func _dock_guided_rails(reframe: bool = true) -> void:
 	var usable: float = area.y - margin * 2.0
 	var bench: FloatingInstrumentPanel = desktop_windows[&"test_bench"]
 	var parts: FloatingInstrumentPanel = desktop_windows[&"components"]
-	var rail_left: float = clampf(area.x * 0.25, 300.0, 360.0)
+	var rail_left: float = clampf(area.x * 0.25, 300.0, 340.0) if current_level_id == &"half_adder" else clampf(area.x * 0.25, 300.0, 360.0)
 	var rail_right: float = clampf(area.x * 0.22, 280.0, 320.0)
 	bench.position = Vector2(margin, margin)
-	bench.size = Vector2(rail_left, usable)
+	bench.size = Vector2(rail_left, minf(usable, 550.0) if current_level_id == &"half_adder" else usable)
 	var parts_height: float = usable
 	if component_palette_box != null:
 		parts_height = clampf(component_palette_box.get_combined_minimum_size().y + 64.0, minf(260.0, usable), usable)
@@ -1634,6 +1641,8 @@ func _layout_desktop_windows(reset_windows: bool = true) -> void:
 	var component_width: float = clampf(area.x * 0.25, 360.0, 420.0)
 	if reset_windows:
 		component_palette_needs_initial_layout = true
+		for tool: FloatingInstrumentPanel in [bench_window, component_window]:
+			tool.set_minimizable(current_level_id == &"cpu")
 		for window: FloatingInstrumentPanel in [task_window, bench_window]:
 			window.show_instrument()
 			window.set_minimized(false)
@@ -2164,6 +2173,8 @@ func _show_desktop_window(id: StringName) -> void:
 		component_palette_needs_initial_layout = false
 	window.show_instrument()
 	window.set_minimized(false)
+	if id == &"task" and current_level_id == &"cpu" and not hint_mode and not mission_briefing_active:
+		_begin_mission_briefing(true)
 	window.fit_to_parent(10.0)
 	_focus_desktop_window(id)
 	var button: Button = desktop_window_buttons.get(id)
@@ -2206,6 +2217,10 @@ func _focus_desktop_window(id: StringName) -> void:
 
 
 func _on_desktop_window_minimized(id: StringName, _minimized: bool) -> void:
+	if current_level_id == &"cpu" and not hint_mode:
+		cpu_view_adjusted = cpu_view_adjusted or not is_equal_approx(graph.zoom, automatic_view_zoom) or not graph.scroll_offset.is_equal_approx(automatic_view_scroll)
+		if not cpu_view_adjusted:
+			call_deferred("_focus_circuit", true)
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
 		button.text = _desktop_window_name(id)
@@ -3693,11 +3708,21 @@ func _rebuild_component_palette(placement_allowed: bool) -> void:
 				component_palette_items[key] = item
 			palette_cards.append(item)
 			group.add_child(item)
+			if allowed and current_level_id == &"full_adder" and owned and StringName(template.properties.get("library_name", &"")) == recently_sealed_component and not recently_sealed_component.is_empty():
+				recently_sealed_component = &""
+				call_deferred("_celebrate_component_arrival", item)
 	palette_empty = Label.new()
 	palette_empty.text = _t(&"hardware.palette.no_results")
 	palette_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	component_palette_box.add_child(palette_empty)
 	_filter_component_palette()
+
+
+func _celebrate_component_arrival(item: Control) -> void:
+	if not is_instance_valid(item) or bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+		return
+	item.modulate = Color(1.35, 1.55, 1.45)
+	item.create_tween().tween_property(item, "modulate", Color.WHITE, 1.4).set_trans(Tween.TRANS_SINE)
 
 
 func _filter_component_palette() -> void:
@@ -4307,7 +4332,7 @@ func _build_official_case_rows() -> void:
 		var try_input := Button.new()
 		try_input.name = "TryCase%d" % index
 		try_input.text = "%d %d" % [int(official_case["A"]), int(official_case["B"])]
-		try_input.custom_minimum_size = Vector2(62.0, 40.0)
+		try_input.custom_minimum_size = Vector2(62.0, 36.0)
 		try_input.tooltip_text = _t(&"hardware.cases.try.tooltip", [int(official_case["SUM"]), int(official_case["CARRY"])])
 		try_input.pressed.connect(_try_half_adder_input.bind(index))
 		row.add_child(try_input)
@@ -4316,6 +4341,7 @@ func _build_official_case_rows() -> void:
 		label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_connect_case_row(label, index)
 		label.add_theme_color_override("font_color", MUTED)
 		official_case_labels.append(label)
 		row.add_child(label)
@@ -4324,6 +4350,9 @@ func _build_official_case_rows() -> void:
 
 func _try_half_adder_input(index: int) -> void:
 	if _editor_locked() or official_sequence_active or current_phase != &"half_adder":
+		return
+	if not official_report.is_empty():
+		_show_recorded_case(index)
 		return
 	var example: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
 	input_a_button.button_pressed = bool(example["A"])
@@ -4366,10 +4395,12 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		return
 	var diagnostic: Dictionary = current_circuit.connect_ports_detailed(from_node, from_port, to_node, to_port)
 	if not diagnostic.is_empty():
+		preload("res://src/ui/ui_cue.gd").play(self, &"reject")
 		graph.report_connection_rejection()
 		status_label.text = _t(&"hardware.status.invalid_connection", [Localization.text_from_spec(diagnostic)])
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	preload("res://src/ui/ui_cue.gd").play(self, &"connect")
 	graph.connect_node(from_node, from_port, to_node, to_port)
 	graph.set_connection_color_index(from_node, from_port, to_node, to_port, active_wire_color_index)
 	_stop_playback()
@@ -5041,14 +5072,19 @@ func _focus_circuit(all_components: bool = false) -> void:
 		return
 	var view := Rect2(Vector2(42.0, 36.0), graph.size - Vector2(84.0, 72.0))
 	# Reserve the occupied edge, without moving or closing the player's windows.
-	for window: Control in desktop_windows.values():
+	for window: FloatingInstrumentPanel in desktop_windows.values():
+		if window.visible and window.minimized:
+			var top: float = window.position.y + window.size.y + 24.0
+			view.position.y = maxf(view.position.y, top)
+			view.size.y = maxf(120.0, graph.size.y - view.position.y - 36.0)
+			continue
 		if window.visible and window.position.x < graph.size.x * 0.25:
 			var left: float = window.position.x + window.size.x + 24.0
 			if graph.size.x - left > 400.0:
 				view.position.x = maxf(view.position.x, left)
 				view.size.x = graph.size.x - view.position.x - 42.0
-	for window: Control in desktop_windows.values():
-		if window.visible and window.position.x > graph.size.x * 0.55:
+	for window: FloatingInstrumentPanel in desktop_windows.values():
+		if window.visible and not window.minimized and window.position.x > graph.size.x * 0.55:
 			var right: float = window.position.x - 24.0
 			if right - view.position.x > 240.0:
 				view.size.x = minf(view.size.x,right-view.position.x)
@@ -5059,10 +5095,22 @@ func _focus_circuit(all_components: bool = false) -> void:
 	graph.zoom = clampf(minf(view.size.x / maxf(bounds.size.x, 1.0), view.size.y / maxf(bounds.size.y, 1.0)),
 		graph.zoom_min, minf(graph.zoom_max, zoom_cap))
 	graph.scroll_offset = bounds.get_center() * graph.zoom - view.get_center()
+	automatic_view_zoom = graph.zoom
+	automatic_view_scroll = graph.scroll_offset
+	cpu_view_adjusted = false
+	call_deferred("_record_automatic_view")
 	graph.queue_signal_wire_redraw()
 	_focus_graph_for_keyboard()
 	status_label.text = _t(&"hardware.view.focused", [roundi(graph.zoom * 100.0)])
 	status_label.add_theme_color_override("font_color", ACCENT)
+
+
+func _record_automatic_view() -> void:
+	# GraphEdit clamps its scroll after native layout has settled.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	automatic_view_zoom = graph.zoom
+	automatic_view_scroll = graph.scroll_offset
 
 
 func _wire_description(connection: Dictionary) -> String:
@@ -6597,6 +6645,7 @@ func _run_official() -> void:
 
 
 func _begin_official_sequence(kind: StringName, circuit: LogicCircuit) -> void:
+	preload("res://src/ui/ui_cue.gd").play(self, &"run")
 	guide_view_pristine = false
 	board_has_explicit_run = true
 	_clear_investigation_observations()
@@ -6813,13 +6862,14 @@ func _finish_official_sequence() -> void:
 		&"hardware_foundations", current_level_id, all_passed,
 		PlaytestData.circuit_run_details(results,circuit.canonical_signature(),JSON.stringify(HalfAdderTestBenchType.OFFICIAL_CASES).sha256_text())
 	)
+	preload("res://src/ui/ui_cue.gd").play(self, &"met" if official_passed else &"fail")
 	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
 	if official_passed:
 		seal_button.disabled = false
 		seal_button.text = _t(&"hardware.seal.verified_button")
 		status_label.text = _t(&"hardware.status.official_pass")
 		status_label.add_theme_color_override("font_color", GOOD)
-		level_completion_overlay.present_actions(
+		level_completion_overlay.present_seal_ready(
 			current_level_id,
 			_level_display_name(current_level_id),
 			_t(&"hardware.completion.ready_to_seal", ["HalfAdder"]),
@@ -6836,6 +6886,91 @@ func _finish_official_sequence() -> void:
 			first_error = "  ·  " + _trace_error_text(first_failed_trace, 0)
 		status_label.text = _t(&"hardware.status.official_fail") + first_error
 		status_label.add_theme_color_override("font_color", BAD)
+		_select_first_failed_case(results)
+
+
+func _clear_mismatch_markers() -> void:
+	for marker: Label in mismatch_markers:
+		if is_instance_valid(marker): marker.queue_free()
+	mismatch_markers.clear()
+	selected_result_case = -1
+	for label: Label in official_case_labels + prologue_case_labels:
+		if is_instance_valid(label): label.remove_theme_stylebox_override("normal")
+
+
+func _connect_case_row(label: Label, index: int) -> void:
+	label.mouse_filter = Control.MOUSE_FILTER_STOP
+	label.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	label.gui_input.connect(func(event: InputEvent) -> void:
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			_show_recorded_case(index)
+	)
+
+
+func _select_first_failed_case(results: Array) -> void:
+	for index: int in range(results.size()):
+		if not bool(results[index].get("passed", false)):
+			_show_recorded_case(index)
+			return
+
+
+func _show_recorded_case(index: int) -> void:
+	if official_sequence_active or _editor_locked(): return
+	var half: bool = current_phase == &"half_adder"
+	var cases: Array = official_report.get("cases", []) if half else prologue_report.get("steps", [])
+	if index < 0 or index >= cases.size(): return
+	_stop_playback()
+	_clear_mismatch_markers()
+	selected_result_case = index
+	var result: Dictionary = cases[index]
+	if half:
+		input_a_button.set_pressed_no_signal(bool(result.A))
+		input_b_button.set_pressed_no_signal(bool(result.B))
+		current_trace = result.trace
+		debug_result_label.text = _t(&"hardware.result.half_adder", [_t(&"hardware.result.actual"), int(result.actual_sum) if result.actual_sum != null else 0, int(result.actual_carry) if result.actual_carry != null else 0]) if current_trace.is_valid() and result.actual_sum != null and result.actual_carry != null else _t(&"hardware.cases.actual_empty")
+		_apply_trace_signal_states(current_trace)
+		_mark_output_mismatch(&"SUM_OUT", result.actual_sum, result.expected_sum)
+		_mark_output_mismatch(&"CARRY_OUT", result.actual_carry, result.expected_carry)
+	else:
+		var recorded: PrologueSimulationResult = result.get("result")
+		if recorded != null:
+			prologue_live_result = recorded
+			_apply_prologue_live_result(recorded)
+			debug_result_label.text = _t(&"hardware.prologue.debug.result", [_format_digital_values(recorded.observed_values)])
+		for comparison: Dictionary in result.get("comparisons", []):
+			for id: StringName in component_catalog:
+				var component: LogicComponent = component_catalog[id]
+				if component.is_observer() and component.signal_name == StringName(comparison.name):
+					_mark_output_mismatch(id, comparison.actual, comparison.expected)
+	var labels: Array = official_case_labels if half else prologue_case_labels
+	for row: int in range(labels.size()):
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(0.5, 0.8, 0.9, 0.16) if row == index else Color.TRANSPARENT
+		labels[row].add_theme_stylebox_override("normal", style)
+	call_deferred("_ensure_official_case_visible", labels[index])
+
+
+func _mark_output_mismatch(id: StringName, actual: Variant, expected: Variant) -> void:
+	var actual_text: String = actual.display_text() if actual is DigitalValue else (str(int(actual)) if actual != null else "?")
+	var expected_text: String = expected.display_text() if expected is DigitalValue else str(int(expected))
+	if actual_text == expected_text: return
+	var node: GraphNode = component_nodes.get(id)
+	if node == null: return
+	var marker := Label.new()
+	marker.text = _t(&"hardware.case.canvas_mismatch", [actual_text, expected_text])
+	marker.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	marker.add_theme_color_override("font_color", BAD)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("101725")
+	style.border_color = BAD
+	style.set_border_width_all(2)
+	style.content_margin_left = 6.0
+	style.content_margin_right = 6.0
+	marker.add_theme_stylebox_override("normal", style)
+	node.add_child(marker)
+	marker.position = Vector2(0.0, node.size.y + 4.0)
+	mismatch_markers.append(marker)
+	_set_node_style(id, BAD, true)
 
 
 func _cancel_official_sequence() -> void:
@@ -6855,6 +6990,7 @@ func _cancel_official_sequence() -> void:
 
 
 func _reset_official_case_rows() -> void:
+	_clear_mismatch_markers()
 	alu_case_outcomes.clear()
 	_refresh_alu_groups()
 	for index: int in range(official_case_labels.size()):
@@ -6969,6 +7105,7 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 		&"hardware_foundations", current_level_id, official_passed,
 		PlaytestData.circuit_run_details(prologue_report.get("steps",[]),circuit.canonical_signature(),JSON.stringify(current_level_definition.get("official_steps",[])).sha256_text())
 	)
+	preload("res://src/ui/ui_cue.gd").play(self, &"met" if official_passed else &"fail")
 	passing_topology_signature = circuit.canonical_signature() if official_passed else ""
 	var final_result: PrologueSimulationResult = prologue_report.get("final_result")
 	if final_result != null and final_result.is_valid() and _is_storage_level():
@@ -6999,7 +7136,7 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 			seal_button.text = _t(&"hardware.prologue.seal_verified", [
 				StringName(current_level_definition.get("seal_name", &""))
 			])
-			level_completion_overlay.present_actions(
+			level_completion_overlay.present_seal_ready(
 				current_level_id,
 				_level_display_name(current_level_id),
 				_t(&"hardware.completion.ready_to_seal", [current_level_definition.get("seal_name", &"")]),
@@ -7019,6 +7156,8 @@ func _finish_prologue_official_sequence(circuit: LogicCircuit) -> void:
 			seal_button.disabled = true
 	if final_result != null:
 		prologue_live_result = final_result
+	if not official_passed:
+		_select_first_failed_case(prologue_report.get("steps", []))
 
 
 func _format_digital_values(values: Dictionary) -> String:
@@ -7090,6 +7229,7 @@ func _invalidate_official_evidence(message: String, first_build_edit: bool = fal
 	if seal_button != null:
 		seal_button.disabled = true
 		seal_button.text = _t(&"hardware.seal.button" if current_phase == &"half_adder" else &"hardware.prologue.seal")
+	_clear_mismatch_markers()
 	_reset_official_case_rows()
 	status_label.text = _t(&"hardware.status.building") if first_build_edit else message
 	status_label.add_theme_color_override("font_color", ACCENT if first_build_edit else WARNING)
@@ -7107,7 +7247,10 @@ func _seal_half_adder() -> void:
 	sealing = true
 	sealing_elapsed = 0.0
 	_stop_playback()
-	encapsulation_effect.begin(&"HalfAdder")
+	var circuit_bounds := Rect2()
+	for node: GraphNode in component_nodes.values():
+		circuit_bounds = node.get_global_rect() if not circuit_bounds.has_area() else circuit_bounds.merge(node.get_global_rect())
+	encapsulation_effect.begin(&"HalfAdder", circuit_bounds.grow(12.0))
 	status_label.text = _t(&"hardware.status.sealing")
 	status_label.add_theme_color_override("font_color", PURPLE)
 	seal_button.disabled = true
@@ -7119,6 +7262,7 @@ func _finish_encapsulation() -> void:
 	if not sealing_level_id.is_empty():
 		_finish_prologue_encapsulation()
 		return
+	var was_completed: bool = bool(completed_levels.get(&"half_adder", false))
 	_save_active_workbench()
 	sealing = false
 	encapsulation_effect.finish()
@@ -7138,6 +7282,7 @@ func _finish_encapsulation() -> void:
 	var invalidated_levels: Array[StringName] = player_content.install_reusable(
 		&"half_adder", reusable, level_catalog
 	)
+	recently_sealed_component = &"HalfAdder"
 	if TaskNavigation.offline_tester_enabled():
 		_install_offline_reference_library()
 	if not invalidated_levels.is_empty():
@@ -7149,7 +7294,8 @@ func _finish_encapsulation() -> void:
 		continue_after_seal = false
 		_continue_to_next_level(&"half_adder")
 		return
-	_show_level_completion(&"half_adder")
+	if not was_completed: _show_level_completion(&"half_adder")
+	else: preload("res://src/ui/ui_cue.gd").met(self, true)
 
 
 func _build_sealed_graph() -> void:
@@ -7468,8 +7614,24 @@ func _start_prologue_level(level_id: StringName, show_briefing: bool = true) -> 
 	_refresh_hint_controls()
 	_schedule_live_refresh()
 	call_deferred("_restore_graph_view_after_layout")
-	if show_briefing:
+	if show_briefing and level_id == &"cpu":
+		call_deferred("_open_cpu_workspace")
+	elif show_briefing:
 		_begin_mission_briefing()
+
+
+func _open_cpu_workspace() -> void:
+	cpu_view_adjusted = false
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if current_level_id != &"cpu" or hint_mode:
+		return
+	_close_desktop_window(&"task")
+	for id: StringName in [&"test_bench", &"components"]:
+		var tool: FloatingInstrumentPanel = desktop_windows[id]
+		tool.set_minimizable(true)
+		tool.set_minimized(true)
+	_focus_circuit(true)
 
 
 func _load_prologue_inventory(level: Dictionary) -> void:
@@ -7874,6 +8036,7 @@ func _build_prologue_case_rows() -> void:
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.add_theme_font_size_override("font_size", 12)
 		label.add_theme_color_override("font_color", MUTED)
+		_connect_case_row(label, index)
 		prologue_case_labels.append(label)
 		group_rows.add_child(label)
 
@@ -8032,6 +8195,7 @@ func _seal_prologue_component() -> void:
 func _finish_prologue_encapsulation() -> void:
 	_save_active_workbench()
 	var finished_level: StringName = sealing_level_id
+	var was_completed: bool = bool(completed_levels.get(finished_level, false))
 	var component_name := StringName(current_level_definition.get("seal_name", &""))
 	var behavior_kind := StringName(current_level_definition.get("seal_kind", &""))
 	var reusable := ReusableComponentType.new(
@@ -8065,7 +8229,8 @@ func _finish_prologue_encapsulation() -> void:
 		continue_after_seal = false
 		_continue_to_next_level(finished_level)
 		return
-	_show_level_completion(finished_level)
+	if not was_completed: _show_level_completion(finished_level)
+	else: preload("res://src/ui/ui_cue.gd").met(self, true)
 
 
 func _invalidate_downstream_progress(changed_level: StringName) -> void:
@@ -8085,6 +8250,7 @@ func _show_prologue_completion(level_id: StringName) -> void:
 		if movie != null:
 			await movie.finished
 			movie.queue_free()
+			await preload("res://src/lab/cinematic_artifact.gd").present_prologue(self, player_content.component_library)
 	_show_level_completion(level_id)
 
 
@@ -8135,6 +8301,7 @@ func _build_prologue_complete_side(component_name: StringName = &"") -> void:
 
 
 func _play_trace(trace: CircuitTrace, allow_graph_animation: bool = true) -> void:
+	_clear_mismatch_markers()
 	current_trace = trace
 	playback_index = 0
 	playback_elapsed = 0.0
@@ -8154,6 +8321,8 @@ func _play_trace(trace: CircuitTrace, allow_graph_animation: bool = true) -> voi
 		trace_caption_label.text = _t(&"hardware.trace.first_wave", [playback_batches.size(), _playback_batch_summary(playback_batches[0])])
 	else:
 		_apply_trace_signal_states(trace)
+	if playback_running and bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+		_finish_playback()
 
 
 func _play_prologue_events(
@@ -8162,6 +8331,7 @@ func _play_prologue_events(
 		initial_runtime_state: Dictionary = {},
 		initial_prior_outputs: Dictionary = {}
 	) -> void:
+	_clear_mismatch_markers()
 	current_trace = null
 	prologue_live_result = result
 	playback_initial_component_state_text.clear()
@@ -8193,6 +8363,9 @@ func _play_prologue_events(
 		_apply_prologue_live_result(result, not _events_have_state_transition(events))
 	if current_level_id == &"alarm" and not playback_running:
 		_update_storage_monitor(result, result.runtime_state)
+
+	if playback_running and bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+		_finish_playback()
 
 
 func _events_have_state_transition(events: Array) -> bool:
@@ -8420,6 +8593,7 @@ func _show_playback_batch(batch: Dictionary, progress: float) -> void:
 		playback_index + 1, playback_batches.size(), int(batch.get("tick", 0)), _playback_batch_summary(batch)
 	])
 	var wire_pulses: Array[Dictionary] = []
+	trace_overlay.component_pulses.clear()
 	var has_wire: bool = false
 	for event: Variant in batch.get("events", []):
 		if event.kind == &"wire_signal":
@@ -8460,6 +8634,7 @@ func _show_playback_batch(batch: Dictionary, progress: float) -> void:
 		var event_high: bool = _event_is_high(event)
 		var color: Color = SIGNAL_HIGH if event_high else SIGNAL_LOW
 		_set_node_style(event.component_id, color, true)
+		trace_overlay.component_pulses.append({"node": node, "progress": component_progress, "color": color})
 		var event_caption: String = _event_caption(event, component)
 		var state: Label = component_state_labels.get(event.component_id)
 		if state != null:

@@ -163,14 +163,13 @@ func build() -> void:
 	var title := make_label(text2("表示 · 改变信息的承载","Representation · Change how information is carried"),top,24)
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	if preload("res://src/campaign/journey_naming.gd").chapter_for("representation/mixed_scan") != "": title.text = preload("res://src/campaign/journey_naming.gd").chapter_for("representation/mixed_scan")
+	var language := make_button("中文 / EN",top,toggle_language,"Language")
+	language.hide()
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	make_button("中文 / EN",top,toggle_language,"Language")
 	top.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
-	if candidate_journey: make_button(text2("旅程地图", "Journey map") if get_node("/root/TaskNavigation").from_tree else text2("实验室", "Laboratory"),top,request_hub,"CandidateHome")
 	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
+	if candidate_journey: make_button(text2("旅程地图", "Journey map") if get_node("/root/TaskNavigation").from_tree else text2("实验室", "Laboratory"),top,request_hub,"CandidateHome")
 	top.add_child(get_node("/root/WindowMode").settings_button())
-	var quit := make_button(text2("退出游戏","Quit"),top,request_quit,"Quit")
-	preload("res://src/ui/workbench_chrome.gd").quit_style(quit)
 	preload("res://src/ui/workbench_chrome.gd").frame(top)
 	var nav := HBoxContainer.new(); page.add_child(nav)
 	nav.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
@@ -183,28 +182,38 @@ func build() -> void:
 	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.name = "WorkspaceSplit"; body.split_offset = 40; page.add_child(body)
 	var editor := VBoxContainer.new(); editor.name = "RepresentationEditor"
 	editor.custom_minimum_size.x = 530; editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	editor.add_theme_constant_override("separation",8); body.add_child(editor)
+	editor.add_theme_constant_override("separation",6); body.add_child(editor)
 	# Reading can grow independently. Selecting/editing/running a plan never requires scrolling it.
 	var edit_scroll := ScrollContainer.new(); edit_scroll.name = "EditorScroll"
-	edit_scroll.custom_minimum_size = Vector2(530,100)
+	edit_scroll.custom_minimum_size = Vector2(530,92)
 	edit_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	edit_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	edit_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.size_flags_vertical = Control.SIZE_FILL
 	edit_scroll.follow_focus = true; editor.add_child(edit_scroll)
 	var reading := VBoxContainer.new(); reading.name = "TaskAssetReading"
 	reading.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.add_child(reading)
-	var purpose_panel := PanelContainer.new(); purpose_panel.name = "TaskPurpose"
-	purpose_panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("102330"),Color("2d5266")))
-	reading.add_child(purpose_panel)
-	var purpose := make_label(purpose_text(),purpose_panel,14)
-	purpose.add_theme_color_override("font_color",Color("77d8df"))
-	mission = make_label(mission_text(),reading,14); mission.name = "Mission"
+	mission = make_label("",reading,14); mission.name = "Mission"
+	var orders: Array[String] = []
+	for i: int in Catalog.goals(task).size():
+		orders.append(display_order_name(str(Model.orders(task)[i].name))+": "+goal_text(Catalog.goals(task)[i]))
+	mission.text = " / ".join(orders)
+	mission.tooltip_text = mission_text()
+	mission.text += text2("  |  缓存%dB / 链路1B/周期", "  |  Cache %dB / link 1B/cycle") % Model.orders(task)[0].cache_bytes
 	journey_context = preload("res://src/ui/journey_context_card.gd").new(); reading.add_child(journey_context)
 	reading.move_child(journey_context, 1)
 	_refresh_journey_context()
-	var hint := make_button(text2("看一个线索（不揭示方案）","A clue, not a solution"),reading,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
+	var purpose := make_label(purpose_text(),journey_context.details,14); purpose.name = "TaskPurpose"
+	purpose.add_theme_color_override("font_color",Color("77d8df"))
+	journey_context.live_label.reparent(journey_context.details)
+	journey_context.action_label.reparent(journey_context.details)
+	journey_context.verify_label.reparent(journey_context.details)
+	var card_actions := HBoxContainer.new(); reading.add_child(card_actions)
+	journey_context.toggle.reparent(card_actions)
+	journey_context.toggle.custom_minimum_size.y = 30
+	journey_context.toggle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var hint := make_button(text2("看一个线索","A clue"),card_actions,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
 	hint.tooltip_text = Catalog.hint(task,english)
-	make_label(text2("五个任务可按任意顺序探索；第 4 个任务要把准备成本也算进去", "Five freely accessible tasks · task4 includes online preparation · candidate plans save separately from core progress"),reading,13)
-	make_label(text2("公开资产（十进制字节，地址0–63）","Public assets (decimal bytes, addresses 0–63)"),reading,17)
+	make_label(text2("五个任务可按任意顺序探索；第 4 个任务要把准备成本也算进去", "Five freely accessible tasks · task4 includes online preparation · candidate plans save separately from core progress"),journey_context.details,13)
+	make_label(text2("公开资产（十进制字节，地址0–63）","Public assets (decimal bytes, addresses 0–63)"),journey_context.details,17)
 	var data := Label.new(); data.name = "Asset"; data.custom_minimum_size.y = 104 if task != 4 else 210
 	data.autowrap_mode = TextServer.AUTOWRAP_OFF
 	data.add_theme_font_size_override("font_size",13)
@@ -216,24 +225,27 @@ func build() -> void:
 		var second: Array[int] = Catalog.asset(5)
 		for start: int in range(0,64,16): data_rows.append("%02d–%02d: %s" % [start,start+15,str(second.slice(start,start+16))])
 	data.text = "\n".join(data_rows)
-	make_label(text2("同值同色 · 顶边蓝=RAW，绿=RLE · 点击字节选中分块", "Equal bytes share a color · blue top=RAW, green=RLE · click a byte to select its block"),reading,13)
+	make_label(text2("同值同色 · 顶边蓝=RAW，绿=RLE · 点击字节选中分块", "Equal bytes share a color · blue top=RAW, green=RLE · click a byte to select its block"),journey_context.details,13)
 	public_order_choice = OptionButton.new(); public_order_choice.name = "PublicOrderPreview"
 	public_order_choice.add_item(text2("不标记请求", "No request markers"))
 	for public_order: Dictionary in Catalog.orders(task): public_order_choice.add_item(display_order_name(str(public_order.name)))
 	preview_order = mini(preview_order,public_order_choice.item_count-1)
 	public_order_choice.select(preview_order)
 	public_order_choice.item_selected.connect(func(index: int) -> void: preview_order = index; refresh_request_preview())
-	reading.add_child(public_order_choice)
-	make_label(text2("金色底线＝这张订单请求的地址；悬停可看每位客户的请求次数", "Gold underline=requested address; hover × count per client, not cache hits"),reading,12)
+	journey_context.details.add_child(public_order_choice)
+	make_label(text2("金色底线＝这张订单请求的地址；悬停可看每位客户的请求次数", "Gold underline=requested address; hover × count per client, not cache hits"),journey_context.details,12)
 	for asset_index: int in (2 if task == 4 else 1):
 		if task == 4: make_label(text2("资产A" if asset_index == 0 else "资产B", "Asset A" if asset_index == 0 else "Asset B"),reading,14)
 		var board = preload("res://experiments/representation_region/byte_board.gd").new()
 		board.name = "ByteBoard"+str(asset_index)
 		board.block_selected.connect(func(index: int) -> void: selected_block = index; refresh_plan())
-		reading.add_child(board); byte_boards.append(board)
-	make_button(text2("展开/收起原始字节列表", "Show/hide the raw byte list"),reading,func() -> void: data.visible = not data.visible,"ToggleAssetList")
+		if asset_index == 0:
+			editor.add_child(board); editor.move_child(board,0)
+		else: reading.add_child(board)
+		byte_boards.append(board)
+	make_button(text2("展开/收起原始字节列表", "Show/hide the raw byte list"),journey_context.details,func() -> void: data.visible = not data.visible; journey_context.toggle.set_pressed(true),"ToggleAssetList")
 	data.visible = false
-	reading.add_child(data)
+	journey_context.details.add_child(data)
 	draft_label = make_label("",editor,14); draft_label.name = "DraftSummary"
 	if task > 0:
 		var previous_plan := make_button(text2("用上一任务成果试新订单", "Try previous success on this order"),editor,copy_previous_support,"CopyPreviousSupport")
@@ -241,7 +253,7 @@ func build() -> void:
 		previous_plan.tooltip_text = text2("复制上一任务保留的达标方案到当前草稿，可撤销；旧记录不变，新订单仍需运行验收。", "Copy the previous task's protected success into this draft. Undo is available; records stay intact and this order still needs measuring.") if support_plans.has(task-1) else text2("上一任务尚无保留的达标方案。可先独立探索当前任务，或返回上一任务完成实测。", "No protected success for the previous task. Explore this task independently or measure a successful plan in the previous task first.")
 	blocks = Tree.new(); blocks.name = "Blocks"; blocks.columns = 4; blocks.hide_root = true; blocks.column_titles_visible = true
 	for i: int in 4: blocks.set_column_title(i,[text2("区间 [起点,终点)","Range [start,end)"),text2("表示","Codec"),text2("存储B","Stored B"),text2("载荷+目录","Payload + directory")][i])
-	blocks.custom_minimum_size.y = 112; editor.add_child(blocks)
+	blocks.custom_minimum_size.y = 80; editor.add_child(blocks)
 	blocks.item_selected.connect(func() -> void:
 		var row: TreeItem = blocks.get_selected()
 		if row != null: selected_block = int(row.get_metadata(0)); refresh_actions())
@@ -261,7 +273,7 @@ func build() -> void:
 	rle_button.tooltip_text = text2("RLE用“次数＋数值”记录连续重复字节；读出时需要解码。是否省空间，要看这块数据。", "RLE stores consecutive repeated bytes as count/value pairs. Reading costs decoding work; space savings depend on this block's data.")
 	undo_button = make_button(text2("撤销","Undo"),codec_row,undo,"Undo")
 	redo_button = make_button(text2("重做","Redo"),codec_row,redo,"Redo")
-	make_label(text2("最多8块；合并保留左块表示。每块4B地址目录；RLE另有2B原长头和(count,value)对。解码操作=输出字节+run数。","At most 8 blocks; merging keeps the left codec. Every block has a 4B address directory. RLE adds a 2B length header and (count,value) pairs. Decode work=output bytes+runs."),reading,13)
+	make_label(text2("最多8块；合并保留左块表示。每块4B地址目录；RLE另有2B原长头和(count,value)对。解码操作=输出字节+run数。","At most 8 blocks; merging keeps the left codec. Every block has a 4B address directory. RLE adds a 2B length header and (count,value) pairs. Decode work=output bytes+runs."),journey_context.details,13)
 	var execute := HBoxContainer.new(); execute.name = "ExecutionActions"; editor.add_child(execute)
 	run_button = make_button(text2("运行当前草稿", "Run current draft"),execute,run_current,"Run")
 	run_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -276,8 +288,9 @@ func build() -> void:
 		InstrumentTheme.primary(save_button,Color("62dca7"))
 		save_button.add_theme_color_override("font_focus_color",Color("071823"))
 		add_recovery_controls(reading)
+	make_button(text2("退出游戏", "Quit"),execute,request_quit,"Quit")
 	var feedback := ScrollContainer.new(); feedback.name = "FeedbackScroll"
-	feedback.custom_minimum_size.y = 54; feedback.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	feedback.custom_minimum_size.y = 36; feedback.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	editor.add_child(feedback)
 	status = make_label(text2("选择分块，分割 / 合并或改变表示，再运行当前草稿。", "Select a block, split / merge or change its codec, then run the draft."),feedback,14)
 	status.name = "WorkbenchFeedback"; status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -300,10 +313,11 @@ func build() -> void:
 	evidence_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence_column.add_child(evidence_scroll)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; evidence_scroll.add_child(evidence)
 	make_label(text2("实际运行记录（选择旧记录复查）","Recorded runs (select an older run to inspect)"),evidence,17)
-	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 90; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
-	var support_button := make_button(text2("取回本任务保留的达标方案", "Restore this task’s protected successful plan"),evidence,restore_support,"RestoreSupport")
+	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
+	var plan_actions := HFlowContainer.new(); evidence.add_child(plan_actions)
+	var support_button := make_button(text2("取回本任务保留的达标方案", "Restore this task’s protected successful plan"),plan_actions,restore_support,"RestoreSupport")
 	set_action_disabled(support_button,not support_plans.has(task))
-	reuse_button = make_button(text2("从选中方案继续试", "Try a variation of this plan"),evidence,reuse_recorded_plan,"ReusePlan")
+	reuse_button = make_button(text2("从选中方案继续试", "Try a variation of this plan"),plan_actions,reuse_recorded_plan,"ReusePlan")
 	reuse_button.tooltip_text = text2("复制自己的旧方案到对应任务草稿；旧记录不变，覆盖的草稿可撤销。", "Copy your recorded plan into its task draft. The record stays unchanged; Undo restores the previous draft.")
 	design_shelf = DesignShelf.new(); design_shelf.name = "DesignShelf"
 	design_shelf.connect("remember_requested",remember_design)
@@ -326,7 +340,7 @@ func build() -> void:
 			order_choice.select(index); show_trace(index))
 	order_choice = OptionButton.new(); order_choice.name = "RecordedOrder"; evidence.add_child(order_choice)
 	order_choice.item_selected.connect(func(i: int) -> void: show_trace(i))
-	var playback_row := HBoxContainer.new(); evidence.add_child(playback_row)
+	var playback_row := HBoxContainer.new(); evidence_column.add_child(playback_row); evidence_column.move_child(playback_row,4)
 	trace_player = preload("res://experiments/representation_region/trace_player.gd").new()
 	trace_player.name = "TracePlayer"
 	trace_play = make_button(text2("回放真实事件", "Replay recorded events"),playback_row,trace_player.toggle_play,"TracePlay")
@@ -335,7 +349,7 @@ func build() -> void:
 	set_action_disabled(trace_play,true); set_action_disabled(trace_step,true)
 	trace_player.playing_changed.connect(func(value: bool) -> void: trace_play.text = text2("暂停回放", "Pause replay") if value else text2("回放真实事件", "Replay recorded events"))
 	trace_player.event_selected.connect(select_replay_event)
-	evidence.add_child(trace_player)
+	evidence_column.add_child(trace_player); evidence_column.move_child(trace_player,5)
 	trace_player.configure([],english)
 	var detail_button := make_button(text2("展开 / 收起成本与事件细节", "Show / hide cost and event details"),evidence,func() -> void:
 		details_expanded = not details_expanded
@@ -343,6 +357,11 @@ func build() -> void:
 	detail_button.tooltip_text = text2("细节来自选中记录；展开不运行也不修改方案。", "Details belong to the selected recording; expanding does not run or edit a plan.")
 	trace_details_group = VBoxContainer.new(); trace_details_group.name = "TraceDetailGroup"
 	trace_details_group.visible = details_expanded; evidence.add_child(trace_details_group)
+	recorded_plan_label.reparent(trace_details_group)
+	result.reparent(evidence_column); evidence_column.move_child(result,0)
+	result.add_theme_font_size_override("font_size",14)
+	order_comparison.reparent(trace_details_group)
+	order_choice.reparent(evidence_column); evidence_column.move_child(order_choice,4)
 	metric_details = make_label("",trace_details_group,13); metric_details.name = "CostBreakdown"
 	events = Tree.new(); events.name = "Events"; events.columns = 3; events.column_titles_visible = true; events.hide_root = true; events.custom_minimum_size.y = 190; events.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	for i: int in 3: events.set_column_title(i,[text2("起点","Start"),text2("周期","Cycles"),text2("事件","Event")][i])
@@ -528,6 +547,7 @@ func refresh_actions() -> void:
 	set_action_disabled(undo_button,undo_stack.is_empty()); set_action_disabled(redo_button,redo_stack.is_empty())
 
 func run_current() -> void:
+	preload("res://src/ui/ui_cue.gd").play(self, &"run")
 	var chapter_was_complete: bool = candidate_journey and representation_review_evidence().size() == 5
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	mark_session_dirty()
@@ -541,6 +561,8 @@ func run_current() -> void:
 	if accepted: support_plans[task] = plan.duplicate(true)
 	history.append({"task":task,"plan":plan.duplicate(true),"traces":traces,"accepted":accepted})
 	if history.size() > 100: history.pop_front()
+	if accepted: preload("res://src/ui/ui_cue.gd").met(self, completed[task])
+	else: preload("res://src/ui/ui_cue.gd").play(self, &"fail")
 	completed[task] = completed[task] or accepted
 	selected_run = history.size()-1; refresh_history(); history_list.select(selected_run); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_run); refresh_tasks()
 	status.text = text2("当前任务达标；可以继续比较，或进入下一份未完成任务。","Current task met; keep comparing or continue to the next unfinished task.") if accepted else text2("尚未满足全部约束。看流量、请求、解码与缓存事件再修改。","Limits not all met. Inspect traffic, requests, decode and cache events before editing.")
@@ -554,6 +576,7 @@ func run_current() -> void:
 	elif not completed.has(false):
 		var review_action: Button = find_child("CompletedRegionReview",true,false) as Button
 		status.text = text2("五份任务均已达标。点击“%s”回顾成果；保存方案与比较记录后继续，也可留在这里探索。", "All five tasks met. Open “%s” to revisit your achievements; save your plans and comparisons to continue, or keep exploring here.") % review_action.text
+	if not bool(ProjectSettings.get_setting("game/reduced_motion",false)): trace_player.toggle_play()
 	if accepted and candidate_journey and not chapter_was_complete and representation_review_evidence().size() == 5:
 		call_deferred("_present_chapter5_cinematic")
 
@@ -562,6 +585,7 @@ func _present_chapter5_cinematic() -> void:
 	if movie != null:
 		await movie.finished
 		movie.queue_free()
+		await preload("res://src/lab/cinematic_artifact.gd").present_representation(self)
 
 func refresh_history() -> void:
 	history_list.clear()
@@ -636,8 +660,11 @@ func show_trace(index: int) -> void:
 		var delta: String = text2("#%d→#%d（本次−旧记录）：周期%+d · 空间%+dB · 服务搬运%+dB", "#%d→#%d (current−prior): cycles%+d · stored%+dB · traffic%+dB") % [int(comparison.run_index)+1,selected_run+1,int(m.total_cycles)-int(before.total_cycles),int(m.stored_bytes)-int(before.stored_bytes),int(m.traffic_bytes)-int(before.traffic_bytes)]
 		result.text = delta + "\n" + result.text
 		metric_details.text += text2("\n比较来源：记录#%d → #%d · %s（同任务、同规格）\n本次减去旧记录：准备%+d、服务%+d、总计%+d周期\n实际空间%+dB · 服务搬运%+dB · 全阶段搬运%+dB", "\nComparison source: run #%d → #%d · %s (same task and spec)\nCurrent minus prior: prepare%+d, serve%+d, total%+d cycles\nActual storage%+dB · service traffic%+dB · all-phase traffic%+dB") % [int(comparison.run_index)+1,selected_run+1,display_order_name(str(m.spec.name)),int(m.preparation_cycles)-int(before.preparation_cycles),int(m.service_cycles)-int(before.service_cycles),int(m.total_cycles)-int(before.total_cycles),int(m.stored_bytes)-int(before.stored_bytes),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.total_traffic_bytes)-int(before.total_traffic_bytes)]
+	metric_details.text += "\n" + result.text
+	result.text = display_order_name(str(m.spec.name))+" / "+text2("达标", "Met") if met else display_order_name(str(m.spec.name))+" / "+text2("未达标", "Unmet")
+	result.add_theme_color_override("font_color",Color("62dca7") if met else Color("f2ba70"))
 	var limit_feedback: String = constraint_feedback(int(row.task),row.traces)
-	if not limit_feedback.is_empty(): result.text += "\n" + limit_feedback
+	if not limit_feedback.is_empty(): metric_details.text += "\n" + limit_feedback
 	var comparison_row: TreeItem = order_comparison.get_root().get_first_child()
 	while comparison_row != null:
 		if int(comparison_row.get_metadata(0)) == index:
@@ -652,6 +679,7 @@ func show_trace(index: int) -> void:
 		item.set_metadata(1,replay_events.size()); replay_events.append(event.to_dictionary())
 	if root_row.get_first_child() != null: events.scroll_to_item(root_row.get_first_child())
 	trace_player.configure(replay_events,english)
+	for board: Control in byte_boards: board.show_event({})
 	set_action_disabled(trace_play,replay_events.is_empty()); set_action_disabled(trace_step,replay_events.is_empty())
 	details.text = text2("选中事件查看实际字节、恢复输出、缓存前后和驱逐。\n记录方案：", "Select an event for actual bytes, restored values, cache before/after and evictions.\nRecorded plan: ")+plan_text(row.plan)
 
@@ -783,6 +811,7 @@ func save_session() -> void:
 	for run: Dictionary in history: runs.append({"task":int(run.task),"plan":run.plan.duplicate(true)})
 	var raw: String = SessionStore.encode(task,saved_drafts,runs,support_records(),designs)
 	var error: Error = SessionStore.write_session(raw, SessionStore.PATH, session_version, writer_lease)
+	if error == OK: preload("res://src/ui/ui_cue.gd").play(self, &"save")
 	if error == OK:
 		session_version = raw.sha256_text()
 		session_dirty = false
@@ -931,6 +960,13 @@ func _exit_tree() -> void:
 	if persistent_session: get_tree().auto_accept_quit = previous_auto_quit
 
 func select_replay_event(index: int) -> void:
+	if index >= 0 and index < trace_player.recorded_events.size():
+		var recorded: Dictionary = history[selected_run]
+		var matches: bool = int(recorded.task) == task and recorded.plan == plan
+		for board: Control in byte_boards:
+			board.show_event(trace_player.recorded_events[index] if matches and board.values == visible_trace.metrics.spec.data else {})
+		var event: Dictionary = trace_player.recorded_events[index]
+		cost_view.show_cycle(int(event.cycle)+int(event.duration))
 	if events == null or events.get_root() == null: return
 	var row: TreeItem = events.get_root().get_first_child()
 	var cursor: int = 0

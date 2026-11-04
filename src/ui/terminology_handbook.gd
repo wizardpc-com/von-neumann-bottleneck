@@ -115,7 +115,7 @@ const RECOMMENDED := {
 	&"overlap:synthesis": [&"double_buffer", &"prefetch_distance", &"bottleneck"],
 }
 
-const BACKDROP := Color(0.015, 0.027, 0.055, 0.88)
+const BACKDROP := Color("050a12", 0.78)
 const PANEL := Color("111b2c")
 const PANEL_DARK := Color("0b1322")
 const ACCENT := Color("7fcbd6")
@@ -350,8 +350,12 @@ func set_lesson(chapter: String, id: String) -> void:
 	category_selector.select(0)
 
 
+var previous_focus: Control
+
 func open_handbook(term_id: StringName = &"") -> void:
+	if not is_open(): previous_focus = get_viewport().gui_get_focus_owner()
 	modal.show()
+	preload("res://src/ui/ui_motion.gd").reveal(modal.get_child(0).get_child(0))
 	entry_button.hide()
 	if not term_id.is_empty():
 		recommended_toggle.set_pressed_no_signal(false)
@@ -364,7 +368,9 @@ func open_handbook(term_id: StringName = &"") -> void:
 func close_handbook() -> void:
 	modal.hide()
 	entry_button.visible = standalone_entry
-	if standalone_entry: entry_button.grab_focus()
+	if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
+	elif standalone_entry: entry_button.grab_focus()
+	previous_focus = null
 
 
 func is_open() -> bool:
@@ -447,10 +453,11 @@ func _build_interface() -> void:
 	heading_box.add_child(title_label)
 	subtitle_label = Label.new()
 	subtitle_label.add_theme_color_override("font_color", MUTED)
-	heading_box.add_child(subtitle_label)
+	shell_box.add_child(subtitle_label)
 	title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	subtitle_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	shell.setup(heading_box, Vector2(1180, 710))
+	shell.docked_column_width = 1120
 	learning_progress = ProgressBar.new()
 	learning_progress.name = "HandbookLearningProgress"
 	learning_progress.custom_minimum_size.y = 4.0
@@ -465,19 +472,22 @@ func _build_interface() -> void:
 		style.content_margin_right = 0.0
 		style.content_margin_top = 0.0
 		style.content_margin_bottom = 0.0
-	heading_box.add_child(learning_progress)
+	shell_box.add_child(learning_progress)
 	close_button = Button.new()
-	close_button.custom_minimum_size = Vector2(104.0, 44.0)
+	close_button.custom_minimum_size = Vector2(150.0, 44.0)
+	close_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	close_button.pressed.connect(close_handbook)
 	header.add_child(close_button)
+	preload("res://src/lab/lab_terminal_pages.gd").style_header(header,title_label,close_button)
 	quick_start_button = Button.new()
 	quick_start_button.name = "HandbookQuickStart"
 	quick_start_button.pressed.connect(func() -> void: open_handbook(&"operation_wiring"))
-	header.add_child(quick_start_button)
-	header.move_child(quick_start_button, close_button.get_index())
+	quick_start_button.custom_minimum_size.y = 44
+	quick_start_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
 	var filter_row := HBoxContainer.new()
 	shell_box.add_child(filter_row)
+	filter_row.add_child(quick_start_button)
 	search_edit = LineEdit.new()
 	search_edit.name = "TerminologySearch"
 	search_edit.clear_button_enabled = true
@@ -607,7 +617,7 @@ func _refresh_localized_copy() -> void:
 	entry_button.tooltip_text = _t(&"terminology.button.tooltip")
 	title_label.text = _t(&"terminology.title")
 	subtitle_label.text = _t(&"terminology.subtitle")
-	close_button.text = _t(&"terminology.close")
+	close_button.text = "Back · Esc" if Localization.current_locale() == "en" else "返回 · Esc"
 	search_edit.placeholder_text = _t(&"terminology.search.placeholder")
 	future_toggle.text = _t(&"terminology.future_topics")
 	recommended_toggle.text = _t(&"terminology.recommended")

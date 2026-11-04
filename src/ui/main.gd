@@ -34,7 +34,7 @@ const OFFICIAL_CYCLE_TARGET: int = 105
 const RUN_HISTORY_LIMIT: int = 8
 const MIN_CLOCK_PERIOD_SECONDS: float = 0.05
 const MAX_CLOCK_PERIOD_SECONDS: float = 2.0
-const DEFAULT_CLOCK_PERIOD_SECONDS: float = 0.5
+const DEFAULT_CLOCK_PERIOD_SECONDS: float = 0.125
 const MIN_PLAYBACK_FREQUENCY_HZ: float = 0.5
 const MAX_PLAYBACK_FREQUENCY_HZ: float = 120.0
 const KEY_EVIDENCE_EVENT_KINDS: Array[StringName] = [
@@ -63,8 +63,8 @@ const STANDARD_LAYOUT: Dictionary = {
 	&"Cache": Vector2(515, 92),
 	&"Bus": Vector2(755, 92),
 	&"RAM": Vector2(985, 92),
-	&"TestBench": Vector2(455, 330),
-	&"Profiler": Vector2(730, 330),
+	&"TestBench": Vector2(455, 390),
+	&"Profiler": Vector2(730, 390),
 }
 
 const INSTRUMENT_LAYOUT: Dictionary = {
@@ -167,6 +167,12 @@ var program_dirty: bool = false
 var applied_program_source: String = ProgramTemplatesType.COLUMN_FIRST
 var last_executed_source: String = ""
 var last_run_receipt_text: String = ""
+
+var hierarchy_cache_labels: Array[Label] = []
+var hierarchy_ram_labels: Array[Label] = []
+var run_summary_label: Label
+var run_comparison_label: RichTextLabel
+var session_previous_runs: Dictionary = {}
 
 var device_nodes: Dictionary[StringName, GraphNode] = {}
 var device_detail_labels: Dictionary[StringName, Label] = {}
@@ -415,9 +421,11 @@ func _build_header() -> Control:
 	status_label.text = _t(&"chapter2.status.map")
 	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	status_label.custom_minimum_size.x = 240.0
+	status_label.custom_minimum_size.x = 0.0
+	status_label.clip_text = true
+	status_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	status_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	status_label.max_lines_visible = 2
 	status_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	status_label.add_theme_color_override("font_color", WARNING)
@@ -569,6 +577,8 @@ func _add_device_node(
 		node.set_slot(slot_index, bool(slot[0]), 0, ACCENT, bool(slot[1]), 0, ACCENT)
 	var state_label := Label.new()
 	state_label.text = default_state
+	state_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	state_label.custom_minimum_size.x = 160.0
 	state_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	state_label.add_theme_color_override("font_color", MUTED)
 	state_label.add_theme_font_size_override("font_size", 14)
@@ -582,6 +592,25 @@ func _add_device_node(
 		open_button.pressed.connect(_open_instrument.bind(open_instrument, true))
 		node.add_child(open_button)
 		device_instrument_buttons[id] = open_button
+	if id == &"Cache":
+		for index: int in range(SimulationCoreType.CACHE_COSTS.keys().max()):
+			var line := Label.new()
+			line.text = "-"
+			line.add_theme_font_size_override("font_size", 16)
+			node.add_child(line)
+			hierarchy_cache_labels.append(line)
+	if id == &"RAM":
+		var cells := GridContainer.new()
+		cells.columns = SimulationCoreType.ARRAY_WIDTH
+		node.add_child(cells)
+		for address: int in range(SimulationCoreType.OFFICIAL_DATA.size()):
+			var cell := Label.new()
+			cell.text = "%d,%d" % [address / SimulationCoreType.ARRAY_WIDTH, address % SimulationCoreType.ARRAY_WIDTH]
+			cell.custom_minimum_size = Vector2(38, 25)
+			cell.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			cell.add_theme_font_size_override("font_size", 16)
+			cells.add_child(cell)
+			hierarchy_ram_labels.append(cell)
 	device_nodes[id] = node
 	_set_device_style(id, MUTED, false)
 
@@ -915,6 +944,14 @@ func _build_test_bench_instrument() -> Control:
 	result_label.text = _t(&"state.not_run")
 	result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	result_label.add_theme_font_size_override("font_size", 18)
+	run_comparison_label = RichTextLabel.new()
+	run_comparison_label.bbcode_enabled = true
+	run_comparison_label.fit_content = true
+	run_comparison_label.scroll_active = false
+	run_comparison_label.add_theme_font_size_override("normal_font_size", 18)
+	run_comparison_label.hide()
+	panel.add_child(run_comparison_label)
+	panel.move_child(run_comparison_label, 0)
 	panel.add_child(result_label)
 	result_budget = preload("res://src/ui/cycle_budget_bar.gd").new()
 	result_budget.name = "CycleBudget"
@@ -1075,6 +1112,10 @@ func _build_playback_panel() -> Control:
 	clock_period_control.tooltip_text = _t(&"common.clock_period.tooltip")
 	clock_period_control.value_changed.connect(_on_clock_period_changed)
 	controls.add_child(clock_period_control)
+	run_summary_label = Label.new()
+	run_summary_label.add_theme_color_override("font_color", ACCENT)
+	run_summary_label.hide()
+	content.add_child(run_summary_label)
 	playback_label = Label.new()
 	playback_label.text = _t(&"trace.playback.empty")
 	playback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -1221,6 +1262,9 @@ func _start_level(level_id: StringName) -> void:
 	debug_run_button.visible = level_id == &"capstone"
 	_configure_level_tools()
 	_refresh_level_decision_controls()
+	for index: int in hierarchy_cache_labels.size():
+		hierarchy_cache_labels[index].visible = index < current_cache_lines
+	device_nodes[&"Cache"].reset_size()
 	_configure_graph_for_level()
 	_auto_layout(false)
 	_invalidate_current_run(_t(&"workspace.model_changed" if restored.get("stale",false) else &"workspace.restored" if not restored.is_empty() else &"chapter2.status.level_ready"))
@@ -1426,6 +1470,9 @@ func _complete_current_level() -> void:
 	PlaytestData.level_completed(&"chapter_2", completed_level, completion_details)
 	_refresh_cache_controls()
 	_refresh_block_controls()
+	for index: int in hierarchy_cache_labels.size():
+		hierarchy_cache_labels[index].visible = index < current_cache_lines
+	device_nodes[&"Cache"].reset_size()
 	_configure_graph_for_level()
 	_update_notebook()
 	_rebuild_profiler()
@@ -1798,7 +1845,7 @@ func _open_instrument(id: StringName, user_initiated: bool = false) -> void:
 func _frame_machine() -> void:
 	if graph != null and instrument_host != null and instrument_host.size.x > 0.0:
 		InstrumentDock.redock(instrument_host.size, instrument_windows, [&"mission"], [&"program", &"profiler", &"notebook"])
-		InstrumentDock.frame(graph, device_nodes.values(), instrument_windows)
+		InstrumentDock.frame(graph, device_nodes.values(), instrument_windows, 0.85)
 
 
 func _close_instrument(id: StringName) -> void:
@@ -2101,6 +2148,9 @@ func _select_cache(lines: int, invalidate: bool = true) -> void:
 			"post_completion": bool(LocalityChapter.completed_levels().get(current_level_id, false)),
 		})
 	_refresh_cache_controls()
+	for index: int in hierarchy_cache_labels.size():
+		hierarchy_cache_labels[index].visible = index < current_cache_lines
+	device_nodes[&"Cache"].reset_size()
 	_configure_graph_for_level()
 	_auto_layout(false)
 	if invalidate and changed:
@@ -2210,16 +2260,23 @@ func _run_simulation(test_name: String) -> void:
 	else:
 		for input: SpinBox in debug_inputs:
 			data.append(int(input.value))
+	preload("res://src/ui/ui_cue.gd").play(self, &"run")
 	current_trace = simulation_core.run_workload(
 		program, data, current_cache_lines, test_name,
 		current_pass_count, current_block_lines, current_bypass_cache
 	)
+	for index: int in hierarchy_cache_labels.size():
+		hierarchy_cache_labels[index].visible = index < current_trace.cache_capacity_lines
+	device_nodes[&"Cache"].reset_size()
 	if test_name == "Official Test Set":
 		var telemetry_target_cycles: int = int(current_level.get("target_cycles", 0))
 		var telemetry_goal_passed: bool = current_trace.passed and (
 			telemetry_target_cycles <= 0
 			or int(current_trace.metrics.get("total_cycles", 0)) <= telemetry_target_cycles
 		)
+		if not telemetry_goal_passed: preload("res://src/ui/ui_cue.gd").play(self, &"fail")
+		elif bool(LocalityChapter.completed_levels().get(current_level_id, false)): preload("res://src/ui/ui_cue.gd").met(self, true)
+		else: preload("res://src/ui/ui_cue.gd").play(self, &"met")
 		PlaytestData.record_official_run(&"chapter_2", current_level_id, telemetry_goal_passed, {
 			"strategy":"direct" if current_bypass_cache else "cache",
 			"correct": current_trace.passed,
@@ -2239,6 +2296,7 @@ func _run_simulation(test_name: String) -> void:
 		test_name == "Official Test Set" and current_trace.passed and target_cycles > 0
 		and int(current_trace.metrics["total_cycles"]) <= target_cycles
 	)
+	_update_session_comparison(test_name)
 	_record_run(program, data)
 	_rebuild_profiler()
 	playback_index = 0
@@ -2773,8 +2831,8 @@ func _on_clock_period_changed(frequency_hz: float) -> void:
 	)
 
 
-func _display_duration_for(_event: SimulationEventType) -> float:
-	return clock_period_seconds
+func _display_duration_for(event: SimulationEventType) -> float:
+	return clock_period_seconds * (2.0 if event.kind in KEY_EVIDENCE_EVENT_KINDS else 1.0)
 
 
 func _draw_event(event: SimulationEventType, progress: float) -> void:
@@ -2784,6 +2842,7 @@ func _draw_event(event: SimulationEventType, progress: float) -> void:
 		progress, _event_color(event.kind), _event_short_label(event)
 	)
 	_apply_event_feedback(event, animation, progress)
+	_update_hierarchy(event)
 	_highlight_source_line(event.source_line)
 
 
@@ -3072,6 +3131,8 @@ func _finish_playback() -> void:
 	next_evidence_button.disabled = true
 	finish_playback_button.disabled = true
 	trace_overlay.clear_event()
+	if current_trace != null and not current_trace.events.is_empty():
+		_update_hierarchy(current_trace.events.back())
 	trace_progress.value = 100.0
 	_reset_device_feedback()
 	_highlight_source_line(-1)
@@ -3221,6 +3282,16 @@ func _invalidate_current_run(reason: String) -> void:
 	result_label.text = _t(&"state.not_run")
 	result_label.add_theme_color_override("font_color", TEXT)
 	if result_budget != null: result_budget.hide()
+	run_summary_label.hide()
+	run_comparison_label.hide()
+	for line: Label in hierarchy_cache_labels:
+		line.text = "-"
+		line.modulate = TEXT
+		line.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+	for cell: Label in hierarchy_ram_labels:
+		cell.modulate = MUTED
+		cell.add_theme_stylebox_override("normal", _stylebox(PANEL_DARK, 3))
+	device_state_labels[&"Bus"].modulate = Color.WHITE
 	result_trace_button.hide()
 	_reset_device_feedback()
 	device_state_labels[&"Profiler"].text = _t(&"state.no_trace")
@@ -3259,3 +3330,75 @@ func _save_level_workspace() -> void:
 
 func flush_workspace() -> void:
 	_save_level_workspace()
+
+
+func _update_session_comparison(test_name: String) -> void:
+	var metrics: Dictionary = current_trace.metrics
+	var values: Array = [metrics.get("total_cycles", 0), metrics.get("wait_cycles", 0),
+		metrics.get("cache_hits", 0), metrics.get("cache_misses", 0), metrics.get("ram_bytes_transferred", 0)]
+	run_summary_label.text = _t(&"s2.run.metrics", values)
+	run_summary_label.show()
+	run_comparison_label.hide()
+	if test_name != "Official Test Set" or not current_trace.passed or current_trace.events.is_empty():
+		return
+	if session_previous_runs.has(current_level_id):
+		var before: Array = session_previous_runs[current_level_id]
+		var pairs: Array = []
+		for index: int in values.size():
+			var delta: int = int(values[index]) - int(before[index])
+			var color: Color = MUTED if delta == 0 else GOOD if (delta > 0 if index == 2 else delta < 0) else WARNING
+			pairs.append("%s → %s [color=#%s](%+d)[/color]" % [before[index], values[index], color.to_html(false), delta])
+		run_comparison_label.text = _t(&"s2.run.comparison", pairs)
+		run_comparison_label.show()
+	session_previous_runs[current_level_id] = values.duplicate()
+
+
+func _update_hierarchy(event: SimulationEventType) -> void:
+	# Rebuild the displayed prefix so seek, step and replay share the same state.
+	var resident: Dictionary = {}
+	for shown: SimulationEventType in current_trace.events:
+		if shown.kind == &"cache_evict":
+			resident.erase(shown.cache_line)
+		elif shown.kind == &"cache_fill":
+			resident[shown.cache_line] = shown.details.get("line_values", [])
+		if shown == event:
+			break
+	var lines: Array = resident.keys()
+	lines.sort()
+	for index: int in hierarchy_cache_labels.size():
+		var label: Label = hierarchy_cache_labels[index]
+		label.visible = index < current_trace.cache_capacity_lines
+		label.text = "-"
+		label.modulate = TEXT
+		label.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+		if event.kind == &"cache_miss":
+			label.add_theme_stylebox_override("normal", _stylebox(Color("60412b"), 3))
+		if index < lines.size():
+			var block: int = int(lines[index])
+			var values: Array = resident[block]
+			var words: PackedStringArray = []
+			for word: int in values.size():
+				var address: int = block * SimulationCoreType.CACHE_LINE_INTS + word
+				words.append("[%s]" % values[word] if address == event.address else str(values[word]))
+			var start: int = block * SimulationCoreType.CACHE_LINE_INTS
+			label.text = "A[%d][%d..%d]  %s" % [start / SimulationCoreType.ARRAY_WIDTH, start % SimulationCoreType.ARRAY_WIDTH, (start + values.size() - 1) % SimulationCoreType.ARRAY_WIDTH, "  ".join(words)]
+			if block == event.cache_line:
+				label.modulate = _event_color(event.kind)
+				if event.kind == &"cache_hit":
+					label.add_theme_stylebox_override("normal", _stylebox(Color("26584e"), 3))
+	if event.kind in [&"cache_hit", &"cache_miss", &"cache_evict"]:
+		_activate_device(&"Cache", _component_state_text(event, &"Cache"), _event_color(event.kind), 0.5)
+	for address: int in hierarchy_ram_labels.size():
+		var cell: Label = hierarchy_ram_labels[address]
+		var fetched: bool = event.kind in [&"ram_access", &"line_return"] and event.cache_line >= 0 and address / SimulationCoreType.CACHE_LINE_INTS == event.cache_line
+		cell.modulate = WARNING if fetched else MUTED
+		cell.add_theme_stylebox_override("normal", _stylebox(Color("3b4540") if fetched else PANEL_DARK, 3))
+		if address == event.address:
+			cell.modulate = GOOD
+			cell.add_theme_stylebox_override("normal", _stylebox(Color("26584e"), 3))
+	if event.kind in [&"line_return", &"value_return"]:
+		var bytes: int = SimulationCoreType.CACHE_LINE_BYTES if event.kind == &"line_return" else SimulationCoreType.INT_BYTES
+		device_state_labels[&"Bus"].text = "%d B >" % bytes
+		device_state_labels[&"Bus"].modulate = WARNING
+	else:
+		device_state_labels[&"Bus"].modulate = Color.WHITE

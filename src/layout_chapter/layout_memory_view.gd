@@ -7,6 +7,8 @@ const ROW_HEIGHT: float = 90.0
 const CELL_HEIGHT: float = 78.0
 var mapping: Dictionary = {}
 var records: Array = []
+var transferred_bytes: Dictionary[int, int] = {}
+var selected_row: int = -1
 var selected_address: int = -1
 var selected_record: int = -1
 var selected_field: int = -1
@@ -33,6 +35,8 @@ func _text_label(font_size: int, color: Color) -> Label:
 	return label
 
 func configure(map: Dictionary, data: Array, caption: String) -> void:
+	transferred_bytes.clear()
+	selected_row = -1
 	selected_address = -1; selected_record = -1; selected_field = -1
 	mapping = map; records = data; title = caption
 	_layout_text()
@@ -49,7 +53,17 @@ func _layout_text() -> void:
 	custom_minimum_size = Vector2(510,_grid_top+ceilf(float(mapping.get("bytes",0))/16)*ROW_HEIGHT+8)
 	queue_redraw()
 
+func show_transfers(events: Array[SimulationEvent]) -> void:
+	transferred_bytes.clear()
+	var base: int = int(mapping.get("base",0))
+	for event: SimulationEvent in events:
+		if event.kind != &"fill" or event.address < base or event.address >= base + int(mapping.get("bytes",0)): continue
+		var row: int = int(event.address / 16)
+		transferred_bytes[row] = int(transferred_bytes.get(row,0)) + int(event.details.get("bytes",0))
+	queue_redraw()
+
 func highlight(event: SimulationEvent) -> void:
+	selected_row = int(event.address / 16) if event.kind == &"fill" and event.address >= 0 else -1
 	selected_address = event.address
 	selected_record = int(event.details.get("record",-1))
 	selected_field = int(event.details.get("field",-1))
@@ -69,6 +83,12 @@ func _draw() -> void:
 	for row: int in range(ceili(float(mapping.get("bytes",0))/16)):
 		var y: float = _grid_top+row*ROW_HEIGHT
 		draw_rect(Rect2(72,y,4*_column_width(),CELL_HEIGHT+8),Color("172638"))
+		var bytes: int = int(transferred_bytes.get(int((base+row*16)/16),0))
+		if bytes > 0:
+			draw_rect(Rect2(72,y,4*_column_width(),CELL_HEIGHT+8),Color(0.5,0.85,0.65,0.18))
+			draw_string(font,Vector2(4,y+70),"%d B" % bytes,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("7fd8a4"))
+		if int((base+row*16)/16) == selected_row:
+			draw_rect(Rect2(72,y,4*_column_width(),CELL_HEIGHT+8),Color("f0c674"),false,3)
 		draw_string(font,Vector2(4,y+46),str(base+row*16),HORIZONTAL_ALIGNMENT_LEFT,-1,17,Color("9aadc1"))
 	for cell: Dictionary in mapping.get("cells",[]):
 		var rect: Rect2 = cell_rect(int(cell.address))

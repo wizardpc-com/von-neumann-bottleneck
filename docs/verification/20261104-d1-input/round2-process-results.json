@@ -1,0 +1,164 @@
+[
+  {
+    "route": "chapter_1/assembly",
+    "scenario": "quit",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_1/assembly",
+    "scenario": "map",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_1/assembly",
+    "scenario": "lab",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_1/assembly",
+    "scenario": "close",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_1/assembly",
+    "scenario": "early",
+    "restored": false,
+    "expected": false,
+    "passed": true,
+    "edit_exit": 1,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_1/assembly",
+    "scenario": "late",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 1,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_3/arrival",
+    "scenario": "quit",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_3/arrival",
+    "scenario": "map",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_3/arrival",
+    "scenario": "lab",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_3/arrival",
+    "scenario": "close",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_3/arrival",
+    "scenario": "early",
+    "restored": false,
+    "expected": false,
+    "passed": true,
+    "edit_exit": 1,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_3/arrival",
+    "scenario": "late",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 1,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_4/fields",
+    "scenario": "quit",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_4/fields",
+    "scenario": "map",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_4/fields",
+    "scenario": "lab",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_4/fields",
+    "scenario": "close",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 0,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_4/fields",
+    "scenario": "early",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 1,
+    "load_exit": 0
+  },
+  {
+    "route": "chapter_4/fields",
+    "scenario": "late",
+    "restored": true,
+    "expected": true,
+    "passed": true,
+    "edit_exit": 1,
+    "load_exit": 0
+  }
+]

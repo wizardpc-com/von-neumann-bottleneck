@@ -266,7 +266,7 @@ func _ready() -> void:
 # Real 3D room; the existing terminal/controller and route ownership stay intact.
 # --flat-lab retains the previous presentation for diagnosis, not a second save.
 ## The pointed-at room object gets four soft corner brackets that settle in
-## around it, and its name in a small pill just below. Presentation only.
+## around it. Objects without a physical nameplate also show a name pill.
 class HoverFrame extends Control:
 	var target := Rect2()
 	var shown := Rect2()
@@ -401,7 +401,7 @@ func _sync_room_terminal() -> void:
 
 func _place_room_hover(blocked: bool) -> void:
 	if room_hover_frame == null: return
-	var rect: Rect2 = room.region_screen_rect(_hover_id) if room != null and not _hover_id.is_empty() and room_hover.visible and not blocked and not zooming else Rect2()
+	var rect: Rect2 = room.region_screen_rect(_hover_id) if room != null and not _hover_id.is_empty() and not room_focus and not terminal.confirming() and not blocked and not zooming else Rect2()
 	room_hover_frame.target = rect.intersection(Rect2(Vector2.ZERO, size)) if rect.has_area() else Rect2()
 	room_hover.reset_size()
 	if rect.has_area():
@@ -420,7 +420,7 @@ func _on_room_hover(id: String) -> void:
 		"terminal":["终端","Terminal"], "archive":["档案","Archive"], "journey":["旅程地图","Journey map"],
 		"works":["作品","Works"], "achievements":["成就","Achievements"], "handbook":["手册","Handbook"],
 		"settings":["设置","Settings"], "feedback":["反馈","Feedback"], "globe":["旅程回顾","Journey journal"]}
-	room_hover.text = str(labels[id][1 if english else 0]) if labels.has(id) else ""
+	room_hover.text = str(labels[id][1 if english else 0]) if id in ["terminal", "globe", "journey"] else ""
 	_hover_id = id if labels.has(id) and id != "terminal" else ""
 
 func _on_room_action(id: String) -> void:
@@ -861,9 +861,9 @@ func _show_caption(text: String, seconds: float) -> void:
 		return
 	caption.text = text
 	var tween := create_tween()
-	tween.tween_property(caption, "modulate:a", 1.0, 0.5)
+	tween.tween_property(caption, "modulate:a", 1.0, 0.0 if bool(ProjectSettings.get_setting("game/reduced_motion", false)) else 0.5)
 	tween.tween_interval(seconds)
-	tween.tween_property(caption, "modulate:a", 0.0, 0.8)
+	tween.tween_property(caption, "modulate:a", 0.0, 0.0 if bool(ProjectSettings.get_setting("game/reduced_motion", false)) else 0.8)
 
 # --- terminal actions and the zoom transition ----------------------------
 

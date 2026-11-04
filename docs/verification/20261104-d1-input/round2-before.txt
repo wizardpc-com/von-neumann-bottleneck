@@ -1,0 +1,32 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+Godot_v4.7.1-stable_win64_console.exe : ERROR: Failed to read the root certificate store.
+所在位置 行:7 字符: 139
++ ... | Out-Null; & 'E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_w ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (ERROR: Failed t...tificate store.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+ERROR: Requested UI control exists and is visible.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] press (res://tests/test_recovery_game_input.gd:106)
+       [2] _run (res://tests/test_recovery_game_input.gd:789)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Ordinary hub opens the unified journey map.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_recovery_game_input.gd:790)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Task entry uses the visible unified journey map: hardware_foundations/tutorial
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] enter_task (res://tests/test_recovery_game_input.gd:609)
+       [2] _run (res://tests/test_recovery_game_input.gd:792)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+Recovery GUI checks: 6; failures: 3

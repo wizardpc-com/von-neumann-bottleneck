@@ -7,6 +7,8 @@ var active: bool = false
 var progress: float = 0.0
 var component_name: StringName = &""
 var module_label: Label
+var circuit_image: ImageTexture
+var circuit_rect := Rect2()
 var _content: VBoxContainer
 
 
@@ -25,7 +27,17 @@ func _ready() -> void:
 	hide()
 
 
-func begin(sealed_name: StringName) -> void:
+func begin(sealed_name: StringName, circuit_bounds: Rect2 = Rect2()) -> void:
+	active = true
+	circuit_image = null
+	circuit_rect = Rect2(circuit_bounds.position - global_position, circuit_bounds.size) if circuit_bounds.has_area() else Rect2(Vector2.ZERO, size)
+	if DisplayServer.get_name() != "headless" and not bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+		await RenderingServer.frame_post_draw
+		if not active: return
+		var image: Image = get_viewport().get_texture().get_image()
+		if image != null:
+			var region := Rect2i(get_viewport().get_stretch_transform() * (circuit_bounds if circuit_bounds.has_area() else get_global_rect())).intersection(Rect2i(Vector2i.ZERO, image.get_size()))
+			if region.has_area(): circuit_image = ImageTexture.create_from_image(image.get_region(region))
 	component_name = sealed_name
 	module_label.text = String(component_name)
 	active = true
@@ -84,7 +96,17 @@ func _draw() -> void:
 		draw_line(start, end, Color(0.31, 0.84, 1.0, 0.2 + 0.65 * progress), 2.5, true)
 		var spark: Vector2 = start.lerp(end, fmod(progress * 1.7 + float(index) * 0.07, 1.0))
 		draw_circle(spark, 3.5, Color("7fd8a4"))
+	if circuit_image != null and progress < 0.72:
+		var collapse: float = smoothstep(0.0, 0.72, progress)
+		var snapshot_rect := Rect2(circuit_rect.position.lerp(chip_rect.position, collapse), circuit_rect.size.lerp(chip_size, collapse))
+		draw_texture_rect(circuit_image, snapshot_rect, false, Color(1.0, 1.0, 1.0, 1.0 - collapse))
 	draw_rect(chip_rect, Color("1a252e"), true)
 	draw_rect(chip_rect, Color("7fcbd6"), false, 4.0, true)
+	# The finished silhouette reads as a reusable component, with leads outside
+	# the name plate rather than crossing through its text.
+	for side: float in [-1.0, 1.0]:
+		for index: int in range(4):
+			var pin := Vector2(center.x + side * chip_size.x * 0.5, center.y - 60.0 + index * 40.0)
+			draw_line(pin, pin + Vector2(side * 24.0 * progress, 0.0), Color("7fcbd6"), 4.0, true)
 	var pulse: float = sin(progress * PI * 4.0) * 0.5 + 0.5
 	draw_rect(chip_rect.grow(10.0 + pulse * 7.0), Color(0.31, 0.84, 1.0, 0.18 * (1.0 - progress * 0.45)), false, 3.0, true)

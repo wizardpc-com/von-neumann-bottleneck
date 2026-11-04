@@ -1,0 +1,17 @@
+[
+  {
+    "file": "src/lab/lab_room_3d.gd",
+    "sha256": "522f5a64bce3575e5c496cf584020ee291942b25351c13681f35399e726312a2",
+    "matches_test_copy": true
+  },
+  {
+    "file": "src/lab/lab_home.gd",
+    "sha256": "b39c05515af74f78a50015870f3f13edaf4dc08d994d59e568e83548f97f7ae3",
+    "matches_test_copy": true
+  },
+  {
+    "file": "tests/test_immersive_lab.gd",
+    "sha256": "c63d74a947255f08f88f2273017fa177152ae38ff38c9c91568040b8786152b5",
+    "matches_test_copy": true
+  }
+]

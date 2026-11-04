@@ -32,6 +32,14 @@ func select_event(host, event_index: int) -> void:
 func check_source(host, event: SimulationEvent, message: String) -> void:
 	check(host.source_view.visible and not host.copy_view.visible,message)
 	check(host.source_view.selected_address == event.address,"Source highlight uses actual event address")
+	var run: LayoutRun = host.runs[host.case_index]
+	var expected_bytes: int = 0
+	for fill: SimulationEvent in run.events:
+		if fill.kind == &"fill" and host._address_in_map(fill.address,run.source_map): expected_bytes += int(fill.details.get("bytes",0))
+	var shown_bytes: int = 0
+	for bytes: int in host.source_view.transferred_bytes.values(): shown_bytes += bytes
+	check(shown_bytes == expected_bytes,"Whole-table row totals equal the actual source fill bytes")
+	check(host.source_view.selected_row == (int(event.address / 16) if event.kind == &"fill" else -1),"Only real fills highlight the whole transferred RAM row")
 	check(host.copy_view.selected_address == -1 and host.copy_view.selected_record == -1,"Opposite scratch highlights are cleared")
 func check_scratch(host, event: SimulationEvent, first_record: int, message: String) -> void:
 	check(host.copy_view.visible and not host.source_view.visible,message)

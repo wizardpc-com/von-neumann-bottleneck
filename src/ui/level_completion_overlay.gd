@@ -20,7 +20,7 @@ signal feedback_skipped(chapter_id: StringName, level_id: StringName)
 const Palette = preload("res://src/lab/lab_palette.gd")
 const Typewriter = preload("res://src/ui/yi_typewriter.gd")
 const JourneyNaming = preload("res://src/campaign/journey_naming.gd")
-const BACKDROP := Color(0.03, 0.05, 0.07, 0.62)
+const BACKDROP := Color(0.03, 0.05, 0.07, 0.88)
 const SURFACE := Palette.TERM_PANEL
 const ACCENT := Palette.ACCENT
 const GOOD := Palette.GOOD
@@ -284,8 +284,12 @@ func present(
 	level_title: String,
 	summary: String,
 	chapter: String,
-	chapter_id: StringName = &""
+	chapter_id: StringName = &"",
+	play_cue: bool = true
 	) -> void:
+	emblem.show()
+	chapter_label.show()
+	next_capability_label.get_parent().get_parent().show()
 	current_level_id = level_id
 	current_chapter_id = chapter_id
 	# The card names the task exactly as the journey map does (序章·… / 1-1 …).
@@ -324,7 +328,7 @@ func present(
 	_style_actions(continue_button)
 	_animate_entry()
 	continue_button.grab_focus()
-	_play_completion_cue()
+	if play_cue: _play_completion_cue()
 
 
 func present_actions(
@@ -335,9 +339,10 @@ func present_actions(
 		chapter_id: StringName,
 		primary_text: String,
 		secondary_text: String,
-		return_text: String = ""
+		return_text: String = "",
+	play_cue: bool = true
 	) -> void:
-	present(level_id, level_title, summary, chapter, chapter_id)
+	present(level_id, level_title, summary, chapter, chapter_id, play_cue)
 	if chapter_id == &"hardware_foundations":
 		title_label.text = Localization.text(&"hardware.completion.tests_passed")
 	feedback_box.hide()
@@ -351,6 +356,18 @@ func present_actions(
 	return_button.visible = not return_text.is_empty()
 	_style_actions(primary_action_button)
 	primary_action_button.grab_focus()
+
+
+func present_seal_ready(level_id: StringName, level_title: String, summary: String, chapter: String, chapter_id: StringName, primary_text: String, secondary_text: String, return_text: String) -> void:
+	present_actions(level_id, level_title, summary, chapter, chapter_id, primary_text, secondary_text, return_text, false)
+	if yi_delay_tween != null: yi_delay_tween.kill()
+	yi_response_label.stop()
+	yi_response_label.get_parent().get_parent().hide()
+	next_capability_label.get_parent().get_parent().hide()
+	emblem.hide()
+	chapter_label.hide()
+	feedback_entry_button.hide()
+	panel.custom_minimum_size = Vector2(700, 240)
 
 
 ## Emphasise one action; the rest read as secondary.
@@ -376,14 +393,10 @@ func _style_actions(strong: Button) -> void:
 
 
 func _animate_entry() -> void:
-	panel.pivot_offset = panel.size * 0.5
-	panel.modulate.a = 0.0
-	panel.scale = Vector2(0.97, 0.97)
+	preload("res://src/ui/ui_motion.gd").reveal(panel)
 	emblem.progress = 0.0
 	var reduced: bool = bool(ProjectSettings.get_setting("game/reduced_motion", false))
-	var tween := create_tween().set_parallel(true)
-	tween.tween_property(panel, "modulate:a", 1.0, 0.01 if reduced else 0.28)
-	tween.tween_property(panel, "scale", Vector2.ONE, 0.01 if reduced else 0.32).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var tween := create_tween()
 	tween.tween_method(_set_emblem_progress, 0.0, 1.0, 0.01 if reduced else 1.1).set_delay(0.0 if reduced else 0.12)
 
 

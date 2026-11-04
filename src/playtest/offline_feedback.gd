@@ -12,6 +12,7 @@ var note: TextEdit
 var category: OptionButton
 var history: OptionButton
 var info: Label
+var diagnostics_info: Label
 var status: Label
 var preview: TextureRect
 var current: Dictionary = {}
@@ -68,6 +69,17 @@ func _ready() -> void:
 	content.add_child(workspace)
 	var scene_column: VBoxContainer = _section(workspace,"现场与记录","Scene and history","res://assets/ui/feedback_scene.svg")
 	info=Label.new(); info.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; info.add_theme_font_size_override("font_size",14); scene_column.add_child(info)
+	var diagnostics := Button.new()
+	diagnostics.text = Localization.text(&"p1.diagnostics")
+	diagnostics.set_meta("locale_pair",["诊断信息","Diagnostics"])
+	diagnostics.toggle_mode = true
+	scene_column.add_child(diagnostics)
+	diagnostics_info = Label.new()
+	diagnostics_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	diagnostics_info.add_theme_font_size_override("font_size",14)
+	scene_column.add_child(diagnostics_info)
+	diagnostics_info.hide()
+	diagnostics.toggled.connect(func(open: bool) -> void: diagnostics_info.visible = open)
 	var image_frame := PanelContainer.new(); image_frame.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("101a23"),Color("3a4b56")))
 	image_frame.size_flags_vertical=Control.SIZE_EXPAND_FILL; scene_column.add_child(image_frame)
 	preview=TextureRect.new(); preview.name="OfflineFeedbackPreview"; preview.custom_minimum_size=Vector2(0,180)
@@ -259,15 +271,16 @@ func _restore_fields() -> void:
 func _refresh_info() -> void:
 	var task: Dictionary = current.get("task",{})
 	var key: String = str(task.get("chapter_id","home"))+"/"+str(task.get("level_id",""))
-	var title: String = key
+	var title: String = _t("实验室","Laboratory") if key.begins_with("home/") else _t("已保存现场","Saved scene")
 	for item: Dictionary in TaskNavigation.journey_tasks():
 		if item.key==key:
-			title=str(item.title)+" · "+key
+			title=str(item.title)
 			break
 	var build: Dictionary = current.get("build",{})
 	var commit: String = str(build.get("source_commit","unknown"))
 	if commit not in ["development","unknown"]: commit=commit.left(8)
-	info.text=_t("现场：","Scene: ")+title+" · "+str(current.get("captured_at_utc",""))+"\n"+str(build.get("version","development"))+" · "+commit
+	info.text=_t("现场：","Scene: ")+title+" · "+str(current.get("captured_at_utc",""))
+	diagnostics_info.text = key+"\n"+str(build.get("version","development"))+" · "+commit
 
 func _load_case(id: String) -> void:
 	if not _save_note(false): return

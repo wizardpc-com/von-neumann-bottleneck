@@ -3,7 +3,7 @@ extends Control
 var trace: SimulationTrace
 var selected_cycle: int = -1
 func _ready() -> void:
-	custom_minimum_size = Vector2(700, 160)
+	custom_minimum_size = Vector2(400, 160)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	clip_contents = true
 func _draw() -> void:

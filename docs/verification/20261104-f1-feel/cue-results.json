@@ -1,0 +1,30 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T120631Z-f142a36c/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T120631Z-f142a36c/user_directory"
+    },
+    {
+      "name": "test_f1_cues",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_f1_cues.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T120631Z-f142a36c/test_f1_cues"
+    }
+  ]
+}

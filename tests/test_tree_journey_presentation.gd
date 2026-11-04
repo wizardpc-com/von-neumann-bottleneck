@@ -144,6 +144,7 @@ func run() -> void:
 		check(scene.list_view.visible and scene.list_rows.get_child_count() == 3 and (scene.list_summary.text.contains("压缩") or scene.list_summary.text.contains("Compression")),"Compression chapter lists its three tasks: "+locale)
 		check(root.get_visible_rect().encloses(list_rect) and list_rect.size.y >= 120 and first_visible.size.y >= 40,"Chapter list has usable scroll height and a visible clickable entry at 1280x720: "+locale)
 		await capture_map(locale+"-compression-chapter-list")
+
 		scene.search.text="creation/"; scene._on_search_changed(scene.search.text); await settle()
 		list_rect=scene.list_scroll.get_global_rect()
 		first_entry=scene.list_rows.get_child(0) as Button

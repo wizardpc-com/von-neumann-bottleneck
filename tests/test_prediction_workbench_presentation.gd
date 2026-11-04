@@ -35,7 +35,7 @@ func bounds(scene: Control) -> void:
 	var surface: Control = control(scene,"PredictionSurface")
 	check(surface != null,"Workbench surface exists")
 	if surface != null: check(surface.get_global_rect().is_equal_approx(view),"Workbench surface fills the logical viewport: "+str(surface.get_global_rect())+" in "+str(view))
-	for id: String in ["Step","Run","Restart","Hint1","Language","Rule","Confidence","Lookahead","Cooldown"]:
+	for id: String in ["Step","Run","Restart","Hint1","Rule","Confidence","Lookahead","Cooldown"]:
 		var item: Control = control(scene,id)
 		check(item != null,"Core operation exists: "+id)
 		if item == null: continue
@@ -101,6 +101,7 @@ func run() -> void:
 		check((control(scene,"Events").get_theme_stylebox("panel") as StyleBoxFlat).bg_color == Color("0b1722"),"Trace tree uses the instrument palette")
 		check(control(scene,"TemporaryBoundary").get("text").contains("不保留") if locale == "zh_CN" else control(scene,"TemporaryBoundary").get("text").contains("discarded"),"Temporary lifetime is stated on the workbench")
 		check(scene.get("history").is_empty() and scene.get("active_trace") == null,"Opening the presentation creates no measured evidence")
+		check(control(scene,"RequestTimeline") != null and scene.get("request_strip").get_child_count() == 1,"Idle timeline contains only the unknown next request")
 		bounds(scene); await capture("prediction-"+locale+"-initial")
 		(control(scene,"Hint1") as Button).pressed.emit(); await settle()
 		check((control(scene,"Status") as Label).text == scene.call("hint_text"),"Requested clue is retained in full")
@@ -108,6 +109,7 @@ func run() -> void:
 		scene.call("step_current"); await settle()
 		var observation: Dictionary = scene.call("public_observation")
 		check(observation.observed_addresses == [0] and observation.revealed_decisions.size() == 1 and observation.completed_runs.is_empty(),"Step exposes only the observed prefix, not a completed record")
+		check(scene.get("request_strip").get_child_count() == 2,"Timeline advances one actual request and retains the unknown next cell")
 		check(not (control(scene,"Result") as Label).text.contains("150"),"A prefix does not disclose the final baseline cost")
 		var prefix_signature: String = scene.get("active_trace").canonical_signature()
 		scene.call("change_task",scene.get("task")); await settle()
@@ -118,6 +120,9 @@ func run() -> void:
 		check(scene.get("history").size() == 1 and int(scene.get("history")[0].trace.metrics.total_cycles) == 150,"Completed default run displays the actual known baseline")
 		var record_signature: String = scene.get("history")[0].trace.canonical_signature()
 		var recorded_policy: Dictionary = scene.get("history")[0].policy.duplicate(true)
+		check((control(scene,"RequestTimeline") as Control).size.x > 1100,"Timeline spans the workbench")
+		check((control(scene,"TimelineSummary") as Label).text.contains("150"),"Band comparison uses the completed baseline result")
+		check(scene.get("request_strip").get_child(0).get_child(0).get_child_count() == 3,"Off cards omit inactive guess fields")
 		bounds(scene); await capture("prediction-"+locale+"-completed")
 		var evidence_tabs := control(scene,"PredictionEvidenceTabs") as TabContainer
 		evidence_tabs.current_tab = 1; await settle()
@@ -153,6 +158,7 @@ func run() -> void:
 			var rule_tabs := control(scene,"PredictionRuleTabs") as TabContainer
 			rule_tabs.current_tab = 1; await settle()
 			check((control(scene,"Mission") as Label).text == scene.call("mission_text"),"Full existing task specification remains available")
+			check(control(scene,"Language").is_visible_in_tree() and root.get_visible_rect().encloses(control(scene,"Language").get_global_rect()),"Language action remains reachable in Task and machine")
 			check(root.get_visible_rect().encloses(control(scene,"SpecificationScroll").get_global_rect()),"Task specification reading area fits the window")
 			check(root.get_visible_rect().encloses(control(scene,"Step").get_global_rect()),"Specification never displaces the main operation")
 			await capture("prediction-"+locale+"-task"+str(index+1)+"-spec")

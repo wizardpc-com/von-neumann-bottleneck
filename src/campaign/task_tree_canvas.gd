@@ -27,6 +27,9 @@ var relation_index: Dictionary = {}
 var region_by_key: Dictionary = {}
 var edge_geometry_cache: Dictionary = {}
 var dash_geometry_cache: Dictionary = {}
+var resume_key: String = ""
+var pulse_time: float = 0.0
+var records: Dictionary = {}
 var dash_cache_zoom: float = -1.0
 
 func _ready() -> void:
@@ -42,6 +45,11 @@ func _ready() -> void:
 
 func configure(tasks: Array[Dictionary]) -> void:
 	rows = tasks
+	resume_key = TaskNavigation.next_task_key()
+	records.clear()
+	if not GameMode.is_test_mode():
+		for record: Dictionary in PersonalRecords.snapshot(TaskNavigation.tasks()).tasks:
+			records[record.key] = record.best
 	edge_geometry_cache.clear()
 	dash_geometry_cache.clear()
 	_rebuild_relation_index()
@@ -51,6 +59,11 @@ func configure(tasks: Array[Dictionary]) -> void:
 	world_size=layout.size
 	for message: String in layout.errors: push_error(message)
 	queue_redraw()
+
+func _process(delta: float) -> void:
+	if bool(ProjectSettings.get_setting("game/reduced_motion",false)): return
+	pulse_time += delta
+	if magnification >= 0.34: queue_redraw()
 
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color(0.025,0.055,0.085,0.68))
@@ -90,7 +103,26 @@ func _draw() -> void:
 		draw_style_box(style,rect)
 		draw_line(rect.position+Vector2(12,3),rect.position+Vector2(NODE_SIZE.x-12,3),Color(color,0.22),1,true)
 		if task.completed:
-			draw_circle(rect.position+Vector2(NODE_SIZE.x-12,12),5,color)
+			draw_line(rect.position+Vector2(3,12),rect.position+Vector2(3,NODE_SIZE.y-12),Color("7fd8a4"),5,true)
+			var tick: Vector2 = rect.position+Vector2(NODE_SIZE.x-20,16)
+			draw_polyline(PackedVector2Array([tick+Vector2(-5,0),tick+Vector2(-1,4),tick+Vector2(7,-5)]),Color("7fd8a4"),2,true)
+		elif not task.unlocked:
+			draw_arc(rect.position+Vector2(NODE_SIZE.x-17,14),5,PI,TAU,12,color,2,true)
+			draw_rect(Rect2(rect.position+Vector2(NODE_SIZE.x-23,14),Vector2(12,10)),color,false,2)
+		if str(task.get("progress_source","")) == "session":
+			draw_arc(rect.position+Vector2(NODE_SIZE.x-18,18),8,0,TAU,20,color,2,true)
+			draw_line(rect.position+Vector2(NODE_SIZE.x-18,12),rect.position+Vector2(NODE_SIZE.x-18,18),color,2,true)
+		if task.key == resume_key:
+			var alpha: float = 0.5 if bool(ProjectSettings.get_setting("game/reduced_motion",false)) else 0.45+0.15*sin(pulse_time*2.0)
+			var ring := StyleBoxFlat.new()
+			ring.draw_center=false;ring.border_color=Color("f0c674",alpha)
+			ring.set_border_width_all(2);ring.set_corner_radius_all(13)
+			draw_style_box(ring,rect.grow(5))
+		var earned: int = 0
+		if not GameMode.is_test_mode():
+			for goal: Dictionary in task.get("bonus_goals",[]):
+				if goal.get("complete",false):
+					draw_circle(rect.position+Vector2(NODE_SIZE.x-14-earned*12,NODE_SIZE.y-10),3,Color("f0c674"));earned+=1
 		if task.optional:
 			var mid: Vector2 = rect.position+Vector2(0,NODE_SIZE.y/2)
 			draw_colored_polygon(PackedVector2Array([mid+Vector2(-8,0),mid+Vector2(0,-8),mid+Vector2(8,0),mid+Vector2(0,8)]),color)
@@ -121,11 +153,14 @@ func _build_edge_points(task: Dictionary, dep: String) -> PackedVector2Array:
 func _draw_edge(task: Dictionary,dep: String,recommended: bool) -> void:
 	if not positions.has(dep): return
 	var b: Vector2 = positions[task.key]+Vector2(0,NODE_SIZE.y/2)
-	var color := Color("59736a") if recommended else Color("354963")
+	var satisfied: bool = false
+	for source: Dictionary in rows:
+		if source.key == dep: satisfied = source.completed; break
+	var color := Color("59736a") if recommended else Color("7fd8a4") if satisfied else Color("61748b")
 	var focus: String = relation_focus_key()
 	var emphasized: bool = task.key == focus or dep == focus
-	if emphasized: color = _color(task.region).lightened(0.25 if task.key == focus else 0.05)
-	elif not focus.is_empty(): color.a = 0.45
+	if emphasized: color = Color("f0c674") if task.key == focus else Color("7fcbd6")
+	elif not focus.is_empty(): color.a = 0.25
 	var points: PackedVector2Array=edge_points(task,dep)
 	if points.size()<2: return
 	var arrow: float=maxf(8.0,5.0/magnification)
@@ -194,6 +229,8 @@ func _draw_screen_text() -> void:
 		draw_string(font,layout.position,layout.title,HORIZONTAL_ALIGNMENT_LEFT,-1,layout.font_size,color)
 		if layout.compact: continue
 		var caption: String=("◇ " if task.optional else "")+(("已完成" if task.completed else "可进入" if task.unlocked else "未解锁") if Localization.current_locale().begins_with("zh") else ("Completed" if task.completed else "Available" if task.unlocked else "Locked"))
+		var record: String = record_caption(task)
+		if not record.is_empty(): caption = record
 		var relation: String = relation_to_focus(task.key)
 		var relation_label: String = ""
 		var chinese: bool = Localization.current_locale().begins_with("zh")
@@ -415,3 +452,15 @@ static func dash_polyline(points: PackedVector2Array, dash: float, gap: float) -
 				visible_dash=not visible_dash
 				remaining=dash if visible_dash else gap
 	return result
+
+func record_caption(task: Dictionary) -> String:
+	# PersonalRecords only observes accepted Game runs. Test receipts never enter it.
+	if GameMode.is_test_mode() or not task.completed: return ""
+	var record: Dictionary = records.get(task.key,{})
+	if task.domain == "hardware_foundations" and record.has("passed_cases"):
+		return Localization.text(&"m1_map.passed_cases") % int(record.passed_cases)
+	if task.domain == "chapter_4" and record.has("ram_read_bytes") and record.has("ram_write_bytes"):
+		return "RAM %d B" % (int(record.ram_read_bytes)+int(record.ram_write_bytes))
+	if record.has("cycles"):
+		return Localization.text(&"m1_map.cycles") % int(record.cycles)
+	return ""

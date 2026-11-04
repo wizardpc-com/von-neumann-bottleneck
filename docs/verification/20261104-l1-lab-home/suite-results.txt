@@ -1,0 +1,10 @@
+test_global_save.txt: PASS: minimal global Save/Continue, provenance reconciliation, chapter gates, New Game, and mode isolation tests passed
+test_immersive_lab.txt: PASS: immersive lab 443 checks, 0 failures
+test_lab_journey.txt: PASS: lab journey 52 checks, 0 failures
+test_lab_navigation_soak.txt: PASS: test_lab_navigation_soak 162 checks, 0 failures
+test_lab_saved_work_window.txt: PASS: laboratory saved-work window 26 checks, 0 failures
+test_lab_terminal_pages.txt: NOT_RUN: nested Window native focus needs graphical rendering
+test_lab_terminal_pages.txt: PASS: terminal pages 52 checks
+test_lab_terminal_routing.txt: PASS: lab terminal routing 39 checks, 0 failures
+test_room_page_skin_lifecycle.txt: PASS: room page skin lifecycle 96 checks, 0 failures
+test_room_skin_dynamic_descendants.txt: PASS: room skin dynamic descendants 27 checks, 0 failures

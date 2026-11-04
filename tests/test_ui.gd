@@ -28,7 +28,7 @@ func _run() -> void:
 	_assert(
 		clock_period_control != null
 		and clock_period_control.name == "PlaybackFrequencyControl"
-		and is_equal_approx(clock_period_control.value, 2.0)
+		and is_equal_approx(clock_period_control.value, 8.0)
 		and clock_period_control.suffix == "Hz",
 		"Chapter 2 must expose the shared editable playback-frequency control."
 	)
@@ -184,7 +184,7 @@ func _run() -> void:
 	var column_one: SimulationTraceType = main.get("current_trace")
 	_assert(column_one != null and column_one.passed, "Official starter run must remain correct.")
 	_assert(int(column_one.metrics["total_cycles"]) == 642 and not bool(main.get("current_goal_met")), "The capstone's two-pass column-first baseline must be correct but far above 145 cycles.")
-	_assert(program_window.visible and profiler_window.visible, "Starting playback must preserve every instrument the player chose to keep open.")
+	_assert(program_window.visible and profiler_window.visible, "Starting playback preserves the instruments the player kept open.")
 	_assert(String(main.get("last_executed_source")) == ProgramTemplatesType.COLUMN_FIRST, "Run must capture and execute the exact applied source.")
 
 	var request_event: SimulationEventType = _first_event(column_one, &"request")
@@ -326,7 +326,7 @@ func _run() -> void:
 		hub.call("_unhandled_key_input", hub_escape)
 	_assert(
 		options_overlay.visible
-		and options_resume.text == _t(&"hub.options.resume")
+		and options_resume.text == ("Back · Esc" if root.get_node("Localization").current_locale() == "en" else "返回 · Esc")
 		and options_export.text == _t(&"playtest.export.button")
 		and options_quit.text == _t(&"hub.options.quit")
 		and options_fullscreen.text in [_t(&"window.fullscreen.enter"), _t(&"window.fullscreen.exit")],

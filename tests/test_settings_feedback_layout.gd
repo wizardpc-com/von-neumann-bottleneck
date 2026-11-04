@@ -41,6 +41,9 @@ func inspect_settings(host: Control, prefix: String) -> void:
 	var tabs: TabContainer = host.find_child("SettingsCategories",true,false)
 	check(tabs != null and tabs.get_tab_count() == 3,"Three settings categories")
 	if tabs == null: return
+	var mode: Control = host.find_child("SettingsGameMode",true,false)
+	if mode != null:
+		check(is_equal_approx(mode.option_button.size.x,mode.size.x),"Mode selector fills its aligned control column")
 	for index: int in 3:
 		await click_tab(tabs,index)
 		check(fits(host.options_resume_button) and fits(host.options_quit_button),"Settings footer fits "+prefix)
@@ -58,6 +61,16 @@ func inspect_feedback(prefix: String) -> void:
 	await settle()
 	for key: String in ["FeedbackCategory","KeepFeedbackLocally","SendTaskFeedback"]:
 		check(fits(feedback.panel.find_child(key,true,false)),"Feedback first-screen action fits "+prefix+key)
+	check(not feedback.source_selector.is_visible_in_tree(),"Feedback source identity starts inside diagnostics "+prefix)
+	var source_index: int = feedback.source_selector.selected
+	for node: Node in feedback.context_card.find_children("*","Button",true,false):
+		if node.get_meta("locale_field",[]) == ["text","p1.diagnostics"]:
+			node.button_pressed = true
+			await settle()
+			check(feedback.source_selector.is_visible_in_tree(),"Diagnostics exposes original source selector "+prefix)
+			check(feedback.source_selector.selected == source_index,"Diagnostics preserves source selection "+prefix)
+			node.button_pressed = false
+			await settle()
 	check(fits(feedback.opinion),"Opinion visible "+prefix)
 	check(fits(feedback.status),"Feedback delivery status fits "+prefix)
 	check(fits(feedback.panel.find_child("FeedbackPrivacy",true,false)),"Feedback privacy fits "+prefix)

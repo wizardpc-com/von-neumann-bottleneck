@@ -7191,3 +7191,95 @@ msgstr "Laboratory and useful controls"
 
 msgid "terminology.term.operation_navigation.body"
 msgstr "Continue the current task at the laboratory terminal, or choose a task and read its specifications on Journey map. The archive shelf holds unlocked journey records. Concepts and control diagrams have a separate Handbook entry; use the journey board or achievements to check progress. An archive page is not completion evidence.\n\nThe work wall reopens saved works. In a task, read its goal first. Hint offers clues; in the prologue F1 also opens help. Returning to the laboratory or map still uses that task’s unsaved-work guard.\n\nF10 opens Settings: text speed, language, effects and ambience volume, window/fullscreen, frame limit and reduced motion. Esc closes the current upper page first.\n\nF8 opens feedback to retain a scene and comments. Sharing in ordinary mode requires an explicit choice. Offline playtest feedback is recorded locally and can be exported as a package; recording is not automatic upload."
+
+# --- s1-prologue 20261104 ---
+msgid "hardware.case.canvas_mismatch"
+msgstr "Actual %s · Expected %s"
+
+# --- s2-locality 20261104 ---
+
+msgid "s2.run.metrics"
+msgstr "Current | %s cycles | CPU wait %s | Hit/miss %s/%s | RAM %s B"
+
+msgid "s2.run.comparison"
+msgstr "Previous → current | Cycles %s | Wait %s | Hits %s | Misses %s | RAM %s B"
+# --- b2-bridges 20261104 ---
+
+msgid "b2.reflection.capstone"
+msgstr "From %d to %d cycles. This is your plan."
+
+msgid "b2.reflection.distance"
+msgstr "Your synthesis passed; you also kept a distance plan without repeated transfers."
+
+msgid "b2.reflection.both"
+msgstr "Both queries passed; you also kept accepted layouts for low peak space and low RAM traffic."
+
+msgid "b2.reflection.space"
+msgstr "Both queries passed; you also kept an accepted low-peak-space layout."
+
+msgid "b2.reflection.flow"
+msgstr "Both queries passed; you also kept an accepted low-RAM-traffic layout."
+
+msgid "b2.artifact.machine"
+msgstr "Your machine"
+
+msgid "b2.artifact.temporary"
+msgstr "Temporary session; these results are not saved."
+
+msgid "b2.artifact.unsaved"
+msgstr "Unsaved changes; save before leaving."
+
+msgid "b2.artifact.became"
+msgstr "Together, they became %s."
+
+msgid "b2.artifact.continue"
+msgstr "Continue"
+
+msgid "b2.artifact.task"
+msgstr "Task %d"
+
+msgid "b2.artifact.order"
+msgstr "Order %d"
+
+msgid "b2.artifact.cycles"
+msgstr "%d cycles"
+
+# --- m1-map 20261104 ---
+msgid "m1_map.passed_cases"
+msgstr "%d cases passed"
+
+msgid "m1_map.cycles"
+msgstr "%d cycles"
+
+# --- s5-early-chapters 20261104 ---
+msgid "s5.system.comparison"
+msgstr "Previous → current: %d → %d cycles (%+d)"
+
+
+
+msgid "s5.layout.cycles_peak"
+msgstr "Cycles %d · peak scratch %d B"
+
+msgid "s5.layout.previous"
+msgstr "Since last complete run: "
+
+msgid "s5.layout.incomplete"
+msgstr "Incomplete"
+
+msgid "s5.layout.details"
+msgstr "Show / hide details and outputs"
+
+# --- f1-feel 20261104 ---
+msgid "f1.met_again"
+msgstr "Target met again"
+
+# --- p1-pages 20261104 ---
+msgid "p1.diagnostics"
+msgstr "Diagnostics"
+
+msgid "p1.back"
+msgstr "Back · Esc"
+
+# --- p1-pages 20261104 --- Round 2
+msgid "p1.feedback_title"
+msgstr "Feedback"

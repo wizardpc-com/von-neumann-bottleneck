@@ -1,0 +1,19 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: chapter_3/arrival opens
+PASS: chapter_3/arrival viewport Unicode replaces selection
+PASS: chapter_3/arrival committed Chinese Unicode inserts
+PASS: chapter_3/arrival keycode-only injection does not insert text
+PASS: chapter_3/arrival autosave retains focus and text
+PASS: chapter_3/arrival Ctrl+Shift+Up at first line retains legal caret
+PASS: chapter_3/arrival empty editor retains line zero
+PASS: chapter_1/assembly opens
+PASS: chapter_1/assembly viewport Unicode replaces selection
+PASS: chapter_1/assembly committed Chinese Unicode inserts
+PASS: chapter_1/assembly keycode-only injection does not insert text
+PASS: chapter_1/assembly autosave retains focus and text
+PASS: chapter_1/assembly Ctrl+Shift+Up at first line retains legal caret
+PASS: chapter_1/assembly empty editor retains line zero
+D1 checks: 14, failures: 0

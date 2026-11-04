@@ -1,0 +1,18 @@
+test_global_save PASS
+PASS: minimal global Save/Continue, provenance reconciliation, chapter gates, New Game, and mode isolation tests passed
+test_immersive_lab PASS
+PASS: immersive lab 445 checks, 0 failures
+test_lab_journey PASS
+PASS: lab journey 52 checks, 0 failures
+test_lab_navigation_soak PASS
+PASS: test_lab_navigation_soak 162 checks, 0 failures
+test_lab_saved_work_window PASS
+PASS: laboratory saved-work window 26 checks, 0 failures
+test_lab_terminal_pages PASS
+PASS: terminal pages 52 checks
+test_lab_terminal_routing PASS
+PASS: lab terminal routing 39 checks, 0 failures
+test_room_page_skin_lifecycle PASS
+PASS: room page skin lifecycle 96 checks, 0 failures
+test_room_skin_dynamic_descendants PASS
+PASS: room skin dynamic descendants 27 checks, 0 failures

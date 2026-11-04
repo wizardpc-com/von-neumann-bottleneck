@@ -37,6 +37,12 @@ var display_state: Dictionary:
 	get:
 		return _display_state.duplicate(true)
 var _display_state: Dictionary = {}
+var _plates: Dictionary = {}
+var _chapter_lights: Array[StandardMaterial3D] = []
+var _gallery: Array = []
+var _idle_time: float = 0.0
+var _desk_light: SpotLight3D
+var _dust: GPUParticles3D
 var _station_labels: Array[Label3D] = []
 var _board_viewport: SubViewport
 var _board_title: Label
@@ -115,6 +121,7 @@ func _ready() -> void:
 		if mesh_name.begins_with("Achievements |") and mesh_name not in ["Achievements | sculpted wall inset", "Achievements | ceramic inset", "Achievements | unprinted plaque"]:
 			mesh.hide()
 		_add_mesh_collision(mesh)
+	_setup_furnishings()
 	_setup_status_displays()
 	_hover_material = StandardMaterial3D.new()
 	_hover_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
@@ -195,6 +202,17 @@ func _process(delta: float) -> void:
 		_look_current = Vector2.ZERO
 	else:
 		_look_current = _look_current.lerp(_look_target, 1.0 - exp(-10.0 * delta))
+	_idle_time = 0.0 if reduced else _idle_time + delta
+	if _desk_light != null:
+		_desk_light.light_energy = 3.2 + (0.0 if reduced else 0.08 * sin(_idle_time * 0.7))
+	for index in range(_chapter_lights.size()):
+		if _chapter_lights[index].emission_enabled:
+			_chapter_lights[index].emission_energy_multiplier = 0.5 if reduced else 0.5 + 0.12 * sin(_idle_time * 0.6 + index * 0.7)
+	if _dust != null:
+		_dust.emitting = not reduced
+		_dust.speed_scale = 0.0 if reduced else 1.0
+	for id: String in _plates:
+		(_plates[id] as Label3D).modulate = Color("ffe1ab") if id == _hovered else Color("d5dedb")
 	var looking: Basis = _neutral_basis * Basis(Vector3.UP, deg_to_rad(_look_current.x)) * Basis(Vector3.RIGHT, deg_to_rad(_look_current.y))
 	var aim: Basis = Transform3D(Basis(), OBSERVATION).looking_at(_focus_point, Vector3.UP).basis
 	# Turn toward the object early, walk toward it, and narrow the view last,
@@ -517,6 +535,12 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 			"temporary": int(progress.get("temporary", 0)),
 			"available": available, "current": current, "locked": has_tasks and not available and not finished, "status": status})
 	_refresh_board(station_states, maxi(0, completed), maxi(0, total), english)
+	for index in range(_chapter_lights.size()):
+		var earned: bool = index < station_states.size() and station_states[index].status == "completed"
+		_chapter_lights[index].albedo_color = Color("8ed8c5") if earned else Color("344a50")
+		_chapter_lights[index].emission_enabled = earned
+	for id: String in _plates:
+		(_plates[id] as Label3D).text = _plate_name(id, english)
 	var count := maxi(0, works_count)
 	var latest: Dictionary = works[-1] if count > 0 and not works.is_empty() and works[-1] is Dictionary else {}
 	var latest_name := str(latest.get("name", ""))
@@ -533,6 +557,14 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 		# Unlit cells read as an empty light-print matrix waiting for a saved work.
 		var pixel := _work_pixels[index]
 		pixel.modulate = WORK_COLORS[clampi(int(output[index]), 0, WORK_COLORS.size() - 1)] if index < output.size() else Color(0.55, 0.68, 0.76, 0.16)
+	for slot in range(_gallery.size()):
+		var work_index: int = works.size() - 1 - slot
+		var values: Array = []
+		if count > 0 and work_index >= 0 and works[work_index] is Dictionary:
+			var raw: Variant = works[work_index].get("output", [])
+			if raw is Array: values = raw
+		for cell in range(_gallery[slot].size()):
+			(_gallery[slot][cell] as Label3D).modulate = WORK_COLORS[clampi(int(values[cell]), 0, 3)] if cell < values.size() else Color(0.55, 0.68, 0.76, 0.16)
 	if _achievement_label != null:
 		_achievement_label.text = ("Completed\n%d / %d" if english else "已完成\n%d / %d") % [maxi(0, completed), maxi(0, total)]
 
@@ -561,14 +593,25 @@ func _setup_status_displays() -> void:
 		_works_title = _surface_label(works_board, Vector3(bounds.position.x + 0.16, bounds.end.y - 0.17, front), 0.0055, 30)
 		_works_name = _surface_label(works_board, Vector3(bounds.end.x - 0.16, bounds.end.y - 0.17, front), 0.0055, 26)
 		_works_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		var pitch: float = (bounds.size.x - 0.6) / 7.0
-		var rows_top: float = bounds.end.y - 0.42
-		var row_pitch: float = minf(0.13, (rows_top - bounds.position.y - 0.12) / 3.0)
-		for index in range(32):
-			var point := Vector3(bounds.position.x + 0.3 + float(index % 8) * pitch, rows_top - floorf(float(index) / 8.0) * row_pitch, front)
-			var pixel := _surface_label(works_board, point, 0.004, 28)
-			pixel.text = "●"
-			_work_pixels.append(pixel)
+		for slot in range(4):
+			var left: float = bounds.position.x + 0.22 + (slot % 2) * (bounds.size.x - 0.35) / 2.0
+			var width: float = (bounds.size.x - 0.65) / 2.0
+			var top: float = bounds.end.y - 0.38 - floorf(slot / 2.0) * 0.36
+			var cells: Array[Label3D] = []
+			for index in range(32):
+				var point := Vector3(left + 0.10 + float(index % 8) * (width - 0.2) / 7.0, top - 0.06 - floorf(float(index) / 8.0) * 0.075, front)
+				var pixel := _surface_label(works_board, point, 0.0035, 28)
+				pixel.text = "■"
+				pixel.scale = Vector3(1.2,0.6,1.0)
+				pixel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				cells.append(pixel)
+			_gallery.append(cells)
+			if slot == 0: _work_pixels = cells
+			for offset in [-1.0, 1.0]:
+				var rail := _box("Works | gallery rail", works_board.to_global(Vector3(left + width * 0.5, top - 0.16 + offset * 0.16, front)), Vector3(width, 0.035, 0.04), Color("a38b66"))
+				rail.scale = works_board.global_basis.get_scale()
+				var stile := _box("Works | gallery stile", works_board.to_global(Vector3(left + width * 0.5 + offset * width * 0.5, top - 0.16, front)), Vector3(0.035, 0.32, 0.04), Color("a38b66"))
+				stile.scale = works_board.global_basis.get_scale()
 	var achievements := model.find_child("Achievements | ceramic inset", true, false) as MeshInstance3D
 	if achievements != null:
 		var bounds := achievements.get_aabb()
@@ -734,10 +777,10 @@ func _setup_environment() -> void:
 	environment.background_mode = Environment.BG_COLOR
 	environment.background_color = Color(0.15, 0.17, 0.20)
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	environment.ambient_light_energy = 0.62
+	environment.ambient_light_energy = 0.12
 	environment.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	environment.tonemap_exposure = 1.06
+	environment.tonemap_exposure = 0.95
 	# Only the ceiling strip and the screens bloom, softly.
 	environment.glow_enabled = true
 	environment.glow_intensity = 0.35
@@ -746,9 +789,9 @@ func _setup_environment() -> void:
 	environment.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	world_environment.environment = environment
 	viewport.add_child(world_environment)
-	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color(1.0, 0.89, 0.74), 0.66, 75.0, 19.0, true)
-	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color(0.86, 0.91, 1.0), 0.26, 75.0, 18.0, true)
-	_add_light(Vector3(0, 5.6, 1.5), Vector3(0, 1.4, 2.4), Color(1.0, 0.95, 0.86), 0.35, 48.0, 9.0, false)
+	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color(0.78, 0.86, 1.0), 0.26, 75.0, 19.0, true)
+	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color(0.56, 0.75, 1.0), 0.38, 75.0, 18.0, true)
+	_add_light(Vector3(0, 5.6, 1.5), Vector3(0, 1.4, 2.4), Color(1.0, 0.95, 0.86), 0.12, 48.0, 9.0, false)
 	_add_light(Vector3(-1.2, 6.8, -8.6), Vector3(-1.2, 5.1, -11.7), Color(1.0, 0.90, 0.75), 0.8, 62.0, 10.0, false)
 
 func _add_light(position_3d: Vector3, target: Vector3, color: Color, energy: float, angle: float, distance: float, shadows: bool) -> void:
@@ -760,7 +803,183 @@ func _add_light(position_3d: Vector3, target: Vector3, color: Color, energy: flo
 	light.spot_range = distance
 	light.shadow_enabled = shadows
 	# Shallow wall angles need enough bias to avoid striped self-shadowing.
+	light.light_size = 0.35
 	light.shadow_bias = 2.0
 	light.shadow_normal_bias = 2.0
 	viewport.add_child(light)
 	light.look_at(target, Vector3.UP)
+
+func _plate_name(id: String, english: bool) -> String:
+	var names: Dictionary = {
+		"handbook": ["手册", "Handbook"], "settings": ["设置", "Settings"],
+		"feedback": ["反馈", "Feedback"], "archive": ["档案", "Archive"],
+		"works": ["作品", "Works"], "achievements": ["成就", "Achievements"],
+	}
+	return names[id][1 if english else 0]
+
+func _box(mesh_name: String, point: Vector3, dimensions: Vector3, color: Color) -> MeshInstance3D:
+	var instance := MeshInstance3D.new()
+	instance.name = mesh_name
+	var box := BoxMesh.new()
+	box.size = dimensions
+	instance.mesh = box
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color
+	material.roughness = 0.65
+	instance.material_override = material
+	model.add_child(instance, true)
+	instance.global_position = point
+	_add_mesh_collision(instance)
+	return instance
+
+func _cylinder(mesh_name: String, point: Vector3, radius: float, height: float, color: Color) -> MeshInstance3D:
+	var instance := MeshInstance3D.new()
+	instance.name = mesh_name
+	var shape := CylinderMesh.new()
+	shape.top_radius = radius; shape.bottom_radius = radius; shape.height = height
+	shape.radial_segments = 24
+	instance.mesh = shape
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color; material.roughness = 0.65
+	instance.material_override = material
+	model.add_child(instance, true)
+	instance.global_position = point
+	_add_mesh_collision(instance)
+	return instance
+
+func _rounded(mesh_name: String, point: Vector3, dimensions: Vector3, color: Color, radius: float) -> void:
+	_box(mesh_name, point, Vector3(dimensions.x - radius * 2, dimensions.y, dimensions.z), color)
+	_box(mesh_name, point, Vector3(dimensions.x, dimensions.y, dimensions.z - radius * 2), color)
+	for x in [-1.0, 1.0]:
+		for z in [-1.0, 1.0]:
+			_cylinder(mesh_name, point + Vector3(x * (dimensions.x / 2 - radius), 0, z * (dimensions.z / 2 - radius)), radius, dimensions.y, color)
+
+func _setup_furnishings() -> void:
+	var noise := FastNoiseLite.new()
+	noise.frequency = 0.12
+	var texture := NoiseTexture2D.new()
+	texture.width = 128; texture.height = 128; texture.noise = noise
+	texture.as_normal_map = true; texture.bump_strength = 0.16
+	for node in model.find_children("*", "MeshInstance3D", true, false):
+		var mesh := node as MeshInstance3D
+		var title := str(mesh.name)
+		if title.begins_with("Architecture |") or (title.begins_with("Side wall |") and "integrated field" in title):
+			var finish := StandardMaterial3D.new()
+			finish.albedo_color = Color("465c69") if "floor" not in title else Color("414b53")
+			finish.roughness = 0.87
+			mesh.material_override = finish
+		if title.begins_with("Workstation |") and "light" not in title.to_lower():
+			var wood := StandardMaterial3D.new()
+			wood.albedo_color = Color("9da3a7"); wood.roughness = 0.88
+			mesh.material_override = wood
+		if title.begins_with("Works |") and mesh.visible:
+			var finish := mesh.get_active_material(0).duplicate() as StandardMaterial3D
+			finish.roughness = 0.95; finish.metallic_specular = 0.15
+			mesh.material_override = finish
+			mesh.scale.y *= 1.65
+			mesh.global_position.y = 4.46 + (mesh.global_position.y - 4.46) * 1.65
+		if title.begins_with("Ceiling continuous"):
+			var diffuser := StandardMaterial3D.new()
+			diffuser.albedo_color = Color("87999d")
+			diffuser.emission_enabled = true; diffuser.emission = Color("8b9eaa")
+			diffuser.emission_energy_multiplier = 0.5
+			mesh.material_override = diffuser
+		if title.begins_with("Handbook |") or title.begins_with("Settings |") or title.begins_with("Letter |"):
+			mesh.hide()
+	_rounded("Handbook | pages", Vector3(-1.71,1.55,3.05), Vector3(1.08,0.15,0.76), Color("c2baa2"),0.035)
+	for y in [1.46,1.65]:
+		_rounded("Handbook | cloth cover", Vector3(-1.71,y,3.05), Vector3(1.19,0.045,0.84),Color("234c58"),0.055)
+	var cover := model.find_child("Handbook | cloth cover",true,false) as MeshInstance3D
+	var cloth := cover.material_override as StandardMaterial3D
+	cloth.normal_enabled = true; cloth.normal_texture = texture; cloth.roughness = 0.95
+	_cylinder("Handbook | rounded spine",Vector3(-2.26,1.55,3.05),0.105,0.78,Color("234c58")).rotation_degrees.x = 90
+	for y in [1.50,1.53,1.56,1.59]:
+		_box("Handbook | page edge",Vector3(-1.69,y,3.433),Vector3(1.0,0.006,0.004),Color("8d8b7e"))
+	_rounded("Settings | instrument body",Vector3(3.14,1.53,2.98),Vector3(0.88,0.20,0.65),Color("233841"),0.085)
+	_rounded("Settings | brushed face",Vector3(3.14,1.64,2.98),Vector3(0.80,0.025,0.56),Color("71828a"),0.065)
+	for x in [2.90,3.14,3.38]:
+		var knob := _cylinder("Settings | rotary dial",Vector3(x,1.73,2.91),0.08,0.15,Color("23343c"))
+		(knob.material_override as StandardMaterial3D).metallic = 0.55
+		_cylinder("Settings | dial cap",Vector3(x,1.81,2.91),0.065,0.012,Color("b3bbb8"))
+		_box("Settings | dial index",Vector3(x,1.82,2.89),Vector3(0.012,0.006,0.055),Color("28363b"))
+	var indicator := _cylinder("Settings | power indicator",Vector3(3.45,1.663,3.16),0.022,0.014,Color("8ed8c5"))
+	var indicator_material := indicator.material_override as StandardMaterial3D
+	indicator_material.emission_enabled = true; indicator_material.emission = Color("8ed8c5")
+	_rounded("Letter | tray base",Vector3(2.06,1.44,3.02),Vector3(1.18,0.055,0.9),Color("725236"),0.07)
+	for x in [1.49,2.63]:
+		_rounded("Letter | tray lip",Vector3(x,1.50,3.02),Vector3(0.05,0.12,0.9),Color("987447"),0.02)
+	_box("Letter | envelope",Vector3(2.06,1.485,3.03),Vector3(0.91,0.023,0.62),Color("d8c9a8"))
+	for side in [-1.0,1.0]:
+		var fold := _box("Letter | envelope fold",Vector3(2.06+side*0.20,1.499,2.99),Vector3(0.47,0.004,0.012),Color("9c8d71"))
+		fold.rotation.y = side * -0.5
+	# Passive equipment is outside the journey board's clickable/focus bounds.
+	for x in [-5.65,-4.60]:
+		_cylinder("Equipment | upright",Vector3(x,2.52,-0.35),0.045,2.60,Color("7f8c8c"))
+	_rounded("Equipment | plinth",Vector3(-5.125,1.22,-0.35),Vector3(1.3,0.12,0.72),Color("23343d"),0.08)
+	for index in range(LabState.STATIONS.size()):
+		var y := 3.65 - index * 0.21
+		_rounded("Equipment | cartridge",Vector3(-5.125,y,-0.35),Vector3(0.98,0.17,0.42),Color("293d47"),0.035)
+		_box("Equipment | face trim",Vector3(-5.20,y,-0.12),Vector3(0.59,0.025,0.018),Color("68777a"))
+		_box("Equipment | indicator bezel",Vector3(-4.77,y,-0.12),Vector3(0.16,0.13,0.022),Color("839498"))
+		var led := _cylinder("Equipment | chapter indicator",Vector3(-4.77,y,-0.10),0.055,0.025,Color("344a50"))
+		led.rotation_degrees.x = 90
+		var material := led.material_override as StandardMaterial3D
+		material.roughness = 0.22
+		material.emission = Color("8ed8c5"); material.emission_energy_multiplier = 0.5
+		_chapter_lights.append(material)
+		var point := Vector3(2.43 + (index % 6) * 0.39,4.86 - floorf(index / 6.0) * 0.40,-11.56)
+		var rim := _cylinder("Achievements | medal rim",point,0.175,0.045,Color("9c8356"))
+		rim.rotation_degrees.x = 90
+		var medal := _cylinder("Achievements | chapter seal",point+Vector3(0,0,0.03),0.135,0.045,Color("344a50"))
+		medal.rotation_degrees.x = 90; medal.material_override = material
+	for segment in [Vector3(-4.77,1.43,0.85),Vector3(-3.64,1.43,2.01)]:
+		var cable := _cylinder("Equipment | terminal cable",segment,0.018,2.3,Color("27353d"))
+		if segment.x < -4.0: cable.rotation_degrees.x = 90
+		else: cable.rotation_degrees.z = 90
+	var positions := {"handbook":Vector3(-1.70,1.72,3.29),"settings":Vector3(3.14,1.56,3.35),"feedback":Vector3(2.06,1.52,3.55),"works":Vector3(-1.9,6.95,-11.5),"achievements":Vector3(3.4,6.12,-11.5),"archive":Vector3(-7.20,4.40,-1.85)}
+	for id: String in positions:
+		var small: bool = id in ["handbook","settings","feedback"]
+		var plate := Label3D.new()
+		plate.font = DISPLAY_FONT; plate.font_size = 64; plate.pixel_size = 0.0025 if small else 0.005
+		plate.outline_size = 0; plate.modulate = Color("d5dedb"); plate.double_sided = true
+		plate.text = _plate_name(id,false)
+		model.add_child(plate); plate.global_position = positions[id]
+		if small: plate.rotation_degrees.x = -20
+		if id == "archive": plate.rotation_degrees.y = 90
+		var prefix: String = {"handbook":"Handbook |", "settings":"Settings |", "feedback":"Letter |"}.get(id,"Nameplate |")
+		var backing := _box(prefix + " engraved plate " + id, positions[id],Vector3(0.78 if small else 2.2,0.16 if small else 0.36,0.016),Color("9eabad"))
+		backing.rotation = plate.rotation
+		var face := _box(prefix + " plate face " + id, positions[id] + plate.basis.z * 0.011,Vector3(0.75 if small else 2.16,0.14 if small else 0.32,0.008),Color("344650"))
+		face.rotation = plate.rotation
+		(backing.material_override as StandardMaterial3D).metallic = 0.55
+		plate.position += plate.basis.z * 0.02
+		_plates[id] = plate
+	# A shaded metal lamp and an actual shadowed pool, without covering the glass.
+	_cylinder("Lamp | foot",Vector3(-2.48,1.49,2.85),0.25,0.08,Color("303d43"))
+	_cylinder("Lamp | stem",Vector3(-2.48,2.19,2.85),0.035,1.36,Color("af9564"))
+	var shade := _cylinder("Lamp | shade",Vector3(-2.48,2.88,2.85),0.32,0.24,Color("35545a"))
+	(shade.mesh as CylinderMesh).top_radius = 0.16
+	_desk_light = SpotLight3D.new()
+	_desk_light.light_color = Color("ffcc87"); _desk_light.light_energy = 3.2
+	_desk_light.spot_range = 7.0; _desk_light.spot_angle = 65.0
+	_desk_light.shadow_enabled = true; _desk_light.light_size = 0.15
+	_desk_light.shadow_bias = 0.5; _desk_light.shadow_normal_bias = 1.0
+	viewport.add_child(_desk_light); _desk_light.position = Vector3(-2.48,2.73,2.85)
+	_desk_light.look_at(Vector3(-1.55,1.4,3.05))
+
+	_dust = GPUParticles3D.new()
+	_dust.amount = 12; _dust.lifetime = 8.0; _dust.preprocess = 8.0
+	_dust.visibility_aabb = AABB(Vector3(-2,-2,-2),Vector3(4,4,4))
+	var mote := SphereMesh.new(); mote.radius = 0.008; mote.height = 0.016
+	var dust_material := StandardMaterial3D.new()
+	dust_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	dust_material.albedo_color = Color("a48e69")
+	mote.material = dust_material; _dust.draw_pass_1 = mote
+	var particles := ParticleProcessMaterial.new()
+	particles.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
+	particles.emission_box_extents = Vector3(0.9,0.5,0.4)
+	particles.gravity = Vector3(0,0.012,0)
+	particles.initial_velocity_min = 0.015; particles.initial_velocity_max = 0.03
+	_dust.process_material = particles
+	_dust.emitting = not bool(ProjectSettings.get_setting("game/reduced_motion",false))
+	viewport.add_child(_dust); _dust.position = Vector3(-1.8,2.1,2.8)

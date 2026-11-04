@@ -206,11 +206,11 @@ func build() -> void:
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	if preload("res://src/campaign/journey_naming.gd").chapter_for("service/move_state") != "": title.text = preload("res://src/campaign/journey_naming.gd").chapter_for("service/move_state")
 	language_button = button("中文 / EN", header, toggle_language, "Language")
+	language_button.hide()
 	header.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
-	if candidate_journey: button(tr2("旅程地图", "Journey map") if get_node("/root/TaskNavigation").from_tree else tr2("实验室", "Laboratory"),header,request_hub,"CandidateHome")
 	button(tr2("服务回顾", "Service review"),header,show_closure,"ServiceClosure")
+	if candidate_journey: button(tr2("旅程地图", "Journey map") if get_node("/root/TaskNavigation").from_tree else tr2("实验室", "Laboratory"),header,request_hub,"CandidateHome")
 	header.add_child(get_node("/root/WindowMode").settings_button())
-	preload("res://src/ui/workbench_chrome.gd").quit_style(button(tr2("退出游戏", "Quit"), header, request_quit, "Quit"))
 	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	var stages := HFlowContainer.new(); page.add_child(stages)
 	stages.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
@@ -227,12 +227,18 @@ func build() -> void:
 	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
 	button(tr2("完整规格", "Full specification"),stages,show_specification,"ServiceSpecification")
 	button(tr2("追加委托", "Follow-ups"),stages,func() -> void: start_commission(maxi(commission_mode,0)),"ServiceCommissions")
-	mission = label("", page, 14); refresh_mission()
+	var mission_reading := ScrollContainer.new(); mission_reading.name = "MissionReading"
+	mission_reading.custom_minimum_size.y = 30
+	mission_reading.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	page.add_child(mission_reading)
+	var task_card := VBoxContainer.new(); task_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL; mission_reading.add_child(task_card)
+	mission = label("", task_card, 14); mission.size_flags_horizontal = Control.SIZE_EXPAND_FILL; refresh_mission()
 	status = label(tr2("构造组和顺序，选择逐流表示，再测量。实验进度只在内存。", "Construct groups/order and per-stream storage, then measure. Lab progress is session-only."), page, 14)
+	status.max_lines_visible = 1
 	var body := HBoxContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.add_theme_constant_override("separation", 14); page.add_child(body)
 	var editor := VBoxContainer.new(); editor.custom_minimum_size.x = 430; body.add_child(editor)
 	draft_source = label("",editor,14); draft_source.name = "DraftSource"
-	group_list = preload("res://experiments/service_plan/group_list.gd").new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_EXPAND_FILL; group_list.custom_minimum_size.y = 100; editor.add_child(group_list)
+	group_list = preload("res://experiments/service_plan/group_list.gd").new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_FILL; group_list.max_columns = 4; group_list.fixed_column_width = 100; group_list.custom_minimum_size.y = 140; editor.add_child(group_list)
 	group_list.select_mode = ItemList.SELECT_MULTI
 	group_list.tooltip_text = tr2("四格依次代表A/B/C/D；亮格表示组内包含该流。可拖动整组，运行核验同流保序。", "Four marks represent A/B/C/D; lit marks show streams present. Drag whole groups; Run validates stream order.")
 	group_list.group_moved.connect(func(source: int, target: int) -> void:
@@ -249,7 +255,10 @@ func build() -> void:
 	up_button = button(tr2("上移", "Move up"), motion, func() -> void: edit(Model.move(plan, selected_group, -1), selected_group - 1), "MoveUp")
 	down_button = button(tr2("下移", "Move down"), motion, func() -> void: edit(Model.move(plan, selected_group, 1), selected_group + 1), "MoveDown")
 	merge_button = button(tr2("合并下一组", "Join next"), motion, merge_selected_groups, "Merge")
-	var destination := HBoxContainer.new(); editor.add_child(destination)
+	var advanced := VBoxContainer.new(); advanced.name = "AdvancedEditing"; advanced.visible = false
+	button(tr2("更多编辑", "More editing"),editor,func() -> void: advanced.visible = not advanced.visible,"ToggleAdvancedEditing")
+	editor.add_child(advanced)
+	var destination := HBoxContainer.new(); advanced.add_child(destination)
 	label(tr2("移到第几组", "Move to group"), destination, 14)
 	move_to = SpinBox.new(); move_to.name = "MoveTarget"; move_to.min_value = 1; move_to.max_value = plan.groups.size(); move_to.value = 1; destination.add_child(move_to)
 	move_button = button(tr2("移动整组", "Move group"), destination, func() -> void: edit(Model.move(plan, selected_group, int(move_to.value) - 1 - selected_group), int(move_to.value) - 1), "MoveTo")
@@ -276,9 +285,11 @@ func build() -> void:
 	run_button = button(tr2("运行并记录", "Run and record"), actions, run_current, "Run")
 	InstrumentTheme.primary(run_button,Color("7fcbd6"))
 	if persistent_session:
-		var save := button(tr2("保存本次探索", "Save this exploration"),editor,save_session,"SaveSession")
+		var save := button(tr2("保存本次探索", "Save exploration"),actions,save_session,"SaveSession")
 		set_action_disabled(save,save_blocked); InstrumentTheme.primary(save,Color("62dca7"))
 		add_recovery_controls(editor)
+	button(tr2("退出游戏", "Quit"),actions,request_quit,"Quit")
+	status.reparent(editor)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
 	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -286,30 +297,42 @@ func build() -> void:
 	button(tr2("精度依据", "Quality evidence"),history_header,show_quality_evidence,"QualityEvidence")
 	var support_button := button(tr2("达标方案", "Successful plan"),history_header,restore_support,"RestoreSupport")
 	set_action_disabled(support_button,not support_plans.has(task))
-	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
-	evidence_tabs = TabContainer.new(); evidence_tabs.name = "EvidenceTabs"; evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(evidence_tabs)
+	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 40; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
+	evidence_tabs = TabContainer.new(); evidence_tabs.use_hidden_tabs_for_min_size = false; evidence_tabs.tabs_visible = false; evidence_tabs.name = "EvidenceTabs"; evidence_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence.add_child(evidence_tabs)
 	var overview := VBoxContainer.new(); overview.name = "Overview"; evidence_tabs.add_child(overview)
 	var event_panel := VBoxContainer.new(); event_panel.name = "Events"; evidence_tabs.add_child(event_panel)
 	var public_panel := VBoxContainer.new(); public_panel.name = "PublicData"; evidence_tabs.add_child(public_panel)
 	public_raw_button = button("",public_panel,func() -> void: public_raw = not public_raw; refresh_public_data(),"ToggleRawPublicData")
 	public_detail = RichTextLabel.new(); public_detail.name = "PublicDataView"; public_detail.custom_minimum_size.y = 150; public_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL; public_panel.add_child(public_detail)
 	evidence_tabs.set_tab_title(0,tr2("结果概览", "Overview")); evidence_tabs.set_tab_title(1,tr2("逐条事件", "Events")); evidence_tabs.set_tab_title(2,tr2("公开数据", "Public data"))
-	measured_source = label("",overview,13)
+	measured_source = label("",overview,13); measured_source.max_lines_visible = 1
 	measured_verdict = label("",overview,14); measured_verdict.name = "MeasuredVerdict"
 	next_button = button("",overview,continue_service,"ServiceNext")
 	var overview_scroll := ScrollContainer.new(); overview_scroll.name = "OverviewEvidenceScroll"
 	overview_scroll.custom_minimum_size.y = 80; overview_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	overview_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; overview_scroll.follow_focus = true
 	overview.add_child(overview_scroll)
-	var overview_evidence := HBoxContainer.new(); overview_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var overview_evidence := VBoxContainer.new(); overview_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	overview_evidence.add_theme_constant_override("separation", 12)
 	overview_scroll.add_child(overview_evidence)
-	journey_context = preload("res://src/ui/journey_context_card.gd").new(); overview_evidence.add_child(journey_context)
+	journey_context = preload("res://src/ui/journey_context_card.gd").new(); task_card.add_child(journey_context)
 	journey_context.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var measured_evidence := VBoxContainer.new(); measured_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	measured_evidence.custom_minimum_size.x = 400; overview_evidence.add_child(measured_evidence)
+	measured_evidence.custom_minimum_size.x = 400; overview_evidence.add_child(measured_evidence); overview_evidence.move_child(measured_evidence,0)
 	_refresh_journey_context()
+	journey_context.live_label.reparent(journey_context.details)
+	journey_context.action_label.reparent(journey_context.details)
+	journey_context.verify_label.reparent(journey_context.details)
+	journey_context.tooltip_text = mission_text()
+	journey_context.toggle.custom_minimum_size.y = 30
+	var card_actions := HBoxContainer.new(); page.add_child(card_actions); page.move_child(card_actions,3)
+	journey_context.toggle.reparent(card_actions)
+	hint_button.reparent(card_actions)
+	card_actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	journey_context.toggle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	journey_context.toggle.toggled.connect(func(open: bool) -> void: mission_reading.custom_minimum_size.y = 150 if open else 30)
 	summary = label(tr2("四条流不断更新历史、请求下一次结果。安排组与驻留，再运行自己的草稿。", "Four streams update history and request their next result. Arrange groups and residency, then run your draft."), measured_evidence, 14)
+	summary.reparent(overview); overview.move_child(summary,1)
 	var investigation := HBoxContainer.new(); measured_evidence.add_child(investigation)
 	bill_button = button(tr2("完整实测账单", "Measured bill"),investigation,show_measured_bill,"MeasuredBill")
 	button(tr2("查看该时刻历史", "History at this moment"),investigation,show_response_history,"ShowStateJourney")
@@ -328,17 +351,22 @@ func build() -> void:
 	clear_pin_button = button(tr2("清除对照", "Clear comparison"),compare_row,func() -> void: comparison_baseline.clear(); refresh_comparison(),"ClearComparison")
 	comparison_detail = label("",comparison_panel,14)
 	comparison_chart = preload("res://experiments/service_plan/comparison_chart.gd").new(); comparison_chart.name = "ComparisonChart"; comparison_panel.add_child(comparison_chart)
-	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"
-	measured_evidence.add_child(response_chart); measured_evidence.move_child(response_chart,0); response_chart.configure([],0 if task == 0 else 320,english)
-	var replay_row := HBoxContainer.new(); overview.add_child(replay_row)
+	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"; response_chart.custom_minimum_size.y = 224
+	evidence.add_child(response_chart); evidence.move_child(response_chart,0)
+	measured_verdict.reparent(evidence); evidence.move_child(measured_verdict,0)
+	next_button.reparent(evidence); evidence.move_child(next_button,1); response_chart.configure([],0 if task == 0 else 320,english)
+	var replay_row := HBoxContainer.new(); evidence.add_child(replay_row); evidence.move_child(replay_row,3)
 	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,func() -> void:
-		overview_scroll.ensure_control_visible(response_chart)
 		response_chart.toggle_play(),"ResponsePlay")
+	button(tr2("更多证据", "More evidence"),replay_row,func() -> void: evidence_tabs.tabs_visible = not evidence_tabs.tabs_visible,"ToggleEvidenceTabs")
 	response_play.custom_minimum_size.x = 220
 	response_step = button(tr2("下一响应", "Next response"),replay_row,func() -> void:
-		overview_scroll.ensure_control_visible(response_chart)
 		response_chart.step_response(),"ResponseStep")
 	set_action_disabled(response_play,true); set_action_disabled(response_step,true)
+	evidence_tabs.tab_changed.connect(func(index: int) -> void:
+		response_chart.visible = index == 0
+		replay_row.visible = index == 0
+		if index != 0: evidence_tabs.tabs_visible = true)
 	response_chart.playback_changed.connect(func(value: bool) -> void: response_play.text = tr2("暂停回放", "Pause replay") if value else tr2("回放首响应顺序", "Replay first responses"))
 	event_source = label("",event_panel,13)
 	event_raw_button = button("",event_panel,func() -> void: event_raw = not event_raw; refresh_event_detail(),"ToggleRawEvent")
@@ -356,6 +384,8 @@ func build() -> void:
 	design_shelf.remember_requested.connect(remember_design)
 	design_shelf.restore_requested.connect(restore_design)
 	design_shelf.remove_requested.connect(remove_design)
+	history_header.reparent(overview_evidence); overview_evidence.move_child(history_header,0)
+	history_list.reparent(overview_evidence); overview_evidence.move_child(history_list,1)
 	refresh_event_detail(); refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history); history_list.call_deferred("ensure_current_is_visible")
 	evidence_tabs.current_tab = previous_tab if previous_tab != 4 or (commission_mode >= 0 and has_service_closure()) else 0
@@ -370,7 +400,7 @@ func refresh_groups() -> void:
 	for index: int in plan.groups.size():
 		var tokens: PackedStringArray = []
 		for id: int in plan.groups[index]: tokens.append(char(65 + id / 6) + str(id % 6))
-		group_list.add_item("%02d   [ %s ]" % [index + 1, "  ".join(tokens)],group_list.group_icon(plan.groups[index]))
+		group_list.add_item("%02d %s" % [index + 1, "  ".join(tokens)],group_list.group_icon(plan.groups[index]))
 	selected_group = clampi(selected_group, 0, plan.groups.size() - 1); group_list.select(selected_group); group_list.ensure_current_is_visible()
 	refresh_measured_source()
 	move_to.max_value = plan.groups.size()
@@ -390,6 +420,13 @@ func refresh_actions() -> void:
 	if extra != null: set_action_disabled(extra,not has_service_closure())
 	if evidence_tabs != null and evidence_tabs.get_tab_count() > 4: evidence_tabs.set_tab_disabled(4,not has_service_closure())
 	refresh_commission()
+	for index: int in task_buttons.size():
+		var next: Control = hint_button
+		for following: int in range(index + 1, task_buttons.size()):
+			if not task_buttons[following].disabled:
+				next = task_buttons[following]
+				break
+		task_buttons[index].focus_next = task_buttons[index].get_path_to(next)
 	set_action_disabled(up_button,selected_group == 0); set_action_disabled(down_button,selected_group == plan.groups.size() - 1)
 	refresh_group_selection(); refresh_split_action()
 	set_action_disabled(undo_button,undo_stack.is_empty()); set_action_disabled(redo_button,redo_stack.is_empty()); set_action_disabled(restore_button,selected_history < 0)
@@ -451,6 +488,10 @@ func refresh_verdict() -> void:
 		if commission_mode < 0:
 			measured_verdict.text += " · "+(tr2("任务%d达标方案已保留", "Task%d successful plan retained") % (task+1) if earned else tr2("尚无任务%d达标方案", "No Task%d successful plan retained") % (task+1))
 		measured_verdict.tooltip_text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
+	if selected_history >= 0 and selected_history < history.size():
+		var measured: Dictionary = history[selected_history].metrics
+		measured_verdict.text += "\n" + (Commissions.feedback(measured,commission_mode,english) if commission_mode >= 0 else measured_feedback(measured,int(history[selected_history].get("task",task))))
+		measured_verdict.add_theme_color_override("font_color",Color("62dca7") if Model.accepted(measured,task) else Color("f2ba70"))
 	var next_unavailable: bool = true
 	next_button.tooltip_text = tr2("下一步依据已保留的达标方案；只查看旧记录不会获得当前合同。请在当前任务运行达标方案。", "Next follows retained successful plans. Viewing an old record does not earn the current contract; run a qualifying plan in this task.")
 	if commission_mode >= 0:
@@ -525,6 +566,7 @@ func restore_edit_state(state: Dictionary, redone: bool) -> void:
 	status.text += " "+(tr2("尚未保存；退出前请保存。", "Unsaved; save before leaving.") if persistent_session else tr2("临时会话；退出后不保留。", "Temporary session; work is not retained after leaving."))
 
 func run_current() -> void:
+	preload("res://src/ui/ui_cue.gd").play(self, &"run")
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	mark_session_dirty()
 	active_trace = Model.run(plan); var events: Array[Dictionary] = []
@@ -535,11 +577,15 @@ func run_current() -> void:
 	var accepted: bool = Model.accepted(active_trace.metrics, task)
 	get_node("/root/PlaytestData").record_official_run(&"service",_playtest_id(),accepted,{"total_cycles":active_trace.metrics.get("total_cycles",0),"ram_read_bytes":active_trace.metrics.get("state_read_bytes",0),"ram_write_bytes":active_trace.metrics.get("state_write_bytes",0)})
 	if accepted: get_node("/root/PlaytestData").level_completed(&"service",_playtest_id())
+	if accepted: preload("res://src/ui/ui_cue.gd").met(self, support_plans.has(task))
+	else: preload("res://src/ui/ui_cue.gd").play(self, &"fail")
 	if accepted:
 		unlocked = maxi(unlocked, mini(task + 1, 2))
 		support_plans[task] = plan.duplicate(true)
 	for index: int in 3: set_action_disabled(task_buttons[index],not _task_available(index))
 	refresh_history(); history_list.select(selected_history); history_list.call_deferred("ensure_current_is_visible"); select_run(selected_history); refresh_actions()
+	evidence_tabs.current_tab = 0
+	if not response_play.disabled: response_chart.toggle_play()
 func refresh_history() -> void:
 	history_list.clear()
 	for index: int in history.size():
@@ -591,7 +637,7 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 func select_run(index: int) -> void:
 	if index != selected_history: selected_event_index = -1
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
-	refresh_measured_source(); refresh_comparison()
+	refresh_measured_source(); measured_source.tooltip_text = measured_source.text; refresh_comparison()
 	status.text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	response_chart.configure_record(record,selected_history+1)
@@ -841,6 +887,7 @@ func save_session() -> void:
 	for record: Dictionary in history: records.append({"task":int(record.task),"plan":record.metrics.plan.duplicate(true)})
 	var raw: String = SessionStore.encode(task,plan,records,support_records(),designs)
 	var error: Error = SessionStore.write_session(raw,SessionStore.PATH,session_version,writer_lease)
+	if error == OK: preload("res://src/ui/ui_cue.gd").play(self, &"save")
 	if error == OK: session_version = raw.sha256_text(); session_dirty = false
 	notice_key = "saved" if error == OK else "failed"; status.text = session_notice()
 	if error != OK: refresh_recovery_controls()

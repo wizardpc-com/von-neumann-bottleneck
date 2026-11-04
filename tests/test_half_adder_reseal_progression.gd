@@ -74,6 +74,7 @@ func exercise_campaign() -> void:
 	if not await open_level(&"half_adder"): return
 	if not connect_reference_wires(main._half_adder_reference_wires(), "HalfAdder construction"): return
 	if not await verify_and_seal(&"half_adder", &"HalfAdder"): return
+	check(main.recently_sealed_component == &"HalfAdder", "Actually sealed HalfAdder retains its session arrival cue")
 	var original_half_adder: String = main.component_library[&"HalfAdder"].source_signature
 	for pair: Array in [
 		[&"full_adder", &"FullAdder"], [&"alu", &"ALU1"],
@@ -82,6 +83,8 @@ func exercise_campaign() -> void:
 	]:
 		var level_id: StringName = pair[0]
 		if not await open_level(level_id): return
+		if level_id == &"full_adder":
+			check(main.recently_sealed_component.is_empty(), "Full Adder consumes the earned HalfAdder arrival cue once")
 		if not connect_reference_wires(main.current_level_definition.reference_wires, String(level_id)): return
 		if not await verify_and_seal(level_id, pair[1]): return
 	if not await open_level(&"load_store"): return

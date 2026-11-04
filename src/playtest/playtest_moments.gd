@@ -46,9 +46,16 @@ func _ready() -> void:
 	panel.position = Vector2(24,80)
 	panel.custom_minimum_size = Vector2(560,0)
 	var skin := Theme.new()
-	skin.default_font_size = 20
+	skin.default_font_size = 18
 	preload("res://src/ui/instrument_theme.gd").apply_to(skin)
 	panel.theme = skin
+	var shade := ColorRect.new()
+	shade.color = Color("050a12",0.78)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	shade.mouse_filter = Control.MOUSE_FILTER_STOP
+	layer.add_child(shade)
+	shade.hide()
+	panel.visibility_changed.connect(func() -> void: shade.visible = panel.visible and not panel.has_meta("terminal_page"))
 	layer.add_child(panel)
 	var margin := MarginContainer.new()
 	for side: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+side,18)
@@ -60,6 +67,7 @@ func _ready() -> void:
 	content_scroll.custom_minimum_size=Vector2(500,550)
 	var outer := VBoxContainer.new()
 	margin.add_child(outer)
+	preload("res://src/lab/lab_terminal_pages.gd").fit_page_margin(margin)
 	outer.add_child(content_scroll)
 	box.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	feedback_layout = BoxContainer.new()
@@ -79,11 +87,15 @@ func _ready() -> void:
 	outer.add_child(heading)
 	outer.move_child(heading,0)
 	var title := Label.new()
-	title.text = _t("title")
-	title.set_meta("translation","title")
+	title.text = Localization.text(&"p1.feedback_title")
+	title.set_meta("locale_field",["text","p1.feedback_title"])
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	heading.add_child(title)
-	_button(heading,"close",close)
+	var back: Button = _button(heading,"close",close)
+	back.remove_meta("translation")
+	back.set_meta("locale_field",["text","p1.back"])
+	back.text = Localization.text(&"p1.back")
+	preload("res://src/lab/lab_terminal_pages.gd").style_header(heading,title,back)
 	var context_heading := HBoxContainer.new()
 	context_heading.add_theme_constant_override("separation",12)
 	context.add_child(context_heading)
@@ -96,7 +108,17 @@ func _ready() -> void:
 	identity.add_child(target_label)
 	context_label=Label.new(); context_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	context_label.add_theme_font_size_override("font_size",13)
-	identity.add_child(context_label)
+	var diagnostics := Button.new()
+	diagnostics.text = "诊断信息" if Localization.current_locale() != "en" else "Diagnostics"
+	diagnostics.custom_minimum_size.y = 38
+	diagnostics.set_meta("locale_field",["text","p1.diagnostics"])
+	diagnostics.toggle_mode = true
+	var diagnostic_details := VBoxContainer.new()
+	diagnostic_details.hide()
+	diagnostics.toggled.connect(func(open: bool) -> void: diagnostic_details.visible = open)
+	identity.add_child(diagnostics)
+	context.add_child(diagnostic_details)
+	diagnostic_details.add_child(context_label)
 	var privacy_row := HBoxContainer.new()
 	privacy_row.add_theme_constant_override("separation",10)
 	outer.add_child(privacy_row)
@@ -245,7 +267,7 @@ func _ready() -> void:
 	for index: int in range(source.item_count):
 		if source.get_item_metadata(index) == PlaytestData.source_kind: source.select(index)
 	source.item_selected.connect(func(index: int) -> void: PlaytestData.source_kind = source.get_item_metadata(index))
-	context.add_child(source)
+	diagnostic_details.add_child(source)
 	source.add_theme_font_size_override("font_size",13)
 	var actions := HBoxContainer.new()
 	box.add_child(actions)
@@ -260,6 +282,7 @@ func _ready() -> void:
 	outer.add_child(status)
 	panel.hide()
 	panel.resized.connect(_fit_feedback_layout)
+	feedback_layout.minimum_size_changed.connect(_fit_feedback_layout, CONNECT_DEFERRED)
 	# Wrapped text can briefly enlarge a newly mounted page before its width settles.
 	panel.minimum_size_changed.connect(func() -> void:
 		if panel.visible and panel.has_meta("terminal_page"):
@@ -291,6 +314,11 @@ func _feedback_icon(handle: String, pixels: int) -> TextureRect:
 	return icon
 
 func _fit_feedback_layout() -> void:
+	if panel.has_meta("terminal_page") and panel.get_theme_stylebox("panel").get_content_margin(SIDE_TOP) != 0:
+		var page := StyleBoxFlat.new()
+		page.bg_color = Color("08111a")
+		panel.add_theme_stylebox_override("panel",page)
+	content_scroll.custom_minimum_size.y = minf(feedback_layout.get_combined_minimum_size().y, maxf(100,panel.get_viewport().get_visible_rect().size.y-220))
 	var wide: bool = panel.get_viewport().get_visible_rect().size.x >= 1008.0
 	feedback_layout.vertical = not wide
 	context_card.custom_minimum_size.x = 320.0 if wide else 0.0
@@ -334,14 +362,14 @@ func toggle() -> void:
 		var release: Callable = _release_window.bind(window)
 		if not window.tree_exiting.is_connected(release): window.tree_exiting.connect(release, CONNECT_ONE_SHOT)
 	panel.show()
-	preload("res://src/ui/ui_motion.gd").reveal(panel)
+	preload("res://src/ui/ui_motion.gd").reveal(panel.get_child(0))
 	var choices: Array[Node] = panel.find_children("*","Button",true,false)
 	if not choices.is_empty(): (choices[0] as Button).grab_focus()
 	_update_context_controls()
 	var in_terminal: bool = panel.has_meta("terminal_page")
-	content_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL if in_terminal else Control.SIZE_FILL
+	content_scroll.size_flags_vertical = Control.SIZE_FILL
 	panel.position = Vector2.ZERO if in_terminal else Vector2(24,80 if window == get_tree().root else 12)
-	content_scroll.custom_minimum_size.y=minf(550,panel.get_viewport().get_visible_rect().size.y-270)
+	content_scroll.custom_minimum_size.y=minf(feedback_layout.get_combined_minimum_size().y,panel.get_viewport().get_visible_rect().size.y-220)
 	_fit_feedback_layout()
 	panel.size = panel.get_viewport().get_visible_rect().size if in_terminal else Vector2(minf(960,panel.get_viewport().get_visible_rect().size.x-48),0)
 	status.text = "" if PlaytestData.questionnaires_enabled() else _t("disabled")

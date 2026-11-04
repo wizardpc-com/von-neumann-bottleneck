@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Isolated user directory: E:/VNB/temp/claude-experience-20261104/wt/p1/.godot/verification/20261104T115632Z-ba3a7ec8/runtime/VonNeumannBottleneckChecks/20261104T115632Z-ba3a7ec8/user_directory
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)

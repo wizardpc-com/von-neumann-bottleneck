@@ -41,6 +41,7 @@ var suggested_next_heading: Label
 var suggested_next_rows: VBoxContainer
 var current_region: int = -1
 var creation_route: HBoxContainer
+var view_buttons: HBoxContainer
 var journey_scope: Label
 
 func _ready() -> void:
@@ -74,6 +75,13 @@ func _ready() -> void:
 	search.placeholder_text = _t("search")
 	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(search)
+	var toggle := Button.new()
+	toggle.name = "TaskTreeDetailsToggle"
+	toggle.text = "任务详情" if Localization.current_locale() != "en" else "Task details"
+	header.add_child(toggle)
+	toggle.pressed.connect(func() -> void:
+		detail_panel.visible = not detail_panel.visible
+		canvas.call_deferred("focus_region",current_region) if current_region >= 0 else canvas.call_deferred("overview"))
 	_button(header,"tree.locate",func() -> void: canvas.locate(TaskNavigation.selected))
 	_button(header,"tree.overview",func() -> void: canvas.overview())
 	var navigation := HFlowContainer.new(); navigation.name = "JourneyRegionNavigation"
@@ -96,7 +104,15 @@ func _ready() -> void:
 	journal.custom_minimum_size.y = 42; navigation.add_child(journal)
 	journal.pressed.connect(_open_journey_journal)
 	creation_route = HBoxContainer.new(); creation_route.name = "CreationRouteShortcuts"
-	creation_route.add_theme_constant_override("separation",6); column.add_child(creation_route)
+	creation_route.add_theme_constant_override("separation",6)
+	var route_scroll := ScrollContainer.new()
+	route_scroll.follow_focus = true
+	route_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	route_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	route_scroll.custom_minimum_size.y = 64
+	column.add_child(route_scroll)
+	creation_route.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	route_scroll.add_child(creation_route)
 	var body := HBoxContainer.new()
 	body.add_theme_constant_override("separation",18)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -109,7 +125,8 @@ func _ready() -> void:
 	body.add_child(detail_panel)
 	var side := VBoxContainer.new(); side.add_theme_constant_override("separation",14)
 	detail_panel.add_child(side)
-	var view_buttons := HBoxContainer.new(); view_buttons.add_theme_constant_override("separation",8); side.add_child(view_buttons)
+	view_buttons = HBoxContainer.new(); view_buttons.add_theme_constant_override("separation",8); side.add_child(view_buttons)
+	view_buttons.hide()
 	list_button=Button.new(); list_button.name="JourneyTaskListButton"; list_button.text="章节任务" if Localization.current_locale() != "en" else "Chapter tasks"
 	list_button.custom_minimum_size.y=42; list_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL; list_button.toggle_mode=true
 	list_button.pressed.connect(_show_list); view_buttons.add_child(list_button)
@@ -232,7 +249,7 @@ func _ready() -> void:
 		var matches: Array[String] = canvas.matching_keys()
 		if not matches.is_empty(): _select_and_locate(matches[0]))
 	_select(TaskNavigation.selected)
-	_show_list()
+	_show_detail()
 
 # Map, list and headings share one scheme: chapters 序章 → 第一章 …, tasks
 # 序章·名称 / 1-1 名称 / 1-4-1 名称. Keys and progress are unchanged.
@@ -276,11 +293,11 @@ func _build_route_shortcuts() -> void:
 		button.text = Naming.chapter_ordinal(region) + "\n" + _short_region(region) + "  " + str(done) + "/" + str(total)
 		if region_counts.temporary > 0 and total == 0:
 			button.text = Naming.chapter_ordinal(region) + "\n" + (("临时探索 %d 项" if not english else "Temporary · %d") % region_counts.temporary)
-		button.custom_minimum_size = Vector2(0, 40)
+		button.custom_minimum_size = Vector2(180 if english else 120, 56)
 		button.add_theme_constant_override("line_spacing", -2)
 		button.clip_text = true
 		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		button.add_theme_font_size_override("font_size",13 if not english else 12)
+		button.add_theme_font_size_override("font_size",17)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.set_meta("region",region)
 		button.tooltip_text = _region_title(region) + "\n" + _region_summary(region)
@@ -290,8 +307,18 @@ func _build_route_shortcuts() -> void:
 			_choose_region(region)
 			for index: int in region_choice.item_count:
 				if int(region_choice.get_item_metadata(index)) == region: region_choice.select(index)
-			list_button.grab_focus())
+			button.grab_focus())
 		creation_route.add_child(button)
+		var progress := ProgressBar.new()
+		progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		progress.show_percentage = false
+		progress.max_value = maxi(1,total)
+		progress.value = done
+		progress.visible = total > 0
+		progress.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+		progress.offset_top = -4
+		progress.offset_bottom = 0
+		button.add_child(progress)
 	creation_route.visible = not regions.is_empty()
 	var available: int = 0
 	for task: Dictionary in rows:
@@ -337,6 +364,8 @@ func _select(key: String) -> void:
 			text += "\n\n"+("✓ " if not LocalityChapter.economical_design.is_empty() else "◇ ")+Localization.text(&"bonus.economical")
 		elif task.key in ["chapter_3/distance","chapter_3/synthesis"]:
 			text += "\n\n"+("✓ " if OverlapChapter.bonus_status(task.id).complete else "◇ ")+Localization.text(StringName("overlap.bonus."+task.id))
+		var record: String = canvas.record_caption(task)
+		if not record.is_empty(): text += "\n\n" + record
 		details.text = text
 		_clear_rows(prerequisite_rows)
 		prerequisite_heading.visible = not task.dependencies.is_empty()
@@ -409,6 +438,8 @@ func _task_link(container: Node,task: Dictionary,prefix: String = "") -> void:
 	container.add_child(button)
 
 func _show_list() -> void:
+	detail_panel.show()
+	view_buttons.visible = not search.text.strip_edges().is_empty()
 	_refresh_task_list()
 	list_view.show()
 	detail_view.hide()
@@ -416,6 +447,7 @@ func _show_list() -> void:
 	detail_button.button_pressed=false
 
 func _show_detail() -> void:
+	view_buttons.visible = not search.text.strip_edges().is_empty()
 	list_view.hide()
 	detail_view.show()
 	list_button.button_pressed=false

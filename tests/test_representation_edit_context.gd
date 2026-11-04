@@ -40,7 +40,7 @@ func run() -> void:
 		button(scene,"Task2").pressed.emit(); await settle()
 		check(scene.blocks.get_instance_id() == blocks_id and scene.status.text == restored_notice and not scene.session_dirty,"Repeated task selection leaves restored UI and clean state intact")
 
-		scene.run_current()
+		scene.run_current(); scene.trace_player.set_playing(false)
 		var history_count: int = scene.history.size()
 		var signature: String = scene.history[0].traces[0].canonical_signature()
 		var completed: Array = scene.completed.duplicate()

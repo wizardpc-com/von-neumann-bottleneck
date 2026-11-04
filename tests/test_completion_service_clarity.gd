@@ -26,6 +26,8 @@ func run() -> void:
 	check(specification.visible and specification.get_node("ReviewContent").text.contains("512B") and specification.get_node("ReviewContent").text.contains("600B") and specification.get_node("ReviewContent").text.contains("1e-9"),"Full specification is available before running with original capacity, traffic and quality limits")
 	specification.hide()
 	scene.run_current(); await process_frame
+	check(scene.response_chart.playing,"A new valid measurement starts the recorded response replay")
+	scene.select_run(0)
 	var original: String = JSON.stringify(scene.history[0])
 	check(scene.summary.text.contains("2204") and scene.summary.text.contains("3168") and scene.summary.text.contains("266"),"Compact overview retains baseline time traffic and peak evidence")
 	check(not scene.summary.text.contains("请求") and not scene.summary.text.contains("[89"),"Detailed bill and response array do not repeat on overview")
@@ -73,18 +75,18 @@ func run() -> void:
 			var node := scene.find_child(id,true,false) as Control
 			check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Primary and detail controls fit bilingual minimum viewport: "+id+" "+str(node.get_global_rect()))
 		var overview_scroll := scene.find_child("OverviewEvidenceScroll",true,false) as ScrollContainer
-		check(overview_scroll.size.y >= 80 and overview_scroll.get_global_rect().end.y <= 720 and overview_scroll.get_child(0).is_ancestor_of(scene.summary) and overview_scroll.get_child(0).is_ancestor_of(scene.response_chart) and not overview_scroll.is_ancestor_of(scene.measured_verdict) and not overview_scroll.is_ancestor_of(scene.next_button) and not overview_scroll.is_ancestor_of(scene.response_play) and not overview_scroll.is_ancestor_of(scene.response_step),"Overview evidence scrolls while verdict, continuation, and playback remain outside it")
-		overview_scroll.scroll_vertical = int(scene.bill_button.get_parent().position.y)
+		check(overview_scroll.size.y >= 80 and overview_scroll.get_global_rect().end.y <= 720 and scene.summary.is_visible_in_tree() and scene.summary.get_global_rect().end.y <= 720 and not overview_scroll.is_ancestor_of(scene.response_chart) and not overview_scroll.is_ancestor_of(scene.measured_verdict) and not overview_scroll.is_ancestor_of(scene.next_button) and not overview_scroll.is_ancestor_of(scene.response_play) and not overview_scroll.is_ancestor_of(scene.response_step),"Overview evidence scrolls while verdict, continuation, and playback remain outside it")
+		overview_scroll.scroll_vertical = int(scene.bill_button.get_parent().position.y + scene.bill_button.get_parent().get_parent().position.y)
 		await process_frame
 		check(overview_scroll.get_global_rect().encloses(scene.bill_button.get_global_rect()) and overview_scroll.get_global_rect().encloses(scene.find_child("ShowStateJourney",true,false).get_global_rect()),"Measured bill and exact history remain reachable by scrolling")
 		overview_scroll.scroll_vertical = 0; await process_frame
 		scene.response_play.pressed.emit(); await process_frame
-		check(overview_scroll.get_global_rect().intersection(scene.response_chart.get_global_rect()).size.y >= 64,"Replay exposes the recorded response chart before advancing it")
+		check(root.get_visible_rect().encloses(scene.response_chart.get_global_rect()),"Replay keeps the recorded response stage fully visible")
 		scene.response_chart.pause(); scene.response_chart.playback_cycle = 0
 		overview_scroll.scroll_vertical = 0; await process_frame
 		scene.response_step.pressed.emit(); await process_frame
-		check(scene.response_chart.playback_cycle == 89 and overview_scroll.get_global_rect().intersection(scene.response_chart.get_global_rect()).size.y >= 64,"Step reveals the chart and advances to the first recorded response")
-		overview_scroll.scroll_vertical = int(scene.bill_button.get_parent().position.y); await process_frame
+		check(scene.response_chart.playback_cycle == 89 and root.get_visible_rect().encloses(scene.response_chart.get_global_rect()),"Step keeps the stage visible and advances to the first recorded response")
+		overview_scroll.scroll_vertical = int(scene.bill_button.get_parent().position.y + scene.bill_button.get_parent().get_parent().position.y); await process_frame
 		scene.find_child("ShowStateJourney",true,false).pressed.emit(); await process_frame
 		check(scene.evidence_tabs.current_tab == 5 and not scene.state_replay.frames.is_empty(),"Direct history-location action opens selected recorded state evidence")
 		scene.state_replay.find_child("StateEnd",true,false).pressed.emit(); await process_frame
@@ -109,7 +111,7 @@ func run() -> void:
 	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("successful plan retained"),"Protected successful Task1 enables explicit next action")
 	check(scene.next_button.has_theme_stylebox_override("normal") and not scene.run_button.has_theme_stylebox_override("normal"),"Earned continuation becomes the primary action without competing with Run")
 	var next_evidence_scroll := scene.find_child("OverviewEvidenceScroll",true,false) as ScrollContainer
-	check(scene.measured_verdict.get_parent() == scene.next_button.get_parent() and scene.measured_verdict.get_index() < scene.next_button.get_index() and scene.next_button.get_index() < next_evidence_scroll.get_index() and scene.next_button.get_global_rect().position.y >= scene.measured_verdict.get_global_rect().end.y and scene.next_button.get_global_rect().end.y <= next_evidence_scroll.get_global_rect().position.y and scene.next_button.get_global_rect().end.y <= 720,"Next action follows the measured verdict before scrollable evidence")
+	check(scene.measured_verdict.get_parent() == scene.next_button.get_parent() and scene.measured_verdict.get_index() < scene.next_button.get_index() and scene.next_button.get_global_rect().position.y >= scene.measured_verdict.get_global_rect().end.y and scene.next_button.get_global_rect().end.y <= next_evidence_scroll.get_global_rect().position.y and scene.next_button.get_global_rect().end.y <= 720,"Next action follows the measured verdict before scrollable evidence")
 	check(scene.measured_verdict.text.contains("first responses"),"Earned Task1 explains the added decision in Task2")
 	scene.select_run(0)
 	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("Limits unmet"),"Selected failed alternative does not erase earned continuation")

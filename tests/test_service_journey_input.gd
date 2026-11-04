@@ -26,7 +26,7 @@ func _run() -> void:
 	var record: String = JSON.stringify(ui.history[0])
 	check(ui.response_chart.first_responses == [89,180,271,362],"The chart reads actual first responses from the initial run.")
 	var overview: ScrollContainer = ui.find_child("OverviewEvidenceScroll",true,false)
-	check(overview.get_global_rect().encloses(ui.response_chart.get_global_rect()),"The complete wrapped chart fits the visible 720p overview.")
+	check(root.get_visible_rect().encloses(ui.response_chart.get_global_rect()),"The complete wrapped chart fits the visible 720p stage.")
 	await shot("journey-late-response")
 	await press(ui.response_step)
 	var witness: Dictionary = ui.response_chart.witness_snapshot()

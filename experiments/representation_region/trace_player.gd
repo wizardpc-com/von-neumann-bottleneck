@@ -51,6 +51,9 @@ func display_duration() -> float:
 
 func _process(delta: float) -> void:
 	if not playing: return
+	if bool(ProjectSettings.get_setting("game/reduced_motion",false)):
+		set_playing(false)
+		return
 	elapsed += delta
 	if elapsed >= display_duration():
 		if current+1 >= recorded_events.size(): set_playing(false)

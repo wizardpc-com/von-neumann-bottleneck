@@ -53,6 +53,24 @@ func run() -> void:
 	canvas.configure(tasks)
 	check(canvas.edge_geometry_cache.is_empty(),"A new layout invalidates its old edge cache")
 	check(JSON.stringify(tasks)==before,"Presentation never modifies prerequisite data or availability")
+	var mode: Node = root.get_node("GameMode")
+	var completion := {"key":"hardware_foundations/half_adder","domain":"hardware_foundations","completed":true}
+	canvas.records[completion.key] = {"passed_cases":4}
+	check(canvas.record_caption(completion).contains("4"),"Card reads the actual available passed-case count")
+	completion.completed=false
+	check(canvas.record_caption(completion).is_empty(),"Uncompleted tasks never advertise a best result")
+	completion.completed=true
+	mode.set_mode(&"test")
+	check(canvas.record_caption(completion).is_empty(),"Test mode never advertises Game records as Test achievements")
+	mode.set_mode(&"game")
+	var reduced: bool = bool(ProjectSettings.get_setting("game/reduced_motion",false))
+	ProjectSettings.set_setting("game/reduced_motion",true)
+	var pulse_before: float = canvas.pulse_time
+	canvas._process(1.0)
+	check(canvas.pulse_time == pulse_before,"Reduced motion keeps the continuation emphasis static")
+	ProjectSettings.set_setting("game/reduced_motion",reduced)
+	canvas.records.clear()
+	check(canvas.record_caption(completion).is_empty(),"Missing records never invent a metric")
 	canvas.queue_free();await process_frame
 	print("PASS: test_tree_relation_focus " if failures==0 else "FAIL: test_tree_relation_focus ",checks," checks, ",failures," failures")
 	quit(0 if failures==0 else 1)

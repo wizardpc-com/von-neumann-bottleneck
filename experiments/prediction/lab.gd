@@ -30,6 +30,8 @@ var status: Label
 var mission: Label
 var journey_context
 var recorded_source: Label
+var request_strip: HBoxContainer
+var timeline_summary: Label
 var step_button: Button
 const Typography = preload("res://src/ui/ui_typography.gd")
 const TEXT := Color("e2ebef")
@@ -95,9 +97,9 @@ func button(text: String, handle: String, parent: Node, action: Callable) -> But
 	item.custom_minimum_size.y = 42; item.pressed.connect(action); parent.add_child(item); return item
 
 func choice(text: String, handle: String, values: Array[String], selected: int, parent: Node) -> OptionButton:
-	var box := HBoxContainer.new(); parent.add_child(box)
+	var box := VBoxContainer.new(); box.size_flags_horizontal = Control.SIZE_EXPAND_FILL; parent.add_child(box)
 	var caption: Label = label(text,box); caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var item := OptionButton.new(); item.name = handle; item.custom_minimum_size = Vector2(195,42)
+	var item := OptionButton.new(); item.name = handle; item.custom_minimum_size = Vector2(150,42)
 	for value: String in values: item.add_item(value)
 	item.select(selected); box.add_child(item); item.item_selected.connect(func(_index: int) -> void: edit_policy())
 	return item
@@ -148,44 +150,57 @@ func build() -> void:
 	var margin := MarginContainer.new(); margin.name = "PredictionSurface"
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+edge,16)
+	for edge: String in ["top","bottom"]: margin.add_theme_constant_override("margin_"+edge,8)
 	add_child(margin)
-	var page := VBoxContainer.new(); page.add_theme_constant_override("separation",8); margin.add_child(page)
+	var page := VBoxContainer.new(); page.add_theme_constant_override("separation",4); margin.add_child(page)
 	var top := HBoxContainer.new(); page.add_child(top)
 	var title: Label = label(text2("预测工坊","Prediction workshop"),top,24); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	if preload("res://src/campaign/journey_naming.gd").chapter_for("prediction/regular") != "": title.text = preload("res://src/campaign/journey_naming.gd").chapter_for("prediction/regular")
-	button("中文 / EN","Language",top,toggle_language)
 	top.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
 	if candidate_journey: button(text2("旅程地图","Journey map") if get_node("/root/TaskNavigation").from_tree else text2("实验室","Laboratory"),"CandidateHome",top,request_hub)
 	top.add_child(get_node("/root/WindowMode").settings_button())
-	preload("res://src/ui/workbench_chrome.gd").quit_style(button(text2("退出游戏","Quit"),"Quit",top,request_quit))
+	button(text2("退出游戏","Quit"),"Quit",top,request_quit)
 	preload("res://src/ui/workbench_chrome.gd").frame(top)
 	var boundary: Label = label(text2("可选临时探索 · 规则、历史与结果离开后不保留", "Optional temporary exploration · rules, history and results are discarded on leaving"),page,14)
 	boundary.name = "TemporaryBoundary"; boundary.add_theme_color_override("font_color",MUTED)
 	var nav := HBoxContainer.new(); page.add_child(nav)
 	nav.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
-	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, nav, "prediction", preload("res://src/campaign/second_act_tasks.gd").IDS["prediction"][task])
+	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, top, "prediction", preload("res://src/campaign/second_act_tasks.gd").IDS["prediction"][task])
+	top.move_child(terminology_handbook.entry_button,1)
 	for i: int in 3:
 		var stage_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("prediction", i))
 		var item: Button = button(stage_label if not stage_label.is_empty() else [text2("1 · 规律流","1 · Regular stream"),text2("2 · 规律改变","2 · Pattern changes"),text2("3 · 交替热点","3 · Alternating hotspots")][i],"Task"+str(i),nav,func() -> void: change_task(i))
 		item.size_flags_horizontal = Control.SIZE_EXPAND_FILL; item.disabled = i == task
 	var purpose: Label = label(purpose_text(),page,14)
 	purpose.name = "TaskPurpose"
+	var timeline: VBoxContainer = _workbench_panel(page,"PredictionTimelinePanel")
+	(timeline.get_parent() as Control).size_flags_vertical = Control.SIZE_FILL
+	timeline_summary = label("",timeline,16); timeline_summary.name = "TimelineSummary"
+	var strip_scroll := ScrollContainer.new(); strip_scroll.name = "RequestTimeline"
+	strip_scroll.custom_minimum_size.y = 124; strip_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	strip_scroll.focus_mode = Control.FOCUS_ALL; timeline.add_child(strip_scroll)
+	request_strip = HBoxContainer.new(); request_strip.add_theme_constant_override("separation",6); strip_scroll.add_child(request_strip)
 	var body := HBoxContainer.new(); body.name = "PredictionWorkspace"
 	body.add_theme_constant_override("separation",16); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; page.add_child(body)
 	var editor: VBoxContainer = _workbench_panel(body,"PredictionRulesPanel")
-	(editor.get_parent() as Control).custom_minimum_size.x = 470
-	var left_tabs := TabContainer.new(); left_tabs.name = "PredictionRuleTabs"; left_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; left_tabs.all_tabs_in_front = false; left_tabs.use_hidden_tabs_for_min_size = false; editor.add_child(left_tabs)
+	(editor.get_parent() as Control).custom_minimum_size.x = 390
+	(editor.get_parent() as Control).size_flags_horizontal = Control.SIZE_FILL
+	(editor.get_parent() as Control).size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	var left_tabs := TabContainer.new(); left_tabs.name = "PredictionRuleTabs"; left_tabs.all_tabs_in_front = false; left_tabs.use_hidden_tabs_for_min_size = false; editor.add_child(left_tabs)
 	var rules: VBoxContainer = _tab_page(left_tabs,text2("构造规则","Build a rule"))
-	var instruction: Label = label(first_experiment_text()+text2("\n完整运行才记录测量。", "\nOnly full runs are recorded."),rules,16)
-	instruction.name = "FirstOperation"
-	rule = choice(text2("规则","Rule"),"Rule",[text2("关闭猜测","Off"),text2("最近步长","Last stride"),text2("双步长循环","Two-stride cycle")],["off","stride","two_stride"].find(str(policy.rule)),rules)
-	confidence = choice(text2("所需重复次数","Required repetitions"),"Confidence",["1","2","3"],int(policy.confidence)-1,rules)
-	lookahead = choice(text2("预测步长倍数","Stride multiplier"),"Lookahead",["1","2"],int(policy.lookahead)-1,rules)
-	cooldown = choice(text2("错猜后暂停请求数","Pause after mismatch"),"Cooldown",["0","2"],0 if int(policy.cooldown)==0 else 1,rules)
+	var instruction: Label = label(first_experiment_short_text(),rules,16)
+	instruction.name = "FirstOperation"; instruction.tooltip_text = first_experiment_text()
+	var controls := GridContainer.new(); controls.columns = 4; controls.add_theme_constant_override("h_separation",12); page.add_child(controls)
+	page.move_child(controls,(timeline.get_parent() as Control).get_index())
+	rule = choice(text2("规则","Rule"),"Rule",[text2("关闭猜测","Off"),text2("最近步长","Last stride"),text2("双步长循环","Two-stride cycle")],["off","stride","two_stride"].find(str(policy.rule)),controls)
+	confidence = choice(text2("所需重复次数","Required repetitions"),"Confidence",["1","2","3"],int(policy.confidence)-1,controls)
+	lookahead = choice(text2("预测步长倍数","Stride multiplier"),"Lookahead",["1","2"],int(policy.lookahead)-1,controls)
+	cooldown = choice(text2("错猜后暂停请求数","Pause after mismatch"),"Cooldown",["0","2"],0 if int(policy.cooldown)==0 else 1,controls)
 	var draft_note: Label = label(text2("改变规则会清空当前观察前缀；本次已完成记录仍保留。", "Rule edits clear this prefix; completed records remain."),rules,14)
 	draft_note.name = "DraftBoundary"; draft_note.add_theme_color_override("font_color",MUTED)
 	var specification: VBoxContainer = _tab_page(left_tabs,text2("任务与机器","Task and machine"))
+	button("中文 / EN","Language",specification,toggle_language)
 	var specification_scroll := ScrollContainer.new(); specification_scroll.name = "SpecificationScroll"
 	specification_scroll.focus_mode = Control.FOCUS_ALL
 	specification_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; specification_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; specification.add_child(specification_scroll)
@@ -201,13 +216,14 @@ func build() -> void:
 	InstrumentTheme.primary(step_button); step_button.add_theme_color_override("font_focus_color",Color("071823"))
 	button(text2("运行到结束","Run to end"),"Run",actions,run_current)
 	button(text2("新一轮","New run"),"Restart",actions,restart)
-	button(text2("Hint1 · 看线索","Hint1 · A clue"),"Hint1",editor,func() -> void: status.text = hint_text())
+	button(text2("提示","Hint"),"Hint1",top,func() -> void: status.text = hint_text())
+	top.move_child(find_child("Hint1",true,false),2)
 	status = _bounded_label(editor,"Status",100)
 	var evidence: VBoxContainer = _workbench_panel(body,"PredictionEvidencePanel")
 	var evidence_title: Label = label(text2("观察与实测记录","Observation and measured records"),evidence,18)
 	evidence_title.add_theme_font_override("font",Typography.HEADING_FONT)
-	recorded_source = _bounded_label(evidence,"RecordedSource",56)
-	observed = _bounded_label(evidence,"ObservedHistory",84)
+	recorded_source = _bounded_label(evidence,"RecordedSource",40)
+	observed = _bounded_label(evidence,"ObservedHistory",24)
 	var right_tabs := TabContainer.new(); right_tabs.name = "PredictionEvidenceTabs"; right_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; right_tabs.all_tabs_in_front = false; right_tabs.use_hidden_tabs_for_min_size = false; evidence.add_child(right_tabs)
 	var outcome: VBoxContainer = _tab_page(right_tabs,text2("结果","Result"))
 	result = _bounded_label(outcome,"Result",80,true)
@@ -215,16 +231,16 @@ func build() -> void:
 	result.tooltip_text = text2("基线：同一请求流，关闭猜测。\n浪费：预测搬来却未使用的数据。\n污染未命中：本轮未命中，而基线命中的次数。", "Baseline: same stream, prediction Off.\nWasted: predicted bytes unused before eviction or run end.\nPollution misses: this run missed where Off hit.")
 	var trace_page: VBoxContainer = _tab_page(right_tabs,text2("事件详情","Event details"))
 	events = Tree.new(); events.name = "Events"; events.columns = 3; events.hide_root = true; events.column_titles_visible = true
-	events.custom_minimum_size.y = 80; events.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_page.add_child(events)
+	events.custom_minimum_size.y = 60; events.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_page.add_child(events)
 	for i: int in 3: events.set_column_title(i,[text2("起点","Start"),text2("时长","Duration"),text2("证据事件","Evidence event")][i])
-	details = RichTextLabel.new(); details.name = "TraceDetails"; details.custom_minimum_size.y = 80
+	details = RichTextLabel.new(); details.name = "TraceDetails"; details.custom_minimum_size.y = 60
 	details.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_page.add_child(details)
 	events.item_selected.connect(func() -> void:
 		var row: TreeItem = events.get_selected()
 		if row != null: details.text = event_text(row.get_metadata(0)))
 	var recordings: VBoxContainer = _tab_page(right_tabs,text2("本次历史","Session history"))
 	label(text2("选中一条完整记录，回看当时规则与真实结果。编辑草稿不会改写它。", "Select a completed record to revisit its rule and measured result. Draft edits never rewrite it."),recordings,14)
-	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 84
+	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64
 	history_list.size_flags_vertical = Control.SIZE_EXPAND_FILL; recordings.add_child(history_list); history_list.item_selected.connect(select_run)
 	refresh_history(); refresh()
 
@@ -290,6 +306,12 @@ func first_experiment_text() -> String:
 	text2("先选会猜测的规则跑完一轮，再只改错猜后暂停。猜错后少搬一些，会更快吗？", "Finish a run with prediction enabled, then change only Pause after mismatch. Can moving less after an error save time?"),
 	text2("先用最近步长观察交替热点，再只换双步长循环。每次揭示前，试着猜下一处。", "Observe the alternating hotspots with Last stride, then change only to Two-stride cycle. Guess the next address before revealing it.")][task]
 
+## One line for the rules panel; the full question stays in the tooltip and the empty timeline.
+func first_experiment_short_text() -> String:
+	return [text2("先关闭猜测跑完，再只换最近步长。", "Run Off to the end, then change only to Last stride."),
+	text2("先用会猜的规则跑完，再只改错猜后暂停。", "Finish a predicting run, then change only Pause after mismatch."),
+	text2("先用最近步长观察，再只换双步长循环。", "Observe with Last stride, then change only to Two-stride cycle.")][task]
+
 func mission_text() -> String:
 	return [text2("实验1：先记录关闭猜测的基线，再构造一个总周期更低且确实消费了预测数据的方案。逐步揭示历史，再比较等待与流量。","Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic."),
 	text2("实验2：相同机器，流会改变。记录一个比关闭猜测更慢且有浪费/污染的规则，再修改为非关闭规则，找到不慢于基线的方案。关闭猜测不算这份安全修订。失败也是证据。","Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise to a non-Off rule no slower than baseline. Off does not count as this safe revision. Failure is evidence."),
@@ -324,12 +346,16 @@ func step_current() -> void:
 	refresh()
 
 func run_current() -> void:
+	preload("res://src/ui/ui_cue.gd").play(self, &"run")
 	_ensure_run(); revealed = active_trace.metrics.accesses.size(); _record(); refresh()
 
 func _record() -> void:
+	var was_met: bool = goal_met(task)
 	history.append({"task":task,"policy":active_policy.duplicate(true),"trace":active_trace})
 	selected_run = history.size()-1; refresh_history()
 	get_node("/root/PlaytestData").record_official_run(&"prediction",_playtest_id(),active_trace.passed,{"total_cycles":active_trace.metrics.get("total_cycles",0)})
+	if goal_met(task): preload("res://src/ui/ui_cue.gd").met(self, was_met)
+	elif not active_trace.passed: preload("res://src/ui/ui_cue.gd").play(self, &"fail")
 	if goal_met(task): get_node("/root/PlaytestData").level_completed(&"prediction",_playtest_id())
 	_refresh_journey_context()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
@@ -469,6 +495,9 @@ func refresh() -> void:
 			if difference > 0: comparison = text2("比关闭猜测慢%d周期。", "%d cycles slower than prediction Off.") % difference
 			elif difference < 0: comparison = text2("比关闭猜测快%d周期。", "%d cycles faster than prediction Off.") % -difference
 			result.text = comparison+"\n"+result.text+"\n\n"+recorded_comparison_text()
+	observed.text = decision_reason(str(active_trace.metrics.decisions[revealed-1].reason)) if active_trace != null and revealed > 0 else ""
+	observed.get_parent().visible = active_policy.get("rule",policy.rule) != "off"
+	refresh_request_strip()
 	status.text = progress_text()
 
 func public_observation() -> Dictionary:
@@ -495,3 +524,50 @@ func _refresh_journey_context() -> void:
 func _playtest_exit() -> void:
 	if get_node("/root/PlaytestData").current_task_context.get("chapter_id","") == "prediction":
 		get_node("/root/PlaytestData").level_exited(&"prediction",_playtest_id(),&"departure")
+
+func refresh_request_strip() -> void:
+	timeline_summary.text = text2("请求时间线 · 关闭猜测", "Request timeline · prediction Off") if active_policy.get("rule",policy.rule) == "off" else text2("请求时间线 · 仅显示已揭示请求", "Request timeline · revealed demands only")
+	if active_trace == null and revealed == 0: timeline_summary.text = first_experiment_text()
+	if active_trace != null and revealed == active_trace.metrics.accesses.size():
+		var m: Dictionary = active_trace.metrics
+		timeline_summary.text = text2("关闭猜测 %d 周期 / %d B → 本轮 %d 周期 / %d B", "Off %d cycles / %d B → this run %d cycles / %d B") % [m.baseline_cycles,m.baseline_traffic_bytes,m.total_cycles,m.traffic_bytes]
+	for child: Node in request_strip.get_children():
+		request_strip.remove_child(child)
+		child.queue_free()
+	for index: int in revealed + 1:
+		var card := PanelContainer.new()
+		card.custom_minimum_size.x = 112 if active_policy.get("rule","off") == "off" else 160
+		card.add_theme_stylebox_override("panel",InstrumentTheme.surface(Color("101e2b"),Color("365463"),8))
+		request_strip.add_child(card)
+		var column := VBoxContainer.new(); column.add_theme_constant_override("separation",2); card.add_child(column)
+		if index == revealed:
+			label(text2("未知", "Unknown"),column,20)
+			break
+		var access: Dictionary = active_trace.metrics.accesses[index]
+		var decision: Dictionary = active_trace.metrics.decisions[index]
+		label(str(access.address),column,22)
+		var path: String = text2("命中", "Hit") if access.hit else text2("未命中", "Miss")
+		if access.path == "inflight": path = text2("在途等待", "In-flight wait")
+		var path_label: Label = label(path,column,14)
+		path_label.add_theme_color_override("font_color",Color("7fcbd6") if access.hit else Color("ffc879"))
+		label(text2("取数 %d 周期", "Fetch %d cycles") % (int(access.ready)-int(access.arrived)),column,14)
+		if active_policy.get("rule","off") != "off":
+			if int(decision.guess) >= 0:
+				var verdict: String = text2("待揭晓", "Pending")
+				if index+1 < revealed:
+					verdict = text2("猜错", "Wrong") if active_trace.metrics.decisions[index+1].mismatch else text2("猜中", "Correct")
+				elif revealed == active_trace.metrics.accesses.size(): verdict = text2("无后续请求", "No next demand")
+				label("→ %d · %s" % [int(decision.guess),verdict],column,14)
+			else:
+				var short_reason: String = text2("等待历史", "Need history") if decision.reason == "insufficient_history" else text2("暂停中", "Paused") if decision.reason == "cooldown" else text2("等待重复", "Need repeats") if decision.reason == "unstable_history" else decision_reason(str(decision.reason))
+				label(short_reason,column,14)
+		card.tooltip_text = decision_reason(str(decision.reason))+"\n"+str(decision.get("issue_reason",""))
+		for item: Node in column.get_children():
+			if item is Label:
+				item.autowrap_mode = TextServer.AUTOWRAP_OFF
+				item.clip_text = true
+				item.tooltip_text = item.text
+	if active_trace != null and revealed == active_trace.metrics.accesses.size():
+		request_strip.get_child(request_strip.get_child_count()-1).hide()
+	var scroll := request_strip.get_parent() as ScrollContainer
+	scroll.set_deferred("scroll_horizontal",int(request_strip.get_combined_minimum_size().x))

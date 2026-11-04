@@ -1,0 +1,19 @@
+{'route': 'chapter_1/assembly', 'scenario': 'quit', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_1/assembly', 'scenario': 'map', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_1/assembly', 'scenario': 'lab', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_1/assembly', 'scenario': 'close', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_1/assembly', 'scenario': 'early', 'restored': False, 'expected': False, 'passed': True, 'edit_exit': 1, 'load_exit': 0}
+{'route': 'chapter_1/assembly', 'scenario': 'late', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 1, 'load_exit': 0}
+{'route': 'chapter_3/arrival', 'scenario': 'quit', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_3/arrival', 'scenario': 'map', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_3/arrival', 'scenario': 'lab', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_3/arrival', 'scenario': 'close', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_3/arrival', 'scenario': 'early', 'restored': False, 'expected': False, 'passed': True, 'edit_exit': 1, 'load_exit': 0}
+{'route': 'chapter_3/arrival', 'scenario': 'late', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 1, 'load_exit': 0}
+{'route': 'chapter_4/fields', 'scenario': 'quit', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_4/fields', 'scenario': 'map', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_4/fields', 'scenario': 'lab', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_4/fields', 'scenario': 'close', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 0, 'load_exit': 0}
+{'route': 'chapter_4/fields', 'scenario': 'early', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 1, 'load_exit': 0}
+{'route': 'chapter_4/fields', 'scenario': 'late', 'restored': True, 'expected': True, 'passed': True, 'edit_exit': 1, 'load_exit': 0}
+Process recovery: 18/18 passed; evidence: E:\VNB\temp\claude-experience-20261104\wt\d1\.godot\d1b\process-20261104-182257

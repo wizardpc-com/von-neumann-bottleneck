@@ -62,9 +62,8 @@ func align_to(rect: Rect2, revealed: bool) -> void:
 		viewport.size_2d_override = resolution
 		for window: Window in viewport.get_embedded_subwindows(): _fit_window(window)
 	viewport.render_target_update_mode = SubViewport.UPDATE_WHEN_VISIBLE if active() else SubViewport.UPDATE_DISABLED
-	# Pages rise out of the dark screen instead of cutting in.
-	var settled: bool = not revealed or bool(ProjectSettings.get_setting("game/reduced_motion", false))
-	modulate.a = (1.0 if revealed else 0.0) if settled else move_toward(modulate.a, 1.0, get_process_delta_time() * 6.0)
+	# The viewport covers the room immediately; each page reveals only its content.
+	modulate.a = 1.0 if revealed else 0.0
 	mouse_filter = Control.MOUSE_FILTER_STOP if revealed else Control.MOUSE_FILTER_IGNORE
 
 func _watch_windows(node: Node) -> void:
@@ -91,3 +90,21 @@ func _fit_window(window: Window) -> void:
 	window.position = Vector2i.ZERO
 	window.size = resolution
 	window.grab_focus()
+
+static func style_header(row: HBoxContainer, title: Label, back: Button) -> void:
+	row.custom_minimum_size.y = 44
+	title.add_theme_font_override("font", preload("res://assets/fonts/interface_regular.tres"))
+	title.add_theme_font_size_override("font_size", 28)
+	title.add_theme_color_override("font_color", Color("e1eaf0"))
+	back.custom_minimum_size = Vector2(150,44)
+	back.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	back.add_theme_font_size_override("font_size", 16)
+	preload("res://src/ui/instrument_theme.gd").nav(back)
+
+static func fit_page_margin(margin: MarginContainer) -> void:
+	var fit := func() -> void:
+		var side: int = int(maxf(32, (margin.size.x - 1120) * 0.5))
+		for edge: String in ["left", "right"]: margin.add_theme_constant_override("margin_"+edge, side)
+		for edge: String in ["top", "bottom"]: margin.add_theme_constant_override("margin_"+edge, 30)
+	margin.resized.connect(fit)
+	fit.call_deferred()

@@ -103,7 +103,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if settings_only and _is_escape_press(event):
+	if settings_only and _is_escape_press(event) and not PlaytestData._feedback_visible:
 		_close_options_menu()
 		get_viewport().set_input_as_handled()
 		return
@@ -173,9 +173,7 @@ func _build_interface() -> void:
 	motif.add_theme_font_size_override("font_size",14); motif.add_theme_color_override("font_color",MUTED)
 	motif.size_flags_horizontal = Control.SIZE_EXPAND_FILL; imprint.add_child(motif)
 	var version := Label.new(); version.name = "BuildIdentifier"
-	version.text = ("%d 项任务 · " if Localization.current_locale() != "en" else "%d tasks · ") % TaskNavigation.journey_tasks().size()
-	version.text += ("内部评审 · " if Localization.current_locale() != "en" else "Internal review · ") if candidate_journey else ""
-	version.text += String(ProjectSettings.get_setting("application/config/version",""))
+	version.text = ("%d 项任务" if Localization.current_locale() != "en" else "%d tasks") % TaskNavigation.journey_tasks().size()
 	version.tooltip_text = "Source: "+str(ProjectSettings.get_setting("application/config/build_commit","unknown"))+"\nBatch: "+str(ProjectSettings.get_setting("application/test_batch","unspecified"))
 	version.add_theme_font_size_override("font_size",14); version.add_theme_color_override("font_color",MUTED)
 	version.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -215,7 +213,7 @@ func _build_laboratory(background: Control, surface: Control) -> void:
 	laboratory.works_requested.connect(_open_journey_journal)
 	laboratory.achievements_requested.connect(_open_hub_navigation)
 	if laboratory.terminal_pages != null:
-		options_resume_button.text = "返回" if Localization.current_locale() != "en" else "Back"
+		options_resume_button.text = "返回 · Esc" if Localization.current_locale() != "en" else "Back · Esc"
 		for page: Control in [options_overlay, navigation_overlay, new_game_overlay, yi_introduction]:
 			laboratory.terminal_pages.mount(page)
 		laboratory.terminal_pages.mount(terminology_handbook, terminology_handbook.modal)
@@ -373,11 +371,12 @@ func _build_hub_navigation() -> void:
 	navigation_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	navigation_overlay.mouse_filter = Control.MOUSE_FILTER_STOP; navigation_overlay.z_index = 800
 	add_child(navigation_overlay)
-	var background := ColorRect.new(); background.color = BACKGROUND
+	var background := ColorRect.new(); background.color = Color("08111a")
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); navigation_overlay.add_child(background)
 	var margin := MarginContainer.new(); margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge: String in ["left","right","top","bottom"]: margin.add_theme_constant_override("margin_"+edge,32)
 	navigation_overlay.add_child(margin)
+	preload("res://src/lab/lab_terminal_pages.gd").fit_page_margin(margin)
 	var content := VBoxContainer.new(); content.name = "HubNavigationContent"
 	content.add_theme_constant_override("separation",20); margin.add_child(content)
 	var header := HBoxContainer.new(); content.add_child(header)
@@ -387,6 +386,7 @@ func _build_hub_navigation() -> void:
 	var close := Button.new(); close.name = "HubNavigationClose"
 	close.text = "返回 · Esc" if Localization.current_locale() != "en" else "Back · Esc"
 	close.custom_minimum_size = Vector2(150,42); close.pressed.connect(_close_hub_navigation); header.add_child(close)
+	preload("res://src/lab/lab_terminal_pages.gd").style_header(header,title,close)
 	var panel := PanelContainer.new(); panel.name = "HubSaveManagement"
 	panel.add_theme_stylebox_override("panel",InstrumentTheme.surface(Color("101e2b"),Color("365463"),8)); content.add_child(panel)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",12); panel.add_child(column)
@@ -394,7 +394,38 @@ func _build_hub_navigation() -> void:
 	label.add_theme_font_size_override("font_size",18); column.add_child(label)
 	_build_save_actions(column)
 	_build_hub_footer(content)
+	var cards := GridContainer.new(); cards.name = "AchievementCards"; cards.columns = 3
+	cards.add_theme_constant_override("h_separation",12); cards.add_theme_constant_override("v_separation",12)
+	content.add_child(cards)
 	navigation_overlay.hide()
+
+
+func _refresh_achievement_cards() -> void:
+	var cards: GridContainer = navigation_overlay.find_child("AchievementCards",true,false)
+	for child: Node in cards.get_children():
+		cards.remove_child(child)
+		child.queue_free()
+	var regions: Dictionary = {}
+	for row: Dictionary in TaskNavigation.journey_tasks():
+		var region: int = int(row.region)
+		if not regions.has(region): regions[region] = {"title": journey_region_title(row), "done": 0, "total": 0}
+		regions[region].total += 1
+		if JournalType.earned(row): regions[region].done += 1
+	for region: int in regions:
+		var data: Dictionary = regions[region]
+		var card := PanelContainer.new()
+		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		card.add_theme_stylebox_override("panel",InstrumentTheme.surface(PANEL,Color("365463"),8))
+		cards.add_child(card)
+		var label := Label.new()
+		label.text = "%s\n%d / %d" % [data.title,data.done,data.total]
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.add_theme_font_size_override("font_size",18)
+		card.add_child(label)
+
+
+func journey_region_title(row: Dictionary) -> String:
+	return str(row.region_title) if row.has("region_title") else Localization.text(StringName(row.get("region_title_key", "tree.region." + str(row.region))))
 
 
 func _open_hub_navigation() -> void:
@@ -403,6 +434,8 @@ func _open_hub_navigation() -> void:
 	navigation_previous_focus = get_viewport().gui_get_focus_owner()
 	(get_node("HubSurface") as Control).hide()
 	navigation_overlay.show()
+	_refresh_achievement_cards()
+	preload("res://src/ui/ui_motion.gd").reveal(navigation_overlay.get_child(1))
 	(navigation_overlay.find_child("HubNavigationClose",true,false) as Button).grab_focus()
 
 
@@ -471,9 +504,7 @@ func _build_hub_footer(content: VBoxContainer) -> void:
 	handbook.pressed.connect(func() -> void: terminology_handbook.open_handbook())
 	row.add_child(handbook)
 	var note := Label.new(); note.name = "BuildIdentifier"
-	note.text = ("%d 项任务 · " if not english else "%d tasks · ") % TaskNavigation.journey_tasks().size()
-	note.text += ("内部评审 · " if not english else "Internal review · ") if candidate_journey else ""
-	note.text += String(ProjectSettings.get_setting("application/config/version",""))
+	note.text = ("%d 项任务" if not english else "%d tasks") % TaskNavigation.journey_tasks().size()
 	if not preload("res://src/campaign/creation_tasks.gd").enabled():
 		note.tooltip_text = "完整扩展旅程需打开隔离候选项目；见 README 的源码运行说明。" if not english else "The full expanded journey requires an isolated candidate project; see the README source-running instructions."
 	note.add_theme_font_size_override("font_size",14); note.add_theme_color_override("font_color",MUTED)
@@ -587,7 +618,7 @@ func _build_options_menu() -> void:
 	var backdrop := ColorRect.new(); backdrop.color=Color("050a12",0.78)
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT); options_overlay.add_child(backdrop)
 	var panel := preload("res://src/ui/movable_dialog_panel.gd").new(); panel.name="ChapterOptionsPanel"
-	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(PANEL,ACCENT,8)); options_overlay.add_child(panel)
+	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("08111a"),ACCENT,8)); options_overlay.add_child(panel)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",14); panel.add_child(column)
 	# Wrapped headings shrink after the hidden panel receives its real width.
 	column.minimum_size_changed.connect(panel.fit_to_bounds, CONNECT_DEFERRED)
@@ -595,16 +626,18 @@ func _build_options_menu() -> void:
 	_settings_label(heading_row,"hub.options.title",28)
 	var heading_label := heading_row.get_child(0) as Label
 	heading_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var manage: Button
 	if not settings_only:
-		var manage := _options_button("成果与存档" if Localization.current_locale() != "en" else "Achievements and saves")
-		manage.name = "HubManageProgress"; manage.pressed.connect(_open_hub_navigation); heading_row.add_child(manage)
+		manage = _options_button("成果与存档" if Localization.current_locale() != "en" else "Achievements and saves")
+		manage.name = "HubManageProgress"; manage.pressed.connect(_open_hub_navigation)
 		manage.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 		manage.custom_minimum_size.x = 220
-	panel.setup(heading_label, Vector2(760, 780))
-	# Opened from the room, Settings is a readable column, not a full-width form.
-	panel.docked_column_width = 820.0
+	panel.setup(heading_label, Vector2(760, 650))
+	panel.docked_column_width = 1120.0
 	var tabs := TabContainer.new(); tabs.name = "SettingsCategories"
-	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	tabs.size_flags_vertical = Control.SIZE_FILL
+	tabs.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	tabs.tab_changed.connect(func(_index: int) -> void: _fit_settings_panel.call_deferred())
 	tabs.use_hidden_tabs_for_min_size = false
 	column.add_child(tabs)
 	tabs.get_tab_bar().focus_mode = Control.FOCUS_ALL
@@ -628,6 +661,7 @@ func _build_options_menu() -> void:
 		page_margin.add_theme_constant_override("margin_top", 12)
 		page_margin.add_theme_constant_override("margin_right", 8)
 		scroll.add_child(page_margin)
+		page_margin.minimum_size_changed.connect(_fit_settings_panel, CONNECT_DEFERRED)
 		var page := VBoxContainer.new()
 		page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		page.add_theme_constant_override("separation", 12)
@@ -642,6 +676,7 @@ func _build_options_menu() -> void:
 		settings_mode.name = "SettingsGameMode"
 		settings_mode.show_label = false
 		_settings_row(section,"mode.selector.label",settings_mode)
+		settings_mode.option_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var language := OptionButton.new(); language.name="LanguageChoice"
 	language.add_item("简体中文"); language.add_item("English")
 	language.select(0 if Localization.current_locale()=="zh_CN" else 1)
@@ -733,9 +768,14 @@ func _build_options_menu() -> void:
 	options_quit_button.custom_minimum_size.x=150
 	options_quit_button.pressed.connect(_quit_from_settings); footer.add_child(options_quit_button)
 	var footer_gap := Control.new(); footer_gap.size_flags_horizontal=Control.SIZE_EXPAND_FILL; footer.add_child(footer_gap)
+	if manage != null: footer.add_child(manage)
 	options_resume_button=_options_button(Localization.text(&"hub.options.resume")); options_resume_button.name="OptionsResumeButton"
 	options_resume_button.custom_minimum_size.x=240
-	options_resume_button.pressed.connect(_close_options_menu); footer.add_child(options_resume_button)
+	options_resume_button.pressed.connect(_close_options_menu); heading_row.add_child(options_resume_button)
+	options_resume_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	options_resume_button.text = "返回 · Esc" if not english else "Back · Esc"
+	options_resume_button.custom_minimum_size.x = 150
+	preload("res://src/lab/lab_terminal_pages.gd").style_header(heading_row,heading_label,options_resume_button)
 	_style_quit_button(options_quit_button)
 	resized.connect(_fit_settings_panel); _fit_settings_panel()
 	_refresh_options_fullscreen_label(); options_overlay.hide()
@@ -813,7 +853,7 @@ func _style_quit_button(button: Button) -> void:
 	const Palette = preload("res://src/lab/lab_palette.gd")
 	for state: String in ["normal","hover","pressed","focus"]:
 		var box := StyleBoxFlat.new()
-		box.bg_color = Palette.QUIT_DEEP.lightened(0.08 if state == "hover" else 0.0).darkened(0.2 if state == "pressed" else 0.0)
+		box.bg_color = Palette.QUIT_DEEP if state in ["hover", "pressed"] else Color.TRANSPARENT
 		box.border_color = Palette.QUIT if state != "normal" else Palette.with_alpha(Palette.QUIT, 0.7)
 		box.set_border_width_all(2 if state == "focus" else 1); box.set_corner_radius_all(8)
 		box.content_margin_left = 14; box.content_margin_right = 14
@@ -830,6 +870,10 @@ func _settings_label(parent: Node, key: String, font_size: int=15) -> void:
 func _fit_settings_panel() -> void:
 	var panel: Control = options_overlay.find_child("ChapterOptionsPanel",true,false)
 	panel.call("fit_to_bounds")
+	var tabs: TabContainer = options_overlay.find_child("SettingsCategories",true,false)
+	if tabs != null and tabs.get_current_tab_control() != null:
+		var page: Control = tabs.get_current_tab_control().get_child(0)
+		tabs.custom_minimum_size.y = minf(page.get_combined_minimum_size().y + tabs.get_tab_bar().size.y, maxf(100, panel.size.y - 160))
 
 func _reload_settings_locale(locale: String = "", reset_defaults: bool = false, return_to_settings: bool = true) -> void:
 	if WindowMode.reload_localized_scene(settings_only, return_to_settings, locale, reset_defaults): return
@@ -857,6 +901,7 @@ func _open_options_menu() -> void:
 	options_previous_focus = get_viewport().gui_get_focus_owner()
 	_refresh_options_fullscreen_label()
 	options_overlay.show()
+	preload("res://src/ui/ui_motion.gd").reveal(options_overlay.find_child("ChapterOptionsPanel",true,false).get_child(0))
 	_refresh_settings_focus()
 	options_resume_button.grab_focus()
 

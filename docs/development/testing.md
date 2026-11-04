@@ -1,3 +1,19 @@
+## Draft input and process recovery ? 2026-11-04
+
+Run `test_text_input_unicode_clipboard` through `scripts/verify-project.py`.
+The verifier discovers top-level `tests/test_*.gd` automatically. GPU execution
+also exercises clipboard paste; headless execution skips clipboard assertions.
+
+Run `python -X utf8 tests/test_process_recovery.py --godot <Godot-4.7.1-console>`
+separately; Python process probes are not discovered by the GDScript verifier.
+It launches `tests/recovery/process_recovery_probe.gd` with fresh isolated profiles
+under `.godot/d1b/`, then relaunches each of system lab, chapter 3 and chapter 4
+following quit, map/lab departure, window close notification and abrupt kill.
+Window close propagates `NOTIFICATION_WM_CLOSE_REQUEST` through the real scene tree
+with automatic quit disabled as in normal startup. It does not click the OS title bar.
+Edits inside the autosave window before abrupt termination are lost by design;
+window close must flush pending drafts. See the [recovery matrix](../verification/20261104-d1-input/README.md).
+
 ## Release-readiness continuity — 2026-10-24
 
 Run `test_late_settings_localization`, `test_recovery_settings_language`,

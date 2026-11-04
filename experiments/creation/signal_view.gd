@@ -12,6 +12,7 @@ var context_lane: int = 0
 var cursor: int = -1
 var page: int = 0
 var english: bool = false
+var stage_done: Array = [false,false,false,false]
 var _cells: Array[Dictionary] = []
 
 func _ready() -> void:
@@ -42,6 +43,15 @@ func _draw() -> void:
 	var start: int = page * count
 	var width: float = (size.x - 20) / columns
 	var lane_height: float = (size.y - 24) / 3
+	if output_length() == 0:
+		var names: Array = ["样例", "冻结规则", "输出", "已保存作品"] if not english else ["Examples", "Frozen rules", "Output", "Saved works"]
+		var gap: float = size.x / 4.0
+		for index: int in 4:
+			var rect := Rect2(index*gap+12,size.y/2.0-25,gap-28,50)
+			draw_style_box(InstrumentTheme.surface(Color("112432"),Color("6ce2de") if stage_done[index] else Color("365463"),8),rect)
+			draw_string(font,rect.position+Vector2(12,31),("✓ " if stage_done[index] else "→ " if index == stage_done.find(false) else "")+names[index],HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("6ce2de") if stage_done[index] else Color("a9bbc9"))
+			if index < 3: draw_line(rect.end-Vector2(0,25),rect.end+Vector2(28,-25),Color("536674"),2)
+		return
 	for lane_index: int in 3:
 		var y: float = lane_index * lane_height
 		draw_string(font,Vector2(8,y+15),str(captions[lane_index]),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("a9bbc9"))

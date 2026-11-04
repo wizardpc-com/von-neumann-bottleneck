@@ -198,12 +198,17 @@ func snapshot() -> String:
 	colors.sort()
 	return JSON.stringify({"name": ui.active_workbench_name, "nodes": nodes, "circuit": ui.current_circuit.canonical_signature(), "colors": colors})
 
+func press_hint() -> void:
+	await press(ui.hint_button)
+	if not ui.hint_mode and ui.yi_help_card != null and ui.yi_help_card.is_visible_in_tree():
+		await press(ui.yi_help_card.options_row.get_child(0))
+
 func hint_roundtrip(inspect_id: StringName = &"NOT_1") -> void:
 	await close_window(&"components")
 	var view_before: Dictionary = ui._capture_player_view()
 	var before: String = snapshot()
 	check(not ui.hint_mode and not ui.hint_confirmation.visible, "Hints and spoiler confirmation are hidden by default.")
-	await press(ui.hint_button)
+	await press_hint()
 	check(ui.hint_mode and ui.hint_level == 1 and ui.graph.get_connection_list().is_empty(), "H1 enters only the independent interface canvas.")
 	check(not ui.mission_compact and ui.task_box.find_child("HintExplanation",true,false).is_visible_in_tree(), "H1 opens its readable explanation instead of inheriting a compact Mission.")
 	var hint_fold: Button = ui.desktop_windows[&"task"].find_child("MinimizeButton",true,false)
@@ -211,20 +216,20 @@ func hint_roundtrip(inspect_id: StringName = &"NOT_1") -> void:
 	await press(hint_fold)
 	check(not ui.mission_briefing_active and ui.task_box.find_child("MissionBriefing",true,false)==null and ui.task_box.find_child("HintExplanation",true,false).is_visible_in_tree(), "Expanding Hint keeps its explanation and never substitutes the player briefing.")
 	await capture(String(ui.current_level_id) + "-hint-1")
-	await press(ui.hint_button)
+	await press_hint()
 	check(ui.hint_level == 1 and ui.pending_hint_level == 2, "Requesting H2 does not reveal it.")
 	await key(KEY_ESCAPE)
 	check(ui.hint_level == 1 and ui.pending_hint_level == 0, "Escape cancels only the spoiler confirmation.")
-	await press(ui.hint_button)
+	await press_hint()
 	await press(ui.hint_confirm_button)
 	check(ui.hint_level == 2 and ui.graph.get_connection_list().size() > 0, "Separate confirmation reveals the relevant H2 partial circuit.")
 	await capture(String(ui.current_level_id) + "-hint-2")
-	await press(ui.hint_button)
+	await press_hint()
 	check(ui.hint_level == 2 and ui.pending_hint_level == 3 and ui.hint_confirmation_text.text.contains(text(&"hardware.hint.confirm.3").split("\n")[0]), "H3 requires an explicit complete-answer warning.")
 	await capture(String(ui.current_level_id) + "-hint-3-confirm")
 	await press(ui.hint_cancel_button)
 	check(ui.hint_level == 2, "Cancelling H3 keeps H2.")
-	await press(ui.hint_button)
+	await press_hint()
 	await press(ui.hint_confirm_button)
 	check(ui.hint_level == 3 and ui.hint_button.disabled, "H3 appears only after its own confirmation and cannot advance.")
 	var readonly_before: String = snapshot()
@@ -260,13 +265,14 @@ func hint_roundtrip(inspect_id: StringName = &"NOT_1") -> void:
 		check(window.visible==row.state.visible and window.position.is_equal_approx(row.state.position) and window.size.is_equal_approx(row.state.size),"Hint preserves window visibility and geometry: "+String(row.id))
 	check(ui.wire_history.is_empty() and ui.redo_history.is_empty(), "Hint return retains the documented ADR 0015 history reset.")
 	await dismiss_briefing()
-	await press(ui.hint_button)
+	await press_hint()
 	check(ui.hint_level == 3 and not ui.hint_confirmation.visible, "Reentry remembers the explicitly viewed level without upgrading it.")
 	await press(ui.hint_exit_button)
 	await dismiss_briefing()
 
 func place(kind: StringName, at: Vector2) -> StringName:
 	var before: Array = ui.component_nodes.keys()
+	await close_window(&"inspector")
 	if not ui.desktop_windows[&"components"].visible:
 		await press(ui.desktop_window_buttons[&"components"])
 	for item: Control in ui.component_palette_items.values():
@@ -279,7 +285,8 @@ func place(kind: StringName, at: Vector2) -> StringName:
 	await point(at)
 	await capture("placement-preview")
 	await click(at)
-	await key(KEY_ESCAPE)
+	if not ui.armed_component_template_key.is_empty():
+		await key(KEY_ESCAPE)
 	await close_window(&"components")
 	for id: StringName in ui.component_nodes:
 		if not before.has(id):
@@ -307,8 +314,8 @@ func editing_roundtrip() -> void:
 	await palette_drag_roundtrip(true, false, &"escape")
 	await palette_drag_roundtrip(true, false, &"focus_out")
 	await palette_drag_roundtrip(false, false, &"right_click")
-	var and_id: StringName = await place(&"and", ui.graph.global_position + Vector2(900, 390))
-	var or_id: StringName = await place(&"or", ui.graph.global_position + Vector2(1160, 475))
+	var and_id: StringName = await place(&"and", ui.graph.global_position + Vector2(600, 500))
+	var or_id: StringName = await place(&"or", ui.graph.global_position + Vector2(900, 550))
 	if and_id.is_empty() or or_id.is_empty():
 		return
 	var count_before: int = ui.component_nodes.size()
@@ -502,12 +509,12 @@ func camera_and_windows() -> void:
 	if DisplayServer.get_name() == "headless":
 		return
 	var window_mode: int = root.mode
-	await press(ui.fullscreen_button)
-	check(root.mode != window_mode, "The real fullscreen button changes the window mode.")
+	await key(KEY_F11)
+	check(root.mode != window_mode, "The fullscreen shortcut changes the window mode.")
 	await capture("fullscreen-editable")
 	check(ui.get_global_rect().encloses(ui.mission_summary_button.get_global_rect()), "The short goal stays on screen in fullscreen.")
-	await press(ui.fullscreen_button)
-	check(root.mode == window_mode, "The same fullscreen control returns to the window.")
+	await key(KEY_F11)
+	check(root.mode == window_mode, "The same fullscreen shortcut returns to the window.")
 	await capture("window-editable")
 
 func build_half_adder() -> void:
@@ -786,9 +793,19 @@ func _run() -> void:
 	await settle(8)
 	check(current_scene.name == "PrototypeHub" and not root.get_node("GameMode").is_test_mode(), "The configured default scene is the original hub in ordinary Game mode.")
 	await capture("default-hub")
-	await press(current_scene.find_child("HubBrowseJourney",true,false))
+	# Use the laboratory terminal presented by the default startup flow.
+	await create_timer(1.0).timeout
+	await key(KEY_ENTER)
+	await create_timer(1.5).timeout
+	await press(current_scene.laboratory.terminal.find_child("TerminalJourney", true, false))
+	var map_deadline: int = Time.get_ticks_msec() + 5000
+	while not on_task_tree() and Time.get_ticks_msec() < map_deadline:
+		await process_frame
+	await settle()
 	check(on_task_tree(), "Ordinary hub opens the unified journey map.")
 	await capture("prologue-map")
+	# The recovery replay below covers the original desktop Mission controls.
+	preload("res://src/lab/lab_features.gd").classic = true
 	if not await enter_task("hardware_foundations/tutorial"):
 		await finish()
 		return

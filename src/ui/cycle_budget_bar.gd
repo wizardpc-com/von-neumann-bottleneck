@@ -9,19 +9,25 @@ var waiting: int = 0
 var limit: int = 0
 var english: bool = false
 var _reveal: float = 1.0
+var _reveal_tween: Tween
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(0, 64)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func show_run(total_cycles: int, wait_cycles: int, limit_cycles: int, use_english: bool) -> void:
+	if _reveal_tween != null: _reveal_tween.kill()
 	total = maxi(0, total_cycles); waiting = clampi(wait_cycles, 0, total); limit = maxi(0, limit_cycles)
 	english = use_english
 	visible = total > 0
 	tooltip_text = _caption()
+	if bool(ProjectSettings.get_setting("game/reduced_motion", false)):
+		_reveal = 1.0
+		queue_redraw()
+		return
 	_reveal = 0.0
-	var tween := create_tween()
-	tween.tween_method(func(value: float) -> void:
+	_reveal_tween = create_tween()
+	_reveal_tween.tween_method(func(value: float) -> void:
 		_reveal = value; queue_redraw(), 0.0, 1.0, 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 func _caption() -> String:

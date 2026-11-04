@@ -1,0 +1,26 @@
+{
+  "baseline": {
+    "mean_frame_interval_ms": 16.6621722222222,
+    "fps_monitor": 60.0,
+    "samples": 180,
+    "warmup_seconds": 1
+  },
+  "iteration1": {
+    "mean_frame_interval_ms": 16.6623,
+    "fps_monitor": 60.0,
+    "samples": 180,
+    "warmup_seconds": 1
+  },
+  "final_zh": {
+    "mean_frame_interval_ms": 16.6611722222222,
+    "fps_monitor": 60.0,
+    "samples": 180,
+    "warmup_seconds": 1
+  },
+  "final_en": {
+    "mean_frame_interval_ms": 16.6617111111111,
+    "fps_monitor": 60.0,
+    "samples": 180,
+    "warmup_seconds": 1
+  }
+}

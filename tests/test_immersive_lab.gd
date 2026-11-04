@@ -60,6 +60,19 @@ func run() -> void:
 		finish(hub, prior_reduced, prior_offline)
 		return
 	check(lab.get_node_or_null("RoomShortcuts") == null, "No screen-space toolbar is built")
+	room.set_physics_process(false)
+	for id: String in ["handbook", "settings", "feedback", "works", "achievements", "archive"]:
+		room._set_hover(id)
+		lab._process_immersive_room(0.0)
+		room._process(0.0)
+		check(not lab.room_hover.visible and lab.room_hover_frame.target.has_area(), "Physical plate keeps brackets without duplicate pill: " + id)
+		check(room._plates[id].modulate == Color("ffe1ab"), "Physical plate brightens for selected object: " + id)
+	for id: String in ["globe", "journey"]:
+		room._set_hover(id)
+		lab._process_immersive_room(0.0)
+		check(lab.room_hover.visible and lab.room_hover_frame.target.has_area(), "Unplated object retains hint and brackets: " + id)
+	room._set_hover("")
+	room.set_physics_process(true)
 	check(lab.terminal_pages.viewport.gui_embed_subwindows, "Terminal contains embedded option menus and confirmations")
 	check(ResourceLoader.exists(Room.MODEL_PATH), "The checked-in laboratory GLB is loadable")
 	check(room.model != null and room.model.scene_file_path == Room.MODEL_PATH, "The room instantiates the production GLB")
@@ -185,6 +198,7 @@ func run() -> void:
 		var animation: Animation = player.get_animation("runtime/earth_24s")
 		check(is_equal_approx(animation.length, 24.0) and animation.loop_mode == Animation.LOOP_LINEAR, "The globe makes a continuous 24-second revolution")
 		check(is_zero_approx(player.speed_scale), "Reduced motion pauses globe rotation")
+		check(is_zero_approx(room._dust.speed_scale) and not room._dust.emitting, "Reduced motion freezes existing dust and stops new emission")
 		var globe := room.model.find_child("Status globe | opal sphere", true, false) as Node3D
 		check(globe != null, "The animated globe exists in the imported model")
 		if globe != null:
@@ -195,6 +209,7 @@ func run() -> void:
 		ProjectSettings.set_setting("game/reduced_motion", false)
 		room._process(0.0)
 		check(is_equal_approx(player.speed_scale, 1.0), "Normal motion resumes globe rotation")
+		check(is_equal_approx(room._dust.speed_scale, 1.0) and room._dust.emitting, "Normal motion resumes dust")
 		ProjectSettings.set_setting("game/reduced_motion", true)
 		room._process(0.0)
 	room.set_interaction_enabled(true)
@@ -366,6 +381,10 @@ func check_display_state(lab: LabHome) -> void:
 		{"key":"fixture/locked","region":2,"unlocked":false,"completed":false},
 	]
 	room.update_progress(rows,2,22,1,tasks,[{"name":"Explicit local QA work","output":[0,1,2,3]}],true)
+	check(room._chapter_lights[0].emission_enabled and not room._chapter_lights[1].emission_enabled, "Chapter modules light only for completed stations")
+	check(room._plates["handbook"].text == "Handbook", "Object nameplates follow the display language")
+	check(room._gallery.size() == 4 and room._gallery[0][0].modulate == Room.WORK_COLORS[0], "Framed miniature uses the supplied output palette")
+	check(room._gallery[1][0].modulate.a < 0.2, "An unused frame never fabricates a saved work")
 	var fixture: Dictionary = room.display_state
 	check(fixture.stations.size() == 11, "The station display is not limited to the imported decorative nine cells")
 	check(fixture.stations[0].status == "completed", "A fully completed station is displayed as completed")

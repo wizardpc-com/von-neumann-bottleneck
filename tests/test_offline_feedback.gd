@@ -44,14 +44,15 @@ func run() -> void:
 	check(feedback.note.text.contains("保留完整现场"),"history restores previous note")
 	feedback.current.build={"version":"captured-build","source_commit":"1234567890abcdef"}
 	feedback._refresh_info()
-	check(feedback.info.text.contains("captured-build") and feedback.info.text.contains("12345678") and feedback.info.text.contains("hardware_foundations/tutorial"),"Historical scene shows its captured version and task")
+	check(not feedback.diagnostics_info.visible and not feedback.info.text.contains("captured-build"),"Internal identity is collapsed by default")
+	check(feedback.diagnostics_info.text.contains("captured-build") and feedback.diagnostics_info.text.contains("12345678") and feedback.diagnostics_info.text.contains("hardware_foundations/tutorial"),"Historical diagnostics retain captured version and task")
 	if "--offline-feedback-capture" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		check(root.get_texture().get_image().save_png("user://offline-panel-zh.png")==OK,"Chinese panel screenshot")
 	root.get_node("Localization").set_locale("en")
 	for index: int in 3: await process_frame
 	check(feedback.toolbar.get_child(0).text=="Feedback · F8","global entry follows language")
-	check(feedback.info.text.contains("captured-build") and feedback.info.text.contains("12345678") and feedback.note.text.contains("保留完整现场"),"Language changes preserve historical identity and note")
+	check(feedback.diagnostics_info.text.contains("captured-build") and feedback.diagnostics_info.text.contains("12345678") and feedback.note.text.contains("保留完整现场"),"Language changes preserve historical identity and note")
 	if "--offline-feedback-capture" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		check(root.get_texture().get_image().save_png("user://offline-panel-en.png")==OK,"English panel screenshot")

@@ -32,6 +32,14 @@ func run() -> void:
 			check(scene.detail_panel.get_global_rect().encloses(scene.enter_button.get_global_rect()),"Enter remains inside the fixed card footer: "+row.key)
 			check(not scene.canvas.get_global_rect().intersects(scene.detail_panel.get_global_rect()),"Map and task card have separate bounds.")
 			check(scene.detail_title.text==row.title and scene.enter_button.disabled==not row.unlocked,"Visual hierarchy preserves titles and gates.")
+		var toggle := scene.find_child("TaskTreeDetailsToggle",true,false) as Button
+		var width_before: float = scene.canvas.size.x
+		toggle.pressed.emit()
+		for frame: int in 4: await process_frame
+		check(not scene.detail_panel.visible and scene.canvas.size.x > width_before,"Details collapse releases canvas width.")
+		toggle.pressed.emit()
+		for frame: int in 4: await process_frame
+		check(scene.detail_panel.visible,"Details can be reopened with the same keyboard-accessible button.")
 		var canvas: Control = scene.canvas
 		canvas._set_hover("")
 		canvas.overview()

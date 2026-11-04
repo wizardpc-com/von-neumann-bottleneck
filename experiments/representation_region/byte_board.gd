@@ -6,6 +6,7 @@ var partitions: Array[Dictionary] = []
 var request_counts: Dictionary = {}
 var selected: int = 0
 var hovered: int = -1
+var recorded_event: Dictionary = {}
 const LEFT: float = 32.0
 const TOP: float = 4.0
 const CELL_HEIGHT: float = 30.0
@@ -19,9 +20,14 @@ func _init() -> void:
 	mouse_exited.connect(func() -> void: hovered = -1; queue_redraw())
 
 func configure(data: Array[int], plan: Array[Dictionary], selected_block: int) -> void:
+	recorded_event.clear()
 	values = data.duplicate()
 	partitions = plan.duplicate(true)
 	selected = selected_block
+	queue_redraw()
+
+func show_event(event: Dictionary) -> void:
+	recorded_event = event.duplicate(true)
 	queue_redraw()
 
 func set_requests(addresses: Array) -> void:
@@ -74,6 +80,12 @@ func _draw() -> void:
 		draw_line(rect.position,rect.position+Vector2(rect.size.x,0),edge,2.0)
 		if index == selected: draw_rect(rect,Color(edge,0.6),false,1.0)
 		if request_counts.has(address): draw_line(rect.position+Vector2(3,rect.size.y-2),rect.end-Vector2(3,2),Color("f3c777"),3.0)
+		var evidence: Dictionary = recorded_event.get("details",{})
+		var span: Array = evidence.get("range",[])
+		if span.size() == 2 and address >= int(span[0]) and address < int(span[1]):
+			draw_rect(rect,Color("f3c777"),false,2.0)
+		if address == int(recorded_event.get("address",-1)):
+			draw_rect(rect,Color("62dca7"),false,3.0)
 		if address == hovered: draw_rect(rect,Color.WHITE,false,2.0)
 		draw_string(font,rect.position+Vector2(0,20),str(values[address]),HORIZONTAL_ALIGNMENT_CENTER,rect.size.x,14,Color("eef4f8"))
 	if has_focus(): draw_rect(Rect2(Vector2.ZERO,size),Color("7fcbd6"),false,1.0)

@@ -24,12 +24,14 @@ func run() -> void:
 			var scene: Control = load("res://src/campaign/task_tree.tscn").instantiate()
 			root.add_child(scene); await settle()
 			var creation_chips: Array[Node] = scene.creation_route.get_children().filter(func(node: Node) -> bool: return str(node.name).begins_with("CreationRegion"))
-			check(scene.creation_route.visible and creation_chips.size() == 3 and scene.creation_route.get_child_count() == 11,"All regions, including the three creation regions, are immediately visible")
+			check(scene.creation_route.visible and creation_chips.size() == 3 and scene.creation_route.get_child_count() == 11,"All regions, including the three creation regions, are available in the chapter strip")
 			check(scene.journey_scope.text.contains(str(scene.rows.size())),"Scope counts the actual loaded catalog")
 			check(scene.journey_scope.text.contains("Completed") if locale == "en" else scene.journey_scope.text.contains("已完成"),"Scope reports earned completion separately from open entrances")
 			var selected_before: String = nav.selected
 			for child: Node in creation_chips:
 				var button := child as Button
+				(scene.creation_route.get_parent() as ScrollContainer).ensure_control_visible(button)
+				await settle()
 				check(root.get_visible_rect().encloses(button.get_global_rect()),"Region shortcut fits "+str(dimensions)+locale)
 				button.pressed.emit(); await settle()
 				check(scene.list_view.visible and not scene.detail_view.visible,"Shortcut opens the chapter task list")

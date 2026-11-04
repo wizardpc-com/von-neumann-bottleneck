@@ -53,6 +53,11 @@ func _draw() -> void:
 	if frames.is_empty() or first_responses.size() != 4:
 		draw_string(font,Vector2(4,25),words("历史留在哪里，谁先收到结果？", "History and first responses"),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,16,text_color)
 		draw_multiline_string(font,Vector2(4,52),contract_caption(),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,14,-1,Color("90a7b7"))
+		for stream: int in 4:
+			var y: float = 76+stream*28
+			draw_string(font,Vector2(6,y+18),char(65+stream),HORIZONTAL_ALIGNMENT_LEFT,24,15,text_color)
+			draw_rect(Rect2(34,y,maxf(1,size.x-44),22),Color("142633"))
+			draw_string(font,Vector2(46,y+16),words("等待实测", "Awaiting measurement"),HORIZONTAL_ALIGNMENT_LEFT,size.x-60,14,Color("90a7b7"))
 		return
 	var frame: Dictionary = witness_snapshot()
 	if frame.is_empty(): return
@@ -85,4 +90,8 @@ func _draw() -> void:
 	if deadline > 0:
 		var limit_x: float = 254+bar_width*deadline/scale
 		draw_line(Vector2(limit_x,76),Vector2(limit_x,166),Color("f3c777"),1.5)
-	draw_multiline_string(font,Vector2(4,182),words("外存含目录；本地*表示待写回。\n真实事件回放，速度仅供展示。", "Backing includes directory; * = awaiting write-back.\nReplay speed is illustrative."),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,-1,Color("90a7b7"))
+	var event: Dictionary = frame.event
+	var caption: String = preload("res://experiments/service_plan/event_presenter.gd").title(event,english)
+	caption += " · t%d + %d" % [int(event.cycle),int(event.duration)]
+	draw_string(font,Vector2(4,182),caption,HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,text_color)
+	draw_string(font,Vector2(4,202),words("外存含目录；本地*表示待写回。", "Backing includes directory; * = awaiting write-back."),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,13,Color("90a7b7"))

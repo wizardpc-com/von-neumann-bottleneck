@@ -1,0 +1,263 @@
+
+=== chapter_1-assembly-early-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+kill.log
+ERROR: Access denied
+
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: false
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_1-assembly-lab-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_1-assembly-late-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+kill.log
+ERROR: Access denied
+
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_1-assembly-map-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_1-assembly-quit-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_3-arrival-early-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+kill.log
+ERROR: Access denied
+
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: false
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_3-arrival-lab-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_3-arrival-late-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+kill.log
+ERROR: Access denied
+
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_3-arrival-map-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_3-arrival-quit-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_4-fields-early-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+kill.log
+ERROR: Access denied
+
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_4-fields-lab-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_4-fields-late-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+kill.log
+ERROR: Access denied
+
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_4-fields-map-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+=== chapter_4-fields-quit-r2 ===
+
+edit.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+load.log
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+RESTORED: true
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)

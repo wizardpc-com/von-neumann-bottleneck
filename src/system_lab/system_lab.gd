@@ -127,6 +127,9 @@ var order_configurations: Dictionary = {}
 var parts_summary_label: Label
 var editor: CodeEdit
 var program_validation_label: Label
+var last_correct_receipt: SystemRunReceipt
+var run_comparison: Label
+var cycle_budget: Control
 var program_apply_label: Label
 var program_explanation_label: RichTextLabel
 var finish_playback_button: Button
@@ -692,6 +695,7 @@ func _build_workbench_bar() -> Control:
 		instrument_open_buttons[instrument_id] = button
 		row.add_child(button)
 	preload("res://src/ui/instrument_theme.gd").tool_row(row)
+	row.add_to_group(&"workbench_nav")
 	return panel
 
 
@@ -1104,6 +1108,13 @@ func _build_test_bench_instrument() -> Control:
 
 func _build_profiler_instrument() -> Control:
 	var box := VBoxContainer.new()
+	cycle_budget = preload("res://src/ui/cycle_budget_bar.gd").new()
+	cycle_budget.hide()
+	box.add_child(cycle_budget)
+	run_comparison = Label.new()
+	run_comparison.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	run_comparison.hide()
+	box.add_child(run_comparison)
 	profiler_tier_label = Label.new()
 	profiler_tier_label.add_theme_color_override("font_color", PURPLE)
 	box.add_child(profiler_tier_label)
@@ -1229,6 +1240,7 @@ func _build_playback_bar() -> Control:
 	handbook_space.custom_minimum_size.x = 128.0
 	row.add_child(handbook_space)
 	preload("res://src/ui/instrument_theme.gd").tool_row(row)
+	row.add_to_group(&"workbench_nav")
 	return panel
 
 
@@ -1298,6 +1310,8 @@ func _start_level(level_id: StringName) -> void:
 	PlaytestData.level_started(&"chapter_1", current_level_id)
 	current_level_definition = catalog.definition(level_id)
 	latest_receipt = null
+	last_correct_receipt = null
+	run_comparison.hide()
 	latest_official_traces.clear()
 	map_host.hide()
 	lab_host.show()
@@ -2176,6 +2190,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 	var before: Dictionary = _capture_system_editor_snapshot()
 	graph.connect_node(from_node, from_port, to_node, to_port)
 	graph.set_connection_color_index(from_node, from_port, to_node, to_port, active_wire_color_index)
+	preload("res://src/ui/ui_cue.gd").play(self, &"connect")
 	_commit_system_editor_snapshot(&"connect", before)
 	status_label.text = _t(&"system.status.connection_added")
 	status_label.add_theme_color_override("font_color", GOOD)
@@ -2190,6 +2205,7 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 
 
 func _show_connection_error() -> void:
+	preload("res://src/ui/ui_cue.gd").play(self, &"reject")
 	PlaytestData.record_action(&"chapter_1",current_level_id,&"connection_rejected")
 	status_label.text = _t(&"system.status.invalid_connection")
 	status_label.add_theme_color_override("font_color", BAD)
@@ -2316,6 +2332,7 @@ func _update_program_explanation(program: SystemProgram) -> void:
 
 
 func _run_debug_case() -> void:
+	run_comparison.hide()
 	PlaytestData.record_action(&"chapter_1",current_level_id,&"debug_run_request")
 	if not _prepare_run():
 		return
@@ -2345,9 +2362,11 @@ func _run_debug_case() -> void:
 
 
 func _run_official() -> void:
+	run_comparison.hide()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 	if not _prepare_run():
 		return
+	preload("res://src/ui/ui_cue.gd").play(self, &"run")
 	latest_official_traces.clear()
 	_clear_result_rows()
 	for case: Dictionary in _active_cases():
@@ -2367,6 +2386,17 @@ func _run_official() -> void:
 		catalog.test_set_signature(current_level_id),
 		selected_part_ids
 	)
+	run_comparison.hide()
+	if latest_receipt.all_passed:
+		if last_correct_receipt != null and last_correct_receipt.test_set_signature == latest_receipt.test_set_signature:
+			var before: int = int(last_correct_receipt.metrics.total_cycles)
+			var after: int = int(latest_receipt.metrics.total_cycles)
+			run_comparison.text = _t(&"s5.system.comparison",[before,after,after-before])
+			run_comparison.add_theme_color_override("font_color",GOOD if after < before else BAD if after > before else TEXT)
+			if after < before: preload("res://src/ui/ui_cue.gd").play(self, &"improve")
+			run_comparison.show()
+		last_correct_receipt = latest_receipt
+	if not latest_receipt.all_passed: preload("res://src/ui/ui_cue.gd").play(self, &"fail")
 	var recorded_cases: Array[Dictionary] = []
 	var reached_target: bool = latest_receipt.all_passed
 	if current_level_id in [&"read_once",&"two_orders"]:
@@ -2415,6 +2445,8 @@ func _run_official() -> void:
 	if not latest_official_traces.is_empty():
 		_play_trace(latest_official_traces[0])
 	_refresh_profiler(latest_receipt.metrics)
+	_close_instrument(&"mission")
+	_open_instrument(&"profiler")
 	_refresh_history()
 	if pending_history_after_playback and not playback_running:
 		pending_history_after_playback = false
@@ -2526,6 +2558,8 @@ func _evaluate_completion(selected_diagnosis: StringName) -> void:
 	if bool(completion.get("complete", false)):
 		var newly_completed: bool = not bool(SystemChapter.completed_levels().get(current_level_id, false))
 		SystemChapter.mark_completed(current_level_id)
+		if newly_completed and not GameMode.is_test_mode(): _show_level_completion(current_level_id)
+		else: preload("res://src/ui/ui_cue.gd").met(self, not newly_completed)
 		if newly_completed:
 			PlaytestData.level_completed(&"chapter_1", current_level_id, {
 				"final_config": {
@@ -2685,6 +2719,7 @@ func _add_result_row(trace: SystemTrace) -> void:
 
 
 func _refresh_profiler(metrics: Dictionary = {}) -> void:
+	run_comparison.visible = run_comparison.visible and latest_receipt != null and latest_receipt.all_passed and metrics == latest_receipt.metrics
 	var tier: int = int(current_level_definition.get("profiler_tier", 1)) if not current_level_definition.is_empty() else 1
 	var has_trace: bool = not metrics.is_empty()
 	var diagnosis_required: bool = bool(current_level_definition.get("diagnosis_required", false))
@@ -2713,6 +2748,8 @@ func _refresh_profiler(metrics: Dictionary = {}) -> void:
 	var total: int = int(metrics.get("total_cycles",0))
 	var compute: int = int(metrics.get("cpu_compute_cycles",0))
 	var waiting: int = int(metrics.get("cpu_wait_cycles",0))
+	cycle_budget.show_run(total,waiting,0,Localization.current_locale() == "en")
+	cycle_budget.visible = has_trace and (tier >= 2 or diagnosis_gate_active) and total > 0 and compute + waiting == total
 	cpu_time_breakdown.visible = has_trace and tier>=2 and (not diagnosis_gate_active or breakdown_revealed) and total>0 and compute+waiting==total
 	cpu_time_bar.value = 100.0*float(compute)/total if total>0 else 0.0
 	cpu_time_bar.tooltip_text = _t(&"system.profiler.time_split",[compute,waiting]) if cpu_time_breakdown.visible else ""
@@ -3196,7 +3233,7 @@ func _open_instrument(id: StringName) -> void:
 	if panel == null:
 		return
 	var was_visible: bool = panel.visible
-	panel.show()
+	panel.show_instrument()
 	if panel.minimized:
 		panel.set_minimized(false)
 	# Task docks left, tools dock right on first opening; the machine keeps the middle.
@@ -3212,7 +3249,10 @@ func _open_instrument(id: StringName) -> void:
 func _frame_machine() -> void:
 	if graph != null and desktop_host != null and desktop_host.size.x > 0.0:
 		InstrumentDock.redock(desktop_host.size, instrument_windows, [&"mission"], [&"program", &"profiler", &"history"])
-		InstrumentDock.frame(graph, device_nodes.values(), instrument_windows)
+		var expanded: Dictionary = {}
+		for id: StringName in instrument_windows:
+			if not instrument_windows[id].minimized: expanded[id] = instrument_windows[id]
+		InstrumentDock.frame(graph, device_nodes.values(), expanded)
 
 
 func _close_instrument(id: StringName) -> void:

@@ -14,6 +14,8 @@ func run() -> void:
 		root.add_child(host)
 		for frame: int in range(5): await process_frame
 		check(host.level == id and host.panels.tools.visible,"ordinary host route and visible tools "+id)
+		check(host.panels.memory.visible and not host.panels.mission.visible,"entry exposes the address stage "+id)
+		check(not host.panels.tools.get_rect().intersects(host.panels.memory.get_rect()),"tools leave address stage unobscured "+id)
 		if id == "fields":
 			var localization: Node = root.get_node("Localization")
 			var original_locale: String = localization.current_locale()
@@ -28,7 +30,7 @@ func run() -> void:
 				check(sum_text.contains("求和字段" if locale == "zh_CN" else "Fields to sum") and list_text.contains("依次输出字段" if locale == "zh_CN" else "Output fields in order"), "different query actions stay explicit " + locale)
 			localization.set_locale(original_locale)
 			host._run_all()
-			var first_metrics: Label = host.results.get_node("LayoutCaseMetrics0")
+			var first_metrics: Label = host.results.get_node("LayoutCaseHeadline0")
 			check(first_metrics.text.contains("RAM") and not first_metrics.text.contains("比上次") and not first_metrics.text.contains("Since last"),"first measured baseline shows traffic without inventing an earlier run")
 		host.design = C.reference_solution(id)
 		host._changed()

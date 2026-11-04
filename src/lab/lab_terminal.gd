@@ -90,7 +90,16 @@ func _build() -> void:
 	awake_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	awake_view.add_theme_constant_override("separation", 9)
 	awake_view.hide(); stack.add_child(awake_view)
-	var header := HBoxContainer.new(); awake_view.add_child(header)
+	var title_bar := PanelContainer.new()
+	var title_style := StyleBoxFlat.new()
+	title_style.bg_color = Palette.TERM_SCREEN_LIFT
+	title_style.border_color = Palette.TERM_EDGE
+	title_style.border_width_bottom = 1
+	title_style.content_margin_left = 12; title_style.content_margin_right = 12
+	title_style.content_margin_top = 6; title_style.content_margin_bottom = 6
+	title_bar.add_theme_stylebox_override("panel", title_style)
+	awake_view.add_child(title_bar)
+	var header := HBoxContainer.new(); title_bar.add_child(header)
 	header_label = _label(header, "", 13, Palette.TERM_MUTED); header_label.name = "TerminalHeader"
 	header_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header_label.autowrap_mode = TextServer.AUTOWRAP_OFF
@@ -238,7 +247,8 @@ func _set_choices(options: Array) -> void:
 	for option: Dictionary in options:
 		var button := Button.new(); button.text = str(option.text)
 		button.focus_mode = Control.FOCUS_ALL
-		button.size_flags_horizontal = Control.SIZE_FILL
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		button.custom_minimum_size.y = 40
 		button.add_theme_font_size_override("font_size", 15)
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -391,11 +401,8 @@ func wake(instant: bool = false) -> void:
 		return
 	_asleep = false
 	sleep_view.hide(); awake_view.show()
-	if not instant and not bool(ProjectSettings.get_setting("game/reduced_motion", false)):
-		awake_view.modulate.a = 0.0
-		create_tween().tween_property(awake_view, "modulate:a", 1.0, 0.25)
-	else:
-		awake_view.modulate.a = 1.0
+	if instant: awake_view.modulate.a = 1.0
+	else: preload("res://src/ui/ui_motion.gd").reveal(awake_view)
 	# A chapter ending is answered with a short conversation, once.
 	var beats: Array = response.get("dialogue", [])
 	if not beats.is_empty():

@@ -13,6 +13,7 @@ func _run() -> void:
 		host._open_level(id)
 		for _frame: int in range(5): await process_frame
 		_assert(host.panels.toolbox.visible and not host.panels.program.visible, "Entry shows available parts without opening all instruction tools: "+id)
+		_assert(host.panels.toolbox.minimized and host.panels.toolbox.size.y <= 40, "Entry compacts the parts tool: "+id)
 		_assert(host.editor.text == Catalog.starter(id), "New level starts with the published starter, not a silently applied answer.")
 		var original: String = JSON.stringify(host.board)
 		host._advance_hint()
@@ -28,6 +29,14 @@ func _run() -> void:
 		for _frame: int in range(5): await process_frame
 		_assert(host.panels.trace.size.y <= host.workspace.size.y, "Timeline must fit the work area after metrics and event rows are populated.")
 		host.completion.dismiss()
+		if id == "buffers":
+			var correct_signature: String = host.runs[0].canonical_signature()
+			host.editor.text = ""
+			host._run_official()
+			_assert(not host.runs[0].passed,"An empty experiment is incomplete.")
+			host.editor.text = answer.program
+			host._run_official()
+			_assert(host.previous_runs[0].canonical_signature() == correct_signature,"Incomplete experiments retain the last complete correct comparison.")
 		var signature: String = host.trace.canonical_signature()
 		host.scrub.value = 0
 		_assert(signature==host.trace.canonical_signature(), "Timeline seeking must never recompute or change simulation.")

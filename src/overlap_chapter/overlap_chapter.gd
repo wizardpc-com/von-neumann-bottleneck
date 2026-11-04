@@ -107,6 +107,7 @@ func _ready() -> void:
 	_button(dock,"hint",_request_hint)
 	_button(dock,"run",_run_official)
 	preload("res://src/ui/instrument_theme.gd").tool_row(dock)
+	dock.add_to_group(&"workbench_nav")
 	confirmation = ConfirmationDialog.new()
 	confirmation.title = _t("hint")
 	confirmation.confirmed.connect(_advance_hint)
@@ -347,6 +348,7 @@ func _open_level(id: String, save_current: bool = true) -> void:
 	_build_trace()
 	_build_handbook()
 	panels.toolbox.show()
+	panels.toolbox.set_minimized(true)
 	panels.trace.hide()
 
 	# Empty construction starts with tools visible, not an authored answer machine.
@@ -361,7 +363,10 @@ func _frame_board() -> void:
 	for frame: int in 3: await get_tree().process_frame
 	if not is_instance_valid(graph) or not is_instance_valid(workspace): return
 	var windows: Dictionary = {}
-	for id: String in panels: windows[StringName(id)] = panels[id]
+	for id: String in panels:
+		var panel: FloatingInstrumentPanel = panels[id]
+		if panel.minimized: continue
+		windows[StringName(id)] = panel
 	var nodes: Array = graph.get_children().filter(func(node: Node) -> bool: return node is GraphNode)
 	preload("res://src/ui/instrument_dock.gd").frame(graph, nodes, windows, 0.6)
 
@@ -798,9 +803,13 @@ func _run_official() -> void:
 	if level.is_empty() or is_instance_valid(hint_overlay): return
 	_cancel_placement()
 	_save_draft()
+	preload("res://src/ui/ui_cue.gd").play(self, &"run")
 	var report: Dictionary = Catalog.evaluate(level,board,editor.text)
 	measured_board_signature = JSON.stringify(board).sha256_text()
-	previous_runs.assign(runs)
+	var complete: bool = not runs.is_empty()
+	for run: SimulationTrace in runs:
+		complete = complete and run.passed and str(run.metrics.error).is_empty()
+	if complete: previous_runs.assign(runs)
 	runs.assign(report.runs)
 	trace_stale = false
 	case_select.clear()
@@ -816,6 +825,8 @@ func _run_official() -> void:
 			break
 	_select_run(first_unmet)
 	_toggle("trace",true,&"automatic")
+	scrub.value = 0
+	playing = true
 	var total_cycles: int = 0
 	for run: SimulationTrace in runs: total_cycles+=int(run.metrics.get("total_cycles",0))
 	var recorded_cases: Array[Dictionary] = []
@@ -841,11 +852,13 @@ func _run_official() -> void:
 				completion.present_actions(StringName(level),_t(level+".title"),_t(level+".learned"),_t("title"),&"chapter_3",
 					"继续试一试" if Localization.current_locale() != "en" else "Stay and experiment",Localization.text(&"common.level_complete.continue"))
 				completion.emphasise(completion.continue_button)
+		if not newly_completed: preload("res://src/ui/ui_cue.gd").met(self, true)
 		status.text = _t("passed")
 		if level in ["distance","synthesis"]:
 			status.text += " · "+_t("bonus.done" if OverlapChapter.bonus_status(level).complete else "bonus.pending")
 		status.add_theme_color_override("font_color",GREEN)
 	else:
+		preload("res://src/ui/ui_cue.gd").play(self, &"fail")
 		status.text = _t("try_again")
 		status.add_theme_color_override("font_color",GOLD)
 	core_review_button.visible = OverlapChapter.completed().has("synthesis")
@@ -897,6 +910,7 @@ func _select_run(index: int) -> void:
 	scrub.value = scrub.max_value
 	_show_cycle(int(scrub.value))
 	var task: Dictionary = Catalog.cases(level)[index]
+	metrics.add_theme_color_override("font_color", GREEN if trace.passed and int(trace.metrics.total_cycles) <= int(task.target) else GOLD)
 	metrics.text = _t("metrics") % [trace.metrics.total_cycles,task.target,trace.metrics.compute_busy,trace.metrics.transfer_busy,trace.metrics.overlap,trace.metrics.wait,trace.result_value,trace.expected_value]
 	if not String(trace.metrics.error).is_empty():
 		metrics.text += "\n" + _t("line_error") % [trace.metrics.error_line,_t("error."+String(trace.metrics.error))]
@@ -1068,6 +1082,7 @@ func _panel(id: String, caption: String, at: Vector2, dimensions: Vector2) -> Fl
 	panel.size = dimensions
 	workspace.add_child(panel)
 	panel.close_requested.connect(func(_id: StringName) -> void: panel.hide())
+	panel.minimized_changed.connect(func(_id: StringName, _minimized: bool) -> void: call_deferred("_frame_board"))
 	panel.focus_requested.connect(func(_id: StringName) -> void: workspace.move_child(panel,-1))
 	panels[id] = panel
 	call_deferred("_settle_panel",panel,dimensions)
@@ -1077,7 +1092,7 @@ func _settle_panel(panel: FloatingInstrumentPanel, dimensions: Vector2) -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	if not is_instance_valid(panel): return
-	panel.size = dimensions
+	if not panel.minimized: panel.size = dimensions
 	panel.fit_to_parent()
 
 func _toggle(id: String, force: bool = false, origin: StringName = &"manual") -> void:
@@ -1089,11 +1104,13 @@ func _toggle(id: String, force: bool = false, origin: StringName = &"manual") ->
 	var panel: FloatingInstrumentPanel = panels[id]
 	panel.visible = force or not panel.should_hide_on_toggle()
 	if panel.visible:
+		panel.show_instrument()
 		if panel.minimized: panel.set_minimized(false)
 		PlaytestData.record_tool_opened(&"chapter_3",StringName(level),StringName(id),origin)
 		workspace.move_child(panel,-1)
 		panel.call_deferred("fit_to_parent")
 		panel.position = Vector2(clampf(panel.position.x,0,maxf(0,workspace.size.x-panel.size.x)),clampf(panel.position.y,0,maxf(0,workspace.size.y-panel.size.y)))
+	call_deferred("_frame_board")
 
 func _scroll_box(panel: FloatingInstrumentPanel) -> VBoxContainer:
 	var scroll := ScrollContainer.new()

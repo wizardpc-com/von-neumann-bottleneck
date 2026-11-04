@@ -7190,3 +7190,95 @@ msgstr "实验室与常用功能"
 
 msgid "terminology.term.operation_navigation.body"
 msgstr "实验室终端可继续当前任务，旅程地图可选关并查看任务规格。档案架阅读已开启的旅程记录；概念与操作图解在独立的“手册”入口，完成进度看旅程板／成就，不把档案页当作通关证据。\n\n作品墙回看已经保存的作品。进入任务后，先读目标；需要解题线索用 Hint，序章也可按 F1。返回实验室或地图仍会经过任务自身的未保存保护。\n\nF10 打开设置：可调文字速度、语言、音效与环境声音量、窗口／全屏、帧率和减少动态效果。Esc 先关闭当前上层页面。\n\nF8 打开反馈：可保留现场与意见。普通模式是否分享须主动选择；离线试玩先记录到本地，再按需要导出反馈包，不等于自动上传。"
+
+# --- s1-prologue 20261104 ---
+msgid "hardware.case.canvas_mismatch"
+msgstr "实际 %s · 期望 %s"
+
+# --- s2-locality 20261104 ---
+
+msgid "s2.run.metrics"
+msgstr "本次 · %s 周期 · CPU 等待 %s · 命中/未命中 %s/%s · RAM %s B"
+
+msgid "s2.run.comparison"
+msgstr "上次 → 本次 · 周期 %s · 等待 %s · 命中 %s · 未命中 %s · RAM %s B"
+# --- b2-bridges 20261104 ---
+
+msgid "b2.reflection.capstone"
+msgstr "从 %d 周期到 %d 周期——这是你的方案。"
+
+msgid "b2.reflection.distance"
+msgstr "综合方案通过了；你还留下了一份没有重复搬运的远距方案。"
+
+msgid "b2.reflection.both"
+msgstr "两种查询通过了；你还分别留下了低峰值空间和低 RAM 流量的达标布局。"
+
+msgid "b2.reflection.space"
+msgstr "两种查询通过了；你还留下了一份低峰值空间的达标布局。"
+
+msgid "b2.reflection.flow"
+msgstr "两种查询通过了；你还留下了一份低 RAM 流量的达标布局。"
+
+msgid "b2.artifact.machine"
+msgstr "你搭起的机器"
+
+msgid "b2.artifact.temporary"
+msgstr "临时会话；这些结果尚未保存。"
+
+msgid "b2.artifact.unsaved"
+msgstr "本次变化尚未保存；离开前请保存。"
+
+msgid "b2.artifact.became"
+msgstr "它们一起，成为了 %s。"
+
+msgid "b2.artifact.continue"
+msgstr "继续"
+
+msgid "b2.artifact.task"
+msgstr "任务 %d"
+
+msgid "b2.artifact.order"
+msgstr "订单 %d"
+
+msgid "b2.artifact.cycles"
+msgstr "%d 周期"
+
+# --- m1-map 20261104 ---
+msgid "m1_map.passed_cases"
+msgstr "通过 %d 项"
+
+msgid "m1_map.cycles"
+msgstr "%d 周期"
+
+# --- s5-early-chapters 20261104 ---
+msgid "s5.system.comparison"
+msgstr "上次 → 本次：%d → %d 周期（%+d）"
+
+
+
+msgid "s5.layout.cycles_peak"
+msgstr "周期 %d · 临时峰值 %d B"
+
+msgid "s5.layout.previous"
+msgstr "比上次完整运行："
+
+msgid "s5.layout.incomplete"
+msgstr "未完成"
+
+msgid "s5.layout.details"
+msgstr "展开／收起详情与输出"
+
+# --- f1-feel 20261104 ---
+msgid "f1.met_again"
+msgstr "????"
+
+# --- p1-pages 20261104 ---
+msgid "p1.diagnostics"
+msgstr "诊断信息"
+
+msgid "p1.back"
+msgstr "返回 · Esc"
+
+# --- p1-pages 20261104 --- Round 2
+msgid "p1.feedback_title"
+msgstr "评价与反馈"

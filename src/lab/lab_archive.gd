@@ -15,6 +15,7 @@ var body_label: Label
 var note_label: Label
 var close_button: Button
 var selected: String = ""
+var previous_focus: Control
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -22,23 +23,27 @@ func _ready() -> void:
 	z_index = 50
 
 func present(use_english: bool) -> void:
+	if not visible: previous_focus = get_viewport().gui_get_focus_owner()
 	english = use_english
-	for child: Node in get_children(): child.queue_free()
+	for child: Node in get_children():
+		remove_child(child)
+		child.queue_free()
 	_build()
 	show()
-	modulate.a = 0.0
-	create_tween().tween_property(self, "modulate:a", 1.0, 0.25)
+	preload("res://src/ui/ui_motion.gd").reveal(get_node("ArchivePaper").get_child(0))
 
 func close() -> void:
 	hide()
 	closed.emit()
+	if is_instance_valid(previous_focus) and previous_focus.is_visible_in_tree(): previous_focus.grab_focus()
+	previous_focus = null
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("ui_cancel"):
 		close(); get_viewport().set_input_as_handled()
 
 func _build() -> void:
-	var shade := ColorRect.new(); shade.color = Color(0.17, 0.22, 0.25, 0.35)
+	var shade := ColorRect.new(); shade.color = Color("050a12", 0.78)
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	shade.gui_input.connect(func(event: InputEvent) -> void:
 		if event is InputEventMouseButton and event.pressed: close())
@@ -56,10 +61,13 @@ func _build() -> void:
 		paper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		box.set_corner_radius_all(0)
 		box.shadow_size = 0
-		box.bg_color = Palette.TERM_SCREEN
+		box.bg_color = Color("08111a")
 		box.border_color = Color(0, 0, 0, 0)
 		# Full screen, but the shelf and its reader keep a readable width.
-		box.content_margin_left = 110; box.content_margin_right = 110; box.content_margin_top = 40; box.content_margin_bottom = 34
+		box.content_margin_left = 80; box.content_margin_right = 80; box.content_margin_top = 30; box.content_margin_bottom = 30
+		paper.resized.connect(func() -> void:
+			box.content_margin_left = maxf(32,(paper.size.x-1120)*0.5)
+			box.content_margin_right = box.content_margin_left)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 14); paper.add_child(column)
 	var header := HBoxContainer.new(); column.add_child(header)
 	var heading := _label(header, "档案架" if not english else "Archive shelf", 24, Palette.LAB_INK)
@@ -67,6 +75,7 @@ func _build() -> void:
 	close_button = Button.new(); close_button.name = "ArchiveClose"
 	close_button.text = "返回 · Esc" if not english else "Back · Esc"
 	_style_button(close_button, false); close_button.pressed.connect(close); header.add_child(close_button)
+	preload("res://src/lab/lab_terminal_pages.gd").style_header(header,heading,close_button)
 	var split := HBoxContainer.new(); split.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	split.add_theme_constant_override("separation", 22); column.add_child(split)
 	var scroll := ScrollContainer.new(); scroll.custom_minimum_size.x = 290
@@ -98,14 +107,13 @@ func _fill() -> void:
 		var entry := Button.new(); entry.name = "Fragment_" + str(fragment.id)
 		entry.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		entry.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		# Pages are numbered slots: an unwritten page is just its number, dimmed.
-		# What unlocks it stays on hover.
+		# Locked story titles stay private; the task prerequisite remains on hover.
 		if open:
 			entry.text = "%02d  %s" % [page, Fragments.title(fragment, english)]
 			if first_open.is_empty() or not str(fragment.id) in read: first_open = str(fragment.id) if first_open.is_empty() or not first_open in read else first_open
 		else:
 			var task_title: String = str(titles.get(str(fragment.requires), "…"))
-			entry.text = "%02d" % page
+			entry.text = "%02d  %s" % [page, "未开放" if not english else "Not yet open"]
 			entry.tooltip_text = ("完成「%s」后开启" if not english else "Opens after \"%s\"") % task_title
 		entry.set_meta("page", page)
 		_style_button(entry, open)
@@ -133,8 +141,7 @@ func _show(id: String) -> void:
 		selected = id
 		title_label.text = Fragments.title(fragment, english)
 		body_label.text = Fragments.body(fragment, english)
-		body_label.visible_ratio = 0.0
-		create_tween().tween_property(body_label, "visible_ratio", 1.0, clampf(body_label.text.length() * 0.012, 0.3, 1.4))
+		preload("res://src/ui/ui_motion.gd").reveal(body_label)
 		note_label.text = ("叙事候选 · 故事设定待确认" if not english else "Story draft · setting awaiting confirmation") if bool(fragment.get("candidate", true)) else ""
 		LabState.mark_fragment_read(id)
 		var entry: Button = list.get_node_or_null("Fragment_" + id)
@@ -154,11 +161,10 @@ func _style_button(button: Button, emphasised: bool) -> void:
 	# On the terminal workspace the page is written in terminal colours, which the
 	# room skin then maps onto its light glass; on paper it keeps the lab palette.
 	var fills: Array = [Palette.TERM_PANEL, Palette.TERM_SCREEN_LIFT, Palette.TERM_SCREEN] if terminal_page else [Palette.LAB_WALL, Palette.LAB_LIGHT, Palette.LAB_SIDE]
-	for pair: Array in [["normal", fills[0]], ["hover", fills[1]], ["pressed", fills[2]], ["disabled", Color(0, 0, 0, 0)], ["focus", Color(0, 0, 0, 0)]]:
+	for pair: Array in [["normal", fills[0]], ["hover", fills[1]], ["pressed", fills[2]], ["disabled", fills[0]], ["focus", Color(0, 0, 0, 0)]]:
 		var box := StyleBoxFlat.new(); box.bg_color = pair[1]
 		box.border_color = Palette.ACCENT_DEEP if str(pair[0]) in ["focus", "hover"] else (Palette.TERM_EDGE if terminal_page else Palette.LAB_TRIM)
-		# An unwritten page is only its number: no box competes with the open ones.
-		box.set_border_width_all(0 if str(pair[0]) == "disabled" else 1 if str(pair[0]) != "focus" else 2); box.set_corner_radius_all(8)
+		box.set_border_width_all(2 if str(pair[0]) == "focus" else 1); box.set_corner_radius_all(8)
 		box.content_margin_left = 12; box.content_margin_right = 12
 		box.draw_center = str(pair[0]) != "focus"
 		button.add_theme_stylebox_override(str(pair[0]), box)

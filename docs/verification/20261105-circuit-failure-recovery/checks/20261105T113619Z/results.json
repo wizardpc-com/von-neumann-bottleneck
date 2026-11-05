@@ -1,0 +1,163 @@
+[
+  {
+    "suite": "test_hardware_failure_recovery",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_hardware_failure_recovery.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113619Z/test_hardware_failure_recovery",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 3.24603,
+    "diagnostics": [],
+    "log_sha256": "08f2f0c84a6fa7b6f5892643eb3abd363eb721a8311daf6857367153daf319e8",
+    "project_settings_sha256": "c5829af8698a51e3cda810e201b31a5db22b07a5e2b0ccc71e7fcf397bc290b8",
+    "script_sha256": "88170ef898b86d36d012996463782c381a3610c0f99dadeb0ece5e28bbf46b4c",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  },
+  {
+    "suite": "test_hardware_foundations_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_hardware_foundations_ui.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113619Z/test_hardware_foundations_ui",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 5.020629167,
+    "diagnostics": [],
+    "log_sha256": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2",
+    "project_settings_sha256": "74800672099e8c198ec5c3cd73e16b715e31d501ca49071e9ebf97f9f98e12c8",
+    "script_sha256": "6aea854cfb8273c8e075f636dc353630cf115fb1b28f6e5907d20100470e7aed",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  },
+  {
+    "suite": "test_hardware_prologue_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_hardware_prologue_ui.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113619Z/test_hardware_prologue_ui",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 4.2897745,
+    "diagnostics": [],
+    "log_sha256": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e",
+    "project_settings_sha256": "d2fe6340f4ed8ac2bdd419a5f2ce616d97976dc85cd745f6153147c525a11ab3",
+    "script_sha256": "48e6033bb54a3bc21224df94590050741720b1d0ed560d95d86aa8455661e5e4",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  },
+  {
+    "suite": "test_prologue_continuation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_prologue_continuation.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113619Z/test_prologue_continuation",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 1.8710841659999993,
+    "diagnostics": [],
+    "log_sha256": "ae567af2d16d5929db846213a8c37a0a7b21fa4140b3cb89d684e8c5e4832882",
+    "project_settings_sha256": "e71832e310f76d4d868e7b5167b6426cf3beb6437ee44675f7cece715a3bc02b",
+    "script_sha256": "dacb83b9e2de9e34c7e63dfd04985c040645a727b5cd0b664c8488229292e25b",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  },
+  {
+    "suite": "test_hardware_workspace_entry",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_hardware_workspace_entry.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113619Z/test_hardware_workspace_entry",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 2.289580250000002,
+    "diagnostics": [],
+    "log_sha256": "a42fec7fb49ae8a33b942ff820b23f88781ea9a5abc2e6819f7acbc359ff2f56",
+    "project_settings_sha256": "9692d81474e999d58d397996b0b74a856b358106bf4b5c6578a939efd60fced6",
+    "script_sha256": "9794466459834b2dc05c08a2c4b1b147e76e6287089c590e315d1ca912a77494",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  },
+  {
+    "suite": "test_hardware_seal_navigation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_hardware_seal_navigation.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113619Z/test_hardware_seal_navigation",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 3.5965222089999997,
+    "diagnostics": [],
+    "log_sha256": "5265c0946c4cf73fc6518c96923774df894e6e495ed9f34944a607ccaf42aac6",
+    "project_settings_sha256": "a9a28939e2f8ed4fbc5a1f8fd824dddd1ba6ce7e83e21dc26e2c12c6a8306a41",
+    "script_sha256": "ed4358b1563ef6992a13121d10a91bca7ccd6707e974ddc1eda251fef083bac5",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  },
+  {
+    "suite": "test_global_save",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_global_save.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113619Z/test_global_save",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 2.619127749999997,
+    "diagnostics": [],
+    "log_sha256": "b7cf9a589c21490e8f9aeee25c37b333484a53146f896d02f945351eab53f8b6",
+    "project_settings_sha256": "1fd4d48e9a8f9c3e9e61a1c387b498d5cbb9ef0fb66e9b257a7000379e0c5ce8",
+    "script_sha256": "2a0e23feb49357d4389c4cbbacfafcab820e893d0981b0cde33440bfa451f2f5",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  }
+]

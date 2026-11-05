@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "issues": [],
+  "source_entries": 1249,
+  "frames": 12,
+  "final_frames": 6,
+  "inspected_runs": [
+    "20261105T113852Z",
+    "20261105T114010Z",
+    "20261105T114738Z"
+  ]
+}

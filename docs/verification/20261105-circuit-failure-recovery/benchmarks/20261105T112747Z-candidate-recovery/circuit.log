@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CASE circuit.prologue.diagnostics: 1 iterations/sample; median 82270.0 us; snapshot 3752999 bytes
+BENCHMARK: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round10/20261105T112747Z-candidate-recovery/circuit/computation-benchmark.json
+PASS: computation benchmark 1 cases, 0 failures

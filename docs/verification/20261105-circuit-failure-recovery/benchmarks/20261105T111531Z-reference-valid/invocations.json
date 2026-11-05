@@ -1,0 +1,99 @@
+[
+  {
+    "group": "circuit",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T111217Z-round10-reference/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=circuit",
+      "--label=reference-valid",
+      "--host-label=yrq-mac-round10",
+      "--samples=3",
+      "--iterations-file=/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/collaboration/round10-iterations.json",
+      "--only=circuit.boolean.official,circuit.boolean.stress,circuit.boolean.diagnostics,circuit.prologue.full_adder,circuit.prologue.alu,circuit.prologue.latch,circuit.prologue.register,circuit.prologue.ram,circuit.prologue.cpu,circuit.prologue.load_store,circuit.prologue.stress"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/20261105T111531Z-reference-valid/circuit",
+    "returncode": 0,
+    "seconds": 10.476962542,
+    "log": "circuit.log",
+    "diagnostics": [],
+    "output": "circuit.json.gz",
+    "raw_sha256": "04ddde93a598fc671dbaef1b9bc0d75dcde98d19275f562d2e38b75b143c8525",
+    "raw_bytes": 21132046,
+    "compressed_bytes": 604163,
+    "sealed_output": "circuit.sealed.json.gz",
+    "failures": [],
+    "cases": [
+      {
+        "id": "circuit.boolean.official",
+        "iterations": 10,
+        "median_us": 2069.0,
+        "snapshot_bytes": 49062
+      },
+      {
+        "id": "circuit.boolean.stress",
+        "iterations": 1,
+        "median_us": 46513.0,
+        "snapshot_bytes": 541953
+      },
+      {
+        "id": "circuit.boolean.diagnostics",
+        "iterations": 12,
+        "median_us": 1589.1666666666667,
+        "snapshot_bytes": 59596
+      },
+      {
+        "id": "circuit.prologue.full_adder",
+        "iterations": 2,
+        "median_us": 10038.0,
+        "snapshot_bytes": 696151
+      },
+      {
+        "id": "circuit.prologue.alu",
+        "iterations": 1,
+        "median_us": 65309.0,
+        "snapshot_bytes": 4392321
+      },
+      {
+        "id": "circuit.prologue.latch",
+        "iterations": 5,
+        "median_us": 4068.4,
+        "snapshot_bytes": 238804
+      },
+      {
+        "id": "circuit.prologue.register",
+        "iterations": 2,
+        "median_us": 12391.0,
+        "snapshot_bytes": 792929
+      },
+      {
+        "id": "circuit.prologue.ram",
+        "iterations": 2,
+        "median_us": 12279.0,
+        "snapshot_bytes": 824685
+      },
+      {
+        "id": "circuit.prologue.cpu",
+        "iterations": 1,
+        "median_us": 47354.0,
+        "snapshot_bytes": 4120212
+      },
+      {
+        "id": "circuit.prologue.load_store",
+        "iterations": 1,
+        "median_us": 40436.0,
+        "snapshot_bytes": 6725196
+      },
+      {
+        "id": "circuit.prologue.stress",
+        "iterations": 1,
+        "median_us": 55778.0,
+        "snapshot_bytes": 2364547
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Compile Error: Identifier not found: WindowMode
+          at: GDScript::reload (res://src/hardware_foundations/hardware_foundations.gd:284)
+SCRIPT ERROR: Compile Error: Identifier not found: PlaytestData
+          at: GDScript::reload (res://src/ui/level_completion_overlay.gd:79)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/test_hardware_failure_recovery.gd:0)
+ERROR: Failed to load script "res://tests/test_hardware_failure_recovery.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)

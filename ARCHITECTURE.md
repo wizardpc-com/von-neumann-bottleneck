@@ -1,5 +1,14 @@
 # Architecture
 
+Prologue sequences retain the last electrically valid final output map after
+an invalid step. The failed observation remains complete and the sequence still
+fails; expected-answer comparison does not decide state carry. Already committed
+storage is not rolled back after a post-commit failure. Hardware preview, Debug
+commit and Step playback retain separate authority. A failed playback initializes
+its component captions from the report's actual incoming state even when it
+has no commit event, rather than keeping an interrupted older run's captions. See the
+[simulation contract](docs/architecture/simulation.md).
+
 Creation generation and codec loops reuse an already-validated model and an
 explicit bounded prefix only within one synchronous operation. Public prediction
 still validates the complete model/history; the receiver validates its carried
@@ -7,7 +16,7 @@ packet model. The linear rule scan, complete events, costs, bytes and versions
 remain unchanged. The [computation harness](scripts/benchmarks/computation/README.md)
 binds full typed results and process logs before comparing actual API timings.
 The [computation audit](docs/development/COMPUTATION_AUDIT_20261105.md) separately
-tracks the confirmed pre-existing circuit recovery defect and other model questions.
+tracks the circuit recovery correction and remaining model questions.
 
 The scheduling lab's `explanation.gd` reduces existing detached selected and
 baseline snapshots into reconciled phase costs, real RAM transfers, cache read

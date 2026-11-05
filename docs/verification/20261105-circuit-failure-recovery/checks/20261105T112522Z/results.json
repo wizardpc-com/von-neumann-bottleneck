@@ -1,0 +1,34 @@
+[
+  {
+    "suite": "test_hardware_failure_recovery",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T111217Z-round10-reference/project",
+      "--script",
+      "res://tests/test_hardware_failure_recovery.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T112522Z/test_hardware_failure_recovery",
+    "locale": "zh_CN",
+    "returncode": 1,
+    "stopped_for": null,
+    "seconds": 3.016141292,
+    "diagnostics": [
+      "ERROR: Failed Debug retains the last valid storage and continuation outputs",
+      "ERROR: Corrected visible inputs clear the live short and HOLD3 without reset",
+      "ERROR: Input correction and preview do not commit or erase retained state",
+      "ERROR: Recovered live diagnostics clear the prior electrical error",
+      "ERROR: Corrected Debug succeeds with the same committed3 and no reset",
+      "ERROR: Successful Debug replaces the failed status with actual output",
+      "ERROR: Recovered Debug records the real HOLD boundary",
+      "Missing suite PASS marker"
+    ],
+    "log_sha256": "1fe6aff8722ca31abe8a2cf86f0e613fa73caa4fc3fced5a5c6ccb27e4440e2f",
+    "project_settings_sha256": "db4a3282f0dceaf7e8eda4462b900014918b81c85c0565b6efc242dfbaadea5f",
+    "script_sha256": "e0913fe9a1768d905b81c4134cc0b3cef19cf1eb8862022524188afe7199558e",
+    "simulator_sha256": "ea22934e27dc08fcc1cc64c7158f5f028bf6a5a7150eee02b56c834bf502b371"
+  }
+]

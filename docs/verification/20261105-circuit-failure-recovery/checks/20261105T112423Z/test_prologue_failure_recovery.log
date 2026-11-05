@@ -1,0 +1,212 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: whole write/conflict/HOLD: electrical validity at step 2
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_step_validity (res://tests/test_prologue_failure_recovery.gd:373)
+       [2] _test_register_whole_and_incremental (res://tests/test_prologue_failure_recovery.gd:52)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:29)
+ERROR: WRITE and recovered HOLD each retain the actual register boundary.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_register_whole_and_incremental (res://tests/test_prologue_failure_recovery.gd:65)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:29)
+ERROR: whole recovered OUT: actual digital value exists.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_word (res://tests/test_prologue_failure_recovery.gd:383)
+       [2] _check_final_word (res://tests/test_prologue_failure_recovery.gd:392)
+       [3] _test_register_whole_and_incremental (res://tests/test_prologue_failure_recovery.gd:68)
+       [4] _run (res://tests/test_prologue_failure_recovery.gd:29)
+ERROR: whole recovered continuation: final electrical evaluation is valid.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_valid_final_carry (res://tests/test_prologue_failure_recovery.gd:403)
+       [2] _test_register_whole_and_incremental (res://tests/test_prologue_failure_recovery.gd:69)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:29)
+ERROR: Failure returns the last valid output map as continuation seed.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_register_whole_and_incremental (res://tests/test_prologue_failure_recovery.gd:77)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:29)
+ERROR: Correcting both drivers recovers without resetting the register.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_register_whole_and_incremental (res://tests/test_prologue_failure_recovery.gd:85)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:29)
+ERROR: incremental recovered OUT: actual digital value exists.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_word (res://tests/test_prologue_failure_recovery.gd:383)
+       [2] _check_final_word (res://tests/test_prologue_failure_recovery.gd:392)
+       [3] _test_register_whole_and_incremental (res://tests/test_prologue_failure_recovery.gd:87)
+       [4] _run (res://tests/test_prologue_failure_recovery.gd:29)
+ERROR: Failure before any valid step retains the empty incoming output seed.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_first_and_repeated_failures (res://tests/test_prologue_failure_recovery.gd:123)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:30)
+ERROR: Repeated failure still retains the incoming empty seed.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_first_and_repeated_failures (res://tests/test_prologue_failure_recovery.gd:130)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:30)
+ERROR: Repeated failure observes the new drivers, not the previous failed map: width/state/value match.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_word (res://tests/test_prologue_failure_recovery.gd:385)
+       [2] _test_first_and_repeated_failures (res://tests/test_prologue_failure_recovery.gd:135)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:30)
+ERROR: A valid WRITE and HOLD recover after two failures with no earlier success.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_first_and_repeated_failures (res://tests/test_prologue_failure_recovery.gd:139)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:30)
+ERROR: storage after initial failures: actual stored word.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_register (res://tests/test_prologue_failure_recovery.gd:398)
+       [2] _test_first_and_repeated_failures (res://tests/test_prologue_failure_recovery.gd:141)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:30)
+ERROR: whole initial failures: electrical validity at step 2
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_step_validity (res://tests/test_prologue_failure_recovery.gd:373)
+       [2] _test_first_and_repeated_failures (res://tests/test_prologue_failure_recovery.gd:147)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:30)
+ERROR: whole initial failures: electrical validity at step 3
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_step_validity (res://tests/test_prologue_failure_recovery.gd:373)
+       [2] _test_first_and_repeated_failures (res://tests/test_prologue_failure_recovery.gd:147)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:30)
+ERROR: sealed latch retains every last-valid output, including feedback memory.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:194)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:32)
+ERROR: sealed latch corrects the guard and HOLDs without resetting feedback.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:202)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:32)
+ERROR: sealed latch retained Q: actual digital value exists.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_word (res://tests/test_prologue_failure_recovery.gd:383)
+       [2] _check_final_word (res://tests/test_prologue_failure_recovery.gd:392)
+       [3] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:203)
+       [4] _run (res://tests/test_prologue_failure_recovery.gd:32)
+ERROR: sealed latch retained NQ: actual digital value exists.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_word (res://tests/test_prologue_failure_recovery.gd:383)
+       [2] _check_final_word (res://tests/test_prologue_failure_recovery.gd:392)
+       [3] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:204)
+       [4] _run (res://tests/test_prologue_failure_recovery.gd:32)
+ERROR: sealed latch recovered HOLD emits its real state boundaries.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:205)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:32)
+ERROR: sealed latch whole sequence: electrical validity at step 3
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_step_validity (res://tests/test_prologue_failure_recovery.gd:373)
+       [2] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:213)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:32)
+ERROR: raw feedback latch retains every last-valid output, including feedback memory.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:194)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:33)
+ERROR: raw feedback latch corrects the guard and HOLDs without resetting feedback.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:202)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:33)
+ERROR: raw feedback latch retained Q: actual digital value exists.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_word (res://tests/test_prologue_failure_recovery.gd:383)
+       [2] _check_final_word (res://tests/test_prologue_failure_recovery.gd:392)
+       [3] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:203)
+       [4] _run (res://tests/test_prologue_failure_recovery.gd:33)
+ERROR: raw feedback latch retained NQ: actual digital value exists.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_word (res://tests/test_prologue_failure_recovery.gd:383)
+       [2] _check_final_word (res://tests/test_prologue_failure_recovery.gd:392)
+       [3] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:204)
+       [4] _run (res://tests/test_prologue_failure_recovery.gd:33)
+ERROR: raw feedback latch recovered HOLD emits its real state boundaries.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:205)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:33)
+ERROR: raw feedback latch whole sequence: electrical validity at step 3
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_step_validity (res://tests/test_prologue_failure_recovery.gd:373)
+       [2] _test_output_carried_latch (res://tests/test_prologue_failure_recovery.gd:213)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:33)
+ERROR: Settling alone cannot authorize publishing an invalid latch's output map.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_settled_latch_error_retains_carry (res://tests/test_prologue_failure_recovery.gd:230)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:34)
+ERROR: Even post-commit failure retains the incoming last-valid output seed.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_post_commit_failure_keeps_storage (res://tests/test_prologue_failure_recovery.gd:266)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:35)
+ERROR: Correcting the guard recovers with committed storage rather than rollback.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _test_post_commit_failure_keeps_storage (res://tests/test_prologue_failure_recovery.gd:276)
+       [2] _run (res://tests/test_prologue_failure_recovery.gd:35)
+ERROR: post-commit recovery OUT: actual digital value exists.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_word (res://tests/test_prologue_failure_recovery.gd:383)
+       [2] _check_final_word (res://tests/test_prologue_failure_recovery.gd:392)
+       [3] _test_post_commit_failure_keeps_storage (res://tests/test_prologue_failure_recovery.gd:277)
+       [4] _run (res://tests/test_prologue_failure_recovery.gd:35)
+ERROR: whole post-commit sequence: electrical validity at step 2
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/test_prologue_failure_recovery.gd:438)
+       [1] _check_step_validity (res://tests/test_prologue_failure_recovery.gd:373)
+       [2] _test_post_commit_failure_keeps_storage (res://tests/test_prologue_failure_recovery.gd:281)
+       [3] _run (res://tests/test_prologue_failure_recovery.gd:35)
+FAIL: prologue failure recovery checks=301 failures=31

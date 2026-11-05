@@ -1,0 +1,39 @@
+[
+  {
+    "group": "circuit",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=circuit",
+      "--label=candidate-recovery",
+      "--host-label=yrq-mac-round10",
+      "--samples=3",
+      "--iterations-file=/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/collaboration/round10-iterations.json",
+      "--only=circuit.prologue.diagnostics"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/20261105T112747Z-candidate-recovery/circuit",
+    "returncode": 0,
+    "seconds": 5.204449375,
+    "log": "circuit.log",
+    "diagnostics": [],
+    "output": "circuit.json.gz",
+    "raw_sha256": "ef59ddeb5a5d3a7e15ef21f96e06c77c19b0f207ee82babbe5bad633019e15ff",
+    "raw_bytes": 3784500,
+    "compressed_bytes": 56431,
+    "sealed_output": "circuit.sealed.json.gz",
+    "failures": [],
+    "cases": [
+      {
+        "id": "circuit.prologue.diagnostics",
+        "iterations": 1,
+        "median_us": 82270.0,
+        "snapshot_bytes": 3752999
+      }
+    ]
+  }
+]

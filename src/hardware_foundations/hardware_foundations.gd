@@ -8357,7 +8357,9 @@ func _play_prologue_events(
 	prologue_live_result = result
 	playback_initial_component_state_text.clear()
 	playback_initial_storage_values.clear()
-	if _events_have_state_transition(events):
+	# A rejected run may have no commit event. Its starting storage still
+	# replaces captions left midway through a previous run's playback.
+	if _events_have_state_transition(events) or (result != null and not result.is_valid()):
 		_prepare_component_playback_state(initial_runtime_state, initial_prior_outputs)
 	if _is_storage_level() and (current_level_id == &"alarm" or _events_have_state_transition(events)):
 		_prepare_storage_playback_state(initial_runtime_state, initial_prior_outputs)

@@ -155,7 +155,13 @@ func run_sequence(
 			)
 			_append_events(all_events, after.events)
 			tick_offset += maxi(1, after.settle_ticks + 1)
-		prior_outputs = _clone_values(after.output_values)
+		# A failed observation is evidence, not a continuation seed. Retain the
+		# last valid final evaluation (or incoming seed) so corrected inputs can
+		# settle next time, including output-carried latch state. Storage already
+		# committed by a valid `before` evaluation is not rolled back here.
+		# Expected-answer comparisons below never gate this electrical state.
+		if after.is_valid():
+			prior_outputs = _clone_values(after.output_values)
 		var expected: Dictionary = step.get("expected", {})
 		var comparisons: Array[Dictionary] = []
 		var step_passed: bool = after.is_valid()

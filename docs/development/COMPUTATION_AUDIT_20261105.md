@@ -56,7 +56,7 @@ These issues are scoped separately from a performance-only change.
 | Raw versus sealed latch | Raw NOR S=R=1 can settle to Q=NQ=0; sealed SRLatch rejects it. The raw UI warns separately. | Review teaching intent; do not silently unify semantics. |
 | Missing stimulus | Boolean required inputs reject absence; prologue high-Z resolution may accept a net with another known driver. | Specify the public input contract before changing valid behavior. |
 | Settling ceiling | The64-tick limit can reject a deep acyclic circuit as well as feedback. | Any topological fast path or bound change needs explicit version/Trace/old-achievement analysis. |
-| Failed-step recovery — confirmed P2 | Both whole and incremental register sequences write3, encounter conflicting5/6 drivers, then still fail on legal0/0 HOLD input. Failed prior outputs are resolved before new stimuli;11 semantic assertions reproduce on both frozen reference and candidate. | Next separate correction: preserve last-valid output carry after a failed step, retain failed evidence, and verify all previously successful full traces plus actual Debug/Step behavior. Do not globally reorder initialization or weaken the recovery validator. |
+| Failed-step recovery — corrected in Round10 | Whole and incremental register sequences write3, encounter conflicting5/6 drivers, then previously failed again on legal0/0 HOLD input. Failed prior outputs were resolved before new stimuli. | Retain last-valid final electrical carry; original failed observation and pre-recovery events stay exact. Eleven successful circuit scenarios retain full parity. Actual Debug/Step recovery and a related interrupted-playback caption correction are documented in the [Round10 receipt](../verification/20261105-circuit-failure-recovery/README.md). No global initialization reorder or validator relaxation. |
 | Malformed prologue API | Null sequence/certain malformed port arities assume trusted catalog input. | Separate bounded robustness probe and explicit failure contract; not covered by normal campaign success. |
 | Invalid Region metrics | Rejected preparation parameters clear total cycles/events but retain some completed base-service fields. | Repair rejected evidence consistently in a separate change; valid traces must stay equal, invalid differences must be declared. |
 | Receipt reuse | `SystemRunReceipt.populate_from_traces` accumulates fields if reused. Production currently creates fresh receipts. | Keep immutable-use convention or add an explicit tested reset before pooling. |
@@ -93,7 +93,9 @@ No host heap-peak measurement, Windows run, exported build or native interaction
 acceptance is established. GDScript remains the reference; faster computation
 does not change game cycles, memory formulas, saved results or score conditions.
 See the [complete evidence and method](../verification/20261105-computation-kernels/README.md).
-After the circuit recovery repair, define consistent rejected Region evidence,
+The separate Round10 correction closes the demonstrated circuit recovery
+defect without changing old valid results or post-commit storage behavior.
+Next define consistent rejected Region evidence,
 then measure the remaining source-level duplication candidates. Proposed native
 thresholds in the independent priority report remain recommendations for a
 future scoped pilot, not an adopted platform or product rule.

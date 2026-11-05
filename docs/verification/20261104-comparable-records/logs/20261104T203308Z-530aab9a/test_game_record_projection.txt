@@ -1,0 +1,13 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Regional cards remain intact at 960px zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_game_record_projection.gd:165)
+       [1] settle (res://tests/test_game_record_projection.gd:16)
+ERROR: Regional cards remain intact at 960px en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_game_record_projection.gd:165)
+       [1] settle (res://tests/test_game_record_projection.gd:16)
+FAIL: Game record projection 56 checks, 2 failures

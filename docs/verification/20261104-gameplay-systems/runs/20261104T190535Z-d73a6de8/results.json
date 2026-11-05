@@ -1,0 +1,70 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T190535Z-d73a6de8/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T190535Z-d73a6de8/user_directory"
+    },
+    {
+      "name": "test_chapter_settings_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter_settings_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T190535Z-d73a6de8/test_chapter_settings_input"
+    },
+    {
+      "name": "test_layout_scoreboard",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_scoreboard.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T190535Z-d73a6de8/test_layout_scoreboard"
+    },
+    {
+      "name": "test_layout_scoreboard_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_scoreboard_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T190535Z-d73a6de8/test_layout_scoreboard_ui"
+    },
+    {
+      "name": "test_locality_trace_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_trace_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T190535Z-d73a6de8/test_locality_trace_presentation"
+    },
+    {
+      "name": "test_service_undo_context",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_undo_context.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T190535Z-d73a6de8/test_service_undo_context"
+    },
+    {
+      "name": "test_workbench_duplicate",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_workbench_duplicate.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T190535Z-d73a6de8/test_workbench_duplicate"
+    }
+  ]
+}

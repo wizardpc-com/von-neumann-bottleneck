@@ -1,0 +1,29 @@
+[
+  {
+    "suite": "test_layout_strategy_ui",
+    "code": 1,
+    "errors": [
+      "ERROR: Raw frame dimensions zh_CN-evidence-1280: (2940, 1846)",
+      "ERROR: Raw frame dimensions zh_CN-compare-1280: (2940, 1846)",
+      "FAIL: layout strategy UI 242 checks, 2 failures"
+    ],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T005513Z-6cc70bb5/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_layout_strategy_ui.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-strategy-capture",
+      "--layout-challenge-capture",
+      "--layout-score-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round4/20261105T014422Z/test_layout_strategy_ui",
+    "log": "gpu/20261105T014422Z/test_layout_strategy_ui.log",
+    "passed": false
+  }
+]

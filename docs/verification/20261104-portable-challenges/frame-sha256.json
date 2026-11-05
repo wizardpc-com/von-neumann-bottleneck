@@ -1,0 +1,106 @@
+[
+  {
+    "file": "frames/challenge-import-en.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212411Z/test_layout_challenge_controller/challenge-import-en.png",
+    "log": "gpu-/20261104T212411Z/test_layout_challenge_controller.log",
+    "sha256": "0e739b6e03de244c86d64dde6ad73ba76199d5df8c285a1fccf4b44c472f1308",
+    "width": 1040,
+    "height": 560
+  },
+  {
+    "file": "frames/challenge-import-zh_CN.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212411Z/test_layout_challenge_controller/challenge-import-zh_CN.png",
+    "log": "gpu-/20261104T212411Z/test_layout_challenge_controller.log",
+    "sha256": "e4fdf18c44aa4f086fa46408d91b639934c8ef8e0dc6a8c75d405f3b511cf51f",
+    "width": 1040,
+    "height": 560
+  },
+  {
+    "file": "frames/challenge-target-en.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212411Z/test_layout_challenge_controller/challenge-target-en.png",
+    "log": "gpu-/20261104T212411Z/test_layout_challenge_controller.log",
+    "sha256": "7723ed625420d99bfa2fa83d054fd278bfc7735484584c8525c13ca4fd48c664",
+    "width": 1040,
+    "height": 560
+  },
+  {
+    "file": "frames/challenge-target-zh_CN.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212411Z/test_layout_challenge_controller/challenge-target-zh_CN.png",
+    "log": "gpu-/20261104T212411Z/test_layout_challenge_controller.log",
+    "sha256": "b624a9ad69b112478b422ad336b43c3c8bfcb87731e43e7d362b7b0cd530ce34",
+    "width": 1040,
+    "height": 560
+  },
+  {
+    "file": "frames/layout-challenge-en-import.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-en-import.png",
+    "log": "gpu-/20261104T212137Z/test_layout_challenge_window.log",
+    "sha256": "0cf62b58dddcfd9a12f07b30a50e040015d4eada908a0a40df2c8f7827e34693",
+    "width": 760,
+    "height": 420
+  },
+  {
+    "file": "frames/layout-challenge-en-share.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-en-share.png",
+    "log": "gpu-/20261104T212137Z/test_layout_challenge_window.log",
+    "sha256": "73488607fac30ccc416cf69abb459d8d31ed703f754b6df3a6e26071c89eddde",
+    "width": 760,
+    "height": 420
+  },
+  {
+    "file": "frames/layout-challenge-en-table.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-en-table.png",
+    "log": "gpu-/20261104T212137Z/test_layout_challenge_window.log",
+    "sha256": "e058d004198ab130b94a50a08b6034f9b106c80db2d028b64c8ca2b14dc75217",
+    "width": 760,
+    "height": 420
+  },
+  {
+    "file": "frames/layout-challenge-zh_CN-import.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-zh_CN-import.png",
+    "log": "gpu-/20261104T212137Z/test_layout_challenge_window.log",
+    "sha256": "e977d31773b4eb81cd1fe9406dac3e6e58347b990c1986dabd808fd97d32d1fa",
+    "width": 760,
+    "height": 420
+  },
+  {
+    "file": "frames/layout-challenge-zh_CN-share.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-zh_CN-share.png",
+    "log": "gpu-/20261104T212137Z/test_layout_challenge_window.log",
+    "sha256": "685eaccc5c3cefd1d34c8c0d4d9cdeed73f2d345361d8a4958a7fba48525bbbe",
+    "width": 760,
+    "height": 420
+  },
+  {
+    "file": "frames/layout-challenge-zh_CN-table.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-zh_CN-table.png",
+    "log": "gpu-/20261104T212137Z/test_layout_challenge_window.log",
+    "sha256": "c0c7bc1f30602440183efb04574e9d0329cb8aafabadc0574aef72869eab9da4",
+    "width": 760,
+    "height": 420
+  },
+  {
+    "file": "frames/layout-scores-en.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T211534Z/test_layout_scoreboard_ui/layout-scores-en.png",
+    "log": "gpu-/20261104T211534Z/test_layout_scoreboard_ui.log",
+    "sha256": "b9866049da94415adf77c1741482b31b84478663d3df993272d4386e45b8ece9",
+    "width": 832,
+    "height": 448
+  },
+  {
+    "file": "frames/layout-scores-mixed-en.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T211534Z/test_layout_scoreboard_ui/layout-scores-mixed-en.png",
+    "log": "gpu-/20261104T211534Z/test_layout_scoreboard_ui.log",
+    "sha256": "66718b45aa4dbfc8749270a797de9c4824f8aae37de7e7f791b5408bd9d8b132",
+    "width": 832,
+    "height": 448
+  },
+  {
+    "file": "frames/layout-scores-zh_CN.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T211534Z/test_layout_scoreboard_ui/layout-scores-zh_CN.png",
+    "log": "gpu-/20261104T211534Z/test_layout_scoreboard_ui.log",
+    "sha256": "54ca49b08b74c41e32ff29e0cd8f1a568557d931357f8b901d6984e417f338d5",
+    "width": 832,
+    "height": 448
+  }
+]

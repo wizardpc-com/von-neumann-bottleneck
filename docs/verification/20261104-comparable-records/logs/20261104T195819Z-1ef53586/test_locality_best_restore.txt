@@ -1,0 +1,15 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Index p_index = 8 is out of bounds (prev_size = 7).
+   at: remove_at (./core/templates/cowdata.h:275)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_locality_best_restore.gd:93)
+       [1] new_host (res://tests/test_locality_best_restore.gd:25)
+       [2] settle (res://tests/test_locality_best_restore.gd:17)
+ERROR: Index p_index = 7 is out of bounds (prev_size = 7).
+   at: remove_at (./core/templates/cowdata.h:275)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_locality_best_restore.gd:93)
+       [1] new_host (res://tests/test_locality_best_restore.gd:25)
+       [2] settle (res://tests/test_locality_best_restore.gd:17)
+PASS: locality best restore 75 checks, 0 failures

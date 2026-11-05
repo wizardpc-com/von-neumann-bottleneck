@@ -141,6 +141,8 @@ var workbench_seed_preview: SavedContentPreview
 var workbench_seed_note: Label
 var workbench_name_dialog: Control
 var workbench_name_edit: LineEdit
+var workbench_name_title: Label
+var workbench_create_button: Button
 var hint_button: Button
 var hint_exit_button: Button
 var editor_toolbar: Control
@@ -215,6 +217,7 @@ var active_workbench_namespace: StringName = &""
 var active_workbench_name: String = ""
 var workbench_reference_snapshot: Dictionary = {}
 var new_workbench_blank: bool = false
+var new_workbench_duplicate: bool = false
 var workbench_seed_snapshot: Dictionary = {}
 var workbench_answer_wires: Array[Dictionary] = []
 var pending_workbench_wires: Array[Dictionary] = []
@@ -2466,6 +2469,7 @@ func _create_workbench_name_dialog() -> void:
 	var content := VBoxContainer.new()
 	margin.add_child(content)
 	var title := Label.new()
+	workbench_name_title = title
 	title.text = _t(&"hardware.workbench.create.title")
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", ACCENT)
@@ -2505,6 +2509,7 @@ func _create_workbench_name_dialog() -> void:
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	actions.add_child(spacer)
 	var create_button := Button.new()
+	workbench_create_button = create_button
 	create_button.text = _t(&"common.create")
 	create_button.pressed.connect(_confirm_new_workbench)
 	actions.add_child(create_button)
@@ -2542,6 +2547,9 @@ func _refresh_workbench_menu() -> void:
 		popup.set_item_as_radio_checkable(popup.item_count - 1, true)
 		popup.set_item_checked(popup.item_count - 1, name == active_workbench_name)
 	popup.add_separator()
+	var duplicate_id: int = popup.item_count
+	popup.add_item(_t(&"hardware.workbench.duplicate"), duplicate_id)
+	popup.set_item_metadata(popup.item_count - 1, {"action": &"duplicate"})
 	var create_id: int = popup.item_count
 	popup.add_item(_t(&"hardware.workbench.create"), create_id)
 	popup.set_item_metadata(popup.item_count - 1, {"action": &"create"})
@@ -2561,23 +2569,30 @@ func _on_workbench_menu_item_pressed(item_id: int) -> void:
 	if not metadata is Dictionary:
 		return
 	var action := StringName((metadata as Dictionary).get("action", &""))
-	if action in [&"create", &"blank"]:
-		_show_new_workbench_dialog(action == &"blank")
+	if action in [&"create", &"blank", &"duplicate"]:
+		_show_new_workbench_dialog(action == &"blank", action == &"duplicate")
 	elif action == &"switch":
 		_switch_workbench(String((metadata as Dictionary).get("name", "")))
 
 
-func _show_new_workbench_dialog(blank: bool = false) -> void:
+func _show_new_workbench_dialog(blank: bool = false, duplicate_current: bool = false) -> void:
 	if _seal_navigation_busy(): return
+	if duplicate_current and _editor_locked(): return
 	new_workbench_blank = blank
+	new_workbench_duplicate = duplicate_current
 	if workbench_name_dialog == null or active_workbench_name.is_empty():
 		return
 	workbench_name_edit.clear()
+	workbench_name_title.text = _t(&"hardware.workbench.duplicate.title" if duplicate_current else &"hardware.workbench.create.title")
+	workbench_create_button.text = _t(&"hardware.workbench.duplicate.confirm" if duplicate_current else &"common.create")
 	var english: bool=Localization.current_locale()=="en"
 	workbench_seed_preview.english=english
-	var seed: Dictionary=_fixed_terminal_snapshot(workbench_seed_snapshot) if blank else workbench_seed_snapshot
+	var seed: Dictionary = _capture_workbench_snapshot() if duplicate_current else (_fixed_terminal_snapshot(workbench_seed_snapshot) if blank else workbench_seed_snapshot)
 	workbench_seed_preview.visible=workbench_seed_preview.configure_plan(seed,"")
-	workbench_seed_note.text=("命名新方案，仅保留固定接口；原方案仍保留。" if blank else "命名新方案，从初始元件开始，不复制当前接线；原方案仍保留。") if not english else ("Name a new plan with fixed interfaces only. Your current plan is kept." if blank else "Name a new plan with initial parts, not copied wiring. Your current plan is kept.")
+	if duplicate_current:
+		workbench_seed_note.text = _t(&"hardware.workbench.duplicate.note", [active_workbench_name])
+	else:
+		workbench_seed_note.text = ("命名新方案，仅保留固定接口；原方案仍保留。" if blank else "命名新方案，从初始元件开始，不复制当前接线；原方案仍保留。") if not english else ("Name a new plan with fixed interfaces only. Your current plan is kept." if blank else "Name a new plan with initial parts, not copied wiring. Your current plan is kept.")
 	workbench_name_dialog.show()
 	workbench_name_edit.grab_focus()
 
@@ -2588,21 +2603,27 @@ func _hide_new_workbench_dialog() -> void:
 
 
 func _confirm_new_workbench() -> void:
-	if _create_named_workbench(workbench_name_edit.text, new_workbench_blank):
+	if _create_named_workbench(workbench_name_edit.text, new_workbench_blank, new_workbench_duplicate):
 		_hide_new_workbench_dialog()
 
 
-func _create_named_workbench(raw_name: String, blank: bool = false) -> bool:
+func _create_named_workbench(raw_name: String, blank: bool = false, duplicate_current: bool = false) -> bool:
 	if _seal_navigation_busy(): return false
+	if duplicate_current and _editor_locked(): return false
 	if hint_mode or current_level_id.is_empty() or workbench_seed_snapshot.is_empty():
 		return false
-	_save_active_workbench()
+	var saved: bool = _save_active_workbench()
+	if duplicate_current and not saved:
+		status_label.text = _t(&"save.failure.title")
+		status_label.add_theme_color_override("font_color", BAD)
+		return false
+	var seed: Dictionary = _capture_workbench_snapshot() if duplicate_current else (_fixed_terminal_snapshot(workbench_seed_snapshot) if blank else workbench_seed_snapshot)
 	var normalized_name: String = CircuitWorkbenchStoreType.normalized_name(raw_name)
 	var error: StringName = workbench_store.create_workbench(
 		active_workbench_namespace,
 		current_level_id,
 		normalized_name,
-		_fixed_terminal_snapshot(workbench_seed_snapshot) if blank else workbench_seed_snapshot
+		seed
 	)
 	if not error.is_empty():
 		status_label.text = _workbench_name_error_text(error)

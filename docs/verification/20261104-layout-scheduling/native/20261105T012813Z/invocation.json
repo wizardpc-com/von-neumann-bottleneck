@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T005513Z-6cc70bb5/project",
+    "--",
+    "--locale=zh_CN"
+  ],
+  "profile": "VonNeumannBottleneckChecks/20261104-round4/native/20261105T012813Z",
+  "project": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T005513Z-6cc70bb5/project",
+  "status": "exited",
+  "native_input": "PARTIAL_TOOL_BLOCKED",
+  "scene": "ordinary main scene; no fixture driver",
+  "pid": 48583,
+  "exit": -15,
+  "diagnostics": [],
+  "settings_restored": true,
+  "acceptance_limits": "Normal lab/run/guard/F10 observed; native language selection not established after noWindowsAvailable. Owned process terminated; not graceful exit acceptance."
+}

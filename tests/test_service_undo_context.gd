@@ -10,9 +10,15 @@ func check(ok: bool, message: String) -> void:
 	checks += 1
 	if not ok: failures += 1; push_error(message)
 func select_group(scene: Lab, index: int) -> void:
-	scene.group_list.select(index); scene.group_list.item_selected.emit(index)
+	scene.group_list.select(index); scene.group_list.multi_selected.emit(index,true)
+func select_groups(scene: Lab, indices: Array[int]) -> void:
+	scene.group_list.deselect_all()
+	for index: int in indices:
+		scene.group_list.select(index,false); scene.group_list.multi_selected.emit(index,true)
 func selection_is(scene: Lab, index: int) -> bool:
 	return scene.selected_group == index and scene.group_list.get_selected_items() == PackedInt32Array([index])
+func selections_are(scene: Lab, indices: Array[int], active: int) -> bool:
+	return scene.selected_group == active and scene.group_list.get_selected_items() == PackedInt32Array(indices)
 func remove_fixture() -> void:
 	# PATH is this suite's nonce file, even when run outside the isolated verifier.
 	for suffix: String in ["",".bak",".tmp"]:
@@ -71,6 +77,24 @@ func run() -> void:
 			check(scene.plan == joined and selection_is(scene,5) and scene.split_at.max_value == 1,context+": Undo Split restores its combined editing target")
 			scene.redo_button.pressed.emit()
 			check(scene.plan == initial and selection_is(scene,5) and scene.split_button.disabled,context+": Redo Split restores singleton selection and disables another split")
+
+			select_groups(scene,[4,6,5])
+			check(selections_are(scene,[4,5,6],5) and not scene.merge_button.disabled and scene.move_button.disabled,context+": three consecutive selections enable batch joining and retain the last chosen group")
+			scene.merge_button.pressed.emit()
+			var batch_joined: Dictionary = scene.plan.duplicate(true)
+			check(scene.plan.groups.size() == 22 and scene.plan.groups[4] == [1,7,13] and selection_is(scene,4),context+": batch joining selects its single combined group")
+			scene.undo_button.pressed.emit()
+			check(scene.plan == initial and selections_are(scene,[4,5,6],5) and not scene.merge_button.disabled and scene.split_button.disabled,context+": Undo batch join restores all selected source groups and their active group")
+			scene.redo_button.pressed.emit()
+			check(scene.plan == batch_joined and selection_is(scene,4) and not scene.split_button.disabled,context+": Redo batch join restores the combined group and valid editing actions")
+			scene.undo_button.pressed.emit()
+			scene.slots.value = 3
+			check(selections_are(scene,[4,5,6],5),context+": changing capacity preserves the selected groups")
+			scene.undo_button.pressed.emit()
+			check(scene.plan == initial and scene.slots.value == 1 and selections_are(scene,[4,5,6],5),context+": Undo capacity restores the complete multi-selection")
+			scene.redo_button.pressed.emit()
+			check(scene.slots.value == 3 and selections_are(scene,[4,5,6],5),context+": Redo capacity restores the complete multi-selection")
+			scene.undo_button.pressed.emit()
 
 			scene.slots.value = 3; select_group(scene,18)
 			var before_restore: Dictionary = scene.plan.duplicate(true)

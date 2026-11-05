@@ -1,0 +1,20 @@
+[
+  {
+    "route": "profile",
+    "exit": 2,
+    "error": "run-experiment.py: error: --profile requires representation_region, service_plan or creation, no replay, and a 1-40 character safe profile name",
+    "passed": true
+  },
+  {
+    "route": "journey",
+    "exit": 2,
+    "error": "run-experiment.py: error: --journey requires representation_region, service_plan or creation with --profile and no replay",
+    "passed": true
+  },
+  {
+    "route": "replay",
+    "exit": 2,
+    "error": "run-experiment.py: error: layout_strategy has its own lab and does not use the older replay routes",
+    "passed": true
+  }
+]

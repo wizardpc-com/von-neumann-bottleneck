@@ -1,0 +1,28 @@
+{
+  "baseline": "b65a0bd3064888f41c5caeb8d7d0717d2b901658",
+  "branch": "codex/gameplay-systems-20261104",
+  "tested_project": ".godot/verification/20261104T192942Z-290abb30/project",
+  "all_listed_files_match_tested_project": true,
+  "project_settings": "QA copy differs only in the two custom user directory settings; normalized content verified equal.",
+  "source_project_godot_sha256": "8f05e930ec31d5167bfe0f98fcdbc882640278e0ce91ea34526c6eee37ef677b",
+  "sha256": {
+    "experiments/service_plan/lab.gd": "6ea2e581d56f99bfa7e4394bfdde42a5043cad8530e80d1417cc226aa3b2e752",
+    "localization/game.en.po": "4183b9f1e9930119a5741ea1c2300f0c5abf5fd035d1762e93a464f7ba745807",
+    "localization/game.zh_CN.po": "7546b6e646575067225752c01d0622c30f6ad9d6cbc20a890696dee81710a734",
+    "src/hardware_foundations/hardware_foundations.gd": "128c76667f33b1515908e2be5a29e3c8dbb346467a209832ee1566a92e46095f",
+    "src/layout_chapter/layout_catalog.gd": "0cb5bb1f13528276cd8a04856c0d475647361b62388ea6ac8eadc6e981c84f6a",
+    "src/layout_chapter/layout_chapter.gd": "1541dae03277ae190f6bfb333daab1b16c69e0c63c1f54757531b22109e9c404",
+    "src/layout_chapter/layout_scoreboard.gd": "b87236b7ae0d7d42336a9ce79b870f64cf09dbe677bb4f890b7b20d020d80bca",
+    "src/layout_chapter/layout_scoreboard_window.gd": "c44d157b58b6968679eda2055ec3cefae5655c0a0fde7d2a165853d14c9ae8ca",
+    "src/layout_chapter/layout_simulator.gd": "3d44328cf4e6928fb59df15fe15026f56d66a15e860f7978cf3d9128c949042c",
+    "src/layout_chapter/layout_state.gd": "e42720ade4e75322b9c6bbb5708f2de29aabc95c7c69366dbc791d0b8629d3a8",
+    "src/ui/main.gd": "533f3beb593cdf73e4a125815eb45fd6bc1fc1b5e3a943c755bab629a300757a",
+    "tests/test_chapter_settings_input.gd": "8fa4d71031468506c8a6aefa4d883913d4800466682fa6f1c2f13b166c2a4cbb",
+    "tests/test_layout_scoreboard.gd": "04914dc002ce5766a9c32d7909f8501f56f9e04b5d920c650adbbb8b38d7ea46",
+    "tests/test_layout_scoreboard_ui.gd": "028d402f6d9c0060511ec129fc2b8ecd5745e0b1811b2026afcab43703051d62",
+    "tests/test_locality_trace_presentation.gd": "c749b57ad83a1d2ad8a687759cc3928cb6335470bc84ac37ce88e9514c259de6",
+    "tests/test_prediction_record_source.gd": "1acd8a86493b9eabf83e66c0f976434b45ee233df5be47335236774ba878c415",
+    "tests/test_service_undo_context.gd": "48c401167eb356f79e855de8d444f0388462048d97313357984b1b18a767f555",
+    "tests/test_workbench_duplicate.gd": "cbf0d8e54650fa885bfa37805231d3cca66fc599c45a84fa961ea1f860977c33"
+  }
+}

@@ -63,6 +63,16 @@ func run() -> void:
 	main._update_session_comparison("Debug Data")
 	check(not main.run_comparison_label.visible, "Debug data cannot enter the formal comparison.")
 	check(trace.canonical_signature() == signature, "Presentation must leave authoritative events and metrics unchanged.")
+	main.workspace_mode = &"game"
+	main._update_session_comparison("Official Test Set")
+	check(not main.run_comparison_label.visible, "A Test result never supplies the preceding Game result.")
+	main._update_session_comparison("Official Test Set")
+	check(main.run_comparison_label.visible, "Two runs within the same mode remain comparable.")
+	main.current_pass_count = 2
+	main._update_session_comparison("Official Test Set")
+	check(not main.run_comparison_label.visible, "Different pass counts cannot claim a same-work comparison.")
+	main.current_pass_count = 1
+	main.workspace_mode = &"test"
 	# Seeking backward must not retain final cache contents.
 	main.current_trace = trace
 	main._update_hierarchy(trace.events[0])
@@ -72,6 +82,14 @@ func run() -> void:
 	check(not main.run_comparison_label.visible, "A different task cannot reuse the previous task comparison.")
 	main._update_hierarchy(main.current_trace.events.back())
 	check(not main.hierarchy_cache_labels[0].visible, "Direct RAM reads must not invent cache residency.")
+	root.get_node("GameMode").set_mode(&"game")
+	main.current_level_id = &"capstone"
+	main.current_level = main.catalog.definition(&"capstone")
+	main.selected_judgment = &""
+	main.session_previous_runs.clear()
+	main._update_session_comparison("Official Test Set")
+	main._update_session_comparison("Official Test Set")
+	check(not main.run_summary_label.text.contains("RAM") and not main.run_comparison_label.text.contains("RAM"), "Capstone summary and comparison obey the existing diagnosis disclosure boundary.")
 	main.queue_free()
 	await process_frame
 	print(("FAIL: " if failures else "PASS: ") + "Locality presentation: %d checks, %d failures" % [checks, failures])

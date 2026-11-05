@@ -1,0 +1,63 @@
+{
+  "stage": "final precommit inventory after independent review",
+  "staged_files": 467,
+  "authored_diff_check": "PASS with only exact raw-engine-output paths excluded",
+  "raw_output_whitespace_diagnostics": [
+    {
+      "path": "docs/verification/20261104-comparable-records/logs/20261104T201610Z-e2107e1b/test_game_record_projection.txt",
+      "line": 3,
+      "kind": "trailing whitespace."
+    },
+    {
+      "path": "docs/verification/20261104-comparable-records/logs/20261104T201610Z-e2107e1b/test_game_record_projection.txt",
+      "line": 8,
+      "kind": "trailing whitespace."
+    },
+    {
+      "path": "docs/verification/20261104-comparable-records/logs/20261104T203308Z-530aab9a/preview-startup.txt",
+      "line": 2,
+      "kind": "new blank line at EOF."
+    },
+    {
+      "path": "docs/verification/20261104-layout-scheduling/logs/startup-smoke.log",
+      "line": 2,
+      "kind": "new blank line at EOF."
+    },
+    {
+      "path": "docs/verification/20261104-layout-scheduling/native/20261105T012813Z/session.log",
+      "line": 3,
+      "kind": "new blank line at EOF."
+    },
+    {
+      "path": "docs/verification/20261104-layout-scheduling/recovery/20261105T005116Z/1-startup.log",
+      "line": 2,
+      "kind": "new blank line at EOF."
+    },
+    {
+      "path": "docs/verification/20261104-layout-scheduling/recovery/20261105T005116Z/2-startup.log",
+      "line": 2,
+      "kind": "new blank line at EOF."
+    },
+    {
+      "path": "docs/verification/20261104-layout-scheduling/recovery/20261105T005116Z/3-startup.log",
+      "line": 2,
+      "kind": "new blank line at EOF."
+    },
+    {
+      "path": "docs/verification/20261104-portable-challenges/logs/startup-smoke.log",
+      "line": 2,
+      "kind": "new blank line at EOF."
+    }
+  ],
+  "raw_output_handling": "Preserved byte-for-byte; no trimming to make whitespace checks pass.",
+  "source_manifest_matches": 1170,
+  "project_setting_difference": "Two QA isolation keys and experiment main scene only",
+  "frame_manifest_matches": 24,
+  "remote_pre_push_main": "b65a0bd3064888f41c5caeb8d7d0717d2b901658",
+  "remote_pre_push_task_branch": "absent",
+  "protected_main_unchanged": true,
+  "intended_commit_files": 469,
+  "markdown_files": 60,
+  "local_links_checked": 363,
+  "independent_review": "PASS: reviews/evidence-final.md"
+}

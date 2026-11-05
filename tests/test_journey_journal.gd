@@ -265,7 +265,10 @@ func run() -> void:
 func reflection_feedback_stack(journal: Control, feedback: Node) -> void:
 	# Real Window, existing popup and full Input events; no native-OS claim.
 	var moments: Node = root.get_node("PlaytestMoments")
-	for tester: bool in [true, false]:
+	for scenario: Dictionary in [{"tester":true,"locale":"en"},{"tester":false,"locale":"zh_CN"},{"tester":false,"locale":"en"}]:
+		var tester: bool = scenario.tester
+		var locale: String = scenario.locale
+		root.get_node("Localization").set_locale(locale)
 		ProjectSettings.set_setting("playtest/offline_tester", tester)
 		journal.open()
 		journal.reflection_button.grab_focus()
@@ -291,7 +294,16 @@ func reflection_feedback_stack(journal: Control, feedback: Node) -> void:
 			check(moments.panel.visible and journal.visible and reflection.visible, "Ordinary F8 opens the existing PlaytestMoments panel above ThemeReflection")
 			check(not feedback.backdrop.visible and not paused, "Ordinary feedback does not enable the offline tester channel or its pause contract")
 			check(moments.panel.get_viewport() == reflection, "Ordinary feedback belongs to the actually focused popup viewport")
-			check(reflection.get_visible_rect().encloses(moments.panel.get_global_rect()), "Ordinary feedback is operable inside the actual popup bounds")
+			var popup_bounds: Rect2 = reflection.get_visible_rect()
+			var panel_bounds: Rect2 = moments.panel.get_global_rect()
+			check(popup_bounds.encloses(panel_bounds), "Ordinary feedback is operable inside the actual popup bounds "+locale+" "+str({"popup":popup_bounds,"panel":panel_bounds,"minimum":moments.panel.get_combined_minimum_size()}))
+			check(popup_bounds.encloses(moments.content_scroll.get_global_rect()), "Scrollable feedback area remains inside the popup "+locale)
+			check(moments.content_scroll.get_global_rect().encloses(moments.opinion.get_global_rect()), "The ordinary feedback input is visible before scrolling "+locale)
+			if "--journal-feedback-capture" in OS.get_cmdline_user_args():
+				await RenderingServer.frame_post_draw
+				var image_path: String = "res://.godot/feedback-popup-"+locale+".png"
+				check(reflection.get_texture().get_image().save_png(image_path) == OK,"Capture original ordinary feedback frame "+locale)
+				print("CAPTURE: "+ProjectSettings.globalize_path(image_path))
 			var normal_focus: Control = reflection.gui_get_focus_owner()
 			check(is_instance_valid(normal_focus) and moments.panel.is_ancestor_of(normal_focus), "Ordinary feedback receives usable keyboard focus inside the popup")
 			await full_input_key(KEY_TAB)

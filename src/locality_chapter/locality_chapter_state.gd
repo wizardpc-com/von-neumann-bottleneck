@@ -7,9 +7,14 @@ const Workspace = preload("res://src/save/chapter_workspace.gd")
 var game_workspaces: Dictionary = {}
 var test_workspaces: Dictionary = {}
 var game_observations: Dictionary = {}
+var test_observations: Dictionary = {}
+# Derived from actual recipe replays. Never serialized as score authority.
+var _game_observation_results: Dictionary = {}
+var _test_observation_results: Dictionary = {}
 var _workspace_fingerprint: String = ""
 
 const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
+var _observation_catalog := LocalityLevelCatalogType.new()
 
 const RECEIPT_LIMIT := 12
 
@@ -65,9 +70,23 @@ func record_receipt(level_id: StringName, receipt: Variant, recipe: Dictionary =
 			return
 	entries.append(receipt)
 	while entries.size() > RECEIPT_LIMIT:
-		entries.remove_at(_discardable_receipt(entries))
+		entries.remove_at(_discardable_receipt(level_id, entries))
 	store[level_id] = entries
 	progression_changed.emit()
+
+
+func best_observation_for(level_id: StringName, mode: StringName = &"") -> Dictionary:
+	var in_test: bool = mode == &"test" if not mode.is_empty() else GameMode.is_test_mode()
+	var results: Dictionary = _test_observation_results if in_test else _game_observation_results
+	var candidates: Dictionary = results.get(String(level_id), {})
+	var condition: String = _observation_condition(level_id)
+	var best: Dictionary = {}
+	for candidate: Dictionary in candidates.values():
+		if candidate.condition_id != condition or not _recipe_matches_task(level_id, candidate.recipe):
+			continue
+		if best.is_empty() or _metrics_better(candidate.metrics, best.metrics):
+			best = candidate
+	return best.duplicate(true)
 
 
 func capstone_first_experiment_observed() -> bool:
@@ -122,6 +141,7 @@ func game_snapshot() -> Dictionary:
 func restore_game(snapshot: Dictionary, chapter_ready: bool) -> void:
 	game_workspaces = Workspace.bounded_workspaces(snapshot.get("workspaces",{}),LocalityLevelCatalogType.new().level_ids())
 	game_observations = {}
+	_game_observation_results.clear()
 	game_completed.clear()
 	economical_design.clear()
 	game_receipts.clear()
@@ -146,6 +166,7 @@ func restore_game(snapshot: Dictionary, chapter_ready: bool) -> void:
 func reset_game_progress() -> void:
 	game_workspaces.clear()
 	game_observations.clear()
+	_game_observation_results.clear()
 	game_completed.clear()
 	economical_design.clear()
 	game_receipts.clear()
@@ -156,6 +177,8 @@ func reset_game_progress() -> void:
 
 func reset_test_progress() -> void:
 	test_workspaces.clear()
+	test_observations.clear()
+	_test_observation_results.clear()
 	test_completed.clear()
 	test_receipts.clear()
 	test_capstone_first_experiment_observed = false
@@ -230,13 +253,140 @@ func retain_workspace(id: StringName, value: Dictionary, mode: StringName = &"")
 	if not in_test: persistent_state_changed.emit()
 
 
-func _discardable_receipt(entries: Array) -> int:
-	var catalog := LocalityLevelCatalogType.new()
-	for index: int in range(1,entries.size()-1):
-		var item: Variant=entries[index]
-		var pinned: bool=catalog._is_capstone_baseline_receipt(item)
-		for id: StringName in catalog.level_ids(): pinned = pinned or catalog.is_qualifying_paired_baseline(id,item)
-		if not pinned: return index
+func _discardable_receipt(level_id: StringName, entries: Array) -> int:
+	var best_index: int = -1
+	for index: int in entries.size():
+		var item: Variant = entries[index]
+		if not _receipt_matches_task(level_id, item):
+			continue
+		if best_index < 0 or _metrics_better(item.metrics, entries[best_index].metrics):
+			best_index = index
+	for index: int in range(1, entries.size() - 1):
+		if index != best_index and not _is_observation_checkpoint(entries[index]):
+			return index
+	for index: int in range(1, entries.size() - 1):
+		if index != best_index:
+			return index
+	return 1
+
+
+func _is_observation_checkpoint(receipt: Variant) -> bool:
+	if _observation_catalog._is_capstone_baseline_receipt(receipt):
+		return true
+	for id: StringName in _observation_catalog.level_ids():
+		if _observation_catalog.is_qualifying_paired_baseline(id, receipt):
+			return true
+	return false
+
+
+func _metrics_better(candidate: Dictionary, incumbent: Dictionary) -> bool:
+	var cycles: int = int(candidate.get("total_cycles", 0))
+	var previous_cycles: int = int(incumbent.get("total_cycles", 0))
+	return cycles < previous_cycles or (
+		cycles == previous_cycles
+		and int(candidate.get("hardware_cost", 0)) < int(incumbent.get("hardware_cost", 0))
+	)
+
+
+func _recipe_matches_task(id: StringName, recipe: Dictionary) -> bool:
+	var definition: Dictionary = _observation_catalog.definition(id)
+	if definition.is_empty() or not _compatible_workspace_version(str(recipe.get("version", ""))):
+		return false
+	if recipe.get("passes") != definition.pass_count:
+		return false
+	var choices: Array = definition.cache_choices
+	if choices.is_empty():
+		choices = [definition.default_cache_lines]
+	if recipe.get("cache_lines") not in choices or recipe.get("blocks") not in definition.block_choices:
+		return false
+	if recipe.get("bypass") != (int(recipe.cache_lines) == 0):
+		return false
+	return bool(definition.program_editable) or recipe.get("source") == definition.program_source
+
+
+func _receipt_matches_task(id: StringName, receipt: Variant) -> bool:
+	if receipt == null or not receipt.passed or receipt.level_id != id:
+		return false
+	var definition: Dictionary = _observation_catalog.definition(id)
+	if definition.is_empty():
+		return false
+	if receipt.data_signature != JSON.stringify(preload("res://src/simulation/simulation_core.gd").official_data_copy()).sha256_text():
+		return false
+	if receipt.pass_count != definition.pass_count:
+		return false
+	var choices: Array = definition.cache_choices
+	if choices.is_empty():
+		choices = [definition.default_cache_lines]
+	if receipt.cache_lines not in choices or receipt.block_lines not in definition.block_choices:
+		return false
+	if receipt.bypass_cache != (receipt.cache_lines == 0):
+		return false
+	return bool(definition.program_editable) or receipt.program_signature == String(definition.program_source).sha256_text()
+
+
+func _observation_condition(id: StringName) -> String:
+	var definition: Dictionary = _observation_catalog.definition(id)
+	if definition.is_empty():
+		return ""
+	return JSON.stringify([
+		"locality-official-v1", workspace_version(), String(id),
+		preload("res://src/simulation/simulation_core.gd").official_data_copy(),
+		int(definition.pass_count),
+	]).sha256_text()
+
+
+func _observation_key(recipe: Dictionary) -> String:
+	return JSON.stringify([
+		recipe.get("source", ""), recipe.get("cache_lines", -1),
+		recipe.get("passes", -1), recipe.get("blocks", -1), recipe.get("bypass"),
+	]).sha256_text()
+
+
+func _observation_recipe(recipe: Dictionary, receipt: Variant) -> Dictionary:
+	return {
+		"source": recipe.source,
+		"cache_lines": int(recipe.cache_lines),
+		"passes": int(recipe.passes),
+		"blocks": int(recipe.blocks),
+		"bypass": bool(recipe.bypass),
+		"version": str(recipe.get("version", workspace_version())),
+		"checkpoint": _is_observation_checkpoint(receipt),
+	}
+
+
+func _remember_observation(id: StringName, recipe: Dictionary, receipt: Variant, in_test: bool) -> void:
+	var results: Dictionary = _test_observation_results if in_test else _game_observation_results
+	var candidates: Dictionary = results.get(String(id), {})
+	candidates[_observation_key(recipe)] = {
+		"recipe": recipe.duplicate(true),
+		"metrics": receipt.metrics.duplicate(true),
+		"receipt": {
+			"level_id": receipt.level_id,
+			"program_signature": receipt.program_signature,
+			"traversal_pattern": receipt.traversal_pattern,
+			"data_signature": receipt.data_signature,
+			"cache_lines": receipt.cache_lines,
+			"pass_count": receipt.pass_count,
+			"block_lines": receipt.block_lines,
+			"bypass_cache": receipt.bypass_cache,
+			"metrics": receipt.metrics.duplicate(true),
+			"trace_signature": receipt.trace_signature,
+			"passed": receipt.passed,
+		},
+		"condition_id": _observation_condition(id),
+	}
+	results[String(id)] = candidates
+
+
+func _discardable_observation(id: StringName, entries: Array, in_test: bool) -> int:
+	var best: Dictionary = best_observation_for(id, &"test" if in_test else &"game")
+	var best_key: String = "" if best.is_empty() else _observation_key(best.recipe)
+	for index: int in range(1, entries.size() - 1):
+		if _observation_key(entries[index]) != best_key and not bool(entries[index].get("checkpoint", false)):
+			return index
+	for index: int in range(1, entries.size() - 1):
+		if _observation_key(entries[index]) != best_key:
+			return index
 	return 1
 
 func _replay_observation(id: StringName, recipe: Dictionary) -> Variant:
@@ -248,7 +398,7 @@ func _replay_observation(id: StringName, recipe: Dictionary) -> Variant:
 	if not program.is_valid(): return null
 	var core = preload("res://src/simulation/simulation_core.gd").new()
 	var data: Array[int]=core.official_data_copy()
-	var trace: SimulationTrace=core.run_workload(program,data,int(recipe.cache_lines),"Restored observation",int(recipe.passes),int(recipe.blocks),recipe.bypass)
+	var trace: SimulationTrace=core.run_workload(program,data,int(recipe.cache_lines),"Official Test Set",int(recipe.passes),int(recipe.blocks),recipe.bypass)
 	if not trace.passed: return null
 	var receipt = preload("res://src/locality_chapter/locality_run_receipt.gd").new()
 	receipt.populate(id,trace,program.traversal_pattern(),data,int(recipe.passes),int(recipe.blocks),recipe.bypass)
@@ -256,21 +406,31 @@ func _replay_observation(id: StringName, recipe: Dictionary) -> Variant:
 
 
 func _retain_observation(id: StringName, recipe: Dictionary, receipt: Variant) -> void:
-	if GameMode.is_test_mode() or not receipt.passed: return
-	var saved: Dictionary=Workspace.encode(recipe)
-	saved["version"]=workspace_version()
-	var catalog := LocalityLevelCatalogType.new()
-	saved["checkpoint"]=catalog._is_capstone_baseline_receipt(receipt) or catalog.is_qualifying_paired_baseline(id,receipt)
-	var entries: Array=game_observations.get(String(id),[])
-	if saved in entries: return
+	if not receipt.passed:
+		return
+	var in_test: bool = GameMode.is_test_mode()
+	var store: Dictionary = test_observations if in_test else game_observations
+	var results: Dictionary = _test_observation_results if in_test else _game_observation_results
+	var candidate: Dictionary = Workspace.encode(recipe)
+	candidate["version"] = workspace_version()
+	var measured: Variant = _replay_observation(id, candidate)
+	if measured == null:
+		return
+	var saved: Dictionary = _observation_recipe(candidate, measured)
+	var entries: Array = store.get(String(id), [])
+	var key: String = _observation_key(saved)
+	for existing: Dictionary in entries:
+		if _observation_key(existing) == key:
+			return
+	_remember_observation(id, saved, measured, in_test)
 	entries.append(saved)
-	while entries.size()>Workspace.MAX_RECEIPTS:
-		var victim: int=1
-		for index: int in range(1,entries.size()-1):
-			if not entries[index].get("checkpoint",false): victim=index; break
+	while entries.size() > Workspace.MAX_RECEIPTS:
+		var victim: int = _discardable_observation(id, entries, in_test)
+		results[String(id)].erase(_observation_key(entries[victim]))
 		entries.remove_at(victim)
-	game_observations[String(id)]=entries
-	persistent_state_changed.emit()
+	store[String(id)] = entries
+	if not in_test:
+		persistent_state_changed.emit()
 
 func _restore_observations(value: Variant) -> void:
 	if not value is Dictionary: return
@@ -283,9 +443,17 @@ func _restore_observations(value: Variant) -> void:
 			recipe=Workspace.encode(recipe)
 			var receipt: Variant=_replay_observation(id,recipe)
 			if receipt == null: continue
+			recipe = _observation_recipe(recipe, receipt)
+			var key: String = _observation_key(recipe)
+			if (_game_observation_results.get(String(id), {}) as Dictionary).has(key):
+				continue
+			_remember_observation(id, recipe, receipt, false)
 			if not game_receipts.has(id): game_receipts[id]=[]
 			var duplicate: bool=false
 			for existing: Variant in game_receipts[id]: duplicate=duplicate or existing.canonical_signature()==receipt.canonical_signature()
 			if not duplicate: game_receipts[id].append(receipt)
 			if not game_observations.has(String(id)): game_observations[String(id)]=[]
 			game_observations[String(id)].append(recipe.duplicate(true))
+		var receipts: Array = game_receipts.get(id, [])
+		while receipts.size() > RECEIPT_LIMIT:
+			receipts.remove_at(_discardable_receipt(id, receipts))

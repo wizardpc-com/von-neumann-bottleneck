@@ -1,0 +1,83 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/user_directory"
+    },
+    {
+      "name": "test_layout_scoreboard",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Compile Error: Identifier not found: GameMode",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "ERROR: Failed to load script \"res://tests/test_layout_scoreboard.gd\" with error \"Compilation failed\"."
+      ],
+      "log": "test_layout_scoreboard.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/test_layout_scoreboard"
+    },
+    {
+      "name": "test_layout_scoreboard_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_scoreboard_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/test_layout_scoreboard_ui"
+    },
+    {
+      "name": "test_layout_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/test_layout_simulation"
+    },
+    {
+      "name": "test_layout_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/test_layout_ui"
+    },
+    {
+      "name": "test_locality_trace_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_trace_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/test_locality_trace_presentation"
+    },
+    {
+      "name": "test_prediction_record_source",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_record_source.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/test_prediction_record_source"
+    },
+    {
+      "name": "test_service_undo_context",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_undo_context.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T185913Z-9cbc21ba/test_service_undo_context"
+    }
+  ]
+}

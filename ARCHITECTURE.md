@@ -1,5 +1,22 @@
 # Architecture
 
+`experiments/layout_strategy/` is an opt-in pure model/session/presenter split
+for independently scheduled queries and one retained physical copy. Its model
+`layout-schedule-experiment-1` reuses original memory operations, emits causal
+request/response events and measures Q1 completion separately from total work.
+The session owns bounded drafts/history/baselines in memory; the UI has no
+campaign completion or persistence authority. Its isolated runner changes only
+the copied project entry and user directory. Shared query-value/output helper
+extractions preserve the frozen official Trace sample. See the
+[experimental contract](experiments/layout_strategy/README.md).
+
+Chapter4's personal rankings now accept bounded portable challenge recipes through
+`layout_challenge_code.gd`, always remeasuring every original case. A protected
+optional sidecar retains one Game target per task; Test targets remain separate
+process-lifetime data. Import and pin preserve drafts and completion; applying a
+recipe uses existing Undo. No main-save migration or simulation change is involved.
+See the [layout contract](docs/architecture/layout-chapter.md).
+
 ## Continuous signal candidate
 
 `experiments/creation/` adds one bounded C→P→G execution domain: finite-context
@@ -177,10 +194,10 @@ Maintenance, branding and receiver workflows: [owner guide](docs/development/fin
 - `src/system_lab/` owns Chapter 1's separate 8-bit CPU/RAM/Bus specifications, six typed routes, bounded program parser, sequential cost model, deterministic Trace/receipt/diagnosis, seven-task catalog (five investigations plus two optional applications), isolated Game/Test chapter state, graphical chapter map, system desktop, player-colored route rendering, component-native feedback, exact-segment flow-band/value-badge overlay, an editable presentation Clock Period, controlled Before → After evidence, gated diagnostic breakdown, and completion handoff to its own map. It deliberately has no Cache or circuit-gate evaluator.
 - Chapter 1's Bus surface groups eight visible bit cells by the selected bandwidth. Active values, widths and group counts come from the authoritative transfer event; playback progress only selects the illustrated group. Read/write/request overlays select their corresponding typed routes. The desktop retains the displayed event/progress so paused zoom, pan and device movement redraw the same event without advancing simulation. Changing a part clears current result cards while preserving comparison History.
 - The original hardware, system and locality floating desktops synchronize focused panels' sibling order with their drawing order: Godot Control input picking does not follow `z_index`. Windows remain freely movable and independently closable.
-- `src/locality_chapter/` owns Chapter 2's seven-level runtime catalog, isolated Game/Test completion and receipt state, concept-unlock rules, trace-bound run receipts, and exact validation of the observation receipts that may become paired-level baselines. It reuses the generic registered identity/order/dependency contract without executing content dictionaries.
+- `src/locality_chapter/` owns Chapter 2's seven-level runtime catalog, isolated Game/Test completion and receipt state, concept-unlock rules, trace-bound run receipts, and exact validation of the observation receipts that may become paired-level baselines. The existing bounded observation recipes retain the fastest correct task-admissible experiment (hardware cost breaks cycle ties), teaching baselines and latest work. Replayed results are transient and returned as detached data; Game saves retain the same observation shape, while Test recipes stay transient. It reuses the generic registered identity/order/dependency contract without executing content dictionaries.
 - `src/content/locality/` registers the Chapter 2 branch and seven sequential descriptors. Locality-specific workload and UI metadata remains in the typed Chapter 2 catalog rather than stretching the campaign registry into a simulator.
 - `src/ui/prototype_hub.tscn` is the laboratory hub reached after startup with a primary task-tree entry and cards for Hardware Foundations and Chapters 1–4; the eight-task comparison runtime has been removed. In Game mode it exposes Continue plus a confirmed New Game action whose workbench deletion is separately opt-in; in Test mode those player save actions are hidden. Chapter 2 is gated behind Chapter 1 in Game mode and open in Test mode. Its modal Options overlay owns chapter-selection `Esc`, Resume, fullscreen switching, and explicit application exit.
-- `src/ui/main.gd` wraps the established locality GraphEdit workbench in a seven-node map and per-level tool configuration. It owns Mission judgments, Program Apply, direct/Cache topology presentation, Work Group controls, staged/key-evidence/end playback navigation, an editable presentation Clock Period, progressive Profiler, inherited Before → After plus Personal Best history, post-playback finding review, diagnosis-gated capstone evidence, Systems Notebook, and Baseline → Best completion presentation; none of those determine simulation.
+- `src/ui/main.gd` wraps the established locality GraphEdit workbench in a seven-node map and per-level tool configuration. It owns Mission judgments, Program Apply, direct/Cache topology presentation, Work Group controls, staged/key-evidence/end playback navigation, an editable presentation Clock Period, progressive Profiler, inherited Before → After plus Personal Best history, post-playback finding review, diagnosis-gated capstone evidence, Systems Notebook, and Baseline → Best completion presentation; none of those determine simulation. Loading the retained best restores exact source and configuration, invalidates current execution, and preserves one previous raw/applied draft for return during that visit. Diagnosis and first-experiment gates still apply.
 - `src/ui/floating_instrument_panel.gd` provides embedded movable, resizable, independently closable windows and allows a host-owned compact action to replace generic title-strip minimization. Hardware Mission uses that action for its readable lower-left compact state; Hardware Test Bench/Components and Chapter 1/2 Mission disable minimization, while other chapter tools may retain it. Launcher buttons use close-equivalent toggling, so hiding and reopening preserves the panel's current geometry.
 - `src/ui/ui_typography.gd` owns the shared title, subtitle, body, caption, window-title, and compact-control dimensions used across chapter headers, Mission content, completion summaries, and the terminology handbook. `src/ui/terminology_handbook.gd` presents its cross-chapter catalog, including the presentation-only Clock Period, as a bounded topic → directory → term tree while retaining category filtering and search. It covers the full journey, with operation quick reference, contextual recommendations and model-aligned diagrams. Later workbenches place the same handbook in their navigation; Escape closes the reading layer before leaving the workbench. Availability reads existing task unlocks or the current playable context without awarding progress.
 - `src/ui/level_completion_overlay.gd` presents an already-authoritative level completion with localized lesson copy, a replaceable in-memory audio cue, optional compact playtest ratings, and a Continue signal. Feedback remains skippable and never determines results, unlocks, timing, or saved state; each host performs its own return-to-map action. `present_seal_ready()` is the prologue's quieter "ready to seal" variant, so the full card appears only once a task first becomes complete.
@@ -224,7 +241,7 @@ storage branches. New applications start with fixed I/O and a blank interior.
 
 ## Five-region free candidate
 
-`src/layout_chapter/` is an independent bounded memory-layout model, not a rewrite of Circuit/System/Locality/Overlap simulation. Recipes bijectively map record/field identities to aligned addresses; preparation performs source reads and actual scratch writes; full and bounded-batch strategies share the measured memory path. [Model contract](docs/architecture/layout-chapter.md).
+`src/layout_chapter/` is an independent bounded memory-layout model, not a rewrite of Circuit/System/Locality/Overlap simulation. Recipes bijectively map record/field identities to aligned addresses; preparation performs source reads and actual scratch writes; full and bounded-batch strategies share the measured memory path. Its personal rankings remeasure player recipes under all current task cases, keep cycle/traffic/space objectives separate, and restore experiments through ordinary draft/Undo paths. Session challenges never replace the existing completion authority. [Model and comparison contract](docs/architecture/layout-chapter.md).
 
 The existing `TaskNavigation` adapts public tasks and prerequisites. `TaskTreeLayout` derives within-region ranks/lanes and cross-region placement from that DAG; the canvas owns only camera, rendering and selection. New nodes do not require coordinate edits; optional short overview labels can be added without changing progression. [Extension guide](docs/development/adding-tasks.md).
 
@@ -233,6 +250,14 @@ The existing `TaskNavigation` adapts public tasks and prerequisites. `TaskTreeLa
 ## Optional community preparation
 
 `PersonalRecords` provides an offline task journal independent of action telemetry;
+same-condition observed minima use validated `cycles`/`total_cycles` and explicit
+task/model/workload identity. Historical scalar observations remain distinct from
+Chapter 2/4 saved-recipe remeasurement. `TaskNavigation.game_tasks()` and
+`game_journey_tasks()` project permanent Game records without switching mode;
+the map's ordinary navigation stays mode-dependent. The schema-1 personal journal
+keeps its existing path/`best` view and optional bounded `conditions`/`legacy`
+history; unknown files are write protected. None of these presentation records
+controls progression.
 `visit_summary.gd` reduces completed visit transactions. The existing outbox now
 separates basic/detailed statistics, individual opinions and experimental score
 consent. The versioned SQLite receiver adds deletion-safe migration and read-only

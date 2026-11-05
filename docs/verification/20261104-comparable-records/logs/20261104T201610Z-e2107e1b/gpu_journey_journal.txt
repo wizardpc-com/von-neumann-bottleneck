@@ -1,0 +1,20 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+INVENTORY_CHANGE {"after_sha256":"b9149c226c1e6142ced388947878597c7ca34b8f47e2eb79e39669e5f755d050","before_sha256":"absent","path":"presentation.cfg"}
+ERROR: Opening, help, browsing and closing write no profile, lease, history or migration bytes
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_journey_journal.gd:19)
+       [1] check_inventory (res://tests/test_journey_journal.gd:65)
+       [2] run (res://tests/test_journey_journal.gd:205)
+       [3] key (res://tests/test_journey_journal.gd:32)
+       [4] settle (res://tests/test_journey_journal.gd:23)
+ERROR: Ordinary feedback is operable inside the actual popup bounds
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_journey_journal.gd:19)
+       [1] reflection_feedback_stack (res://tests/test_journey_journal.gd:294)
+       [2] full_input_key (res://tests/test_journey_journal.gd:40)
+       [3] settle (res://tests/test_journey_journal.gd:23)
+FAIL: read-only journey journal (235 checks)

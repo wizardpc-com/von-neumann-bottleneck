@@ -4,6 +4,23 @@ Isolated technical/gameplay investigations, outside the supported runtime. Each 
 its question, setup, evidence and disposition. Production code must not acquire an
 undocumented dependency on experiment files.
 
+## Scheduling and copying — 2026-11-04
+
+`layout_strategy` is a standalone, session-only experiment that independently
+controls query grouping/record tiling and one retained physical copy. Four public
+batch/serial workloads expose actual first-request response, total cycles, RAM
+traffic and copy scratch, with bounded history, explicit comparisons and undoable
+restoration. It does not join the60-task campaign or its official challenges.
+
+```sh
+python3 scripts/run-experiment.py layout_strategy --godot /path/to/Godot
+```
+
+Use this launcher so the copied project's data directory is isolated before
+autoload initialization. `--prepare-only` makes an isolated F5 entry.
+[Rules and exploration](layout_strategy/README.md) ·
+[Runtime evidence and limits](../docs/verification/20261104-layout-scheduling/README.md).
+
 ## Isolated second-act labs
 
 Requires Godot **4.7.1 stable**, Python 3 and Git. No new dependencies. Run from repository root:

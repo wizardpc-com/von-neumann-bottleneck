@@ -1,3 +1,161 @@
+## Independent scheduling experiment — 2026-11-04
+
+Use pinned Godot4.7.1 and the isolated verifier for
+`test_layout_strategy_model`, `test_layout_strategy_session`,
+`test_layout_strategy_legacy` and `test_layout_strategy_ui`. The model test checks
+real output/memory accounting, job0 response timing, sparse and duplicate inputs,
+serial causality, failures, model identities and repeat/JSON determinism. The
+legacy gate compares141 frozen designs across282 official cases, including
+complete canonical Trace, outputs, metrics, identity and eligibility.
+Keep original layout, scoreboard, challenge, settings, save and locale regressions
+alongside the experiment. None of these fixtures belong in player data.
+
+For GPU assertions and raw bilingual frames in a copied project with a fresh QA
+user directory:
+
+```sh
+<Godot-4.7.1> --path <isolated-project> --windowed --resolution 1280x720 \
+  --script res://tests/test_layout_strategy_ui.gd \
+  -- --capture-size=1280x720 --layout-strategy-capture
+```
+
+Start windowed and resize after scene creation. Windowed flags alone did not
+prevent the observed macOS capture-size drift. The fixture requires repeated
+matching actual image sizes and checks every saved image's
+dimensions at1280×720 or960×640; a requested size or a filename alone is not
+evidence. It exercises real model runs, history keyboard selection, explicit
+baseline/restore, draft and text Undo, workload/locale preservation, stale
+measurement labels, F8/F10 modal focus and exit protection. Selection must not
+delete its own emitting TreeItem. Settings-language rebuild must restore focus
+to a visible exit guard before its underlying editor.
+
+Normal native play uses `scripts/run-experiment.py layout_strategy --godot ...`
+or a prepared QA copy whose main scene is the lab. Do not pass `--capture*`
+for normal Settings/persistence acceptance: those arguments disable campaign
+writes and can produce the existing write-disabled dialog after a language
+change. Native observation and scripted GPU assertions have separate evidence
+boundaries. The session remains transient and cannot award official progress.
+The finite strategy grid is research evidence, not a global-optimum test.
+See the [receipt](../verification/20261104-layout-scheduling/README.md) and
+[experimental rules](../../experiments/layout_strategy/README.md).
+
+## Portable measured challenges — 2026-11-04
+
+Run `test_layout_challenge_code`, `test_layout_challenge_store`,
+`test_layout_challenge_window` and `test_layout_challenge_controller` using
+`scripts/verify-project.py` with pinned Godot4.7.1. Keep the existing scoreboard,
+scoreboard UI, layout simulation/navigation/recipe-sources/trace-storage/UI,
+chapter settings, GlobalSave and localization checks alongside them.
+
+The codec tests compare actual all-case metrics and Trace identities for all six
+tasks and three objectives, reject claimed scores/unknown fields/duplicates and
+invalid nested recipes, and separate stale decode from current inspection. Store
+tests use actual temporary-open and OS-rename failures, full-file nested
+protection, unseen file changes, restart/byte equality and Game/Test isolation.
+No target file is progression evidence.
+
+Controller tests preserve existing draft and both edit stacks through share,
+preview and pin; only explicit restore edits. They exercise retained real wins,
+ties and original-target failures, stale mode guards, supported stale code,
+exact-code Keep target retry despite a different table sort, and revisits after
+failed replacement/first save. Normalize intentional stale fixtures through
+decode first; parsed JSON floats must not accidentally turn a stale fixture into
+a noncanonical malformed one.
+
+For real GPU execution in a copied project with a fresh QA user directory:
+
+```sh
+<Godot-4.7.1> --path <isolated-project> \
+  --script res://tests/test_layout_challenge_window.gd \
+  -- --capture-size=1280x720 --layout-challenge-capture
+<Godot-4.7.1> --path <isolated-project> \
+  --script res://tests/test_layout_challenge_controller.gd \
+  -- --capture-size=1280x720 --layout-challenge-capture
+```
+
+Window checks include zh/en, actual760×420 minimum, maximum code/title, viewport
+Tab/Enter/Escape and built-in TextEdit Undo. Use TextEdit insertion to model an
+edit; assigning `.text` does not emit its editing signal. GPU checks explicitly
+copy/paste and restore the prior clipboard. Controller GPU checks route ordinary
+F8 within the focused Window and restore exact editor focus on Escape. These
+do not establish native OS input, exported packages or cross-platform behavior.
+The bounded model sample is a separate research observation, not a global
+optimum or a performance threshold. See the
+[receipt](../verification/20261104-portable-challenges/README.md).
+
+## Comparable records and retained experiments — 2026-11-04
+
+Run `test_locality_best_observation`, `test_locality_best_restore`,
+`test_personal_record_conditions` and `test_game_record_projection` with
+`scripts/verify-project.py` and pinned Godot 4.7.1. Keep chapter workspaces,
+GlobalSave, full locality/system UI, personal-record/journal/map, telemetry,
+localization and first-increment scoreboard checks alongside them.
+
+The locality tests execute more than 32 distinct slower correct designs after an
+early winner, pass through JSON, and compare real rerun metrics and canonical
+Trace. They verify task admissibility, stable ties, unchanged bounds, teaching
+baselines, Test isolation and a recoverable invalid raw editor draft. The record
+suite uses actual models/controllers for selected orders, official-program
+qualification, finite metrics and identities, plus real temporary-write/rename
+failure and byte-preserving protection for root and nested corruption, unknown
+fields, mismatched identities and oversized loaded history. Archive fixture completions
+test read-only Game projection; they are not earned-player progression evidence.
+Response-context checks use direct local callbacks, never a production endpoint.
+
+For real GPU frames, run the final copied project under a fresh QA user directory:
+
+```sh
+<Godot-4.7.1> --path <isolated-project> \
+  --script res://tests/test_locality_best_restore.gd -- --capture-size=1280x800 --locality-best-capture
+<Godot-4.7.1> --path <isolated-project> \
+  --script res://tests/test_game_record_projection.gd -- --capture-size=1280x800 --record-projection-capture
+<Godot-4.7.1> --path <isolated-project> \
+  --script res://tests/test_journey_journal.gd -- --capture-size=1280x800 --journal-feedback-capture
+```
+
+The existing capture flag prevents window-geometry autosave during intentional
+test resizes; do not weaken the journal's file-inventory assertion. GPU journal
+checks include the actual focused 650×480 review Window, ordinary bilingual
+feedback, Tab/Escape and exact focus return. Keep `test_playtest_feedback_ui` and
+`test_settings_feedback_layout` alongside popup repairs.
+
+Native mouse/keyboard, exported packages and cross-platform behavior require their
+own acceptance and cannot be inferred from headless/GPU scripted assertions.
+See the [dated result and raw frames](../verification/20261104-comparable-records/README.md).
+
+## Personal layout rankings and recoverable experiments — 2026-11-04
+
+Run `test_layout_scoreboard`, `test_layout_scoreboard_ui`,
+`test_workbench_duplicate`, `test_service_undo_context`,
+`test_locality_trace_presentation`, `test_prediction_record_source` and
+`test_chapter_settings_input` through `scripts/verify-project.py`.
+Keep layout simulation/navigation/recipe/trace, workbench write-failure,
+Game/Test, GlobalSave and localization regressions alongside them.
+
+The pure scoreboard suite re-executes every official case, checks deterministic
+identity through JSON round trips, ties, invalid/over-space/target-unmet results,
+independent A/B recipes and real cycle/traffic/space tradeoffs. Resorting a
+measurement snapshot must match full remeasurement. The UI suite covers restore
+and Undo, passing/failed/tied personal challenges, both languages, mode isolation,
+same-name overwrite refusal, the existing loader and a real temporary-write
+obstruction. Its recovery retry uses the actual ranking save action. Fixtures
+must remain in isolated QA directories, never player saves.
+
+After the verifier finishes, use its copied project with a fresh QA custom user
+directory for GPU execution:
+
+```sh
+<Godot-4.7.1> --path <isolated-project> \
+  --script res://tests/test_layout_scoreboard_ui.gd -- --layout-score-capture
+```
+
+It captures both languages and the mixed-task space/cycle tradeoff. The
+[capacity probe](../verification/20261104-gameplay-systems/score-capacity-probe.gd)
+measures 26 candidates (24 named plus current/best) and objective-only resorting;
+it is an observational benchmark, not a universal latency threshold.
+Native mouse input, IME, complete newcomer play and exported packages remain
+separate acceptance scopes. See the [dated evidence](../verification/20261104-gameplay-systems/README.md).
+
 ## Draft input and process recovery ? 2026-11-04
 
 Run `test_text_input_unicode_clipboard` through `scripts/verify-project.py`.

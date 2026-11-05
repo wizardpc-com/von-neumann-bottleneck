@@ -1,0 +1,11 @@
+{
+  "frames/feedback-popup-before.png": "ef40f39b3da40bb34690fe4aca1af5166a7239482246edf71ef9d611033b2422",
+  "frames/feedback-popup-en.png": "eba6aa0986c591d4c6842d5355d79b39ee1b22ee58800c940cb2ed09911ee462",
+  "frames/feedback-popup-zh_CN.png": "aff882ae282a82626411582ad4aad18c5cb9dd6786626fc752fdc05088daffa7",
+  "frames/journal-en.png": "0efb8daff3923e91050ce4d0e01c8e2a4dc9af44641839ccb0ef477caa0b94cf",
+  "frames/journal-zh_CN.png": "58cd1d8dc2244aba980652a6055d7cb6700d375468df1340567080daa4102b91",
+  "frames/locality-best-en.png": "1ed0081a30bea237948ecf1f8859d0a74bc9d9f7473185d4b1f163890610c5a5",
+  "frames/locality-best-zh_CN.png": "17666701efdec42e6103b6180d25b8e70d7b3f01756013d7559bc1b18a2afde9",
+  "frames/records-960-en.png": "7feca5c67e70f22b9d63ad993cba71346260816374c31c3c473e7a536e76d14a",
+  "frames/records-960-zh_CN.png": "3e35e566d1b92922c3e3d85203096bbcbb8476523ef5682218909a09a60f972e"
+}

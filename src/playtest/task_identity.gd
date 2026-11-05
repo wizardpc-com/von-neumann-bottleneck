@@ -5,6 +5,13 @@ const JOURNEY_VERSION: String = "tasks-20261013-journey-v1"
 const CATEGORIES := ["confusion","control","bug","audiovisual","discovery","other"]
 const SecondAct = preload("res://src/campaign/second_act_tasks.gd")
 const Creation = preload("res://src/campaign/creation_tasks.gd")
+const CORE_MODELS := {
+	"hardware_foundations":"circuit-logic-v1",
+	"chapter_1":"system-machine-v1",
+	"chapter_2":"locality-cache-v1",
+	"chapter_3":"overlap-stream-v1",
+	"chapter_4":"layout-memory-1",
+}
 static var contracts: Dictionary = {}
 
 static func content_version() -> String:
@@ -17,6 +24,8 @@ static func metadata(chapter: String, level: String) -> Dictionary:
 		"source_commit":str(ProjectSettings.get_setting("application/config/build_commit","unknown")),
 		"test_batch":str(ProjectSettings.get_setting("application/test_batch","unspecified")),
 		"model_version":"unspecified","case_set_version":"unspecified"}
+	if CORE_MODELS.has(chapter):
+		result.model_version=CORE_MODELS[chapter]
 	if chapter not in ["representation","service","prediction","creation"]: return result
 	result.task_version=JOURNEY_VERSION
 	if not contracts.has(chapter):

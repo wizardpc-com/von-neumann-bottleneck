@@ -1,0 +1,18 @@
+[
+  {
+    "suite": "test_layout_strategy_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T005513Z-6cc70bb5/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round4/20261105T014628Z/test_layout_strategy_ui",
+    "log": "headless/20261105T014628Z/test_layout_strategy_ui.log",
+    "passed": true
+  }
+]

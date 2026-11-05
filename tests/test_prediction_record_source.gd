@@ -24,7 +24,7 @@ func run() -> void:
 		var caption := lab.find_child("RecordedSource",true,false) as Label
 		check(caption != null,"Recorded evidence has a visible source caption")
 		if caption != null:
-			check(caption.text.contains("#1") and caption.text.contains("off") and caption.text.contains("Regular" if en else "规律流"),"Cross-task caption identifies the record and rule")
+			check(caption.text.contains("#1") and caption.text.contains("off" if en else "关闭猜测") and caption.text.contains("Regular" if en else "规律流"),"Cross-task caption identifies the record and localized rule")
 			check(caption.text.contains("differs" if en else "不同"),"Cross-task record is explicitly distinguished from the current draft")
 			check(caption.get_global_rect().end.x <= root.size.x,"Bilingual source caption wraps within the minimum viewport")
 		if source.has("policy"): source.policy.rule = "unknown"

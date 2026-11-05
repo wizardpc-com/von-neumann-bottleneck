@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: JSON numeric round trip retains measurement and recipe identity
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_scoreboard.gd:17)
+       [1] _run (res://tests/test_layout_scoreboard.gd:57)
+FAIL: layout scoreboard ["JSON numeric round trip retains measurement and recipe identity"]

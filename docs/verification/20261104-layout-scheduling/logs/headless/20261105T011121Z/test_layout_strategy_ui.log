@@ -1,0 +1,75 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Viewport selection reaches measured history #1
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Inspecting a row preserves the current draft zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Restore button applies the inspected recipe zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: One keyboard Undo restores the exact pre-restore draft without inventing a run zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Keyboard Redo reapplies the recipe restore zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: SpinBox text owns its text Undo and does not undo the recipe zh_CN; typed=7 after=8 value=8.0 draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 17 } expected={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Viewport selection reaches measured history #1
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Inspecting a row preserves the current draft en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Restore button applies the inspected recipe en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: One keyboard Undo restores the exact pre-restore draft without inventing a run en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Keyboard Redo reapplies the recipe restore en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: SpinBox text owns its text Undo and does not undo the recipe en; typed=7 after=8 value=8.0 draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 17 } expected={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:111)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:302)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+FAIL: layout strategy UI 206 checks, 12 failures

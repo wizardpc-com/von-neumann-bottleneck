@@ -11,7 +11,7 @@ import uuid
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('experiment', choices=['representation', 'intelligent_workload', 'representation_plan', 'intelligent_state', 'representation_region', 'prediction', 'service_plan', 'creation'])
+    parser.add_argument('experiment', choices=['representation', 'intelligent_workload', 'representation_plan', 'intelligent_state', 'representation_region', 'prediction', 'service_plan', 'creation', 'layout_strategy'])
     parser.add_argument('--godot', required=True)
     parser.add_argument('--locale', choices=['en', 'zh_CN'], default='zh_CN')
     parser.add_argument('--prepare-only', action='store_true')
@@ -23,6 +23,8 @@ def main():
         parser.error('--profile requires representation_region, service_plan or creation, no replay, and a 1-40 character safe profile name')
     if args.journey and (args.experiment not in ['representation_region', 'service_plan', 'creation'] or not args.profile or args.replay):
         parser.error('--journey requires representation_region, service_plan or creation with --profile and no replay')
+    if args.experiment == 'layout_strategy' and args.replay:
+        parser.error('layout_strategy has its own lab and does not use the older replay routes')
     engine = shutil.which(args.godot) or str(Path(args.godot).expanduser().resolve())
     if not subprocess.check_output([engine, '--version'], text=True).startswith('4.7.1.stable.'):
         parser.error('Godot 4.7.1 stable required')
@@ -55,6 +57,9 @@ def main():
             settings += 'creation_enabled=true\n'
     elif args.experiment == 'creation':
         settings += '\n[candidate]\ncreation_enabled=true\n'
+    if args.experiment == 'layout_strategy':
+        settings = re.sub(r'^run/main_scene=.*$', 'run/main_scene="res://experiments/layout_strategy/lab.tscn"',
+                          settings, count=1, flags=re.MULTILINE)
     (project / 'project.godot').write_text('\n'.join(s for s in settings.split('\n') if not s.startswith('theme/custom_font=')))
     with (output / 'import.txt').open('w') as log:
         subprocess.run([engine, '--path', str(project), '--headless', '--editor', '--import', '--quit'], stdout=log, stderr=subprocess.STDOUT, check=True, timeout=180)
@@ -63,7 +68,9 @@ def main():
     (project / 'project.godot').write_text(settings)
     print('Isolated project: ' + str(project), flush=True)
     print(('Open this file in Godot: ' if args.locale == 'en' else '在 Godot 中打开此文件：') + str((project / 'project.godot').resolve()), flush=True)
-    print('Source-root F5 uses the core 40-task campaign; the full journey needs an isolated creation --journey --profile project.' if args.locale == 'en' else '源码根目录 F5 默认运行核心40项；完整旅程需使用 creation --journey --profile 准备的隔离项目。', flush=True)
+    print('Source-root F5 opens the 60-task journey. This copy uses isolated player data.' if args.locale == 'en' else '源码根目录 F5 默认运行60项旅程；此副本使用独立测试数据。', flush=True)
+    if args.experiment == 'layout_strategy':
+        print('This copy opens the scheduling lab; its plans and history last only for this session.' if args.locale == 'en' else '此副本直接进入调度实验室；方案与历史仅保留在本次会话。', flush=True)
     if args.prepare_only:
         return
     command = [engine, '--path', str(project)]

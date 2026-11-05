@@ -1,0 +1,8 @@
+{
+  "exit": 2,
+  "import": "PASS",
+  "profile_probe": "PASS",
+  "suites_run": 0,
+  "error": "Unknown suites: test_layout_simulator, test_layout_trace, test_layout_recipe",
+  "correction": "Reused imported copy with test_layout_simulation, test_layout_trace_storage, test_layout_recipe_sources. All raw staged logs retained."
+}

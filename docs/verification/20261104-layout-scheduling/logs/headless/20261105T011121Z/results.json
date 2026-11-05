@@ -1,0 +1,32 @@
+[
+  {
+    "suite": "test_layout_strategy_ui",
+    "code": 1,
+    "errors": [
+      "ERROR: Viewport selection reaches measured history #1",
+      "ERROR: Inspecting a row preserves the current draft zh_CN",
+      "ERROR: Restore button applies the inspected recipe zh_CN",
+      "ERROR: One keyboard Undo restores the exact pre-restore draft without inventing a run zh_CN",
+      "ERROR: Keyboard Redo reapplies the recipe restore zh_CN",
+      "ERROR: SpinBox text owns its text Undo and does not undo the recipe zh_CN; typed=7 after=8 value=8.0 draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 17 } expected={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Viewport selection reaches measured history #1",
+      "ERROR: Inspecting a row preserves the current draft en",
+      "ERROR: Restore button applies the inspected recipe en",
+      "ERROR: One keyboard Undo restores the exact pre-restore draft without inventing a run en",
+      "ERROR: Keyboard Redo reapplies the recipe restore en",
+      "ERROR: SpinBox text owns its text Undo and does not undo the recipe en; typed=7 after=8 value=8.0 draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 17 } expected={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "FAIL: layout strategy UI 206 checks, 12 failures"
+    ],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T005513Z-6cc70bb5/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round4/20261105T011121Z/test_layout_strategy_ui",
+    "log": "headless/20261105T011121Z/test_layout_strategy_ui.log",
+    "passed": false
+  }
+]

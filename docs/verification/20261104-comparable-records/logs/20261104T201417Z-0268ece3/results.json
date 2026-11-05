@@ -1,0 +1,88 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/user_directory"
+    },
+    {
+      "name": "test_game_record_projection",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Invalid type in function 'task' in base 'SceneTree (test_game_record_projection.gd)'. The array of argument 1 (Array) does not have the same element type as the expected typed array argument."
+      ],
+      "log": "test_game_record_projection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_game_record_projection"
+    },
+    {
+      "name": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_journey_journal.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_journey_journal"
+    },
+    {
+      "name": "test_locality_best_observation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_observation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_locality_best_observation"
+    },
+    {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_restore.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_locality_best_restore"
+    },
+    {
+      "name": "test_personal_record_conditions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_record_conditions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_personal_record_conditions"
+    },
+    {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_personal_records"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_release_convergence"
+    },
+    {
+      "name": "test_task_tree_completed_detail",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_completed_detail.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_task_tree_completed_detail"
+    }
+  ]
+}

@@ -64,9 +64,12 @@ func run(task: Dictionary, design: Dictionary) -> LayoutRun:
 	else:
 		_query_batch(task.queries,0,count)
 	if failure.is_empty():
-		stage = "output"
-		for value: int in trace.output_values: _event(&"output",1,-1,-1,-1,value,0,&"COMPUTE",&"OUTPUT")
+		_emit_outputs()
 	return _finish()
+
+func _emit_outputs() -> void:
+	stage = "output"
+	for value: int in trace.output_values: _event(&"output",1,-1,-1,-1,value,0,&"COMPUTE",&"OUTPUT")
 
 static func design_signature(design: Dictionary) -> String:
 	return JSON.stringify({"model":MODEL_VERSION,"design":normalized_design(design)}).sha256_text()
@@ -172,14 +175,21 @@ func _query_batch(queries: Array, first: int, count: int) -> void:
 				if record<first or record>=first+count: continue
 				for field_index: int in range(query.fields.size()):
 					var field: int = int(query.fields[field_index])
-					var address: int = int(trace.source_map.addresses[record*4+field])
-					if not current_copy.is_empty() and copied_fields.has(field): address = int(current_copy.addresses[(record-first)*4+field])
-					var value: int = _read(address,record,field)
-					if not failure.is_empty(): return
-					_event(&"compute",1,address,record,field,value,0,&"CACHE",&"COMPUTE")
 					var slot: int = int(slots.slots[repetition])
-					if query.kind == "sum": trace.output_values[slot] += value
-					else: trace.output_values[slot+index*query.fields.size()+field_index] = value
+					var additive: bool = query.kind == "sum"
+					if not additive: slot += index*query.fields.size()+field_index
+					_consume_query_value(record,field,slot,additive)
+					if not failure.is_empty(): return
+
+func _consume_query_value(record: int, field: int, output_index: int, additive: bool) -> void:
+	var address: int = int(trace.source_map.addresses[record*4+field])
+	if not current_copy.is_empty() and copied_fields.has(field):
+		address = int(current_copy.addresses[(record-int(current_copy.first_record))*4+field])
+	var value: int = _read(address,record,field)
+	if not failure.is_empty(): return
+	_event(&"compute",1,address,record,field,value,0,&"CACHE",&"COMPUTE")
+	if additive: trace.output_values[output_index] += value
+	else: trace.output_values[output_index] = value
 
 func _release_copy() -> void:
 	if current_copy.is_empty(): return

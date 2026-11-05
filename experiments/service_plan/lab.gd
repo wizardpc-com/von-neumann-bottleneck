@@ -542,8 +542,12 @@ func continue_service() -> void:
 func edit(next: Dictionary, selection: int) -> void:
 	if next == plan: return
 	mark_session_dirty()
+	var keep_selection: bool = next.groups == plan.groups and selection == selected_group
+	var selected: PackedInt32Array = group_list.get_selected_items()
 	undo_stack.append(draft_edit_state()); redo_stack.clear(); plan = next.duplicate(true); selected_group = selection
-	refresh_groups(); refresh_actions(); status.text = tr2("草稿已改；历史不变。运行时核验同流保序和512B容量。", "Draft changed; history preserved. Run validates stream dependencies and512B scratch.")
+	refresh_groups()
+	if keep_selection: restore_group_selection(selected)
+	refresh_actions(); status.text = tr2("草稿已改；历史不变。运行时核验同流保序和512B容量。", "Draft changed; history preserved. Run validates stream dependencies and512B scratch.")
 	if is_instance_valid(journey_context): journey_context.draft_changed()
 func undo() -> void:
 	if undo_stack.is_empty(): return
@@ -556,12 +560,19 @@ func redo() -> void:
 
 # Editing context is session-only; Save still serializes only the existing recipe.
 func draft_edit_state() -> Dictionary:
-	return {"plan":plan.duplicate(true),"selection":selected_group}
+	return {"plan":plan.duplicate(true),"selection":selected_group,"selected_groups":group_list.get_selected_items()}
+
+func restore_group_selection(selected: PackedInt32Array) -> void:
+	group_list.deselect_all()
+	for index: int in selected:
+		if index >= 0 and index < group_list.item_count: group_list.select(index,false)
 
 func restore_edit_state(state: Dictionary, redone: bool) -> void:
 	if is_instance_valid(journey_context): journey_context.draft_changed()
-	plan = state.plan; selected_group = int(state.selection)
-	slots.set_value_no_signal(plan.slots); refresh_groups(); refresh_actions()
+	plan = state.plan.duplicate(true); selected_group = int(state.selection)
+	slots.set_value_no_signal(plan.slots); refresh_groups()
+	restore_group_selection(state.get("selected_groups",PackedInt32Array([selected_group])))
+	refresh_actions()
 	status.text = tr2("已重做草稿；旧实测不变。", "Draft redone; recorded measurements are unchanged.") if redone else tr2("已撤销草稿修改；旧实测不变。", "Draft edit undone; recorded measurements are unchanged.")
 	status.text += " "+(tr2("尚未保存；退出前请保存。", "Unsaved; save before leaving.") if persistent_session else tr2("临时会话；退出后不保留。", "Temporary session; work is not retained after leaving."))
 

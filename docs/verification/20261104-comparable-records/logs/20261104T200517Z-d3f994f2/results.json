@@ -1,0 +1,120 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/user_directory"
+    },
+    {
+      "name": "test_chapter_workspaces",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter_workspaces.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_chapter_workspaces"
+    },
+    {
+      "name": "test_global_save",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_global_save.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_global_save"
+    },
+    {
+      "name": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_journey_journal.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_journey_journal"
+    },
+    {
+      "name": "test_locality_best_observation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_observation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_locality_best_observation"
+    },
+    {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_restore.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_locality_best_restore"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_personal_record_conditions",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Compile Error: Identifier not found: PlaytestData"
+      ],
+      "log": "test_personal_record_conditions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_personal_record_conditions"
+    },
+    {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_personal_records"
+    },
+    {
+      "name": "test_playtest_data",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_playtest_data.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_playtest_data"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_release_convergence"
+    },
+    {
+      "name": "test_system_applications",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_applications.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_system_applications"
+    },
+    {
+      "name": "test_system_lab_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_lab_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_system_lab_ui"
+    }
+  ]
+}

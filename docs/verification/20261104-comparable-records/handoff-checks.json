@@ -1,0 +1,17 @@
+{
+  "diff_check": "PASS",
+  "new_source_whitespace": "PASS",
+  "source_manifest": "1130 matched files plus two isolated project settings",
+  "refs": {
+    "HEAD": "b65a0bd",
+    "main": "b65a0bd",
+    "origin/main": "b65a0bd"
+  },
+  "index": "no staged changes",
+  "engine_processes": "none",
+  "doc_links": "PASS",
+  "preview_launcher": "zsh -n PASS",
+  "ordinary_startup": "headless exit 0, no error diagnostics",
+  "native_round2": "NOT_RUN, Mac locked",
+  "goal": "ongoing; bounded second increment complete"
+}

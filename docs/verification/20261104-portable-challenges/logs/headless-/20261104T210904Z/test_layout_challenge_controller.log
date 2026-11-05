@@ -1,0 +1,15 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Old condition remains stored without a current score
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_challenge_controller.gd:67)
+       [1] persistent_loop (res://tests/test_layout_challenge_controller.gd:233)
+       [2] settle (res://tests/test_layout_challenge_controller.gd:21)
+ERROR: Original incompatible code stays available for recovery
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_challenge_controller.gd:67)
+       [1] persistent_loop (res://tests/test_layout_challenge_controller.gd:233)
+       [2] settle (res://tests/test_layout_challenge_controller.gd:21)
+FAIL: portable challenge controller 58 checks, 2 failures

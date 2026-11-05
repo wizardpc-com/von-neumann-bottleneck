@@ -1,0 +1,3 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+PASS: layout strategy legacy parity 3810 checks, 141 designs, 282 cases, 0 failures

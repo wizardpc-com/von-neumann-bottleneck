@@ -5,6 +5,9 @@ const S = preload("res://src/layout_chapter/layout_simulator.gd")
 const Instrument = preload("res://src/ui/floating_instrument_panel.gd")
 const Memory = preload("res://src/layout_chapter/layout_memory_view.gd")
 const Chip = preload("res://src/layout_chapter/layout_field_chip.gd")
+const Scoreboard = preload("res://src/layout_chapter/layout_scoreboard.gd")
+const ScoreWindow = preload("res://src/layout_chapter/layout_scoreboard_window.gd")
+const ChallengeCode = preload("res://src/layout_chapter/layout_challenge_code.gd")
 var level: String = ""
 var design: Dictionary = {}
 var workspace: Control
@@ -33,6 +36,13 @@ var journey_context
 var stale: bool = true
 var building: bool = false
 var core_review_button: Button
+var score_window: Window
+var score_button: Button
+var personal_challenge: Dictionary = {}
+var challenge_mode: StringName = &""
+var challenge_entry: Dictionary = {}
+var challenge_state: String = "none"
+var challenge_storage_message: String = ""
 
 func _ready() -> void:
 	add_to_group("workspace_owners")
@@ -84,6 +94,8 @@ func _ready() -> void:
 	_button(dock,_l("撤销","Undo"),_undo.bind(false))
 	_button(dock,_l("重做","Redo"),_undo.bind(true))
 	_button(dock,_l("提示","Hint"),_hint_request)
+	score_button = _button(dock,_l("我的方案榜","My design rankings"),_open_scoreboard)
+	score_button.name = "LayoutScoreboard"
 	preload("res://src/ui/instrument_theme.gd").tool_row(dock)
 	dock.add_to_group(&"workbench_nav")
 	status = _label(_l("拖动字段组合布局；运行后查看真实地址与搬运记录。","Group fields, run, and inspect real addresses and transfers."))
@@ -144,6 +156,7 @@ func _open(id: String) -> void:
 	call_deferred("_layout_stage")
 	workspace.move_child(panels.mission,-1)
 	core_review_button.visible = LayoutChapter.completed().has("mixed")
+	_load_personal_challenge()
 
 func _layout_stage() -> void:
 	for frame: int in 3: await get_tree().process_frame
@@ -390,7 +403,7 @@ func _run_all() -> void:
 		results.add_child(headline)
 		caption = Localization.text(&"s5.layout.cycles_peak",[m.total_cycles,m.peak_extra_bytes])
 		var details: String = _l("周期：准备 %d + 查询 %d + 输出 %d = %d","Cycles: prepare %d + query %d + output %d = %d") % [m.prepare_cycles,m.query_cycles,m.output_cycles,m.total_cycles]
-		details += "\n"+_l("RAM ?? %d B ? ?? %d B ? ???? %d B","RAM read %d B ? write %d B ? scratch peak %d B") % [m.ram_read_bytes,m.ram_write_bytes,m.peak_extra_bytes]
+		details += "\n"+_l("RAM 读取 %d B · 写入 %d B · 临时峰值 %d B","RAM read %d B · write %d B · scratch peak %d B") % [m.ram_read_bytes,m.ram_write_bytes,m.peak_extra_bytes]
 		details += "\n"+_case_contract_feedback(run,task)
 		var initial: Dictionary = baseline.runs[i].metrics
 		details += "\n"+_l("初始：%d 周期 · RAM %d B","Initial: %d cycles · RAM %d B") % [int(initial.total_cycles),int(initial.ram_read_bytes)+int(initial.ram_write_bytes)]
@@ -400,7 +413,7 @@ func _run_all() -> void:
 		if run.passed and _case_evidence_matches(run,C.cases(level)[i]):
 			if prior != null and prior.passed and prior.case_signature == run.case_signature and prior.model_version == run.model_version:
 				var before: Dictionary = prior.metrics
-				details += "\n"+_l("??????????%+d ? RAM%+d B ? ????%+d B","Since last complete run: cycles%+d ? RAM%+d B ? peak scratch%+d B") % [int(m.total_cycles)-int(before.total_cycles),traffic-int(before.ram_read_bytes)-int(before.ram_write_bytes),int(m.peak_extra_bytes)-int(before.peak_extra_bytes)]
+				details += "\n"+_l("比上次完整运行：周期%+d · RAM%+d B · 临时峰值%+d B","Since last complete run: cycles%+d · RAM%+d B · peak scratch%+d B") % [int(m.total_cycles)-int(before.total_cycles),traffic-int(before.ram_read_bytes)-int(before.ram_write_bytes),int(m.peak_extra_bytes)-int(before.peak_extra_bytes)]
 				caption += "\n"+Localization.text(&"s5.layout.previous")
 				for entry: Array in [["RAM",int(before.ram_read_bytes)+int(before.ram_write_bytes),traffic," B"],[_l("周期","cycles"),int(before.total_cycles),int(m.total_cycles),""]]:
 					var comparison: Label = _label("%s %d → %d%s" % entry,true)
@@ -433,6 +446,7 @@ func _run_all() -> void:
 	_select_trace(case_index)
 	_toggle("trace",true)
 	status.text=_l("全部订单达标 · 可以继续探索另一份方案。","All cases passed · try another design.") if report.passed else _l("查看结果：输出、时间与空间分别核对，再修改布局。","Inspect output, time and space separately, then adjust the layout.")
+	_show_challenge_result()
 	if report.passed:
 		if level == "relocation":
 			var reflection := Label.new()
@@ -668,6 +682,7 @@ func _input(event: InputEvent) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return
 	if is_instance_valid(WindowMode.settings_layer): return
+	if is_instance_valid(score_window) and score_window.visible: return
 	if event.keycode == KEY_ESCAPE:
 		var modal: Window = get_window().get_last_exclusive_window()
 		if modal != null and modal != get_window() and modal.visible: return
@@ -722,3 +737,261 @@ func flush_workspace() -> void:
 func _refresh_journey_context() -> void:
 	if is_instance_valid(journey_context):
 		journey_context.set_task(&"chapter_4", StringName(level), Localization.current_locale() == "en", LayoutChapter.completed().has(level))
+
+func _score_candidates() -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = [{"id":"current","title":_l("当前草稿","Current draft"),"design":design.duplicate(true)}]
+	if LayoutChapter.completed().has(level):
+		candidates.append({"id":"best","title":_l("已达标最快方案","Fastest passing design"),"design":LayoutChapter.completed()[level].duplicate(true)})
+	var saved: Dictionary = LayoutChapter.named().get(level,{})
+	for key: String in saved:
+		candidates.append({"id":"named:"+key,"title":key,"design":saved[key].duplicate(true)})
+	if not personal_challenge.is_empty() and personal_challenge.level == level and personal_challenge.mode == _challenge_current_mode():
+		candidates.append({"id":"challenge","title":_l("目标：","Target: ")+personal_challenge.title,"design":personal_challenge.row.design.duplicate(true)})
+	return candidates
+
+func _open_scoreboard() -> void:
+	if level.is_empty() or completion.visible or is_instance_valid(hint_layer) and hint_layer.visible: return
+	if not _challenge_context_is_current(): return
+	_refresh_challenge_target()
+	if not is_instance_valid(score_window):
+		score_window = ScoreWindow.new()
+		score_window.name = "LayoutScoreWindow"
+		score_window.level_id = level
+		score_window.restore_requested.connect(_restore_scored_design)
+		score_window.challenge_requested.connect(_set_personal_challenge)
+		score_window.save_requested.connect(_save_score_design)
+		score_window.share_requested.connect(_share_score_design)
+		score_window.import_requested.connect(_inspect_challenge_code)
+		score_window.import_target_requested.connect(_import_challenge_target)
+		score_window.clear_challenge_requested.connect(_clear_personal_challenge)
+		score_window.share_target_requested.connect(_share_personal_challenge)
+		score_window.dismissed.connect(func() -> void: score_button.grab_focus())
+		add_child(score_window)
+	_update_challenge_controls()
+	score_window.refresh(_score_candidates())
+	score_window.popup_centered(Vector2i(mini(1040,int(size.x)-40),mini(560,int(size.y)-60)))
+	score_window.close_button.grab_focus()
+
+func _restore_scored_design(value: Dictionary) -> void:
+	if not _challenge_context_is_current(): return
+	if not LayoutChapter.valid(level,value): return
+	_remember()
+	design = LayoutChapter.normalize(value)
+	_changed()
+	_toggle("tools",true)
+	score_button.grab_focus()
+
+func _save_score_design(value: String) -> void:
+	if not _challenge_context_is_current(): return
+	var saved: Dictionary = LayoutChapter.named().get(level,{})
+	var existing: bool = saved.has(value)
+	if value.is_empty() or existing and LayoutChapter.normalize(saved[value]) != LayoutChapter.normalize(design):
+		score_window.note.text = _l("请使用一个新的方案名，已有副本会保留。","Choose a new design name; existing copies are kept.")
+		return
+	# A failed disk write retains the named recipe in memory. Permit retrying
+	# that exact copy without replacing a differently edited design.
+	if not existing and not LayoutChapter.save_named(level,value,design):
+		score_window.note.text = _l("未能保存：检查名称与方案数量（最多 24 个）。","Could not save: check the name and design limit (24).")
+		return
+	if not GameMode.is_test_mode() and not GlobalSave.save_game():
+		# Release our exclusive window before opening the existing save-recovery
+		# dialog. Keep the in-memory design available for retry/rescue export.
+		score_window.hide()
+		status.text = _l("方案仍在内存中，写入失败；请重试保存或导出恢复副本。","Design remains in memory; writing failed. Retry saving or export recovery.")
+		GlobalSave._show_save_failure()
+		return
+	score_window.name_edit.clear()
+	score_window.refresh(_score_candidates())
+	score_window.note.text = _l("方案已保留。修改当前草稿不会改变这个副本。","Design kept. Editing the current draft will not change this copy.")
+	call_deferred("_rebuild_tools")
+
+func _set_personal_challenge(row: Dictionary, objective: String) -> void:
+	if not _challenge_context_is_current() or not row.get("design") is Dictionary: return
+	if row.get("id") == "challenge" and not personal_challenge.is_empty():
+		# Keeping/retrying the active target preserves its exact original objective,
+		# regardless of the table's current sort selection.
+		var retained: Dictionary = ChallengeCode.inspect(String(personal_challenge.code),level)
+		if retained.get("ok",false): _pin_challenge(retained,String(personal_challenge.title))
+		else: status.text = _challenge_error(retained)
+		return
+	# Recompute from the recipe; copied table metrics are presentation only.
+	var encoded: Dictionary = ChallengeCode.encode(level,row.design,objective)
+	if not encoded.get("ok",false):
+		status.text = _challenge_error(encoded)
+		return
+	_pin_challenge(encoded,str(row.get("title","")))
+
+func _show_challenge_result() -> void:
+	if challenge_mode != _challenge_current_mode(): return
+	_refresh_challenge_target()
+	if personal_challenge.is_empty() or personal_challenge.level != level: return
+	var objective: String = personal_challenge.objective
+	var target: Dictionary = personal_challenge.row
+	var candidates: Array[Dictionary] = [{"id":"current","title":"","design":design}]
+	var scored: Array[Dictionary] = Scoreboard.build_rows(level,candidates,objective)
+	if scored.is_empty(): return
+	var actual: Dictionary = scored[0]
+	var text: String
+	if actual.condition_id != target.condition_id:
+		text = _l("条件已变，请重新选择挑战成绩。","Conditions changed; select a challenge result again.")
+	elif not actual.eligible:
+		text = _l("挑战未达成：先让全部订单达标。","Challenge unfinished: meet every case's targets first.")
+	else:
+		var key: String = "peak" if objective == "space" else objective
+		var difference: int = int(actual[key])-int(target[key])
+		var metric: String = {"cycles":_l("周期","cycles"),"traffic":_l("RAM 字节","RAM bytes"),"space":_l("临时字节","scratch bytes")}[objective]
+		text = (_l("挑战成功","Challenge beaten") if difference < 0 else _l("与目标持平","Target tied") if difference == 0 else _l("继续改进","Keep improving"))
+		text += " · %s: %d → %d (%+d)" % [metric,target[key],actual[key],difference]
+	var label: Label = _label(text,true)
+	label.name = "LayoutChallengeResult"
+	results.add_child(label)
+	status.text = text
+
+func _challenge_current_mode() -> StringName:
+	return &"test" if GameMode.is_test_mode() else &"game"
+
+func _challenge_context_is_current() -> bool:
+	if challenge_mode == _challenge_current_mode(): return true
+	if is_instance_valid(score_window): score_window.hide()
+	status.text = _l("模式已改变；请重新进入本任务后再比较方案。","Mode changed. Reopen this task before comparing designs.")
+	score_button.grab_focus()
+	return false
+
+func _load_personal_challenge() -> void:
+	challenge_mode = _challenge_current_mode()
+	var stored: Dictionary = LayoutChapter.challenge_store.read_target(level,challenge_mode)
+	challenge_entry = stored.get("entry",{}).duplicate(true)
+	challenge_storage_message = _challenge_storage_text(stored,false)
+	_refresh_challenge_target()
+
+func _refresh_challenge_target() -> void:
+	personal_challenge.clear()
+	challenge_state = "none"
+	if not challenge_entry.is_empty():
+		var inspected: Dictionary = ChallengeCode.inspect(String(challenge_entry.code),level)
+		challenge_state = "active" if inspected.get("ok",false) else "stale"
+		if inspected.get("ok",false):
+			personal_challenge = {
+				"row":inspected.row.duplicate(true), "objective":inspected.challenge.objective,
+				"level":level, "mode":challenge_mode, "code":inspected.code,
+				"title":str(challenge_entry.get("title",_l("个人目标","Personal target"))),
+			}
+	_update_challenge_controls()
+
+func _update_challenge_controls() -> void:
+	score_button.text = _l("我的方案榜 · 挑战中","My rankings · challenge") if challenge_state == "active" else _l("我的方案榜 · 旧目标","My rankings · old target") if challenge_state == "stale" else _l("我的方案榜","My design rankings")
+	score_button.tooltip_text = ""
+	var target_info: Dictionary = {
+		"state":challenge_state, "title":str(challenge_entry.get("title","")),
+		"objective":str(personal_challenge.get("objective","")),
+		"code":str(challenge_entry.get("code","")), "row":personal_challenge.get("row",{}).duplicate(true),
+		"storage_message":challenge_storage_message,
+	}
+	if not personal_challenge.is_empty():
+		var metric: String = "peak" if personal_challenge.objective == "space" else String(personal_challenge.objective)
+		score_button.tooltip_text = "%s · %s: %d" % [personal_challenge.title,_challenge_objective_name(personal_challenge.objective),personal_challenge.row[metric]]
+	elif challenge_state == "stale":
+		score_button.tooltip_text = _l("旧目标的计算条件已失效。可以保留原挑战码或重新选择目标。","The stored target is incompatible. Keep its original code or choose a new target.")
+	if is_instance_valid(score_window): score_window.set_target_state(target_info)
+
+func _challenge_objective_name(objective: String) -> String:
+	return {
+		"cycles":_l("总周期","Total cycles"),
+		"traffic":_l("RAM 字节","RAM bytes"),
+		"space":_l("临时峰值字节","Peak scratch bytes"),
+	}.get(objective,"")
+
+func _share_score_design(row: Dictionary, objective: String) -> void:
+	if not _challenge_context_is_current() or not row.get("design") is Dictionary: return
+	var encoded: Dictionary = ChallengeCode.encode(level,row.design,objective)
+	if not encoded.get("ok",false):
+		score_window.note.text = _challenge_error(encoded)
+		return
+	score_window.show_code(encoded.code,_challenge_preview(encoded))
+
+func _share_personal_challenge() -> void:
+	if not _challenge_context_is_current() or challenge_entry.is_empty(): return
+	var inspected: Dictionary = ChallengeCode.inspect(String(challenge_entry.code),level)
+	var message: String = _challenge_preview(inspected) if inspected.get("ok",false) else _l("原挑战码已保留；当前条件不兼容，不能用旧成绩比较。","Original code retained. Its conditions are incompatible; old results cannot be compared.")
+	score_window.show_code(String(challenge_entry.code),message)
+
+func _inspect_challenge_code(code: String) -> void:
+	if not _challenge_context_is_current(): return
+	var inspected: Dictionary = ChallengeCode.inspect(code,level)
+	score_window.show_import_result({
+		"ok":inspected.get("ok",false),
+		"message":_l("本机复测：%s · 全部订单达标。","Locally remeasured: %s · all cases pass.") % C.title(level) if inspected.get("ok",false) else _challenge_error(inspected),
+		"code":inspected.get("code",""), "row":inspected.get("row",{}),
+		"objective":inspected.get("challenge",{}).get("objective",""),
+	})
+
+func _import_challenge_target(code: String) -> void:
+	if not _challenge_context_is_current(): return
+	# Confirming checks again, so editing code after preview cannot pin old data.
+	var inspected: Dictionary = ChallengeCode.inspect(code,level)
+	if not inspected.get("ok",false):
+		_inspect_challenge_code(code)
+		return
+	_pin_challenge(inspected,_l("导入挑战","Imported challenge"))
+
+func _pin_challenge(inspected: Dictionary, target_title: String) -> void:
+	var clean_title: String = target_title.strip_edges().left(40)
+	if clean_title.is_empty(): clean_title = _l("个人目标","Personal target")
+	# Titles from local named designs remain local. Controls cannot enter storage.
+	for index: int in clean_title.length():
+		var character: int = clean_title.unicode_at(index)
+		if character < 32 or character >= 127 and character <= 159:
+			clean_title = _l("个人目标","Personal target")
+			break
+	var stored: Dictionary = LayoutChapter.challenge_store.pin(level,challenge_mode,String(inspected.code),clean_title)
+	challenge_entry = {"code":String(inspected.code),"title":clean_title}
+	challenge_storage_message = _challenge_storage_text(stored,true)
+	_refresh_challenge_target()
+	if is_instance_valid(score_window): score_window.hide()
+	status.text = _l("挑战目标：%s。修改后运行全部订单。","Challenge target: %s. Edit, then run all cases.") % clean_title
+	if not challenge_storage_message.is_empty(): status.text += " " + challenge_storage_message
+	score_button.grab_focus()
+
+func _clear_personal_challenge() -> void:
+	if not _challenge_context_is_current(): return
+	var stored: Dictionary = LayoutChapter.challenge_store.clear(level,challenge_mode)
+	if not stored.get("ok",false):
+		challenge_storage_message = _l("目标未移除；存储受保护或写入失败，请重试。","Target remains; storage is protected or writing failed. Retry.")
+		_update_challenge_controls()
+		return
+	challenge_entry.clear()
+	challenge_storage_message = _challenge_storage_text(stored,false)
+	_refresh_challenge_target()
+	score_window.refresh(_score_candidates())
+	score_window.note.text = _l("挑战目标已移除，方案与成果仍保留。","Target removed. Designs and completed work are kept.")
+
+func _challenge_storage_text(stored: Dictionary, temporary: bool) -> String:
+	var storage_status: String = str(stored.get("status","ready"))
+	if storage_status == "read_only":
+		return _l("目标仅本次停留有效；原挑战文件受保护，未被覆盖。","Target is active for this visit only; the protected challenge file was not overwritten.") if temporary else _l("挑战文件受保护，无法写入；原文件已保留。","Challenge storage is protected and cannot be written; the original file is preserved.")
+	if storage_status == "write_failed" or temporary and not stored.get("ok",false):
+		if temporary:
+			return _l("目标仅本次停留有效；保存失败。在方案榜选择目标行，点「保留目标」重试。","Target is active for this visit only; saving failed. Select its row in rankings and choose Keep target to retry.")
+		return _l("上次目标变更未保存；这里显示此前保存的目标。","The last target change was not saved; this is the previously saved target.") if not stored.get("entry",{}).is_empty() else _l("上次目标未能保存；当前没有已保存目标。","The last target could not be saved; no target was saved.")
+	if challenge_mode == &"test":
+		return _l("测试目标仅在本次启动中保留。","Test targets are kept only until the game closes.")
+	return _l("目标已保存。","Target saved.") if temporary else ""
+
+func _challenge_preview(inspected: Dictionary) -> String:
+	var row: Dictionary = inspected.row
+	return _l("%s · 目标：%s\n本机复测：%d 周期 · RAM %d B · 临时峰值 %d B。全部订单达标。",
+		"%s · Objective: %s\nLocally remeasured: %d cycles · RAM %d B · peak scratch %d B. All cases pass.") % [
+		C.title(String(inspected.task)),_challenge_objective_name(String(inspected.challenge.objective)),
+		row.cycles,row.traffic,row.peak]
+
+func _challenge_error(result: Dictionary) -> String:
+	match str(result.get("reason","format")):
+		"size": return _l("挑战码太长，最多 4096 字节。","Challenge code is too long; maximum 4096 bytes.")
+		"version": return _l("此挑战码版本尚不支持，请使用相同版本的游戏。","This challenge-code version is unsupported. Use the matching game version.")
+		"wrong_task": return _l("此挑战属于「%s」；请先进入该任务再导入。","This challenge belongs to “%s”. Open that task before importing.") % C.title(str(result.get("task","")))
+		"model", "condition": return _l("计算模型或订单条件已改变，无法比较此挑战。","The model or case conditions changed; this challenge cannot be compared.")
+		"ineligible": return _l("本机复测未满足全部订单要求，不能设为挑战目标。","Local remeasurement did not meet every case's requirements; this cannot be a target.")
+		"objective": return _l("挑战目标类型不受支持。","The challenge objective is unsupported.")
+		"task": return _l("挑战码中的任务不受支持。","The challenge task is unsupported.")
+		"recipe": return _l("挑战配方不完整或超出合法范围。","The challenge recipe is incomplete or outside the allowed bounds.")
+		_: return _l("挑战码格式无效；请完整复制游戏生成的代码。","Invalid challenge code. Copy the complete code generated by the game.")

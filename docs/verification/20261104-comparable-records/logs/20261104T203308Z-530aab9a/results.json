@@ -1,0 +1,98 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/user_directory"
+    },
+    {
+      "name": "test_game_record_projection",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Regional cards remain intact at 960px zh_CN",
+        "ERROR: Regional cards remain intact at 960px en",
+        "FAIL: Game record projection 56 checks, 2 failures"
+      ],
+      "log": "test_game_record_projection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_game_record_projection"
+    },
+    {
+      "name": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_journey_journal.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_journey_journal"
+    },
+    {
+      "name": "test_locality_best_observation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_observation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_locality_best_observation"
+    },
+    {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_restore.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_locality_best_restore"
+    },
+    {
+      "name": "test_personal_record_conditions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_record_conditions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_personal_record_conditions"
+    },
+    {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_personal_records"
+    },
+    {
+      "name": "test_playtest_feedback_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_playtest_feedback_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_playtest_feedback_ui"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_release_convergence"
+    },
+    {
+      "name": "test_settings_feedback_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_settings_feedback_layout.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_settings_feedback_layout"
+    }
+  ]
+}

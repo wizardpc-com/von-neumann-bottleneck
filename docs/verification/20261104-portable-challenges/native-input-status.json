@@ -1,0 +1,7 @@
+{
+  "status": "NOT_RUN",
+  "reason": "Mac locked; CUA automatic unlock could not unlock it.",
+  "observation": "Current getState recheck, after GPU suites. No native click or key was sent.",
+  "export": "NOT_RUN",
+  "cross_platform": "NOT_RUN"
+}

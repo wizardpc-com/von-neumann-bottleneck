@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+REPLAY: {"cycles":122,"peak":0,"recipe_id":"c0f49bdab9b2ab8c7f69c5f1ea873618b7532c9ed0ff5456651c240f9503b062","traffic":80}
+PASS: new process replay and Test isolation

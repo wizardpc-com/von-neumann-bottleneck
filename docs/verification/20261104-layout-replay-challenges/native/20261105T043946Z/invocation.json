@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T033350Z-75462610/project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--",
+    "--locale=zh_CN"
+  ],
+  "profile": "VonNeumannBottleneckChecks/20261104-round6/native/20261105T043946Z",
+  "project": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T033350Z-75462610/project",
+  "status": "exited",
+  "native_input": "limited Chinese native challenge loop observed through CUA",
+  "scene": "ordinary main scene; no fixture driver",
+  "pid": 43541,
+  "exit": 0,
+  "diagnostics": [],
+  "settings_restored": true
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--headless",
+    "--path",
+    "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/experiments/5cba0387cdfb/project",
+    "--quit-after",
+    "8"
+  ],
+  "exit": 0,
+  "errors": [],
+  "launcher_syntax_exit": 0,
+  "launcher_syntax_output": "",
+  "profile": "VonNeumannBottleneckChecks/layout_strategy/codex-round6-preview-20261104",
+  "ordinary_startup": true,
+  "test_driver": false
+}

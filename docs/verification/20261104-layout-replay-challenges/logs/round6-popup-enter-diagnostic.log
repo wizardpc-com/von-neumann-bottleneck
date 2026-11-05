@@ -1,0 +1,17 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+initial focus=/root/@Control@215/Interface/@VBoxContainer@216/@HBoxContainer@232/@PanelContainer@233/@VBoxContainer@234/@HBoxContainer@236/QueryGroup/@SpinBoxLineEdit@238 text=1 value=1.0 draft=1 runs=0 blocked=false processing_input=true
+typed focus=/root/@Control@215/Interface/@VBoxContainer@216/@HBoxContainer@232/@PanelContainer@233/@VBoxContainer@234/@HBoxContainer@236/QueryGroup/@SpinBoxLineEdit@238 text=2 value=1.0 draft=1 runs=0 blocked=false processing_input=true
+shortcut focus=/root/@Control@215/Interface/@VBoxContainer@216/@HBoxContainer@232/@PanelContainer@233/@VBoxContainer@234/@HBoxContainer@236/QueryGroup/@SpinBoxLineEdit@238 text=2 value=2.0 draft=2 runs=1 blocked=false processing_input=true
+selected={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 2, "record_tile": 17 }
+popup size=(720, 540) visible_rect=[P: (0.0, 0.0), S: (720.0, 540.0)] button=[P: (12.0, 240.0), S: (129.0, 39.0)] disabled=false
+button received true position=(64.5, 19.5)
+button received false position=(64.5, 19.5)
+plain click code=false main=true
+button received true position=(64.5, 19.5)
+button received false position=(64.5, 19.5)
+motion click code=false main=true
+mouse enter API=true local mouse=(-402.0, -483.0) button pressed=false
+button received true position=(64.5, 19.5)
+button received false position=(64.5, 19.5)
+entered click code=false main=true

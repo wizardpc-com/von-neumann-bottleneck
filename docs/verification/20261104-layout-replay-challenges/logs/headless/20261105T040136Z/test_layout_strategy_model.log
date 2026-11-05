@@ -1,0 +1,4 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+LAYOUT_STRATEGY_MODEL checks=2669 measured=171 failures=0
+PASS: independent scheduling, real copy costs, response causality, strict bounds and model identity

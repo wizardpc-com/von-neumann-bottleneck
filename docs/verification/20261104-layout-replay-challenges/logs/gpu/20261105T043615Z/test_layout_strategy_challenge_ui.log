@@ -1,0 +1,18 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-share-1280.png
+CHALLENGE_UI_DIAGNOSTIC {"accept_disabled":false,"code":true,"length":364,"locale":"zh_CN","main":false,"message":"比较总周期 · Q1 ≤ 350周期 · 复制 ≤ 0 B\nQ1 307周期 · 总计 2456周期 · RAM 2176 B · 复制 0 B","phase":"starter_preview","preview_ok":true,"visible":true}
+CHALLENGE_UI_DIAGNOSTIC {"active":true,"code":false,"locale":"zh_CN","main":true,"phase":"after_accept","reason":"","saved":true,"storage":"ready","verdict":{"delta":-1088,"exclusions":[],"status":"improved"}}
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-target-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-active-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-import-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-saved-retry-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-share-1280.png
+CHALLENGE_UI_DIAGNOSTIC {"accept_disabled":false,"code":true,"length":364,"locale":"en","main":false,"message":"Compare total cycles · Q1 ≤ 350 cycles · Copy ≤ 0 B\nQ1 307 cycles · total 2456 cycles · RAM 2176 B · copy 0 B","phase":"starter_preview","preview_ok":true,"visible":true}
+CHALLENGE_UI_DIAGNOSTIC {"active":true,"code":false,"locale":"en","main":true,"phase":"after_accept","reason":"","saved":true,"storage":"ready","verdict":{"delta":-1088,"exclusions":[],"status":"improved"}}
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-target-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-active-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-import-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-saved-retry-960.png
+PASS: layout strategy challenge UI 282 checks, 0 failures

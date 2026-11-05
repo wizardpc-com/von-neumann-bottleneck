@@ -1,0 +1,462 @@
+[
+  {
+    "file": "frames-history/20261105T042825Z/layout-challenge-zh_CN-target-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-target-1280.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 81903,
+    "sha256": "07d2862691d0645862acaaf350db2fd0ec52787e2596cf5803eec41f34450c97"
+  },
+  {
+    "file": "frames-history/20261105T042825Z/layout-challenge-zh_CN-active-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-active-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 960,
+    "height": 640,
+    "bytes": 158557,
+    "sha256": "c5d0cb982f02e6deb00f0de487087fe3aa372f98cea96d63b93d9eaf28e7c3e4"
+  },
+  {
+    "file": "frames-history/20261105T042825Z/layout-challenge-zh_CN-import-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-import-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 720,
+    "height": 540,
+    "bytes": 76445,
+    "sha256": "2af580bf4cc8bee260c4f2f587662cfd7bb1bdcc25304559895671e09349a7ac"
+  },
+  {
+    "file": "frames-history/20261105T042825Z/layout-challenge-zh_CN-saved-retry-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-saved-retry-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 80686,
+    "sha256": "f5ed694bfa8cddb82fa80021ca8f4872a7cd0c6ea420ff19b95b9d6531702217"
+  },
+  {
+    "file": "frames-history/20261105T042825Z/layout-challenge-en-target-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_challenge_ui/layout-challenge-en-target-1280.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 76905,
+    "sha256": "12ffe95332f4142c8d67969f9a58c1c2b63b488fb3e7fd9af980c311adbe7e79"
+  },
+  {
+    "file": "frames-history/20261105T042825Z/layout-challenge-en-active-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_challenge_ui/layout-challenge-en-active-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 960,
+    "height": 640,
+    "bytes": 140630,
+    "sha256": "20a24a0acb3807c34ce8442a69f8a8ef1d9e61776c2bd7d6cdf2d1c89a6636f5"
+  },
+  {
+    "file": "frames-history/20261105T042825Z/layout-challenge-en-import-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_challenge_ui/layout-challenge-en-import-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 720,
+    "height": 540,
+    "bytes": 76351,
+    "sha256": "13cf0e0a4ba7d167306accbf95f3be36baccd8eec9f2044e2a21981460d78135"
+  },
+  {
+    "file": "frames-history/20261105T042825Z/layout-challenge-en-saved-retry-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_challenge_ui/layout-challenge-en-saved-retry-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 75996,
+    "sha256": "948942c43c1a8685e93943e6cce121f227fbd57a0b7b3d67a423785a44a719a3"
+  },
+  {
+    "file": "frames/layout-notebook-zh_CN-notebook-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_notebook_ui/layout-notebook-zh_CN-notebook-1280.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_notebook_ui.log",
+    "status": "final",
+    "width": 1280,
+    "height": 720,
+    "bytes": 145122,
+    "sha256": "921177e2ecf70e495ead559be7dec8110275a742ed3b8a95c9feae39d83a990d"
+  },
+  {
+    "file": "frames/layout-notebook-zh_CN-notebook-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_notebook_ui/layout-notebook-zh_CN-notebook-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_notebook_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 140801,
+    "sha256": "b35f1c2bff9d99a09049fd29f66fd6063fc0810e52486e25247e3be5bbd79334"
+  },
+  {
+    "file": "frames/layout-notebook-zh_CN-save-failure-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_notebook_ui/layout-notebook-zh_CN-save-failure-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_notebook_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 115951,
+    "sha256": "5728b777289e45b592d8c41e58b8bace0a4887499e0b4d6898d84977f3b52b53"
+  },
+  {
+    "file": "frames/layout-notebook-en-notebook-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_notebook_ui/layout-notebook-en-notebook-1280.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_notebook_ui.log",
+    "status": "final",
+    "width": 1280,
+    "height": 720,
+    "bytes": 131803,
+    "sha256": "b9f0176830366de16ccf73f702a9878ab07375158f126d0708c82885501deeaf"
+  },
+  {
+    "file": "frames/layout-notebook-en-notebook-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_notebook_ui/layout-notebook-en-notebook-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_notebook_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 127977,
+    "sha256": "076ff440e76d09a54ccd3c956fa98611d55c2ebc2e4f837456bbf93bed5440f4"
+  },
+  {
+    "file": "frames/layout-notebook-en-save-failure-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_notebook_ui/layout-notebook-en-save-failure-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_notebook_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 102711,
+    "sha256": "0504cf8b64c1dd01e719e46e1c7066b8d2b734dd58df1aadf3e2c392bb754e43"
+  },
+  {
+    "file": "frames/layout-strategy-zh_CN-evidence-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-zh_CN-evidence-1280.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 1280,
+    "height": 720,
+    "bytes": 140718,
+    "sha256": "caa4ca0e9924478040174d4f6728b9a3be7f86dd0b5d0ba8d798146ff39fd557"
+  },
+  {
+    "file": "frames/layout-strategy-zh_CN-compare-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-zh_CN-compare-1280.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 1280,
+    "height": 720,
+    "bytes": 124639,
+    "sha256": "201aadf3555a1f8a1522d9766214b14d0ce55a242781ac3bf4bf7d75bf94442b"
+  },
+  {
+    "file": "frames/layout-strategy-zh_CN-compare-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-zh_CN-compare-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 120844,
+    "sha256": "ab4fd7ade40a447545736e5cafdd188eabdc263d4fc1a815ba25037a2ca954fc"
+  },
+  {
+    "file": "frames/layout-strategy-zh_CN-evidence-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-zh_CN-evidence-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 128983,
+    "sha256": "492b79eacf23701601ad8f5f0d6f8b03caa38d6121a921d2db177892e53f14c3"
+  },
+  {
+    "file": "frames/layout-strategy-zh_CN-public-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-zh_CN-public-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 183123,
+    "sha256": "2249df6dc150786a6b91705fb876b97816efa5e08b682ffafbf5c679d23abedd"
+  },
+  {
+    "file": "frames/layout-strategy-zh_CN-quit-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-zh_CN-quit-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 135543,
+    "sha256": "e2870e19285cdc432e5450509b320c68d69397f7dc1c30ed505c6b3544996455"
+  },
+  {
+    "file": "frames/layout-strategy-en-evidence-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-en-evidence-1280.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 1280,
+    "height": 720,
+    "bytes": 125671,
+    "sha256": "92506062578d7693bf1abb81c6343a607024aff09142ff5fd9e31a0084a1e6e2"
+  },
+  {
+    "file": "frames/layout-strategy-en-compare-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-en-compare-1280.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 1280,
+    "height": 720,
+    "bytes": 112401,
+    "sha256": "728f3a8dc1b6be424de26e404a0d7067a4630142501711390376fe49cf6e166e"
+  },
+  {
+    "file": "frames/layout-strategy-en-compare-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-en-compare-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 109051,
+    "sha256": "d6615300b719a3df7be93c5cf73d85020216c68483b34dbf9ce23b2febb6ff42"
+  },
+  {
+    "file": "frames/layout-strategy-en-evidence-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-en-evidence-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 116239,
+    "sha256": "e1ae10702af320590c9ef7928e9a972f779cabb546357c08a4c46c570fde7803"
+  },
+  {
+    "file": "frames/layout-strategy-en-public-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-en-public-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 167077,
+    "sha256": "77188b469c7c137704a39bc0799546a4bf6eac68b72d65373572ff3a65d03145"
+  },
+  {
+    "file": "frames/layout-strategy-en-quit-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T042825Z/test_layout_strategy_ui/layout-strategy-en-quit-960.png",
+    "log": "logs/gpu/20261105T042825Z/test_layout_strategy_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 126005,
+    "sha256": "8b78bf164f8daf2c0878214a0156a7a278be4a3f3c1febb3a3eaea5de611d9be"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-zh_CN-share-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-share-1280.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 60659,
+    "sha256": "2fd84c432b12648076190f1a33f7c3604a34aa41d78acafa70827a456e64b88f"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-zh_CN-target-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-target-1280.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 81903,
+    "sha256": "07d2862691d0645862acaaf350db2fd0ec52787e2596cf5803eec41f34450c97"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-zh_CN-active-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-active-960.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 960,
+    "height": 640,
+    "bytes": 158557,
+    "sha256": "c5d0cb982f02e6deb00f0de487087fe3aa372f98cea96d63b93d9eaf28e7c3e4"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-zh_CN-import-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-import-960.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 720,
+    "height": 540,
+    "bytes": 76445,
+    "sha256": "2af580bf4cc8bee260c4f2f587662cfd7bb1bdcc25304559895671e09349a7ac"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-zh_CN-saved-retry-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-saved-retry-960.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 80686,
+    "sha256": "f5ed694bfa8cddb82fa80021ca8f4872a7cd0c6ea420ff19b95b9d6531702217"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-en-share-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-en-share-1280.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 61455,
+    "sha256": "67553689c7ae0da8ea04c224f9ffcd2168c8c54c194d5c3fda14ef4a75d8be38"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-en-target-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-en-target-1280.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 76905,
+    "sha256": "12ffe95332f4142c8d67969f9a58c1c2b63b488fb3e7fd9af980c311adbe7e79"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-en-active-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-en-active-960.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 960,
+    "height": 640,
+    "bytes": 140630,
+    "sha256": "20a24a0acb3807c34ce8442a69f8a8ef1d9e61776c2bd7d6cdf2d1c89a6636f5"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-en-import-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-en-import-960.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 720,
+    "height": 540,
+    "bytes": 76351,
+    "sha256": "13cf0e0a4ba7d167306accbf95f3be36baccd8eec9f2044e2a21981460d78135"
+  },
+  {
+    "file": "frames-history/20261105T043259Z/layout-challenge-en-saved-retry-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043259Z/test_layout_strategy_challenge_ui/layout-challenge-en-saved-retry-960.png",
+    "log": "logs/gpu/20261105T043259Z/test_layout_strategy_challenge_ui.log",
+    "status": "earlier capture preserved",
+    "width": 820,
+    "height": 580,
+    "bytes": 75996,
+    "sha256": "948942c43c1a8685e93943e6cce121f227fbd57a0b7b3d67a423785a44a719a3"
+  },
+  {
+    "file": "frames/layout-challenge-zh_CN-share-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-share-1280.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 820,
+    "height": 580,
+    "bytes": 71121,
+    "sha256": "87b7b0827310e375328accc3dd5840588de9c00efa6e34a23b0e1468fb7db0c5"
+  },
+  {
+    "file": "frames/layout-challenge-zh_CN-target-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-target-1280.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 820,
+    "height": 580,
+    "bytes": 81903,
+    "sha256": "07d2862691d0645862acaaf350db2fd0ec52787e2596cf5803eec41f34450c97"
+  },
+  {
+    "file": "frames/layout-challenge-zh_CN-active-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-active-960.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 158557,
+    "sha256": "c5d0cb982f02e6deb00f0de487087fe3aa372f98cea96d63b93d9eaf28e7c3e4"
+  },
+  {
+    "file": "frames/layout-challenge-zh_CN-import-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-import-960.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 720,
+    "height": 540,
+    "bytes": 76445,
+    "sha256": "2af580bf4cc8bee260c4f2f587662cfd7bb1bdcc25304559895671e09349a7ac"
+  },
+  {
+    "file": "frames/layout-challenge-zh_CN-saved-retry-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-zh_CN-saved-retry-960.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 820,
+    "height": 580,
+    "bytes": 80686,
+    "sha256": "f5ed694bfa8cddb82fa80021ca8f4872a7cd0c6ea420ff19b95b9d6531702217"
+  },
+  {
+    "file": "frames/layout-challenge-en-share-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-share-1280.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 820,
+    "height": 580,
+    "bytes": 71737,
+    "sha256": "6ea8bb93c48c0033930b91c1279b6793b0448e2b26720750a1a8e7fbaecb7465"
+  },
+  {
+    "file": "frames/layout-challenge-en-target-1280.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-target-1280.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 820,
+    "height": 580,
+    "bytes": 76905,
+    "sha256": "12ffe95332f4142c8d67969f9a58c1c2b63b488fb3e7fd9af980c311adbe7e79"
+  },
+  {
+    "file": "frames/layout-challenge-en-active-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-active-960.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 960,
+    "height": 640,
+    "bytes": 140630,
+    "sha256": "20a24a0acb3807c34ce8442a69f8a8ef1d9e61776c2bd7d6cdf2d1c89a6636f5"
+  },
+  {
+    "file": "frames/layout-challenge-en-import-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-import-960.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 720,
+    "height": 540,
+    "bytes": 76351,
+    "sha256": "13cf0e0a4ba7d167306accbf95f3be36baccd8eec9f2044e2a21981460d78135"
+  },
+  {
+    "file": "frames/layout-challenge-en-saved-retry-960.png",
+    "source": "/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round6/20261105T043615Z/test_layout_strategy_challenge_ui/layout-challenge-en-saved-retry-960.png",
+    "log": "logs/gpu/20261105T043615Z/test_layout_strategy_challenge_ui.log",
+    "status": "final",
+    "width": 820,
+    "height": 580,
+    "bytes": 75996,
+    "sha256": "948942c43c1a8685e93943e6cce121f227fbd57a0b7b3d67a423785a44a719a3"
+  }
+]

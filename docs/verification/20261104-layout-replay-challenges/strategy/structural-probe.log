@@ -1,0 +1,15 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+full_scan_serial_r1: 17 plans, 1 sampled frontier classes
+full_scan_serial_r2: 17 plans, 2 sampled frontier classes
+full_scan_serial_r3: 17 plans, 2 sampled frontier classes
+scan_serial_control: 17 plans, 2 sampled frontier classes
+mixed_serial_control: 17 plans, 2 sampled frontier classes
+split_fields_serial: 17 plans, 3 sampled frontier classes
+sparse_cluster_serial: 17 plans, 2 sampled frontier classes
+sparse_spread_serial: 17 plans, 1 sampled frontier classes
+scan_batch physical: 448 plans, 5 sampled frontier classes
+scan_serial physical: 221 plans, 2 sampled frontier classes
+mixed_batch physical: 449 plans, 7 sampled frontier classes
+mixed_serial physical: 221 plans, 2 sampled frontier classes
+PASS: round6 structural probe 1475 candidates, 48 repeat/JSON executions, 24229.321 ms

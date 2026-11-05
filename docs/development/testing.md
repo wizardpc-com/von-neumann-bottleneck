@@ -1,3 +1,40 @@
+## Replayable scheduling challenges — 2026-11-04
+
+Alongside the notebook/model/legacy gates, run
+`test_layout_strategy_challenge_code`, `test_layout_strategy_challenge_store`,
+`test_layout_strategy_challenges` and `test_layout_strategy_challenge_ui`
+through the isolated Godot4.7.1 verifier. They cover bounded canonical transport,
+real local replay and full Trace identity, immutable goal limits, supported stale
+codes, protected independent storage, exact pending replacement/removal retry,
+and draft/Undo/selection/Notebook preservation. New keys in strict String-key
+fixture dictionaries must use bracketed String assignment; dot assignment can
+insert StringName keys that correctly fail the schema.
+
+For rendered checks:
+
+```sh
+<Godot-4.7.1> --path <isolated-project> --windowed --resolution 1280x720 \
+  --script res://tests/test_layout_strategy_challenge_ui.gd \
+  -- --capture-size=1280x720 --layout-challenge-capture
+```
+
+The fixture uses root-viewport mouse input and actual Window focus/Enter events
+for popup actions. Synthetic popup mouse down/up reached Button GUI input without
+activating it in the observed route; this is not native mouse acceptance.
+Wait for SpinBox's deferred focus refresh before inserting pending numeric text,
+then test Cmd/Ctrl+Enter with both Return and keypad Enter through viewport events.
+Expression/clamp/invalid-text cases use installed `SpinBox.apply()`; plain Enter
+keeps editing. Capture both editable import and selected read-only share text,
+in both locales and at the declared window minimum, and inspect raw pixels.
+
+`tests/recovery/layout_challenge_process_probe.gd` checks actual seed/reopen,
+live target-lease contention, independently changed Notebook saving, controlled
+owned-writer termination, explicit recovery, a changed target write and another
+fresh reopen. A separate profile must inherit neither file. Retain the original
+failed logs and distinguish a deliberately killed holder from normal exits.
+The target file is independent from Notebook v1 and formal progress. See the
+[sixth-round receipt](../verification/20261104-layout-replay-challenges/README.md).
+
 ## Retained experiment notebook — 2026-11-04
 
 Alongside the model/session/legacy/UI gates below, run

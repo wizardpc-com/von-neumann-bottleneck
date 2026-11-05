@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+key type=21 String=false StringName=true
+decode=true store={ "ok": false, "reason": "task" }
+literal store=true

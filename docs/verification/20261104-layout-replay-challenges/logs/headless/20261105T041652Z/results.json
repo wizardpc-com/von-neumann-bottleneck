@@ -1,0 +1,73 @@
+[
+  {
+    "suite": "import",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--headless",
+      "--editor",
+      "--import",
+      "--quit"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round6/20261105T041652Z/import",
+    "log": "headless/20261105T041652Z/import.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_challenge_ui",
+    "code": 1,
+    "errors": [
+      "ERROR: LineEdit insertion prepares visible pending numeric text zh_CN",
+      "ERROR: Focused numeric Cmd/Ctrl+Enter commits and runs exactly once zh_CN",
+      "ERROR: Focused keypad Enter commits the separate query tile exactly once zh_CN",
+      "ERROR: Numeric shortcut measures real group2/tile1 metrics, not the previous draft zh_CN",
+      "ERROR: Numeric expression uses installed SpinBox submission before running zh_CN",
+      "ERROR: Mouse Run commits the pending visible numeric value zh_CN",
+      "ERROR: Known Q1 cap editor commits before a single shortcut run zh_CN",
+      "ERROR: Known copy cap editor accepts an inclusive zero cap before running zh_CN",
+      "ERROR: Challenge fixture selects an actual improvable response zh_CN",
+      "ERROR: Share remeasures selected input under personal goal even when draft differs zh_CN",
+      "ERROR: Code Escape returns to its share action zh_CN",
+      "ERROR: Opt-in starter is genuinely remeasured into a preview zh_CN",
+      "ERROR: Explicit acceptance retains a real immutable target zh_CN",
+      "ERROR: Selected339/1368 response beats target2456 under its own350/0 rule zh_CN",
+      "ERROR: Stale retained code stays exactly copyable zh_CN",
+      "ERROR: Valid acceptance over a protected file is an explicit temporary target zh_CN",
+      "ERROR: Pending proposal retains visible file-protection and temporary-state explanations zh_CN",
+      "ERROR: Exit names protected pending targets without a misleading retry action zh_CN",
+      "ERROR: LineEdit insertion prepares visible pending numeric text en",
+      "ERROR: Focused numeric Cmd/Ctrl+Enter commits and runs exactly once en",
+      "ERROR: Focused keypad Enter commits the separate query tile exactly once en",
+      "ERROR: Numeric shortcut measures real group2/tile1 metrics, not the previous draft en",
+      "ERROR: Numeric expression uses installed SpinBox submission before running en",
+      "ERROR: Mouse Run commits the pending visible numeric value en",
+      "ERROR: Known Q1 cap editor commits before a single shortcut run en",
+      "ERROR: Known copy cap editor accepts an inclusive zero cap before running en",
+      "ERROR: Challenge fixture selects an actual improvable response en",
+      "ERROR: Share remeasures selected input under personal goal even when draft differs en",
+      "ERROR: Code Escape returns to its share action en",
+      "ERROR: Opt-in starter is genuinely remeasured into a preview en",
+      "ERROR: Explicit acceptance retains a real immutable target en",
+      "ERROR: Selected339/1368 response beats target2456 under its own350/0 rule en",
+      "ERROR: Stale retained code stays exactly copyable en",
+      "ERROR: Valid acceptance over a protected file is an explicit temporary target en",
+      "ERROR: Pending proposal retains visible file-protection and temporary-state explanations en",
+      "ERROR: Exit names protected pending targets without a misleading retry action en",
+      "FAIL: layout strategy challenge UI 84 checks, 36 failures"
+    ],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_challenge_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round6/20261105T041652Z/test_layout_strategy_challenge_ui",
+    "log": "headless/20261105T041652Z/test_layout_strategy_challenge_ui.log",
+    "passed": false
+  }
+]

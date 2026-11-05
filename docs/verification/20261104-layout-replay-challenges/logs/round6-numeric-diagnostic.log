@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+initial focus=/root/@Control@215/Interface/@VBoxContainer@216/@HBoxContainer@232/@PanelContainer@233/@VBoxContainer@234/@HBoxContainer@236/QueryGroup/@SpinBoxLineEdit@238 text=1 value=1.0 draft=1 runs=0 blocked=false processing_input=true
+typed focus=/root/@Control@215/Interface/@VBoxContainer@216/@HBoxContainer@232/@PanelContainer@233/@VBoxContainer@234/@HBoxContainer@236/QueryGroup/@SpinBoxLineEdit@238 text=1 value=1.0 draft=1 runs=0 blocked=false processing_input=true
+shortcut focus=/root/@Control@215/Interface/@VBoxContainer@216/@HBoxContainer@232/@PanelContainer@233/@VBoxContainer@234/@HBoxContainer@236/QueryGroup/@SpinBoxLineEdit@238 text=1 value=1.0 draft=1 runs=1 blocked=false processing_input=true
+selected={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 1, "record_tile": 17 }

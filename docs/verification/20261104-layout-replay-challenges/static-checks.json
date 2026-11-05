@@ -1,0 +1,22 @@
+{
+  "checked_at_utc": "2026-11-05T05:06:16.967686+00:00",
+  "status": "passed",
+  "authored_files": 46,
+  "markdown_files": 22,
+  "intended_files": 170,
+  "raw_logs": 49,
+  "source_files": 1205,
+  "final_frames": 28,
+  "earlier_frames": 18,
+  "source_and_frame_hashes": "passed",
+  "native_saved_input_hashes": "passed",
+  "authored_whitespace": "passed",
+  "local_markdown_links": "passed",
+  "tracked_diff_check_exit": 0,
+  "staged_scope": "matches intended",
+  "staged_diff_check_exit": 2,
+  "staged_whitespace_diagnostics": [
+    "docs/verification/20261104-layout-replay-challenges/logs/startup-smoke.log:2: new blank line at EOF.",
+    "docs/verification/20261104-layout-replay-challenges/process/hold.log:2: new blank line at EOF."
+  ]
+}

@@ -1,0 +1,31 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Store retains supported stale code byte-for-byte
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_challenge_store.gd:51)
+       [1] _supported_stale (res://tests/test_layout_strategy_challenge_store.gd:184)
+       [2] _run (res://tests/test_layout_strategy_challenge_store.gd:116)
+ERROR: Supported stale codes can coexist in a protected target collection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_challenge_store.gd:51)
+       [1] _supported_stale (res://tests/test_layout_strategy_challenge_store.gd:186)
+       [2] _run (res://tests/test_layout_strategy_challenge_store.gd:116)
+ERROR: Restart retains supported stale inputs without treating them as current results
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_challenge_store.gd:51)
+       [1] _supported_stale (res://tests/test_layout_strategy_challenge_store.gd:188)
+       [2] _run (res://tests/test_layout_strategy_challenge_store.gd:116)
+ERROR: Adding a current target does not discard retained old identities
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_challenge_store.gd:51)
+       [1] _supported_stale (res://tests/test_layout_strategy_challenge_store.gd:191)
+       [2] _run (res://tests/test_layout_strategy_challenge_store.gd:116)
+SCRIPT ERROR: Invalid access to property or key 'scan_batch' on a base object of type 'Dictionary'.
+          at: _supported_stale (res://tests/test_layout_strategy_challenge_store.gd:192)
+          GDScript backtrace (most recent call first):
+              [0] _supported_stale (res://tests/test_layout_strategy_challenge_store.gd:192)
+              [1] _run (res://tests/test_layout_strategy_challenge_store.gd:116)

@@ -1,0 +1,10 @@
+{
+  "base": "e07b4bbba845a1046835884ecf06916930fa8b8a",
+  "qa": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+  "files": {
+    "experiments/layout_strategy/model.gd": "8c980ac8a9e09fd4a491d3cf392a267cd64108550af77cf54bd95a0f2b36b23f",
+    "experiments/layout_strategy/goals.gd": "61dc805b8cec1fd4bc19a16cd1191021f0b467cb2f6c40ad972471a75e174abb",
+    "src/layout_chapter/layout_recipe.gd": "37a85a9e58ceddd4ac417aea0b0a1bd9ee8de1edee487e142b3d66727237627a",
+    "src/layout_chapter/layout_simulator.gd": "a8941642055d2e968817921115fb7b3387ea17c1582bcd272bbf2dfecee46387"
+  }
+}

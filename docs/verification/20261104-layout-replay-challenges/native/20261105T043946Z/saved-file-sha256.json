@@ -1,0 +1,10 @@
+{
+  "layout_strategy_challenges_v1.json": {
+    "sha256": "f553aca3eee3890daa98f21c90f1ecdbef0af3829d6423cac611432dcb04e784",
+    "bytes": 453
+  },
+  "layout_strategy_notebook_v1.json": {
+    "sha256": "625fe99da0b5f7ba734089965cf956c0e19381921d777263e58d49e93c96776a",
+    "bytes": 3129
+  }
+}

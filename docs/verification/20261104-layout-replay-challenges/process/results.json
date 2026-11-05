@@ -1,0 +1,123 @@
+[
+  {
+    "phase": "seed",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/challenges-process-20261105T040712Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_challenge_process_probe.gd",
+      "--",
+      "--challenge-phase=seed"
+    ],
+    "log": "seed.log"
+  },
+  {
+    "phase": "reopen",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/challenges-process-20261105T040712Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_challenge_process_probe.gd",
+      "--",
+      "--challenge-phase=reopen"
+    ],
+    "log": "reopen.log"
+  },
+  {
+    "phase": "contend",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/challenges-process-20261105T040712Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_challenge_process_probe.gd",
+      "--",
+      "--challenge-phase=contend"
+    ],
+    "log": "contend.log"
+  },
+  {
+    "phase": "owned-writer-crash",
+    "code": -9,
+    "passed": true,
+    "pid": 27900,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/challenges-process-20261105T040712Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_challenge_process_probe.gd",
+      "--",
+      "--challenge-phase=hold"
+    ],
+    "log": "hold.log",
+    "intent": "deliberate SIGKILL after live contention check"
+  },
+  {
+    "phase": "recover",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/challenges-process-20261105T040712Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_challenge_process_probe.gd",
+      "--",
+      "--challenge-phase=recover"
+    ],
+    "log": "recover.log"
+  },
+  {
+    "phase": "reopen",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/challenges-process-20261105T040712Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_challenge_process_probe.gd",
+      "--",
+      "--challenge-phase=reopen"
+    ],
+    "log": "reopen-2.log"
+  },
+  {
+    "phase": "empty",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/challenges-process-20261105T040712Z-other",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_challenge_process_probe.gd",
+      "--",
+      "--challenge-phase=empty"
+    ],
+    "log": "empty.log"
+  }
+]

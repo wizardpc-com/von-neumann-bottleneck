@@ -1,5 +1,15 @@
 # Architecture
 
+The scheduling lab's offline`VNBSC1:` challenges transport only bounded canonical
+inputs and an immutable objective/response/copy envelope. `challenge_code.gd`
+remeasures targets; `challenges.gd` owns proposed/committed target maps and
+reconstructs actual attempt evidence before comparison. `challenge_store.gd`
+retains one code per existing workload in a protected independent sidecar with
+its own cooperative lease; it does not extend Notebook v1 or create a combined
+transaction. The secondary Window previews without editing the draft and
+explicitly accepts, copies, replays or restores a target. Formal challenges,
+the four workload definitions and both models retain their meaning.
+
 `experiments/layout_strategy/` is an opt-in pure model/session/presenter split
 for independently scheduled queries and one retained physical copy. Its model
 `layout-schedule-experiment-1` reuses original memory operations, emits causal

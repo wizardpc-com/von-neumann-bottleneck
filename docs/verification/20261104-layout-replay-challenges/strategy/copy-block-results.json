@@ -1,0 +1,1098 @@
+{
+  "elapsed_ms": 18943.953,
+  "failures": [],
+  "measured": 1140,
+  "scenarios": [
+    {
+      "baseline": [
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 2456,
+            "first": 307,
+            "peak": 0,
+            "traffic": 2176
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "e99fd9cb7639d60598323da1966afde6a2610e17eb8727742f1384ec922b2c3c"
+        },
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 1368,
+            "first": 339,
+            "peak": 0,
+            "traffic": 1088
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 2,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "ea7aab240b52e43499bd9fd7cd2ac8a217e4694df5e0f11f79f8ed354869904c"
+        },
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 1096,
+            "first": 371,
+            "peak": 0,
+            "traffic": 816
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 3,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "b2effe4cfeda39a0689291b4b18ba1b560274e6855feb615caff63a5d3e6b02b"
+        },
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 824,
+            "first": 403,
+            "peak": 0,
+            "traffic": 544
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 4,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "bbfb84eca2eefaa42531b81b579bd35b5bb371cd3e542c11af8b7a415ed22622"
+        },
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 552,
+            "first": 531,
+            "peak": 0,
+            "traffic": 272
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 8,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "a6caf3119b017924f0d97eb368054e538ec0d77946330afc6aca9cb6e4b88d32"
+        }
+      ],
+      "candidates": 473,
+      "frontier": [
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 2456,
+            "first": 307,
+            "peak": 0,
+            "traffic": 2176
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "e99fd9cb7639d60598323da1966afde6a2610e17eb8727742f1384ec922b2c3c"
+        },
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 1368,
+            "first": 339,
+            "peak": 0,
+            "traffic": 1088
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 2,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "ea7aab240b52e43499bd9fd7cd2ac8a217e4694df5e0f11f79f8ed354869904c"
+        },
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 1096,
+            "first": 371,
+            "peak": 0,
+            "traffic": 816
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 3,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "b2effe4cfeda39a0689291b4b18ba1b560274e6855feb615caff63a5d3e6b02b"
+        },
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 824,
+            "first": 403,
+            "peak": 0,
+            "traffic": 544
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 4,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "bbfb84eca2eefaa42531b81b579bd35b5bb371cd3e542c11af8b7a415ed22622"
+        },
+        {
+          "condition": "d64064a4d64f811516676cf8bc7745e2d81cefe0dc5659be366baafef0ab3e93",
+          "metrics": {
+            "cycles": 552,
+            "first": 531,
+            "peak": 0,
+            "traffic": 272
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 8,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "a6caf3119b017924f0d97eb368054e538ec0d77946330afc6aca9cb6e4b88d32"
+        }
+      ],
+      "id": "scan_batch"
+    },
+    {
+      "baseline": [
+        {
+          "condition": "81aaabf3e8d0a0e6a12ccea525f8465658af88877c91701098c3b00a298e9311",
+          "metrics": {
+            "cycles": 2456,
+            "first": 307,
+            "peak": 0,
+            "traffic": 2176
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 17
+          },
+          "trace": "9a3a101d933f1ae22601a92efe4586edfa8e7fa249a6bf8dccf05fd68ea51572"
+        },
+        {
+          "condition": "81aaabf3e8d0a0e6a12ccea525f8465658af88877c91701098c3b00a298e9311",
+          "metrics": {
+            "cycles": 1362,
+            "first": 557,
+            "peak": 80,
+            "traffic": 980
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "full",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 17
+          },
+          "trace": "13a48cc3515ff28b48a423b62fc4a2bb1707235f49619c80519ad27cd916e72c"
+        }
+      ],
+      "candidates": 80,
+      "frontier": [
+        {
+          "condition": "81aaabf3e8d0a0e6a12ccea525f8465658af88877c91701098c3b00a298e9311",
+          "metrics": {
+            "cycles": 2456,
+            "first": 307,
+            "peak": 0,
+            "traffic": 2176
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 17
+          },
+          "trace": "9a3a101d933f1ae22601a92efe4586edfa8e7fa249a6bf8dccf05fd68ea51572"
+        },
+        {
+          "condition": "81aaabf3e8d0a0e6a12ccea525f8465658af88877c91701098c3b00a298e9311",
+          "metrics": {
+            "cycles": 1362,
+            "first": 557,
+            "peak": 80,
+            "traffic": 980
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "full",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 17
+          },
+          "trace": "13a48cc3515ff28b48a423b62fc4a2bb1707235f49619c80519ad27cd916e72c"
+        }
+      ],
+      "id": "scan_serial"
+    },
+    {
+      "baseline": [
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 2784,
+            "first": 341,
+            "peak": 0,
+            "traffic": 2208
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "74dc20c133909ab7a609c2505b93942dd744de1fd1e505ed04d554bc0eedc5ed"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 1696,
+            "first": 405,
+            "peak": 0,
+            "traffic": 1120
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 2,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "8c1c2ecef16c04110d44577963d80fc814269aa5aa1321ef640e1ff6c87fb337"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 1392,
+            "first": 469,
+            "peak": 0,
+            "traffic": 816
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 3,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "be4759fe728e6036d1ce437cefb98483b7460548af30f2e0a3303f0dcf8a81c7"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 1152,
+            "first": 533,
+            "peak": 0,
+            "traffic": 576
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 4,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "9b8163c5e9f464ff5832e5cc24a9d80ef9c86638cb39b8d344a56bde5653d1f9"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 1120,
+            "first": 597,
+            "peak": 0,
+            "traffic": 544
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 5,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "a718441126f655cf15625d4c31ba5c37350beae9c90d87d26d2c56a8f397f774"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 880,
+            "first": 789,
+            "peak": 0,
+            "traffic": 304
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 8,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "e7a54e4982c20be36de9c6a28f7f6c45b73bc5b14d9120dd74b5d1535f4b25b7"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 848,
+            "first": 813,
+            "peak": 0,
+            "traffic": 272
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 9,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "bf5bb8204543df7b29b1b0d44028706ca7075a9abf87d4182b04437e35d84805"
+        }
+      ],
+      "candidates": 475,
+      "frontier": [
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 2784,
+            "first": 341,
+            "peak": 0,
+            "traffic": 2208
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "74dc20c133909ab7a609c2505b93942dd744de1fd1e505ed04d554bc0eedc5ed"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 1696,
+            "first": 405,
+            "peak": 0,
+            "traffic": 1120
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 2,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "8c1c2ecef16c04110d44577963d80fc814269aa5aa1321ef640e1ff6c87fb337"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 1392,
+            "first": 469,
+            "peak": 0,
+            "traffic": 816
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 3,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "be4759fe728e6036d1ce437cefb98483b7460548af30f2e0a3303f0dcf8a81c7"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 1152,
+            "first": 533,
+            "peak": 0,
+            "traffic": 576
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 4,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "9b8163c5e9f464ff5832e5cc24a9d80ef9c86638cb39b8d344a56bde5653d1f9"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 1120,
+            "first": 597,
+            "peak": 0,
+            "traffic": 544
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 5,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "a718441126f655cf15625d4c31ba5c37350beae9c90d87d26d2c56a8f397f774"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 880,
+            "first": 789,
+            "peak": 0,
+            "traffic": 304
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 8,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "e7a54e4982c20be36de9c6a28f7f6c45b73bc5b14d9120dd74b5d1535f4b25b7"
+        },
+        {
+          "condition": "9fd4663fc4fe45169065a0b75b6882fb03f82a905b22a8d4403b0a84b93d3c2f",
+          "metrics": {
+            "cycles": 848,
+            "first": 813,
+            "peak": 0,
+            "traffic": 272
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 9,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 1
+          },
+          "trace": "bf5bb8204543df7b29b1b0d44028706ca7075a9abf87d4182b04437e35d84805"
+        }
+      ],
+      "id": "mixed_batch"
+    },
+    {
+      "baseline": [
+        {
+          "condition": "89ff90bef1d39d8494061d179a9dd7a7fd97696e39e4bc46fddfb713dfe32e5b",
+          "metrics": {
+            "cycles": 2784,
+            "first": 341,
+            "peak": 0,
+            "traffic": 2208
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 17
+          },
+          "trace": "c3fed329b5bde51d89f728caca25c1b637d2b6c174fd3657ba386b123bf32320"
+        },
+        {
+          "condition": "89ff90bef1d39d8494061d179a9dd7a7fd97696e39e4bc46fddfb713dfe32e5b",
+          "metrics": {
+            "cycles": 2404,
+            "first": 825,
+            "peak": 144,
+            "traffic": 1624
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0,
+              3
+            ],
+            "copy_mode": "full",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 17
+          },
+          "trace": "090460b75e4c6eaa32c0d8113a6c6cc756caf246e31ceb8d2b3ac69413cb371a"
+        }
+      ],
+      "candidates": 80,
+      "frontier": [
+        {
+          "condition": "89ff90bef1d39d8494061d179a9dd7a7fd97696e39e4bc46fddfb713dfe32e5b",
+          "metrics": {
+            "cycles": 2784,
+            "first": 341,
+            "peak": 0,
+            "traffic": 2208
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0
+            ],
+            "copy_mode": "none",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 17
+          },
+          "trace": "c3fed329b5bde51d89f728caca25c1b637d2b6c174fd3657ba386b123bf32320"
+        },
+        {
+          "condition": "89ff90bef1d39d8494061d179a9dd7a7fd97696e39e4bc46fddfb713dfe32e5b",
+          "metrics": {
+            "cycles": 2404,
+            "first": 825,
+            "peak": 144,
+            "traffic": 1624
+          },
+          "origin": "prior frontier",
+          "plan": {
+            "copy_fields": [
+              0,
+              3
+            ],
+            "copy_mode": "full",
+            "query_group": 1,
+            "recipe": {
+              "block": 0,
+              "groups": [
+                {
+                  "fields": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "order": "record"
+                }
+              ]
+            },
+            "record_tile": 17
+          },
+          "trace": "090460b75e4c6eaa32c0d8113a6c6cc756caf246e31ceb8d2b3ac69413cb371a"
+        }
+      ],
+      "id": "mixed_serial"
+    }
+  ],
+  "scope": "Finite copy-block probe and freshly remeasured prior frontier representatives; not global optimum."
+}

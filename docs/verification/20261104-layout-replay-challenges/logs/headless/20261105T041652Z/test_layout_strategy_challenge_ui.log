@@ -1,0 +1,259 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CHECK_FAIL 2: LineEdit insertion prepares visible pending numeric text zh_CN
+CHECK_FAIL 4: Focused numeric Cmd/Ctrl+Enter commits and runs exactly once zh_CN
+CHECK_FAIL 5: Focused keypad Enter commits the separate query tile exactly once zh_CN
+CHECK_FAIL 6: Numeric shortcut measures real group2/tile1 metrics, not the previous draft zh_CN
+CHECK_FAIL 7: Numeric expression uses installed SpinBox submission before running zh_CN
+CHECK_FAIL 11: Mouse Run commits the pending visible numeric value zh_CN
+CHECK_FAIL 12: Known Q1 cap editor commits before a single shortcut run zh_CN
+CHECK_FAIL 13: Known copy cap editor accepts an inclusive zero cap before running zh_CN
+CHECK_FAIL 17: Challenge fixture selects an actual improvable response zh_CN
+CHECK_FAIL 19: Share remeasures selected input under personal goal even when draft differs zh_CN
+CHECK_FAIL 21: Code Escape returns to its share action zh_CN
+CHALLENGE_UI_DIAGNOSTIC {"accept_disabled":true,"code":false,"length":0,"locale":"zh_CN","main":true,"message":"保留的代码；只有当前模型能够复测的目标才参与比较。","phase":"starter_preview","preview_ok":false,"visible":false}
+CHECK_FAIL 22: Opt-in starter is genuinely remeasured into a preview zh_CN
+CHALLENGE_UI_DIAGNOSTIC {"active":false,"code":false,"locale":"zh_CN","main":true,"phase":"after_accept","reason":"","saved":false,"storage":"ready","verdict":{}}
+CHECK_FAIL 24: Explicit acceptance retains a real immutable target zh_CN
+CHECK_FAIL 26: Selected339/1368 response beats target2456 under its own350/0 rule zh_CN
+CHECK_FAIL 30: Stale retained code stays exactly copyable zh_CN
+CHECK_FAIL 36: Valid acceptance over a protected file is an explicit temporary target zh_CN
+CHECK_FAIL 37: Pending proposal retains visible file-protection and temporary-state explanations zh_CN
+CHECK_FAIL 41: Exit names protected pending targets without a misleading retry action zh_CN
+CHECK_FAIL 43: LineEdit insertion prepares visible pending numeric text en
+CHECK_FAIL 45: Focused numeric Cmd/Ctrl+Enter commits and runs exactly once en
+CHECK_FAIL 46: Focused keypad Enter commits the separate query tile exactly once en
+CHECK_FAIL 47: Numeric shortcut measures real group2/tile1 metrics, not the previous draft en
+CHECK_FAIL 48: Numeric expression uses installed SpinBox submission before running en
+CHECK_FAIL 52: Mouse Run commits the pending visible numeric value en
+CHECK_FAIL 53: Known Q1 cap editor commits before a single shortcut run en
+CHECK_FAIL 54: Known copy cap editor accepts an inclusive zero cap before running en
+CHECK_FAIL 58: Challenge fixture selects an actual improvable response en
+CHECK_FAIL 60: Share remeasures selected input under personal goal even when draft differs en
+CHECK_FAIL 62: Code Escape returns to its share action en
+CHALLENGE_UI_DIAGNOSTIC {"accept_disabled":true,"code":false,"length":0,"locale":"en","main":true,"message":"Retained code; only targets remeasured by the current model participate in comparisons.","phase":"starter_preview","preview_ok":false,"visible":false}
+CHECK_FAIL 63: Opt-in starter is genuinely remeasured into a preview en
+CHALLENGE_UI_DIAGNOSTIC {"active":false,"code":false,"locale":"en","main":true,"phase":"after_accept","reason":"","saved":false,"storage":"ready","verdict":{}}
+CHECK_FAIL 65: Explicit acceptance retains a real immutable target en
+CHECK_FAIL 67: Selected339/1368 response beats target2456 under its own350/0 rule en
+CHECK_FAIL 71: Stale retained code stays exactly copyable en
+CHECK_FAIL 77: Valid acceptance over a protected file is an explicit temporary target en
+CHECK_FAIL 78: Pending proposal retains visible file-protection and temporary-state explanations en
+CHECK_FAIL 82: Exit names protected pending targets without a misleading retry action en
+ERROR: LineEdit insertion prepares visible pending numeric text zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Focused numeric Cmd/Ctrl+Enter commits and runs exactly once zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Focused keypad Enter commits the separate query tile exactly once zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Numeric shortcut measures real group2/tile1 metrics, not the previous draft zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Numeric expression uses installed SpinBox submission before running zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Mouse Run commits the pending visible numeric value zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Known Q1 cap editor commits before a single shortcut run zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Known copy cap editor accepts an inclusive zero cap before running zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Challenge fixture selects an actual improvable response zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Share remeasures selected input under personal goal even when draft differs zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Code Escape returns to its share action zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Opt-in starter is genuinely remeasured into a preview zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Explicit acceptance retains a real immutable target zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Selected339/1368 response beats target2456 under its own350/0 rule zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Stale retained code stays exactly copyable zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Valid acceptance over a protected file is an explicit temporary target zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Pending proposal retains visible file-protection and temporary-state explanations zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Exit names protected pending targets without a misleading retry action zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: LineEdit insertion prepares visible pending numeric text en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Focused numeric Cmd/Ctrl+Enter commits and runs exactly once en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Focused keypad Enter commits the separate query tile exactly once en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Numeric shortcut measures real group2/tile1 metrics, not the previous draft en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Numeric expression uses installed SpinBox submission before running en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Mouse Run commits the pending visible numeric value en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Known Q1 cap editor commits before a single shortcut run en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Known copy cap editor accepts an inclusive zero cap before running en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Challenge fixture selects an actual improvable response en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Share remeasures selected input under personal goal even when draft differs en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Code Escape returns to its share action en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Opt-in starter is genuinely remeasured into a preview en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Explicit acceptance retains a real immutable target en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Selected339/1368 response beats target2456 under its own350/0 rule en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Stale retained code stays exactly copyable en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Valid acceptance over a protected file is an explicit temporary target en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Pending proposal retains visible file-protection and temporary-state explanations en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Exit names protected pending targets without a misleading retry action en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_challenge_ui.gd:36)
+       [1] protected_target (res://tests/test_layout_strategy_challenge_ui.gd:470)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+FAIL: layout strategy challenge UI 84 checks, 36 failures

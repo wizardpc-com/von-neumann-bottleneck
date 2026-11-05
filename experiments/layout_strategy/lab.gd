@@ -5,9 +5,14 @@ const Goals = preload("res://experiments/layout_strategy/goals.gd")
 const Model = preload("res://experiments/layout_strategy/model.gd")
 const Recipe = preload("res://src/layout_chapter/layout_recipe.gd")
 const Simulator = preload("res://src/layout_chapter/layout_simulator.gd")
+const Challenges = preload("res://experiments/layout_strategy/challenges.gd")
+const ChallengeCode = preload("res://experiments/layout_strategy/challenge_code.gd")
+const ChallengeWindow = preload("res://experiments/layout_strategy/challenge_window.gd")
 var workspace = Workspace.new()
 var session = workspace.session
+var challenges = Challenges.new()
 var notebook_path: String = ""
+var challenge_path: String = ""
 var english: bool = false
 var _syncing: bool = false
 var _owns_quit: bool = false
@@ -22,6 +27,13 @@ var _kept_selection: Dictionary = {}
 var _kept_rows: Array[Dictionary] = []
 var _guard_action: String = "exit"
 var _pending_remove: String = ""
+var _pending_numeric: SpinBox
+var _challenge_task: String = ""
+var _challenge_focus: String = "Challenges"
+var _challenge_settings_focus: String = "ChallengeSettings"
+var _challenge_settings_pending: bool = false
+var _challenge_verdict_key: String = ""
+var _challenge_verdict: Dictionary = {}
 var selected_event: int = -1
 var interface: MarginContainer
 var run_button: Button
@@ -48,6 +60,9 @@ var measured_plan: Label
 var comparison_label: Label
 var restore_button: Button
 var baseline_button: Button
+var challenge_button: Button
+var challenge_summary: Label
+var challenge_window: Window
 var event_filter: OptionButton
 var event_table: Tree
 var event_source: Label
@@ -75,6 +90,7 @@ var exit_question: Label
 var exit_cancel: Button
 var exit_confirm: Button
 var exit_save: Button
+var exit_target_retry: Button
 
 static func isolated_profile(path: String) -> bool:
 	return path.replace("\\","/").contains("/VonNeumannBottleneckChecks/")
@@ -98,6 +114,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	english = get_node("/root/Localization").current_locale() == "en"
 	workspace.setup(notebook_path)
+	challenges.setup(challenge_path)
 	_build()
 	_build_exit_guard()
 	call_deferred("_set_minimum_window")
@@ -148,6 +165,8 @@ func _spin(parent: Node, caption: String, id: String, maximum: int) -> SpinBox:
 	control.step = 1
 	control.custom_minimum_size = Vector2(96,32)
 	control.get_line_edit().focus_entered.connect(func() -> void: _last_focus = id)
+	control.get_line_edit().text_changed.connect(func(_text: String) -> void:
+		if not _syncing: _pending_numeric = control)
 	row.add_child(control)
 	return control
 
@@ -181,6 +200,7 @@ func _reader(parent: Node, id: String, minimum_height: float = 0.0) -> RichTextL
 	return control
 
 func _build() -> void:
+	_pending_numeric = null
 	var previous_tab: int = tabs.current_tab if is_instance_valid(tabs) else 0
 	var previous_filter: int = event_filter.selected if is_instance_valid(event_filter) else 0
 	var previous_name: String = notebook_name.text if is_instance_valid(notebook_name) else ""
@@ -294,9 +314,12 @@ func _build() -> void:
 	comparison_page.add_child(actions)
 	restore_button = _button(actions,tr2("恢复此方案","Restore plan"),restore_selected,"Restore")
 	baseline_button = _button(actions,tr2("设为比较基准","Set comparison"),set_baseline,"SetBaseline")
+	challenge_button = _button(actions,tr2("挑战…","Challenges…"),open_challenges,"Challenges")
 	comparison_label = _label(comparison_page,"",14)
 	comparison_label.name = "Comparison"
 	comparison_label.custom_minimum_size.y = 42
+	challenge_summary = _label(comparison_page,"",13)
+	challenge_summary.name = "ActiveChallenge"
 	var evidence_page := VBoxContainer.new()
 	evidence_page.name = tr2("运行证据","Evidence")
 	evidence_page.add_theme_constant_override("separation",6)
@@ -403,6 +426,8 @@ func _cap_number(parent: Node, id: String) -> SpinBox:
 	control.custom_minimum_size = Vector2(118,32)
 	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	control.get_line_edit().focus_entered.connect(func() -> void: _last_focus = id)
+	control.get_line_edit().text_changed.connect(func(_text: String) -> void:
+		if not _syncing: _pending_numeric = control)
 	parent.add_child(control)
 	return control
 
@@ -487,6 +512,8 @@ func _edit_field(field: int, enabled: bool) -> void:
 
 func change_task(id: String) -> void:
 	if session.change_task(id):
+		if is_instance_valid(challenge_window) and challenge_window.visible:
+			challenge_window.dismiss()
 		_notice = ""
 		selected_event = -1
 		_shown_entry = -1
@@ -503,6 +530,8 @@ func redo() -> void:
 		refresh()
 
 func run_current() -> void:
+	if _modal_blocked() or (is_instance_valid(exit_overlay) and exit_overlay.visible): return
+	_commit_numeric_editor()
 	var result: Dictionary = session.run_current()
 	_notice = "" if result.get("valid",false) else tr2("未运行：","Not run: ")+_error_text(str(result.get("error","")))
 	selected_event = -1
@@ -570,6 +599,7 @@ func _refresh_history(rebuild_rows: bool = true) -> void:
 	else:
 		status.text = tr2("草稿对应所选实测结果。","Draft matches the selected measurement.")
 	_refresh_comparison()
+	_refresh_challenge()
 	if selected_id != _shown_entry:
 		_shown_entry = selected_id
 		_refresh_events()
@@ -699,8 +729,8 @@ func _storage_text() -> String:
 	if workspace.storage_status == "read_only":
 		return tr2("笔记本受保护；当前修改尚未写入。","The notebook is protected; current changes are not saved.")
 	if not workspace.has_saved_workspace():
-		return tr2("新工作区尚未保存；草稿、目标和命名方案需显式保存。","This new workspace has not been saved. Save drafts, goals and named plans explicitly.")
-	return tr2("草稿、目标和方案需显式保存；历史与撤销仅本次。","Save drafts, goals and plans explicitly. History and Undo last for this session.") if workspace.is_dirty() else tr2(
+		return tr2("新工作区尚未保存；草稿、个人条件和命名方案需显式保存。","This new workspace has not been saved. Save drafts, personal goals and named plans explicitly.")
+	return tr2("草稿、个人条件和方案需显式保存；历史与撤销仅本次。","Save drafts, personal goals and plans explicitly. History and Undo last for this session.") if workspace.is_dirty() else tr2(
 		"工作区已保存；运行历史、比较基准与撤销仅本次。","Workspace saved. Run history, comparison and Undo last for this session.")
 
 func _refresh_storage() -> void:
@@ -739,6 +769,230 @@ func _refresh_comparison() -> void:
 			comparison_label.text += tr2("\n所选运行不满足当前限制。","\nThe selected run is outside the current goal.")
 		elif int(row.id) == session.baseline_id():
 			comparison_label.text += tr2("\n比较基准不满足当前限制。","\nThe comparison baseline is outside the current goal.")
+
+func _challenge_storage_text(target: Dictionary) -> String:
+	if challenges.storage_status == "read_only":
+		var reason: String = tr2("挑战文件无法安全读取；原文件保留。","The target file cannot be read safely; the original is preserved.")
+		if challenges.storage_reason == "changed":
+			reason = tr2("挑战文件已被外部改变；磁盘内容受保护。","The target file changed externally; the disk contents are protected.")
+		elif challenges.storage_reason == "version":
+			reason = tr2("挑战文件版本不受支持；原文件受保护。","The target file version is unsupported; the original is protected.")
+		if bool(target.get("pending",false)):
+			reason += "\n"+(tr2("清除尚未保存，仅在本次会话生效。","Removal is unsaved and applies only to this session.") if str(target.get("code","")).is_empty() else tr2(
+				"当前目标仅本次有效，可复制目标代码保留。","The current target is temporary; copy its code to keep it."))
+		else:
+			reason += "\n"+tr2("当前会话仍可预览；重试不能解除文件保护。","Preview remains available; retry cannot remove file protection.")
+		return reason
+	if bool(target.get("pending",false)):
+		if str(target.get("code","")).is_empty():
+			return tr2("清除目标尚未保存；旧目标仍在磁盘。请在挑战窗口重试。",
+				"Target removal is not saved; the old target remains on disk. Retry in Challenges.")
+		return tr2("此目标暂时有效；保存尚未成功。请在挑战窗口重试。",
+			"This target is temporary; saving has not succeeded. Retry in Challenges.")
+	if challenges.storage_status == "write_failed":
+		return tr2("挑战保存失败；待保存修改仍在内存。","Target saving failed; pending changes remain in memory.")+" ["+challenges.storage_reason+"]"
+	if challenges.is_dirty():
+		return tr2("其他工作负载的挑战修改尚未保存。","Target changes for another workload are not saved.")
+	if bool(target.get("saved",false)):
+		return tr2("挑战已独立保存；重新打开时复测。","Target saved separately; remeasured when reopened.")
+	return tr2("挑战与方案笔记分别保存。","Targets and Notebook save separately.")
+
+func _challenge_verdict_text(target: Dictionary, selected: Dictionary) -> String:
+	if not target.get("active",false): return ""
+	var key: String = session.task_id+"|"+str(target.get("code",""))+"|"+str(selected.get("id",-1))+"|"+str(selected.get("trace_id",""))
+	if key != _challenge_verdict_key:
+		_challenge_verdict_key = key
+		_challenge_verdict = challenges.compare(session.task_id,selected)
+	var verdict: String = str(_challenge_verdict.get("status","unavailable"))
+	var prefix: String = tr2("所选运行：","Selected run: ")
+	match verdict:
+		"outside":
+			var exclusions: Array = _challenge_verdict.get("exclusions",[])
+			return prefix+tr2("超出挑战限制","outside challenge limits")+(
+				" (Q1 / "+tr2("复制","copy")+")" if exclusions.has("first") and exclusions.has("copy") else
+				" (Q1)" if exclusions.has("first") else " ("+tr2("复制","copy")+")" if exclusions.has("copy") else "")
+		"tied": return prefix+tr2("持平","tied")
+		"improved","behind":
+			var objective: String = str(target.inspection.envelope.goal.objective)
+			var unit: String = tr2("周期"," cycles") if objective == "cycles" else " B"
+			return prefix+(tr2("已改进","improved") if verdict == "improved" else tr2("尚未达到","behind"))+" · "+_signed(int(_challenge_verdict.get("delta",0)))+unit
+	return prefix+tr2("运行正确完整的方案后比较","run a complete, correct plan to compare")
+
+func _refresh_challenge() -> void:
+	if not is_instance_valid(challenge_summary): return
+	var target: Dictionary = challenges.target(session.task_id)
+	var selected: Dictionary = session.selected_entry()
+	var has_code: bool = not str(target.get("code","")).is_empty()
+	var active: bool = bool(target.get("active",false))
+	var target_text: String = tr2("尚未接纳挑战；可预览代码或试试入门挑战。","No accepted challenge. Preview a code or try a starter.")
+	if active:
+		var retained: String = tr2("挑战已保存 · ","Saved target · ") if target.get("saved",false) else tr2("临时挑战 · ","Temporary target · ")
+		target_text = retained+ChallengeWindow.inspection_text(target.inspection,english)+"\n"+_challenge_verdict_text(target,selected)
+	elif has_code:
+		target_text = ChallengeWindow.reason_text(str(target.get("inspection",{}).get("reason","stale")),english)
+	var storage_text: String = _challenge_storage_text(target)
+	challenge_summary.visible = has_code or challenges.is_dirty() or challenges.storage_status != "ready"
+	challenge_summary.text = target_text if has_code else storage_text
+	challenge_summary.tooltip_text = storage_text
+	var selected_text: String = tr2("先运行方案，再分享所选实测结果。","Run a plan before sharing its selected measurement.")
+	if not selected.is_empty():
+		selected_text = tr2("分享所选运行 #%d%s","Share selected run #%d%s") % [
+			int(selected.id),tr2("；草稿另有修改。","; the draft differs.") if session.is_stale() else ""]
+		selected_text += "\n"+ChallengeWindow.goal_text(session.goal(),english)
+	if is_instance_valid(challenge_window):
+		challenge_window.set_context({
+			"workload":ChallengeWindow.workload_text(session.task_id,english),
+			"active":active,"has_code":has_code,"pending":bool(target.get("pending",false)),
+			"dirty":challenges.is_dirty(),"protected":challenges.storage_status != "ready",
+			"retryable":challenges.storage_status != "read_only",
+			"busy":challenges.storage_reason == "busy","target_text":target_text,
+			"storage_text":storage_text,"selected_text":selected_text,
+			"selected_valid":bool(selected.get("correct",false)),
+		})
+
+func open_challenges() -> void:
+	if _modal_blocked() or (is_instance_valid(exit_overlay) and exit_overlay.visible): return
+	_challenge_task = session.task_id
+	_challenge_focus = "Challenges"
+	if not is_instance_valid(challenge_window):
+		challenge_window = ChallengeWindow.new()
+		challenge_window.name = "ReplayChallenges"
+		challenge_window.english = english
+		challenge_window.theme = theme
+		add_child(challenge_window)
+		challenge_window.share_requested.connect(_share_challenge)
+		challenge_window.preview_requested.connect(_preview_challenge)
+		challenge_window.accept_requested.connect(_accept_challenge)
+		challenge_window.target_code_requested.connect(_show_target_code)
+		challenge_window.inspect_requested.connect(_inspect_target)
+		challenge_window.restore_requested.connect(_restore_target)
+		challenge_window.clear_requested.connect(_clear_target)
+		challenge_window.retry_requested.connect(retry_challenge_save)
+		challenge_window.recover_requested.connect(_recover_challenge_writer)
+		challenge_window.starter_requested.connect(_starter_challenge)
+		challenge_window.settings_requested.connect(_challenge_settings)
+		challenge_window.dismissed.connect(_challenge_dismissed)
+	challenge_window.translate(english)
+	_refresh_challenge()
+	challenge_window.back()
+	challenge_window.popup_centered(Vector2i(820,580))
+	challenge_window.call_deferred("restore_focus","ImportChallenge")
+
+func _challenge_context_valid() -> bool:
+	return is_instance_valid(challenge_window) and challenge_window.visible and _challenge_task == session.task_id
+
+func _share_challenge(reply: bool) -> void:
+	if not _challenge_context_valid(): return
+	var selected: Dictionary = session.selected_entry()
+	if selected.is_empty() or not selected.get("correct",false): return
+	var goal: Dictionary = session.goal()
+	if reply:
+		var target: Dictionary = challenges.target(_challenge_task)
+		if not target.get("active",false): return
+		goal = target.inspection.envelope.goal.duplicate(true)
+	var result: Dictionary = ChallengeCode.create(_challenge_task,selected.plan,goal)
+	challenge_window.show_code(str(result.get("code","")),result)
+
+func _preview_challenge(code: String) -> void:
+	if not _challenge_context_valid(): return
+	var result: Dictionary = challenges.preview(code,_challenge_task)
+	if result.get("reason","") == "task":
+		var decoded: Dictionary = ChallengeCode.decode(code)
+		if decoded.get("ok",false): result["foreign_task"] = str(decoded.envelope.task)
+	challenge_window.show_preview(result)
+
+func _accept_challenge(code: String) -> void:
+	if not _challenge_context_valid(): return
+	var result: Dictionary = challenges.accept(code,_challenge_task)
+	if result.get("accepted",false):
+		_challenge_verdict_key = ""
+		challenge_window.back()
+		_refresh_challenge()
+		_refresh_storage()
+	else:
+		challenge_window.show_message(ChallengeWindow.reason_text(str(result.get("reason","format")),english))
+
+func _show_target_code() -> void:
+	if not _challenge_context_valid(): return
+	var target: Dictionary = challenges.target(_challenge_task)
+	if str(target.get("code","")).is_empty(): return
+	challenge_window.show_code(target.code,target.get("inspection",{}))
+
+func _starter_challenge(task_id: String) -> void:
+	if not _challenge_context_valid(): return
+	var result: Dictionary = ChallengeCode.starter(task_id)
+	if result.get("ok",false): challenge_window.show_starter(result.code)
+	else: challenge_window.show_code("",result)
+
+func _inspect_target() -> void:
+	if not _challenge_context_valid(): return
+	var target: Dictionary = challenges.target(_challenge_task)
+	if not target.get("active",false): return
+	session.replay(target.inspection.entry.plan)
+	selected_event = -1
+	refresh()
+	tabs.current_tab = 1
+	_challenge_focus = "Events"
+	challenge_window.dismiss()
+
+func _restore_target() -> void:
+	if not _challenge_context_valid(): return
+	var target: Dictionary = challenges.target(_challenge_task)
+	if not target.get("active",false): return
+	if session.edit(target.inspection.entry.plan):
+		_notice = tr2("已恢复目标方案；可一次撤销。","Target recipe restored; one Undo returns your draft.")
+	refresh()
+	tabs.current_tab = 0
+	_challenge_focus = "Run"
+	challenge_window.dismiss()
+
+func _clear_target() -> void:
+	if not _challenge_context_valid(): return
+	challenges.clear(_challenge_task)
+	_challenge_verdict_key = ""
+	_refresh_challenge()
+	_refresh_storage()
+
+func retry_challenge_save() -> void:
+	challenges.retry()
+	_refresh_challenge()
+	_refresh_storage()
+	if is_instance_valid(exit_overlay) and exit_overlay.visible and not challenges.is_dirty():
+		exit_cancel.grab_focus()
+
+func _recover_challenge_writer() -> void:
+	if not _challenge_context_valid(): return
+	challenges.recover_writer()
+	_refresh_challenge()
+
+func _challenge_dismissed() -> void:
+	if _challenge_settings_pending: return
+	call_deferred("_restore_focus",_challenge_focus)
+
+func _challenge_settings() -> void:
+	if not _challenge_context_valid(): return
+	_challenge_settings_focus = challenge_window.focus_id()
+	_challenge_settings_pending = true
+	challenge_window.hide()
+	get_node("/root/WindowMode").open_settings()
+	call_deferred("_resume_challenge_settings")
+
+func _resume_challenge_settings() -> void:
+	# Locale changes replace the Settings layer. Wait for its replacement before
+	# deciding that the user has returned; keep the same code editor and preview.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not _challenge_settings_pending or not is_instance_valid(challenge_window): return
+	var mode: Node = get_node("/root/WindowMode")
+	if is_instance_valid(mode.settings_layer):
+		var resume: Callable = _resume_challenge_settings
+		if not mode.settings_layer.tree_exited.is_connected(resume):
+			mode.settings_layer.tree_exited.connect(resume,CONNECT_ONE_SHOT)
+		return
+	_challenge_settings_pending = false
+	if is_instance_valid(exit_overlay) and exit_overlay.visible: return
+	challenge_window.popup_centered(challenge_window.size)
+	challenge_window.call_deferred("restore_focus",_challenge_settings_focus)
 
 func _plan_text(plan: Dictionary) -> String:
 	var copy_text: String = tr2("不复制","no copy")
@@ -864,6 +1118,7 @@ func reload_localized_scene() -> Error:
 	english = get_node("/root/Localization").current_locale() == "en"
 	_notice = ""
 	_build()
+	if is_instance_valid(challenge_window): challenge_window.translate(english)
 	_translate_exit_guard()
 	call_deferred("_restore_focus",focus_id)
 	return OK
@@ -872,13 +1127,14 @@ func _restore_focus(id: String) -> void:
 	var target: Control
 	if is_instance_valid(exit_overlay) and exit_overlay.visible:
 		target = exit_layer.find_child(id,true,false) as Control
-		if target not in [exit_cancel,exit_save,exit_confirm]: target = exit_cancel
+		if target not in [exit_cancel,exit_save,exit_confirm,exit_target_retry]: target = exit_cancel
 	else:
 		target = interface.find_child(id,true,false) as Control
 	if target is SpinBox: target = target.get_line_edit()
 	if target == null or not target.is_visible_in_tree() or target.focus_mode == Control.FOCUS_NONE:
 		target = run_button
 	if not is_instance_valid(get_node("/root/WindowMode").settings_layer) and not _feedback_visible():
+		if is_instance_valid(challenge_window) and challenge_window.visible: return
 		target.grab_focus()
 
 func _feedback_visible() -> bool:
@@ -887,9 +1143,33 @@ func _feedback_visible() -> bool:
 	return moments.panel.visible or offline.backdrop.visible or bool(offline.busy)
 
 func _modal_blocked() -> bool:
+	if _challenge_settings_pending: return true
 	if is_instance_valid(get_node("/root/WindowMode").settings_layer) or _feedback_visible(): return true
 	var modal: Window = get_window().get_last_exclusive_window()
 	return modal != null and modal != get_window() and modal.visible
+
+func _numeric_editor(focused: Control) -> SpinBox:
+	for control: SpinBox in [query_group,record_tile,first_limit,copy_limit]:
+		if is_instance_valid(control) and control.editable and focused == control.get_line_edit():
+			return control
+	return null
+
+func _commit_numeric_editor() -> void:
+	var control: SpinBox = _numeric_editor(get_viewport().gui_get_focus_owner())
+	if control == null and is_instance_valid(_pending_numeric) and _pending_numeric.editable:
+		control = _pending_numeric
+	_pending_numeric = null
+	if control != null: control.apply()
+
+func _input(event: InputEvent) -> void:
+	if not event is InputEventKey or not event.pressed or event.echo or _modal_blocked(): return
+	if is_instance_valid(exit_overlay) and exit_overlay.visible: return
+	if not event.is_command_or_control_pressed() or event.keycode not in [KEY_ENTER,KEY_KP_ENTER]: return
+	if _numeric_editor(get_viewport().gui_get_focus_owner()) == null: return
+	# Only these four SpinBox editors opt into commit-and-run. Other text fields
+	# retain Enter and text Undo; handled input cannot also trigger a second run.
+	get_viewport().set_input_as_handled()
+	run_current()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo or _modal_blocked(): return
@@ -911,7 +1191,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif event.ctrl_pressed and event.keycode == KEY_Y:
 		redo()
 		get_viewport().set_input_as_handled()
-	elif event.is_command_or_control_pressed() and event.keycode == KEY_ENTER:
+	elif event.is_command_or_control_pressed() and event.keycode in [KEY_ENTER,KEY_KP_ENTER]:
 		run_current()
 		get_viewport().set_input_as_handled()
 
@@ -944,6 +1224,7 @@ func _build_exit_guard() -> void:
 	exit_cancel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	exit_save.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	exit_confirm.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	exit_target_retry = _button(column,"",retry_challenge_save,"ExitRetryTarget")
 	_translate_exit_guard()
 	exit_overlay.hide()
 
@@ -951,9 +1232,13 @@ func _translate_exit_guard() -> void:
 	if not is_instance_valid(exit_question): return
 	var dirty: bool = workspace.is_dirty()
 	var saved: bool = workspace.has_saved_workspace()
+	var target_dirty: bool = challenges.is_dirty()
 	exit_save.visible = _guard_action == "exit" and (dirty or not saved)
 	exit_save.focus_mode = Control.FOCUS_ALL if exit_save.visible else Control.FOCUS_NONE
-	exit_save.text = tr2("保存并退出","Save and exit")
+	exit_save.text = tr2("保存笔记","Save notebook") if target_dirty else tr2("保存并退出","Save and exit")
+	exit_target_retry.visible = _guard_action == "exit" and target_dirty and challenges.storage_status != "read_only"
+	exit_target_retry.focus_mode = Control.FOCUS_ALL if exit_target_retry.visible else Control.FOCUS_NONE
+	exit_target_retry.text = tr2("重试挑战保存","Retry target save")
 	if _guard_action == "remove":
 		exit_question.text = tr2("移除保留方案「%s」？\n当前草稿和本次运行仍会保留；此操作会保存工作区。","Remove kept plan “%s”?\nThe current draft and recent runs stay. This action saves the workspace.") % _pending_remove
 		exit_cancel.text = tr2("取消","Cancel")
@@ -962,22 +1247,28 @@ func _translate_exit_guard() -> void:
 		if dirty:
 			exit_question.text = tr2("工作区有未保存修改。退出会丢弃这些修改，以及本次运行历史、比较基准与撤销。","The workspace has unsaved changes. Leaving discards them, along with recent runs, the comparison and Undo.")
 		elif saved:
-			exit_question.text = tr2("已保存的草稿、目标和方案会保留。退出只结束本次运行历史、比较基准与撤销。","Saved drafts, goals and kept plans remain. Leaving ends this session's run history, comparison and Undo.")
+			exit_question.text = tr2("已保存的草稿、个人条件和方案会保留。退出只结束本次运行历史、比较基准与撤销。","Saved drafts, personal goals and kept plans remain. Leaving ends this session's run history, comparison and Undo.")
 		else:
 			exit_question.text = tr2("此工作区尚未保存。退出会结束本次运行历史、比较基准与撤销。","This workspace has not been saved. Leaving ends this session's run history, comparison and Undo.")
 		if workspace.storage_status != "ready": exit_question.text += "\n"+_storage_text()
+		if target_dirty:
+			exit_question.text += "\n"+tr2("挑战修改尚未保存。保存笔记不会保存挑战；退出会丢弃待保存的挑战修改。",
+				"Target changes are not saved. Saving Notebook does not save targets; leaving discards those pending changes.")
+			if challenges.storage_status == "read_only":
+				exit_question.text += "\n"+_challenge_storage_text(challenges.target(session.task_id))
 		exit_cancel.text = tr2("继续探索","Keep exploring")
-		exit_confirm.text = tr2("丢弃并退出","Discard and exit") if dirty else tr2("退出","Exit")
+		exit_confirm.text = tr2("丢弃并退出","Discard and exit") if dirty or target_dirty else tr2("退出","Exit")
 	var controls: Array[Control] = [exit_cancel]
 	if exit_save.visible: controls.append(exit_save)
 	controls.append(exit_confirm)
+	if exit_target_retry.visible: controls.append(exit_target_retry)
 	for index: int in controls.size():
 		controls[index].focus_next = controls[index].get_path_to(controls[(index+1)%controls.size()])
 		controls[index].focus_previous = controls[index].get_path_to(controls[(index+controls.size()-1)%controls.size()])
 
 func request_quit() -> void:
 	if not _owns_quit: return
-	if not session.has_work() and not workspace.is_dirty():
+	if not session.has_work() and not workspace.is_dirty() and not challenges.is_dirty():
 		_finish_quit()
 		return
 	if exit_overlay.visible: return
@@ -1025,7 +1316,12 @@ func _confirm_quit() -> void:
 
 func save_and_exit() -> void:
 	if workspace.save():
-		_finish_quit()
+		if challenges.is_dirty():
+			_refresh_storage()
+			if exit_target_retry.visible: exit_target_retry.grab_focus()
+			else: exit_cancel.grab_focus()
+		else:
+			_finish_quit()
 	else:
 		_refresh_storage()
 		exit_save.grab_focus()

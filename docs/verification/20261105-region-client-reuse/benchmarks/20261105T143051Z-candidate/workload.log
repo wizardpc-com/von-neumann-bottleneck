@@ -1,0 +1,16 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CASE representation_partition_revisits: 8 iterations/sample; median 12739.375 us; snapshot 3138242 bytes
+CASE representation_online_clients: 4 iterations/sample; median 14610.0 us; snapshot 4364832 bytes
+CASE representation_region_compatibility: 1 iterations/sample; median 54661.0 us; snapshot 12810657 bytes
+CASE representation_region_online_rle_c1: 8 iterations/sample; median 1886.875 us; snapshot 273644 bytes
+CASE representation_region_online_rle_c2: 4 iterations/sample; median 2627.5 us; snapshot 533931 bytes
+CASE representation_region_online_rle_c4: 2 iterations/sample; median 4002.5 us; snapshot 1054493 bytes
+CASE representation_region_online_rle_c8: 1 iterations/sample; median 6357.0 us; snapshot 2095609 bytes
+CASE representation_region_offline_revisits_c1: 4 iterations/sample; median 12079.0 us; snapshot 1549429 bytes
+CASE representation_region_offline_revisits_c2: 2 iterations/sample; median 16780.5 us; snapshot 3088465 bytes
+CASE representation_region_offline_revisits_c4: 1 iterations/sample; median 24822.0 us; snapshot 6167521 bytes
+CASE representation_region_offline_revisits_c8: 1 iterations/sample; median 42131.0 us; snapshot 12326089 bytes
+CASE workload_rejections: 1 iterations/sample; median 1075.0 us; snapshot 107986 bytes
+BENCHMARK: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round12/20261105T143051Z-candidate/workload/computation-benchmark.json
+PASS: computation benchmark 12 cases, 0 failures

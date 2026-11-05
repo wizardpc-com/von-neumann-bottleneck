@@ -1,0 +1,23 @@
+[
+  {
+    "suite": "startup",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T142756Z-4bd0e0fc/project",
+      "--quit-after",
+      "8"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round12/checks/20261105T144051Z/startup",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 1.9832459169999999,
+    "diagnostics": [],
+    "log_sha256": "1f4aefb7bdaa3aac5c3ea38b8d505eb0d072d02dfef33d1c42767bcd075bbb24",
+    "project_settings_sha256": "d80bb27b79a7a2f65297837819a720af7272d0594852110f486fbeee5329c40b",
+    "region_model_sha256": "71c5a91016a00163b9a3be2f64ca90030f8992469866977521ed5858814ae6d3",
+    "base_model_sha256": "698029a07aa2b26097307b40fffbee99c87bcebaacc257d939d1ea942927d136"
+  }
+]

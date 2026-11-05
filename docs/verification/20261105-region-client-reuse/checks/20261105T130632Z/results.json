@@ -1,0 +1,72 @@
+[
+  {
+    "suite": "import",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T130540Z-round12-reference/project",
+      "--editor",
+      "--import",
+      "--quit"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round12/checks/20261105T130632Z/import",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 4.86221675,
+    "diagnostics": [],
+    "log_sha256": "0f60dc0f32ae01096e57ee4bec371c916d41d92ef1511cf3d11010ceeecff3a7",
+    "project_settings_sha256": "4d1cdf056cf0851601ee6e6535236d57f5c5390b7ec486a727ac4178e1f421b5",
+    "region_model_sha256": "c7e37462fd24f23f01425cc2094e5818d1374070e08f51b46a6f6177b9423528",
+    "base_model_sha256": "698029a07aa2b26097307b40fffbee99c87bcebaacc257d939d1ea942927d136"
+  },
+  {
+    "suite": "test_representation_region",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T130540Z-round12-reference/project",
+      "--script",
+      "res://tests/test_representation_region.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round12/checks/20261105T130632Z/test_representation_region",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 6.823654375,
+    "diagnostics": [],
+    "log_sha256": "58253617873b4d3efb75eec3e46333f525fbbdd19690bcbabb48740b1b5f89bd",
+    "project_settings_sha256": "7ad19be2e77d137517c2578640657477e71783adf229548b31ae4894f1cccaca",
+    "script_sha256": "2e64e060e1bc861261ae44ac7f9342ac405e2b765afd778f378ec392eb10875c",
+    "region_model_sha256": "c7e37462fd24f23f01425cc2094e5818d1374070e08f51b46a6f6177b9423528",
+    "base_model_sha256": "698029a07aa2b26097307b40fffbee99c87bcebaacc257d939d1ea942927d136"
+  },
+  {
+    "suite": "test_representation_region_rejections",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T130540Z-round12-reference/project",
+      "--script",
+      "res://tests/test_representation_region_rejections.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round12/checks/20261105T130632Z/test_representation_region_rejections",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 1.301176709,
+    "diagnostics": [],
+    "log_sha256": "b5515ec3d7b8dfee2fe2e84b51f5e14a184595f11187db38abcfcb9f80ca73f2",
+    "project_settings_sha256": "f8580620e84086cee629130494bc0100aead80630ff16b54e47885321c771d81",
+    "script_sha256": "371c9dea028ebeae2437ecfae0f889c4cbd521741f31e83ee5f211f1e6b0dbcd",
+    "region_model_sha256": "c7e37462fd24f23f01425cc2094e5818d1374070e08f51b46a6f6177b9423528",
+    "base_model_sha256": "698029a07aa2b26097307b40fffbee99c87bcebaacc257d939d1ea942927d136"
+  }
+]

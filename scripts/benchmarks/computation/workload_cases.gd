@@ -51,6 +51,7 @@ static func cases() -> Array[Dictionary]:
 	cases_out.append(_case("representation_region_compatibility", "representation_region",
 		"All eight authored orders with RAW, RLE and two existing alternatives per task: 32 full traces and 20 decisions.",
 		_region_compatibility_input()))
+	cases_out.append_array(region_client_cases())
 	cases_out.append(_case("linear_precision_batch", "intelligent_workload",
 		"All 32 public samples with exact reload, 8-bit reuse/batch and coarse precision.",
 		{"operation":"linear", "configs":[
@@ -158,6 +159,8 @@ static func run_case(spec: Dictionary) -> Variant:
 						"accepted":Region.meets(int(task.task), traces)})
 				tasks.append({"task":int(task.task), "plans":plans})
 			return tasks
+		"region_clients":
+			return Region.run(_representation_spec(input.spec), _plan(input.plan))
 		"linear":
 			var traces: Array = []
 			for config: Dictionary in input.configs:
@@ -313,6 +316,8 @@ static func validate_case(spec: Dictionary, result: Variant) -> Array[String]:
 						errors, path + ": public preparation/service acceptance")
 		"region_compatibility":
 			_region_compatibility_result(input, result, errors)
+		"region_clients":
+			_region_client_result(input, result, errors)
 		"linear":
 			var traces: Array = _array(result, input.configs.size(), errors, "linear")
 			for index: int in mini(traces.size(), input.configs.size()):
@@ -598,6 +603,53 @@ static func _region_trace(value: Variant, spec: Dictionary, plan: Array, errors:
 static func _region_amount(value: Variant, errors: Array[String], path: String) -> int:
 	if not _expect(value is int and value >= 0, errors, path): return 0
 	return int(value)
+
+
+static func _region_client_result(input: Dictionary, result: Variant, errors: Array[String]) -> void:
+	var spec: Dictionary = _representation_spec(input.spec)
+	var clients: int = int(input.clients)
+	var path: String = "region/clients/%d/%s" % [clients, str(input.fixture)]
+	_expect(clients in [1,2,4,8] and spec.clients == clients, errors, path + ": declared bounded client count")
+	_region_trace(result, spec, input.plan, errors, path)
+	if not result is Trace or not result.passed: return
+	var authored: Dictionary
+	if input.fixture == "online_rle":
+		authored = Region.orders(3)[1].duplicate(true)
+		authored.clients = clients
+		_expect(input.source_task == 3 and input.source_order == 1, errors, path + ": declared authored fixture provenance")
+		_expect(spec == authored and input.plan == [{"start":0, "end":64, "codec":"rle"}],
+			errors, path + ": authored online scan with only declared client override")
+		_expect(result.metrics.get("cache_misses") == clients
+			and result.metrics.get("cache_hits") == 63 * clients
+			and _positive(result.metrics.get("preparation_cycles")),
+			errors, path + ": one cold fill per client after actual preparation")
+	elif input.fixture == "offline_revisits":
+		authored = Region.orders(0)[0].duplicate(true)
+		_expect(input.source_task == 0 and input.source_order == 0, errors, path + ": declared stress source provenance")
+		authored.name = "bounded-192-mixed-revisits"
+		authored.clients = clients
+		authored.cache_bytes = 32
+		var addresses: Array[int] = []
+		for repeat_index: int in 32: addresses.append_array([0,16,0,48,0,16])
+		authored.addresses = addresses
+		_expect(spec == authored and input.plan == [
+			{"start":0, "end":16, "codec":"rle"}, {"start":16, "end":48, "codec":"raw"},
+			{"start":48, "end":64, "codec":"rle"}],
+			errors, path + ": explicit bounded mixed-codec revisit stress")
+		_expect(result.metrics.get("preparation_cycles") == 0
+			and _positive(result.metrics.get("evictions")) and _positive(result.metrics.get("cache_hits")),
+			errors, path + ": offline finite-cache eviction and reuse exercised")
+	else:
+		_expect(false, errors, path + ": known client-sweep fixture")
+	var accesses: Array = _array(result.metrics.get("accesses"), spec.addresses.size() * clients, errors, path + "/accesses")
+	for client: int in clients:
+		var index: int = client * spec.addresses.size()
+		if index >= accesses.size(): continue
+		var access: Dictionary = _dictionary(accesses[index], errors, path + "/first/%d" % client)
+		var cache: Dictionary = _dictionary(access.get("cache_before"), errors, path + "/cold/%d" % client)
+		_expect(access.get("client") == client and access.get("hit") == false
+			and cache.get("used_bytes") == 0 and cache.get("keys") == [],
+			errors, path + ": each actual client begins with an empty cache")
 
 
 static func _state_result(value: Variant, errors: Array[String], path: String) -> Dictionary:
@@ -931,6 +983,38 @@ static func _region_partition(bounds: Array, codecs: Array) -> Array[Dictionary]
 		plan.append({"start":start, "end":int(bounds[index]), "codec":str(codecs[index])})
 		start = int(bounds[index])
 	return plan
+
+
+static func region_client_cases() -> Array[Dictionary]:
+	# Public Region API fixtures; this bounded sweep is not an authored goal set.
+	# The separate diagnostic profile consumes these same complete declared inputs.
+	var cases_out: Array[Dictionary] = []
+	for fixture: String in ["online_rle", "offline_revisits"]:
+		for clients: int in [1,2,4,8]:
+			var source: Dictionary
+			var plan: Array[Dictionary] = []
+			if fixture == "online_rle":
+				source = Region.orders(3)[1].duplicate(true)
+				plan = _region_partition([64], ["rle"])
+			else:
+				source = Region.orders(0)[0].duplicate(true)
+				source.name = "bounded-192-mixed-revisits"
+				source.cache_bytes = 32
+				var addresses: Array[int] = []
+				for repeat_index: int in 32: addresses.append_array([0,16,0,48,0,16])
+				source.addresses = addresses
+				plan = _region_partition([16,48,64], ["rle","raw","rle"])
+			source.clients = clients
+			cases_out.append(_case("representation_region_%s_c%d" % [fixture, clients],
+				"representation_region",
+				("Authored online 64-address whole-RLE scan" if fixture == "online_rle"
+					else "Declared offline 192-address mixed-codec revisit fixture, cache32")
+					+ "; %d independently cold clients; complete public API Trace." % clients,
+				{"operation":"region_clients", "fixture":fixture, "clients":clients,
+					"source_task":3 if fixture == "online_rle" else 0,
+					"source_order":1 if fixture == "online_rle" else 0,
+					"spec":source, "plan":plan}))
+	return cases_out
 
 
 static func _policy(rule: String, confidence: int = 1, lookahead: int = 1, cooldown: int = 0) -> Dictionary:

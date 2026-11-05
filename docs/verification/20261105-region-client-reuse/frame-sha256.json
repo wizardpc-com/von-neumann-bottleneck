@@ -1,0 +1,162 @@
+{
+  "representation-en-assets.png": {
+    "sha256": "545830f15f6f97e64042f90d51ac6cdd0af3e65658329e81f2e60cff632a1e7b",
+    "bytes": 196598,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-closure-next.png": {
+    "sha256": "f23fc51e45d7f8674aff341e834913c691244625facf9bb522cede87b1335a0f",
+    "bytes": 239414,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-closure-results.png": {
+    "sha256": "63c511854e948a12625df672dfa6408529c09d57645f4e2959bb6b697e379763",
+    "bytes": 220015,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-cross-asset-earned.png": {
+    "sha256": "0b2ff724876cc790e6f6925a835453655253b389293431896349384b21e10a82",
+    "bytes": 229415,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-initial.png": {
+    "sha256": "eb4fd9ce447b404c93a0022905faa28dbf8bfa0385eb7216917bd63c8e5d61df",
+    "bytes": 201054,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-measured.png": {
+    "sha256": "ac7823a8659c8b28d2b64914e80ce5299a6b84e12e25006d01b04258863d33b7",
+    "bytes": 227565,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-prepare-assets.png": {
+    "sha256": "65c3a502e820e5bff16049d86453f99657c028cda764b7dbd02665e7cfd37664",
+    "bytes": 186782,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-prepare-earned.png": {
+    "sha256": "97e71931edeb89bf10f53d9f0307cbd07222a3de63524fd516be5b859f45c7f4",
+    "bytes": 217933,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-prepare-initial.png": {
+    "sha256": "35df89de8dd937ad5989bff2a677d36891e389ce94befee90cccda4f7f1aef46",
+    "bytes": 187357,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-en-prepare-measured.png": {
+    "sha256": "c9b9c66ad724de03c8f17361dffcfdbb5ad2c5bafe29f85e527054191d68cd1f",
+    "bytes": 221361,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-assets.png": {
+    "sha256": "4d3a6305588a4e2c70051df50b1b8d72343de9e6d1f47a6cd76e468f98104dc4",
+    "bytes": 212781,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-closure-next.png": {
+    "sha256": "4fad4418a287dfce527fa55c1d6fafc98a0bc0e5bb18f98f2f7348bebf1493a1",
+    "bytes": 273995,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-closure-results.png": {
+    "sha256": "240b9b7af002fc482d7f9ae19abc77aee3e83fd5f89b75b4026c5b8ee4fe59a4",
+    "bytes": 241323,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-cross-asset-earned.png": {
+    "sha256": "992461701567fb24e5f1bde96b786f775cade4fd54a046884e778d035b370441",
+    "bytes": 251249,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-initial.png": {
+    "sha256": "f81103d7072d1440e2f2ade0c353cc953b01823d76aeb8cdd0c8ebe263bf3ec2",
+    "bytes": 220069,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-measured.png": {
+    "sha256": "f4b32df48bf1b754e8c31bee610290152dce30ebfd7133cb7ad9be1531216f6a",
+    "bytes": 247780,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-prepare-assets.png": {
+    "sha256": "940e0c364444c52ad72c5be3f0d87c9be518e29dcab2bdd6c40ecf68505ef122",
+    "bytes": 202475,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-prepare-earned.png": {
+    "sha256": "9615b14e43ae8bf89a6e662c040e591364874d210b7e5fc7a3271947d9650bbb",
+    "bytes": 233670,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-prepare-initial.png": {
+    "sha256": "19448dd989e60ec196bcaa50e44345289d3e39ea6b95e8ff36a9dc08ddadfbb8",
+    "bytes": 204939,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  "representation-zh_CN-prepare-measured.png": {
+    "sha256": "caee2c9f317778d66ca7b7fb63f9d63c273d60954cd00a82f27994d8c4ff1816",
+    "bytes": 239089,
+    "dimensions": [
+      1280,
+      720
+    ]
+  }
+}

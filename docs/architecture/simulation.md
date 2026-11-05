@@ -87,9 +87,26 @@ output or cache evidence.
 
 This branch defines rejected simulation evidence, not host execution time:
 the current implementation still performs Base computation first. Moving
-validation or reusing cold-client work is a separate measured optimization.
+validation ahead of Base remains outside the adopted optimization.
 Valid preparation/service traces, catalog orders, `meets()` decisions, version,
 saved-plan replay and condition identity retain their existing contract.
+
+For valid inputs, all clients currently receive the same spec and plan and
+start with an empty decoded cache. Region reuses the first completed immutable
+Base result only within that synchronous call. Each client's full events are
+still freshly emitted with deep-copied details and client IDs; access rows
+remain deep copies. Preparation occurs once, followed by each client's exact
+cold-cache sequence at its original accumulated absolute cycles. All ten
+service counters accumulate in their existing order; `overfetch_values` and
+`peak_cache_bytes` keep their original single-service meanings.
+
+This is reuse of completed evidence, not shared mutable cache state. Different
+calls, restores and goal checks still execute the public model. No event is
+omitted and no UI or saved metric becomes authoritative. The bounded contract
+does not extend to hypothetical per-client inputs, callbacks, asynchronous
+mutation or shared-cache semantics. Complete typed parity and explicit mutation
+tests are recorded in the
+[Round12 receipt](../verification/20261105-region-client-reuse/README.md).
 
 ## Intended invariants and current status
 

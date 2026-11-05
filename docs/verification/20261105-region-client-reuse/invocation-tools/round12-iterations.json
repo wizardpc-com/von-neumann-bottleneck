@@ -1,0 +1,14 @@
+{
+  "representation_region_compatibility": 1,
+  "representation_online_clients": 4,
+  "representation_partition_revisits": 8,
+  "workload_rejections": 1,
+  "representation_region_online_rle_c1": 8,
+  "representation_region_online_rle_c2": 4,
+  "representation_region_online_rle_c4": 2,
+  "representation_region_online_rle_c8": 1,
+  "representation_region_offline_revisits_c1": 4,
+  "representation_region_offline_revisits_c2": 2,
+  "representation_region_offline_revisits_c4": 1,
+  "representation_region_offline_revisits_c8": 1
+}

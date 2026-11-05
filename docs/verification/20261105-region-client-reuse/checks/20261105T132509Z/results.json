@@ -1,0 +1,26 @@
+[
+  {
+    "suite": "round12_client_oracle_probe",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T130540Z-round12-reference/project",
+      "--script",
+      "res://tests/round12_client_oracle_probe.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round12/checks/20261105T132509Z/round12_client_oracle_probe",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 0.882053667,
+    "diagnostics": [],
+    "log_sha256": "1270cf99f4cb6d2f71621243d71e234b3846ae160c6d9656750132322bb8143f",
+    "project_settings_sha256": "f5d3ca12695c41ad6dd1c2bf16e2660cf86cc279942eeda0ba44ef7832b8771c",
+    "script_sha256": "c8e09685902479091cea00707e2d0c4534064af68f67a52d30f707f57a0c368d",
+    "region_model_sha256": "c7e37462fd24f23f01425cc2094e5818d1374070e08f51b46a6f6177b9423528",
+    "base_model_sha256": "698029a07aa2b26097307b40fffbee99c87bcebaacc257d939d1ea942927d136"
+  }
+]

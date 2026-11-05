@@ -1,5 +1,11 @@
 # Internal computation audit — 2026-11-05
 
+Round12 closes the currently authorized work. The user requested finishing
+this planned client-reuse increment, pushing the task branch and stopping;
+the remaining findings below are retained review questions, not an active
+implementation queue. The broader goal remains paused. No native pilot was
+started.
+
 Base: `2748138d166855e86a5496ce60ca37a8389d4ce7`, task branch
 `codex/gameplay-systems-20261104`. This audit supplements the
 [gameplay review](GAMEPLAY_AUDIT_20261104.md); it does not revise old results.
@@ -37,14 +43,14 @@ serialization; only the benchmark's own snapshots/hash/export are excluded.
 | Overlap Trace | Every cycle emits a required state snapshot; `_event` and the event constructor both deep-copy it. | Candidate allocation reduction. Do not remove cycles, events or detachment. |
 | Layout scratch | Each release scans source and scratch although allocated scratch addresses are known. | Candidate direct deletion. Preserve physical memory/cache effects, padding and sparse/duplicate query order. |
 | Scheduling/query tiling | Small tiles repeatedly walk sparse index lists. | Candidate per-operation indexing only if measured valuable; preserve output positions and request/response order. |
-| Online Region | Identical cold-client service is recomputed before re-emitting client-specific evidence. | Candidate reuse of one local immutable service template; modeled clients must stay cold and detached. |
+| Online Region — optimized in Round12 | Identical cold-client service was recomputed before re-emitting client-specific evidence. | Reuse one completed immutable service within the call; all client events/accesses stay detached. Eight-client online12.718→6.357ms and offline86.719→42.131ms;12 complete workflow snapshots and22 goal decisions stay exact. Client1 and unchanged Base controls are reported separately. See the [receipt](../verification/20261105-region-client-reuse/README.md). |
 | Address prediction | Selecting Off still computes another identical Off baseline. | Candidate local reuse. Other policies retain a genuinely independent counterfactual. |
 | State/Service/replay | Full state frames, real bytes and strict restore replays generate repeated data. | Preserve dirty eviction/flush and rounded-byte semantics. Measure full application flows before introducing caches. |
 | Score/challenge validation | Some signatures and model evaluations repeat across presentation and authority boundaries. | Local immutable reuse may help; never accept UI/persisted metrics as authoritative or remove required remeasurement. |
 
-No C++/Rust pilot is selected. Remove measured redundant work in GDScript first;
-a later native trial needs its own isolated branch, full deterministic/Trace
-differential corpus, compatibility evidence and measured benefit.
+No C++/Rust pilot is selected. A future trial would need its own isolated
+branch, full deterministic/Trace differential corpus, compatibility evidence
+and measured benefit. No further implementation is scheduled by this audit.
 
 ## Retained correctness and model review queue
 
@@ -97,10 +103,15 @@ See the [complete evidence and method](../verification/20261105-computation-kern
 The separate Round10 correction closes the demonstrated circuit recovery
 defect without changing old valid results or post-commit storage behavior.
 Round11 defines consistent preparation-rejection evidence while retaining Base
-failure priority and all valid measured results. Next measure repeated cold-client
-computation and the remaining source-level duplication candidates. Proposed native
-thresholds in the independent priority report remain recommendations for a
-future scoped pilot, not an adopted platform or product rule.
+failure priority and all valid measured results. Round12 removes repeated
+cold-client Base computation within one synchronous call, preserving full
+evidence construction and current metric semantics. Its40-combination independent
+oracle and mutation regression passes900 checks on both reference and candidate.
+The eight-client public workflows take about half the time on this Mac; the
+single-client controls are about1.0%/2.6% slower and unchanged Base about1.9%
+slower in these samples. There is no universal speedup or heap claim. Proposed
+native thresholds in the independent priority report remain recommendations,
+not an adopted platform rule or automatically scheduled work.
 
 ## Strategy direction
 

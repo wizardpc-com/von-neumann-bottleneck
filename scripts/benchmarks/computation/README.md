@@ -4,7 +4,8 @@ Use Godot4.7.1 and a verifier-created QA project with a
 `VonNeumannBottleneckChecks/...` user directory. Never run these against a player
 profile. `runner.gd` checks isolation before executing the actual public model
 APIs. The three adapters cover circuits, memory systems and higher-level
-workloads; `creation_profile.gd` measures the selected hotspot separately.
+workloads; `creation_profile.gd` and `region_profile.gd` measure selected
+boundaries separately.
 
 Each adapter supplies bounded inputs, actual results and independent semantic
 checks. A matching failure cannot stand in for an intended successful workload.
@@ -95,3 +96,32 @@ changed combined result as equal work or replace its original evidence.
 Direct malformed-type coverage belongs to the pure regression, because the
 adapter retains its established JSON integer reconstruction.
 See the [Round11 receipt](../../../docs/verification/20261105-region-rejection-evidence/README.md).
+
+## Region cold-client reuse
+
+The eight `representation_region_online_rle_c1/c2/c4/c8` and
+`representation_region_offline_revisits_c1/c2/c4/c8` cases retain complete
+Region results for clients1/2/4/8. Online uses the authored64-address whole-RLE
+scan; offline uses an explicit192-address mixed-codec revisit fixture with a
+32-byte decoded cache. The latter is a stress input, not a new authored goal.
+Keep the existing compatibility/online workflows, unchanged Base revisit
+control and rejection diagnostic in the same comparison. Round12 preserves
+all twelve complete results, including the already repaired rejection.
+
+`region_profile.gd` runs only with an isolated QA profile and writes
+`user://region-profile.json`. It uses seven samples, fixed8 iterations for
+online cases and2 for offline cases. One timer executes N actual Base services
+and retains all N results per invocation; the other constructs fresh complete
+client evidence from one precomputed Base result. Template/oracle/seed
+construction and snapshot/hash/export are outside both timers. Full typed
+equality against the real Region service suffix keeps absolute preparation
+offsets and all fields; mutation probes separately check detachment.
+
+These diagnostic boundaries are not additive portions of Region time. Base
+already allocates complete Trace evidence, and its retention differs from the
+production first/current lifetime. They do not measure pure arithmetic,
+allocation cost, heap peak or Run-button latency. The standalone schema is
+different from `runner.gd`; bind original bytes, complete logs, process status,
+input/counts, source hashes and full snapshots before comparing it.
+Actual public timings and both retained fixture-correction failures are in the
+[Round12 receipt](../../../docs/verification/20261105-region-client-reuse/README.md).

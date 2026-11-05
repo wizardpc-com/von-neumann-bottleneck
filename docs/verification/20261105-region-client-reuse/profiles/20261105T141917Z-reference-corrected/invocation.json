@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--headless",
+    "--path",
+    "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T130540Z-round12-reference/project",
+    "--script",
+    "res://scripts/benchmarks/computation/region_profile.gd"
+  ],
+  "profile": "VonNeumannBottleneckChecks/round12/profile/20261105T141917Z-reference-corrected",
+  "label": "reference-corrected",
+  "project_settings_sha256": "78b1f65a0d7b7002b243e21ff4de2ad78e6107b38aeb5c313107ca6bfa4edeb1",
+  "files": {
+    "scripts/benchmarks/computation/region_profile.gd": "229639c318054dd15af06bac08c3ff2844354f15169e205e642c8c3fe2f4a9cd",
+    "scripts/benchmarks/computation/snapshot.gd": "026fa6b74ae7285fa70971981cacc664b739164535779903ca452fa9b10252a5",
+    "scripts/benchmarks/computation/workload_cases.gd": "6a480e5215efcf01fc9cdb037d5ff18e68f4c1679ef8ba0f906ebf908eec4c17",
+    "experiments/representation_region/model.gd": "c7e37462fd24f23f01425cc2094e5818d1374070e08f51b46a6f6177b9423528",
+    "experiments/representation/plan_model.gd": "698029a07aa2b26097307b40fffbee99c87bcebaacc257d939d1ea942927d136"
+  },
+  "returncode": 0,
+  "stopped_for": null,
+  "seconds": 132.582922,
+  "log_sha256": "c04cdfb15a67bfadc454a78849b697eef0611ae0b6acb184da8b1d648c3f1cb6",
+  "diagnostics": [],
+  "output": "profile.json.gz",
+  "raw_bytes": 87745973,
+  "raw_sha256": "c3cf916633ed3c616ef483d307808189655534656520f775282f7ba516085e1f",
+  "failures": []
+}

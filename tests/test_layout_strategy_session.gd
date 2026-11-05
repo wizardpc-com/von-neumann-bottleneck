@@ -97,6 +97,7 @@ func _run() -> void:
 	check(session.has_work(),"Existing session work is detectable before exit")
 	_goal_and_replay()
 	_checkpoint()
+	_baseline_observation()
 	check(root.get_node("LayoutChapter").game_snapshot() == old_state,"Goals, checkpoint and replay preserve official state")
 	for issue: String in failures: push_error(issue)
 	print(("PASS: " if failures.is_empty() else "FAIL: ")+"layout strategy session %d checks, %d failures" % [checks,failures.size()])
@@ -196,3 +197,33 @@ func _checkpoint() -> void:
 	var blank = Session.new()
 	check(blank.restore_checkpoint("mixed_serial",{},{}),"Absent saved states use fresh defaults for a valid active workload")
 	check(blank.task_id == "mixed_serial" and blank.draft() == Model.starter_plan() and blank.goal() == Goals.default_goal() and not blank.has_work(),"Empty checkpoint does not manufacture work")
+
+func _baseline_observation() -> void:
+	var session = Session.new()
+	check(session.baseline_entry().is_empty(),"Missing reference has no invented evidence")
+	var original: Dictionary = session.run_current().entry
+	check(session.set_baseline(original.id),"Reference observation begins with an explicit measured baseline")
+	var edited: Dictionary = session.draft()
+	edited.record_tile = 1
+	session.edit(edited)
+	session.run_current()
+	edited.query_group = 2
+	session.edit(edited)
+	session.undo()
+	var before: Dictionary = session._states.duplicate(true)
+	var reference: Dictionary = session.baseline_entry()
+	check(reference == original and reference.id != session.selected_entry().id,
+		"Reference getter returns the pinned full measurement while another run stays selected")
+	reference.metrics.total_cycles = 0
+	reference.events[0].details["forged"] = true
+	reference.events.clear()
+	reference.plan.copy_fields.clear()
+	reference.outputs.clear()
+	reference.source_map.clear()
+	check(session.baseline_entry() == original and session._states == before,
+		"Mutating nested reference evidence preserves every run, draft, Undo, Redo and goal")
+	session.change_task("scan_serial")
+	check(session.baseline_entry().is_empty(),"Another workload cannot inspect the previous reference")
+	session.change_task("scan_batch")
+	check(session.baseline_entry() == original and session._states.scan_batch == before.scan_batch,
+		"Returning retains the exact reference and original edit history")

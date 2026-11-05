@@ -1,5 +1,15 @@
 # Architecture
 
+The scheduling lab's `explanation.gd` reduces existing detached selected and
+baseline snapshots into reconciled phase costs, real RAM transfers, cache read
+counts and public request admission/completion/elapsed timing. It does not
+evaluate plans or mutate authoritative metrics/Trace. `Session.baseline_entry()`
+provides a detached evidence accessor. The existing Evidence tab can compare
+both measured plans and inspect either side's original event indexes without
+changing Session selection, drafts, goals or persistent state. Partial or
+inconsistent evidence is explicitly unavailable for complete comparison.
+This is local presentation consistency, not remote score authentication.
+
 The scheduling lab's offline`VNBSC1:` challenges transport only bounded canonical
 inputs and an immutable objective/response/copy envelope. `challenge_code.gd`
 remeasures targets; `challenges.gd` owns proposed/committed target maps and

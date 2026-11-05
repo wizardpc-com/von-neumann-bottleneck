@@ -1,0 +1,9 @@
+{
+  "at": "2026-11-05T07:05:02.928721+00:00",
+  "surface": "cua.getState",
+  "observation": "Native apps: Error: The Mac is locked and automatic unlock could not unlock it.",
+  "status": "NOT_RUN",
+  "native_input_sent": false,
+  "game_process_launched": false,
+  "scope": "Fresh availability check before Round8 prioritization; no inherited native acceptance."
+}

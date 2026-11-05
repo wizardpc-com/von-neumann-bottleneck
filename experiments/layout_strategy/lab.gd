@@ -8,6 +8,7 @@ const Simulator = preload("res://src/layout_chapter/layout_simulator.gd")
 const Challenges = preload("res://experiments/layout_strategy/challenges.gd")
 const ChallengeCode = preload("res://experiments/layout_strategy/challenge_code.gd")
 const ChallengeWindow = preload("res://experiments/layout_strategy/challenge_window.gd")
+const Explanation = preload("res://experiments/layout_strategy/explanation.gd")
 var workspace = Workspace.new()
 var session = workspace.session
 var challenges = Challenges.new()
@@ -36,6 +37,14 @@ var _challenge_settings_focus: String = "ChallengeSettings"
 var _challenge_settings_pending: bool = false
 var _challenge_verdict_key: String = ""
 var _challenge_verdict: Dictionary = {}
+var _explaining: bool = false
+var _inspecting_comparison: bool = false
+var _explanation_key: String = ""
+var _explanation: Dictionary = {}
+var _explanation_entries: Dictionary = {}
+var _explanation_scope: Dictionary = {}
+var _explanation_lens: int = 0
+var _event_side: String = "selected"
 var selected_event: int = -1
 var interface: MarginContainer
 var run_button: Button
@@ -62,6 +71,7 @@ var measured_plan: Label
 var comparison_label: Label
 var restore_button: Button
 var baseline_button: Button
+var explanation_button: Button
 var challenge_button: Button
 var challenge_summary: Label
 var challenge_window: Window
@@ -69,6 +79,22 @@ var event_filter: OptionButton
 var event_table: Tree
 var event_source: Label
 var event_detail: RichTextLabel
+var evidence_page: VBoxContainer
+var evidence_mode: OptionButton
+var explanation_view: VBoxContainer
+var explanation_heading: Label
+var explanation_plans: Label
+var explanation_context: Label
+var explanation_lens: OptionButton
+var explanation_table: Tree
+var explanation_note: Label
+var inspect_selected: Button
+var inspect_baseline: Button
+var raw_view: VBoxContainer
+var event_navigation: HBoxContainer
+var event_back: Button
+var event_side_choice: OptionButton
+var event_scope: Label
 var public_detail: RichTextLabel
 var storage_label: Label
 var notebook_table: Tree
@@ -315,27 +341,52 @@ func _build() -> void:
 	comparison_page.add_child(actions)
 	restore_button = _button(actions,tr2("恢复此方案","Restore plan"),restore_selected,"Restore")
 	baseline_button = _button(actions,tr2("设为比较基准","Set comparison"),set_baseline,"SetBaseline")
+	explanation_button = _button(actions,tr2("查看差异","Explain"),open_explanation,"Explain")
 	challenge_button = _button(actions,tr2("挑战…","Challenges…"),open_challenges,"Challenges")
 	comparison_label = _label(comparison_page,"",14)
 	comparison_label.name = "Comparison"
 	comparison_label.custom_minimum_size.y = 42
 	challenge_summary = _label(comparison_page,"",13)
 	challenge_summary.name = "ActiveChallenge"
-	var evidence_page := VBoxContainer.new()
+	evidence_page = VBoxContainer.new()
 	evidence_page.name = tr2("运行证据","Evidence")
 	evidence_page.add_theme_constant_override("separation",6)
 	tabs.add_child(evidence_page)
-	event_source = _label(evidence_page,"",14)
-	event_filter = _choice(evidence_page,[
+	evidence_mode = _choice(evidence_page,[tr2("原始事件","Raw events"),tr2("解释比较","Explain comparison")],"EvidenceMode")
+	evidence_mode.select(1 if _explaining else 0)
+	evidence_mode.item_selected.connect(func(index: int) -> void:
+		_preserve_numeric_for_inspection()
+		_explaining = index == 1
+		_inspecting_comparison = false
+		selected_event = -1
+		_refresh_explanation()
+		_refresh_events())
+	_build_explanation()
+	raw_view = VBoxContainer.new()
+	raw_view.name = "RawEvidence"
+	raw_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	raw_view.add_theme_constant_override("separation",6)
+	evidence_page.add_child(raw_view)
+	event_navigation = HBoxContainer.new()
+	raw_view.add_child(event_navigation)
+	event_back = _button(event_navigation,tr2("返回差异","Back to comparison"),back_to_explanation,"BackToExplanation")
+	event_side_choice = _choice(event_navigation,[],"EventSide")
+	event_side_choice.item_selected.connect(func(index: int) -> void:
+		_event_side = "selected" if index == 0 else "baseline"
+		selected_event = -1
+		_refresh_events())
+	event_scope = _label(raw_view,"",13)
+	event_source = _label(raw_view,"",14)
+	event_filter = _choice(raw_view,[
 		tr2("请求与响应","Requests & responses"),
-		tr2("内存搬运","Memory transfers"),
+		tr2("内存事件","Memory events"),
 		tr2("全部事件","All events")],"EventFilter")
 	event_filter.select(previous_filter)
 	event_filter.item_selected.connect(func(_index: int) -> void: _refresh_events())
-	event_table = _table(evidence_page,[tr2("周期","Cycle"),tr2("事件","Event"),tr2("请求","Job"),tr2("地址","Addr"),"B"],"Events")
+	event_table = _table(raw_view,[tr2("周期","Cycle"),tr2("事件","Event"),tr2("请求","Job"),tr2("地址","Addr"),"RAM B"],"Events")
 	event_table.set_column_expand_ratio(1,2)
 	event_table.item_selected.connect(_event_selected)
-	event_detail = _reader(evidence_page,"EventDetail",128)
+	event_detail = _reader(raw_view,"EventDetail",128)
 	event_detail.size_flags_vertical = Control.SIZE_FILL
 	var public_page := VBoxContainer.new()
 	public_page.name = tr2("公开工作负载","Public workload")
@@ -346,6 +397,227 @@ func _build() -> void:
 	tabs.current_tab = previous_tab
 	_shown_entry = -1
 	refresh()
+
+func _build_explanation() -> void:
+	explanation_view = VBoxContainer.new()
+	explanation_view.name = "ComparisonEvidence"
+	explanation_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	explanation_view.add_theme_constant_override("separation",5)
+	evidence_page.add_child(explanation_view)
+	explanation_heading = _label(explanation_view,"",16)
+	explanation_heading.name = "ExplanationHeading"
+	explanation_plans = _label(explanation_view,"",13)
+	explanation_plans.name = "ExplanationPlans"
+	explanation_context = _label(explanation_view,"",12)
+	explanation_context.name = "ExplanationContext"
+	explanation_lens = _choice(explanation_view,[
+		tr2("周期与RAM流量","Cycles & RAM traffic"),tr2("缓存读取","Cache reads"),
+		tr2("请求时序","Request timing")],"ExplanationLens")
+	explanation_lens.select(_explanation_lens)
+	explanation_lens.item_selected.connect(func(index: int) -> void:
+		_explanation_lens = index
+		_explanation_scope = {}
+		_render_explanation_rows())
+	explanation_table = _table(explanation_view,[
+		tr2("实测项目","Measured quantity"),tr2("所选","Selected"),
+		tr2("基准","Baseline"),tr2("差值","Difference")],"ExplanationRows")
+	explanation_table.custom_minimum_size.y = 112
+	explanation_table.set_column_expand_ratio(0,2)
+	explanation_table.item_selected.connect(_explanation_row_selected)
+	explanation_note = _label(explanation_view,"",12)
+	explanation_note.name = "ExplanationNote"
+	var actions := HBoxContainer.new()
+	explanation_view.add_child(actions)
+	inspect_selected = _button(actions,tr2("查看所选事件","Selected events"),
+		func() -> void: inspect_explanation("selected"),"InspectSelected")
+	inspect_baseline = _button(actions,tr2("查看基准事件","Baseline events"),
+		func() -> void: inspect_explanation("baseline"),"InspectBaseline")
+
+func _phase_name(key: String) -> String:
+	match key:
+		"prepare": return tr2("准备","Preparation")
+		"query": return tr2("查询","Query")
+		"output": return tr2("输出","Output")
+		"total": return tr2("总计","Total")
+	return key
+
+func open_explanation() -> void:
+	if _modal_blocked() or (is_instance_valid(exit_overlay) and exit_overlay.visible): return
+	_preserve_numeric_for_inspection()
+	_explaining = true
+	_inspecting_comparison = false
+	evidence_mode.select(1)
+	tabs.current_tab = 1
+	_refresh_explanation()
+	explanation_lens.grab_focus()
+
+func back_to_explanation() -> void:
+	if _modal_blocked() or (is_instance_valid(exit_overlay) and exit_overlay.visible): return
+	_inspecting_comparison = false
+	_refresh_explanation()
+	explanation_table.grab_focus()
+
+func _explanation_identity(entry: Dictionary) -> Array:
+	return [entry.get("id",-1),entry.get("condition_id",""),
+		entry.get("trace_id",""),entry.get("correct",false)]
+
+func _refresh_explanation() -> void:
+	if not is_instance_valid(explanation_view) or not is_instance_valid(raw_view): return
+	var selected: Dictionary = session.selected_entry()
+	var baseline: Dictionary = session.baseline_entry()
+	var condition: String = Model.condition_id(session.task())
+	var key: String = JSON.stringify([condition,_explanation_identity(selected),_explanation_identity(baseline)])
+	if key != _explanation_key:
+		_explanation_key = key
+		_explanation = {}
+		_explanation_entries = {"selected":selected,"baseline":baseline}
+		_explanation_scope = {}
+		_inspecting_comparison = false
+		if _explaining: selected_event = -1
+	_disable(explanation_button,selected.is_empty() or baseline.is_empty()
+		or not selected.get("correct",false) or not baseline.get("correct",false)
+		or selected.get("condition_id","") != condition or baseline.get("condition_id","") != condition)
+	if _explaining and _explanation.is_empty():
+		_explanation = Explanation.compare(selected,baseline,condition)
+	var available: bool = bool(_explanation.get("ok",false))
+	if _inspecting_comparison and not available: _inspecting_comparison = false
+	explanation_view.visible = _explaining and not _inspecting_comparison
+	raw_view.visible = not _explaining or _inspecting_comparison
+	event_navigation.visible = _explaining and _inspecting_comparison
+	event_scope.visible = event_navigation.visible
+	if not _explaining: return
+	explanation_heading.text = tr2("所选 #%d − 基准 #%d","Selected #%d − baseline #%d") % [
+		int(selected.get("id",-1)),int(baseline.get("id",-1))]
+	explanation_heading.tooltip_text = tr2("差值方向：所选减去基准。","Difference direction: selected minus baseline.")
+	explanation_plans.text = tr2("所选：%s\n基准：%s","Selected: %s\nBaseline: %s") % [
+		_plan_text(selected.plan).replace("\n"," · ") if selected.has("plan") else "—",
+		_plan_text(baseline.plan).replace("\n"," · ") if baseline.has("plan") else "—"]
+	explanation_context.text = (tr2("按总周期比较","Rank by total cycles") if session.goal().objective == "cycles"
+		else tr2("按RAM流量比较","Rank by RAM bytes"))+" · "+_goal_text()
+	for row: Dictionary in session.ranked_rows():
+		if row.get("eligible",false): continue
+		if int(row.id) == int(selected.get("id",-1)):
+			explanation_context.text += tr2(" · 所选超限"," · selected outside goal")
+		if int(row.id) == int(baseline.get("id",-1)):
+			explanation_context.text += tr2(" · 基准超限"," · baseline outside goal")
+	if not available:
+		explanation_heading.text = tr2("比较证据不可用","Comparison evidence unavailable")
+		explanation_context.text = tr2("需要两次完整、正确且属于当前条件的实测记录。仍可查看原始事件。",
+			"Two complete, correct measurements in this condition are required. Raw events remain available.")
+		explanation_context.tooltip_text = str(_explanation.get("reason",""))
+	else:
+		explanation_context.tooltip_text = tr2("同条件指纹：","Same condition: ")+condition
+	explanation_lens.disabled = not available
+	explanation_lens.focus_mode = Control.FOCUS_ALL if available else Control.FOCUS_NONE
+	_render_explanation_rows()
+	if _inspecting_comparison: _refresh_events()
+
+func _explanation_row(parent: TreeItem, title: String, selected: int, baseline: int, scope: Dictionary) -> void:
+	var item: TreeItem = explanation_table.create_item(parent)
+	item.set_text(0,title)
+	item.set_text(1,str(selected))
+	item.set_text(2,str(baseline))
+	item.set_text(3,_signed(selected-baseline))
+	item.set_metadata(0,scope.duplicate(true))
+	for column: int in 4: item.set_tooltip_text(column,title)
+	if _explanation_scope == scope: item.select(0)
+
+func _render_explanation_rows() -> void:
+	var was_syncing: bool = _syncing
+	_syncing = true
+	explanation_table.clear()
+	var tree_root: TreeItem = explanation_table.create_item()
+	var available: bool = bool(_explanation.get("ok",false))
+	if available:
+		explanation_table.set_column_title(1,tr2("所选 #%d","Selected #%d") % int(_explanation.selected.id))
+		explanation_table.set_column_title(2,tr2("基准 #%d","Baseline #%d") % int(_explanation.baseline.id))
+		if _explanation_lens == 0:
+			for phase: Dictionary in _explanation.phases:
+				_explanation_row(tree_root,_phase_name(str(phase.key))+tr2(" · 周期"," · cycles"),
+					int(phase.selected.cycles),int(phase.baseline.cycles),{"kind":"phase","key":phase.key,"metric":"cycles"})
+				_explanation_row(tree_root,_phase_name(str(phase.key))+" · RAM B",
+					int(phase.selected.ram_bytes),int(phase.baseline.ram_bytes),{"kind":"phase","key":phase.key,"metric":"ram_bytes"})
+			_explanation_row(tree_root,tr2("已复制数据 B","Copied payload B"),
+				int(_explanation.selected.copy_payload_bytes),int(_explanation.baseline.copy_payload_bytes),
+				{"kind":"phase","key":"prepare","metric":"payload"})
+			_explanation_row(tree_root,tr2("复制分配 B","Copy allocation B"),
+				int(_explanation.selected.copy_allocated_bytes),int(_explanation.baseline.copy_allocated_bytes),
+				{"kind":"phase","key":"prepare","metric":"allocation"})
+		elif _explanation_lens == 1:
+			for phase: Dictionary in _explanation.phases:
+				if str(phase.key) == "output": continue
+				for metric: String in ["lookups","hits","fills","writes","ram_read_bytes","ram_write_bytes"]:
+					var labels: Dictionary = {
+						"lookups":tr2("读查找","read lookups"),"hits":tr2("读命中","read hits"),
+						"fills":tr2("读缺失","read misses"),"writes":tr2("写入次数","write count"),
+						"ram_read_bytes":tr2("RAM读取 B","RAM read B"),
+						"ram_write_bytes":tr2("RAM写入 B","RAM write B"),
+					}
+					_explanation_row(tree_root,_phase_name(str(phase.key))+" · "+str(labels[metric]),
+						int(phase.selected[metric]),int(phase.baseline[metric]),{"kind":"phase","key":phase.key,"metric":metric})
+		else:
+			for job: Dictionary in _explanation.jobs:
+				for metric: String in ["admission","completion","elapsed"]:
+					var labels: Dictionary = {
+						"admission":tr2("就绪周期","admission"),"completion":tr2("完成周期","completion"),
+						"elapsed":tr2("等待至完成","elapsed cycles"),
+					}
+					_explanation_row(tree_root,"Q%d · %s" % [int(job.id)+1,str(labels[metric])],
+						int(job.selected[metric]),int(job.baseline[metric]),{"kind":"job","id":int(job.id),"metric":metric})
+		if explanation_table.get_selected() == null and tree_root.get_first_child() != null:
+			tree_root.get_first_child().select(0)
+		if explanation_table.get_selected() != null:
+			explanation_table.scroll_to_item(explanation_table.get_selected())
+	_syncing = was_syncing
+	explanation_note.text = tr2("逐项实测差异，不把收益归因于单个设置。选择一行查看该阶段的原始事件。",
+		"Measured differences, not causes assigned to a setting. Select a row to inspect its events.")
+	if _explanation_lens == 2:
+		explanation_note.text = tr2("等待至完成＝完成−就绪；包含准备与交替执行，不能相加当作总工作量。",
+			"Elapsed = completion − admission, including preparation and interleaving. Do not sum it as work.")
+	if not available: explanation_note.text = ""
+	_disable(inspect_selected,not available)
+	_disable(inspect_baseline,not available)
+	_explanation_row_selected()
+
+func _explanation_row_selected() -> void:
+	if _syncing: return
+	var item: TreeItem = explanation_table.get_selected()
+	if item == null: return
+	_explanation_scope = item.get_metadata(0).duplicate(true)
+
+func _explanation_scope_name() -> String:
+	if _explanation_scope.get("kind","") == "job": return "Q"+str(int(_explanation_scope.id)+1)
+	return _phase_name(str(_explanation_scope.get("key","total")))
+
+func _explanation_indices() -> Array:
+	var summary: Dictionary = _explanation.get(_event_side,{})
+	var rows: Array = summary.get("jobs",[]) if _explanation_scope.get("kind","") == "job" else summary.get("phases",[])
+	for row: Dictionary in rows:
+		if _explanation_scope.get("kind","") == "job" and int(row.id) == int(_explanation_scope.id):
+			return row.event_indices
+		if _explanation_scope.get("kind","") == "phase" and str(row.key) == str(_explanation_scope.key):
+			return row.event_indices
+	return []
+
+func inspect_explanation(side: String) -> void:
+	if _modal_blocked() or (is_instance_valid(exit_overlay) and exit_overlay.visible): return
+	if not _explanation.get("ok",false) or side not in ["selected","baseline"]: return
+	_preserve_numeric_for_inspection()
+	_event_side = side
+	_inspecting_comparison = true
+	selected_event = -1
+	event_filter.select(2)
+	explanation_view.hide()
+	raw_view.show()
+	event_navigation.show()
+	event_scope.show()
+	_refresh_events()
+	event_table.grab_focus()
+
+func _event_entry() -> Dictionary:
+	if _explaining and _inspecting_comparison:
+		return _explanation_entries.get(_event_side,{})
+	return session.selected_entry()
 
 func _build_notebook() -> void:
 	var page := VBoxContainer.new()
@@ -611,6 +883,7 @@ func _refresh_history(rebuild_rows: bool = true) -> void:
 		status.text = tr2("草稿对应所选实测结果。","Draft matches the selected measurement.")
 	_refresh_comparison()
 	_refresh_challenge()
+	_refresh_explanation()
 	if selected_id != _shown_entry:
 		_shown_entry = selected_id
 		_refresh_events()
@@ -1058,16 +1331,28 @@ func _event_name(kind: String) -> String:
 	return str(names.get(kind,kind))
 
 func _refresh_events() -> void:
-	var entry: Dictionary = session.selected_entry()
+	var entry: Dictionary = _event_entry()
 	event_table.clear()
 	var tree_root: TreeItem = event_table.create_item()
 	if entry.is_empty():
 		event_source.text = tr2("运行后可检查每份请求和实际搬运。","Run a plan to inspect its requests and actual transfers.")
 		event_detail.text = ""
 		return
-	event_source.text = tr2("运行 #%d · 原始事件；读取所选快照","Run #%d · actual events from the selected snapshot") % int(entry.id)
+	var paired: bool = _explaining and _inspecting_comparison
+	if paired:
+		event_side_choice.clear()
+		event_side_choice.add_item(tr2("所选 #%d","Selected #%d") % int(_explanation.selected.id))
+		event_side_choice.add_item(tr2("基准 #%d","Baseline #%d") % int(_explanation.baseline.id))
+		event_side_choice.select(0 if _event_side == "selected" else 1)
+		event_scope.text = _explanation_scope_name()+tr2(" · 此范围的原始事件，RAM B仅计装入与写入。",
+			" · original events in this scope; RAM B counts only fills and writes.")
+		event_source.text = (tr2("所选运行 #%d","Selected run #%d") if _event_side == "selected" else tr2(
+			"基准运行 #%d","Baseline run #%d")) % int(entry.id)
+	else:
+		event_source.text = tr2("运行 #%d · 原始事件；读取所选快照","Run #%d · actual events from the selected snapshot") % int(entry.id)
+	var indices: Array = _explanation_indices() if paired else range(entry.events.size())
 	var first: TreeItem
-	for index: int in entry.events.size():
+	for index: int in indices:
 		var event: Dictionary = entry.events[index]
 		var kind: String = str(event.kind)
 		if event_filter.selected == 0 and kind not in ["request_admitted","response","error"]: continue
@@ -1079,14 +1364,14 @@ func _refresh_events() -> void:
 		item.set_text(1,_event_name(kind))
 		item.set_text(2,"Q"+str(int(event.details.job_id)+1) if event.details.has("job_id") else "—")
 		item.set_text(3,str(event.address) if int(event.address) >= 0 else "—")
-		item.set_text(4,str(int(event.details.get("bytes",0))))
+		item.set_text(4,str(int(event.details.get("bytes",0))) if kind in ["fill","write"] else "0")
 		if index == selected_event: item.select(0)
 	if event_table.get_selected() == null and first != null: first.select(0)
 	_event_selected()
 
 func _event_selected() -> void:
 	var item: TreeItem = event_table.get_selected()
-	var entry: Dictionary = session.selected_entry()
+	var entry: Dictionary = _event_entry()
 	if item == null or entry.is_empty():
 		event_detail.text = tr2("此筛选下没有事件。","No events in this filter.")
 		return
@@ -1097,7 +1382,7 @@ func _event_selected() -> void:
 	var lines: PackedStringArray = [
 		tr2("事件%d · %s · %s","Event %d · %s · %s") % [selected_event+1,_event_name(str(event.kind)),job],
 		tr2("周期 %d → %d · %s → %s","Cycle %d → %d · %s → %s") % [int(event.cycle),int(event.cycle)+int(event.duration),event.source,event.target],
-		tr2("地址 %s · 数值 %s · 字节 %s","Address %s · value %s · bytes %s") % [str(event.address),str(event.value),str(details.get("bytes",0))],
+		tr2("地址 %s · 数值 %s · 事件字节 %s","Address %s · value %s · event bytes %s") % [str(event.address),str(event.value),str(details.get("bytes",0))],
 	]
 	if str(event.kind) == "response":
 		var first_output: int = int(details.get("output_first",0))
@@ -1188,6 +1473,31 @@ func _numeric_editor(focused: Control) -> SpinBox:
 			return control
 	return null
 
+func _preserve_numeric_for_inspection() -> void:
+	var control: SpinBox = _numeric_editor(get_viewport().gui_get_focus_owner())
+	if control == null: return
+	var typed: String = control.get_line_edit().text
+	var committed: float = control.value
+	var pending: SpinBox = _pending_numeric
+	var was_syncing: bool = _syncing
+	# SpinBox applies text on focus loss. Inspection must preserve the draft and
+	# the pending text, while an explicit later Run still applies it once.
+	_syncing = true
+	control.get_line_edit().text = str(committed)
+	control.get_line_edit().release_focus()
+	control.set_value_no_signal(committed)
+	# Restore after SpinBox has processed its deferred focus-loss application.
+	control.get_line_edit().set_deferred("text",typed)
+	_syncing = was_syncing
+	_pending_numeric = pending
+
+func _inspection_hit(position: Vector2) -> bool:
+	for control: Control in [explanation_button,history_table,evidence_page]:
+		if is_instance_valid(control) and control.is_visible_in_tree() and control.get_global_rect().has_point(position):
+			return true
+	var bar: TabBar = tabs.get_tab_bar()
+	return bar.get_tab_rect(1).has_point(bar.get_global_transform().affine_inverse()*position)
+
 func _commit_numeric_editor() -> void:
 	var control: SpinBox = _numeric_editor(get_viewport().gui_get_focus_owner())
 	if control == null and is_instance_valid(_pending_numeric) and _pending_numeric.editable:
@@ -1196,6 +1506,9 @@ func _commit_numeric_editor() -> void:
 	if control != null: control.apply()
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if not _modal_blocked() and not (is_instance_valid(exit_overlay) and exit_overlay.visible) and _inspection_hit(event.position):
+			_preserve_numeric_for_inspection()
 	if not event is InputEventKey or not event.pressed or event.echo or _modal_blocked(): return
 	if is_instance_valid(exit_overlay) and exit_overlay.visible: return
 	if not event.is_command_or_control_pressed() or event.keycode not in [KEY_ENTER,KEY_KP_ENTER]: return

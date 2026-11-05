@@ -1,0 +1,27 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+WARNING: `NaN` ("Not a Number") found in argument passed to JSON.stringify(). `NaN` cannot be represented in JSON, so the value has been replaced with `null`. This warning will not be printed for any later NaN occurrences.
+     at: _stringify (core/io/json.cpp:86)
+     GDScript backtrace (most recent call first):
+         [0] _reject (res://tests/test_layout_strategy_explanation.gd:333)
+         [1] _invalid_evidence (res://tests/test_layout_strategy_explanation.gd:250)
+         [2] _run (res://tests/test_layout_strategy_explanation.gd:29)
+ERROR: Attempted to set a variable of type 'String' into a TypedArray of type 'Dictionary'.
+   at: _internal_validate (./core/variant/container_type_validate.h:73)
+   GDScript backtrace (most recent call first):
+       [0] _invalid_evidence (res://tests/test_layout_strategy_explanation.gd:278)
+       [1] _run (res://tests/test_layout_strategy_explanation.gd:29)
+ERROR: Condition "!_p->typed.validate(value, "set")" is true.
+   at: set (core/variant/array.cpp:520)
+   GDScript backtrace (most recent call first):
+       [0] _invalid_evidence (res://tests/test_layout_strategy_explanation.gd:278)
+       [1] _run (res://tests/test_layout_strategy_explanation.gd:29)
+ERROR: Malformed event has stable unavailable reason events
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation.gd:30)
+ERROR: Unavailable result contains no partial improvement data.
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation.gd:30)
+FAIL: layout strategy explanation 430 checks, 19 measurements, 2 failures

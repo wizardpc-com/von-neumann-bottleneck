@@ -1,0 +1,16 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-zh_CN-costs-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-zh_CN-costs-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-zh_CN-cache-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-zh_CN-baseline-events-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-zh_CN-requests-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-zh_CN-failed-events-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-en-costs-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-en-costs-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-en-cache-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-en-baseline-events-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-en-requests-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui/layout-explanation-en-failed-events-960.png
+PASS: layout explanation UI 481 checks, 0 failures

@@ -141,6 +141,9 @@ func restore_checkpoint(active: String, drafts: Dictionary, goals: Dictionary) -
 func selected_entry() -> Dictionary:
 	return _entry(int(_state().selected)).duplicate(true)
 
+func baseline_entry() -> Dictionary:
+	return _entry(baseline_id()).duplicate(true)
+
 func select(id: int) -> bool:
 	if _entry(id).is_empty(): return false
 	_state().selected = id

@@ -1,3 +1,41 @@
+## Measured comparison explanation — 2026-11-05
+
+Run `test_layout_strategy_explanation` and
+`test_layout_strategy_explanation_ui` with the isolated verifier, alongside
+Session/model/structures/goals/workspace/challenges, the existing UI suites,
+frozen catalog parity and formal legacy parity. The pure suite uses actual
+model outputs, including the58-cycle/44B tradeoff, copy-layout differences,
+overlapping batch response intervals and sparse out-of-order completions.
+It reconciles phases, RAM read/write bytes and read lookup/hit/miss counts;
+`requests` includes writes and must not be used as the read denominator.
+
+Malformed-event fixtures need an untyped parsed event array: the actual
+`Array[Dictionary]` rejects a String before the reducer sees it. For NaN/Infinity
+rejection fixtures, compare `var_to_bytes()` snapshots to check non-mutation;
+`JSON.stringify()` replaces those values and emits an unrelated warning.
+
+```sh
+<Godot-4.7.1> --path <isolated-project> --windowed --resolution 1280x720 \
+  --script res://tests/test_layout_strategy_explanation_ui.gd \
+  -- --capture-size=1280x720 --layout-explanation-capture
+```
+
+The UI fixture covers both locales and1280×720/960×640, selected/baseline source
+identity and original event indexes, current-goal context, failed raw evidence,
+locale/modal transitions and unchanged Session/Notebook/target/file snapshots.
+Wait for SpinBox's deferred focus refresh before typing; assert the intended
+number is visibly pending over a different committed value before clicking
+Explain. Inspection must preserve it; a later explicit Run must apply it once.
+Check actual raw pixels as well as saved-image sizes. Scripted input does not
+establish native interaction or human understanding of the tradeoff.
+
+The empty legacy-target UI path logs pre/post-click modal, button and viewport
+state and asserts a visible created Window before dereferencing it. An earlier
+GPU invocation raised a script error yet later printed PASS from the outer
+runner. Always read diagnostics and the process result; that PASS line was not
+acceptance. Two guarded GPU reruns passed without reproducing the first click
+failure, whose exact cause remains unconfirmed in the Round8 receipt.
+
 ## Structural workloads and versioned copies — 2026-11-05
 
 Use the isolated verifier for `test_layout_strategy_structures`,

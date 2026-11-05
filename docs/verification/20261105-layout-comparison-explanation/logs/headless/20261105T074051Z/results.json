@@ -1,0 +1,109 @@
+[
+  {
+    "suite": "import",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T070528Z-49a63b5c/project",
+      "--headless",
+      "--editor",
+      "--import",
+      "--quit"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round8/20261105T074051Z/import",
+    "log": "headless/20261105T074051Z/import.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_explanation_ui",
+    "code": 1,
+    "errors": [
+      "ERROR: Feedback Escape returns exact focus without requesting departure zh_CN",
+      "ERROR: Mouse explanation preserves pending numeric text without committing on focus loss zh_CN",
+      "ERROR: Pending-number inspection changes no draft, Undo, history, goal, target or file zh_CN",
+      "ERROR: Event browsing also preserves pending editor and underlying state zh_CN",
+      "ERROR: Feedback Escape returns exact focus without requesting departure en",
+      "ERROR: Mouse explanation preserves pending numeric text without committing on focus loss en",
+      "ERROR: Pending-number inspection changes no draft, Undo, history, goal, target or file en",
+      "ERROR: Event browsing also preserves pending editor and underlying state en",
+      "FAIL: layout explanation UI 453 checks, 8 failures"
+    ],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T070528Z-49a63b5c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_explanation_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round8/20261105T074051Z/test_layout_strategy_explanation_ui",
+    "log": "headless/20261105T074051Z/test_layout_strategy_explanation_ui.log",
+    "passed": false
+  },
+  {
+    "suite": "test_layout_strategy_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T070528Z-49a63b5c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round8/20261105T074051Z/test_layout_strategy_ui",
+    "log": "headless/20261105T074051Z/test_layout_strategy_ui.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_notebook_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T070528Z-49a63b5c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_notebook_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round8/20261105T074051Z/test_layout_strategy_notebook_ui",
+    "log": "headless/20261105T074051Z/test_layout_strategy_notebook_ui.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_challenge_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T070528Z-49a63b5c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_challenge_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round8/20261105T074051Z/test_layout_strategy_challenge_ui",
+    "log": "headless/20261105T074051Z/test_layout_strategy_challenge_ui.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_structures_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T070528Z-49a63b5c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_structures_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round8/20261105T074051Z/test_layout_strategy_structures_ui",
+    "log": "headless/20261105T074051Z/test_layout_strategy_structures_ui.log",
+    "passed": true
+  }
+]

@@ -1,0 +1,7 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+BEFORE {"draft":8,"hit":true,"text":"7","value":8.0}
+FOCUS_EXIT {"draft":8,"syncing":true,"text":"7","value":8.0}
+FOCUS_VALUE {"draft":7,"syncing":false,"text":"7","value":7.0}
+AFTER {"draft":7,"pending":true,"text":"7","value":7.0}
+PASS: diagnostic only, no acceptance verdict

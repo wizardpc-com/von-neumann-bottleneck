@@ -1,0 +1,56 @@
+[
+  {
+    "suite": "test_layout_strategy_structures_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T070528Z-49a63b5c/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_layout_strategy_structures_ui.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-explanation-capture",
+      "--layout-structures-capture",
+      "--layout-strategy-challenge-capture",
+      "--layout-strategy-capture",
+      "--layout-notebook-capture",
+      "--layout-challenge-capture",
+      "--layout-score-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui",
+    "log": "gpu/20261105T081357Z/test_layout_strategy_structures_ui.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_explanation_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T070528Z-49a63b5c/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_layout_strategy_explanation_ui.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-explanation-capture",
+      "--layout-structures-capture",
+      "--layout-strategy-challenge-capture",
+      "--layout-strategy-capture",
+      "--layout-notebook-capture",
+      "--layout-challenge-capture",
+      "--layout-score-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_explanation_ui",
+    "log": "gpu/20261105T081357Z/test_layout_strategy_explanation_ui.log",
+    "passed": true
+  }
+]

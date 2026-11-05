@@ -438,8 +438,15 @@ func empty_legacy_targets(locale: String) -> void:
 	var host: Control = await open_legacy_host(path)
 	check(host.challenges.copy_pending and host.challenges.is_dirty() and not host.challenges.target("scan_batch").pending,
 		"An empty earlier map still needs an explicit copy without inventing a pending target "+locale)
+	print("EMPTY_TARGET_BEFORE ",locale,": ",challenge_open_state(host))
 	await click(host.challenge_button)
 	var window: Window = host.challenge_window
+	print("EMPTY_TARGET_AFTER ",locale,": ",challenge_open_state(host))
+	check(is_instance_valid(window) and window.visible,
+		"Viewport click opens the empty-map challenge window "+locale+": "+challenge_open_state(host))
+	if not is_instance_valid(window):
+		await close_structure_host(host)
+		return
 	check(window.retry_button.visible and window.storage_label.text.contains("copy" if host.english else "副本"),
 		"Empty-map copy is visibly savable in the challenge window "+locale)
 	await popup_activate(window,window.retry_button)
@@ -449,6 +456,13 @@ func empty_legacy_targets(locale: String) -> void:
 		"Explicit empty-map copy creates a real v2 file while preserving the v1 map "+locale)
 	await popup_activate(window,window.close_button)
 	await close_structure_host(host)
+
+func challenge_open_state(host: Control) -> String:
+	return "size=%s tab=%d visible=%s disabled=%s bounds=%s modal=%s blocked=%s exit=%s focus=%s window=%s" % [
+		root.size,host.tabs.current_tab,host.challenge_button.is_visible_in_tree(),
+		host.challenge_button.disabled,host.challenge_button.get_global_rect(),
+		root.get_last_exclusive_window(),host._modal_blocked(),host.exit_overlay.visible,
+		root.gui_get_focus_owner(),host.challenge_window]
 
 func structure_frame(suffix: String, expected: Vector2i, window: Window = null) -> void:
 	if "--layout-structures-capture" not in OS.get_cmdline_user_args() or DisplayServer.get_name() == "headless": return

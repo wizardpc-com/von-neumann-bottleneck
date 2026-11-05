@@ -1,0 +1,83 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: zh temporary: Undo Join restores the original B1 group and selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:65)
+ERROR: zh temporary: Undo history restore recovers the exact prior draft and selected group
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:80)
+ERROR: zh temporary: an identical-plan no-op preserves Redo and selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:83)
+ERROR: zh temporary: a new edit after Undo replaces the abandoned Redo branch
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:88)
+ERROR: zh persistent: Undo Join restores the original B1 group and selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:65)
+ERROR: zh persistent: Undo history restore recovers the exact prior draft and selected group
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:80)
+ERROR: zh persistent: an identical-plan no-op preserves Redo and selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:83)
+ERROR: zh persistent: a new edit after Undo replaces the abandoned Redo branch
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:88)
+ERROR: en temporary: Undo Join restores the original B1 group and selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:65)
+ERROR: en temporary: Undo history restore recovers the exact prior draft and selected group
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:80)
+ERROR: en temporary: an identical-plan no-op preserves Redo and selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:83)
+ERROR: en temporary: a new edit after Undo replaces the abandoned Redo branch
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:88)
+ERROR: en persistent: Undo Join restores the original B1 group and selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:65)
+ERROR: en persistent: Undo history restore recovers the exact prior draft and selected group
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:80)
+ERROR: en persistent: an identical-plan no-op preserves Redo and selection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:83)
+ERROR: en persistent: a new edit after Undo replaces the abandoned Redo branch
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_service_undo_context.gd:11)
+       [1] run (res://tests/test_service_undo_context.gd:88)
+FAIL: test_service_undo_context 96 checks, 16 failures

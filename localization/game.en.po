@@ -7203,6 +7203,24 @@ msgstr "Current | %s cycles | CPU wait %s | Hit/miss %s/%s | RAM %s B"
 
 msgid "s2.run.comparison"
 msgstr "Previous → current | Cycles %s | Wait %s | Hits %s | Misses %s | RAM %s B"
+
+msgid "s2.run.metrics_locked"
+msgstr "Current | %s cycles | CPU wait %s"
+
+msgid "s2.run.comparison_locked"
+msgstr "Previous → current | Cycles %s | Wait %s"
+
+msgid "hardware.workbench.duplicate"
+msgstr "Duplicate current design…"
+
+msgid "hardware.workbench.duplicate.title"
+msgstr "Duplicate current design"
+
+msgid "hardware.workbench.duplicate.confirm"
+msgstr "Duplicate"
+
+msgid "hardware.workbench.duplicate.note"
+msgstr "Copy the parts, wiring and layout of “%s”. The original is kept; test the new design again."
 # --- b2-bridges 20261104 ---
 
 msgid "b2.reflection.capstone"
@@ -7283,3 +7301,28 @@ msgstr "Back · Esc"
 # --- p1-pages 20261104 --- Round 2
 msgid "p1.feedback_title"
 msgstr "Feedback"
+
+# Retained Chapter 2 experiments
+msgid "chapter2.best.summary"
+msgstr "Fastest correct design retained: %d cycles · cost %d"
+
+msgid "chapter2.best.restore"
+msgstr "Load fastest design"
+
+msgid "chapter2.best.undo"
+msgstr "Return to previous draft"
+
+msgid "chapter2.best.scope"
+msgstr "Same task, official data and pass count, ranked by measured cycles; lower cost breaks cycle ties. Run again after loading."
+
+msgid "chapter2.best.restored"
+msgstr "Fastest design loaded. Run again; the previous text and configuration can be restored."
+
+msgid "chapter2.best.undo_done"
+msgstr "Previous draft and configuration restored. Run results cleared."
+
+msgid "chapter2.best.already_loaded"
+msgstr "This fastest design is already loaded."
+
+msgid "chapter2.history.change.program"
+msgstr "source program"

@@ -1,0 +1,19 @@
+{
+  "name": "gpu_game_record_projection_static",
+  "suite": "test_game_record_projection",
+  "exit": 0,
+  "passed": true,
+  "errors": [],
+  "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu-record-projection-static-3",
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T203308Z-530aab9a/project",
+    "--script",
+    "res://tests/test_game_record_projection.gd",
+    "--",
+    "--capture-size=1280x800",
+    "--record-projection-capture"
+  ],
+  "log": "gpu_game_record_projection_static.txt"
+}

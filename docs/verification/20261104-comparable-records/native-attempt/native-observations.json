@@ -1,0 +1,24 @@
+[
+	{
+		"action": "fixture-ready",
+		"best_cycles": 138,
+		"draft": {
+			"applied_source": "# Starter: column-first access on row-major A\nacc = 0\nfor col in range(4):\n    for row in range(4):\n        acc += load(A[row][col])\nstore(OUT[0], acc)\n",
+			"blocks": 2,
+			"bypass": false,
+			"cache_lines": 2,
+			"caret_column": 4,
+			"caret_line": 1,
+			"draft_source": "# native unfinished draft\nacc =\n",
+			"level_id": "capstone",
+			"mode": "test",
+			"passes": 2
+		},
+		"level": "capstone",
+		"mode": "test",
+		"restore_return_visible": false,
+		"returned_exact_draft": true,
+		"run_disabled": true,
+		"trace_present": false
+	}
+]

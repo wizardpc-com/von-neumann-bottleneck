@@ -364,7 +364,7 @@ func _select(key: String) -> void:
 			text += "\n\n"+("✓ " if not LocalityChapter.economical_design.is_empty() else "◇ ")+Localization.text(&"bonus.economical")
 		elif task.key in ["chapter_3/distance","chapter_3/synthesis"]:
 			text += "\n\n"+("✓ " if OverlapChapter.bonus_status(task.id).complete else "◇ ")+Localization.text(StringName("overlap.bonus."+task.id))
-		var record: String = canvas.record_caption(task)
+		var record: String = canvas.record_detail(task)
 		if not record.is_empty(): text += "\n\n" + record
 		details.text = text
 		_clear_rows(prerequisite_rows)

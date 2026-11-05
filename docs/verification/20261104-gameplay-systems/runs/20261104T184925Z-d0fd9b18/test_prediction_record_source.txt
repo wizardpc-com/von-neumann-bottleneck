@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Cross-task caption identifies the record and rule
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_prediction_record_source.gd:8)
+       [1] run (res://tests/test_prediction_record_source.gd:27)
+FAIL: prediction record source 1 failures / 28 checks

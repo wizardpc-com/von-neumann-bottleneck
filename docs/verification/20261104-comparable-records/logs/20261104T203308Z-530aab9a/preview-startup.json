@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--headless",
+    "--path",
+    "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T203308Z-530aab9a/project",
+    "--quit-after",
+    "3"
+  ],
+  "exit": 0,
+  "errors": [],
+  "passed": true,
+  "scope": "Ordinary project entry with isolated preview profile; headless startup only"
+}

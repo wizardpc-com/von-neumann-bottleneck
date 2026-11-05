@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Invalid type in function 'task' in base 'SceneTree (test_game_record_projection.gd)'. The array of argument 1 (Array) does not have the same element type as the expected typed array argument.
+          at: run (res://tests/test_game_record_projection.gd:87)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_game_record_projection.gd:87)

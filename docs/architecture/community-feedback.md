@@ -1,5 +1,55 @@
 # Offline-first community preparation
 
+## Comparable local observations — 2026-11-04
+
+The local official-result signal receives authored task identity before emission,
+including when action telemetry is off. Chapter 1 identifies the selected executed
+order and excludes custom programs marked ineligible for progression from official
+personal minima. Chapter 2 identifies its model, official data and fixed pass count.
+Supported cycle domains normalize `cycles`/`total_cycles`; missing, nonfinite,
+fractional, negative or contradictory values cannot become zero scores. Hardware
+retains case counts. Creation's heterogeneous operations and temporary Prediction
+remain outside generic persistent cycle competition.
+
+`personal_task_records_v1.json` retains schema 1 and the `best` compatibility view.
+Optional `conditions` keeps up to eight separately identified workload minima per
+task; `legacy` preserves summaries whose identity is insufficient. There are at
+most 100 distinct task keys across all three containers and a 256 KiB file limit. A changed condition is never compared
+numerically against another one. Switching back selects its retained minimum.
+Old schema-1 readers can read `best`; old writers drop the new fields on their next
+write, so preserve a copy of this journal before rolling back if that additional
+history is needed. This journal is separate from the global player save.
+
+Unreadable, future, corrupt or unsupported files are read-only. Complete nested
+containers, fields, metrics, task/condition identities and loaded bounds are
+validated before canonicalization; damaged history is never silently dropped and
+then overwritten. Temporary
+write or replace failures keep the existing file; an identical later measurement
+can retry. The archive displays actual `read_only` / `write_failed` status. Reading
+records does not write, switch GameMode, award completion or migrate player stores.
+Permanent archives explicitly project Game state even during Test. Current map
+navigation and task entry retain their original mode/access rules.
+
+Summary records remain historical observations, not replay proof. Chapter 2 and
+Chapter 4 additionally expose actual current-model measurements from saved recipes.
+Chapter 2 retains fastest correct admissible experiments within its existing
+12-receipt / 32-recipe bounds, including across restart; passing the numerical task
+target or teaching review remains separate. Chapter 4 replays all official orders
+for the saved fastest passing design. The journal preserves the historical scalar
+beside this current measurement; map details identify the measurement source and
+objective. No recipe or raw source is added to telemetry.
+
+Optional community reads now serialize the in-flight request and bind the response
+parser to its original request. Malformed fields fail visibly. No endpoint, score
+consent, upload format, server verifier, competitive unlock or anti-cheat claim
+has been added by these local improvements.
+
+Ordinary F8 feedback can use a focused review Window's viewport. Its deferred
+minimum-size handler shrinks the panel after text wrapping settles, preserving
+the existing popup, scroll area and focus-return stack. Terminal pages keep their
+full-viewport layout. The isolated 650×480 bilingual GPU regression is recorded
+with the [comparable-record evidence](../verification/20261104-comparable-records/README.md).
+
 ## Sixty-task playtest contract — 2026-10-13
 
 `task_identity.gd` binds authored catalogs to `tasks-20261013-journey-v1`:

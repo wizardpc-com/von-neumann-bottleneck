@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round2/gpu_locality_best-final1/locality-best-zh_CN.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round2/gpu_locality_best-final1/locality-best-en.png
+PASS: locality best restore 77 checks, 0 failures

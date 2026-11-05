@@ -149,6 +149,10 @@ var capstone_compare_list: ItemList
 var profiler_detail_label: Label
 var profiler_tree: Tree
 var profiler_history_label: Label
+var best_design_label: Label
+var restore_best_button: Button
+var undo_restore_best_button: Button
+var best_restore_previous: Dictionary = {}
 var inspect_event_button: Button
 var notebook_label: RichTextLabel
 var selected_profiler_event_index: int = -1
@@ -999,6 +1003,27 @@ func _build_profiler_instrument() -> Control:
 	profiler_summary_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	profiler_summary_label.add_theme_color_override("font_color", WARNING)
 	panel.add_child(profiler_summary_label)
+	best_design_label = Label.new()
+	best_design_label.name = "RetainedBestDesign"
+	best_design_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	best_design_label.add_theme_color_override("font_color", ACCENT)
+	best_design_label.hide()
+	panel.add_child(best_design_label)
+	var best_actions := HFlowContainer.new()
+	panel.add_child(best_actions)
+	restore_best_button = Button.new()
+	restore_best_button.name = "RestoreBestDesign"
+	restore_best_button.text = _t(&"chapter2.best.restore")
+	restore_best_button.tooltip_text = _t(&"chapter2.best.scope")
+	restore_best_button.pressed.connect(_restore_best_design)
+	restore_best_button.hide()
+	best_actions.add_child(restore_best_button)
+	undo_restore_best_button = Button.new()
+	undo_restore_best_button.name = "UndoRestoreBestDesign"
+	undo_restore_best_button.text = _t(&"chapter2.best.undo")
+	undo_restore_best_button.pressed.connect(_undo_restore_best_design)
+	undo_restore_best_button.hide()
+	best_actions.add_child(undo_restore_best_button)
 	capstone_compare_box = VBoxContainer.new()
 	capstone_compare_box.visible = false
 	var compare_title := Label.new()
@@ -1189,6 +1214,7 @@ func _start_level(level_id: StringName) -> void:
 		return
 	_save_level_workspace()
 	current_level_id = level_id
+	best_restore_previous.clear()
 	terminology_handbook.set_lesson("locality",String(current_level_id))
 	PlaytestData.level_started(&"chapter_2", current_level_id)
 	current_level = definition
@@ -1684,25 +1710,17 @@ func _show_capstone_summary() -> void:
 	if current_level_id != &"capstone" or not bool(LocalityChapter.completed_levels().get(&"capstone", false)):
 		return
 	var baseline: Variant = null
-	var best: Variant = null
 	var target_cycles: int = int(current_level.get("target_cycles", 0))
 	for receipt: Variant in LocalityChapter.receipts_for(&"capstone"):
 		if receipt == null or not receipt.passed:
 			continue
 		if catalog.capstone_baseline_seen([receipt]):
 			baseline = receipt
-		var cycles: int = int(receipt.metrics.get("total_cycles", 0))
-		if cycles > target_cycles:
-			continue
-		if best == null:
-			best = receipt
-			continue
-		var best_cycles: int = int(best.metrics.get("total_cycles", 0))
-		var cost: int = int(receipt.metrics.get("hardware_cost", 0))
-		var best_cost: int = int(best.metrics.get("hardware_cost", 0))
-		if cycles < best_cycles or (cycles == best_cycles and cost < best_cost):
-			best = receipt
-	if baseline == null or best == null:
+	var measured: Dictionary = LocalityChapter.best_observation_for(&"capstone",workspace_mode)
+	if baseline == null or measured.is_empty():
+		return
+	var best: Dictionary = measured.receipt
+	if int(best.metrics.total_cycles) > target_cycles:
 		return
 	var baseline_cycles: int = int(baseline.metrics.get("total_cycles", 0))
 	var best_cycles: int = int(best.metrics.get("total_cycles", 0))
@@ -1732,6 +1750,7 @@ func _on_chapter_progression_changed() -> void:
 
 func _on_game_mode_changed(_mode: StringName) -> void:
 	_save_level_workspace()
+	best_restore_previous.clear()
 	workspace_mode = &"test" if GameMode.is_test_mode() else &"game"
 	if not current_level_id.is_empty():
 		PlaytestData.level_exited(&"chapter_2", current_level_id, &"mode_changed")
@@ -1777,6 +1796,9 @@ func _update_notebook() -> void:
 func _history_record_from_receipt(receipt: Variant) -> Dictionary:
 	return {
 		"test": "Official Test Set",
+		"level_id": String(receipt.level_id),
+		"program_signature": receipt.program_signature,
+		"data_signature": receipt.data_signature,
 		"pattern": receipt.traversal_pattern,
 		"cache_lines": receipt.cache_lines,
 		"bypass_cache": receipt.bypass_cache,
@@ -2053,6 +2075,7 @@ func _refresh_level_decision_controls() -> void:
 	_refresh_cache_controls()
 	_refresh_block_controls()
 	_validate_program_editor()
+	_update_best_design_controls()
 
 
 func _capstone_baseline_pending() -> bool:
@@ -2282,7 +2305,8 @@ func _run_simulation(test_name: String) -> void:
 			"correct": current_trace.passed,
 			"result_class": "wrong_output" if not current_trace.passed else "target_met" if telemetry_goal_passed else "correct_but_slow",
 			"program_digest": applied_program_source.sha256_text(),
-			"case_set_version": JSON.stringify(data).sha256_text(),
+			"model_version": LocalityChapter.workspace_version(),
+			"case_set_version": JSON.stringify([String(current_level_id),data,current_pass_count,telemetry_target_cycles]).sha256_text(),
 			"cases": [{"passed":current_trace.passed,"metrics":current_trace.metrics,"target_cycles":telemetry_target_cycles}],
 			"cycles": int(current_trace.metrics.get("total_cycles", 0)),
 			"cost": int(current_trace.metrics.get("hardware_cost", 0)),
@@ -2385,6 +2409,9 @@ func _record_run(program: DSLProgramType, data: Array[int]) -> void:
 	var is_official: bool = current_trace.test_name == "Official Test Set"
 	var record: Dictionary = {
 		"test": current_trace.test_name,
+		"level_id": String(current_level_id),
+		"program_signature": program.source.sha256_text(),
+		"data_signature": JSON.stringify(data).sha256_text(),
 		"pattern": program.traversal_pattern(),
 		"cache_lines": current_cache_lines,
 		"bypass_cache": current_bypass_cache,
@@ -2416,6 +2443,7 @@ func _record_run(program: DSLProgramType, data: Array[int]) -> void:
 
 
 func _update_history_label() -> void:
+	_update_best_design_controls()
 	if capstone_compare_box != null:
 		var options: Array[Dictionary] = []
 		if current_level_id == &"capstone" and not _capstone_breakdown_locked():
@@ -2487,10 +2515,16 @@ func _update_history_label() -> void:
 func _capstone_observed_options() -> Array[Dictionary]:
 	var options: Array[Dictionary] = []
 	var seen: Dictionary = {}
-	for record: Dictionary in run_history:
+	var candidates: Array[Dictionary] = run_history.duplicate(true)
+	var retained_best: Dictionary = _best_history_record()
+	if not retained_best.is_empty(): candidates.append(retained_best)
+	for record: Dictionary in candidates:
 		if record.get("test", "") != "Official Test Set" or not bool(record.get("correct", false)):
 			continue
-		var identity: String = _history_config_text(record) + ":" + str(record.get("cycles", 0))
+		if int(record.get("passes", 1)) != current_pass_count: continue
+		var identity: String = JSON.stringify([record.get("program_signature",""),record.get("cache_lines",0),
+			record.get("bypass_cache",false),record.get("passes",1),record.get("block_lines",0),
+			record.get("cycles",0)])
 		if seen.has(identity): continue
 		seen[identity] = true
 		options.append(record.duplicate(true))
@@ -2512,6 +2546,8 @@ func _history_changed_items(before: Dictionary, after: Dictionary) -> PackedStri
 		changes.append(_t(&"chapter2.history.change.memory_path"))
 	if String(before.get("pattern", "")) != String(after.get("pattern", "")):
 		changes.append(_t(&"chapter2.history.change.access_order"))
+	elif before.has("program_signature") and after.has("program_signature") and before.program_signature != after.program_signature:
+		changes.append(_t(&"chapter2.history.change.program"))
 	if int(before.get("passes", 1)) != int(after.get("passes", 1)):
 		changes.append(_t(&"chapter2.history.change.passes"))
 	if int(before.get("block_lines", 0)) != int(after.get("block_lines", 0)):
@@ -2522,20 +2558,108 @@ func _history_changed_items(before: Dictionary, after: Dictionary) -> PackedStri
 
 
 func _best_history_record() -> Dictionary:
-	var best: Dictionary = {}
-	for record: Dictionary in run_history:
-		if String(record.get("test", "")) != "Official Test Set" or not bool(record.get("correct", false)):
-			continue
-		if best.is_empty():
-			best = record
-			continue
-		var cycles: int = int(record.get("cycles", 0))
-		var best_cycles: int = int(best.get("cycles", 0))
-		var cost: int = int(record.get("cost", 0))
-		var best_cost: int = int(best.get("cost", 0))
-		if cycles < best_cycles or (cycles == best_cycles and cost < best_cost):
-			best = record
-	return best
+	var measured: Dictionary = LocalityChapter.best_observation_for(current_level_id,workspace_mode)
+	if measured.is_empty(): return {}
+	if int(measured.recipe.passes) != current_pass_count: return {}
+	return _history_record_from_receipt(measured.receipt)
+
+
+func _current_design_draft() -> Dictionary:
+	return {
+		"level_id":String(current_level_id),"mode":String(workspace_mode),
+		"draft_source":editor.text,"applied_source":applied_program_source,
+		"cache_lines":current_cache_lines,"passes":current_pass_count,
+		"blocks":current_block_lines,"bypass":current_bypass_cache,
+		"caret_line":editor.get_caret_line(),"caret_column":editor.get_caret_column(),
+	}
+
+
+func _best_restore_allowed(recipe: Dictionary) -> bool:
+	if recipe.is_empty() or _capstone_decisions_locked(): return false
+	if _capstone_first_experiment_pending():
+		var changed: int = int(recipe.source != ProgramTemplatesType.COLUMN_FIRST)
+		changed += int(int(recipe.cache_lines) != 1 or bool(recipe.bypass))
+		changed += int(int(recipe.blocks) != 0)
+		if changed > 1: return false
+	return true
+
+
+func _update_best_design_controls() -> void:
+	if not is_instance_valid(restore_best_button): return
+	var measured: Dictionary = LocalityChapter.best_observation_for(current_level_id,workspace_mode)
+	var visible_best: bool = not measured.is_empty() and not _capstone_breakdown_locked()
+	best_design_label.visible = visible_best
+	restore_best_button.visible = visible_best
+	restore_best_button.disabled = not visible_best or not _best_restore_allowed(measured.get("recipe",{}))
+	if visible_best:
+		best_design_label.text = _t(&"chapter2.best.summary",[
+			int(measured.metrics.total_cycles),int(measured.metrics.hardware_cost)])
+		best_design_label.tooltip_text = _t(&"chapter2.best.scope")
+	undo_restore_best_button.visible = (
+		not best_restore_previous.is_empty()
+		and best_restore_previous.get("level_id") == String(current_level_id)
+		and best_restore_previous.get("mode") == String(workspace_mode)
+	)
+	undo_restore_best_button.disabled = _capstone_decisions_locked()
+
+
+func _restore_best_design() -> void:
+	var measured: Dictionary = LocalityChapter.best_observation_for(current_level_id,workspace_mode)
+	if measured.is_empty(): return
+	var recipe: Dictionary = measured.recipe
+	if not _best_restore_allowed(recipe):
+		_set_status(_t(&"chapter2.status.program_locked" if _capstone_decisions_locked() else &"chapter2.status.first_experiment_one_change"),WARNING)
+		return
+	var current: Dictionary = _current_design_draft()
+	if (
+		current.draft_source == recipe.source and current.applied_source == recipe.source
+		and current.cache_lines == recipe.cache_lines and current.passes == recipe.passes
+		and current.blocks == recipe.blocks and current.bypass == recipe.bypass
+	):
+		_set_status(_t(&"chapter2.best.already_loaded"),MUTED)
+		return
+	best_restore_previous = current
+	_apply_restored_design({
+		"draft_source":recipe.source,"applied_source":recipe.source,
+		"cache_lines":recipe.cache_lines,"passes":recipe.passes,
+		"blocks":recipe.blocks,"bypass":recipe.bypass,
+	},_t(&"chapter2.best.restored"))
+
+
+func _undo_restore_best_design() -> void:
+	if (
+		best_restore_previous.is_empty() or _capstone_decisions_locked()
+		or best_restore_previous.get("level_id") != String(current_level_id)
+		or best_restore_previous.get("mode") != String(workspace_mode)
+	): return
+	var previous: Dictionary = best_restore_previous.duplicate(true)
+	best_restore_previous.clear()
+	_apply_restored_design(previous,_t(&"chapter2.best.undo_done"))
+
+
+func _apply_restored_design(design: Dictionary, reason: String) -> void:
+	# Treat raw text, applied program and hardware settings as one reversible edit.
+	# A saved measurement is never attached to the newly restored draft.
+	current_cache_lines = int(design.cache_lines)
+	current_pass_count = int(design.passes)
+	current_block_lines = int(design.blocks)
+	current_bypass_cache = bool(design.bypass)
+	applied_program_source = String(design.applied_source)
+	editor.set_block_signals(true)
+	editor.text = String(design.draft_source)
+	editor.set_caret_line(int(design.get("caret_line",0)))
+	editor.set_caret_column(int(design.get("caret_column",0)))
+	editor.set_block_signals(false)
+	last_executed_source = ""
+	last_run_receipt_text = ""
+	program_dirty = editor.text != applied_program_source
+	_configure_graph_for_level()
+	_auto_layout(false)
+	_invalidate_current_run(reason)
+	_refresh_level_decision_controls()
+	_update_program_run_receipt()
+	_update_history_label()
+	_save_level_workspace()
 
 
 func _signed_number(value: int) -> String:
@@ -3336,21 +3460,25 @@ func _update_session_comparison(test_name: String) -> void:
 	var metrics: Dictionary = current_trace.metrics
 	var values: Array = [metrics.get("total_cycles", 0), metrics.get("wait_cycles", 0),
 		metrics.get("cache_hits", 0), metrics.get("cache_misses", 0), metrics.get("ram_bytes_transferred", 0)]
-	run_summary_label.text = _t(&"s2.run.metrics", values)
+	var locked: bool = _capstone_breakdown_locked()
+	run_summary_label.text = _t(&"s2.run.metrics_locked", values.slice(0,2)) if locked else _t(&"s2.run.metrics", values)
 	run_summary_label.show()
 	run_comparison_label.hide()
 	if test_name != "Official Test Set" or not current_trace.passed or current_trace.events.is_empty():
 		return
-	if session_previous_runs.has(current_level_id):
-		var before: Array = session_previous_runs[current_level_id]
+	# A repeated workload is not the same work; Test observations never become
+	# Game comparison evidence. Official data/model are fixed within this session.
+	var comparison_key: String = JSON.stringify([String(workspace_mode),String(current_level_id),current_pass_count])
+	if session_previous_runs.has(comparison_key):
+		var before: Array = session_previous_runs[comparison_key]
 		var pairs: Array = []
 		for index: int in values.size():
 			var delta: int = int(values[index]) - int(before[index])
 			var color: Color = MUTED if delta == 0 else GOOD if (delta > 0 if index == 2 else delta < 0) else WARNING
 			pairs.append("%s → %s [color=#%s](%+d)[/color]" % [before[index], values[index], color.to_html(false), delta])
-		run_comparison_label.text = _t(&"s2.run.comparison", pairs)
+		run_comparison_label.text = _t(&"s2.run.comparison_locked", pairs.slice(0,2)) if locked else _t(&"s2.run.comparison", pairs)
 		run_comparison_label.show()
-	session_previous_runs[current_level_id] = values.duplicate()
+	session_previous_runs[comparison_key] = values.duplicate()
 
 
 func _update_hierarchy(event: SimulationEventType) -> void:

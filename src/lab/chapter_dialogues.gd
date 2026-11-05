@@ -63,11 +63,13 @@ static func _recorded_result(tree: SceneTree, key: String) -> Dictionary:
 			var baseline: int = 0
 			var best: int = 0
 			var target: int = catalog.definition(&"capstone").get("target_cycles", 0)
-			for receipt: Variant in state.receipts_for(&"capstone"):
+			for receipt: Variant in state.game_receipts.get(&"capstone",[]):
 				if receipt == null or not receipt.passed: continue
 				var cycles: int = int(receipt.metrics.get("total_cycles", 0))
 				if catalog.capstone_baseline_seen([receipt]): baseline = cycles
-				if cycles > 0 and cycles <= target and (best == 0 or cycles < best): best = cycles
+			var measured: Dictionary = state.best_observation_for(&"capstone",&"game")
+			if not measured.is_empty() and int(measured.metrics.total_cycles) <= target:
+				best = int(measured.metrics.total_cycles)
 			if baseline > 0 and best > 0:
 				return _result(&"b2.reflection.capstone", [baseline, best])
 		"chapter_3/synthesis":

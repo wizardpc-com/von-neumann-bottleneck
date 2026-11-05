@@ -1,0 +1,1 @@
+2026-11-04: verifier failed during copy2 before import or tests, with OSError [Errno 28] No space left on device. No checks were executed. The incomplete project copy is disposable. Exact failed destination was project/docs/verification/20261010-main-works-integration/test_core_closure_navigation.txt.

@@ -17,6 +17,7 @@ var previous_focus: Control
 var title_label: Label
 var overview_label: Label
 var scope_label: Label
+var record_storage_label: Label
 var region_selector: OptionButton
 var task_tree: Tree
 var detail: RichTextLabel
@@ -72,6 +73,9 @@ func _build() -> void:
 	preload("res://src/lab/lab_terminal_pages.gd").style_header(header,title_label,close_button)
 	overview_label = _label(column, 18)
 	scope_label = _label(column, 14)
+	record_storage_label = _label(column, 14)
+	record_storage_label.name = "JournalRecordStorage"
+	record_storage_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	var content := HBoxContainer.new()
 	content.add_theme_constant_override("separation", 18)
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -173,8 +177,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _refresh() -> void:
-	rows = TaskNavigation.journey_tasks()
-	core_records = PersonalRecords.snapshot()
+	rows = TaskNavigation.game_journey_tasks()
+	core_records = PersonalRecords.snapshot(TaskNavigation.game_tasks())
 	saved_work_state = CandidateFiles.read_session(CreationSession.launch_path(), CreationSession.decode)
 	_refresh_works()
 	title_label.text = _copy("旅程档案", "Journey journal")
@@ -184,12 +188,14 @@ func _refresh() -> void:
 	var counts: Dictionary = LabState.progress_counts(rows)
 	overview_label.text = _copy("已完成 %d / %d", "Completed %d / %d") % [done, counts.total]
 	if counts.temporary > 0: overview_label.text += _copy(" · 临时探索 %d 项", " · %d temporary tasks") % counts.temporary
-	# Scope and provenance stay on hover; the page itself shows the record.
-	scope_label.text = ""
-	scope_label.hide()
-	overview_label.tooltip_text = _copy("这里根据现有记录事后回看，不是按时间补写的事件历史。候选内容取决于启动配置；测试者能进入不代表已完成。", "This view is derived from existing records, not a reconstructed event timeline. Candidate content follows this launch's settings; tester access never means earned completion.")
+	scope_label.text = _copy("游戏模式档案 · 测试模式的临时成果不计入。", "Game archive · temporary Test results are excluded.")
+	scope_label.visible = GameMode.is_test_mode()
+	record_storage_label.text = record_storage_note(PersonalRecords.storage_status, _english())
+	record_storage_label.visible = not record_storage_label.text.is_empty()
+	record_storage_label.tooltip_text = PersonalRecords.last_error
+	overview_label.tooltip_text = _copy("这里根据游戏模式已有记录事后回看，不是按时间补写的事件历史。候选内容取决于启动配置；测试者能进入不代表已完成。", "This view is derived from existing Game records, not a reconstructed event timeline. Candidate content follows this launch's settings; tester access never means earned completion.")
 	overview_label.mouse_filter = Control.MOUSE_FILTER_PASS
-	enter_button.text = _copy("进入原任务", "Open original task")
+	enter_button.text = _copy("在测试模式进入原任务", "Open original task in Test") if GameMode.is_test_mode() else _copy("进入原任务", "Open original task")
 	help_button.text = _copy("回看规则手册", "Review rule handbook")
 	reflection_button.text = _copy("回看已有主题里程碑", "Review existing milestones")
 	close_button.text = _copy("返回 · Esc", "Back · Esc")
@@ -234,7 +240,7 @@ func _refresh_tasks() -> void:
 func show_task(key: String) -> void:
 	selected_key = key
 	var row: Dictionary = selected_task()
-	enter_button.disabled = row.is_empty() or not row.get("unlocked", false)
+	enter_button.disabled = row.is_empty() or not _current_task_available(key)
 	help_button.text = _copy("回看规则手册", "Review rule handbook") if str(row.get("domain", "")) in ["hardware_foundations", "chapter_1", "chapter_2", "chapter_3", "chapter_4"] else _copy("查看通用术语（非当前任务规则）", "General terms (not this task's rules)")
 	if row.is_empty():
 		detail.text = _copy("未知任务身份；没有生成完成记录或文明片段。", "Unknown task identity; no completion record or fiction was created.")
@@ -250,15 +256,20 @@ func show_task(key: String) -> void:
 	if not connection.is_empty(): paragraphs.append(_copy("与下一段的联系", "Connection to what follows") + "\n" + connection)
 	var fragment: String = civilization_fragment(row)
 	if not fragment.is_empty(): paragraphs.append(_copy("文明片段 · 虚构候选／事后回顾", "Civilization fragment · Fiction candidate / retrospective") + "\n" + fragment)
-	var best: Dictionary = PersonalRecords.best.get(str(row.key), {})
-	var metric_lines: Array[String] = []
-	for metric: String in row.get("record_metrics", []):
-		if best.has(metric): metric_lines.append(metric + ": " + str(best[metric]))
-	if not metric_lines.is_empty():
-		var provenance: Array[String] = []
-		for field: String in ["case_set_version", "model_version", "ruleset_version", "build_version", "source_commit", "build_commit"]:
-			if best.has(field): provenance.append(field + ": " + str(best[field]))
-		paragraphs.append(_copy("已有本地成绩（历史回顾，不与当前草稿作同条件比较）", "Existing local result (historical review, not a matched comparison with the current draft)") + "\n" + " · ".join(metric_lines) + ("\n" + " · ".join(provenance) if not provenance.is_empty() else ""))
+	var record: Dictionary = _record_for_task(str(row.key))
+	var kind: String = str(record.get("record_kind", "none"))
+	var measured: Dictionary = record.get("best", {})
+	if kind == "replayed" and not measured.is_empty():
+		var heading: String = _copy("已保存方案 · 当前模型复测", "Saved design · remeasured with the current model")
+		if str(row.domain) == "chapter_4":
+			heading += _copy("\n已达标最快方案；周期与 RAM 读写为两单合计，临时空间取峰值。", "\nFastest saved passing design; cycles and RAM reads/writes sum both cases, scratch uses the maximum.")
+		elif str(row.domain) == "chapter_2":
+			heading += _copy("\n当前官方工作量中的最快正确实验；不代表已经满足全部任务目标。", "\nFastest saved correct experiment for the current official workload; task targets may remain unmet.")
+		_append_record(paragraphs, row, measured, heading)
+	var historical: Dictionary = record.get("historical_best", {})
+	if not historical.is_empty():
+		_append_record(paragraphs, row, historical,
+			_copy("已有本地成绩（历史回顾，不与当前草稿作同条件比较）", "Existing local result (historical review, not a matched comparison with the current draft)"))
 	if str(row.domain) == "creation": paragraphs.append(work_summary())
 	detail.tooltip_text = _copy("来源：", "Source: ") + str(row.key) + " · " + str(row.get("progress_source", "campaign")) + " / " + str(row.get("evidence_status", "saved campaign completion"))
 	detail.text = "\n\n".join(paragraphs)
@@ -268,6 +279,52 @@ func selected_task() -> Dictionary:
 	for row: Dictionary in rows:
 		if str(row.key) == selected_key: return row
 	return {}
+
+
+func _record_for_task(key: String) -> Dictionary:
+	for row: Dictionary in core_records.get("tasks", []):
+		if str(row.key) == key: return row
+	return {}
+
+
+static func record_storage_note(status: String, english: bool) -> String:
+	match status:
+		"read_only":
+			return "Personal records are read-only. The original file is preserved; new results cannot be saved." if english else "个人成绩档案只读。原文件已保留，新成绩暂不写入。"
+		"write_failed":
+			return "Personal records could not be saved. This update has not reached disk." if english else "个人成绩保存失败。本次更新尚未写入磁盘。"
+	return ""
+
+
+func _append_record(paragraphs: Array[String], task: Dictionary, record: Dictionary, heading: String) -> void:
+	var metric_lines: Array[String] = []
+	for metric: String in task.get("record_metrics", []):
+		var source: String = metric
+		if metric == "passed_cases" and not record.has(metric) and record.has("case_count"): source = "case_count"
+		if metric == "cycles" and not record.has(metric) and record.has("total_cycles"): source = "total_cycles"
+		if metric == "cost" and not record.has(metric) and record.has("hardware_cost"): source = "hardware_cost"
+		if not record.has(source): continue
+		var label: String = metric
+		var unit: String = ""
+		match metric:
+			"passed_cases": label = _copy("通过样例", "Passed cases")
+			"cycles": label = _copy("总周期", "Total cycles")
+			"cost": label = _copy("硬件成本", "Hardware cost")
+			"ram_read_bytes": label = _copy("RAM 读取", "RAM reads"); unit = " B"
+			"ram_write_bytes": label = _copy("RAM 写入", "RAM writes"); unit = " B"
+			"peak_extra_bytes": label = _copy("临时空间峰值", "Peak scratch"); unit = " B"
+		metric_lines.append(label + ": " + str(record[source]) + unit)
+	if metric_lines.is_empty(): return
+	var provenance: Array[String] = []
+	for field: String in ["condition_id", "case_set_version", "model_version", "ruleset_version", "build_version", "source_commit", "build_commit"]:
+		if record.has(field): provenance.append(field + ": " + str(record[field]))
+	paragraphs.append(heading + "\n" + " · ".join(metric_lines) + ("\n" + " · ".join(provenance) if not provenance.is_empty() else ""))
+
+
+func _current_task_available(key: String) -> bool:
+	for task: Dictionary in TaskNavigation.journey_tasks():
+		if str(task.key) == key: return bool(task.get("unlocked", false))
+	return false
 
 
 func source_note(row: Dictionary) -> String:
@@ -419,7 +476,7 @@ func _open_reflection() -> void:
 	reflection_dialog = Reflection.new()
 	add_child(reflection_dialog)
 	reflection_dialog.configure(Reflection.milestones(GlobalSave.game_player_content.completed_levels,
-		SystemChapter.completed_levels(), LocalityChapter.completed_levels(), OverlapChapter.completed(), LayoutChapter.completed()), Localization.text)
+		SystemChapter.game_completed, LocalityChapter.game_completed, OverlapChapter.game_solutions, LayoutChapter.game_solutions), Localization.text)
 	reflection_dialog.popup_centered(Vector2i(650, 480))
 
 

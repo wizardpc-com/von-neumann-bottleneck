@@ -1,0 +1,68 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+config/use_custom_user_dir=true
+config/custom_user_dir_name="VonNeumannBottleneckChecks/20261104-round4/native/20261105T011727Z"
+
+config/name="Von Neumann Bottleneck"
+config/version="free-alpha-development"
+run/main_scene="res://experiments/layout_strategy/lab.tscn"
+config/features=PackedStringArray("4.7")
+config/icon="res://assets/branding/game-icon.svg"
+
+[autoload]
+
+Localization="*res://src/localization/localization.gd"
+GameMode="*res://src/game/game_mode.gd"
+PlaytestData="*res://src/playtest/playtest_data.gd"
+WindowMode="*res://src/ui/window_mode.gd"
+SystemChapter="*res://src/system_lab/system_chapter_state.gd"
+LocalityChapter="*res://src/locality_chapter/locality_chapter_state.gd"
+OverlapChapter="*res://src/overlap_chapter/overlap_state.gd"
+LayoutChapter="*res://src/layout_chapter/layout_state.gd"
+GlobalSave="*res://src/save/global_save.gd"
+TaskNavigation="*res://src/campaign/task_navigation.gd"
+RemoteFeedback="*res://src/playtest/remote_feedback.gd"
+PersonalRecords="*res://src/playtest/personal_records.gd"
+PlaytestMoments="*res://src/playtest/playtest_moments.gd"
+OfflineFeedback="*res://src/playtest/offline_feedback.gd"
+DevCapture="*res://src/dev/dev_capture.gd"
+UiFeel="*res://src/ui/ui_feel.gd"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
+window/size/mode=3
+window/size/window_width_override=1600
+window/size/window_height_override=900
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[game]
+
+default_locale="zh_CN"
+full_journey=true
+
+[gui]
+
+theme/custom_font="res://assets/fonts/interface_regular.tres"
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/game.en.po", "res://localization/game.zh_CN.po")
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.035, 0.047, 0.071, 1)

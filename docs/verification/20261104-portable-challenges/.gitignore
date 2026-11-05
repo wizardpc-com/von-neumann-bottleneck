@@ -1,0 +1,2 @@
+# Keep only this receipt's bounded raw verification logs reviewable.
+!*.log

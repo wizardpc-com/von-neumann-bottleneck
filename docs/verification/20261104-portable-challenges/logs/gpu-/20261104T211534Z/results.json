@@ -1,0 +1,78 @@
+[
+  {
+    "suite": "test_layout_challenge_window",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T210749Z-5839019c/project",
+      "--script",
+      "res://tests/test_layout_challenge_window.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-challenge-capture",
+      "--layout-score-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round3/20261104T211534Z/test_layout_challenge_window",
+    "log": "gpu-/20261104T211534Z/test_layout_challenge_window.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_challenge_controller",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T210749Z-5839019c/project",
+      "--script",
+      "res://tests/test_layout_challenge_controller.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-challenge-capture",
+      "--layout-score-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round3/20261104T211534Z/test_layout_challenge_controller",
+    "log": "gpu-/20261104T211534Z/test_layout_challenge_controller.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_scoreboard_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T210749Z-5839019c/project",
+      "--script",
+      "res://tests/test_layout_scoreboard_ui.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-challenge-capture",
+      "--layout-score-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round3/20261104T211534Z/test_layout_scoreboard_ui",
+    "log": "gpu-/20261104T211534Z/test_layout_scoreboard_ui.log",
+    "passed": true
+  },
+  {
+    "suite": "test_chapter_settings_input",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T210749Z-5839019c/project",
+      "--script",
+      "res://tests/test_chapter_settings_input.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-challenge-capture",
+      "--layout-score-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round3/20261104T211534Z/test_chapter_settings_input",
+    "log": "gpu-/20261104T211534Z/test_chapter_settings_input.log",
+    "passed": true
+  }
+]

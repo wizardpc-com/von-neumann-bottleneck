@@ -2388,7 +2388,7 @@ func _run_official() -> void:
 	)
 	run_comparison.hide()
 	if latest_receipt.all_passed:
-		if last_correct_receipt != null and last_correct_receipt.test_set_signature == latest_receipt.test_set_signature:
+		if last_correct_receipt != null and last_correct_receipt.test_set_signature == latest_receipt.test_set_signature and catalog.cases_for_program(current_level_id,last_correct_receipt.program_signature) == catalog.cases_for_program(current_level_id,latest_receipt.program_signature):
 			var before: int = int(last_correct_receipt.metrics.total_cycles)
 			var after: int = int(latest_receipt.metrics.total_cycles)
 			run_comparison.text = _t(&"s5.system.comparison",[before,after,after-before])
@@ -2401,15 +2401,21 @@ func _run_official() -> void:
 	var reached_target: bool = latest_receipt.all_passed
 	if current_level_id in [&"read_once",&"two_orders"]:
 		reached_target = reached_target and int(catalog._application_status(current_level_id,[latest_receipt]).progress)>0
+	# The receipt signature still describes the authored progression contract.
+	# A personal measurement describes only the order actually executed.
+	var observed_case_signature: String = JSON.stringify([
+		String(current_level_id),_active_cases(),catalog.definition(current_level_id)
+	]).sha256_text()
 	for item: SystemTrace in latest_official_traces:
-		recorded_cases.append({"name":item.test_name,"passed":item.passed,"metrics":item.metrics,"case_set_version":latest_receipt.test_set_signature})
+		recorded_cases.append({"name":item.test_name,"passed":item.passed,"metrics":item.metrics,"case_set_version":observed_case_signature})
 	PlaytestData.record_official_run(&"chapter_1", current_level_id, reached_target, {
 		"correct":latest_receipt.all_passed,
 		"post_completion":bool(SystemChapter.completed_levels().get(current_level_id,false)),
 		"target_met":reached_target,
 		"result_class":"wrong_output" if not latest_receipt.all_passed else "target_met" if reached_target else "correct_but_target_unmet",
 		"program_digest":latest_receipt.program_signature,
-		"case_set_version":latest_receipt.test_set_signature,
+		"model_version":SystemChapter.workspace_version(),
+		"case_set_version":observed_case_signature,
 		"cases":recorded_cases,
 
 		"passed_cases": latest_receipt.passed_cases,

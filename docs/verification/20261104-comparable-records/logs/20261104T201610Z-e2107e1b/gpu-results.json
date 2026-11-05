@@ -1,0 +1,38 @@
+[
+  {
+    "name": "gpu_locality_best",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_locality_best-final1",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T201610Z-e2107e1b/project",
+      "--script",
+      "res://tests/test_locality_best_restore.gd",
+      "--",
+      "--locality-best-capture"
+    ],
+    "log": "gpu_locality_best.txt"
+  },
+  {
+    "name": "gpu_journey_journal",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Opening, help, browsing and closing write no profile, lease, history or migration bytes",
+      "ERROR: Ordinary feedback is operable inside the actual popup bounds",
+      "FAIL: read-only journey journal (235 checks)"
+    ],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_journey_journal-final1",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T201610Z-e2107e1b/project",
+      "--script",
+      "res://tests/test_journey_journal.gd"
+    ],
+    "log": "gpu_journey_journal.txt"
+  }
+]

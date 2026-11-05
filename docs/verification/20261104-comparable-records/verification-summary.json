@@ -1,0 +1,1027 @@
+{
+  "scope": "Staged related suites, not a full-repository final snapshot",
+  "latest_headless_by_suite": {
+    "test_chapter_workspaces": {
+      "name": "test_chapter_workspaces",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter_workspaces.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_chapter_workspaces",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    "test_locality_trace_presentation": {
+      "name": "test_locality_trace_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_trace_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T195819Z-1ef53586/test_locality_trace_presentation",
+      "receipt": "20261104T195819Z-1ef53586",
+      "result_file": "logs/20261104T195819Z-1ef53586/results.json"
+    },
+    "test_personal_records": {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_personal_records",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    "test_release_convergence": {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_release_convergence",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    "test_locality_best_observation": {
+      "name": "test_locality_best_observation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_observation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_locality_best_observation",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    "test_locality_best_restore": {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_restore.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_locality_best_restore",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    "test_locality_restored_baseline": {
+      "name": "test_locality_restored_baseline",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_restored_baseline.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T195819Z-1ef53586/test_locality_restored_baseline",
+      "receipt": "20261104T195819Z-1ef53586",
+      "result_file": "logs/20261104T195819Z-1ef53586/results.json"
+    },
+    "test_global_save": {
+      "name": "test_global_save",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_global_save.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_global_save",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    "test_journey_journal": {
+      "name": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_journey_journal.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_journey_journal",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    "test_locality_chapter_ui": {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_locality_chapter_ui",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    "test_personal_record_conditions": {
+      "name": "test_personal_record_conditions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_record_conditions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_personal_record_conditions",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    "test_playtest_data": {
+      "name": "test_playtest_data",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_playtest_data.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_playtest_data",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    "test_system_applications": {
+      "name": "test_system_applications",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_applications.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_system_applications",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    "test_system_lab_ui": {
+      "name": "test_system_lab_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_lab_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_system_lab_ui",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    "test_game_record_projection": {
+      "name": "test_game_record_projection_final",
+      "suite": "test_game_record_projection",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/test_game_record_projection_final-2",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261104T203308Z-530aab9a/project",
+        "--headless",
+        "--script",
+        "res://tests/test_game_record_projection.gd"
+      ],
+      "log": "test_game_record_projection_final.txt",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/final-run-results.json"
+    },
+    "test_layout_scoreboard": {
+      "name": "test_layout_scoreboard",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_scoreboard.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_layout_scoreboard",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    "test_layout_scoreboard_ui": {
+      "name": "test_layout_scoreboard_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_scoreboard_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_layout_scoreboard_ui",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    "test_localization": {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_localization",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    "test_remote_feedback": {
+      "name": "test_remote_feedback",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_remote_feedback.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_remote_feedback",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    "test_task_tree": {
+      "name": "test_task_tree",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_task_tree",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    "test_task_tree_completed_detail": {
+      "name": "test_task_tree_completed_detail",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_completed_detail.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_task_tree_completed_detail",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    "test_tree_relation_focus": {
+      "name": "test_tree_relation_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_relation_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_tree_relation_focus",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    "test_playtest_feedback_ui": {
+      "name": "test_playtest_feedback_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_playtest_feedback_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_playtest_feedback_ui",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    "test_settings_feedback_layout": {
+      "name": "test_settings_feedback_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_settings_feedback_layout.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_settings_feedback_layout",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    }
+  },
+  "observations": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T194517Z-89654450/import",
+      "receipt": "20261104T194517Z-89654450",
+      "result_file": "logs/20261104T194517Z-89654450/results.json"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T194517Z-89654450/user_directory",
+      "receipt": "20261104T194517Z-89654450",
+      "result_file": "logs/20261104T194517Z-89654450/results.json"
+    },
+    {
+      "name": "test_chapter_workspaces",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter_workspaces.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T194517Z-89654450/test_chapter_workspaces",
+      "receipt": "20261104T194517Z-89654450",
+      "result_file": "logs/20261104T194517Z-89654450/results.json"
+    },
+    {
+      "name": "test_locality_trace_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_trace_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T194517Z-89654450/test_locality_trace_presentation",
+      "receipt": "20261104T194517Z-89654450",
+      "result_file": "logs/20261104T194517Z-89654450/results.json"
+    },
+    {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T194517Z-89654450/test_personal_records",
+      "receipt": "20261104T194517Z-89654450",
+      "result_file": "logs/20261104T194517Z-89654450/results.json"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T194517Z-89654450/test_release_convergence",
+      "receipt": "20261104T194517Z-89654450",
+      "result_file": "logs/20261104T194517Z-89654450/results.json"
+    },
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T195819Z-1ef53586/import",
+      "receipt": "20261104T195819Z-1ef53586",
+      "result_file": "logs/20261104T195819Z-1ef53586/results.json"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T195819Z-1ef53586/user_directory",
+      "receipt": "20261104T195819Z-1ef53586",
+      "result_file": "logs/20261104T195819Z-1ef53586/results.json"
+    },
+    {
+      "name": "test_locality_best_observation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_observation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T195819Z-1ef53586/test_locality_best_observation",
+      "receipt": "20261104T195819Z-1ef53586",
+      "result_file": "logs/20261104T195819Z-1ef53586/results.json"
+    },
+    {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: Index p_index = 8 is out of bounds (prev_size = 7).",
+        "ERROR: Index p_index = 7 is out of bounds (prev_size = 7)."
+      ],
+      "log": "test_locality_best_restore.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T195819Z-1ef53586/test_locality_best_restore",
+      "receipt": "20261104T195819Z-1ef53586",
+      "result_file": "logs/20261104T195819Z-1ef53586/results.json"
+    },
+    {
+      "name": "test_locality_restored_baseline",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_restored_baseline.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T195819Z-1ef53586/test_locality_restored_baseline",
+      "receipt": "20261104T195819Z-1ef53586",
+      "result_file": "logs/20261104T195819Z-1ef53586/results.json"
+    },
+    {
+      "name": "test_locality_trace_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_trace_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T195819Z-1ef53586/test_locality_trace_presentation",
+      "receipt": "20261104T195819Z-1ef53586",
+      "result_file": "logs/20261104T195819Z-1ef53586/results.json"
+    },
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/import",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/user_directory",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_chapter_workspaces",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_chapter_workspaces.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_chapter_workspaces",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_global_save",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_global_save.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_global_save",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_journey_journal.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_journey_journal",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_locality_best_observation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_observation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_locality_best_observation",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_restore.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_locality_best_restore",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_locality_chapter_ui",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_personal_record_conditions",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Compile Error: Identifier not found: PlaytestData"
+      ],
+      "log": "test_personal_record_conditions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_personal_record_conditions",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_personal_records",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_playtest_data",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_playtest_data.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_playtest_data",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_release_convergence",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_system_applications",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_applications.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_system_applications",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "test_system_lab_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_system_lab_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200517Z-d3f994f2/test_system_lab_ui",
+      "receipt": "20261104T200517Z-d3f994f2",
+      "result_file": "logs/20261104T200517Z-d3f994f2/results.json"
+    },
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/import",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/user_directory",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_game_record_projection",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Compile Error: Identifier not found: WindowMode",
+        "SCRIPT ERROR: Compile Error: Failed to compile depended scripts.",
+        "ERROR: Failed to load script \"res://tests/test_game_record_projection.gd\" with error \"Compilation failed\"."
+      ],
+      "log": "test_game_record_projection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_game_record_projection",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_journey_journal.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_journey_journal",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_layout_scoreboard",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_scoreboard.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_layout_scoreboard",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_layout_scoreboard_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_scoreboard_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_layout_scoreboard_ui",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_localization.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_localization",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_personal_record_conditions",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: Parse JSON failed. Error at line 0: Expected key",
+        "SCRIPT ERROR: Invalid assignment of property or key 'selected_part_ids' with value of type 'Dictionary' on a base object of type 'Control (system_lab.gd)'."
+      ],
+      "log": "test_personal_record_conditions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_personal_record_conditions",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_personal_records",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_remote_feedback",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_remote_feedback.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_remote_feedback",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_task_tree",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_task_tree",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_task_tree_completed_detail",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_completed_detail.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_task_tree_completed_detail",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "test_tree_relation_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_relation_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T200810Z-615e303a/test_tree_relation_focus",
+      "receipt": "20261104T200810Z-615e303a",
+      "result_file": "logs/20261104T200810Z-615e303a/results.json"
+    },
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/import",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/user_directory",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "test_game_record_projection",
+      "exit": -2,
+      "passed": false,
+      "errors": [
+        "SCRIPT ERROR: Invalid type in function 'task' in base 'SceneTree (test_game_record_projection.gd)'. The array of argument 1 (Array) does not have the same element type as the expected typed array argument."
+      ],
+      "log": "test_game_record_projection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_game_record_projection",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_journey_journal.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_journey_journal",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "test_locality_best_observation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_observation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_locality_best_observation",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_restore.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_locality_best_restore",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "test_personal_record_conditions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_record_conditions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_personal_record_conditions",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_personal_records",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_release_convergence",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "test_task_tree_completed_detail",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_completed_detail.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201417Z-0268ece3/test_task_tree_completed_detail",
+      "receipt": "20261104T201417Z-0268ece3",
+      "result_file": "logs/20261104T201417Z-0268ece3/results.json"
+    },
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201610Z-e2107e1b/import",
+      "receipt": "20261104T201610Z-e2107e1b",
+      "result_file": "logs/20261104T201610Z-e2107e1b/results.json"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201610Z-e2107e1b/user_directory",
+      "receipt": "20261104T201610Z-e2107e1b",
+      "result_file": "logs/20261104T201610Z-e2107e1b/results.json"
+    },
+    {
+      "name": "test_game_record_projection",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_game_record_projection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T201610Z-e2107e1b/test_game_record_projection",
+      "receipt": "20261104T201610Z-e2107e1b",
+      "result_file": "logs/20261104T201610Z-e2107e1b/results.json"
+    },
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/import",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/user_directory",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_game_record_projection",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Regional cards remain intact at 960px zh_CN",
+        "ERROR: Regional cards remain intact at 960px en",
+        "FAIL: Game record projection 56 checks, 2 failures"
+      ],
+      "log": "test_game_record_projection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_game_record_projection",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_journey_journal.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_journey_journal",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_locality_best_observation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_observation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_locality_best_observation",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_best_restore.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_locality_best_restore",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_personal_record_conditions",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_record_conditions.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_personal_record_conditions",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_personal_records",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_personal_records.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_personal_records",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_playtest_feedback_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_playtest_feedback_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_playtest_feedback_ui",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_release_convergence",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_release_convergence.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_release_convergence",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_settings_feedback_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_settings_feedback_layout.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T203308Z-530aab9a/test_settings_feedback_layout",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/results.json"
+    },
+    {
+      "name": "test_game_record_projection_final",
+      "suite": "test_game_record_projection",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/test_game_record_projection_final-2",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261104T203308Z-530aab9a/project",
+        "--headless",
+        "--script",
+        "res://tests/test_game_record_projection.gd"
+      ],
+      "log": "test_game_record_projection_final.txt",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/final-run-results.json"
+    },
+    {
+      "name": "gpu_journey_journal_final",
+      "suite": "test_journey_journal",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_journey_journal_final-2",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261104T203308Z-530aab9a/project",
+        "--script",
+        "res://tests/test_journey_journal.gd",
+        "--",
+        "--capture-size=1280x800",
+        "--journal-feedback-capture"
+      ],
+      "log": "gpu_journey_journal_final.txt",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/final-run-results.json"
+    },
+    {
+      "name": "gpu_game_record_projection_final",
+      "suite": "test_game_record_projection",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_game_record_projection_final-2",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261104T203308Z-530aab9a/project",
+        "--script",
+        "res://tests/test_game_record_projection.gd",
+        "--",
+        "--capture-size=1280x800",
+        "--record-projection-capture"
+      ],
+      "log": "gpu_game_record_projection_final.txt",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/final-run-results.json"
+    },
+    {
+      "name": "gpu_locality_best_final",
+      "suite": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_locality_best_final-2",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261104T203308Z-530aab9a/project",
+        "--script",
+        "res://tests/test_locality_best_restore.gd",
+        "--",
+        "--capture-size=1280x800",
+        "--locality-best-capture"
+      ],
+      "log": "gpu_locality_best_final.txt",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/final-run-results.json"
+    },
+    {
+      "name": "gpu_settings_feedback_final",
+      "suite": "test_settings_feedback_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_settings_feedback_final-2",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261104T203308Z-530aab9a/project",
+        "--script",
+        "res://tests/test_settings_feedback_layout.gd",
+        "--",
+        "--capture-size=1280x800"
+      ],
+      "log": "gpu_settings_feedback_final.txt",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/final-run-results.json"
+    },
+    {
+      "name": "gpu_game_record_projection_static",
+      "suite": "test_game_record_projection",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu-record-projection-static-3",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261104T203308Z-530aab9a/project",
+        "--script",
+        "res://tests/test_game_record_projection.gd",
+        "--",
+        "--capture-size=1280x800",
+        "--record-projection-capture"
+      ],
+      "log": "gpu_game_record_projection_static.txt",
+      "receipt": "20261104T203308Z-530aab9a",
+      "result_file": "logs/20261104T203308Z-530aab9a/static-capture-result.json"
+    }
+  ]
+}

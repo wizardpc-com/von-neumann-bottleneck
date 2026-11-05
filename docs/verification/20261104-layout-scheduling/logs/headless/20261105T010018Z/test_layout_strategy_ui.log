@@ -1,0 +1,64 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: FATAL: Index p_index = 1 is out of bounds (((Vector<T> *)(this))->_cowdata.size() = 0).
+   at: operator[] (./core/templates/vector.h:54)
+   GDScript backtrace (most recent call first):
+       [0] select_history (res://tests/test_layout_strategy_ui.gd:52)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:152)
+       [2] click (res://tests/test_layout_strategy_ui.gd:41)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+
+================================================================
+handle_crash: Program crashed with signal 5
+Engine version: Godot Engine v4.7.1.stable.official (a13da4feb8d8aefc283c3763d33a2f170a18d541)
+Dumping the backtrace. Please include this when reporting the bug on: https://github.com/godotengine/godot/issues
+Load address: 1049c4000
+
+[1] 183145744 (libsystem_platform.dylib+3744) - _sigtramp + 56
+[2] 10a67e374 (main+5cba374) - GL_ShadingRateQCOM + 13158780
+[3] 107cf9148 (main+3335148) - SDL_GetPerformanceFrequency + 22533764
+[4] 107cf9114 (main+3335114) - SDL_GetPerformanceFrequency + 22533712
+[5] 107cdccb0 (main+3318cb0) - SDL_GetPerformanceFrequency + 22417900
+[6] 109751a34 (main+4d8da34) - ZSTD_decompressStream_simpleArgs + 6643760
+[7] 1056cc18c (main+d0818c) - main + 6013408
+[8] 10559d128 (main+bd9128) - main + 4772220
+[9] 10af9fa04 (main+65dba04) - GL_ShadingRateQCOM + 22732812
+[10] 10948c588 (main+4ac8588) - ZSTD_decompressStream_simpleArgs + 3738500
+[11] 1056cc654 (main+d08654) - main + 6014632
+[12] 105633ba8 (main+c6fba8) - main + 5389308
+[13] 10563393c (main+c6f93c) - main + 5388688
+[14] 10563604c (main+c7204c) - main + 5398688
+[15] 10af9fa64 (main+65dba64) - GL_ShadingRateQCOM + 22732908
+[16] 109459de0 (main+4a95de0) - ZSTD_decompressStream_simpleArgs + 3531740
+[17] 10945d4b8 (main+4a994b8) - ZSTD_decompressStream_simpleArgs + 3545780
+[18] 10973e1b4 (main+4d7a1b4) - ZSTD_decompressStream_simpleArgs + 6563760
+[19] 1056d524c (main+d1124c) - main + 6050464
+[20] 105633ba8 (main+c6fba8) - main + 5389308
+[21] 10563393c (main+c6f93c) - main + 5388688
+[22] 10563604c (main+c7204c) - main + 5398688
+[23] 10af9fa64 (main+65dba64) - GL_ShadingRateQCOM + 22732908
+[24] 109459de0 (main+4a95de0) - ZSTD_decompressStream_simpleArgs + 3531740
+[25] 10945d4b8 (main+4a994b8) - ZSTD_decompressStream_simpleArgs + 3545780
+[26] 10973e1b4 (main+4d7a1b4) - ZSTD_decompressStream_simpleArgs + 6563760
+[27] 1056d524c (main+d1124c) - main + 6050464
+[28] 105633ba8 (main+c6fba8) - main + 5389308
+[29] 10563393c (main+c6f93c) - main + 5388688
+[30] 10563604c (main+c7204c) - main + 5398688
+[31] 10af9fa64 (main+65dba64) - GL_ShadingRateQCOM + 22732908
+[32] 109459de0 (main+4a95de0) - ZSTD_decompressStream_simpleArgs + 3531740
+[33] 10945d4b8 (main+4a994b8) - ZSTD_decompressStream_simpleArgs + 3545780
+[34] 10973e1b4 (main+4d7a1b4) - ZSTD_decompressStream_simpleArgs + 6563760
+[35] 10787154c (main+2ead54c) - SDL_GetPerformanceFrequency + 17783432
+[36] 10513533c (main+77133c) - main + 152464
+[37] 1050ae028 (main+6ea028) - mvk::SPIRVToMSLConverter::convert(mvk::SPIRVToMSLConversionConfiguration&, mvk::SPIRVToMSLConversionResult&, bool, bool, bool)
+[38] 10511035c (main+74c35c) - main (in Godot) + 944
+[39] 182d704e4 (dyld+204e4) - start + 6992
+-- END OF C++ BACKTRACE --
+================================================================
+GDScript backtrace (most recent call first):
+    [0] select_history (res://tests/test_layout_strategy_ui.gd:52)
+    [1] exercise (res://tests/test_layout_strategy_ui.gd:152)
+    [2] click (res://tests/test_layout_strategy_ui.gd:41)
+    [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+-- END OF GDSCRIPT BACKTRACE --
+================================================================

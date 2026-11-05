@@ -1,0 +1,1 @@
+Native input NOT_RUN: CUA reported that the Mac was locked and automatic unlock failed. Only fixture-ready was emitted. The owned QA process was terminated; no native-load, native-run or native-return action occurred.

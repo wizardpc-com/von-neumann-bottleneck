@@ -1,0 +1,9 @@
+{
+  "project": ".godot/verification/20261104T190535Z-d73a6de8/project",
+  "scope": "Before final compact status, same-name retry and cached sorting refinements; native input evidence only.",
+  "sha256": {
+    "src/layout_chapter/layout_chapter.gd": "62bde221effd7d618022d94ed64512812fe96f1df157b7e7495e4ee4b8b24d8f",
+    "src/layout_chapter/layout_scoreboard.gd": "6eb8df7698e8f8552f351e7cca2784225480ac52749a077efbd71a02fe023c22",
+    "src/layout_chapter/layout_scoreboard_window.gd": "e7f289b789ea477d2376b481b9601e0b8827fd824d3862bdc081fa81ea4e5974"
+  }
+}

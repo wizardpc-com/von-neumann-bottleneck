@@ -13,7 +13,9 @@ func key(code: Key, control: bool = false) -> void:
 	for down: bool in [true, false]:
 		var event := InputEventKey.new()
 		event.keycode = code; event.physical_keycode = code
-		event.pressed = down; event.ctrl_pressed = control
+		event.pressed = down
+		event.ctrl_pressed = control and (OS.get_name() != "macOS" or code == KEY_Y)
+		event.meta_pressed = control and OS.get_name() == "macOS" and code != KEY_Y
 		root.push_input(event, true); await process_frame
 func open_settings() -> void:
 	await key(KEY_F10); await settle()

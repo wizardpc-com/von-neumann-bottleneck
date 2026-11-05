@@ -283,10 +283,13 @@ func _ready() -> void:
 	panel.hide()
 	panel.resized.connect(_fit_feedback_layout)
 	feedback_layout.minimum_size_changed.connect(_fit_feedback_layout, CONNECT_DEFERRED)
-	# Wrapped text can briefly enlarge a newly mounted page before its width settles.
+	# Wrapped text can enlarge a newly mounted panel before its width settles.
+	# Ordinary popup feedback must also shrink after that temporary minimum drops.
 	panel.minimum_size_changed.connect(func() -> void:
-		if panel.visible and panel.has_meta("terminal_page"):
-			panel.size = panel.get_viewport().get_visible_rect().size, CONNECT_DEFERRED)
+		if not panel.visible: return
+		var viewport_size: Vector2 = panel.get_viewport().get_visible_rect().size
+		panel.size = viewport_size if panel.has_meta("terminal_page") else Vector2(
+			minf(960,viewport_size.x-48),panel.get_combined_minimum_size().y), CONNECT_DEFERRED)
 	_fit_feedback_layout()
 	Localization.locale_changed.connect(func(_locale: String) -> void: _refresh_language())
 

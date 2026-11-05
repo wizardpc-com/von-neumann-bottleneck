@@ -1,0 +1,10 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-zh_CN-table.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-zh_CN-import.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-zh_CN-share.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-en-table.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-en-import.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round3/20261104T212137Z/test_layout_challenge_window/layout-challenge-en-share.png
+PASS: layout challenge window 120 checks, 0 failures

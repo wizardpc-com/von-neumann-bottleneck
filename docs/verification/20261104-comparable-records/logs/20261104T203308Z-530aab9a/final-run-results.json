@@ -1,0 +1,94 @@
+[
+  {
+    "name": "test_game_record_projection_final",
+    "suite": "test_game_record_projection",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/test_game_record_projection_final-2",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T203308Z-530aab9a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_game_record_projection.gd"
+    ],
+    "log": "test_game_record_projection_final.txt"
+  },
+  {
+    "name": "gpu_journey_journal_final",
+    "suite": "test_journey_journal",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_journey_journal_final-2",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T203308Z-530aab9a/project",
+      "--script",
+      "res://tests/test_journey_journal.gd",
+      "--",
+      "--capture-size=1280x800",
+      "--journal-feedback-capture"
+    ],
+    "log": "gpu_journey_journal_final.txt"
+  },
+  {
+    "name": "gpu_game_record_projection_final",
+    "suite": "test_game_record_projection",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_game_record_projection_final-2",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T203308Z-530aab9a/project",
+      "--script",
+      "res://tests/test_game_record_projection.gd",
+      "--",
+      "--capture-size=1280x800",
+      "--record-projection-capture"
+    ],
+    "log": "gpu_game_record_projection_final.txt"
+  },
+  {
+    "name": "gpu_locality_best_final",
+    "suite": "test_locality_best_restore",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_locality_best_final-2",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T203308Z-530aab9a/project",
+      "--script",
+      "res://tests/test_locality_best_restore.gd",
+      "--",
+      "--capture-size=1280x800",
+      "--locality-best-capture"
+    ],
+    "log": "gpu_locality_best_final.txt"
+  },
+  {
+    "name": "gpu_settings_feedback_final",
+    "suite": "test_settings_feedback_layout",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "custom_user_dir": "VonNeumannBottleneckChecks/20261104-round2/gpu_settings_feedback_final-2",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T203308Z-530aab9a/project",
+      "--script",
+      "res://tests/test_settings_feedback_layout.gd",
+      "--",
+      "--capture-size=1280x800"
+    ],
+    "log": "gpu_settings_feedback_final.txt"
+  }
+]

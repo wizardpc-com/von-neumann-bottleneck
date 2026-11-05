@@ -1,5 +1,11 @@
 # Documentation map
 
+- [第四轮：独立调度实验台、真实响应取舍及原规则兼容（2026-11-04）](verification/20261104-layout-scheduling/README.md)
+- [第三轮：可保存与分享的实测挑战及2555候选模型审查（2026-11-04）](verification/20261104-portable-challenges/README.md)
+- [第二轮：同条件成绩、长期最佳保留与草稿恢复（2026-11-04）](verification/20261104-comparable-records/README.md)
+- [独立分支：个人方案榜、挑战与可恢复实验（2026-11-04）](verification/20261104-gameplay-systems/README.md)
+- [下一阶段接手与上一轮设计待审核清单](development/GAMEPLAY_AUDIT_20261104.md)
+
 - [Windows/macOS Alpha4 发布与验收（2026-10-24）](verification/20261024-desktop-release/README.md)
 
 - [赛后调研即时改进与未改项（2026-10-24）](verification/20261024-postgame-research/README.md)

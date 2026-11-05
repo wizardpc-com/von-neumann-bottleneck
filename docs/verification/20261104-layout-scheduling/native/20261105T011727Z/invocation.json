@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T005513Z-6cc70bb5/project",
+    "--",
+    "--capture-size=1280x720",
+    "--locale=zh_CN"
+  ],
+  "profile": "VonNeumannBottleneckChecks/20261104-round4/native/20261105T011727Z",
+  "project": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T005513Z-6cc70bb5/project",
+  "status": "exited",
+  "native_input": "PARTIAL_PASS",
+  "scene": "ordinary main scene; no fixture driver",
+  "pid": 43574,
+  "exit": 0,
+  "diagnostics": [],
+  "settings_restored": true,
+  "acceptance_limits": "Native run/baseline/edit/restore/Undo/language/guard observed; capture argument caused write-disabled Settings dialog. Not normal Settings acceptance."
+}

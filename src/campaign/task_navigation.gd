@@ -15,36 +15,51 @@ var zoom: float = 0.55
 var camera_saved: bool = false
 
 func tasks() -> Array[Dictionary]:
+	return _core_tasks(false)
+
+func game_tasks() -> Array[Dictionary]:
+	# Archives read Game state directly; changing mode would flush/mutate workbenches.
+	return _core_tasks(true)
+
+func _core_tasks(game_records: bool) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
+	var test_mode: bool = GameMode.is_test_mode() and not game_records
+	var available_override: bool = test_mode or offline_tester_enabled()
+	var system_done: Dictionary = SystemChapter.game_completed if game_records else SystemChapter.completed_levels()
+	var locality_done: Dictionary = LocalityChapter.game_completed if game_records else LocalityChapter.completed_levels()
+	var overlap_done: Dictionary = OverlapChapter.game_solutions if game_records else OverlapChapter.completed()
+	var layout_done: Dictionary = LayoutChapter.game_solutions if game_records else LayoutChapter.completed()
+	var locality_ready: bool = test_mode or bool(system_done.get(&"bottleneck",false))
+	var later_ready: bool = test_mode or bool(locality_done.get(&"capstone",false))
 	var hardware := preload("res://src/hardware_foundations/prologue_level_catalog.gd").new()
 	var state: Dictionary = GlobalSave.game_player_content.completed_levels
 	for id: StringName in hardware.level_ids():
 		var deps: Array = hardware.dependencies(id)
 		result.append(_task("hardware_foundations",String(id),0,Localization.text(hardware.title_key(id)),
 			Localization.text(hardware.description_key(id)),deps,hardware.is_unlocked(id,state),bool(state.get(id,false)),
-			String(hardware.level_branch_id(id)).ends_with("exploration")))
+			String(hardware.level_branch_id(id)).ends_with("exploration"),available_override))
 	var system := preload("res://src/system_lab/system_level_catalog.gd").new()
 	for id: StringName in system.level_ids():
 		result.append(_task("chapter_1",String(id),1,Localization.text(system.title_key(id)),
 			Localization.text(system.description_key(id)),system.dependencies(id),
-			system.is_unlocked(id,SystemChapter.completed_levels(),SystemChapter.prologue_ready),
-			bool(SystemChapter.completed_levels().get(id,false)),id in [&"read_once",&"two_orders"]))
+			system.is_unlocked(id,system_done,SystemChapter.prologue_ready),
+			bool(system_done.get(id,false)),id in [&"read_once",&"two_orders"],available_override))
 	var locality := preload("res://src/locality_chapter/locality_level_catalog.gd").new()
 	for id: StringName in locality.level_ids():
 		result.append(_task("chapter_2",String(id),2,Localization.text(locality.title_key(id)),
 			Localization.text(locality.description_key(id)),locality.dependencies(id),
-			locality.is_unlocked(id,LocalityChapter.completed_levels(),LocalityChapter.chapter_unlocked()),
-			bool(LocalityChapter.completed_levels().get(id,false)),false))
+			locality.is_unlocked(id,locality_done,locality_ready),
+			bool(locality_done.get(id,false)),false,available_override))
 	var overlap = preload("res://src/overlap_chapter/overlap_catalog.gd")
 	for id: String in overlap.IDS:
 		result.append(_task("chapter_3",id,3,Localization.text(StringName("overlap."+id+".title")),
 			Localization.text(StringName("overlap."+id+".goal")),overlap.DEPS[id],
-			overlap.unlocked(id,OverlapChapter.completed(),OverlapChapter.chapter_unlocked()),
-			OverlapChapter.completed().has(id),false))
+			overlap.unlocked(id,overlap_done,later_ready),
+			overlap_done.has(id),false,available_override))
 	var layout = preload("res://src/layout_chapter/layout_catalog.gd")
 	for id: String in layout.IDS:
 		result.append(_task("chapter_4",id,4,layout.title(id),layout.goal(id),layout.DEPS[id],
-			layout.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked()),LayoutChapter.completed().has(id),false))
+			layout.unlocked(id,layout_done,later_ready),layout_done.has(id),false,available_override))
 	for task: Dictionary in result:
 		if task.body.is_empty() and task.id in ["tutorial","half_adder"]:
 			task.body = Localization.text(StringName("hardware.prologue.map.%s_description"%task.id))
@@ -59,16 +74,27 @@ func tasks() -> Array[Dictionary]:
 		task["bonus_goals"]=[]
 		match task.key:
 			"chapter_2/capstone": task.bonus_goals.append({"id":"economical","complete":not LocalityChapter.economical_design.is_empty()})
-			"chapter_3/distance", "chapter_3/synthesis": task.bonus_goals.append({"id":task.id,"complete":OverlapChapter.bonus_status(task.id).complete})
+			"chapter_3/distance", "chapter_3/synthesis":
+				task.bonus_goals.append({"id":task.id,"complete":_game_overlap_bonus(task.id) if game_records else OverlapChapter.bonus_status(task.id).complete})
 			"chapter_4/mixed":
 				for id: String in ["space","flow"]: task.bonus_goals.append({"id":id,"complete":LayoutChapter.game_bonuses.has(id)})
 	return result
 
-func _task(domain: String,id: String,region: int,title: String,body: String,deps: Array,available: bool,done: bool,optional: bool) -> Dictionary:
+func _game_overlap_bonus(id: String) -> bool:
+	if id == "synthesis": return OverlapChapter.game_routes.has("buffer") and OverlapChapter.game_routes.has("cache")
+	if id == "distance":
+		if not OverlapChapter.game_distance_bonus.is_empty(): return true
+		if OverlapChapter.game_solutions.has(id):
+			var value: Dictionary = OverlapChapter.game_solutions[id]
+			var catalog = preload("res://src/overlap_chapter/overlap_catalog.gd")
+			return catalog.no_repeated_transfer(catalog.evaluate(id,value.board,value.program))
+	return false
+
+func _task(domain: String,id: String,region: int,title: String,body: String,deps: Array,available: bool,done: bool,optional: bool,available_override: bool) -> Dictionary:
 	var dependencies: Array[String] = []
 	for dep: Variant in deps: dependencies.append(domain+"/"+String(dep))
 	return {"key":domain+"/"+id,"id":id,"domain":domain,"region":region,"title":title,"body":body,
-		"dependencies":dependencies,"unlocked":available or GameMode.is_test_mode() or offline_tester_enabled(),"completed":done,"optional":optional}
+		"dependencies":dependencies,"unlocked":available or available_override,"completed":done,"optional":optional}
 
 func offline_tester_enabled() -> bool:
 	return ProjectSettings.get_setting("playtest/offline_tester",false) == true
@@ -77,6 +103,12 @@ func candidate_journey_enabled() -> bool: return SecondAct.enabled()
 
 func journey_tasks() -> Array[Dictionary]:
 	var result: Array[Dictionary] = tasks()
+	return _append_saved_journey_tasks(result)
+
+func game_journey_tasks() -> Array[Dictionary]:
+	return _append_saved_journey_tasks(game_tasks())
+
+func _append_saved_journey_tasks(result: Array[Dictionary]) -> Array[Dictionary]:
 	if candidate_journey_enabled(): result.append_array(SecondAct.build(SecondAct.saved_review(),Localization.current_locale() == "en"))
 	if Creation.enabled(): result.append_array(Creation.build(Localization.current_locale() == "en"))
 	return result

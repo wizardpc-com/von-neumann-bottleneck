@@ -1,0 +1,25 @@
+[
+  {
+    "suite": "test_layout_strategy_ui",
+    "code": 1,
+    "errors": [
+      "ERROR: SpinBox text owns its text Undo and does not undo the recipe zh_CN; typed=8 after=8 value=8.0 draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 } expected={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: SpinBox text owns its text Undo and does not undo the recipe en; typed=8 after=8 value=8.0 draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 } expected={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Minimum Comparison en fits actual viewport [P: (0.0, 0.0), S: (960.0, 640.0)]; control [P: (312.0, 599.0), S: (636.0, 47.0)]",
+      "ERROR: Minimum evidence EventDetail en fits actual viewport [P: (0.0, 0.0), S: (960.0, 640.0)]; control [P: (312.0, 518.0), S: (636.0, 128.0)]",
+      "ERROR: Minimum public workload en fits actual viewport [P: (0.0, 0.0), S: (960.0, 640.0)]; control [P: (312.0, 165.0), S: (636.0, 481.0)]",
+      "FAIL: layout strategy UI 186 checks, 5 failures"
+    ],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T005513Z-6cc70bb5/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round4/20261105T010944Z/test_layout_strategy_ui",
+    "log": "headless/20261105T010944Z/test_layout_strategy_ui.log",
+    "passed": false
+  }
+]

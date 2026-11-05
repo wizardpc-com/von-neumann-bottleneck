@@ -7202,6 +7202,24 @@ msgstr "本次 · %s 周期 · CPU 等待 %s · 命中/未命中 %s/%s · RAM %s
 
 msgid "s2.run.comparison"
 msgstr "上次 → 本次 · 周期 %s · 等待 %s · 命中 %s · 未命中 %s · RAM %s B"
+
+msgid "s2.run.metrics_locked"
+msgstr "本次 · %s 周期 · CPU 等待 %s"
+
+msgid "s2.run.comparison_locked"
+msgstr "上次 → 本次 · 周期 %s · 等待 %s"
+
+msgid "hardware.workbench.duplicate"
+msgstr "复制当前方案…"
+
+msgid "hardware.workbench.duplicate.title"
+msgstr "复制当前方案"
+
+msgid "hardware.workbench.duplicate.confirm"
+msgstr "复制"
+
+msgid "hardware.workbench.duplicate.note"
+msgstr "复制“%s”的元件、接线与布局；原方案保留，新方案须重新测试。"
 # --- b2-bridges 20261104 ---
 
 msgid "b2.reflection.capstone"
@@ -7282,3 +7300,28 @@ msgstr "返回 · Esc"
 # --- p1-pages 20261104 --- Round 2
 msgid "p1.feedback_title"
 msgstr "评价与反馈"
+
+# Retained Chapter 2 experiments
+msgid "chapter2.best.summary"
+msgstr "已保留最快的正确方案：%d 周期 · 成本 %d"
+
+msgid "chapter2.best.restore"
+msgstr "载入最快方案"
+
+msgid "chapter2.best.undo"
+msgstr "取回之前草稿"
+
+msgid "chapter2.best.scope"
+msgstr "同一任务、正式数据与运行遍数，按真实周期比较；周期相同时取成本较低者。载入后须重新运行。"
+
+msgid "chapter2.best.restored"
+msgstr "已载入最快方案。请重新运行；可取回之前的文字与配置。"
+
+msgid "chapter2.best.undo_done"
+msgstr "已取回之前的草稿与配置。运行结果已清空。"
+
+msgid "chapter2.best.already_loaded"
+msgstr "当前已是这份最快方案。"
+
+msgid "chapter2.history.change.program"
+msgstr "源程序"

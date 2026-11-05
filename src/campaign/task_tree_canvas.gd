@@ -30,6 +30,7 @@ var dash_geometry_cache: Dictionary = {}
 var resume_key: String = ""
 var pulse_time: float = 0.0
 var records: Dictionary = {}
+var record_kinds: Dictionary = {}
 var dash_cache_zoom: float = -1.0
 
 func _ready() -> void:
@@ -47,9 +48,11 @@ func configure(tasks: Array[Dictionary]) -> void:
 	rows = tasks
 	resume_key = TaskNavigation.next_task_key()
 	records.clear()
+	record_kinds.clear()
 	if not GameMode.is_test_mode():
-		for record: Dictionary in PersonalRecords.snapshot(TaskNavigation.tasks()).tasks:
+		for record: Dictionary in PersonalRecords.snapshot(TaskNavigation.game_tasks()).tasks:
 			records[record.key] = record.best
+			record_kinds[record.key] = record.record_kind
 	edge_geometry_cache.clear()
 	dash_geometry_cache.clear()
 	_rebuild_relation_index()
@@ -275,7 +278,10 @@ func _gui_input(event: InputEvent) -> void:
 		var world: Vector2 = (event.position-pan)/magnification
 		for task: Dictionary in rows:
 			if Rect2(positions[task.key],NODE_SIZE).has_point(world):
-				tooltip_text=task.title; next_hover=task.key; break
+				tooltip_text=task.title
+				var record_note: String = record_detail(task)
+				if not record_note.is_empty(): tooltip_text += "\n" + record_note
+				next_hover=task.key; break
 		_set_hover(next_hover)
 	elif event is InputEventMagnifyGesture:
 		_zoom_at(event.position,event.factor)
@@ -459,8 +465,21 @@ func record_caption(task: Dictionary) -> String:
 	var record: Dictionary = records.get(task.key,{})
 	if task.domain == "hardware_foundations" and record.has("passed_cases"):
 		return Localization.text(&"m1_map.passed_cases") % int(record.passed_cases)
-	if task.domain == "chapter_4" and record.has("ram_read_bytes") and record.has("ram_write_bytes"):
-		return "RAM %d B" % (int(record.ram_read_bytes)+int(record.ram_write_bytes))
 	if record.has("cycles"):
 		return Localization.text(&"m1_map.cycles") % int(record.cycles)
 	return ""
+
+func record_detail(task: Dictionary) -> String:
+	var caption: String = record_caption(task)
+	if caption.is_empty(): return ""
+	var chinese: bool = Localization.current_locale().begins_with("zh")
+	var record: Dictionary = records.get(task.key,{})
+	if record_kinds.get(task.key,"") != "replayed":
+		return ("已有正式验证记录 · " if chinese else "Recorded official validation · ") + caption
+	var text: String = ("已保存方案复测 · " if chinese else "Saved design remeasured · ") + caption
+	if task.domain == "chapter_4":
+		text += ("\n已达标最快方案；两单 RAM 读写合计 %d B，临时峰值 %d B。" if chinese else "\nFastest saved passing design; both cases transfer %d B through RAM, with %d B peak scratch.") % [
+			int(record.get("ram_read_bytes",0))+int(record.get("ram_write_bytes",0)),int(record.get("peak_extra_bytes",0))]
+	elif task.domain == "chapter_2":
+		text += "\n当前官方工作量中的最快正确实验；任务目标仍可能未满足。" if chinese else "\nFastest saved correct experiment for the current official workload; task targets may remain unmet."
+	return text

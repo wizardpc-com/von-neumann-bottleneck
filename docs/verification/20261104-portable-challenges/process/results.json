@@ -1,0 +1,36 @@
+[
+  {
+    "phase": "seed",
+    "code": 0,
+    "passed": true,
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T210749Z-5839019c/project",
+      "--script",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/collaboration/challenge-process-probe.gd",
+      "--",
+      "--seed"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round3/process-20261104T212516Z",
+    "log": "seed.log"
+  },
+  {
+    "phase": "reopen",
+    "code": 0,
+    "passed": true,
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261104T210749Z-5839019c/project",
+      "--script",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/collaboration/challenge-process-probe.gd",
+      "--",
+      "--reopen"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261104-round3/process-20261104T212516Z",
+    "log": "reopen.log"
+  }
+]

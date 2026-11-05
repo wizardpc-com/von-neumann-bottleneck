@@ -1,0 +1,170 @@
+{
+  "design": {
+    "batch": 4,
+    "copy_fields": [
+      0
+    ],
+    "recipe": {
+      "block": 0,
+      "groups": [
+        {
+          "fields": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "order": "record"
+        }
+      ]
+    },
+    "strategy": "direct"
+  },
+  "game_named": {},
+  "rows": [
+    {
+      "cases": [
+        {
+          "case_id": "6e2c77d335106c1cc4b79e3ae77c4f2b95de5c6afacff247069306b2b8683973",
+          "correct": true,
+          "cycles": 145,
+          "error": "",
+          "expected": [
+            161
+          ],
+          "name": "A",
+          "output": [
+            161
+          ],
+          "peak": 0,
+          "recipe_id": "062a73146bd68cd62970c0463b439ca90f25c112d7b3ddd61d11d95631d8a341",
+          "target_met": false,
+          "trace_id": "c63b00f1eb449ec3c5e1b59f0c8c528eef064d7571c47b86e623b41bf6ce53d5",
+          "traffic": 128
+        },
+        {
+          "case_id": "23d0c7de94de8cc07ce1cd4670b845320f23799a68bd0f50ad0e2d76ec505530",
+          "correct": true,
+          "cycles": 217,
+          "error": "",
+          "expected": [
+            250
+          ],
+          "name": "B",
+          "output": [
+            250
+          ],
+          "peak": 0,
+          "recipe_id": "062a73146bd68cd62970c0463b439ca90f25c112d7b3ddd61d11d95631d8a341",
+          "target_met": false,
+          "trace_id": "0099828dd4ead2e9f851f95595932aca049f6781f22c73d3b1fa4e9d81f269c8",
+          "traffic": 192
+        }
+      ],
+      "condition_id": "08fe52e940d43ded82e58f6502f97c5e0f20e14f8edeb4db2af2e5ad40a062b2",
+      "correct": true,
+      "cycles": 362,
+      "design": {
+        "batch": 4,
+        "copy_fields": [
+          0
+        ],
+        "recipe": {
+          "block": 0,
+          "groups": [
+            {
+              "fields": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "order": "record"
+            }
+          ]
+        },
+        "strategy": "direct"
+      },
+      "eligible": false,
+      "id": "current",
+      "peak": 0,
+      "rank": 0,
+      "reason": "target_unmet",
+      "recipe_id": "c7522ab146fbceeb0008f74186aeaa34da695a2f18e889a25581ede6e98ec335",
+      "title": "当前草稿",
+      "traffic": 320
+    },
+    {
+      "cases": [
+        {
+          "case_id": "6e2c77d335106c1cc4b79e3ae77c4f2b95de5c6afacff247069306b2b8683973",
+          "correct": true,
+          "cycles": 145,
+          "error": "",
+          "expected": [
+            161
+          ],
+          "name": "A",
+          "output": [
+            161
+          ],
+          "peak": 0,
+          "recipe_id": "062a73146bd68cd62970c0463b439ca90f25c112d7b3ddd61d11d95631d8a341",
+          "target_met": false,
+          "trace_id": "c63b00f1eb449ec3c5e1b59f0c8c528eef064d7571c47b86e623b41bf6ce53d5",
+          "traffic": 128
+        },
+        {
+          "case_id": "23d0c7de94de8cc07ce1cd4670b845320f23799a68bd0f50ad0e2d76ec505530",
+          "correct": true,
+          "cycles": 217,
+          "error": "",
+          "expected": [
+            250
+          ],
+          "name": "B",
+          "output": [
+            250
+          ],
+          "peak": 0,
+          "recipe_id": "062a73146bd68cd62970c0463b439ca90f25c112d7b3ddd61d11d95631d8a341",
+          "target_met": false,
+          "trace_id": "0099828dd4ead2e9f851f95595932aca049f6781f22c73d3b1fa4e9d81f269c8",
+          "traffic": 192
+        }
+      ],
+      "condition_id": "08fe52e940d43ded82e58f6502f97c5e0f20e14f8edeb4db2af2e5ad40a062b2",
+      "correct": true,
+      "cycles": 362,
+      "design": {
+        "batch": 4,
+        "copy_fields": [
+          0
+        ],
+        "recipe": {
+          "block": 0,
+          "groups": [
+            {
+              "fields": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "order": "record"
+            }
+          ]
+        },
+        "strategy": "direct"
+      },
+      "eligible": false,
+      "id": "named:Native A",
+      "peak": 0,
+      "rank": 0,
+      "reason": "target_unmet",
+      "recipe_id": "c7522ab146fbceeb0008f74186aeaa34da695a2f18e889a25581ede6e98ec335",
+      "title": "Native A",
+      "traffic": 320
+    }
+  ]
+}

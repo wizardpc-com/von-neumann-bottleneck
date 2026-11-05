@@ -1,0 +1,28 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-zh_CN-evidence-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-zh_CN-compare-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-zh_CN-compare-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-zh_CN-evidence-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-zh_CN-public-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-zh_CN-quit-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-en-evidence-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-en-compare-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-en-compare-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-en-evidence-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-en-public-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261104-round4/20261105T013713Z/test_layout_strategy_ui/layout-strategy-en-quit-960.png
+ERROR: Raw frame dimensions zh_CN-evidence-1280: (2940, 1846)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:134)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:322)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Raw frame dimensions zh_CN-compare-1280: (2940, 1846)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:134)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:322)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+FAIL: layout strategy UI 242 checks, 2 failures

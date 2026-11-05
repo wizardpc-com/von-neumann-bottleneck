@@ -1,0 +1,393 @@
+{
+  "engine": "4.7.1-stable (official)",
+  "libraries": [
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        41.577,
+        41.19,
+        41.259
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.134,
+        0.314,
+        0.182
+      ],
+      "task": "fields",
+      "variant": "starter"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        31.546,
+        31.876,
+        31.331
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.144,
+        0.185,
+        0.185
+      ],
+      "task": "fields",
+      "variant": "reference"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        0.454,
+        0.451,
+        0.445
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.081,
+        0.097,
+        0.096
+      ],
+      "task": "fields",
+      "variant": "full"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        0.444,
+        0.458,
+        0.445
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.084,
+        0.096,
+        0.095
+      ],
+      "task": "fields",
+      "variant": "batch1"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        37.558,
+        37.823,
+        40.066
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.172,
+        0.205,
+        0.202
+      ],
+      "task": "records",
+      "variant": "starter"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        37.809,
+        38.303,
+        37.928
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.15,
+        0.205,
+        0.197
+      ],
+      "task": "records",
+      "variant": "reference"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        0.458,
+        0.453,
+        0.449
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.082,
+        0.096,
+        0.096
+      ],
+      "task": "records",
+      "variant": "full"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        0.449,
+        0.448,
+        0.447
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.083,
+        0.096,
+        0.095
+      ],
+      "task": "records",
+      "variant": "batch1"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        279.6,
+        280.201,
+        281.124
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.14,
+        0.201,
+        0.252
+      ],
+      "task": "hot_cold",
+      "variant": "starter"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        250.203,
+        251.249,
+        252.23
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.155,
+        0.209,
+        0.208
+      ],
+      "task": "hot_cold",
+      "variant": "reference"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        0.523,
+        0.512,
+        0.512
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.087,
+        0.103,
+        0.104
+      ],
+      "task": "hot_cold",
+      "variant": "full"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        0.511,
+        0.51,
+        0.51
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.087,
+        0.104,
+        0.104
+      ],
+      "task": "hot_cold",
+      "variant": "batch1"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        271.828,
+        271.522,
+        271.488
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.145,
+        0.196,
+        0.193
+      ],
+      "task": "relocation",
+      "variant": "starter"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        236.919,
+        238.176,
+        237.184
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.202,
+        0.288,
+        0.298
+      ],
+      "task": "relocation",
+      "variant": "reference"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        237.264,
+        237.84,
+        237.102
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.204,
+        0.278,
+        0.287
+      ],
+      "task": "relocation",
+      "variant": "full"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        237.847,
+        236.696,
+        236.62
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.204,
+        0.283,
+        0.299
+      ],
+      "task": "relocation",
+      "variant": "batch1"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        469.39,
+        473.218,
+        468.947
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.163,
+        0.19,
+        0.186
+      ],
+      "task": "batches",
+      "variant": "starter"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        367.504,
+        366.251,
+        366.06
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.154,
+        0.197,
+        0.204
+      ],
+      "task": "batches",
+      "variant": "reference"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        13.973,
+        13.753,
+        13.824
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.152,
+        0.171,
+        0.178
+      ],
+      "task": "batches",
+      "variant": "full"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        408.606,
+        414.036,
+        411.983
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.149,
+        0.22,
+        0.214
+      ],
+      "task": "batches",
+      "variant": "batch1"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        565.812,
+        563.001,
+        561.801
+      ],
+      "eligible": 0,
+      "rerank_ms_cycles_traffic_space": [
+        0.156,
+        0.204,
+        0.215
+      ],
+      "task": "mixed",
+      "variant": "starter"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        557.36,
+        597.598,
+        558.61
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.168,
+        0.233,
+        0.221
+      ],
+      "task": "mixed",
+      "variant": "reference"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        612.046,
+        612.281,
+        608.938
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.171,
+        0.24,
+        0.226
+      ],
+      "task": "mixed",
+      "variant": "full"
+    },
+    {
+      "candidates": 26,
+      "elapsed_ms_cycles_traffic_space": [
+        588.879,
+        593.543,
+        592.285
+      ],
+      "eligible": 26,
+      "rerank_ms_cycles_traffic_space": [
+        0.175,
+        0.24,
+        0.228
+      ],
+      "task": "mixed",
+      "variant": "batch1"
+    }
+  ],
+  "notes": "26 candidates = 24 named + current + best. Fixture libraries are repeated identical recipes, not exhaustive worst-case or UI frame timings. No pass/fail latency threshold.",
+  "os": "macOS",
+  "processor": "Apple M2",
+  "repeats_per_library": 3
+}

@@ -1,0 +1,33 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: SpinBox text owns its text Undo and does not undo the recipe zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:109)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:295)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: SpinBox text owns its text Undo and does not undo the recipe en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:109)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:295)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Minimum Comparison en fits actual viewport [P: (0.0, 0.0), S: (960.0, 640.0)]; control [P: (312.0, 599.0), S: (636.0, 47.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:109)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:295)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Minimum evidence EventDetail en fits actual viewport [P: (0.0, 0.0), S: (960.0, 640.0)]; control [P: (312.0, 518.0), S: (636.0, 128.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:109)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:295)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Minimum public workload en fits actual viewport [P: (0.0, 0.0), S: (960.0, 640.0)]; control [P: (312.0, 165.0), S: (636.0, 481.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_ui.gd:109)
+       [1] exercise (res://tests/test_layout_strategy_ui.gd:295)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+FAIL: layout strategy UI 186 checks, 5 failures

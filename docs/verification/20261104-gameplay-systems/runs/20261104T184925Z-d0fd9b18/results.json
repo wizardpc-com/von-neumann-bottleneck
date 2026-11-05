@@ -1,0 +1,75 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T184925Z-d0fd9b18/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T184925Z-d0fd9b18/user_directory"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T184925Z-d0fd9b18/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_optional_challenges",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_optional_challenges.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T184925Z-d0fd9b18/test_optional_challenges"
+    },
+    {
+      "name": "test_prediction_record_source",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Cross-task caption identifies the record and rule",
+        "FAIL: prediction record source 1 failures / 28 checks"
+      ],
+      "log": "test_prediction_record_source.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T184925Z-d0fd9b18/test_prediction_record_source"
+    },
+    {
+      "name": "test_service_undo_context",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: zh temporary: Undo Join restores the original B1 group and selection",
+        "ERROR: zh temporary: Undo history restore recovers the exact prior draft and selected group",
+        "ERROR: zh temporary: an identical-plan no-op preserves Redo and selection",
+        "ERROR: zh temporary: a new edit after Undo replaces the abandoned Redo branch",
+        "ERROR: zh persistent: Undo Join restores the original B1 group and selection",
+        "ERROR: zh persistent: Undo history restore recovers the exact prior draft and selected group",
+        "ERROR: zh persistent: an identical-plan no-op preserves Redo and selection",
+        "ERROR: zh persistent: a new edit after Undo replaces the abandoned Redo branch",
+        "ERROR: en temporary: Undo Join restores the original B1 group and selection",
+        "ERROR: en temporary: Undo history restore recovers the exact prior draft and selected group",
+        "ERROR: en temporary: an identical-plan no-op preserves Redo and selection",
+        "ERROR: en temporary: a new edit after Undo replaces the abandoned Redo branch",
+        "ERROR: en persistent: Undo Join restores the original B1 group and selection",
+        "ERROR: en persistent: Undo history restore recovers the exact prior draft and selected group",
+        "ERROR: en persistent: an identical-plan no-op preserves Redo and selection",
+        "ERROR: en persistent: a new edit after Undo replaces the abandoned Redo branch",
+        "FAIL: test_service_undo_context 96 checks, 16 failures"
+      ],
+      "log": "test_service_undo_context.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261104T184925Z-d0fd9b18/test_service_undo_context"
+    }
+  ]
+}

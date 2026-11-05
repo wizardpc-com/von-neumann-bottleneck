@@ -203,7 +203,10 @@ func record_official_run(
 		passed: bool,
 		details: Dictionary = {}
 	) -> bool:
-	var local_result: Dictionary = _safe_details(details)
+	# Local observation has the same authored identity even when telemetry is off.
+	# Producer-supplied executed-workload identity remains authoritative.
+	var local_result: Dictionary = Identity.metadata(String(chapter_id),String(level_id))
+	local_result.merge(_safe_details(details),true)
 	local_result.merge({"chapter_id":String(chapter_id),"level_id":String(level_id),"passed":passed},true)
 	official_result.emit({"event":"official_run","mode":String(_current_mode()),"payload":local_result,"build_version":str(ProjectSettings.get_setting("application/config/version","development"))})
 	if not _can_record_level(chapter_id,level_id): return false

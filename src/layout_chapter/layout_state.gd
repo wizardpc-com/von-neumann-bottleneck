@@ -3,6 +3,8 @@ signal progression_changed
 signal persistent_state_changed
 const C = preload("res://src/layout_chapter/layout_catalog.gd")
 const S = preload("res://src/layout_chapter/layout_simulator.gd")
+# Optional challenge sidecar; never serialized as progression or GlobalSave data.
+var challenge_store = preload("res://src/layout_chapter/layout_challenge_store.gd").new()
 var game_solutions: Dictionary = {}
 var game_drafts: Dictionary = {}
 var game_named: Dictionary = {}

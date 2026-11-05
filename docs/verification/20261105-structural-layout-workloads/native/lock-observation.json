@@ -1,0 +1,8 @@
+{
+  "outcome": "NOT_RUN",
+  "observation": "The Mac is locked and automatic unlock could not unlock it.",
+  "mouse_or_key_sent": false,
+  "owned_pid": 86113,
+  "verified_command": "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot --path /Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/experiments/03ed0345d47c/project --windowed --resolution 1280x720",
+  "cleanup": "SIGTERM only this owned process; not graceful-exit acceptance"
+}

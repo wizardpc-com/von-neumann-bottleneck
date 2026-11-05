@@ -9,20 +9,22 @@ var session = Session.new()
 var store = Store.new()
 var storage_status: String = "ready"
 var storage_reason: String = ""
+var origin: String = "empty"
+var copy_pending: bool = false
 var _kept: Dictionary = {}
 var _cache: Dictionary = {}
 var _committed: Dictionary = {}
 var _initialized: bool = false
 var _has_saved: bool = false
 
-func setup(path: String = "") -> Dictionary:
+func setup(path: String = "", legacy_path: String = "") -> Dictionary:
 	if _initialized:
 		return {"ok":false,"status":storage_status,"reason":"initialized"}
 	_initialized = true
 	if not path.is_empty(): store.storage_path = path
+	if not legacy_path.is_empty(): store.legacy_path = legacy_path
 	var loaded: Dictionary = store.read()
-	storage_status = str(loaded.status)
-	storage_reason = str(loaded.reason)
+	_observe(loaded)
 	if loaded.ok:
 		var saved: Dictionary = loaded.snapshot
 		var drafts: Dictionary = {}
@@ -34,7 +36,7 @@ func setup(path: String = "") -> Dictionary:
 		if session.restore_checkpoint(str(saved.active),drafts,goals):
 			for id: String in saved.states:
 				_kept[id] = saved.states[id].kept.duplicate(true)
-			_has_saved = FileAccess.file_exists(store.storage_path)
+			_has_saved = origin == "current" and FileAccess.file_exists(store.storage_path)
 		else:
 			storage_status = "read_only"
 			storage_reason = "format"
@@ -42,7 +44,8 @@ func setup(path: String = "") -> Dictionary:
 	# baseline, not a claim that a file has already been written.
 	_committed = snapshot()
 	return {"ok":loaded.ok and storage_status == "ready",
-		"status":storage_status,"reason":storage_reason}
+		"status":storage_status,"reason":storage_reason,
+		"origin":origin,"copy_pending":copy_pending}
 
 func snapshot() -> Dictionary:
 	var active: String = session.task_id
@@ -56,24 +59,23 @@ func snapshot() -> Dictionary:
 			"kept":_kept.get(id,[]).duplicate(true),
 		}
 	session.change_task(active)
-	return {"version":1,"active":active,"states":states}
+	return {"version":2,"active":active,"states":states}
 
 func is_dirty() -> bool:
-	return snapshot() != _committed
+	return copy_pending or snapshot() != _committed
 
 func has_saved_workspace() -> bool:
-	return _has_saved
+	return _has_saved and storage_status != "read_only"
 
 func save() -> bool:
 	if not _initialized: setup()
 	if storage_status == "read_only": return false
 	var proposed: Dictionary = snapshot()
 	var result: Dictionary = store.write(proposed)
-	storage_status = str(result.status)
-	storage_reason = str(result.reason)
+	_observe(result)
 	if not result.ok: return false
 	_committed = proposed.duplicate(true)
-	_has_saved = true
+	_has_saved = origin == "current" and FileAccess.file_exists(store.storage_path)
 	return true
 
 func _valid_name(value: String) -> bool:
@@ -152,6 +154,11 @@ func inspect_kept(name: String) -> bool:
 
 func recover_writer() -> bool:
 	var result: Dictionary = store.recover_writer()
+	_observe(result)
+	return bool(result.ok)
+
+func _observe(result: Dictionary) -> void:
 	storage_status = str(result.status)
 	storage_reason = str(result.reason)
-	return bool(result.ok)
+	origin = str(result.get("origin","empty"))
+	copy_pending = bool(result.get("copy_pending",false))

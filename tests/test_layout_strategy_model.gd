@@ -34,7 +34,9 @@ func _run() -> void:
 
 func _public_contract() -> void:
 	check(Model.scenario("unknown").is_empty(),"Unknown scenario does not manufacture a workload.")
-	for id: String in Model.SCENARIO_IDS:
+	check(Model.LEGACY_SCENARIO_IDS == ["scan_batch","scan_serial","mixed_batch","mixed_serial"],"Legacy catalog scope and order stay frozen.")
+	check(Model.SCENARIO_IDS == ["scan_batch","scan_serial","mixed_batch","mixed_serial","scan_pair_serial","split_fields_serial"],"Catalog adds exactly two independent structural workloads after the original four.")
+	for id: String in Model.LEGACY_SCENARIO_IDS:
 		var task: Dictionary = Model.scenario(id)
 		var source: Dictionary = Catalog.cases("mixed" if id.begins_with("mixed") else "batches")[0]
 		check(task.size() == 5 and task.records == source.records and task.scratch_limit == 160,"Public "+id+" uses real declared data and scratch.")

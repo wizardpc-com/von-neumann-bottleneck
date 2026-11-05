@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--headless",
+    "--path",
+    "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/experiments/03ed0345d47c/project",
+    "--quit-after",
+    "8"
+  ],
+  "at": "2026-11-05T06:33:11.068721+00:00",
+  "exit": 0,
+  "diagnostics": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\n\n",
+  "launcher_syntax_exit": 0,
+  "passed": true,
+  "project_sha256": "b09bc4be5fbab6adb87a0456a05f590464b3a2ef157cef5036d3f5b25bcc2ccf"
+}

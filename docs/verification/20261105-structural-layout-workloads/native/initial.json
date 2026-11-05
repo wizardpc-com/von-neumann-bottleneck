@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/experiments/03ed0345d47c/project",
+    "--windowed",
+    "--resolution",
+    "1280x720"
+  ],
+  "pid": 86113,
+  "started_at": "2026-11-05T06:25:27.520544+00:00",
+  "profile": "VonNeumannBottleneckChecks/layout_strategy/codex-round7-preview-20261105",
+  "exit": -15,
+  "ended_at": "2026-11-05T06:26:48.419083+00:00"
+}

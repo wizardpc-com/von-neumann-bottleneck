@@ -28,7 +28,9 @@ func _run() -> void:
 	_strict_transport()
 	_strict_goals_and_plans()
 	_current_eligibility()
+	_structural_starters()
 	_actual_comparisons()
+	_structural_comparisons()
 	_comparison_guards()
 	var after: Dictionary = root.get_node("GlobalSave")._save_snapshot()
 	before.erase("saved_at_utc")
@@ -279,6 +281,43 @@ func _current_eligibility() -> void:
 		check(Code.starter(task_id).reason == "task","No invented built-in target for "+task_id)
 
 
+func _structural_starters() -> void:
+	var goals: Dictionary = {
+		"scan_batch":_goal(350,0),
+		"scan_serial":_goal(600,80),
+		"scan_pair_serial":_goal(600,80,"traffic"),
+		"split_fields_serial":_goal(800,144),
+	}
+	for task_id: String in goals:
+		var goal: Dictionary = Code.starter_goal(task_id)
+		check(goal == goals[task_id] and goal == Goals.normalize(goal),"Curated starter returns a normalized exact goal for "+task_id)
+		goal.copy_limit = 7
+		check(Code.starter_goal(task_id) == goals[task_id],"Starter goal is detached from caller edits.")
+		var starter: Dictionary = Code.starter(task_id)
+		var direct: Dictionary = Code.create(task_id,Model.starter_plan(),goals[task_id])
+		check(starter.ok and direct.ok,"Curated target is a real eligible source run for "+task_id)
+		if starter.ok and direct.ok:
+			check(starter.code == direct.code and starter.entry == direct.entry,"Starter uses the ordinary canonical export/remeasurement path.")
+			check(starter.entry.plan == Model.starter_plan() and starter.entry.metrics.peak_extra_bytes == 0,"No optimized answer or claimed copy enters a starter.")
+	for task_id: String in ["mixed_batch","mixed_serial","unknown",""]:
+		check(Code.starter_goal(task_id).is_empty() and Code.starter(task_id).reason == "task","Unsupported contextual starter stays absent: "+task_id)
+	var pair: Dictionary = Code.starter("scan_pair_serial")
+	var phased: Dictionary = Code.starter("split_fields_serial")
+	check(pair.entry.outputs == [363,363] and pair.entry.metrics.total_cycles == 614,"Pair target measures the new two-job input.")
+	check(phased.entry.outputs == [363,363,363,363,8,8,8,8] and phased.entry.metrics.total_cycles == 2456,"Phased target measures the new eight-job input.")
+	var forged: Dictionary = pair.envelope.duplicate(true)
+	forged.task = "scan_serial"
+	check(Code.decode(_text(forged)).ok and Code.inspect(_text(forged)).reason == "stale","New condition cannot be relabeled as the legacy serial task.")
+	forged = phased.envelope.duplicate(true)
+	forged.task = "scan_pair_serial"
+	check(Code.inspect(_text(forged)).reason == "stale","New workload targets stay separate from each other.")
+	for task_id: String in ["scan_pair_serial","split_fields_serial"]:
+		var invalid: Dictionary = Code.starter(task_id).envelope.duplicate(true)
+		invalid.plan.query_group = 2
+		check(Code.decode(_text(invalid)).ok and Code.inspect(_text(invalid)).reason == "plan","Transport preserves and current replay rejects invalid new serial grouping.")
+		check(Code.create(task_id,_plan(1,17,[0,1,2]),_goal()).reason == "incomplete","An oversized physical copy cannot become a structural target.")
+
+
 func _actual_comparisons() -> void:
 	var target: Dictionary = Code.starter("scan_batch")
 	var direct: Dictionary = _attempt("scan_batch",_plan())
@@ -323,6 +362,35 @@ func _actual_comparisons() -> void:
 	check(result.status == "unavailable" and "condition" in result.exclusions and not result.has("delta"),"Equal-looking batch/serial metrics cannot cross full conditions.")
 	result = Code.compare(serial,_attempt("scan_serial",_plan(1,17,[0,1,2,3])))
 	check(result.status == "unavailable" and not result.has("delta"),"Incomplete zero-cycle copy never beats a target.")
+
+
+func _structural_comparisons() -> void:
+	var pair: Dictionary = Code.starter("scan_pair_serial")
+	var copied: Dictionary = _attempt("scan_pair_serial",_plan(1,17,[0]))
+	var result: Dictionary = Code.compare(pair,copied)
+	check(result.status == "improved" and result.delta == -44,"Pair RAM challenge rewards actual44-byte savings despite58 more cycles.")
+	var cycles: Dictionary = Code.create("scan_pair_serial",_plan(),_goal(600,80))
+	result = Code.compare(cycles,copied)
+	check(result.status == "behind" and result.delta == 58,"The same pair attempt is58 cycles behind under a cycles objective.")
+	check(Code.compare(pair,_attempt("scan_pair_serial",_plan())).status == "tied","Ordinary pair target replay ties.")
+	var boundary: Dictionary = Code.create("scan_pair_serial",_plan(),_goal(556,80,"traffic"))
+	check(Code.compare(boundary,copied).status == "outside","Pair copying cannot bypass its actual557-cycle first response.")
+	boundary = Code.create("scan_pair_serial",_plan(),_goal(557,80,"traffic"))
+	check(Code.compare(boundary,copied).status == "improved","Pair copy qualifies exactly at557/80.")
+	var phased: Dictionary = Code.starter("split_fields_serial")
+	var record_plan: Dictionary = _plan(1,17,[0,3])
+	var field_plan: Dictionary = record_plan.duplicate(true)
+	field_plan.recipe = Recipe.field_major()
+	var record_entry: Dictionary = _attempt("split_fields_serial",record_plan)
+	var field_entry: Dictionary = _attempt("split_fields_serial",field_plan)
+	result = Code.compare(phased,record_entry)
+	check(result.status == "improved" and result.delta == -412,"Phased record copy improves actual source total by412 cycles.")
+	result = Code.compare(phased,field_entry)
+	check(result.status == "improved" and result.delta == -940,"Phased field copy improves actual source total by940 cycles.")
+	var reply: Dictionary = Code.create("split_fields_serial",field_plan,phased.envelope.goal)
+	check(reply.ok and reply.envelope.goal == phased.envelope.goal and Code.compare(reply,field_entry).status == "tied","A reply retains immutable phased conditions and locally remeasures to an exact tie.")
+	check(Code.compare(phased,_attempt("scan_serial",_plan())).status == "unavailable","Equal2456-cycle source totals cannot bridge old/new task identity.")
+	check(Code.compare(pair,field_entry).status == "unavailable","Distinct new workload attempts cannot compare.")
 
 
 func _comparison_guards() -> void:

@@ -1,0 +1,256 @@
+[
+  {
+    "phase": "old-seed-read",
+    "code": 0,
+    "passed": true,
+    "runtime": "legacy-e1e27db",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=old-seed-read"
+    ],
+    "log": "old-seed-read.log"
+  },
+  {
+    "phase": "new-read",
+    "code": 0,
+    "passed": true,
+    "runtime": "current",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=new-read"
+    ],
+    "log": "new-read.log"
+  },
+  {
+    "phase": "contend-source",
+    "code": 0,
+    "passed": true,
+    "runtime": "current",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=contend-source"
+    ],
+    "log": "contend-source.log"
+  },
+  {
+    "phase": "old-hold-target-owned-crash",
+    "code": -9,
+    "passed": true,
+    "pid": 80519,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=old-hold-target"
+    ],
+    "log": "old-hold-target.log",
+    "intent": "deliberate SIGKILL after live-owner rejection"
+  },
+  {
+    "phase": "recover-source",
+    "code": 0,
+    "passed": true,
+    "runtime": "current",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=recover-source"
+    ],
+    "log": "recover-source.log"
+  },
+  {
+    "phase": "contend-destination",
+    "code": 0,
+    "passed": true,
+    "runtime": "current",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=contend-destination"
+    ],
+    "log": "contend-destination.log"
+  },
+  {
+    "phase": "hold-current-book-owned-crash",
+    "code": -9,
+    "passed": true,
+    "pid": 80573,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=hold-current-book"
+    ],
+    "log": "hold-current-book.log",
+    "intent": "deliberate SIGKILL after live-owner rejection"
+  },
+  {
+    "phase": "recover-destination",
+    "code": 0,
+    "passed": true,
+    "runtime": "current",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=recover-destination"
+    ],
+    "log": "recover-destination.log"
+  },
+  {
+    "phase": "new-reopen",
+    "code": 0,
+    "passed": true,
+    "runtime": "current",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=new-reopen"
+    ],
+    "log": "new-reopen.log"
+  },
+  {
+    "phase": "old-rollback-read",
+    "code": 0,
+    "passed": true,
+    "runtime": "legacy-e1e27db",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=old-rollback-read"
+    ],
+    "log": "old-rollback-read.log"
+  },
+  {
+    "phase": "old-rollback-edit",
+    "code": 0,
+    "passed": true,
+    "runtime": "legacy-e1e27db",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=old-rollback-edit"
+    ],
+    "log": "old-rollback-edit.log"
+  },
+  {
+    "phase": "old-edited-reopen",
+    "code": 0,
+    "passed": true,
+    "runtime": "legacy-e1e27db",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T033350Z-75462610/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=old-edited-reopen"
+    ],
+    "log": "old-edited-reopen.log"
+  },
+  {
+    "phase": "new-reopen",
+    "code": 0,
+    "passed": true,
+    "runtime": "current",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=new-reopen"
+    ],
+    "log": "new-reopen-2.log"
+  },
+  {
+    "phase": "empty",
+    "code": 0,
+    "passed": true,
+    "runtime": "current",
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/structure-upgrade-process-20261105T061409Z-other",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--script",
+      "res://tests/recovery/layout_structure_process_probe.gd",
+      "--",
+      "--structure-phase=empty"
+    ],
+    "log": "empty.log"
+  }
+]

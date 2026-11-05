@@ -11,7 +11,7 @@ class FailOnceStore:
 	func write(value: Dictionary) -> Dictionary:
 		if fail_next:
 			fail_next = false
-			return {"ok":false,"status":"write_failed","reason":"write","snapshot":{}}
+			return _failed("write")
 		return super.write(value)
 
 func _init() -> void:
@@ -116,6 +116,7 @@ func _run() -> void:
 	reopened.session.set_goal({"objective":"traffic","first_limit":-1,"copy_limit":-1})
 	var latest: String = FileAccess.get_file_as_string(path)
 	check(not reopened.save() and reopened.storage_status == "read_only","Stale disk signature protects another writer's update")
+	check(not reopened.has_saved_workspace(),"Detected external conflict withdraws cached saved assurance")
 	check(FileAccess.get_file_as_string(path) == latest and reopened.is_dirty(),"Conflict preserves disk and the live unsaved proposal")
 	var failure_plan: Dictionary = starter.duplicate(true)
 	failure_plan.copy_mode = "full"

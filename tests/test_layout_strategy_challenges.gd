@@ -12,7 +12,7 @@ class FailStore:
 	func write(value: Dictionary) -> Dictionary:
 		if fail_next:
 			fail_next = false
-			return {"ok":false,"status":"write_failed","reason":"write","snapshot":{}}
+			return _failed("write")
 		return super.write(value)
 
 func _init() -> void:
@@ -140,7 +140,7 @@ func _run() -> void:
 	var stale_code: String = Code.PREFIX+JSON.stringify(stale,"",true)
 	var stale_path: String = "user://challenge-controller/stale.json"
 	var file := FileAccess.open(stale_path,FileAccess.WRITE)
-	file.store_string(JSON.stringify({"version":1,"targets":{"scan_serial":stale_code}},"",true))
+	file.store_string(JSON.stringify({"version":2,"targets":{"scan_serial":stale_code}},"",true))
 	file.close()
 	var stale_board = Challenges.new()
 	check(stale_board.setup(stale_path).ok,"Supported stale input is retained as data")

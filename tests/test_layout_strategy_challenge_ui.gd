@@ -213,7 +213,7 @@ func challenge_loop(locale: String) -> void:
 		check(DisplayServer.clipboard_get() == shared.code,"Explicit copy exports the complete canonical code "+locale)
 	await popup_key(window,KEY_ESCAPE)
 	check(window.main_page.visible and window.gui_get_focus_owner() == window.share_button,"Code Escape returns to its share action "+locale)
-	await popup_activate(window,window.batch_button)
+	await popup_activate(window,window.starter_button)
 	var starter: Dictionary = Code.starter("scan_batch")
 	print("CHALLENGE_UI_DIAGNOSTIC ",JSON.stringify({
 		"phase":"starter_preview","locale":locale,"visible":window.visible,
@@ -423,7 +423,7 @@ func stale_target(locale: String) -> void:
 	var text: String = Code.PREFIX+JSON.stringify(envelope,"",true)
 	var store := TargetStore.new()
 	store.storage_path = path.path_join("targets.json")
-	check(store.write({"version":1,"targets":{"scan_batch":text}}).ok,"Persist supported stale code without a scalar score "+locale)
+	check(store.write({"version":2,"targets":{"scan_batch":text}}).ok,"Persist supported stale code without a scalar score "+locale)
 	var host: Control = await open_host(path)
 	await click(host.challenge_button)
 	var window: Window = host.challenge_window

@@ -159,6 +159,8 @@ func exercise(locale: String) -> void:
 	await resize_viewport(Vector2i(1280,720))
 	var session_id: int = host.session.get_instance_id()
 	var starter: Dictionary = Model.starter_plan()
+	check(Model.SCENARIO_IDS.slice(0,4) == ["scan_batch","scan_serial","mixed_batch","mixed_serial"] and host.workload_choice.item_count == 6,
+		"The original four workloads keep their exact order before two additions "+locale)
 	check(host.session.draft() == starter and host.session.rows().is_empty(),"Fresh scene starts source-only without injected optimized results "+locale)
 	check(not auto_accept_quit and host.is_in_group("candidate_quit_owners"),"Scene owns OS-close protection "+locale)
 	check(root.min_size == Vector2i(960,640),"Scene offers its declared minimum window "+locale)

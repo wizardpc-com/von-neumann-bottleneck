@@ -111,13 +111,22 @@ static func compare(target: Dictionary, attempt: Dictionary) -> Dictionary:
 	return result
 
 
-static func starter(task_id: String) -> Dictionary:
+static func starter_goal(task_id: String) -> Dictionary:
 	match task_id:
 		"scan_batch":
-			return create(task_id,Model.starter_plan(),{"objective":"cycles","first_limit":350,"copy_limit":0})
+			return Goals.normalize({"objective":"cycles","first_limit":350,"copy_limit":0})
 		"scan_serial":
-			return create(task_id,Model.starter_plan(),{"objective":"cycles","first_limit":600,"copy_limit":80})
-	return _failed("task")
+			return Goals.normalize({"objective":"cycles","first_limit":600,"copy_limit":80})
+		"scan_pair_serial":
+			return Goals.normalize({"objective":"traffic","first_limit":600,"copy_limit":80})
+		"split_fields_serial":
+			return Goals.normalize({"objective":"cycles","first_limit":800,"copy_limit":144})
+	return {}
+
+
+static func starter(task_id: String) -> Dictionary:
+	var goal: Dictionary = starter_goal(task_id)
+	return _failed("task") if goal.is_empty() else create(task_id,Model.starter_plan(),goal)
 
 
 static func _transport_plan(plan: Dictionary) -> Dictionary:

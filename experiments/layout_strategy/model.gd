@@ -4,7 +4,11 @@ const Catalog = preload("res://src/layout_chapter/layout_catalog.gd")
 const Recipe = preload("res://src/layout_chapter/layout_recipe.gd")
 const Simulator = preload("res://src/layout_chapter/layout_simulator.gd")
 const MODEL_VERSION: String = "layout-schedule-experiment-1"
-const SCENARIO_IDS: Array[String] = ["scan_batch","scan_serial","mixed_batch","mixed_serial"]
+const LEGACY_SCENARIO_IDS: Array[String] = ["scan_batch","scan_serial","mixed_batch","mixed_serial"]
+const SCENARIO_IDS: Array[String] = [
+	"scan_batch","scan_serial","mixed_batch","mixed_serial",
+	"scan_pair_serial","split_fields_serial",
+]
 const MAX_JOBS: int = 16
 const MAX_QUERY_VALUES: int = 4096
 const MAX_OUTPUT_VALUES: int = 4096
@@ -150,6 +154,14 @@ class Executor:
 static func scenario(id: String) -> Dictionary:
 	if id not in SCENARIO_IDS: return {}
 	var original: Dictionary = Catalog.cases("mixed" if id.begins_with("mixed") else "batches")[0]
+	match id:
+		"scan_pair_serial":
+			original.queries = [{"kind":"sum","fields":[0],"repeat":2,"indices":[]}]
+		"split_fields_serial":
+			original.queries = [
+				{"kind":"sum","fields":[0],"repeat":4,"indices":[]},
+				{"kind":"sum","fields":[3],"repeat":4,"indices":[]},
+			]
 	return _normalized_task({
 		"id":id,"records":original.records,"queries":original.queries,
 		"release":"serial" if id.ends_with("serial") else "batch","scratch_limit":160,

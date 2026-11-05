@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--headless",
+    "--path",
+    "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+    "--script",
+    "res://freeze-round7-baseline.gd"
+  ],
+  "profile": "VonNeumannBottleneckChecks/20261105-round7/frozen-baseline-corrected",
+  "exit": 0,
+  "base": "e1e27db0e1fd3bdcde211b6f2f22ca059c19ebd8",
+  "at": "2026-11-05T05:51:16.179226+00:00",
+  "settings_restored": true,
+  "elapsed_seconds": 4.069
+}

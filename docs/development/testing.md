@@ -1,3 +1,45 @@
+## Structural workloads and versioned copies — 2026-11-05
+
+Use the isolated verifier for `test_layout_strategy_structures`,
+`test_layout_strategy_catalog_parity`, `test_layout_strategy_store_upgrade`,
+`test_layout_strategy_upgrade` and `test_layout_strategy_structures_ui`, alongside
+the existing model/goal/session/store/controller/UI and formal legacy gates.
+The catalog fixture was captured from unchanged e1e27db before extension:
+four complete tasks,56 measurements/full Traces,112 canonical-code outcomes,
+and actual canonical v1 file strings. Never regenerate its expectations from
+the implementation under test. Parsed JSON numbers need semantic comparison;
+canonical-byte assertions use the strict normalized integer representation.
+
+The new model suite checks distinct task IDs, actual outputs and costs, serial
+response causality, repeat/JSON full Trace, objective reversal and physical
+layout effects. The upgrade suites cover strict frozen four-ID v1 versus six-ID
+v2, missing/valid/protected precedence, independent pending copies, exact bounds,
+source/destination changes and leases, first unchanged/empty copy, failures and
+recovery. Valid empty-map fixtures must use sorted canonical JSON; an unsorted
+object is intentionally protected and cannot establish successful migration.
+
+```sh
+<Godot-4.7.1> --path <isolated-project> --windowed --resolution 1280x720 \
+  --script res://tests/test_layout_strategy_structures_ui.gd \
+  -- --capture-size=1280x720 --layout-structures-capture
+```
+
+The fixture tests both locales and root1280×720/960×640, popup720×540,
+contextual starters, actual ranking reversal, independent new-condition state,
+retained invalid drafts and explicit repair/Undo, and independent old-copy exit
+saves. Check raw saved-image dimensions and inspect the actual pixels.
+
+`tests/recovery/layout_structure_process_probe.gd` runs against both the frozen
+v1 runtime and current v2 runtime in a fresh named profile. Verify old runtime
+source bytes against its commit first. Exercise the old target source lease and
+new Notebook destination lease in actual owned processes, refuse live recovery,
+deliberately stop only the identified holders, explicitly recover without saving,
+then commit changed input and reopen. A lease holder must create its isolated
+parent directory without writing a payload. Old-runtime rollback must read
+unchanged v1, continue editing that history, and leave existing v2 authoritative
+on the next upgrade. This is cooperative local protection; deliberate SIGKILL
+is not graceful exit or power-loss durability. Keep all initial failure logs.
+
 ## Replayable scheduling challenges — 2026-11-04
 
 Alongside the notebook/model/legacy gates, run

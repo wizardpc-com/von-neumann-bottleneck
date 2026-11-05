@@ -13,6 +13,8 @@ var session = workspace.session
 var challenges = Challenges.new()
 var notebook_path: String = ""
 var challenge_path: String = ""
+var legacy_notebook_path: String = ""
+var legacy_challenge_path: String = ""
 var english: bool = false
 var _syncing: bool = false
 var _owns_quit: bool = false
@@ -113,8 +115,8 @@ func _ready() -> void:
 	theme.default_font_size = 15
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	english = get_node("/root/Localization").current_locale() == "en"
-	workspace.setup(notebook_path)
-	challenges.setup(challenge_path)
+	workspace.setup(notebook_path,legacy_notebook_path)
+	challenges.setup(challenge_path,legacy_challenge_path)
 	_build()
 	_build_exit_guard()
 	call_deferred("_set_minimum_window")
@@ -237,11 +239,10 @@ func _build() -> void:
 	storage_label.name = "WorkspaceStatus"
 	var workload_row := HBoxContainer.new()
 	page.add_child(workload_row)
-	workload_choice = _choice(workload_row,[
-		tr2("温度扫描 · 全部就绪","Temperature scans · all ready"),
-		tr2("温度扫描 · 逐次请求","Temperature scans · serial"),
-		tr2("混合查询 · 全部就绪","Mixed queries · all ready"),
-		tr2("混合查询 · 逐次请求","Mixed queries · serial")],"Workload")
+	var workload_names: Array[String] = []
+	for id: String in Model.SCENARIO_IDS:
+		workload_names.append(ChallengeWindow.workload_text(id,english))
+	workload_choice = _choice(workload_row,workload_names,"Workload")
 	workload_choice.custom_minimum_size.x = 300
 	workload_choice.size_flags_horizontal = Control.SIZE_FILL
 	workload_choice.item_selected.connect(func(index: int) -> void: change_task(Model.SCENARIO_IDS[index]))
@@ -456,17 +457,26 @@ func refresh() -> void:
 	var serial: bool = task.release == "serial"
 	workload_choice.select(Model.SCENARIO_IDS.find(session.task_id))
 	workload_note.text = tr2("%d条记录 · %d份请求 · 复制上限%d B","%d records · %d jobs · copy limit %d B") % [task.records.size(),_job_count(task),int(task.scratch_limit)]
-	query_group.max_value = _job_count(task)
+	# Retained unfinished drafts can be invalid for their task. Display the exact
+	# input until the player repairs it; a smaller workload must not hide a clamp.
+	var invalid_group: bool = int(plan.query_group) != 1 if serial else int(plan.query_group) > _job_count(task)
+	query_group.max_value = maxi(_job_count(task),int(plan.query_group))
 	query_group.set_value_no_signal(int(plan.query_group))
-	query_group.editable = not serial
-	query_group.get_line_edit().focus_mode = Control.FOCUS_NONE if serial else Control.FOCUS_ALL
-	group_note.text = tr2("前一份响应后，下一份请求才就绪。","Ready after the prior response.") if serial else tr2("按块交替执行同组已就绪查询。","Run grouped queries tile by tile.")
+	query_group.editable = not serial or invalid_group
+	query_group.get_line_edit().focus_mode = Control.FOCUS_ALL if query_group.editable else Control.FOCUS_NONE
+	if serial:
+		group_note.text = tr2("逐次请求要求每组1份；请修正保留草稿。","Serial requests need group size 1; correct the retained draft.") if invalid_group else tr2(
+			"前一份响应后，下一份请求才就绪。","Ready after the prior response.")
+	else:
+		group_note.text = tr2("每组最多%d份；请修正保留草稿。","At most %d jobs per group; correct the retained draft.") % _job_count(task) if invalid_group else tr2(
+			"按块交替执行同组已就绪查询。","Run grouped queries tile by tile.")
 	record_tile.max_value = maxi(task.records.size(),int(plan.record_tile))
 	record_tile.set_value_no_signal(int(plan.record_tile))
-	var tiling: bool = int(plan.query_group) > 1
+	var tiling: bool = not serial and not invalid_group and int(plan.query_group) > 1
 	record_tile.editable = tiling
 	record_tile.get_line_edit().focus_mode = Control.FOCUS_ALL if tiling else Control.FOCUS_NONE
-	tile_note.text = tr2("单份顺序查询没有切块收益。","No reordering for one query.") if not tiling else tr2("块越小，查询交替越频繁。","Smaller tiles alternate queries sooner.")
+	tile_note.text = tr2("当前分组无效；查询切块暂不生效。","The group is invalid; query tiling is inactive.") if invalid_group else tr2(
+		"单份顺序查询没有切块收益。","No reordering for one query.") if not tiling else tr2("块越小，查询交替越频繁。","Smaller tiles alternate queries sooner.")
 	copy_mode.select(0 if plan.copy_mode == "none" else 1)
 	var copying: bool = plan.copy_mode == "full"
 	for field: int in 4:
@@ -511,6 +521,7 @@ func _edit_field(field: int, enabled: bool) -> void:
 	refresh()
 
 func change_task(id: String) -> void:
+	_pending_numeric = null
 	if session.change_task(id):
 		if is_instance_valid(challenge_window) and challenge_window.visible:
 			challenge_window.dismiss()
@@ -715,6 +726,13 @@ func recover_writer() -> void:
 
 func _storage_text() -> String:
 	var reason: String = workspace.storage_reason
+	if workspace.storage_status == "read_only":
+		var protected_text: String = tr2("上一版笔记受保护；没有载入或改写原记录。","The earlier notebook is protected; its records were not loaded or rewritten.") if workspace.origin == "legacy" else tr2(
+			"笔记本受保护；当前修改尚未写入。","The notebook is protected; current changes are not saved.")
+		if reason == "changed":
+			protected_text = tr2("上一版笔记已改变；原记录受保护，当前修改未写入。","The earlier notebook changed; the original is protected and changes are unsaved.") if workspace.origin == "legacy" else tr2(
+				"磁盘版本已改变；原文件受保护，当前修改尚未写入。","The disk version changed; it is protected. Current changes are not saved.")
+		return protected_text+" "+tr2("当前探索是临时的。","Exploration is temporary.")
 	match reason:
 		"name": return tr2("名称需为1至40个非控制字符。","Use a name of 1–40 non-control characters.")
 		"full": return tr2("本条件已保留8个方案，请先移除一个。","This condition already has 8 kept plans. Remove one first.")
@@ -726,8 +744,8 @@ func _storage_text() -> String:
 		"format", "size", "read": return tr2("笔记本无法安全读取；原文件保留，当前探索是临时的。","The notebook cannot be read safely. The original is kept; exploration is temporary.")
 	if workspace.storage_status == "write_failed":
 		return tr2("写入失败；当前修改仍在内存，点「保存工作区」重试。","Writing failed. Changes remain in memory; choose Save workspace to retry.")
-	if workspace.storage_status == "read_only":
-		return tr2("笔记本受保护；当前修改尚未写入。","The notebook is protected; current changes are not saved.")
+	if workspace.copy_pending:
+		return tr2("已载入上一版笔记。保存会创建独立副本；原记录保留。","Earlier notebook loaded. Save creates a separate copy; the original remains.")
 	if not workspace.has_saved_workspace():
 		return tr2("新工作区尚未保存；草稿、个人条件和命名方案需显式保存。","This new workspace has not been saved. Save drafts, personal goals and named plans explicitly.")
 	return tr2("草稿、个人条件和方案需显式保存；历史与撤销仅本次。","Save drafts, personal goals and plans explicitly. History and Undo last for this session.") if workspace.is_dirty() else tr2(
@@ -736,8 +754,15 @@ func _storage_text() -> String:
 func _refresh_storage() -> void:
 	var storage_protected: bool = workspace.storage_status != "ready"
 	var dirty: bool = workspace.is_dirty()
-	var state: String = tr2("存储受保护","Storage protected") if storage_protected else tr2("未保存修改","Unsaved changes") if dirty else tr2(
-		"工作区已保存","Workspace saved") if workspace.has_saved_workspace() else tr2("新工作区","New workspace")
+	var state: String = tr2("新工作区","New workspace")
+	if storage_protected:
+		state = tr2("上一版笔记受保护","Earlier notebook protected") if workspace.origin == "legacy" and workspace.storage_status == "read_only" else tr2("存储受保护","Storage protected")
+	elif workspace.copy_pending:
+		state = tr2("上一版笔记 · 副本未保存","Earlier notebook · copy unsaved")
+	elif dirty:
+		state = tr2("未保存修改","Unsaved changes")
+	elif workspace.has_saved_workspace():
+		state = tr2("工作区已保存","Workspace saved")
 	storage_label.text = tr2("独立实验 · %s · 在「方案笔记」显式保存","Independent experiment · %s · Save explicitly in Notebook") % state
 	storage_label.add_theme_color_override("font_color",Color("f0c674") if storage_protected or dirty else Color("a5b6be"))
 	storage_label.tooltip_text = _storage_text()+"\n"+ProjectSettings.globalize_path(workspace.store.storage_path)
@@ -777,12 +802,17 @@ func _challenge_storage_text(target: Dictionary) -> String:
 			reason = tr2("挑战文件已被外部改变；磁盘内容受保护。","The target file changed externally; the disk contents are protected.")
 		elif challenges.storage_reason == "version":
 			reason = tr2("挑战文件版本不受支持；原文件受保护。","The target file version is unsupported; the original is protected.")
+		if challenges.origin == "legacy":
+			reason = tr2("上一版挑战受保护；原记录没有改写。","Earlier targets are protected; the originals were not rewritten.")+"\n"+reason
 		if bool(target.get("pending",false)):
 			reason += "\n"+(tr2("清除尚未保存，仅在本次会话生效。","Removal is unsaved and applies only to this session.") if str(target.get("code","")).is_empty() else tr2(
 				"当前目标仅本次有效，可复制目标代码保留。","The current target is temporary; copy its code to keep it."))
 		else:
 			reason += "\n"+tr2("当前会话仍可预览；重试不能解除文件保护。","Preview remains available; retry cannot remove file protection.")
 		return reason
+	if challenges.copy_pending and challenges.storage_status == "ready":
+		return tr2("已载入上一版挑战；可用目标已复测。新副本尚未保存，原记录保留。",
+			"Earlier targets loaded; valid targets remeasured. The new copy is unsaved; the original remains.")
 	if bool(target.get("pending",false)):
 		if str(target.get("code","")).is_empty():
 			return tr2("清除目标尚未保存；旧目标仍在磁盘。请在挑战窗口重试。",
@@ -824,9 +854,12 @@ func _refresh_challenge() -> void:
 	var selected: Dictionary = session.selected_entry()
 	var has_code: bool = not str(target.get("code","")).is_empty()
 	var active: bool = bool(target.get("active",false))
-	var target_text: String = tr2("尚未接纳挑战；可预览代码或试试入门挑战。","No accepted challenge. Preview a code or try a starter.")
+	var target_text: String = tr2("尚未接纳挑战；可输入代码并预览。","No accepted challenge. Enter a code to preview.")
+	if not ChallengeCode.starter_goal(session.task_id).is_empty():
+		target_text = tr2("尚未接纳挑战；可预览代码或试试当前入门挑战。","No accepted challenge. Preview a code or try this workload's starter.")
 	if active:
-		var retained: String = tr2("挑战已保存 · ","Saved target · ") if target.get("saved",false) else tr2("临时挑战 · ","Temporary target · ")
+		var retained: String = tr2("挑战已保存 · ","Saved target · ") if target.get("saved",false) else tr2(
+			"上一版目标 · 副本未保存 · ","Earlier target · copy unsaved · ") if challenges.copy_pending and challenges.storage_status == "ready" else tr2("临时挑战 · ","Temporary target · ")
 		target_text = retained+ChallengeWindow.inspection_text(target.inspection,english)+"\n"+_challenge_verdict_text(target,selected)
 	elif has_code:
 		target_text = ChallengeWindow.reason_text(str(target.get("inspection",{}).get("reason","stale")),english)
@@ -842,6 +875,7 @@ func _refresh_challenge() -> void:
 	if is_instance_valid(challenge_window):
 		challenge_window.set_context({
 			"workload":ChallengeWindow.workload_text(session.task_id,english),
+			"starter_task":session.task_id,"copy_pending":challenges.copy_pending,
 			"active":active,"has_code":has_code,"pending":bool(target.get("pending",false)),
 			"dirty":challenges.is_dirty(),"protected":challenges.storage_status != "ready",
 			"retryable":challenges.storage_status != "read_only",
@@ -919,7 +953,7 @@ func _show_target_code() -> void:
 	challenge_window.show_code(target.code,target.get("inspection",{}))
 
 func _starter_challenge(task_id: String) -> void:
-	if not _challenge_context_valid(): return
+	if not _challenge_context_valid() or task_id != _challenge_task or ChallengeCode.starter_goal(task_id).is_empty(): return
 	var result: Dictionary = ChallengeCode.starter(task_id)
 	if result.get("ok",false): challenge_window.show_starter(result.code)
 	else: challenge_window.show_code("",result)
@@ -1238,13 +1272,15 @@ func _translate_exit_guard() -> void:
 	exit_save.text = tr2("保存笔记","Save notebook") if target_dirty else tr2("保存并退出","Save and exit")
 	exit_target_retry.visible = _guard_action == "exit" and target_dirty and challenges.storage_status != "read_only"
 	exit_target_retry.focus_mode = Control.FOCUS_ALL if exit_target_retry.visible else Control.FOCUS_NONE
-	exit_target_retry.text = tr2("重试挑战保存","Retry target save")
+	exit_target_retry.text = tr2("保存挑战副本","Save target copy") if challenges.copy_pending and challenges.storage_status == "ready" else tr2("重试挑战保存","Retry target save")
 	if _guard_action == "remove":
 		exit_question.text = tr2("移除保留方案「%s」？\n当前草稿和本次运行仍会保留；此操作会保存工作区。","Remove kept plan “%s”?\nThe current draft and recent runs stay. This action saves the workspace.") % _pending_remove
 		exit_cancel.text = tr2("取消","Cancel")
 		exit_confirm.text = tr2("移除并保存","Remove and save")
 	else:
-		if dirty:
+		if workspace.copy_pending and workspace.storage_status == "ready":
+			exit_question.text = tr2("上一版笔记已载入，新副本尚未保存。退出会丢弃本次修改，原记录仍保留。","Earlier notebook loaded; the new copy is unsaved. Leaving discards session changes; the original remains.")
+		elif dirty:
 			exit_question.text = tr2("工作区有未保存修改。退出会丢弃这些修改，以及本次运行历史、比较基准与撤销。","The workspace has unsaved changes. Leaving discards them, along with recent runs, the comparison and Undo.")
 		elif saved:
 			exit_question.text = tr2("已保存的草稿、个人条件和方案会保留。退出只结束本次运行历史、比较基准与撤销。","Saved drafts, personal goals and kept plans remain. Leaving ends this session's run history, comparison and Undo.")
@@ -1252,8 +1288,10 @@ func _translate_exit_guard() -> void:
 			exit_question.text = tr2("此工作区尚未保存。退出会结束本次运行历史、比较基准与撤销。","This workspace has not been saved. Leaving ends this session's run history, comparison and Undo.")
 		if workspace.storage_status != "ready": exit_question.text += "\n"+_storage_text()
 		if target_dirty:
-			exit_question.text += "\n"+tr2("挑战修改尚未保存。保存笔记不会保存挑战；退出会丢弃待保存的挑战修改。",
-				"Target changes are not saved. Saving Notebook does not save targets; leaving discards those pending changes.")
+			exit_question.text += "\n"+(tr2("挑战副本尚未保存。保存笔记不会保存挑战；原挑战记录仍保留。",
+				"The target copy is unsaved. Saving Notebook does not save targets; the original targets remain.") if challenges.copy_pending and challenges.storage_status == "ready" else tr2(
+				"挑战修改尚未保存。保存笔记不会保存挑战；退出会丢弃待保存的挑战修改。",
+				"Target changes are not saved. Saving Notebook does not save targets; leaving discards those pending changes."))
 			if challenges.storage_status == "read_only":
 				exit_question.text += "\n"+_challenge_storage_text(challenges.target(session.task_id))
 		exit_cancel.text = tr2("继续探索","Keep exploring")

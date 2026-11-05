@@ -4,6 +4,9 @@
 将查询调度与物理复制拆开，比较首个请求响应、总周期、RAM流量和复制空间。
 第五轮增加命名方案簿、可恢复的工作区，以及首答／复制空间限制下的个人
 比较。数据文件只保存输入；已保留方案须本机复算后才参加比较。
+第七轮增加两次温度扫描、温度后告警两种独立结构，使周期／流量取舍和
+复制布局选择能直接游玩。原四种条件与计算规则保留；新历史使用独立v2文件，
+读取上一版记录后，由玩家明确保存新副本。
 第四轮的模型与原生试玩范围见[原证据](../../docs/verification/20261104-layout-scheduling/README.md)；
 方案簿的[新增验收](../../docs/verification/20261104-layout-notebook/README.md)
 独立记录，不沿用原生或导出包结论。
@@ -27,7 +30,7 @@ python3 scripts/run-experiment.py layout_strategy --godot /path/to/Godot --profi
 
 ## 怎样探索
 
-1. 选择温度统计或混合请求，以及“同时到达”或“逐单到达”条件。
+1. 选择温度统计、混合请求，或新增的“两次温度”“温度后告警”条件。
 2. 先运行默认源数据方案，并选为比较基准。
 3. 调整一起处理的请求数、每轮处理的记录数，或尝试一次复制选定字段。
 4. 运行后分别比较四项指标；查看每个请求的响应与实际搬运事件。
@@ -46,7 +49,7 @@ python3 scripts/run-experiment.py layout_strategy --godot /path/to/Godot --profi
 本次启动。这里的排名只比较所显示的已测集合，没有全局最优含义；没有
 方案满足限制也不代表不可能。第六轮增加离线挑战码；在线排行榜尚未接入。
 
-独立侧文件`layout_strategy_notebook_v1.json`保存完整公开任务、模型／条件
+独立侧文件`layout_strategy_notebook_v2.json`保存完整公开任务、模型／条件
 身份、方案、名称和目标，不保存可直接当作成绩使用的数字。整档限制128KiB，
 严格检查嵌套内容、规范JSON和UTF-8。未知／损坏／旧规则文件进入只读保护；
 当前会话仍可临时探索。写入失败保留内存提案，可显式重试；外部改写和并发
@@ -56,7 +59,7 @@ python3 scripts/run-experiment.py layout_strategy --godot /path/to/Godot --profi
 ## 分享与应战
 
 在“比较”页点“挑战…”，可以分享所选实测方案，或输入另一份挑战码预览。
-目标绑定当前四种工作负载之一、总周期或RAM流量目标，以及包含边界的
+目标绑定当前六种工作负载之一、总周期或RAM流量目标，以及包含边界的
 首答／复制空间上限。预览必须本机复算；点击“接纳目标”才保留它。
 预览与接纳不修改草稿、撤销栈、所选证据、个人筛选或命名方案。
 其他条件的代码会提示切换工作负载，不自动替换当前工作。
@@ -67,8 +70,10 @@ python3 scripts/run-experiment.py layout_strategy --godot /path/to/Godot --profi
 当前个人条件。两者都重新计算，不采用复制来的分数。目标可能已很难改进，
 任意合法代码不保证存在严格更好的解法，也不代表全局最优。
 
-两个入门挑战是可选的源数据方案：温度全部就绪时Q1≤350、复制≤0；
-逐单到达时Q1≤600、复制≤80。它们不预填答案或增加正式进度。
+当前条件有入门挑战时，窗口显示一个对应入口。四个可选目标均为源数据方案：
+温度全部就绪时按周期、Q1≤350、复制≤0；原温度逐单按周期、Q1≤600、
+复制≤80；两次温度按RAM流量、Q1≤600、复制≤80；温度后告警按周期、
+Q1≤800、复制≤144。混合条件没有预设挑战。它们不预填答案或增加正式进度。
 查看目标证据会显式产生一次真实重放；恢复目标方案只产生一次可撤销编辑。
 数值框中的⌘/Ctrl+Enter（包括组合键中的小键盘Enter）会先提交数值再运行一次；
 普通Enter只提交数值。文字编辑器保留自己的文本操作。
@@ -78,19 +83,25 @@ python3 scripts/run-experiment.py layout_strategy --godot /path/to/Godot --profi
 外侧剪贴板空白可接受，但仍计入字节限制。无复制方案的休眠复制配置统一
 为默认传输形态，方案笔记中的编辑选择不变。它与正式第四章`VNB4C1:`分开。
 
-目标侧文件`layout_strategy_challenges_v1.json`最多32KiB，每种负载一份目标。
+目标侧文件`layout_strategy_challenges_v2.json`最多32KiB，每种负载一份目标。
 它与方案笔记分别保存；接纳／清除／重试只保存目标提案，保存笔记不提交
 目标。失败时保留精确临时提案与原文件，可明确重试；失败清除在本次会话
 中停止挑战，旧目标仍留在磁盘直到成功保存。损坏／未知文件和外部修改进入
 只读保护；检测到冲突后，缓存目标不再声称“已保存”。支持的旧模型／条件码
 保留可复制，但不参加当前比较。独立写入租约、临时回读与原子替换保护合作
 写者；停止写者恢复和保存是两个明确动作。退出会提醒待保存目标。
-停用新功能只需停止读取此侧文件，旧Notebook v1和正式玩家数据仍保持。
+两个v2文件分别处理升级：存在的有效v2优先，空目标表也不会恢复旧目标；
+损坏或未知v2进入保护，不退回旧文件。只有缺少v2时才严格读取对应v1，
+界面显示上一版记录已载入、尚待保存副本。读取不写文件；明确保存、接纳、
+清除或重试才创建v2，原v1内容始终保留。源文件在此期间改变也会阻止覆盖。
+旧版本继续读取v1；再打开新版本会恢复v2。此后两边编辑是独立历史，不自动
+合并。方案簿和挑战是两个独立保存动作；保存其中一份不会提交另一份。
 
 ## 公开计算规则
 
 - 数据：17条记录，每条4个4B字段；源数据固定按记录排列且不可变。
-- 温度场景：8次温度求和。混合场景：8次热点字段对求和及1次稀疏记录查看。
+- 原温度场景：8次温度求和。混合场景：8次热点字段对求和及1次稀疏记录查看。
+- 两次温度：2次温度求和；温度后告警：先4次温度、再4次告警求和。均逐次到达。
 - 同时到达：所有请求在周期0可执行，连续的若干请求可以按记录块交替处理。
 - 逐单到达：后一个请求只能在前一个完整回答后开始，分组数固定1。
   可以事先读取不可变源数据进行复制，复制准备计入首个请求等待。
@@ -111,19 +122,25 @@ RAM字节 = 4M + 16F
 
 数值来自逐次执行的事件。相同完整条件下才计算历史差值，不合成总分。
 分组可能用更晚的首答换取更少总工作；串行请求中，复制可能用准备时间和
-空间换取后续复用。生产模型的595组声明组合均正确，其中385组来自四个
-可玩场景，210组为额外16请求探针。90次重复及JSON重放一致。每个可玩
-场景在该有限样本中都有多个非支配指标组合，不能据此宣称全局最优。
+空间换取后续复用。第四轮模型的595组声明组合均正确，其中385组来自原四个
+可玩场景，210组为额外16请求探针。90次重复及JSON重放一致。每个原场景
+在该有限样本中都有多个非支配指标组合，不能据此宣称全局最优。
 
 例如“温度扫描 · 全部就绪”：默认方案首答307、总计2456周期；每组8查询、
 每块1记录、不复制，首答531、总计552周期。前者更早回答第一份请求，
 后者更早完成全部工作。“逐次请求”中保留温度副本则是首答557、总计1362
-周期和80B复制空间。[完整策略对照](../../docs/verification/20261104-layout-scheduling/strategy/README.md)。
+周期和80B复制空间。[原始策略对照](../../docs/verification/20261104-layout-scheduling/strategy/README.md)。
+
+“两次温度”中，源数据方案为首答307／总计614周期／544B流量／0B复制；
+温度副本为557／672／500／80。在首答≤600、复制≤80的相同条件下，源方案
+周期更少，副本流量更少。“温度后告警”的双字段副本，按记录排列为
+791／2044／1560／144，按字段排列为727／1516／1032／144。
+这些是实际方案对照，不是所有合法输入的全局最优结论。
 
 ## Compatibility and verification
 
 This is an opt-in experiment with its own model/condition identities and a
-separate version1 notebook. Model, Session and Goals remain pure; Workspace owns
+separate version2 notebook with read-only v1 copy-forward. Model, Session and Goals remain pure; Workspace owns
 proposed inputs and fresh remeasurement, while NotebookStore owns validated
 committed inputs and cooperative transactional writes. UI only requests actions.
 The old `layout-memory-1` campaign, valid recipes, targets and portable challenges
@@ -152,3 +169,12 @@ alongside the existing suites. Process checks use
 `tests/recovery/layout_challenge_process_probe.gd` in fresh named QA profiles.
 These local checks do not authenticate a remote client or establish native
 OS input, exported builds, newcomer comprehension or other-platform behavior.
+
+The six-condition extension adds `test_layout_strategy_structures`,
+`test_layout_strategy_catalog_parity`, `test_layout_strategy_store_upgrade`,
+`test_layout_strategy_upgrade` and `test_layout_strategy_structures_ui`.
+The frozen pre-extension fixture binds56 exact original observations and112
+code outcomes. The real `layout_structure_process_probe.gd` additionally runs
+against the frozen old runtime to prove rollback and independent subsequent
+histories. See the [seventh-round receipt](../../docs/verification/20261105-structural-layout-workloads/README.md)
+and [finite strategy evidence](../../docs/verification/20261105-structural-layout-workloads/strategy/README.md).

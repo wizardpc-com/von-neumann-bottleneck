@@ -84,7 +84,7 @@ func code_for(id: String, objective: String = "cycles") -> String:
 
 
 func snapshot_for(id: String = "scan_batch") -> Dictionary:
-	return {"version":1,"targets":{id:code_for(id)}}
+	return {"version":2,"targets":{id:code_for(id)}}
 
 
 func changed_code(code: String, key: String, value: Variant) -> String:
@@ -95,7 +95,7 @@ func changed_code(code: String, key: String, value: Variant) -> String:
 
 func protected_files() -> Dictionary:
 	var result: Dictionary = {}
-	for name: String in ["layout_strategy_notebook_v1.json","layout_challenges_v1.json","layout_strategy_challenges_v1.json"]:
+	for name: String in ["layout_strategy_notebook_v1.json","layout_strategy_notebook_v2.json","layout_challenges_v1.json","layout_strategy_challenges_v1.json","layout_strategy_challenges_v2.json"]:
 		var path: String = "user://"+name
 		result[name] = FileAccess.get_file_as_bytes(path) if FileAccess.file_exists(path) else null
 	return result
@@ -133,12 +133,12 @@ func _run() -> void:
 func _round_trip() -> void:
 	var empty: RefCounted = store_for("empty")
 	var initial: Dictionary = empty.read()
-	var blank: Dictionary = {"version":1,"targets":{}}
+	var blank: Dictionary = {"version":2,"targets":{}}
 	check(initial.ok and initial.status == "ready" and initial.snapshot == blank,"Missing file returns a detached empty target map")
 	check(not FileAccess.file_exists(empty.storage_path),"Reading absence creates no target file")
 	check(empty.write(blank).ok and not FileAccess.file_exists(empty.storage_path),"An unchanged empty write is idempotent")
 	check(not DirAccess.dir_exists_absolute(Lease.lock_path(empty._writer_path())),"No-op write releases its lease")
-	var snapshot: Dictionary = {"version":1,"targets":{}}
+	var snapshot: Dictionary = {"version":2,"targets":{}}
 	for id: String in Model.SCENARIO_IDS:
 		snapshot.targets[id] = code_for(id,"traffic" if id.ends_with("serial") else "cycles")
 	var grouped: Dictionary = Model.starter_plan()
@@ -150,7 +150,7 @@ func _round_trip() -> void:
 	var expected: Dictionary = snapshot.duplicate(true)
 	var store: RefCounted = store_for("round-trip")
 	var written: Dictionary = store.write(snapshot)
-	check(written.ok and written.status == "ready" and written.snapshot == expected,"Four task codes and both goals persist without conversion")
+	check(written.ok and written.status == "ready" and written.snapshot == expected,"Six task codes and both goals persist without conversion")
 	var raw: String = FileAccess.get_file_as_string(store.storage_path)
 	check(raw == canonical(expected),"Persisted targets have one canonical whole-file representation")
 	check(not raw.contains("metrics") and not raw.contains("trace_id") and not raw.contains("events"),"Stored target file carries no cached score or Trace")
@@ -159,7 +159,7 @@ func _round_trip() -> void:
 	check(store.read().snapshot == expected,"Caller and returned snapshots cannot mutate committed targets")
 	var detached: Dictionary = store.read()
 	detached.snapshot.targets.erase("mixed_serial")
-	check(store.read().snapshot.targets.size() == 4,"Read returns a detached complete target map")
+	check(store.read().snapshot.targets.size() == 6,"Read returns a detached complete target map")
 	var restarted: RefCounted = store_for("round-trip")
 	var restored: Dictionary = restarted.read()
 	check(restored.ok and canonical(restored.snapshot) == raw,"Fresh store restores all exact target codes")
@@ -169,12 +169,12 @@ func _round_trip() -> void:
 	check(replayed.entry.trace_id == target.entry.trace_id and replayed.entry.events == target.entry.events and replayed.entry.outputs == target.entry.outputs,"Reopened target reproduces complete event/output evidence and Trace identity")
 	check(replayed.entry.metrics.first_request_cycles == 531 and replayed.entry.metrics.total_cycles == 552,"Reopened target has the actual grouped response/total result")
 	check(store_for("separate-profile").read().snapshot == blank,"Another target path never adopts this collection")
-	var cleared: Dictionary = {"version":1,"targets":{}}
+	var cleared: Dictionary = {"version":2,"targets":{}}
 	check(restarted.write(cleared).ok and store_for("round-trip").read().snapshot == cleared,"Explicit empty map removes targets without touching other files")
 
 
 func _supported_stale() -> void:
-	var snapshot: Dictionary = {"version":1,"targets":{}}
+	var snapshot: Dictionary = {"version":2,"targets":{}}
 	var old_model: String = changed_code(code_for("scan_batch"),"model","layout-schedule-experiment-older")
 	var old_condition: String = changed_code(code_for("scan_serial"),"condition","0".repeat(64))
 	snapshot.targets["scan_batch"] = old_model
@@ -195,19 +195,19 @@ func _supported_stale() -> void:
 func _normalization_and_bounds() -> void:
 	var snapshot: Dictionary = snapshot_for()
 	var numeric: Dictionary = JSON.parse_string(canonical(snapshot))
-	numeric.version = 1.0
+	numeric.version = 2.0
 	check(Store.normalize_snapshot(numeric) == snapshot,"Integral in-memory version normalizes without changing code bytes")
 	var normalized: Dictionary = Store.normalize_snapshot(snapshot)
 	normalized.targets.clear()
 	check(Store.normalize_snapshot(snapshot) == snapshot,"Normalization returns detached target maps")
-	var maximal: Dictionary = {"version":1,"targets":{}}
+	var maximal: Dictionary = {"version":2,"targets":{}}
 	for id: String in Model.SCENARIO_IDS: maximal.targets[id] = code_for(id)
-	check(Store.normalize_snapshot(maximal) == maximal and canonical(maximal).to_utf8_buffer().size() <= Store.MAX_BYTES,"All four current targets fit declared file bounds")
+	check(Store.normalize_snapshot(maximal) == maximal and canonical(maximal).to_utf8_buffer().size() <= Store.MAX_BYTES,"All six current targets fit declared file bounds")
 	var store: RefCounted = store_for("maximal")
 	check(store.write(maximal).ok and store_for("maximal").read().snapshot == maximal,"Maximum target collection survives restart")
 	var over: Dictionary = maximal.duplicate(true)
-	over.targets["fifth"] = code_for("scan_batch")
-	check(Store.normalize_snapshot(over).is_empty(),"Fifth target is refused without silent eviction")
+	over.targets["seventh"] = code_for("scan_batch")
+	check(Store.normalize_snapshot(over).is_empty(),"Seventh target is refused without silent eviction")
 	var previous: PackedByteArray = FileAccess.get_file_as_bytes(store.storage_path)
 	check(not store.write(over).ok and FileAccess.get_file_as_bytes(store.storage_path) == previous,"Oversized proposal preserves original target bytes")
 	check(store.read().snapshot == maximal and store.write(maximal).ok,"Capacity failure preserves committed memory and exact valid retry")
@@ -221,35 +221,35 @@ func _protected_files() -> void:
 	var code: String = base.targets.scan_batch
 	var fixtures: Array[Dictionary] = [
 		{"name":"root-array","value":[]},
-		{"name":"future-version","value":{"version":2,"targets":{}}},
+		{"name":"future-version","value":{"version":99,"targets":{}}},
 		{"name":"boolean-version","value":{"version":true,"targets":{}}},
 		{"name":"missing-version","value":{"targets":{}}},
-		{"name":"missing-targets","value":{"version":1}},
-		{"name":"unknown-root","value":{"version":1,"targets":{},"scores":[]}},
-		{"name":"targets-array","value":{"version":1,"targets":[]}},
-		{"name":"unknown-task","value":{"version":1,"targets":{"future":code}}},
-		{"name":"scalar-code","value":{"version":1,"targets":{"scan_batch":42}}},
-		{"name":"nested-score","value":{"version":1,"targets":{"scan_batch":{"code":code,"metrics":{"total_cycles":0}}}}},
-		{"name":"foreign-task","value":{"version":1,"targets":{"scan_serial":code}}},
-		{"name":"empty-code","value":{"version":1,"targets":{"scan_batch":""}}},
-		{"name":"padded-code","value":{"version":1,"targets":{"scan_batch":" "+code+"\n"}}},
-		{"name":"future-code-version","value":{"version":1,"targets":{"scan_batch":changed_code(code,"v",2)}}},
-		{"name":"future-code-prefix","value":{"version":1,"targets":{"scan_batch":code.replace(Code.PREFIX,"VNBSC2:")}}},
-		{"name":"claimed-score-code","value":{"version":1,"targets":{"scan_batch":changed_code(code,"score",0)}}},
-		{"name":"goal-array","value":{"version":1,"targets":{"scan_batch":changed_code(code,"goal",[])}}},
-		{"name":"plan-array","value":{"version":1,"targets":{"scan_batch":changed_code(code,"plan",[])}}},
-		{"name":"condition-type","value":{"version":1,"targets":{"scan_batch":changed_code(code,"condition",false)}}},
-		{"name":"overlong-code","value":{"version":1,"targets":{"scan_batch":"x".repeat(Code.MAX_BYTES+1)}}},
+		{"name":"missing-targets","value":{"version":2}},
+		{"name":"unknown-root","value":{"version":2,"targets":{},"scores":[]}},
+		{"name":"targets-array","value":{"version":2,"targets":[]}},
+		{"name":"unknown-task","value":{"version":2,"targets":{"future":code}}},
+		{"name":"scalar-code","value":{"version":2,"targets":{"scan_batch":42}}},
+		{"name":"nested-score","value":{"version":2,"targets":{"scan_batch":{"code":code,"metrics":{"total_cycles":0}}}}},
+		{"name":"foreign-task","value":{"version":2,"targets":{"scan_serial":code}}},
+		{"name":"empty-code","value":{"version":2,"targets":{"scan_batch":""}}},
+		{"name":"padded-code","value":{"version":2,"targets":{"scan_batch":" "+code+"\n"}}},
+		{"name":"future-code-version","value":{"version":2,"targets":{"scan_batch":changed_code(code,"v",2)}}},
+		{"name":"future-code-prefix","value":{"version":2,"targets":{"scan_batch":code.replace(Code.PREFIX,"VNBSC2:")}}},
+		{"name":"claimed-score-code","value":{"version":2,"targets":{"scan_batch":changed_code(code,"score",0)}}},
+		{"name":"goal-array","value":{"version":2,"targets":{"scan_batch":changed_code(code,"goal",[])}}},
+		{"name":"plan-array","value":{"version":2,"targets":{"scan_batch":changed_code(code,"plan",[])}}},
+		{"name":"condition-type","value":{"version":2,"targets":{"scan_batch":changed_code(code,"condition",false)}}},
+		{"name":"overlong-code","value":{"version":2,"targets":{"scan_batch":"x".repeat(Code.MAX_BYTES+1)}}},
 	]
 	var extra: Dictionary = Code.decode(code).envelope
 	extra.plan.recipe.groups[0]["future"] = 1
-	fixtures.append({"name":"nested-recipe-field","value":{"version":1,"targets":{"scan_batch":Code.PREFIX+canonical(extra)}}})
+	fixtures.append({"name":"nested-recipe-field","value":{"version":2,"targets":{"scan_batch":Code.PREFIX+canonical(extra)}}})
 	var partial: Dictionary = base.duplicate(true)
 	partial.targets["mixed_batch"] = "valuable unsupported code"
 	fixtures.append({"name":"partial-valid-map","value":partial})
-	var too_many: Dictionary = {"version":1,"targets":{}}
+	var too_many: Dictionary = {"version":2,"targets":{}}
 	for id: String in Model.SCENARIO_IDS: too_many.targets[id] = code_for(id)
-	too_many.targets["fifth"] = code
+	too_many.targets["seventh"] = code
 	fixtures.append({"name":"too-many-targets","value":too_many})
 	for fixture: Dictionary in fixtures:
 		check(Store.normalize_snapshot(fixture.value).is_empty(),fixture.name+": invalid snapshot cannot normalize")
@@ -257,14 +257,14 @@ func _protected_files() -> void:
 	var raw: String = canonical(base)
 	_assert_protected("broken-json","{valuable unfinished".to_utf8_buffer())
 	_assert_protected("oversized","x".repeat(Store.MAX_BYTES+1).to_utf8_buffer(),"size")
-	_assert_protected("duplicate-root",raw.replace('"version":1','"version":1,"version":1').to_utf8_buffer())
-	var duplicate_target: String = '{"targets":{"scan_batch":'+canonical(code)+',"scan_batch":'+canonical(code)+'},"version":1}'
+	_assert_protected("duplicate-root",raw.replace('"version":2','"version":2,"version":2').to_utf8_buffer())
+	var duplicate_target: String = '{"targets":{"scan_batch":'+canonical(code)+',"scan_batch":'+canonical(code)+'},"version":2}'
 	_assert_protected("duplicate-task",duplicate_target.to_utf8_buffer())
 	var duplicate_code: Dictionary = base.duplicate(true)
 	duplicate_code.targets["scan_batch"] = code.replace('"v":1','"v":1,"v":1')
 	_assert_protected("duplicate-code-key",canonical(duplicate_code).to_utf8_buffer())
 	_assert_protected("pretty-json",JSON.stringify(base,"  ",true).to_utf8_buffer())
-	_assert_protected("float-spelling",raw.replace('"version":1','"version":1.0').to_utf8_buffer())
+	_assert_protected("float-spelling",raw.replace('"version":2','"version":2.0').to_utf8_buffer())
 	var invalid_encodings: Array[PackedByteArray] = [
 		PackedByteArray([255]),PackedByteArray([192,175]),
 		PackedByteArray([237,160,128]),PackedByteArray([244,144,128,128]),
@@ -405,7 +405,7 @@ func _writer_contention() -> void:
 	check(unrelated.held,"Unrelated candidate holds its profile lock")
 	var notebook: RefCounted = Notebook.new()
 	notebook.storage_path = fixture_path("independent-notebook")
-	var notebook_raw: String = canonical({"version":1,"active":"scan_batch","states":{}})
+	var notebook_raw: String = canonical({"version":2,"active":"scan_batch","states":{}})
 	raw_write(notebook.storage_path,notebook_raw)
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(notebook._writer_path()).get_base_dir())
 	var notebook_lease: RefCounted = Lease.new(notebook._writer_path())

@@ -6,6 +6,8 @@ const Model = preload("res://experiments/layout_strategy/model.gd")
 var store = Store.new()
 var storage_status: String = "ready"
 var storage_reason: String = ""
+var origin: String = "empty"
+var copy_pending: bool = false
 var _initialized: bool = false
 var _has_saved: bool = false
 var _targets: Dictionary = {}
@@ -13,16 +15,17 @@ var _committed: Dictionary = {}
 var _cache: Dictionary = {}
 
 
-func setup(path: String = "") -> Dictionary:
+func setup(path: String = "", legacy_path: String = "") -> Dictionary:
 	if _initialized: return _result(false,"initialized")
 	_initialized = true
 	if not path.is_empty(): store.storage_path = path
+	if not legacy_path.is_empty(): store.legacy_path = legacy_path
 	var loaded: Dictionary = store.read()
 	_observe(loaded)
 	if loaded.ok:
 		_targets = loaded.snapshot.targets.duplicate(true)
 		_committed = _targets.duplicate(true)
-		_has_saved = FileAccess.file_exists(store.storage_path)
+		_has_saved = origin == "current" and FileAccess.file_exists(store.storage_path)
 	return _result(bool(loaded.ok))
 
 
@@ -31,7 +34,7 @@ func target(task_id: String) -> Dictionary:
 	if task_id not in Model.SCENARIO_IDS:
 		return {"code":"","active":false,"inspection":{},"saved":false,"pending":false}
 	var code: String = str(_targets.get(task_id,""))
-	var pending: bool = code != str(_committed.get(task_id,""))
+	var pending: bool = code != str(_committed.get(task_id,"")) or (copy_pending and not code.is_empty())
 	if code.is_empty():
 		return {"code":"","active":false,"inspection":{},"saved":false,"pending":pending}
 	var condition: String = Model.condition_id(Model.scenario(task_id))
@@ -79,11 +82,11 @@ func retry() -> Dictionary:
 	if not _initialized: setup()
 	# Save the exact proposed map, including failed replacements/removals.
 	# Notebook goals, filters, selected runs and drafts are not inputs here.
-	var written: Dictionary = store.write({"version":1,"targets":_targets.duplicate(true)})
+	var written: Dictionary = store.write({"version":2,"targets":_targets.duplicate(true)})
 	_observe(written)
 	if written.ok:
 		_committed = _targets.duplicate(true)
-		_has_saved = FileAccess.file_exists(store.storage_path)
+		_has_saved = origin == "current" and FileAccess.file_exists(store.storage_path)
 	return _result(bool(written.ok))
 
 
@@ -95,7 +98,7 @@ func recover_writer() -> Dictionary:
 
 
 func is_dirty() -> bool:
-	return _targets != _committed
+	return copy_pending or _targets != _committed
 
 
 func compare(task_id: String, attempt: Dictionary) -> Dictionary:
@@ -134,10 +137,13 @@ func compare(task_id: String, attempt: Dictionary) -> Dictionary:
 func _observe(result: Dictionary) -> void:
 	storage_status = str(result.status)
 	storage_reason = str(result.reason)
+	origin = str(result.get("origin","empty"))
+	copy_pending = bool(result.get("copy_pending",false))
 
 
 func _result(ok: bool, reason: String = "") -> Dictionary:
 	return {
 		"ok":ok,"reason":storage_reason if reason.is_empty() else reason,
 		"status":storage_status,"accepted":false,
+		"origin":origin,"copy_pending":copy_pending,
 	}

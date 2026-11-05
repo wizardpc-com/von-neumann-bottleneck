@@ -1,0 +1,102 @@
+[
+  {
+    "suite": "import",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T111217Z-round10-reference/project",
+      "--editor",
+      "--import",
+      "--quit"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T111336Z/import",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 4.7030790829999995,
+    "diagnostics": [],
+    "log_sha256": "0d552597266f961bd36690d6c06f365d7b086d1a6b8209ed1cbeb603f803453b",
+    "project_settings_sha256": "f11ad1e5ca08f1c5467a8d8e952f003f0e7bd3b21b5e80573a1dec19c96bbe18",
+    "simulator_sha256": "ea22934e27dc08fcc1cc64c7158f5f028bf6a5a7150eee02b56c834bf502b371"
+  },
+  {
+    "suite": "test_circuit_simulation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T111217Z-round10-reference/project",
+      "--script",
+      "res://tests/test_circuit_simulation.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T111336Z/test_circuit_simulation",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 0.9853103750000001,
+    "diagnostics": [],
+    "log_sha256": "4c443c3900d56311c5bf6060558870d53fdaeebff144a01514ac771a9cd58fbe",
+    "project_settings_sha256": "ce68f74665554be741ba778275bbcde35ee5882a6caf4f4902ff19ea71a53c51",
+    "script_sha256": "3546f8f1a4c4c1c6e9f51e446b7ba4e002d848e47331d3dd925032d7b1bd7b2f",
+    "simulator_sha256": "ea22934e27dc08fcc1cc64c7158f5f028bf6a5a7150eee02b56c834bf502b371"
+  },
+  {
+    "suite": "test_prologue_simulation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T111217Z-round10-reference/project",
+      "--script",
+      "res://tests/test_prologue_simulation.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T111336Z/test_prologue_simulation",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 1.3064047910000003,
+    "diagnostics": [],
+    "log_sha256": "6250b1296a4f67e1cd38259d6dca4c7a86d16d30824436a1553cb1b917fcb956",
+    "project_settings_sha256": "7d44ce0a2781c3e72bf5e75fcfdf1b2e1e2fa0e32d7ed2a6762d1daaa23daee5",
+    "script_sha256": "55b9db2b7b8a7c8f4085562499c91714ff2b7fd2986af7b84b11192513a956c7",
+    "simulator_sha256": "ea22934e27dc08fcc1cc64c7158f5f028bf6a5a7150eee02b56c834bf502b371"
+  },
+  {
+    "suite": "test_content_registry",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T111217Z-round10-reference/project",
+      "--script",
+      "res://tests/test_content_registry.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T111336Z/test_content_registry",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 0.8820792920000002,
+    "diagnostics": [],
+    "log_sha256": "109c0fcac48a18d2fb9ba4eb1e4de94ee40e69d78a107665cbc8ba9a8d834166",
+    "project_settings_sha256": "9ca9a0ec2da1ae0537ff2e8bfb0255118fe455ea4c1b1c5d3960ab5041d46fa2",
+    "script_sha256": "7afb7683f16eb5204c46dd7b827887de4c74022c5eea7856e3b56784d1c45e0b",
+    "simulator_sha256": "ea22934e27dc08fcc1cc64c7158f5f028bf6a5a7150eee02b56c834bf502b371"
+  },
+  {
+    "suite": "test_prologue_continuation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T111217Z-round10-reference/project",
+      "--script",
+      "res://tests/test_prologue_continuation.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T111336Z/test_prologue_continuation",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 1.8677047499999997,
+    "diagnostics": [],
+    "log_sha256": "ae567af2d16d5929db846213a8c37a0a7b21fa4140b3cb89d684e8c5e4832882",
+    "project_settings_sha256": "584c658d977a3b744bd497ea98045416169e8e700bfbb3d05ac4e9646469c7d5",
+    "script_sha256": "dacb83b9e2de9e34c7e63dfd04985c040645a727b5cd0b664c8488229292e25b",
+    "simulator_sha256": "ea22934e27dc08fcc1cc64c7158f5f028bf6a5a7150eee02b56c834bf502b371"
+  }
+]

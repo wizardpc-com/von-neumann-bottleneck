@@ -1,0 +1,29 @@
+[
+  {
+    "suite": "test_hardware_failure_recovery",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_hardware_failure_recovery.gd",
+      "--",
+      "--locale=zh_CN"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113442Z/test_hardware_failure_recovery",
+    "locale": "zh_CN",
+    "returncode": 1,
+    "stopped_for": null,
+    "seconds": 3.2667272919999997,
+    "diagnostics": [
+      "ERROR: Failed Debug replaces an interrupted old playback caption with its real incoming storage",
+      "ERROR: Preview's first completed source wave shows corrected inputs beside retained storage",
+      "Missing suite PASS marker"
+    ],
+    "log_sha256": "4b1ec2d6679df3478ae5487e7dabd39bf9afcf0fcc981d23faa6f3207a445c7e",
+    "project_settings_sha256": "f01500e0c144ae9f6ec4be377263e4be860febcd1e05d28a59d0b247b2ac364c",
+    "script_sha256": "88170ef898b86d36d012996463782c381a3610c0f99dadeb0ece5e28bbf46b4c",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  }
+]

@@ -59,13 +59,22 @@ ranges and unchanged-case variation; this is not an FPS or native-input test.
 The separate profile's component timings are diagnostic and not additive
 attribution of the generation duration.
 
-## Current known failure
+## Failure-recovery regression
 
 `circuit.prologue.diagnostics` includes a valid→short-circuit→valid register
-recovery sequence that fails in the Round9 reference and candidate. Its semantic
-validator remains strict. It must not be included in accepted speed claims or
-silently relabelled successful. Round9 separately compares its unchanged full
-failure evidence, while accepting35 other scenarios. The exact accepted case
+recovery sequence that failed in the Round9 reference and candidate. Round10
+retains the last electrically valid final output map, while preserving failed
+observations and any storage already committed. Its strict diagnostic now
+requires the corrected HOLD to succeed and failed pre-commit carry to remain
+unchanged. Full successful snapshots stay exact; intentional recovery
+differences are reviewed separately. The old failing diagnostic cannot support
+a same-work timing ratio against the repaired workflow.
+
+Round9 separately compared its unchanged full failure evidence while accepting
+35 other scenarios. The exact historical accepted case
 list, fixed counts, raw and sealed evidence, failed attempts and commands are in
 the [Round9 receipt](../../../docs/verification/20261105-computation-kernels/README.md).
+The [Round10 receipt](../../../docs/verification/20261105-circuit-failure-recovery/README.md)
+contains negative regression proof, complete diagnostic field comparison and
+the11 unchanged circuit scenarios.
 This finite corpus does not prove all simulator inputs correct.

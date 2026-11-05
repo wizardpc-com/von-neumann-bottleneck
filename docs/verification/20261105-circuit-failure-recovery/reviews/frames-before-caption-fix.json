@@ -1,0 +1,56 @@
+[
+  {
+    "path": ".godot/verification/20261105T112607Z-5880555a/project/.godot/hardware-recovery-captures/en/corrected-live-hold.png",
+    "sha256": "aebcc6d862e4c97d80494c15f8108e4593502f8bd527393adc0a2f222eb246c2",
+    "bytes": 123139,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": ".godot/verification/20261105T112607Z-5880555a/project/.godot/hardware-recovery-captures/en/failed-conflicting-drivers.png",
+    "sha256": "bd1fe047c9abf2ee9c23fba745b417ffcc289ab904cc35dd219d054a15d97a6e",
+    "bytes": 123584,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": ".godot/verification/20261105T112607Z-5880555a/project/.godot/hardware-recovery-captures/en/recovered-debug-hold.png",
+    "sha256": "b72f9f7dac36759b5fa775a9d5708b1c7a8290843dbd80ab6d209cc84486be25",
+    "bytes": 123852,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": ".godot/verification/20261105T112607Z-5880555a/project/.godot/hardware-recovery-captures/zh_CN/corrected-live-hold.png",
+    "sha256": "9f32e39a01a72ef98e8e9afb84511cd283312b3e4432d41671d3c1d9177ad20d",
+    "bytes": 125925,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": ".godot/verification/20261105T112607Z-5880555a/project/.godot/hardware-recovery-captures/zh_CN/failed-conflicting-drivers.png",
+    "sha256": "a9aa35cd06a975093f68caaef4da2f077406d983241385314478f057d1950ddd",
+    "bytes": 129367,
+    "dimensions": [
+      1280,
+      720
+    ]
+  },
+  {
+    "path": ".godot/verification/20261105T112607Z-5880555a/project/.godot/hardware-recovery-captures/zh_CN/recovered-debug-hold.png",
+    "sha256": "1d00a4f0a195fbf78eccc87bd81f9c183d607688989c483d82857b97d6e2b21b",
+    "bytes": 125122,
+    "dimensions": [
+      1280,
+      720
+    ]
+  }
+]

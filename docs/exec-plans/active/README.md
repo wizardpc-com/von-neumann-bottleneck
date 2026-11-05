@@ -1,14 +1,18 @@
 # Execution queue
 
+第十轮已完成[电路失败后的状态续接](../completed/circuit-failure-recovery-20261105.md)：
+独立冻结b765dd2并保留旧版负向证据；11个成功场景完整Trace一致，
+修正输入后沿用最后有效输出恢复，原失败观察与整段失败判定仍保留。
+13套相关检查末次通过，中英文GPU各158项通过；实际发现并修复旧回放
+存储标签残留。完整记录见[第十轮证据](../../verification/20261105-circuit-failure-recovery/README.md)。
+
 第九轮完成[内部计算审计与实测优化](../completed/computation-kernels-20261105.md)：
 保留GDScript，Creation生成组合3.96倍、完整传输组合2.71倍实测提速；
 35组有效场景完整结果／状态／成本／Trace一致。16套Creation、快照及两套
 GPU通过。已复现电路失败后恢复缺陷，独立保留失败证据，不混入通过统计。
 [完整证据和隔离试玩](../../verification/20261105-computation-kernels/README.md)。
 
-下一增量先修复电路最后有效状态的交接：合法→短路→合法输入须恢复，失败
-观察仍保留，所有原先成功的完整Trace与判定不变；同时覆盖实际Debug/Step
-调用链。再为Region无效输入定义一致失败证据。其余Trace复制、scratch删除、
+下一增量为Region无效输入定义一致失败证据。其余Trace复制、scratch删除、
 重复冷客户端与Off基线复用先实测占比，再选择局部GDScript优化。
 原生试点仍需独立分支、完整差分、实际收益与Windows/macOS验证；未选定模块。
 

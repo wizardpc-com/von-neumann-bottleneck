@@ -1,0 +1,14 @@
+{
+  "circuit.boolean.official": 10,
+  "circuit.boolean.stress": 1,
+  "circuit.boolean.diagnostics": 12,
+  "circuit.prologue.full_adder": 2,
+  "circuit.prologue.alu": 1,
+  "circuit.prologue.latch": 5,
+  "circuit.prologue.register": 2,
+  "circuit.prologue.ram": 2,
+  "circuit.prologue.cpu": 1,
+  "circuit.prologue.load_store": 1,
+  "circuit.prologue.stress": 1,
+  "circuit.prologue.diagnostics": 1
+}

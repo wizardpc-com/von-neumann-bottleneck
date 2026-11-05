@@ -1,0 +1,586 @@
+{
+  "passed": true,
+  "issues": [],
+  "benchmarks": [
+    {
+      "run": "20261105T111531Z-reference-valid",
+      "returncode": 0,
+      "failures": 0,
+      "diagnostics": 0,
+      "raw_sha256": "04ddde93a598fc671dbaef1b9bc0d75dcde98d19275f562d2e38b75b143c8525",
+      "log_sha256": "7a11620c8076f8627ca1e8f4a8907c2c7ad56e14be604db3b4c5bc55043979c1",
+      "snapshots": [
+        {
+          "id": "circuit.boolean.official",
+          "bytes": 49062,
+          "sha256": "4c12588c6934842e32faf6814fcc6ce88be9dbba98bd74e2aa2a523e4328fa2e"
+        },
+        {
+          "id": "circuit.boolean.stress",
+          "bytes": 541953,
+          "sha256": "27d1c54d488390c589e1b7c151d16f60cf7384651dd8308e071c68cb9e957859"
+        },
+        {
+          "id": "circuit.boolean.diagnostics",
+          "bytes": 59596,
+          "sha256": "f54d8099a2d2a68257c4fb2d4b7c7c7df3caf67719a6b0c6ab80f29ee5e5f3d4"
+        },
+        {
+          "id": "circuit.prologue.full_adder",
+          "bytes": 696151,
+          "sha256": "96b23b7bcb6faa2080e65ca9c2c3f79bb6f6a1c962579ecbe3b1f3344ad7f6bc"
+        },
+        {
+          "id": "circuit.prologue.alu",
+          "bytes": 4392321,
+          "sha256": "7a8908386343d6753d4e1c5487a250fa57a869e1096e517fa5cb27439904472c"
+        },
+        {
+          "id": "circuit.prologue.latch",
+          "bytes": 238804,
+          "sha256": "8e312275062949efed3e2494c9d17f98a90a60d4dbf8b7c97ef57a02b22834de"
+        },
+        {
+          "id": "circuit.prologue.register",
+          "bytes": 792929,
+          "sha256": "98d27dd02dc36a3b3174ca4856fc303d4d5860791811df5b6ddaf57a0b441a92"
+        },
+        {
+          "id": "circuit.prologue.ram",
+          "bytes": 824685,
+          "sha256": "47d80747de606c81b85962a6410c00f93820ac536d45ec892b27874bf5da5315"
+        },
+        {
+          "id": "circuit.prologue.cpu",
+          "bytes": 4120212,
+          "sha256": "ee10294e1cc424e95c4f9bc7946a3291a70f6b5ae62b7279bfd2bfd15ca42a61"
+        },
+        {
+          "id": "circuit.prologue.load_store",
+          "bytes": 6725196,
+          "sha256": "94135d150d2ae99a8abccead074cf1e51f484ac0b021b0b50a4c2912a807b2ac"
+        },
+        {
+          "id": "circuit.prologue.stress",
+          "bytes": 2364547,
+          "sha256": "a1007ef8cece5bc69cc0025ef829d538a285f02082474c73f1dbaaf4892f9426"
+        }
+      ]
+    },
+    {
+      "run": "20261105T111710Z-reference-recovery-defect",
+      "returncode": 1,
+      "failures": 14,
+      "diagnostics": 14,
+      "raw_sha256": "a0ea2262398f5a6377a3aedb33685ae3e8eb158197899de1027b9b818b17a5cc",
+      "log_sha256": "40305bb84529056d80b1e0c1088cc5b89e560972795a73607abaafc0a2ca70ae",
+      "snapshots": [
+        {
+          "id": "circuit.prologue.diagnostics",
+          "bytes": 3730514,
+          "sha256": "3cd243f2e439a75012288f8042463cb63210f63cd2f973f68544896968f5bab4"
+        }
+      ]
+    },
+    {
+      "run": "20261105T112706Z-candidate-valid",
+      "returncode": 0,
+      "failures": 0,
+      "diagnostics": 0,
+      "raw_sha256": "1f95fec7befbdb25491e9123a6a6eaaaa28cd927d3939426ce98dbdc60162c17",
+      "log_sha256": "d70da49bb9b1d9a40f6195439873e609b464bccdeb4d4e11c73156daabd7ab58",
+      "snapshots": [
+        {
+          "id": "circuit.boolean.official",
+          "bytes": 49062,
+          "sha256": "4c12588c6934842e32faf6814fcc6ce88be9dbba98bd74e2aa2a523e4328fa2e"
+        },
+        {
+          "id": "circuit.boolean.stress",
+          "bytes": 541953,
+          "sha256": "27d1c54d488390c589e1b7c151d16f60cf7384651dd8308e071c68cb9e957859"
+        },
+        {
+          "id": "circuit.boolean.diagnostics",
+          "bytes": 59596,
+          "sha256": "f54d8099a2d2a68257c4fb2d4b7c7c7df3caf67719a6b0c6ab80f29ee5e5f3d4"
+        },
+        {
+          "id": "circuit.prologue.full_adder",
+          "bytes": 696151,
+          "sha256": "96b23b7bcb6faa2080e65ca9c2c3f79bb6f6a1c962579ecbe3b1f3344ad7f6bc"
+        },
+        {
+          "id": "circuit.prologue.alu",
+          "bytes": 4392321,
+          "sha256": "7a8908386343d6753d4e1c5487a250fa57a869e1096e517fa5cb27439904472c"
+        },
+        {
+          "id": "circuit.prologue.latch",
+          "bytes": 238804,
+          "sha256": "8e312275062949efed3e2494c9d17f98a90a60d4dbf8b7c97ef57a02b22834de"
+        },
+        {
+          "id": "circuit.prologue.register",
+          "bytes": 792929,
+          "sha256": "98d27dd02dc36a3b3174ca4856fc303d4d5860791811df5b6ddaf57a0b441a92"
+        },
+        {
+          "id": "circuit.prologue.ram",
+          "bytes": 824685,
+          "sha256": "47d80747de606c81b85962a6410c00f93820ac536d45ec892b27874bf5da5315"
+        },
+        {
+          "id": "circuit.prologue.cpu",
+          "bytes": 4120212,
+          "sha256": "ee10294e1cc424e95c4f9bc7946a3291a70f6b5ae62b7279bfd2bfd15ca42a61"
+        },
+        {
+          "id": "circuit.prologue.load_store",
+          "bytes": 6725196,
+          "sha256": "94135d150d2ae99a8abccead074cf1e51f484ac0b021b0b50a4c2912a807b2ac"
+        },
+        {
+          "id": "circuit.prologue.stress",
+          "bytes": 2364547,
+          "sha256": "a1007ef8cece5bc69cc0025ef829d538a285f02082474c73f1dbaaf4892f9426"
+        }
+      ]
+    },
+    {
+      "run": "20261105T112747Z-candidate-recovery",
+      "returncode": 0,
+      "failures": 0,
+      "diagnostics": 0,
+      "raw_sha256": "ef59ddeb5a5d3a7e15ef21f96e06c77c19b0f207ee82babbe5bad633019e15ff",
+      "log_sha256": "0dd3632f2cc5572c1b031e5a3d99e0a367a5a2e4ddc81a02fc97ea601bee447d",
+      "snapshots": [
+        {
+          "id": "circuit.prologue.diagnostics",
+          "bytes": 3752999,
+          "sha256": "9b96a94a14850c8df9fd10b01916f78847a24837d07e83b23f5db8cee5305658"
+        }
+      ]
+    }
+  ],
+  "valid_comparison": {
+    "passed": true,
+    "issues": [],
+    "cases": [
+      {
+        "id": "circuit.boolean.diagnostics",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 12,
+        "reference_median_us": 1589.1666666666667,
+        "candidate_median_us": 1575.5,
+        "reference_range_us": [
+          1583.9166666666667,
+          1589.8333333333333
+        ],
+        "candidate_range_us": [
+          1574.5833333333333,
+          1593.1666666666667
+        ],
+        "speed_ratio": 1.0086744948693538,
+        "time_reduction_percent": 0.8599895123230228
+      },
+      {
+        "id": "circuit.boolean.official",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 10,
+        "reference_median_us": 2069.0,
+        "candidate_median_us": 2078.9,
+        "reference_range_us": [
+          2060.2,
+          2076.2
+        ],
+        "candidate_range_us": [
+          2071.5,
+          2083.4
+        ],
+        "speed_ratio": 0.9952378661792294,
+        "time_reduction_percent": -0.4784920251329261
+      },
+      {
+        "id": "circuit.boolean.stress",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 1,
+        "reference_median_us": 46513.0,
+        "candidate_median_us": 49278.0,
+        "reference_range_us": [
+          46279.0,
+          47245.0
+        ],
+        "candidate_range_us": [
+          46266.0,
+          49373.0
+        ],
+        "speed_ratio": 0.9438897682535817,
+        "time_reduction_percent": -5.944574635048272
+      },
+      {
+        "id": "circuit.prologue.alu",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 1,
+        "reference_median_us": 65309.0,
+        "candidate_median_us": 65665.0,
+        "reference_range_us": [
+          65213.0,
+          65587.0
+        ],
+        "candidate_range_us": [
+          65121.0,
+          65974.0
+        ],
+        "speed_ratio": 0.9945785426026041,
+        "time_reduction_percent": -0.5451009814880114
+      },
+      {
+        "id": "circuit.prologue.cpu",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 1,
+        "reference_median_us": 47354.0,
+        "candidate_median_us": 47438.0,
+        "reference_range_us": [
+          47315.0,
+          47478.0
+        ],
+        "candidate_range_us": [
+          47372.0,
+          47540.0
+        ],
+        "speed_ratio": 0.998229267675703,
+        "time_reduction_percent": -0.1773873379228741
+      },
+      {
+        "id": "circuit.prologue.full_adder",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 2,
+        "reference_median_us": 10038.0,
+        "candidate_median_us": 10100.0,
+        "reference_range_us": [
+          9962.5,
+          10074.5
+        ],
+        "candidate_range_us": [
+          9922.0,
+          10142.5
+        ],
+        "speed_ratio": 0.9938613861386139,
+        "time_reduction_percent": -0.6176529189081403
+      },
+      {
+        "id": "circuit.prologue.latch",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 5,
+        "reference_median_us": 4068.4,
+        "candidate_median_us": 4056.6,
+        "reference_range_us": [
+          4044.0,
+          4100.8
+        ],
+        "candidate_range_us": [
+          4043.0,
+          4062.2
+        ],
+        "speed_ratio": 1.0029088399152,
+        "time_reduction_percent": 0.2900403106872562
+      },
+      {
+        "id": "circuit.prologue.load_store",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 1,
+        "reference_median_us": 40436.0,
+        "candidate_median_us": 40357.0,
+        "reference_range_us": [
+          40416.0,
+          40670.0
+        ],
+        "candidate_range_us": [
+          40191.0,
+          42804.0
+        ],
+        "speed_ratio": 1.0019575290532001,
+        "time_reduction_percent": 0.19537046196458352
+      },
+      {
+        "id": "circuit.prologue.ram",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 2,
+        "reference_median_us": 12279.0,
+        "candidate_median_us": 12328.0,
+        "reference_range_us": [
+          12270.0,
+          12314.5
+        ],
+        "candidate_range_us": [
+          12319.0,
+          12375.5
+        ],
+        "speed_ratio": 0.9960253082414017,
+        "time_reduction_percent": -0.3990552976626871
+      },
+      {
+        "id": "circuit.prologue.register",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 2,
+        "reference_median_us": 12391.0,
+        "candidate_median_us": 12336.5,
+        "reference_range_us": [
+          12137.0,
+          12457.0
+        ],
+        "candidate_range_us": [
+          12270.5,
+          12402.0
+        ],
+        "speed_ratio": 1.004417784622867,
+        "time_reduction_percent": 0.43983536437737225
+      },
+      {
+        "id": "circuit.prologue.stress",
+        "parity": true,
+        "timing_comparable": true,
+        "iterations": 1,
+        "reference_median_us": 55778.0,
+        "candidate_median_us": 55955.0,
+        "reference_range_us": [
+          55546.0,
+          56002.0
+        ],
+        "candidate_range_us": [
+          55776.0,
+          56027.0
+        ],
+        "speed_ratio": 0.9968367438119918,
+        "time_reduction_percent": -0.31732941303022066
+      }
+    ]
+  },
+  "changed_diagnostic_comparison_rejected": true,
+  "qa_results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "log_sha256": "78f17c42b9a065e488a7fda86f3944318cc9c125aeac73fcfe42531acce0b8c9",
+      "markers": [],
+      "diagnostics": []
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "log_sha256": "eb9ba5779ed8d909191b5da8db10ba8aac4e8db1749071d5cf6d19632c13a79a",
+      "markers": [],
+      "diagnostics": []
+    },
+    {
+      "name": "test_circuit_simulation",
+      "exit": 0,
+      "log_sha256": "4c443c3900d56311c5bf6060558870d53fdaeebff144a01514ac771a9cd58fbe",
+      "markers": [
+        "PASS: deterministic default-low tri-state circuit, multi-driver wiring, Half Adder, and encapsulation tests passed"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_computation_snapshot",
+      "exit": 0,
+      "log_sha256": "a2ac7469f6e2743cd5aea652e23ded47d13bc9dccf1e8a093629cc1be0f855aa",
+      "markers": [
+        "PASS: computation snapshot checks=10 failures=0"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_content_registry",
+      "exit": 0,
+      "log_sha256": "109c0fcac48a18d2fb9ba4eb1e4de94ee40e69d78a107665cbc8ba9a8d834166",
+      "markers": [
+        "PASS: deterministic campaign registry, synthetic content extension, and validation tests passed"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_global_save",
+      "exit": 0,
+      "log_sha256": "b7cf9a589c21490e8f9aeee25c37b333484a53146f896d02f945351eab53f8b6",
+      "markers": [
+        "PASS: minimal global Save/Continue, provenance reconciliation, chapter gates, New Game, and mode isolation tests passed"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_hardware_failure_recovery",
+      "exit": 0,
+      "log_sha256": "91915fdd4021d33dc6860e0effc66567fce3fe8a92a47a1171bb6cc9f3a9509f",
+      "markers": [
+        "PASS: hardware failure recovery 128 checks / 0 failures (zh_CN, headless callbacks)"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "exit": 0,
+      "log_sha256": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2",
+      "markers": [
+        "PASS: global test mode, compact NOT, whole-symbol selection, graphical map, wiring, and Hardware UI tests passed"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "exit": 0,
+      "log_sha256": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e",
+      "markers": [
+        "PASS: two-branch prologue progression, player-owned sealing, word wrappers, CPU construction, and LOAD/STORE UI tests passed"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_hardware_seal_navigation",
+      "exit": 0,
+      "log_sha256": "5265c0946c4cf73fc6518c96923774df894e6e495ed9f34944a607ccaf42aac6",
+      "markers": [
+        "PASS: test_hardware_seal_navigation 29 checks, 0 failures"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_hardware_workspace_entry",
+      "exit": 0,
+      "log_sha256": "a42fec7fb49ae8a33b942ff820b23f88781ea9a5abc2e6819f7acbc359ff2f56",
+      "markers": [
+        "PASS: 69 hardware workspace checks"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_localization",
+      "exit": 0,
+      "log_sha256": "1335c9219accbc513d566d1a342f2ff1496884a344edcb572fa4cbe0aa3bf95f",
+      "markers": [
+        "PASS: Chinese default, English catalog, key coverage, and locale-independent simulation tests passed"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_prologue_continuation",
+      "exit": 0,
+      "log_sha256": "ae567af2d16d5929db846213a8c37a0a7b21fa4140b3cb89d684e8c5e4832882",
+      "markers": [
+        "PASS: prologue continuation"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_prologue_failure_recovery",
+      "exit": 0,
+      "log_sha256": "403d2fd01b6524b1a182c1e71bd1d272dcf929c40b97ba9c1eab8330d55b290d",
+      "markers": [
+        "PASS: prologue failure recovery checks=308 failures=0"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_prologue_simulation",
+      "exit": 0,
+      "log_sha256": "6250b1296a4f67e1cd38259d6dca4c7a86d16d30824436a1553cb1b917fcb956",
+      "markers": [
+        "PASS: deterministic reusable-component, latch, register, RAM, and tiny-computer prologue tests passed"
+      ],
+      "diagnostics": []
+    }
+  ],
+  "gpu_results": [
+    {
+      "run": "20261105T112836Z",
+      "locale": "zh_CN",
+      "returncode": 0,
+      "log_sha256": "f71474b7b23e6a87ad64a8884ddb7d8bf8cf244b95afc014907fa644709320c8",
+      "markers": [
+        "PASS: hardware failure recovery 144 checks / 0 failures (zh_CN, viewport input)"
+      ]
+    },
+    {
+      "run": "20261105T112914Z",
+      "locale": "en",
+      "returncode": 0,
+      "log_sha256": "eff3e82016f36c7952044b0bf81cc5085d1272d86635dd6e1fd7074abcfdb626",
+      "markers": [
+        "PASS: hardware failure recovery 144 checks / 0 failures (en, viewport input)"
+      ]
+    }
+  ],
+  "source_binding": [
+    {
+      "path": "scripts/benchmarks/computation/circuit_cases.gd",
+      "current": "3f16571bc472786020a508b23138929eb88fe21ed0421d4ec682d78d44e7975b",
+      "reference": "3f16571bc472786020a508b23138929eb88fe21ed0421d4ec682d78d44e7975b",
+      "candidate": "3f16571bc472786020a508b23138929eb88fe21ed0421d4ec682d78d44e7975b"
+    },
+    {
+      "path": "scripts/benchmarks/computation/creation_profile.gd",
+      "current": "7cab1d54549e1fb7ab977b6fd2b87d4bfbf072db2e7c4b235d2539a8abdfbaec",
+      "reference": "7cab1d54549e1fb7ab977b6fd2b87d4bfbf072db2e7c4b235d2539a8abdfbaec",
+      "candidate": "7cab1d54549e1fb7ab977b6fd2b87d4bfbf072db2e7c4b235d2539a8abdfbaec"
+    },
+    {
+      "path": "scripts/benchmarks/computation/memory_cases.gd",
+      "current": "480bfd9b165e22f9d9c346cd24a31054da33b9f49ef5bc8bc452f0d321723bd7",
+      "reference": "480bfd9b165e22f9d9c346cd24a31054da33b9f49ef5bc8bc452f0d321723bd7",
+      "candidate": "480bfd9b165e22f9d9c346cd24a31054da33b9f49ef5bc8bc452f0d321723bd7"
+    },
+    {
+      "path": "scripts/benchmarks/computation/runner.gd",
+      "current": "df4430bea75380901cb108842eb1bace55de9025ecba0c42f83e734e2cb8ef59",
+      "reference": "df4430bea75380901cb108842eb1bace55de9025ecba0c42f83e734e2cb8ef59",
+      "candidate": "df4430bea75380901cb108842eb1bace55de9025ecba0c42f83e734e2cb8ef59"
+    },
+    {
+      "path": "scripts/benchmarks/computation/snapshot.gd",
+      "current": "026fa6b74ae7285fa70971981cacc664b739164535779903ca452fa9b10252a5",
+      "reference": "026fa6b74ae7285fa70971981cacc664b739164535779903ca452fa9b10252a5",
+      "candidate": "026fa6b74ae7285fa70971981cacc664b739164535779903ca452fa9b10252a5"
+    },
+    {
+      "path": "scripts/benchmarks/computation/workload_cases.gd",
+      "current": "bd7f061288e9a9cd181599dd94b200a2921b624de35b37bfc96379de14256db1",
+      "reference": "bd7f061288e9a9cd181599dd94b200a2921b624de35b37bfc96379de14256db1",
+      "candidate": "bd7f061288e9a9cd181599dd94b200a2921b624de35b37bfc96379de14256db1"
+    },
+    {
+      "path": "src/circuit/prologue_simulator.gd",
+      "current": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462",
+      "reference": "ea22934e27dc08fcc1cc64c7158f5f028bf6a5a7150eee02b56c834bf502b371",
+      "candidate": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+    },
+    {
+      "path": "tests/test_prologue_failure_recovery.gd",
+      "current": "5cf4ecdb8f9a8cddaf203e0b51ed6b10e3186d11367a8b0477f6343ebe757dd7",
+      "reference": "5cf4ecdb8f9a8cddaf203e0b51ed6b10e3186d11367a8b0477f6343ebe757dd7",
+      "candidate": "5cf4ecdb8f9a8cddaf203e0b51ed6b10e3186d11367a8b0477f6343ebe757dd7"
+    },
+    {
+      "path": "tests/test_hardware_failure_recovery.gd",
+      "current": "e0913fe9a1768d905b81c4134cc0b3cef19cf1eb8862022524188afe7199558e",
+      "reference": "e0913fe9a1768d905b81c4134cc0b3cef19cf1eb8862022524188afe7199558e",
+      "candidate": "e0913fe9a1768d905b81c4134cc0b3cef19cf1eb8862022524188afe7199558e"
+    }
+  ],
+  "boundaries": [
+    "Existing captured evidence only; no engine, native or Git operation.",
+    "No timing improvement claim for changed diagnostics.",
+    "GPU screenshots require separate actual visual inspection.",
+    "This verification does not establish native, Windows, export or player acceptance."
+  ]
+}

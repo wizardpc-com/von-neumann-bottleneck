@@ -1,0 +1,69 @@
+[
+  {
+    "group": "circuit",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T111217Z-round10-reference/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=circuit",
+      "--label=reference-recovery-defect",
+      "--host-label=yrq-mac-round10",
+      "--samples=3",
+      "--iterations-file=/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/collaboration/round10-iterations.json",
+      "--only=circuit.prologue.diagnostics"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/20261105T111710Z-reference-recovery-defect/circuit",
+    "returncode": 1,
+    "seconds": 5.161705834,
+    "log": "circuit.log",
+    "diagnostics": [
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: expected success",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unexpected error contract [\"circuit.error.short_circuit\"]",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unsuccessful output comparison",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2/OUT: incorrect word value, width or resolution state",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole: missing successful state boundaries",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole: final observation/state or last-valid output carry is wrong",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/1: final observation/state or last-valid output carry is wrong",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/1: failed pre-commit step changed storage or valid output carry",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: sequence count or pass status is wrong",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: expected success",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unexpected error contract [\"circuit.error.short_circuit\"]",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unsuccessful output comparison",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0/OUT: incorrect word value, width or resolution state",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: missing successful state boundaries"
+    ],
+    "output": "circuit.json.gz",
+    "raw_sha256": "a0ea2262398f5a6377a3aedb33685ae3e8eb158197899de1027b9b818b17a5cc",
+    "raw_bytes": 3764067,
+    "compressed_bytes": 55997,
+    "sealed_output": "circuit.sealed.json.gz",
+    "failures": [
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: expected success",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unexpected error contract [\"circuit.error.short_circuit\"]",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unsuccessful output comparison",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2/OUT: incorrect word value, width or resolution state",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole: missing successful state boundaries",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole: final observation/state or last-valid output carry is wrong",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/1: final observation/state or last-valid output carry is wrong",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/1: failed pre-commit step changed storage or valid output carry",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: sequence count or pass status is wrong",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: expected success",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unexpected error contract [\"circuit.error.short_circuit\"]",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unsuccessful output comparison",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0/OUT: incorrect word value, width or resolution state",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: missing successful state boundaries"
+    ],
+    "cases": [
+      {
+        "id": "circuit.prologue.diagnostics",
+        "iterations": 1,
+        "median_us": 81549.0,
+        "snapshot_bytes": 3730514
+      }
+    ]
+  }
+]

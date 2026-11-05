@@ -1,0 +1,29 @@
+[
+  {
+    "suite": "test_hardware_failure_recovery",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T112607Z-5880555a/project",
+      "--script",
+      "res://tests/test_hardware_failure_recovery.gd",
+      "--",
+      "--locale=zh_CN",
+      "--hardware-recovery-capture",
+      "--capture-size=1280x720"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round10/checks/20261105T113852Z/test_hardware_failure_recovery",
+    "locale": "zh_CN",
+    "returncode": 0,
+    "stopped_for": null,
+    "seconds": 7.35109275,
+    "diagnostics": [],
+    "log_sha256": "81e8217b35e388c182d881367f1bdba44723f5b772da6c66c2106f6c99f0b076",
+    "project_settings_sha256": "b27d052b5c9eb1cde990b9a6faabddc937cbeb657efe5e2d5a7d808afd41c187",
+    "script_sha256": "88170ef898b86d36d012996463782c381a3610c0f99dadeb0ece5e28bbf46b4c",
+    "simulator_sha256": "3ed8eb32b91b9b7b00fcd9a5b8fa7c25f0095e9c561389632b448e2b51723462"
+  }
+]

@@ -252,6 +252,7 @@ static func _validate_sequence(input: Dictionary, result: Variant, failed_steps:
 		context + ": omitted events or final state", issues)
 	var circuit: LogicCircuit = _decode_circuit(input["circuit"])
 	var widths: Dictionary = {}
+	var last_valid_outputs: Dictionary = result.get("initial_prior_outputs", {})
 	var stateful: bool = bool(input.get("allow_feedback", false))
 	for component: LogicComponent in circuit.components.values():
 		if component.is_observer():
@@ -264,6 +265,8 @@ static func _validate_sequence(input: Dictionary, result: Variant, failed_steps:
 			continue
 		var item: Dictionary = steps[index]
 		var value: PrologueSimulationResult = item["result"]
+		if value.is_valid():
+			last_valid_outputs = value.output_values
 		var should_pass: bool = index not in failed_steps
 		var step_context: String = context + "/step/" + str(index)
 		_expect(item.get("index") == index and item.get("passed") == should_pass
@@ -303,8 +306,8 @@ static func _validate_sequence(input: Dictionary, result: Variant, failed_steps:
 		_expect(result.get("final_result") is PrologueSimulationResult
 			and _same_step_result(last, result["final_result"])
 			and _same_committed_state(result.get("runtime_state", {}), last.runtime_state)
-			and _same_value_maps(result.get("prior_outputs", {}), last.output_values),
-			context + ": final state/output does not match final evaluation", issues)
+			and _same_value_maps(result.get("prior_outputs", {}), last_valid_outputs),
+			context + ": final observation/state or last-valid output carry is wrong", issues)
 
 static func _same_committed_state(committed: Dictionary, evaluated: Dictionary) -> bool:
 	# A graph with only output-carried latches has no post-commit evaluation.
@@ -346,8 +349,9 @@ static func _validate_continuation(input: Dictionary, result: Variant,
 			and _same_value_maps(report.get("initial_prior_outputs", {}), prior_outputs),
 			step_context + ": state handoff was not preserved", issues)
 		if index in failed_steps:
-			_expect(report.get("runtime_state") == prior_state,
-				step_context + ": failed step committed storage", issues)
+			_expect(report.get("runtime_state") == prior_state
+				and _same_value_maps(report.get("prior_outputs", {}), prior_outputs),
+				step_context + ": failed pre-commit step changed storage or valid output carry", issues)
 		if report.get("runtime_state") is Dictionary:
 			prior_state = report["runtime_state"]
 		if report.get("prior_outputs") is Dictionary:

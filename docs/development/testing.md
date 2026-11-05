@@ -1,3 +1,35 @@
+## Circuit failure continuation — 2026-11-05
+
+Run `test_prologue_failure_recovery` and `test_hardware_failure_recovery`
+through `scripts/verify-project.py`, alongside circuit/prologue simulation,
+continuation, Hardware foundations/prologue/workspace/seal-navigation,
+content registry, GlobalSave, localization and the complete snapshot suite.
+Use a frozen old runtime to show the new assertions detect carry poisoning.
+An intentional expected-answer mismatch must still commit electrically valid
+storage, and a post-commit electrical failure must not silently roll it back.
+Preserve raw/sealed latch memory and complete retained failed observations.
+
+The Hardware fixture loads its actual scene after autoload initialization;
+an eager `HardwareFoundations` script-class annotation in a `--script` test
+can compile the host before its autoload identifiers exist. Keep that fixture
+failure distinct from a runtime defect. The test uses only an isolated Test
+instance and checks ordinary Game/progression/workbench protection.
+
+```sh
+<Godot-4.7.1> --path <isolated-project> --windowed --resolution 1280x720 \
+  --script res://tests/test_hardware_failure_recovery.gd -- \
+  --locale=zh_CN --hardware-recovery-capture --capture-size=1280x720
+```
+
+Repeat with `--locale=en`. Inspect actual raw frames as well as assertions.
+Pause a real WRITE before its boundary, then fail a later Debug: component
+captions must be initialized from that failed report's real incoming storage.
+For corrected live preview, advance the first real source wave before expecting
+source pixels to show the new input. Input preview and Step must not execute a
+new storage boundary. Full successful corpus parity and explicitly scoped
+failure/recovery differences are separate gates. Details and retained failed
+attempts are in the [Round10 receipt](../verification/20261105-circuit-failure-recovery/README.md).
+
 ## Internal computation parity and timings — 2026-11-05
 
 Use the [computation harness](../../scripts/benchmarks/computation/README.md)

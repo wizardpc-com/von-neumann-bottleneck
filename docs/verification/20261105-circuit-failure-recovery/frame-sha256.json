@@ -1,0 +1,74 @@
+{
+  "frames/en/corrected-live-hold.png": {
+    "sha256": "798019c5ef8c3499d2382101d7a759191cac97f72b5b96664d61e37a934840a9",
+    "bytes": 123389,
+    "width": 1280,
+    "height": 720
+  },
+  "frames/en/failed-conflicting-drivers.png": {
+    "sha256": "43863ddf3510969b244e543e417daa76fb72921acb485790028631692b3ae26f",
+    "bytes": 123675,
+    "width": 1280,
+    "height": 720
+  },
+  "frames/en/recovered-debug-hold.png": {
+    "sha256": "b72f9f7dac36759b5fa775a9d5708b1c7a8290843dbd80ab6d209cc84486be25",
+    "bytes": 123852,
+    "width": 1280,
+    "height": 720
+  },
+  "frames/zh_CN/corrected-live-hold.png": {
+    "sha256": "9e53729fc0e34e7dc5fd09cd1aadcb620feb281104c55d458340362bc533aa9c",
+    "bytes": 125496,
+    "width": 1280,
+    "height": 720
+  },
+  "frames/zh_CN/failed-conflicting-drivers.png": {
+    "sha256": "c2d36004f7079ea0f6b323caa77dee69b88acd27408b0f1f5797fae476a18663",
+    "bytes": 129309,
+    "width": 1280,
+    "height": 720
+  },
+  "frames/zh_CN/recovered-debug-hold.png": {
+    "sha256": "1d00a4f0a195fbf78eccc87bd81f9c183d607688989c483d82857b97d6e2b21b",
+    "bytes": 125122,
+    "width": 1280,
+    "height": 720
+  },
+  "diagnostics/initial-frames/en/corrected-live-hold.png": {
+    "sha256": "aebcc6d862e4c97d80494c15f8108e4593502f8bd527393adc0a2f222eb246c2",
+    "bytes": 123139,
+    "width": 1280,
+    "height": 720
+  },
+  "diagnostics/initial-frames/en/failed-conflicting-drivers.png": {
+    "sha256": "bd1fe047c9abf2ee9c23fba745b417ffcc289ab904cc35dd219d054a15d97a6e",
+    "bytes": 123584,
+    "width": 1280,
+    "height": 720
+  },
+  "diagnostics/initial-frames/en/recovered-debug-hold.png": {
+    "sha256": "b72f9f7dac36759b5fa775a9d5708b1c7a8290843dbd80ab6d209cc84486be25",
+    "bytes": 123852,
+    "width": 1280,
+    "height": 720
+  },
+  "diagnostics/initial-frames/zh_CN/corrected-live-hold.png": {
+    "sha256": "9f32e39a01a72ef98e8e9afb84511cd283312b3e4432d41671d3c1d9177ad20d",
+    "bytes": 125925,
+    "width": 1280,
+    "height": 720
+  },
+  "diagnostics/initial-frames/zh_CN/failed-conflicting-drivers.png": {
+    "sha256": "a9aa35cd06a975093f68caaef4da2f077406d983241385314478f057d1950ddd",
+    "bytes": 129367,
+    "width": 1280,
+    "height": 720
+  },
+  "diagnostics/initial-frames/zh_CN/recovered-debug-hold.png": {
+    "sha256": "1d00a4f0a195fbf78eccc87bd81f9c183d607688989c483d82857b97d6e2b21b",
+    "bytes": 125122,
+    "width": 1280,
+    "height": 720
+  }
+}

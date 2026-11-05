@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--headless",
+    "--path",
+    "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+    "--script",
+    "res://round7-structure-probe.gd",
+    "--",
+    "--probe-output=/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/docs/verification/20261105-structural-layout-workloads/strategy/results.json"
+  ],
+  "profile": "VonNeumannBottleneckChecks/20261105-round7/structure-probe-20261105T062228Z",
+  "exit": 0,
+  "passed": true
+}

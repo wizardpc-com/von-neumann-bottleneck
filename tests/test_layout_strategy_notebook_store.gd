@@ -77,7 +77,7 @@ func state_for(id: String) -> Dictionary:
 
 
 func snapshot_for(id: String = "scan_batch") -> Dictionary:
-	return {"version":1,"active":id,"states":{id:state_for(id)}}
+	return {"version":2,"active":id,"states":{id:state_for(id)}}
 
 
 func changed_state(key: String, value: Variant, id: String = "scan_batch") -> Dictionary:
@@ -126,12 +126,12 @@ func _run() -> void:
 func _round_trip() -> void:
 	var empty: RefCounted = store_for("empty")
 	var initial: Dictionary = empty.read()
-	var blank: Dictionary = {"version":1,"active":"scan_batch","states":{}}
+	var blank: Dictionary = {"version":2,"active":"scan_batch","states":{}}
 	check(initial.ok and initial.status == "ready" and initial.snapshot == blank,"Missing notebook returns a detached explicit empty snapshot")
 	check(not FileAccess.file_exists(empty.storage_path),"Reading absence creates no score or notebook file")
 	check(empty.write(blank).ok and not FileAccess.file_exists(empty.storage_path),"Unchanged empty save is idempotent")
 	check(not DirAccess.dir_exists_absolute(Lease.lock_path(empty._writer_path())),"No-op write releases its cooperative lease")
-	var snapshot: Dictionary = {"version":1,"active":"mixed_serial","states":{}}
+	var snapshot: Dictionary = {"version":2,"active":"mixed_serial","states":{}}
 	for id: String in Model.SCENARIO_IDS:
 		var state: Dictionary = state_for(id)
 		state.draft.recipe = Recipe.field_major()
@@ -144,7 +144,7 @@ func _round_trip() -> void:
 	snapshot.states.scan_batch.kept.append({"name":"分组温度 / grouped","plan":tiled})
 	var store: RefCounted = store_for("round-trip")
 	var written: Dictionary = store.write(snapshot)
-	check(written.ok and written.status == "ready" and written.snapshot == snapshot,"All four workloads and exact dormant choices persist")
+	check(written.ok and written.status == "ready" and written.snapshot == snapshot,"All six workloads and exact dormant choices persist")
 	var raw: String = FileAccess.get_file_as_string(store.storage_path)
 	check(raw == canonical(snapshot),"Persisted notebook has one deterministic canonical spelling")
 	check(not raw.contains('"metrics":') and not raw.contains('"trace_id":') and not raw.contains('"events":'),"Notebook contains inputs, never cached metrics or Trace")
@@ -154,7 +154,7 @@ func _round_trip() -> void:
 	check(store.read().snapshot.states.scan_batch.draft.copy_fields == [3,2],"Input snapshot cannot mutate committed dormant choices")
 	var detached: Dictionary = store.read()
 	detached.snapshot.states.clear()
-	check(store.read().snapshot.states.size() == 4,"Read returns a detached complete snapshot")
+	check(store.read().snapshot.states.size() == 6,"Read returns a detached complete snapshot")
 	var restarted: RefCounted = store_for("round-trip")
 	var restored: Dictionary = restarted.read()
 	check(restored.ok and canonical(restored.snapshot) == raw,"New store restores exact active workload, task, draft, goal and names")
@@ -173,7 +173,7 @@ func _round_trip() -> void:
 func _normalization_and_bounds() -> void:
 	var snapshot: Dictionary = snapshot_for()
 	var numeric: Dictionary = JSON.parse_string(canonical(snapshot))
-	numeric.version = 1.0
+	numeric.version = 2.0
 	numeric.states.scan_batch.draft.record_tile = 17.0
 	numeric.states.scan_batch.goal.first_limit = -1.0
 	check(Store.normalize_snapshot(numeric) == snapshot,"Integral JSON numbers normalize without changing stored meaning")
@@ -185,14 +185,14 @@ func _normalization_and_bounds() -> void:
 	check(not Store.normalize_snapshot(dormant).is_empty(),"Structurally valid unfinished draft survives even when it cannot run under this condition")
 	dormant.states.scan_serial.kept[0].plan.query_group = 8
 	check(Store.normalize_snapshot(dormant).is_empty(),"Kept recipe cannot contain illegal serial grouping")
-	var maximal: Dictionary = {"version":1,"active":"mixed_serial","states":{}}
+	var maximal: Dictionary = {"version":2,"active":"mixed_serial","states":{}}
 	for id: String in Model.SCENARIO_IDS:
 		var state: Dictionary = state_for(id)
 		state.kept.clear()
 		for index: int in Store.MAX_KEPT:
 			state.kept.append({"name":String.chr(0x1f9ea).repeat(39)+str(index),"plan":Model.starter_plan()})
 		maximal.states[id] = state
-	check(Store.normalize_snapshot(maximal) == maximal and canonical(maximal).to_utf8_buffer().size() <= Store.MAX_BYTES,"All32 named plans with40-character Unicode names fit the explicit bounds")
+	check(Store.normalize_snapshot(maximal) == maximal and canonical(maximal).to_utf8_buffer().size() <= Store.MAX_BYTES,"All48 named plans with40-character Unicode names fit the explicit bounds")
 	var max_store: RefCounted = store_for("maximal")
 	check(max_store.write(maximal).ok and store_for("maximal").read().snapshot == maximal,"Maximum named collection survives canonical persistence")
 	var over: Dictionary = maximal.duplicate(true)
@@ -207,14 +207,14 @@ func _protected_files() -> void:
 	var base: Dictionary = snapshot_for()
 	var fixtures: Array[Dictionary] = [
 		{"name":"root-array","value":[]},
-		{"name":"future-version","value":{"version":2,"active":"scan_batch","states":{}}},
+		{"name":"future-version","value":{"version":99,"active":"scan_batch","states":{}}},
 		{"name":"boolean-version","value":{"version":true,"active":"scan_batch","states":{}}},
 		{"name":"missing-version","value":{"active":"scan_batch","states":{}}},
-		{"name":"unknown-root","value":{"version":1,"active":"scan_batch","states":{},"scores":[]}},
-		{"name":"unknown-active","value":{"version":1,"active":"other","states":{}}},
-		{"name":"states-array","value":{"version":1,"active":"scan_batch","states":[]}},
-		{"name":"unknown-state","value":{"version":1,"active":"scan_batch","states":{"future":state_for("scan_batch")}}},
-		{"name":"scalar-state","value":{"version":1,"active":"scan_batch","states":{"scan_batch":42}}},
+		{"name":"unknown-root","value":{"version":2,"active":"scan_batch","states":{},"scores":[]}},
+		{"name":"unknown-active","value":{"version":2,"active":"other","states":{}}},
+		{"name":"states-array","value":{"version":2,"active":"scan_batch","states":[]}},
+		{"name":"unknown-state","value":{"version":2,"active":"scan_batch","states":{"future":state_for("scan_batch")}}},
+		{"name":"scalar-state","value":{"version":2,"active":"scan_batch","states":{"scan_batch":42}}},
 		{"name":"unknown-state-field","value":changed_state("score",0)},
 		{"name":"model-type","value":changed_state("model",true)},
 		{"name":"model-control","value":changed_state("model","invalid\nmodel")},
@@ -269,11 +269,11 @@ func _protected_files() -> void:
 	var raw: String = canonical(base)
 	_assert_protected("broken-json","{valuable unfinished".to_utf8_buffer())
 	_assert_protected("oversized","x".repeat(Store.MAX_BYTES+1).to_utf8_buffer(),"size")
-	_assert_protected("duplicate-root",raw.replace('"version":1','"version":1,"version":1').to_utf8_buffer())
+	_assert_protected("duplicate-root",raw.replace('"version":2','"version":2,"version":2').to_utf8_buffer())
 	var model_text: String = '"model":"'+Model.MODEL_VERSION+'"'
 	_assert_protected("duplicate-nested",raw.replace(model_text,model_text+","+model_text).to_utf8_buffer())
 	_assert_protected("pretty-json",JSON.stringify(base,"  ",true).to_utf8_buffer())
-	_assert_protected("float-spelling",raw.replace('"version":1','"version":1.0').to_utf8_buffer())
+	_assert_protected("float-spelling",raw.replace('"version":2','"version":2.0').to_utf8_buffer())
 	var invalid_encodings: Array[PackedByteArray] = [
 		PackedByteArray([255]),PackedByteArray([192,175]),
 		PackedByteArray([237,160,128]),PackedByteArray([244,144,128,128]),

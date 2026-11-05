@@ -1,0 +1,77 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CHECK_FAIL 146: An empty earlier map still needs an explicit copy without inventing a pending target zh_CN
+CHECK_FAIL 147: Empty-map copy is visibly savable in the challenge window zh_CN
+WARNING: This control can't grab focus. Use set_focus_mode() and set_focus_behavior_recursive() to allow a control to get focus.
+     at: grab_focus (scene/gui/control.cpp:3006)
+     GDScript backtrace (most recent call first):
+         [0] popup_activate (res://tests/test_layout_strategy_challenge_ui.gd:75)
+         [1] settle (res://tests/test_layout_strategy_ui.gd:17)
+CHECK_FAIL 148: Challenge action has visible enabled keyboard focus: RetryTarget
+CHECK_FAIL 149: Explicit empty-map copy creates a real v2 file while preserving the v1 map zh_CN
+CHECK_FAIL 296: An empty earlier map still needs an explicit copy without inventing a pending target en
+CHECK_FAIL 297: Empty-map copy is visibly savable in the challenge window en
+WARNING: This control can't grab focus. Use set_focus_mode() and set_focus_behavior_recursive() to allow a control to get focus.
+     at: grab_focus (scene/gui/control.cpp:3006)
+     GDScript backtrace (most recent call first):
+         [0] popup_activate (res://tests/test_layout_strategy_challenge_ui.gd:75)
+         [1] settle (res://tests/test_layout_strategy_ui.gd:17)
+CHECK_FAIL 298: Challenge action has visible enabled keyboard focus: RetryTarget
+CHECK_FAIL 299: Explicit empty-map copy creates a real v2 file while preserving the v1 map en
+ERROR: An empty earlier map still needs an explicit copy without inventing a pending target zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_structures_ui.gd:27)
+       [1] empty_legacy_targets (res://tests/test_layout_strategy_structures_ui.gd:451)
+       [2] close_structure_host (res://tests/test_layout_strategy_structures_ui.gd:466)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Empty-map copy is visibly savable in the challenge window zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_structures_ui.gd:27)
+       [1] empty_legacy_targets (res://tests/test_layout_strategy_structures_ui.gd:451)
+       [2] close_structure_host (res://tests/test_layout_strategy_structures_ui.gd:466)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Challenge action has visible enabled keyboard focus: RetryTarget
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_structures_ui.gd:27)
+       [1] empty_legacy_targets (res://tests/test_layout_strategy_structures_ui.gd:451)
+       [2] close_structure_host (res://tests/test_layout_strategy_structures_ui.gd:466)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Explicit empty-map copy creates a real v2 file while preserving the v1 map zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_structures_ui.gd:27)
+       [1] empty_legacy_targets (res://tests/test_layout_strategy_structures_ui.gd:451)
+       [2] close_structure_host (res://tests/test_layout_strategy_structures_ui.gd:466)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: An empty earlier map still needs an explicit copy without inventing a pending target en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_structures_ui.gd:27)
+       [1] empty_legacy_targets (res://tests/test_layout_strategy_structures_ui.gd:451)
+       [2] close_structure_host (res://tests/test_layout_strategy_structures_ui.gd:466)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Empty-map copy is visibly savable in the challenge window en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_structures_ui.gd:27)
+       [1] empty_legacy_targets (res://tests/test_layout_strategy_structures_ui.gd:451)
+       [2] close_structure_host (res://tests/test_layout_strategy_structures_ui.gd:466)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Challenge action has visible enabled keyboard focus: RetryTarget
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_structures_ui.gd:27)
+       [1] empty_legacy_targets (res://tests/test_layout_strategy_structures_ui.gd:451)
+       [2] close_structure_host (res://tests/test_layout_strategy_structures_ui.gd:466)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Explicit empty-map copy creates a real v2 file while preserving the v1 map en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_structures_ui.gd:27)
+       [1] empty_legacy_targets (res://tests/test_layout_strategy_structures_ui.gd:451)
+       [2] close_structure_host (res://tests/test_layout_strategy_structures_ui.gd:466)
+       [3] settle (res://tests/test_layout_strategy_ui.gd:17)
+FAIL: layout strategy structures UI 302 checks, 8 failures

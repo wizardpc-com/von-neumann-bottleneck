@@ -1,0 +1,204 @@
+[
+  {
+    "suite": "test_layout_strategy_store_upgrade",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_store_upgrade.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_strategy_store_upgrade",
+    "log": "headless/20261105T061037Z/test_layout_strategy_store_upgrade.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_structures_ui",
+    "code": 1,
+    "errors": [
+      "ERROR: An empty earlier map still needs an explicit copy without inventing a pending target zh_CN",
+      "ERROR: Empty-map copy is visibly savable in the challenge window zh_CN",
+      "ERROR: Challenge action has visible enabled keyboard focus: RetryTarget",
+      "ERROR: Explicit empty-map copy creates a real v2 file while preserving the v1 map zh_CN",
+      "ERROR: An empty earlier map still needs an explicit copy without inventing a pending target en",
+      "ERROR: Empty-map copy is visibly savable in the challenge window en",
+      "ERROR: Challenge action has visible enabled keyboard focus: RetryTarget",
+      "ERROR: Explicit empty-map copy creates a real v2 file while preserving the v1 map en",
+      "FAIL: layout strategy structures UI 302 checks, 8 failures"
+    ],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_structures_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_strategy_structures_ui",
+    "log": "headless/20261105T061037Z/test_layout_strategy_structures_ui.log",
+    "passed": false
+  },
+  {
+    "suite": "test_layout_strategy_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_strategy_ui",
+    "log": "headless/20261105T061037Z/test_layout_strategy_ui.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_notebook_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_notebook_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_strategy_notebook_ui",
+    "log": "headless/20261105T061037Z/test_layout_strategy_notebook_ui.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_challenge_ui",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_challenge_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_strategy_challenge_ui",
+    "log": "headless/20261105T061037Z/test_layout_strategy_challenge_ui.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_goals",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_goals.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_strategy_goals",
+    "log": "headless/20261105T061037Z/test_layout_strategy_goals.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_session",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_session.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_strategy_session",
+    "log": "headless/20261105T061037Z/test_layout_strategy_session.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_strategy_legacy",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_legacy.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_strategy_legacy",
+    "log": "headless/20261105T061037Z/test_layout_strategy_legacy.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_challenge_code",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_challenge_code.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_challenge_code",
+    "log": "headless/20261105T061037Z/test_layout_challenge_code.log",
+    "passed": true
+  },
+  {
+    "suite": "test_layout_challenge_store",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_challenge_store.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_layout_challenge_store",
+    "log": "headless/20261105T061037Z/test_layout_challenge_store.log",
+    "passed": true
+  },
+  {
+    "suite": "test_global_save",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_global_save.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_global_save",
+    "log": "headless/20261105T061037Z/test_global_save.log",
+    "passed": true
+  },
+  {
+    "suite": "test_localization",
+    "code": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T051242Z-1f038f6c/project",
+      "--headless",
+      "--script",
+      "res://tests/test_localization.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/20261105-round7/20261105T061037Z/test_localization",
+    "log": "headless/20261105T061037Z/test_localization.log",
+    "passed": true
+  }
+]

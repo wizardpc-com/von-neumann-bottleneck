@@ -1,0 +1,33 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Strict legacy validator accepts exact actual old-store bytes: notebook
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_store_upgrade.gd:77)
+       [1] _frozen_copy (res://tests/test_layout_strategy_store_upgrade.gd:251)
+       [2] _run (res://tests/test_layout_strategy_store_upgrade.gd:203)
+ERROR: Actual old snapshot lifts only its root version: notebook
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_store_upgrade.gd:77)
+       [1] _frozen_copy (res://tests/test_layout_strategy_store_upgrade.gd:256)
+       [2] _run (res://tests/test_layout_strategy_store_upgrade.gd:203)
+ERROR: Actual old snapshot creates exact version2 payload: notebook
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_store_upgrade.gd:77)
+       [1] _frozen_copy (res://tests/test_layout_strategy_store_upgrade.gd:260)
+       [2] _run (res://tests/test_layout_strategy_store_upgrade.gd:203)
+ERROR: A fresh reader uses the actual copied version2 payload: notebook
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_store_upgrade.gd:77)
+       [1] _frozen_copy (res://tests/test_layout_strategy_store_upgrade.gd:263)
+       [2] _run (res://tests/test_layout_strategy_store_upgrade.gd:203)
+ERROR: Strict legacy validator accepts exact actual old-store bytes: targets
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_layout_strategy_store_upgrade.gd:77)
+       [1] _frozen_copy (res://tests/test_layout_strategy_store_upgrade.gd:251)
+       [2] _run (res://tests/test_layout_strategy_store_upgrade.gd:203)
+FAIL: layout strategy store upgrade 410 checks, 5 failures

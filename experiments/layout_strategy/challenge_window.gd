@@ -1,5 +1,6 @@
 extends Window
 ## Presentation only. Codes, measurements and retained targets belong to the host.
+const Code = preload("res://experiments/layout_strategy/challenge_code.gd")
 signal share_requested(reply: bool)
 signal preview_requested(code: String)
 signal accept_requested(code: String)
@@ -34,8 +35,7 @@ var recover_button: Button
 var share_button: Button
 var reply_button: Button
 var import_button: Button
-var batch_button: Button
-var serial_button: Button
+var starter_button: Button
 var code_heading: Label
 var code_edit: TextEdit
 var code_message: Label
@@ -113,14 +113,11 @@ func _ready() -> void:
 		_origin = "ReplyChallenge"
 		share_requested.emit(true),"ReplyChallenge")
 	import_button = _button(main_page,"输入挑战码…","Enter challenge code…",open_import,"ImportChallenge")
-	var starters := HBoxContainer.new()
-	main_page.add_child(starters)
-	batch_button = _button(starters,"试试：全部就绪","Try: all requests ready",func() -> void:
-		_origin = "BatchStarter"
-		starter_requested.emit("scan_batch"),"BatchStarter")
-	serial_button = _button(starters,"试试：逐次请求","Try: serial requests",func() -> void:
-		_origin = "SerialStarter"
-		starter_requested.emit("scan_serial"),"SerialStarter")
+	starter_button = _button(main_page,"试试当前工作负载的挑战","Try this workload's starter",func() -> void:
+		var task_id: String = str(context.get("starter_task",""))
+		if Code.starter_goal(task_id).is_empty(): return
+		_origin = "CurrentStarter"
+		starter_requested.emit(task_id),"CurrentStarter")
 	scope_label = _label(main_page,"",13)
 	scope_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scope_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
@@ -206,7 +203,9 @@ func _render_context() -> void:
 	share_button.disabled = not context.get("selected_valid",false)
 	reply_button.disabled = not active or not context.get("selected_valid",false)
 	retry_button.visible = context.get("dirty",false) and context.get("retryable",true)
+	retry_button.text = tr2("保存挑战副本","Save target copy") if context.get("copy_pending",false) and not context.get("protected",false) else tr2("重试挑战保存","Retry target save")
 	recover_button.visible = context.get("busy",false)
+	starter_button.visible = not Code.starter_goal(str(context.get("starter_task",""))).is_empty()
 	accept_button.text = tr2("替换目标","Replace target") if context.get("has_code",false) else tr2("接纳目标","Accept target")
 	_refresh_focus()
 
@@ -331,7 +330,7 @@ func _refresh_focus() -> void:
 		choices.append_array([code_edit,check_button,accept_button,copy_button,back_button])
 	else:
 		choices.append_array([inspect_button,restore_button,target_code_button,clear_button,retry_button,recover_button,
-			share_button,reply_button,import_button,batch_button,serial_button])
+			share_button,reply_button,import_button,starter_button])
 	var controls: Array[Control] = []
 	for control: Control in choices:
 		var enabled: bool = control.visible and not (control is BaseButton and control.disabled)
@@ -399,6 +398,8 @@ static func workload_text(task_id: String, use_english: bool) -> String:
 		"scan_serial": return _l("温度扫描 · 逐次请求","Temperature scans · serial",use_english)
 		"mixed_batch": return _l("混合查询 · 全部就绪","Mixed queries · all ready",use_english)
 		"mixed_serial": return _l("混合查询 · 逐次请求","Mixed queries · serial",use_english)
+		"scan_pair_serial": return _l("两次温度 · 逐次请求","Two temperature scans · serial",use_english)
+		"split_fields_serial": return _l("温度后告警 · 逐次请求","Temperature then alarm · serial",use_english)
 	return task_id
 
 static func goal_text(goal: Dictionary, use_english: bool) -> String:

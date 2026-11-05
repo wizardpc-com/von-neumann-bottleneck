@@ -1,0 +1,6 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+scan_pair_serial: 221 candidates, 2 finite frontier classes
+split_fields_serial: 221 candidates, 3 finite frontier classes
+PASS: round7 structures 442 candidates, 10 repeat/JSON, 7100 checks, 4348.020 ms
+RESULT: /Users/yrq/Documents/冯诺伊曼瓶颈/docs/verification/20261105-structural-layout-workloads/strategy/results.json

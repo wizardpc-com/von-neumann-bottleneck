@@ -4,11 +4,14 @@ The scheduling lab's offline`VNBSC1:` challenges transport only bounded canonica
 inputs and an immutable objective/response/copy envelope. `challenge_code.gd`
 remeasures targets; `challenges.gd` owns proposed/committed target maps and
 reconstructs actual attempt evidence before comparison. `challenge_store.gd`
-retains one code per existing workload in a protected independent sidecar with
-its own cooperative lease; it does not extend Notebook v1 or create a combined
+retains one code per workload in a protected independent sidecar with
+its own cooperative lease; it does not create a combined
 transaction. The secondary Window previews without editing the draft and
 explicitly accepts, copies, replays or restores a target. Formal challenges,
-the four workload definitions and both models retain their meaning.
+the original four workload definitions and both models retain their meaning.
+Two additional serial structures have distinct IDs: two temperature scans and
+four temperature scans followed by four alarm scans. Their costs and operations
+are unchanged; one contextual starter uses the current workload's explicit goal.
 
 `experiments/layout_strategy/` is an opt-in pure model/session/presenter split
 for independently scheduled queries and one retained physical copy. Its model
@@ -18,13 +21,23 @@ The pure session owns bounded drafts/history/baselines and per-workload goals.
 `goals.gd` filters complete same-condition measurements by inclusive Q1/copy caps,
 then ranks total work or traffic with explicit ties. `workspace.gd` retains the
 editable proposal and remeasures kept recipes; `notebook_store.gd` accepts only
-strict version1 input snapshots, protects stale/corrupt files and commits through
+strict version2 input snapshots, protects stale/corrupt files and commits through
 an isolated cooperative writer lease and atomic replacement. Metrics/Trace are
 never persistent score authority. The UI has no campaign completion authority.
 The runner binds an optional stable experiment-only profile before autoloads;
 temporary history/Undo remain in memory. Shared query-value/output helper
 extractions preserve the frozen official Trace sample. See the
 [experimental contract](experiments/layout_strategy/README.md).
+
+The six-condition Notebook and target stores use separate v2 filenames.
+Each independently reads a strict frozen four-condition v1 only if v2 is absent,
+without writing, and marks an explicit pending copy. Valid v2, including an
+empty target map, is authoritative; protected v2 never falls back. First copy
+watches both source and destination digests and acquires the legacy writer
+before the current writer; later v2 writes ignore v1. Recovery addresses the
+exact blocked lease without saving. Old payloads remain unchanged, so rollback
+reads v1 and later upgrading resumes v2; edits on the two sides are separate
+histories. Protected sources produce no partial inputs or saved assurance.
 
 Chapter4's personal rankings now accept bounded portable challenge recipes through
 `layout_challenge_code.gd`, always remeasuring every original case. A protected

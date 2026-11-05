@@ -78,3 +78,20 @@ The [Round10 receipt](../../../docs/verification/20261105-circuit-failure-recove
 contains negative regression proof, complete diagnostic field comparison and
 the11 unchanged circuit scenarios.
 This finite corpus does not prove all simulator inputs correct.
+
+## Region preparation rejection
+
+`representation_region_compatibility` retains32 complete traces across all
+eight authored orders: whole RAW, whole RLE and two existing alternatives per
+task, with20 real goal decisions. Legal but over-budget plans remain part of
+the corpus. It supplements the existing four online-client traces.
+
+Round11 compares those successful results exactly while separately correcting
+`workload_rejections.region`. Invalid preparation parameters now publish a
+fresh failed Trace with detached inputs and no residual service costs, output,
+encoded blocks or cache work. The strengthened diagnostic fails on the old
+runtime; other rejection members must remain unchanged. Do not compare that
+changed combined result as equal work or replace its original evidence.
+Direct malformed-type coverage belongs to the pure regression, because the
+adapter retains its established JSON integer reconstruction.
+See the [Round11 receipt](../../../docs/verification/20261105-region-rejection-evidence/README.md).

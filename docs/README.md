@@ -1,5 +1,7 @@
 # Documentation map
 
+- [第十一轮：Region拒绝结果一致性与完整Trace兼容（2026-11-05）](verification/20261105-region-rejection-evidence/README.md)
+
 - [第十轮：电路失败恢复、完整Trace对照与真实存储回放（2026-11-05）](verification/20261105-circuit-failure-recovery/README.md)
 
 - [第九轮：内部计算审计、完整证据基准与Creation实测提速（2026-11-05）](verification/20261105-computation-kernels/README.md)

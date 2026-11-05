@@ -1,5 +1,11 @@
 # Execution queue
 
+第十一轮已完成[Region准备拒绝的一致证据](../completed/region-rejection-evidence-20261105.md)：
+旧版负控、新版六套回归及完整Trace对照通过，独立差异审查确认只改变声明的拒绝字段。
+32份正式订单Trace、20个目标判定及既有4份在线Trace精确一致；
+无效准备参数不再保留已完成服务的成本与输出。Base错误优先级、旧成果、
+存档与条件身份保持。[本轮证据](../../verification/20261105-region-rejection-evidence/README.md)。
+
 第十轮已完成[电路失败后的状态续接](../completed/circuit-failure-recovery-20261105.md)：
 独立冻结b765dd2并保留旧版负向证据；11个成功场景完整Trace一致，
 修正输入后沿用最后有效输出恢复，原失败观察与整段失败判定仍保留。
@@ -12,7 +18,7 @@
 GPU通过。已复现电路失败后恢复缺陷，独立保留失败证据，不混入通过统计。
 [完整证据和隔离试玩](../../verification/20261105-computation-kernels/README.md)。
 
-下一增量为Region无效输入定义一致失败证据。其余Trace复制、scratch删除、
+下一增量实测Region重复冷客户端计算及其证据生成占比。其余Trace复制、scratch删除、
 重复冷客户端与Off基线复用先实测占比，再选择局部GDScript优化。
 原生试点仍需独立分支、完整差分、实际收益与Windows/macOS验证；未选定模块。
 

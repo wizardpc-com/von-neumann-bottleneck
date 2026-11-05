@@ -1,3 +1,29 @@
+## Region preparation rejection — 2026-11-05
+
+Run `test_representation_region_rejections` through `scripts/verify-project.py`
+alongside `test_representation_region`, `test_representation_session`,
+`test_candidate_supports`, `test_candidate_journey_review` and
+`test_representation_workbench_presentation`. Keep profiles isolated.
+
+First run the new pure regression on the frozen old runtime. It must reach the
+actual Base-successful preparation branch and detect residual costs/output,
+not pass because another validator rejected the fixture. Test malformed floats
+directly in GDScript; the benchmark's existing JSON integer restoration cannot
+establish that API type boundary. Preserve Base error precedence, including a
+late scratch failure with already accumulated first-block storage.
+
+The workload adapter's `representation_region_compatibility` retains all eight
+authored orders, four plans per task,32 complete original Trace objects and20
+actual `meets()` outcomes. Compare its full typed result and the existing
+`representation_online_clients` corpus against the same frozen runtime.
+Run `workload_rejections` separately: its Region member intentionally changes,
+while all siblings must remain exact. A failed reference diagnostic cannot
+support an accepted equal-work timing ratio.
+
+This pure model correction does not require a new host UI or diagnostic preset.
+Headless workbench checks do not establish GPU/native input, Windows or export
+acceptance. See the [Round11 receipt](../verification/20261105-region-rejection-evidence/README.md).
+
 ## Circuit failure continuation — 2026-11-05
 
 Run `test_prologue_failure_recovery` and `test_hardware_failure_recovery`

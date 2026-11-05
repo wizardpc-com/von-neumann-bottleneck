@@ -4,6 +4,7 @@ extends RefCounted
 const Representation = preload("res://experiments/representation/model.gd")
 const Partition = preload("res://experiments/representation/plan_model.gd")
 const Region = preload("res://experiments/representation_region/model.gd")
+const RegionCatalog = preload("res://experiments/representation_region/catalog.gd")
 const Linear = preload("res://experiments/intelligent_workload/model.gd")
 const Persistent = preload("res://experiments/intelligent_workload/state_model.gd")
 const Prediction = preload("res://experiments/prediction/model.gd")
@@ -47,6 +48,9 @@ static func cases() -> Array[Dictionary]:
 		{"operation":"region", "task":3, "orders":Region.orders(3), "plans":[
 			Region.initial_plan(),
 			[{"start":0, "end":8, "codec":"raw"}, {"start":8, "end":64, "codec":"rle"}]]}))
+	cases_out.append(_case("representation_region_compatibility", "representation_region",
+		"All eight authored orders with RAW, RLE and two existing alternatives per task: 32 full traces and 20 decisions.",
+		_region_compatibility_input()))
 	cases_out.append(_case("linear_precision_batch", "intelligent_workload",
 		"All 32 public samples with exact reload, 8-bit reuse/batch and coarse precision.",
 		{"operation":"linear", "configs":[
@@ -141,6 +145,19 @@ static func run_case(spec: Dictionary) -> Variant:
 					result["accepted"] = Region.meets(int(input.task), traces)
 				results.append(result)
 			return results
+		"region_compatibility":
+			var tasks: Array = []
+			for task: Dictionary in input.tasks:
+				var plans: Array = []
+				for raw_plan: Array in task.plans:
+					var plan: Array[Dictionary] = _plan(raw_plan)
+					var traces: Array = []
+					for raw_spec: Dictionary in task.orders:
+						traces.append(Region.run(_representation_spec(raw_spec), plan))
+					plans.append({"plan":plan.duplicate(true), "traces":traces,
+						"accepted":Region.meets(int(task.task), traces)})
+				tasks.append({"task":int(task.task), "plans":plans})
+			return tasks
 		"linear":
 			var traces: Array = []
 			for config: Dictionary in input.configs:
@@ -294,6 +311,8 @@ static func validate_case(spec: Dictionary, result: Variant) -> Array[String]:
 					# acceptance and the 0..8 RAW / 8..64 RLE plan succeeds.
 					_expect(row.get("accepted") is bool and row.accepted == (index == 1),
 						errors, path + ": public preparation/service acceptance")
+		"region_compatibility":
+			_region_compatibility_result(input, result, errors)
 		"linear":
 			var traces: Array = _array(result, input.configs.size(), errors, "linear")
 			for index: int in mini(traces.size(), input.configs.size()):
@@ -416,6 +435,171 @@ static func _representation_result(value: Variant, spec: Dictionary, clients: in
 			_expect(count == spec.addresses.size(), errors, path + ": every cold client completed")
 
 
+static func _region_compatibility_result(input: Dictionary, result: Variant, errors: Array[String]) -> void:
+	var tasks: Array = _array(input.get("tasks"), 5, errors, "region/input")
+	var rows: Array = _array(result, 5, errors, "region/tasks")
+	var order_count: int = 0
+	var trace_count: int = 0
+	var decision_count: int = 0
+	for task_index: int in mini(rows.size(), tasks.size()):
+		var source: Dictionary = tasks[task_index]
+		var path: String = "region/tasks/%d" % task_index
+		var task: Dictionary = _dictionary(rows[task_index], errors, path)
+		_expect(source.task == task_index and task.get("task") == task_index, errors, path + ": authored task identity")
+		_expect(source.orders == Region.orders(task_index) and source.goals == RegionCatalog.goals(task_index),
+			errors, path + ": complete authored orders and goals")
+		order_count += source.orders.size()
+		var plans: Array = _array(task.get("plans"), 4, errors, path + "/plans")
+		_expect(source.plans.size() == 4, errors, path + ": four intended plans")
+		for plan_index: int in mini(plans.size(), source.plans.size()):
+			var plan_path: String = path + "/plans/%d" % plan_index
+			var row: Dictionary = _dictionary(plans[plan_index], errors, plan_path)
+			var plan: Array = source.plans[plan_index]
+			_expect(row.get("plan") == plan, errors, plan_path + ": submitted plan retained")
+			var traces: Array = _array(row.get("traces"), source.orders.size(), errors, plan_path + "/traces")
+			var within_goals: bool = traces.size() == source.orders.size()
+			for order: int in mini(traces.size(), source.orders.size()):
+				var order_path: String = plan_path + "/traces/%d" % order
+				var spec: Dictionary = _representation_spec(source.orders[order])
+				_region_trace(traces[order], spec, plan, errors, order_path)
+				if not traces[order] is Trace:
+					within_goals = false
+					continue
+				trace_count += 1
+				var trace: Trace = traces[order]
+				within_goals = within_goals and trace.passed and trace.metrics.get("spec") == spec \
+					and trace.metrics.get("plan") == plan
+				for key: String in source.goals[order]:
+					var amount: Variant = trace.metrics.get(key)
+					if not amount is int or amount > int(source.goals[order][key]):
+						within_goals = false
+			if _expect(row.get("accepted") is bool, errors, plan_path + ": actual boolean goal decision"):
+				decision_count += 1
+				_expect(row.accepted == within_goals, errors, plan_path + ": independently checked public goal limits")
+				if plan_index >= 2:
+					_expect(row.accepted, errors, plan_path + ": existing alternative remains accepted")
+	_expect(order_count == 8 and trace_count == 32 and decision_count == 20,
+		errors, "region: all eight orders, 32 complete traces and 20 decisions retained")
+
+
+static func _region_trace(value: Variant, spec: Dictionary, plan: Array, errors: Array[String], path: String) -> void:
+	_representation_result(value, spec, int(spec.clients), errors, path)
+	if not value is Trace or not value.passed: return
+	var metrics: Dictionary = value.metrics
+	var numeric_fields: Array[String] = ["total_cycles", "request_cycles", "transfer_cycles", "decode_cycles",
+		"consume_cycles", "stored_bytes", "traffic_bytes", "decoded_values", "decode_ops", "cache_hits",
+		"cache_misses", "evictions", "overfetch_values", "peak_cache_bytes", "preparation_cycles",
+		"source_read_bytes", "prepared_write_bytes", "encode_ops", "encode_cycles", "service_cycles",
+		"source_storage_bytes", "representation_bytes", "peak_preparation_bytes", "total_traffic_bytes"]
+	var complete: bool = true
+	for field: String in numeric_fields:
+		if not _expect(metrics.get(field) is int and metrics[field] >= 0, errors, path + ": nonnegative integer " + field):
+			complete = false
+	if not complete: return
+	_expect(value.test_name == Region.VERSION and metrics.get("spec") == spec and metrics.get("plan") == plan,
+		errors, path + ": full Region input provenance")
+	_expect(metrics.get("expected") is Array and metrics.get("expected") == metrics.get("outputs"),
+		errors, path + ": complete expected vector")
+	var expected_sum: int = 0
+	for address: int in spec.addresses: expected_sum += int(spec.data[address]) * int(spec.clients)
+	_expect(value.result_value == expected_sum and value.expected_value == expected_sum,
+		errors, path + ": top-level result from every requested source value")
+	var blocks: Array = _array(metrics.get("blocks"), plan.size(), errors, path + "/blocks")
+	var representation_bytes: int = 0
+	for index: int in mini(blocks.size(), plan.size()):
+		var block: Dictionary = _dictionary(blocks[index], errors, path + "/blocks/%d" % index)
+		var intended: Dictionary = plan[index]
+		var encoded: Array = _array(block.get("encoded"), -1, errors, path + "/encoded/%d" % index)
+		var values: Array = spec.data.slice(int(intended.start), int(intended.end))
+		_expect(block.get("start") == intended.start and block.get("end") == intended.end
+			and block.get("codec") == intended.codec and block.get("values") == values,
+			errors, path + ": encoded block binds to source range")
+		var valid_bytes: bool = true
+		for byte: Variant in encoded:
+			if not _expect(byte is int and byte >= 0 and byte <= 255, errors, path + ": physical encoded byte"):
+				valid_bytes = false
+		if valid_bytes:
+			_expect(Representation.decode(PackedByteArray(encoded), str(intended.codec)) == values,
+				errors, path + ": actual block payload restores source")
+		_expect(block.get("payload_bytes") == encoded.size() and block.get("metadata_bytes") == 4
+			and block.get("stored_bytes") == encoded.size() + 4,
+			errors, path + ": actual payload plus directory storage")
+		_expect(block.get("directory") == [int(intended.start) & 255, int(intended.start) >> 8,
+			int(intended.end) & 255, int(intended.end) >> 8], errors, path + ": complete physical directory")
+		representation_bytes += encoded.size() + 4
+	_expect(metrics.representation_bytes == representation_bytes, errors, path + ": all represented blocks counted")
+	var cycles: int = 0
+	var preparation: int = 0
+	var reads: int = 0
+	var writes: int = 0
+	var moved: int = 0
+	var encoding: int = 0
+	var encode_cycles: int = 0
+	var service_started: bool = false
+	var service: Dictionary = {"request":0, "transfer":0, "decode":0, "consume":0}
+	for event: Variant in value.events:
+		if not _expect(event is Event, errors, path + ": actual original event"): continue
+		_expect(event.cycle == cycles and event.duration >= 0, errors, path + ": consecutive synchronous event time")
+		cycles += event.duration
+		var kind: String = str(event.kind)
+		if service.has(kind):
+			service_started = true
+			service[kind] += event.duration
+			var client: Variant = event.details.get("client")
+			_expect(client is int and client >= 0 and client < int(spec.clients), errors, path + ": service client identity")
+		else:
+			_expect(kind in ["prepare_source_request", "prepare_source_read", "encode", "prepare_write_request", "prepare_write"],
+				errors, path + ": recognized preparation event")
+			_expect(spec.online and not service_started and not event.details.has("client"),
+				errors, path + ": one preparation before cold client service")
+			preparation += event.duration
+		match kind:
+			"prepare_source_read":
+				reads += _region_amount(event.details.get("bytes"), errors, path + ": source read bytes")
+			"prepare_write":
+				var bytes: int = _region_amount(event.details.get("bytes"), errors, path + ": preparation write bytes")
+				var encoded: Array = _array(event.details.get("encoded"), -1, errors, path + "/prepared_payload")
+				_expect(bytes == encoded.size() + 4, errors, path + ": prepared writes include actual payload and directory")
+				writes += bytes
+			"transfer":
+				moved += _region_amount(event.details.get("bytes"), errors, path + ": service transfer bytes")
+			"encode":
+				encoding += _region_amount(event.details.get("ops"), errors, path + ": encode work")
+				encode_cycles += event.duration
+	_expect(cycles == metrics.total_cycles and preparation == metrics.preparation_cycles
+		and cycles == metrics.preparation_cycles + metrics.service_cycles,
+		errors, path + ": actual event durations conserve preparation and service time")
+	var service_cycles: int = 0
+	for kind: String in service:
+		service_cycles += int(service[kind])
+		_expect(metrics[kind + "_cycles"] == service[kind], errors, path + ": actual " + kind + " duration")
+	_expect(service_cycles == metrics.service_cycles, errors, path + ": all service phases conserved")
+	_expect(reads == metrics.source_read_bytes and writes == metrics.prepared_write_bytes
+		and moved == metrics.traffic_bytes and encoding == metrics.encode_ops and encode_cycles == metrics.encode_cycles,
+		errors, path + ": measured preparation and transfer work")
+	_expect(metrics.total_traffic_bytes == reads + writes + moved, errors, path + ": all-stage traffic conserved")
+	var stored: int = 64 + writes if spec.online else representation_bytes
+	_expect(metrics.stored_bytes == stored and metrics.source_storage_bytes == (64 if spec.online else 0)
+		and metrics.peak_preparation_bytes == (stored if spec.online else 0),
+		errors, path + ": source, representation and preparation storage")
+	var accesses: Array = _array(metrics.get("accesses"), spec.addresses.size() * int(spec.clients), errors, path + "/accesses")
+	for index: int in accesses.size():
+		var access: Dictionary = _dictionary(accesses[index], errors, path + "/accesses/%d" % index)
+		_expect(access.get("client") == index / spec.addresses.size()
+			and access.get("address") == spec.addresses[index % spec.addresses.size()],
+			errors, path + ": ordered access provenance for each client")
+		for phase: String in ["cache_before", "cache_after"]:
+			var cache: Dictionary = _dictionary(access.get(phase), errors, path + "/" + phase)
+			_expect(cache.get("used_bytes") is int and cache.used_bytes >= 0 and cache.used_bytes <= int(spec.cache_bytes),
+				errors, path + ": automatic cache stays within authored capacity")
+	_expect(metrics.peak_cache_bytes <= int(spec.cache_bytes), errors, path + ": finite peak decoded cache")
+
+
+static func _region_amount(value: Variant, errors: Array[String], path: String) -> int:
+	if not _expect(value is int and value >= 0, errors, path): return 0
+	return int(value)
+
+
 static func _state_result(value: Variant, errors: Array[String], path: String) -> Dictionary:
 	var metrics: Dictionary = _successful_trace(value, 24, "output", errors, path)
 	if metrics.is_empty(): return metrics
@@ -520,8 +704,8 @@ static func _rejection_results(input: Dictionary, result: Variant, errors: Array
 		if not _expect(trace is Trace, errors, key + ": actual rejected Trace"): continue
 		_expect(not trace.passed and trace.metrics.get("error") == contracts[key], errors, key + ": intended rejection")
 		_expect(trace.events.is_empty() and trace.metrics.get("total_cycles") == 0, errors, key + ": no executed trace")
-		# Region currently retains some service metrics after preparation rejection.
-		# Do not rewrite that documented baseline behavior in an adapter.
+		if key == "region":
+			_region_rejection(trace, input.region_spec, errors)
 	var learned: Dictionary = _dictionary(row.get("learned"), errors, "rejections/learned")
 	_learning_result(learned, input.examples, 2, input.machine, errors, "rejections/learned")
 	var encoded: Dictionary = _dictionary(row.get("encoded"), errors, "rejections/encoded")
@@ -541,6 +725,27 @@ static func _rejection_results(input: Dictionary, result: Variant, errors: Array
 		_creation_evidence(decoded, input.machine, errors, "rejections/decode_original")
 		_expect(decoded.get("output") == [0,1,0,2], errors, "rejections: original packet still restores after damaged attempt")
 		_expect(_count(decoded.get("events", []), "recovered_write") == 4, errors, "rejections: all original symbols recovered")
+
+
+static func _region_rejection(trace: Trace, spec: Dictionary, errors: Array[String]) -> void:
+	var expected: Dictionary = {"error":"preparation_machine",
+		"spec":_representation_spec(spec), "plan":Region.initial_plan()}
+	for field: String in ["total_cycles", "request_cycles", "transfer_cycles", "decode_cycles",
+		"consume_cycles", "stored_bytes", "traffic_bytes", "decoded_values", "decode_ops", "cache_hits",
+		"cache_misses", "evictions", "overfetch_values", "peak_cache_bytes"]:
+		expected[field] = 0
+		_expect(trace.metrics.get(field) is int and trace.metrics[field] == 0,
+			errors, "region/rejected: zero integer " + field)
+	for field: String in ["outputs", "expected", "blocks", "accesses"]:
+		expected[field] = []
+		_expect(trace.metrics.get(field) is Array and trace.metrics[field].is_empty(),
+			errors, "region/rejected: empty " + field)
+	_expect(trace.metrics == expected, errors, "region/rejected: exact schema and submitted provenance")
+	_expect(trace.test_name == Region.VERSION and not trace.passed and trace.events.is_empty()
+		and trace.result_value == 0 and trace.expected_value == 0 and trace.cache_capacity_lines == 1
+		and trace.loop_order.is_empty() and trace.program_source.is_empty(),
+		errors, "region/rejected: fresh failed Trace without published service work")
+	_expect(not Region.meets(3, [trace, trace]), errors, "region/rejected: no public task completion")
 
 
 static func _learning_result(value: Dictionary, examples: Array, order: int, machine: Dictionary, errors: Array[String], path: String) -> void:
@@ -697,6 +902,35 @@ static func _positive(value: Variant) -> bool:
 
 static func _case(id: String, subsystem: String, description: String, input: Dictionary) -> Dictionary:
 	return {"id":id, "subsystem":subsystem, "description":description, "input":input}
+
+
+static func _region_compatibility_input() -> Dictionary:
+	# The two alternatives per task are the existing public-goal test fixtures.
+	# Capture every authored order and goal in the input, including legal plans
+	# that execute correctly but exceed the task's acceptance limits.
+	var alternatives: Array = [
+		[_region_partition([16,64], ["rle","raw"]), _region_partition([14,48,64], ["rle","raw","rle"])],
+		[_region_partition([16,24,40,48,64], ["rle","rle","raw","rle","rle"]),
+			_region_partition([12,24,40,52,64], ["rle","rle","raw","rle","rle"])],
+		[_region_partition([16,48,64], ["rle","rle","rle"]),
+			_region_partition([15,32,49,64], ["rle","rle","rle","rle"])],
+		[_region_partition([8,64], ["raw","rle"]), _region_partition([12,64], ["raw","rle"])],
+		[_region_partition([18,46,64], ["rle","raw","rle"]), _region_partition([19,46,64], ["rle","raw","rle"])]]
+	var tasks: Array = []
+	for task: int in 5:
+		tasks.append({"task":task, "orders":Region.orders(task), "goals":RegionCatalog.goals(task),
+			"plans":[Region.initial_plan(), _region_partition([64], ["rle"]),
+				alternatives[task][0], alternatives[task][1]]})
+	return {"operation":"region_compatibility", "tasks":tasks}
+
+
+static func _region_partition(bounds: Array, codecs: Array) -> Array[Dictionary]:
+	var plan: Array[Dictionary] = []
+	var start: int = 0
+	for index: int in bounds.size():
+		plan.append({"start":start, "end":int(bounds[index]), "codec":str(codecs[index])})
+		start = int(bounds[index])
+	return plan
 
 
 static func _policy(rule: String, confidence: int = 1, lookahead: int = 1, cooldown: int = 0) -> Dictionary:

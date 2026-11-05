@@ -1,0 +1,9 @@
+test_named_notebook_is_stable_and_never_candidate (__main__.RunnerProfiles) ... ok
+test_other_profile_is_separate (__main__.RunnerProfiles) ... ok
+test_unnamed_copies_remain_isolated (__main__.RunnerProfiles) ... ok
+test_unsafe_and_unsupported_routes_stop_before_engine (__main__.RunnerProfiles) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.029s
+
+OK

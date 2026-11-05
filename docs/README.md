@@ -1,5 +1,6 @@
 # Documentation map
 
+- [第五轮：可续玩的方案笔记、首答/空间限制与真实排名（2026-11-04）](verification/20261104-layout-notebook/README.md)
 - [第四轮：独立调度实验台、真实响应取舍及原规则兼容（2026-11-04）](verification/20261104-layout-scheduling/README.md)
 - [第三轮：可保存与分享的实测挑战及2555候选模型审查（2026-11-04）](verification/20261104-portable-challenges/README.md)
 - [第二轮：同条件成绩、长期最佳保留与草稿恢复（2026-11-04）](verification/20261104-comparable-records/README.md)

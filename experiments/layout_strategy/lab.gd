@@ -1,10 +1,13 @@
 extends Control
 ## Standalone presenter. The session owns drafts/history; the model owns results.
-const Session = preload("res://experiments/layout_strategy/session.gd")
+const Workspace = preload("res://experiments/layout_strategy/workspace.gd")
+const Goals = preload("res://experiments/layout_strategy/goals.gd")
 const Model = preload("res://experiments/layout_strategy/model.gd")
 const Recipe = preload("res://src/layout_chapter/layout_recipe.gd")
 const Simulator = preload("res://src/layout_chapter/layout_simulator.gd")
-var session = Session.new()
+var workspace = Workspace.new()
+var session = workspace.session
+var notebook_path: String = ""
 var english: bool = false
 var _syncing: bool = false
 var _owns_quit: bool = false
@@ -15,6 +18,10 @@ var _exit_focus: WeakRef
 var _exit_focus_id: String = "Run"
 var _notice: String = ""
 var _shown_entry: int = -1
+var _kept_selection: Dictionary = {}
+var _kept_rows: Array[Dictionary] = []
+var _guard_action: String = "exit"
+var _pending_remove: String = ""
 var selected_event: int = -1
 var interface: MarginContainer
 var run_button: Button
@@ -46,11 +53,28 @@ var event_table: Tree
 var event_source: Label
 var event_detail: RichTextLabel
 var public_detail: RichTextLabel
+var storage_label: Label
+var notebook_table: Tree
+var notebook_name: LineEdit
+var notebook_selected: Label
+var notebook_note: Label
+var notebook_restore: Button
+var notebook_remove: Button
+var notebook_keep: Button
+var notebook_save: Button
+var notebook_recover: Button
+var goal_objective: OptionButton
+var first_cap: CheckBox
+var first_limit: SpinBox
+var copy_cap: CheckBox
+var copy_limit: SpinBox
+var goal_summary: Label
 var exit_layer: CanvasLayer
 var exit_overlay: ColorRect
 var exit_question: Label
 var exit_cancel: Button
 var exit_confirm: Button
+var exit_save: Button
 
 static func isolated_profile(path: String) -> bool:
 	return path.replace("\\","/").contains("/VonNeumannBottleneckChecks/")
@@ -73,6 +97,7 @@ func _ready() -> void:
 	theme.default_font_size = 15
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	english = get_node("/root/Localization").current_locale() == "en"
+	workspace.setup(notebook_path)
 	_build()
 	_build_exit_guard()
 	call_deferred("_set_minimum_window")
@@ -158,6 +183,7 @@ func _reader(parent: Node, id: String, minimum_height: float = 0.0) -> RichTextL
 func _build() -> void:
 	var previous_tab: int = tabs.current_tab if is_instance_valid(tabs) else 0
 	var previous_filter: int = event_filter.selected if is_instance_valid(event_filter) else 0
+	var previous_name: String = notebook_name.text if is_instance_valid(notebook_name) else ""
 	if is_instance_valid(interface):
 		remove_child(interface)
 		interface.queue_free()
@@ -187,8 +213,8 @@ func _build() -> void:
 	settings_button.focus_entered.connect(func() -> void: _last_focus = str(settings_button.name))
 	header.add_child(settings_button)
 	exit_button = _button(header,tr2("退出","Exit"),request_quit,"Exit")
-	var scope: Label = _label(page,tr2("独立实验 · 草稿与比较仅保留在本次窗口中", "Independent experiment · Drafts and comparisons last for this window only"),13)
-	scope.add_theme_color_override("font_color",Color("a5b6be"))
+	storage_label = _label(page,"",13)
+	storage_label.name = "WorkspaceStatus"
 	var workload_row := HBoxContainer.new()
 	page.add_child(workload_row)
 	workload_choice = _choice(workload_row,[
@@ -259,7 +285,7 @@ func _build() -> void:
 	measured_source.name = "MeasuredSource"
 	history_table = _table(comparison_page,[
 		tr2("运行","Run"),tr2("Q1周期","Q1 cycles"),tr2("总周期","Total"),
-		"RAM B",tr2("复制 B","Copy B"),tr2("结果","Result")],"History")
+		"RAM B",tr2("复制 B","Copy B"),tr2("限制","Goal")],"History")
 	history_table.item_selected.connect(_history_selected)
 	measured_plan = _label(comparison_page,"",13)
 	measured_plan.name = "MeasuredPlan"
@@ -291,9 +317,100 @@ func _build() -> void:
 	public_page.name = tr2("公开工作负载","Public workload")
 	tabs.add_child(public_page)
 	public_detail = _reader(public_page,"PublicData")
+	_build_notebook()
+	notebook_name.text = previous_name
 	tabs.current_tab = previous_tab
 	_shown_entry = -1
 	refresh()
+
+func _build_notebook() -> void:
+	var page := VBoxContainer.new()
+	page.name = tr2("方案笔记","Notebook")
+	page.add_theme_constant_override("separation",5)
+	tabs.add_child(page)
+	var top := HBoxContainer.new()
+	page.add_child(top)
+	goal_objective = _choice(top,[tr2("按总周期比较","Compare total cycles"),tr2("按RAM流量比较","Compare RAM bytes")],"GoalObjective")
+	goal_objective.item_selected.connect(func(index: int) -> void:
+		_edit_goal("objective","cycles" if index == 0 else "traffic"))
+	notebook_save = _button(top,tr2("保存工作区","Save workspace"),save_workspace,"SaveWorkspace")
+	var limits := HBoxContainer.new()
+	limits.add_theme_constant_override("separation",6)
+	page.add_child(limits)
+	first_cap = _cap_toggle(limits,tr2("限制Q1","Limit Q1"),"FirstCap")
+	first_limit = _cap_number(limits,"FirstLimit")
+	first_limit.suffix = tr2("周期","cycles")
+	copy_cap = _cap_toggle(limits,tr2("限制复制","Limit copy"),"CopyCap")
+	copy_limit = _cap_number(limits,"CopyLimit")
+	copy_limit.suffix = "B"
+	first_cap.toggled.connect(func(on: bool) -> void:
+		_edit_goal("first_limit",int(first_limit.value) if on else -1))
+	copy_cap.toggled.connect(func(on: bool) -> void:
+		_edit_goal("copy_limit",int(copy_limit.value) if on else -1))
+	first_limit.value_changed.connect(func(value: float) -> void:
+		if first_cap.button_pressed: _edit_goal("first_limit",int(value)))
+	copy_limit.value_changed.connect(func(value: float) -> void:
+		if copy_cap.button_pressed: _edit_goal("copy_limit",int(value)))
+	goal_summary = _label(page,"",13)
+	goal_summary.name = "GoalSummary"
+	notebook_table = _table(page,[
+		tr2("方案","Plan"),"Q1",tr2("总计","Total"),"RAM B",tr2("复制 B","Copy B"),tr2("名次/限制","Rank/goal")],"KeptPlans")
+	notebook_table.custom_minimum_size.y = 80
+	notebook_table.set_column_expand_ratio(0,2)
+	notebook_table.set_column_custom_minimum_width(0,110)
+	notebook_table.set_column_custom_minimum_width(5,90)
+	notebook_table.item_selected.connect(_kept_selected)
+	var actions := HBoxContainer.new()
+	page.add_child(actions)
+	notebook_restore = _button(actions,tr2("载入改进","Continue improving"),restore_kept,"RestoreKept")
+	notebook_remove = _button(actions,tr2("移除保留","Remove kept plan"),request_remove_kept,"RemoveKept")
+	notebook_selected = _label(page,"",13)
+	notebook_selected.name = "KeptSelection"
+	var keep_row := HBoxContainer.new()
+	page.add_child(keep_row)
+	notebook_name = LineEdit.new()
+	notebook_name.name = "NotebookName"
+	notebook_name.max_length = 40
+	notebook_name.placeholder_text = tr2("给所选运行起名","Name the selected run")
+	notebook_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	notebook_name.focus_entered.connect(func() -> void: _last_focus = "NotebookName")
+	notebook_name.text_changed.connect(func(_text: String) -> void: _refresh_notebook_actions())
+	notebook_name.text_submitted.connect(func(_text: String) -> void: keep_selected())
+	keep_row.add_child(notebook_name)
+	notebook_keep = _button(keep_row,tr2("保留所选方案","Keep selected plan"),keep_selected,"KeepSelected")
+	var footer := HBoxContainer.new()
+	page.add_child(footer)
+	notebook_note = _label(footer,"",13)
+	notebook_note.name = "NotebookStorage"
+	notebook_recover = _button(footer,tr2("恢复写入","Recover writer"),recover_writer,"RecoverWriter")
+	notebook_recover.tooltip_text = tr2("只恢复已经停止的写入窗口；之后仍需保存。","Recover only a stopped writer; save separately afterward.")
+
+func _cap_toggle(parent: Node, text: String, id: String) -> CheckBox:
+	var control := CheckBox.new()
+	control.name = id
+	control.text = text
+	control.tooltip_text = tr2("未勾选表示不限；上限包含相等值。","Unchecked means no cap; equality is allowed.")
+	control.focus_entered.connect(func() -> void: _last_focus = id)
+	parent.add_child(control)
+	return control
+
+func _cap_number(parent: Node, id: String) -> SpinBox:
+	var control := SpinBox.new()
+	control.name = id
+	control.min_value = 0
+	control.max_value = Goals.MAX_LIMIT
+	control.step = 1
+	control.custom_minimum_size = Vector2(118,32)
+	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	control.get_line_edit().focus_entered.connect(func() -> void: _last_focus = id)
+	parent.add_child(control)
+	return control
+
+func _edit_goal(key: String, value: Variant) -> void:
+	if _syncing: return
+	var next: Dictionary = session.goal()
+	next[key] = value
+	if session.set_goal(next): refresh()
 
 func field_name(field: int) -> String:
 	return [tr2("温度","Temperature"),tr2("编号","ID"),tr2("电量","Battery"),tr2("告警","Alarm")][field] if field >= 0 and field < 4 else "—"
@@ -344,6 +461,7 @@ func refresh() -> void:
 	_disable(redo_button,not session.can_redo())
 	_syncing = false
 	_refresh_history()
+	_refresh_notebook()
 	public_detail.text = _public_text(task)
 
 func _edit_value(key: String, value: Variant) -> void:
@@ -407,6 +525,7 @@ func _history_selected() -> void:
 		# Keep the emitting TreeItem alive until Godot finishes its selection.
 		# Inspecting a row changes details/actions, not the history row list.
 		_refresh_history(false)
+		_refresh_notebook_actions()
 
 func _metric(metrics: Dictionary, key: String) -> String:
 	var value: int = int(metrics.get(key,-1))
@@ -414,12 +533,13 @@ func _metric(metrics: Dictionary, key: String) -> String:
 
 func _refresh_history(rebuild_rows: bool = true) -> void:
 	_syncing = true
+	history_table.set_column_title(5,tr2("总计名次","Total rank") if session.goal().objective == "cycles" else tr2("RAM名次","RAM rank"))
 	var selected: Dictionary = session.selected_entry()
 	var selected_id: int = int(selected.get("id",-1))
 	if rebuild_rows:
 		history_table.clear()
 		var tree_root: TreeItem = history_table.create_item()
-		for row: Dictionary in session.rows():
+		for row: Dictionary in session.ranked_rows():
 			var item: TreeItem = history_table.create_item(tree_root)
 			var metrics: Dictionary = row.metrics
 			item.set_metadata(0,int(row.id))
@@ -428,8 +548,9 @@ func _refresh_history(rebuild_rows: bool = true) -> void:
 			item.set_text(2,_metric(metrics,"total_cycles"))
 			item.set_text(3,str(int(metrics.ram_read_bytes)+int(metrics.ram_write_bytes)))
 			item.set_text(4,str(int(metrics.peak_extra_bytes)))
-			item.set_text(5,tr2("正确","Correct") if row.correct else _error_text(str(metrics.get("error",""))))
+			item.set_text(5,_rank_text(row))
 			for column: int in 6: item.set_tooltip_text(column,_plan_text(row.plan))
+			item.set_tooltip_text(5,_goal_text()+"\n"+tr2("名次仅比较本次运行；相同目标值并列。","Ranks compare recent runs only; equal objective values tie."))
 			if int(row.id) == selected_id: item.select(0)
 	_syncing = false
 	_disable(restore_button,selected.is_empty() or selected.get("plan",{}) == session.draft())
@@ -440,11 +561,161 @@ func _refresh_history(rebuild_rows: bool = true) -> void:
 	else:
 		measured_source.text = tr2("运行 #%d · 历史快照，当前草稿已不同","Run #%d · historical snapshot; draft differs") % selected_id if session.is_stale() else tr2("运行 #%d · 与当前草稿一致","Run #%d · matches the current draft") % selected_id
 		measured_plan.text = _plan_text(selected.plan)
-	status.text = _notice if not _notice.is_empty() else tr2("草稿尚未测量。","Draft has not been measured.") if session.is_stale() else tr2("草稿对应所选实测结果。","Draft matches the selected measurement.")
+	if not _notice.is_empty():
+		status.text = _notice
+	elif selected.is_empty():
+		status.text = tr2("草稿尚未测量。","Draft has not been measured.")
+	elif session.is_stale():
+		status.text = tr2("草稿与所选运行不同。","Draft differs from the selected run.")
+	else:
+		status.text = tr2("草稿对应所选实测结果。","Draft matches the selected measurement.")
 	_refresh_comparison()
 	if selected_id != _shown_entry:
 		_shown_entry = selected_id
 		_refresh_events()
+
+func _rank_text(row: Dictionary) -> String:
+	if row.get("eligible",false): return "#"+str(row.rank)
+	if not row.get("correct",false): return _error_text(str(row.get("metrics",{}).get("error","")))
+	var exclusions: Array = row.get("exclusions",[])
+	if exclusions.has("first") and exclusions.has("copy"): return tr2("Q1/复制超限","Q1/copy over")
+	if exclusions.has("first"): return tr2("Q1超限","Q1 over")
+	if exclusions.has("copy"): return tr2("复制超限","Copy over")
+	return tr2("不可比较","Unavailable")
+
+func _goal_text() -> String:
+	var goal: Dictionary = session.goal()
+	var first: String = tr2("Q1不限","Q1: no cap") if int(goal.first_limit) < 0 else "Q1 ≤ "+str(goal.first_limit)+tr2("周期"," cycles")
+	var copy: String = tr2("复制不限","Copy: no cap") if int(goal.copy_limit) < 0 else tr2("复制","Copy")+" ≤ "+str(goal.copy_limit)+" B"
+	return first+" · "+copy
+
+func _refresh_notebook(rebuild_rows: bool = true) -> void:
+	_syncing = true
+	var goal: Dictionary = session.goal()
+	goal_objective.select(0 if goal.objective == "cycles" else 1)
+	first_cap.set_pressed_no_signal(int(goal.first_limit) >= 0)
+	copy_cap.set_pressed_no_signal(int(goal.copy_limit) >= 0)
+	for pair: Array in [[first_limit,int(goal.first_limit)],[copy_limit,int(goal.copy_limit)]]:
+		var control: SpinBox = pair[0]
+		var limit: int = pair[1]
+		control.set_value_no_signal(limit if limit >= 0 else Goals.MAX_LIMIT)
+		control.editable = limit >= 0
+		control.get_line_edit().focus_mode = Control.FOCUS_ALL if limit >= 0 else Control.FOCUS_NONE
+	goal_summary.text = _goal_text()+" · "+tr2("只比较本条件的保留方案","Only kept plans in this condition")
+	_kept_rows = workspace.kept_rows()
+	if rebuild_rows:
+		notebook_table.clear()
+		var tree_root: TreeItem = notebook_table.create_item()
+		var selected_name: String = str(_kept_selection.get(session.task_id,""))
+		for row: Dictionary in _kept_rows:
+			var item: TreeItem = notebook_table.create_item(tree_root)
+			item.set_metadata(0,row.name)
+			item.set_text(0,row.name)
+			item.set_tooltip_text(0,row.name+"\n"+_plan_text(row.plan))
+			item.set_text(1,_metric(row.metrics,"first_request_cycles"))
+			item.set_text(2,_metric(row.metrics,"total_cycles"))
+			item.set_text(3,str(int(row.metrics.ram_read_bytes)+int(row.metrics.ram_write_bytes)))
+			item.set_text(4,str(int(row.metrics.peak_extra_bytes)))
+			item.set_text(5,_rank_text(row))
+			item.set_tooltip_text(5,tr2("本机从配方复测；相同目标值并列。","Locally remeasured from the recipe; equal objective values tie."))
+			if row.name == selected_name: item.select(0)
+	_syncing = false
+	_refresh_notebook_actions()
+	_refresh_storage()
+
+func _selected_kept_row() -> Dictionary:
+	var name: String = str(_kept_selection.get(session.task_id,""))
+	for row: Dictionary in _kept_rows:
+		if row.name == name: return row
+	return {}
+
+func _refresh_notebook_actions() -> void:
+	if not is_instance_valid(notebook_keep): return
+	var selected: Dictionary = session.selected_entry()
+	var kept: Dictionary = _selected_kept_row()
+	_disable(notebook_keep,selected.is_empty() or not selected.get("correct",false) or notebook_name.text.strip_edges().is_empty())
+	_disable(notebook_remove,kept.is_empty())
+	_disable(notebook_restore,kept.is_empty() or kept.get("plan",{}) == session.draft())
+	notebook_selected.text = tr2("先运行方案，再保留所选的实测配方。","Run a plan, then keep its measured recipe.") if selected.is_empty() else tr2(
+		"保留运行 #%d 的配方%s","Keep run #%d's recipe%s") % [
+			int(selected.id),tr2("；当前草稿不同。","; the draft differs.") if session.is_stale() else tr2("。",".")]
+	notebook_selected.tooltip_text = tr2("选择保留方案会重新测量；不会载入草稿。","Selecting a kept plan remeasures it without replacing the draft.")
+
+func _kept_selected() -> void:
+	if _syncing: return
+	var item: TreeItem = notebook_table.get_selected()
+	if item == null: return
+	var name: String = str(item.get_metadata(0))
+	if workspace.inspect_kept(name):
+		_kept_selection[session.task_id] = name
+		selected_event = -1
+		# Do not delete the TreeItem that is still emitting its selection signal.
+		_refresh_history()
+		_refresh_notebook(false)
+
+func keep_selected() -> void:
+	if notebook_keep.disabled: return
+	var name: String = notebook_name.text.strip_edges()
+	var selected_plan: Dictionary = session.selected_entry().plan
+	var kept: bool = workspace.keep_selected(name)
+	var proposed: bool = false
+	for row: Dictionary in workspace.kept_rows():
+		if row.name == name and row.plan == selected_plan: proposed = true
+	if kept or proposed:
+		_kept_selection[session.task_id] = name
+		notebook_name.clear()
+	refresh()
+
+func restore_kept() -> void:
+	var row: Dictionary = _selected_kept_row()
+	if row.is_empty() or not workspace.inspect_kept(str(row.name)): return
+	restore_selected()
+	refresh()
+	tabs.current_tab = 0
+	run_button.grab_focus()
+
+func save_workspace() -> bool:
+	var saved: bool = workspace.save()
+	_refresh_storage()
+	return saved
+
+func recover_writer() -> void:
+	workspace.recover_writer()
+	_refresh_storage()
+
+func _storage_text() -> String:
+	var reason: String = workspace.storage_reason
+	match reason:
+		"name": return tr2("名称需为1至40个非控制字符。","Use a name of 1–40 non-control characters.")
+		"full": return tr2("本条件已保留8个方案，请先移除一个。","This condition already has 8 kept plans. Remove one first.")
+		"duplicate": return tr2("名称已存在，请换一个新名字。","That name is already kept. Choose a new one.")
+		"no_selection", "incomplete": return tr2("先选择一次完整正确的运行。","Select a complete, correct run first.")
+		"busy": return tr2("写入被其他窗口占用；当前修改仍在内存。","Another window owns writing; changes remain in memory.")
+		"changed": return tr2("磁盘版本已改变；原文件受保护，当前修改尚未写入。","The disk version changed; it is protected. Current changes are not saved.")
+		"stale", "version": return tr2("笔记本版本或条件不兼容；原文件保留，当前探索是临时的。","The notebook version or conditions are incompatible. The original is kept; exploration is temporary.")
+		"format", "size", "read": return tr2("笔记本无法安全读取；原文件保留，当前探索是临时的。","The notebook cannot be read safely. The original is kept; exploration is temporary.")
+	if workspace.storage_status == "write_failed":
+		return tr2("写入失败；当前修改仍在内存，点「保存工作区」重试。","Writing failed. Changes remain in memory; choose Save workspace to retry.")
+	if workspace.storage_status == "read_only":
+		return tr2("笔记本受保护；当前修改尚未写入。","The notebook is protected; current changes are not saved.")
+	if not workspace.has_saved_workspace():
+		return tr2("新工作区尚未保存；草稿、目标和命名方案需显式保存。","This new workspace has not been saved. Save drafts, goals and named plans explicitly.")
+	return tr2("草稿、目标和方案需显式保存；历史与撤销仅本次。","Save drafts, goals and plans explicitly. History and Undo last for this session.") if workspace.is_dirty() else tr2(
+		"工作区已保存；运行历史、比较基准与撤销仅本次。","Workspace saved. Run history, comparison and Undo last for this session.")
+
+func _refresh_storage() -> void:
+	var storage_protected: bool = workspace.storage_status != "ready"
+	var dirty: bool = workspace.is_dirty()
+	var state: String = tr2("存储受保护","Storage protected") if storage_protected else tr2("未保存修改","Unsaved changes") if dirty else tr2(
+		"工作区已保存","Workspace saved") if workspace.has_saved_workspace() else tr2("新工作区","New workspace")
+	storage_label.text = tr2("独立实验 · %s · 在「方案笔记」显式保存","Independent experiment · %s · Save explicitly in Notebook") % state
+	storage_label.add_theme_color_override("font_color",Color("f0c674") if storage_protected or dirty else Color("a5b6be"))
+	storage_label.tooltip_text = _storage_text()+"\n"+ProjectSettings.globalize_path(workspace.store.storage_path)
+	notebook_note.text = _storage_text()
+	notebook_recover.visible = workspace.storage_reason == "busy"
+	notebook_recover.focus_mode = Control.FOCUS_ALL if notebook_recover.visible else Control.FOCUS_NONE
+	notebook_save.text = tr2("重试保存","Retry save") if workspace.storage_status == "write_failed" else tr2("保存工作区","Save workspace")
+	if is_instance_valid(exit_overlay) and exit_overlay.visible: _translate_exit_guard()
 
 func _signed(value: int) -> String:
 	return ("+" if value > 0 else "")+str(value)
@@ -461,6 +732,13 @@ func _refresh_comparison() -> void:
 	comparison_label.text = tr2("对比 #%d：%s\nQ1 %s周期 · 总计 %s周期 · RAM %s B · 复制 %s B","vs #%d: %s\nQ1 %s cycles · total %s cycles · RAM %s B · copy %s B") % [
 		session.baseline_id(),verdicts[comparison.kind],_signed(int(comparison.first)),_signed(int(comparison.cycles)),
 		_signed(int(comparison.traffic)),_signed(int(comparison.peak))]
+	var selected_id: int = int(session.selected_entry().get("id",-1))
+	for row: Dictionary in session.ranked_rows():
+		if row.eligible: continue
+		if int(row.id) == selected_id:
+			comparison_label.text += tr2("\n所选运行不满足当前限制。","\nThe selected run is outside the current goal.")
+		elif int(row.id) == session.baseline_id():
+			comparison_label.text += tr2("\n比较基准不满足当前限制。","\nThe comparison baseline is outside the current goal.")
 
 func _plan_text(plan: Dictionary) -> String:
 	var copy_text: String = tr2("不复制","no copy")
@@ -594,7 +872,7 @@ func _restore_focus(id: String) -> void:
 	var target: Control
 	if is_instance_valid(exit_overlay) and exit_overlay.visible:
 		target = exit_layer.find_child(id,true,false) as Control
-		if target not in [exit_cancel,exit_confirm]: target = exit_cancel
+		if target not in [exit_cancel,exit_save,exit_confirm]: target = exit_cancel
 	else:
 		target = interface.find_child(id,true,false) as Control
 	if target is SpinBox: target = target.get_line_edit()
@@ -661,31 +939,63 @@ func _build_exit_guard() -> void:
 	var actions := HBoxContainer.new()
 	column.add_child(actions)
 	exit_cancel = _button(actions,"",cancel_quit,"KeepExploring")
+	exit_save = _button(actions,"",save_and_exit,"SaveAndExit")
 	exit_confirm = _button(actions,"",_confirm_quit,"DiscardAndExit")
 	exit_cancel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	exit_save.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	exit_confirm.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	exit_cancel.focus_next = exit_cancel.get_path_to(exit_confirm)
-	exit_cancel.focus_previous = exit_cancel.get_path_to(exit_confirm)
-	exit_confirm.focus_next = exit_confirm.get_path_to(exit_cancel)
-	exit_confirm.focus_previous = exit_confirm.get_path_to(exit_cancel)
 	_translate_exit_guard()
 	exit_overlay.hide()
 
 func _translate_exit_guard() -> void:
 	if not is_instance_valid(exit_question): return
-	exit_question.text = tr2("退出后，本窗口的草稿和实测历史会丢失。","Leaving discards this window's drafts and measured history.")
-	exit_cancel.text = tr2("继续探索","Keep exploring")
-	exit_confirm.text = tr2("丢弃并退出","Discard and exit")
+	var dirty: bool = workspace.is_dirty()
+	var saved: bool = workspace.has_saved_workspace()
+	exit_save.visible = _guard_action == "exit" and (dirty or not saved)
+	exit_save.focus_mode = Control.FOCUS_ALL if exit_save.visible else Control.FOCUS_NONE
+	exit_save.text = tr2("保存并退出","Save and exit")
+	if _guard_action == "remove":
+		exit_question.text = tr2("移除保留方案「%s」？\n当前草稿和本次运行仍会保留；此操作会保存工作区。","Remove kept plan “%s”?\nThe current draft and recent runs stay. This action saves the workspace.") % _pending_remove
+		exit_cancel.text = tr2("取消","Cancel")
+		exit_confirm.text = tr2("移除并保存","Remove and save")
+	else:
+		if dirty:
+			exit_question.text = tr2("工作区有未保存修改。退出会丢弃这些修改，以及本次运行历史、比较基准与撤销。","The workspace has unsaved changes. Leaving discards them, along with recent runs, the comparison and Undo.")
+		elif saved:
+			exit_question.text = tr2("已保存的草稿、目标和方案会保留。退出只结束本次运行历史、比较基准与撤销。","Saved drafts, goals and kept plans remain. Leaving ends this session's run history, comparison and Undo.")
+		else:
+			exit_question.text = tr2("此工作区尚未保存。退出会结束本次运行历史、比较基准与撤销。","This workspace has not been saved. Leaving ends this session's run history, comparison and Undo.")
+		if workspace.storage_status != "ready": exit_question.text += "\n"+_storage_text()
+		exit_cancel.text = tr2("继续探索","Keep exploring")
+		exit_confirm.text = tr2("丢弃并退出","Discard and exit") if dirty else tr2("退出","Exit")
+	var controls: Array[Control] = [exit_cancel]
+	if exit_save.visible: controls.append(exit_save)
+	controls.append(exit_confirm)
+	for index: int in controls.size():
+		controls[index].focus_next = controls[index].get_path_to(controls[(index+1)%controls.size()])
+		controls[index].focus_previous = controls[index].get_path_to(controls[(index+controls.size()-1)%controls.size()])
 
 func request_quit() -> void:
 	if not _owns_quit: return
-	if not session.has_work():
-		get_tree().quit()
+	if not session.has_work() and not workspace.is_dirty():
+		_finish_quit()
 		return
 	if exit_overlay.visible: return
+	_guard_action = "exit"
+	_show_guard()
+
+func request_remove_kept() -> void:
+	var row: Dictionary = _selected_kept_row()
+	if row.is_empty() or exit_overlay.visible: return
+	_guard_action = "remove"
+	_pending_remove = str(row.name)
+	_show_guard()
+
+func _show_guard() -> void:
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	_exit_focus = weakref(focused) if focused != null else null
 	_exit_focus_id = _last_focus
+	_translate_exit_guard()
 	exit_overlay.show()
 	exit_cancel.grab_focus()
 
@@ -696,8 +1006,31 @@ func cancel_quit() -> void:
 	else: _restore_focus(_exit_focus_id)
 	_exit_focus = null
 	_exit_focus_id = "Run"
+	_guard_action = "exit"
+	_pending_remove = ""
 
 func _confirm_quit() -> void:
+	if _guard_action == "remove":
+		workspace.remove_kept(_pending_remove)
+		_kept_selection.erase(session.task_id)
+		exit_overlay.hide()
+		_guard_action = "exit"
+		_pending_remove = ""
+		_exit_focus = null
+		_exit_focus_id = "Run"
+		refresh()
+		notebook_name.grab_focus()
+		return
+	_finish_quit()
+
+func save_and_exit() -> void:
+	if workspace.save():
+		_finish_quit()
+	else:
+		_refresh_storage()
+		exit_save.grab_focus()
+
+func _finish_quit() -> void:
 	get_tree().quit()
 
 func _notification(what: int) -> void:

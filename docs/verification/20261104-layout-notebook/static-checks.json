@@ -1,0 +1,38 @@
+{
+  "authored_diff_check": "pass",
+  "authored_text_files": 66,
+  "authored_whitespace_errors": [],
+  "markdown_files_checked": 26,
+  "local_link_errors": [],
+  "bound_source_files": 1187,
+  "bound_final_frames": 18,
+  "bound_diagnostic_frames": 18,
+  "raw_log_files": 33,
+  "ignored_raw_logs": [],
+  "preserved_raw_whitespace": [
+    {
+      "file": "docs/verification/20261104-layout-notebook/logs/startup-smoke.log",
+      "diagnostics": [
+        {
+          "kind": "new blank line at EOF",
+          "line": 2
+        }
+      ]
+    },
+    {
+      "file": "docs/verification/20261104-layout-notebook/process/hold.log",
+      "diagnostics": [
+        {
+          "kind": "new blank line at EOF",
+          "line": 2
+        }
+      ]
+    }
+  ],
+  "staged_diff_check_exit": 2,
+  "staged_diff_check_diagnostics": [
+    "docs/verification/20261104-layout-notebook/logs/startup-smoke.log:2: new blank line at EOF.",
+    "docs/verification/20261104-layout-notebook/process/hold.log:2: new blank line at EOF."
+  ],
+  "scope": "Changed/new files only; raw engine text is preserved verbatim and excluded from authored-whitespace gate."
+}

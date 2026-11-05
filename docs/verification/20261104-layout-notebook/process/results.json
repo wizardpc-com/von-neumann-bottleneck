@@ -1,0 +1,123 @@
+[
+  {
+    "phase": "seed",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/process-20261105T025337Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T021829Z-18f99d78/project",
+      "--script",
+      "res://tests/recovery/layout_notebook_process_probe.gd",
+      "--",
+      "--notebook-phase=seed"
+    ],
+    "log": "seed.log"
+  },
+  {
+    "phase": "reopen",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/process-20261105T025337Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T021829Z-18f99d78/project",
+      "--script",
+      "res://tests/recovery/layout_notebook_process_probe.gd",
+      "--",
+      "--notebook-phase=reopen"
+    ],
+    "log": "reopen.log"
+  },
+  {
+    "phase": "contend",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/process-20261105T025337Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T021829Z-18f99d78/project",
+      "--script",
+      "res://tests/recovery/layout_notebook_process_probe.gd",
+      "--",
+      "--notebook-phase=contend"
+    ],
+    "log": "contend.log"
+  },
+  {
+    "phase": "owned-writer-crash",
+    "code": -9,
+    "passed": true,
+    "pid": 90743,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/process-20261105T025337Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T021829Z-18f99d78/project",
+      "--script",
+      "res://tests/recovery/layout_notebook_process_probe.gd",
+      "--",
+      "--notebook-phase=hold"
+    ],
+    "log": "hold.log",
+    "intent": "deliberate SIGKILL after live contention check"
+  },
+  {
+    "phase": "recover",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/process-20261105T025337Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T021829Z-18f99d78/project",
+      "--script",
+      "res://tests/recovery/layout_notebook_process_probe.gd",
+      "--",
+      "--notebook-phase=recover"
+    ],
+    "log": "recover.log"
+  },
+  {
+    "phase": "reopen",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/process-20261105T025337Z",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T021829Z-18f99d78/project",
+      "--script",
+      "res://tests/recovery/layout_notebook_process_probe.gd",
+      "--",
+      "--notebook-phase=reopen"
+    ],
+    "log": "reopen-2.log"
+  },
+  {
+    "phase": "empty",
+    "code": 0,
+    "passed": true,
+    "profile": "VonNeumannBottleneckChecks/layout_strategy/process-20261105T025337Z-other",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T021829Z-18f99d78/project",
+      "--script",
+      "res://tests/recovery/layout_notebook_process_probe.gd",
+      "--",
+      "--notebook-phase=empty"
+    ],
+    "log": "empty.log"
+  }
+]

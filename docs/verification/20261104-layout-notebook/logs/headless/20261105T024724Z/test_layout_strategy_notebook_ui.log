@@ -1,0 +1,15 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Keeping includes the separately edited draft zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_notebook_ui.gd:27)
+       [1] notebook_loop (res://tests/test_layout_strategy_notebook_ui.gd:232)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Keeping includes the separately edited draft en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_notebook_ui.gd:27)
+       [1] notebook_loop (res://tests/test_layout_strategy_notebook_ui.gd:232)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+FAIL: layout strategy notebook UI 155 checks, 2 failures

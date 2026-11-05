@@ -66,6 +66,25 @@ Weighted sampling subtracts one from each Park-Miller state, rejects the incompl
 upper bucket, and uses the remaining integer modulo the total count. Every random
 advance and rejection is recorded; rendering has no access to this random state.
 
+Host computation reuse (2026-11-05)
+---------------------------------
+
+Public prediction validates the complete model and supplied prefix on every
+call, including invalid symbols outside the final context. Generation and
+encoding validate their complete inputs once at the start of each synchronous
+operation; decoding validates the packet-carried model and accepts only legal
+decoded symbols. Those internal loops use an already-validated model and an
+explicit prefix endpoint, slicing only the needed zero-to-two-symbol context.
+An encoder cannot inspect the unrevealed source suffix through this helper.
+Canonical model bytes and identity are reused only within that operation.
+
+The original linear rule scan, every decision and sampling event, cost accounting,
+packet/recipe bytes, error precedence and memory bounds remain authoritative.
+There is no shared cache, pooled result, background work, native dependency or
+format/version change. Faster host execution does not lower modeled cycles.
+Future internal callers must establish the same validation and immutability
+preconditions; the underscore helper is internal by convention in GDScript.
+
 
 Application completion and prediction residency
 ----------------------------------------------

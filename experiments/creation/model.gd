@@ -176,10 +176,19 @@ static func predict(model: Dictionary, prefix: Array) -> Dictionary:
 	if not error.is_empty(): return {"ok": false, "error": error}
 	error = symbols_error(prefix)
 	if not error.is_empty(): return {"ok": false, "error": error}
+	return _predict_validated(model, prefix, prefix.size())
+
+static func _predict_validated(model: Dictionary, symbols: Array, prefix_end: int) -> Dictionary:
+	# Internal synchronous-operation boundary: callers have validated the model
+	# and every symbol in [0, prefix_end), with 0 <= prefix_end <= symbols.size().
+	# No caller may mutate them during this call. The encoder's remaining source
+	# is deliberately outside the prefix.
+	# Preserve the modeled linear scan and all events; only avoid revalidating
+	# the whole model/history and copying an ever-growing source prefix.
 	var events: Array = []
-	var available: int = mini(model.order, prefix.size())
+	var available: int = mini(model.order, prefix_end)
 	for size: int in range(available, -1, -1):
-		var context: Array = prefix.slice(prefix.size() - size)
+		var context: Array = symbols.slice(prefix_end - size, prefix_end)
 		for row: Dictionary in model.rows:
 			events.append(event("predict", "rule_read", 1 + row.context.size(), 9 + row.context.size(), {"row": _key(row.context), "context": row.context.duplicate(), "lookup_context": context.duplicate()}))
 			if row.context != context: continue
@@ -198,15 +207,16 @@ static func generate(model: Dictionary, initial: Array, length: int, seed: int, 
 	if error.is_empty(): error = machine_error(machine)
 	if not error.is_empty(): return {"ok": false, "error": error}
 	if length <= initial.size() or length > MAX_LENGTH or length < 1 or sampler not in ["weighted", "max"]: return {"ok": false, "error": "generation_bounds"}
-	var packed: PackedByteArray = canonical_bytes(model)
+	var packed: PackedByteArray = _serialize(model)
 	var peak: int = packed.size() + length + model.order + mini(machine.cache_rows, model.rows.size()) * 11
 	if peak > machine.memory_bytes: return {"ok": false, "error": "memory_limit", "required_bytes": peak}
+	var model_id: String = digest(packed).hex_encode()
 	var output: Array = initial.duplicate()
-	var events: Array = [event("generate", "model_load", packed.size(), packed.size(), {"model_id": identity(model)})]
+	var events: Array = [event("generate", "model_load", packed.size(), packed.size(), {"model_id": model_id})]
 	for index: int in initial.size(): events.append(event("output", "seed_write", 1, 1, {"index": index, "symbol": initial[index]}))
 	var state: int = ((seed % 2147483646) + 2147483646) % 2147483646 + 1
 	while output.size() < length:
-		var decision: Dictionary = predict(model, output)
+		var decision: Dictionary = _predict_validated(model, output, output.size())
 		for item: Dictionary in decision.events:
 			item.phase = "generate"
 			events.append(item)
@@ -232,8 +242,8 @@ static func generate(model: Dictionary, initial: Array, length: int, seed: int, 
 			events.append(event("generate", "sample", 4, 0, {"state_after": state, "draw": draw, "counts": decision.counts.duplicate(), "symbol": symbol}))
 		output.append(symbol)
 		events.append(event("output", "feedback_write", 1 + model.order, 1, {"index": output.size() - 1, "symbol": symbol, "context": output.slice(maxi(0, output.size() - model.order)), "before_context": decision.context.duplicate(), "counts": decision.counts.duplicate(), "sampler": sampler}))
-	var recipe: Dictionary = {"version": VERSION, "model": model.duplicate(true), "model_id": identity(model), "machine": machine.duplicate(true), "initial": initial.duplicate(), "length": length, "seed": seed, "sampler": sampler, "sampler_version": "integer-counts-v1", "prng_version": PRNG_VERSION}
-	return {"ok": true, "output": output, "events": events, "cost": summarize(events, machine, peak), "recipe": recipe, "model_id": identity(model), "error": ""}
+	var recipe: Dictionary = {"version": VERSION, "model": model.duplicate(true), "model_id": model_id, "machine": machine.duplicate(true), "initial": initial.duplicate(), "length": length, "seed": seed, "sampler": sampler, "sampler_version": "integer-counts-v1", "prng_version": PRNG_VERSION}
+	return {"ok": true, "output": output, "events": events, "cost": summarize(events, machine, peak), "recipe": recipe, "model_id": model_id, "error": ""}
 
 static func _key(context: Array) -> String:
 	var key: String = ""

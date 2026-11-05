@@ -1,0 +1,14 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+PROBE before Train rect=[P: (24.0, 616.0), S: (334.0, 38.0)] viewport=[P: (0.0, 0.0), S: (1280.0, 720.0)] root=(2560, 1440) visible=true disabled=false
+PROBE after Train pressed=1 gui=["true:(167.0, 19.0)", "false:(167.0, 19.0)"] learned=true comparisons=0
+PROBE before MachineCondition0 rect=[P: (24.0, 487.0), S: (328.0, 38.0)] viewport=[P: (0.0, 0.0), S: (1280.0, 720.0)] root=(2560, 1440) visible=true disabled=false
+PROBE after MachineCondition0 pressed=1 gui=["true:(164.0, 19.0)", "false:(164.0, 19.0)"] learned=true comparisons=0
+PROBE before RunCostComparison rect=[P: (390.0, 543.0), S: (80.0, 38.0)] viewport=[P: (0.0, 0.0), S: (1280.0, 720.0)] root=(2560, 1440) visible=false disabled=false
+PROBE after RunCostComparison pressed=0 gui=[] learned=true comparisons=0
+PROBE capture=/Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round9/checks/20261105T102652Z/round9-creation-gpu-probe/failed-click.png save=0 size=(2560, 1440)
+ERROR: Original viewport click did not activate RunCostComparison
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] press (res://.godot/collaboration/round9-creation-gpu-probe.gd:27)

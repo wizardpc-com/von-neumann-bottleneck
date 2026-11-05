@@ -1,0 +1,22 @@
+[
+  {
+    "group": "workload",
+    "sealed_output": "workload.sealed.json.gz",
+    "process": {
+      "returncode": 0,
+      "diagnostics": [],
+      "log_sha256": "27eeff7d2655aa2ce959e5d2fc273672ba3b348d9b41bd24cf3e10f6aa0e5160",
+      "raw_sha256": "3c430c4d0ce52e73aafa0c56ffb4f071af7cf46279bc10d2598c8161c50d0a7b"
+    }
+  },
+  {
+    "group": "memory",
+    "sealed_output": "memory.sealed.json.gz",
+    "process": {
+      "returncode": 0,
+      "diagnostics": [],
+      "log_sha256": "4cb97293848a5a768fd882e413b168adb762ad6458d1c84b9eedb356bf07de7a",
+      "raw_sha256": "be8673c0c671c3fa0b3c123e7d2cc7fc559a34ec6432deec99a175d579a7cbbe"
+    }
+  }
+]

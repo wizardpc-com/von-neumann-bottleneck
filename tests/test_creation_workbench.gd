@@ -11,15 +11,25 @@ func settle() -> void:
 func control(scene: Control,id: String) -> Control: return scene.find_child(id,true,false) as Control
 func press(scene: Control,id: String) -> void:
 	var action := control(scene,id) as Button
-	check(action != null and not action.disabled,"Available action: "+id)
-	if action != null and not action.disabled:
+	var available: bool = action != null and not action.disabled and action.is_visible_in_tree()
+	check(available,"Available visible action: "+id)
+	if not available:
+		quit(1)
+		await process_frame
+		return
+	if available:
 		var ancestor: Node = action.get_parent()
 		while ancestor != null:
 			if ancestor is ScrollContainer: ancestor.ensure_control_visible(action)
 			ancestor = ancestor.get_parent()
 		await settle()
-		if DisplayServer.get_name() == "headless": action.pressed.emit()
+		if DisplayServer.get_name() == "headless":
+			action.pressed.emit()
+			await settle()
 		else:
+			var activations: Array[int] = [0]
+			var count_activation: Callable = func() -> void: activations[0] += 1
+			action.pressed.connect(count_activation)
 			var point: Vector2 = action.get_global_rect().get_center()
 			check(root.get_visible_rect().has_point(point),"Viewport click is on screen: "+id)
 			var motion := InputEventMouseMotion.new(); motion.position = point; root.push_input(motion,true)
@@ -27,7 +37,14 @@ func press(scene: Control,id: String) -> void:
 				var mouse := InputEventMouseButton.new(); mouse.position = point; mouse.button_index = MOUSE_BUTTON_LEFT; mouse.pressed = down
 				root.push_input(mouse,true)
 				await process_frame
-	await settle()
+			await settle()
+			if is_instance_valid(action) and action.pressed.is_connected(count_activation):
+				action.pressed.disconnect(count_activation)
+			check(activations[0] == 1,"Viewport click activates action once: "+id)
+			if activations[0] != 1:
+				quit(1)
+				await process_frame
+				return
 func bounds(scene: Control,ids: Array) -> void:
 	var view: Rect2 = root.get_visible_rect()
 	for id: String in ids:

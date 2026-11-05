@@ -1,0 +1,71 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: expected success
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unexpected error contract ["circuit.error.short_circuit"]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unsuccessful output comparison
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2/OUT: incorrect word value, width or resolution state
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole: missing successful state boundaries
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: sequence count or pass status is wrong
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: expected success
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unexpected error contract ["circuit.error.short_circuit"]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unsuccessful output comparison
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0/OUT: incorrect word value, width or resolution state
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: missing successful state boundaries
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.diagnostics: 1 iterations/sample; median 80805.0 us; snapshot 3730514 bytes
+BENCHMARK: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round9/20261105T101644Z-candidate-circuit-known-failure/circuit/computation-benchmark.json
+FAIL: computation benchmark 1 cases, 11 failures

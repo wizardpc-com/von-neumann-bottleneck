@@ -1,0 +1,102 @@
+[
+  {
+    "group": "workload",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T090809Z-3273d2f7/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=workload",
+      "--label=reference-workload",
+      "--host-label=yrq-mac-round9",
+      "--samples=7"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/20261105T093116Z-reference-workload/workload",
+    "returncode": 0,
+    "seconds": 237.712580875,
+    "log": "workload.log",
+    "diagnostics": [],
+    "output": "workload.json.gz",
+    "raw_sha256": "e49baeefb1d49ac305b5aba5a10f813df81f83a93d9712291d75e0c3ea974781",
+    "raw_bytes": 134073195,
+    "compressed_bytes": 1667781,
+    "failures": [],
+    "cases": [
+      {
+        "id": "representation_fixed",
+        "iterations": 13,
+        "median_us": 1536.4615384615386,
+        "snapshot_bytes": 315053
+      },
+      {
+        "id": "representation_partition_revisits",
+        "iterations": 2,
+        "median_us": 12035.5,
+        "snapshot_bytes": 3138242
+      },
+      {
+        "id": "representation_online_clients",
+        "iterations": 1,
+        "median_us": 26375.0,
+        "snapshot_bytes": 4364832
+      },
+      {
+        "id": "linear_precision_batch",
+        "iterations": 19,
+        "median_us": 1071.421052631579,
+        "snapshot_bytes": 218216
+      },
+      {
+        "id": "persistent_context",
+        "iterations": 8,
+        "median_us": 2884.375,
+        "snapshot_bytes": 569529
+      },
+      {
+        "id": "address_prediction",
+        "iterations": 2,
+        "median_us": 10769.5,
+        "snapshot_bytes": 1096676
+      },
+      {
+        "id": "service_baseline_replay",
+        "iterations": 3,
+        "median_us": 8230.0,
+        "snapshot_bytes": 4388612
+      },
+      {
+        "id": "service_representations",
+        "iterations": 7,
+        "median_us": 3129.5714285714284,
+        "snapshot_bytes": 573607
+      },
+      {
+        "id": "creation_public_transport",
+        "iterations": 1,
+        "median_us": 394687.0,
+        "snapshot_bytes": 43798636
+      },
+      {
+        "id": "creation_generation_stress",
+        "iterations": 1,
+        "median_us": 1587977.0,
+        "snapshot_bytes": 73056594
+      },
+      {
+        "id": "creation_committed_session",
+        "iterations": 1,
+        "median_us": 43157.0,
+        "snapshot_bytes": 2419852
+      },
+      {
+        "id": "workload_rejections",
+        "iterations": 12,
+        "median_us": 1338.0,
+        "snapshot_bytes": 111999
+      }
+    ]
+  }
+]

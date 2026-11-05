@@ -1,0 +1,50 @@
+[
+  {
+    "group": "workload",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/benchmarks/computation/compare.py",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T100056Z-reference-final/workload.sealed.json.gz",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T100802Z-candidate-final/workload.sealed.json.gz",
+      "--output",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T100802Z-candidate-final/workload.comparison.json"
+    ],
+    "returncode": 0,
+    "cases": 12,
+    "actual_engine_invocations_match_except_project_and_label": true,
+    "comparator_sha256": "0a615f9e1ba14c2c89b5f6f85fa7f46be4d0f3323b47d9a52846e9defed4293e"
+  },
+  {
+    "group": "memory",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/benchmarks/computation/compare.py",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T100056Z-reference-final/memory.sealed.json.gz",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T100802Z-candidate-final/memory.sealed.json.gz",
+      "--output",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T100802Z-candidate-final/memory.comparison.json"
+    ],
+    "returncode": 0,
+    "cases": 12,
+    "actual_engine_invocations_match_except_project_and_label": true,
+    "comparator_sha256": "0a615f9e1ba14c2c89b5f6f85fa7f46be4d0f3323b47d9a52846e9defed4293e"
+  },
+  {
+    "group": "circuit",
+    "command": [
+      "python3",
+      "-B",
+      "scripts/benchmarks/computation/compare.py",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T101607Z-reference-circuit-final/circuit.sealed.json.gz",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T101623Z-candidate-circuit-final/circuit.sealed.json.gz",
+      "--output",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/computation-benchmarks/20261105T101623Z-candidate-circuit-final/circuit.comparison.json"
+    ],
+    "returncode": 0,
+    "cases": 11,
+    "actual_engine_invocations_match_except_project_and_label": true,
+    "comparator_sha256": "0a615f9e1ba14c2c89b5f6f85fa7f46be4d0f3323b47d9a52846e9defed4293e"
+  }
+]

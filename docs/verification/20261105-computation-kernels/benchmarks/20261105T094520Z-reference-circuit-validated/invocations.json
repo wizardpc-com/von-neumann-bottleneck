@@ -1,0 +1,128 @@
+[
+  {
+    "group": "circuit",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T090809Z-3273d2f7/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=circuit",
+      "--label=reference-circuit-validated",
+      "--host-label=yrq-mac-round9",
+      "--samples=7"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/20261105T094520Z-reference-circuit-validated/circuit",
+    "returncode": 1,
+    "seconds": 19.940359,
+    "log": "circuit.log",
+    "diagnostics": [
+      "ERROR: circuit.prologue.register: circuit.prologue.register/continued/0: final state/output does not match final evaluation",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: expected success",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unexpected error contract [\"circuit.error.short_circuit\"]",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unsuccessful output comparison",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2/OUT: incorrect word value, width or resolution state",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole: missing successful state boundaries",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: sequence count or pass status is wrong",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: expected success",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unexpected error contract [\"circuit.error.short_circuit\"]",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unsuccessful output comparison",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0/OUT: incorrect word value, width or resolution state",
+      "ERROR: circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: missing successful state boundaries"
+    ],
+    "output": "circuit.json.gz",
+    "raw_sha256": "6518728dd538903ec718241404f3a725258e0ed982efaf0647960e9da878f242",
+    "raw_bytes": 24895743,
+    "compressed_bytes": 659149,
+    "failures": [
+      "circuit.prologue.register: circuit.prologue.register/continued/0: final state/output does not match final evaluation",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: expected success",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unexpected error contract [\"circuit.error.short_circuit\"]",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2: unsuccessful output comparison",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole/step/2/OUT: incorrect word value, width or resolution state",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/whole: missing successful state boundaries",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: sequence count or pass status is wrong",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: expected success",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unexpected error contract [\"circuit.error.short_circuit\"]",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0: unsuccessful output comparison",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2/step/0/OUT: incorrect word value, width or resolution state",
+      "circuit.prologue.diagnostics: circuit.prologue.diagnostics/failed_step_state_recovery/continued/2: missing successful state boundaries"
+    ],
+    "cases": [
+      {
+        "id": "circuit.boolean.official",
+        "iterations": 10,
+        "median_us": 2087.8,
+        "snapshot_bytes": 49062
+      },
+      {
+        "id": "circuit.boolean.stress",
+        "iterations": 1,
+        "median_us": 46853.0,
+        "snapshot_bytes": 541953
+      },
+      {
+        "id": "circuit.boolean.diagnostics",
+        "iterations": 12,
+        "median_us": 1630.0,
+        "snapshot_bytes": 59596
+      },
+      {
+        "id": "circuit.prologue.full_adder",
+        "iterations": 2,
+        "median_us": 9989.5,
+        "snapshot_bytes": 696151
+      },
+      {
+        "id": "circuit.prologue.alu",
+        "iterations": 1,
+        "median_us": 64816.0,
+        "snapshot_bytes": 4392321
+      },
+      {
+        "id": "circuit.prologue.latch",
+        "iterations": 5,
+        "median_us": 4067.2,
+        "snapshot_bytes": 238804
+      },
+      {
+        "id": "circuit.prologue.register",
+        "iterations": 2,
+        "median_us": 12348.0,
+        "snapshot_bytes": 792929
+      },
+      {
+        "id": "circuit.prologue.ram",
+        "iterations": 2,
+        "median_us": 12203.5,
+        "snapshot_bytes": 824685
+      },
+      {
+        "id": "circuit.prologue.cpu",
+        "iterations": 1,
+        "median_us": 47216.0,
+        "snapshot_bytes": 4120212
+      },
+      {
+        "id": "circuit.prologue.load_store",
+        "iterations": 1,
+        "median_us": 40112.0,
+        "snapshot_bytes": 6725196
+      },
+      {
+        "id": "circuit.prologue.stress",
+        "iterations": 1,
+        "median_us": 55874.0,
+        "snapshot_bytes": 2364547
+      },
+      {
+        "id": "circuit.prologue.diagnostics",
+        "iterations": 1,
+        "median_us": 80678.0,
+        "snapshot_bytes": 3730514
+      }
+    ]
+  }
+]

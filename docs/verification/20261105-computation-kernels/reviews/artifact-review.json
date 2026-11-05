@@ -1,0 +1,217 @@
+{
+  "checks": [
+    {
+      "fixed_script_count": 6,
+      "three_project_script_matches": 18,
+      "iteration_case_count": 36
+    },
+    {
+      "frozen_reference_files_match_base_manifest": 556
+    },
+    {
+      "current_source_and_qa_bound_files": 1245,
+      "includes_project_settings": true
+    },
+    {
+      "qa_settings_only_two_isolation_entries": true
+    }
+  ],
+  "groups": [
+    {
+      "group": "workload",
+      "cases": 12,
+      "passed": true,
+      "fresh_comparison_matches_saved_exactly": true,
+      "actual_commands_match_except_project_and_label": true,
+      "ratios": {
+        "address_prediction": 0.9996750684677157,
+        "creation_committed_session": 1.2466173239273737,
+        "creation_generation_stress": 3.958471036816951,
+        "creation_public_transport": 2.710986301369863,
+        "linear_precision_batch": 0.999802322708179,
+        "persistent_context": 1.0009143951928938,
+        "representation_fixed": 0.9980844843230164,
+        "representation_online_clients": 1.0036915977696597,
+        "representation_partition_revisits": 0.9982894572155702,
+        "service_baseline_replay": 0.9983382644996553,
+        "service_representations": 0.99876492383697,
+        "workload_rejections": 1.2733704292527823
+      }
+    },
+    {
+      "group": "memory",
+      "cases": 12,
+      "passed": true,
+      "fresh_comparison_matches_saved_exactly": true,
+      "actual_commands_match_except_project_and_label": true,
+      "ratios": {
+        "memory.layout.batch64_reuse": 1.0041869327583612,
+        "memory.layout.public_native64": 1.0087300039016778,
+        "memory.locality.blocked64": 1.0048296634815121,
+        "memory.locality.public": 1.0030749242096146,
+        "memory.overlap.failure_reuse": 0.9505931898721176,
+        "memory.overlap.public": 1.0022973558734287,
+        "memory.overlap.queue64": 1.0051135407905802,
+        "memory.scheduling.failure_reuse": 0.9992360273421793,
+        "memory.scheduling.maximum4096": 1.0023077887871568,
+        "memory.scheduling.public": 1.0021798237389836,
+        "memory.system.failure_reuse": 1.0076579802765688,
+        "memory.system.public": 1.0052097614477653
+      }
+    },
+    {
+      "group": "circuit",
+      "cases": 11,
+      "passed": true,
+      "fresh_comparison_matches_saved_exactly": true,
+      "actual_commands_match_except_project_and_label": true,
+      "ratios": {
+        "circuit.boolean.diagnostics": 0.9955425035397767,
+        "circuit.boolean.official": 1.0228747176702389,
+        "circuit.boolean.stress": 0.9909724896247807,
+        "circuit.prologue.alu": 1.0025153544643683,
+        "circuit.prologue.cpu": 0.9909373817233693,
+        "circuit.prologue.full_adder": 0.9957525484709174,
+        "circuit.prologue.latch": 0.9951755033722247,
+        "circuit.prologue.load_store": 0.9967118373854125,
+        "circuit.prologue.ram": 0.99080469165066,
+        "circuit.prologue.register": 0.9952282744955315,
+        "circuit.prologue.stress": 0.9892178979341706
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "folder": "20261105T100056Z-reference-final",
+      "group": "workload",
+      "raw_bytes": 134073216,
+      "raw_sha256": "3c430c4d0ce52e73aafa0c56ffb4f071af7cf46279bc10d2598c8161c50d0a7b",
+      "log_sha256": "27eeff7d2655aa2ce959e5d2fc273672ba3b348d9b41bd24cf3e10f6aa0e5160",
+      "original_profile_raw_matches": true,
+      "archive_matches_original_raw_sealed_log_invocation": true,
+      "original_snapshot_byte_hashes_verified": 12,
+      "sealed_exactly_preserves_original_fields": true,
+      "cases": 12,
+      "samples": 7,
+      "failures": 0,
+      "diagnostics": 0
+    },
+    {
+      "folder": "20261105T100802Z-candidate-final",
+      "group": "workload",
+      "raw_bytes": 134073149,
+      "raw_sha256": "770bee637bee0dcbdd4bde32b9131c0f5d9ab208b36714f8655f5dede118c635",
+      "log_sha256": "1f42e5be5fd77cff56f420b40b1ac20856b0b4cddb2cfcaf2a3ca8c51f696336",
+      "original_profile_raw_matches": true,
+      "archive_matches_original_raw_sealed_log_invocation": true,
+      "original_snapshot_byte_hashes_verified": 12,
+      "sealed_exactly_preserves_original_fields": true,
+      "cases": 12,
+      "samples": 7,
+      "failures": 0,
+      "diagnostics": 0
+    },
+    {
+      "folder": "20261105T100056Z-reference-final",
+      "group": "memory",
+      "raw_bytes": 56962685,
+      "raw_sha256": "be8673c0c671c3fa0b3c123e7d2cc7fc559a34ec6432deec99a175d579a7cbbe",
+      "log_sha256": "4cb97293848a5a768fd882e413b168adb762ad6458d1c84b9eedb356bf07de7a",
+      "original_profile_raw_matches": true,
+      "archive_matches_original_raw_sealed_log_invocation": true,
+      "original_snapshot_byte_hashes_verified": 12,
+      "sealed_exactly_preserves_original_fields": true,
+      "cases": 12,
+      "samples": 7,
+      "failures": 0,
+      "diagnostics": 0
+    },
+    {
+      "folder": "20261105T100802Z-candidate-final",
+      "group": "memory",
+      "raw_bytes": 56962635,
+      "raw_sha256": "2110dba63ec31a7624473888d7ef9d62fb91706b279a99fc3b824a3f0398ca6a",
+      "log_sha256": "864caaf5ef666c2fe560cf7a1038074480d221d417e16dc3f60efb4b53a315b0",
+      "original_profile_raw_matches": true,
+      "archive_matches_original_raw_sealed_log_invocation": true,
+      "original_snapshot_byte_hashes_verified": 12,
+      "sealed_exactly_preserves_original_fields": true,
+      "cases": 12,
+      "samples": 7,
+      "failures": 0,
+      "diagnostics": 0
+    },
+    {
+      "folder": "20261105T101607Z-reference-circuit-final",
+      "group": "circuit",
+      "raw_bytes": 21132653,
+      "raw_sha256": "3a1302d73ca63dc042e842ec0b5384d8d36ebf5b8cbeef2f863bcd82853402fd",
+      "log_sha256": "0aa706d5a92a1633af37f1aea149aebac06b3c8315d2a3623e818101ae339c9a",
+      "original_profile_raw_matches": true,
+      "archive_matches_original_raw_sealed_log_invocation": true,
+      "original_snapshot_byte_hashes_verified": 11,
+      "sealed_exactly_preserves_original_fields": true,
+      "cases": 11,
+      "samples": 7,
+      "failures": 0,
+      "diagnostics": 0
+    },
+    {
+      "folder": "20261105T101623Z-candidate-circuit-final",
+      "group": "circuit",
+      "raw_bytes": 21132667,
+      "raw_sha256": "12dd779660e606d5fc44a4643233ac8b5a9106d1ca0b498036075f0f357f0f75",
+      "log_sha256": "c215d4c929dd5a71b46a9b6047fa50ab54566de6a0bac38dd512bd70b618d644",
+      "original_profile_raw_matches": true,
+      "archive_matches_original_raw_sealed_log_invocation": true,
+      "original_snapshot_byte_hashes_verified": 11,
+      "sealed_exactly_preserves_original_fields": true,
+      "cases": 11,
+      "samples": 7,
+      "failures": 0,
+      "diagnostics": 0
+    },
+    {
+      "folder": "20261105T101638Z-reference-circuit-known-failure",
+      "group": "circuit",
+      "raw_bytes": 3763594,
+      "raw_sha256": "57f684446b6a6db899ed5121069495217bdbd3d8828a68739b6c9aac22296243",
+      "log_sha256": "25498f2b41afdc0d115a7b12e797edaa34542748978bd530d48a07c1b3dbdaaa",
+      "original_profile_raw_matches": true,
+      "archive_matches_original_raw_sealed_log_invocation": true,
+      "original_snapshot_byte_hashes_verified": 1,
+      "sealed_exactly_preserves_original_fields": true,
+      "cases": 1,
+      "samples": 3,
+      "failures": 11,
+      "diagnostics": 11
+    },
+    {
+      "folder": "20261105T101644Z-candidate-circuit-known-failure",
+      "group": "circuit",
+      "raw_bytes": 3763594,
+      "raw_sha256": "16351d2591d66abdbcd38b88c41bb66fcc78979575311129bbf1a62ac7683eef",
+      "log_sha256": "27b1e522500e97e52f62fae7e62411c78e7b474d2307500906067fff2d93033c",
+      "original_profile_raw_matches": true,
+      "archive_matches_original_raw_sealed_log_invocation": true,
+      "original_snapshot_byte_hashes_verified": 1,
+      "sealed_exactly_preserves_original_fields": true,
+      "cases": 1,
+      "samples": 3,
+      "failures": 11,
+      "diagnostics": 11
+    }
+  ],
+  "issues": [],
+  "comparator_sha256": "0a615f9e1ba14c2c89b5f6f85fa7f46be4d0f3323b47d9a52846e9defed4293e",
+  "reviewer_correction": "Initial checker assumed seven samples for separately rejected diagnostics; both actual diagnostic commands and receipts explicitly use three. Corrected that checker assumption; all three accepted groups already passed.",
+  "known_failure": {
+    "case": "circuit.prologue.diagnostics",
+    "assertions_each_side": 11,
+    "full_snapshot_input_failure_list_equal": true,
+    "strict_comparison_rejected": true,
+    "published_timing_cases": 0
+  },
+  "accepted_case_count": 35,
+  "passed": true
+}

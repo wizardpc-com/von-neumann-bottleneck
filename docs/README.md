@@ -1,5 +1,8 @@
 # Documentation map
 
+- [第九轮：内部计算审计、完整证据基准与Creation实测提速（2026-11-05）](verification/20261105-computation-kernels/README.md)
+- [内部计算审计与后续正确性／性能优先级](development/COMPUTATION_AUDIT_20261105.md)
+
 - [第八轮：实测比较解释与双侧原始事件（2026-11-05）](verification/20261105-layout-comparison-explanation/README.md)
 
 - [第七轮：结构化负载、真实策略取舍与可回退历史升级（2026-11-05）](verification/20261105-structural-layout-workloads/README.md)

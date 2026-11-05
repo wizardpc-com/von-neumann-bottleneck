@@ -1,3 +1,38 @@
+## Internal computation parity and timings — 2026-11-05
+
+Use the [computation harness](../../scripts/benchmarks/computation/README.md)
+with a frozen reference runtime, identical harness files, pinned engine and
+isolated profiles. Keep complete typed snapshots, original JSON/logs, actual
+commands/returncodes and fixed iteration counts. Seal process evidence before
+comparison; an engine exit0 or printed PASS can coexist with nested script
+errors. Plain and gzip receipt readers reject duplicate fields. Full value
+parity must pass before timing ratios are accepted; semantic validators
+independently require the intended operation to succeed.
+
+Run `test_creation_computation_kernel` and `test_computation_snapshot` with
+the existing Creation contract/state/cost/provenance/preparation/comparison/
+prediction/memory/choice/save/Undo/UI suites. Kernel tests supplement the
+independent frozen old/new evidence; two callers sharing the same new helper
+cannot serve as the independent compatibility oracle.
+
+Run `test_creation_playable_loop` and `test_creation_workbench` with GPU in
+fresh QA profiles. The fixture must explicitly open the cost ledger after
+Learn selects causal details, and open Works / recipes before saved-work
+actions. Its press helper checks visible/enabled availability and counts every
+activation through the complete viewport mouse down/up and settling interval,
+then disconnects and requires exactly one. A one-shot listener cannot detect
+duplicate activation. Do not silently emit a
+hidden action's signal to claim a rendered interaction pass. Fail promptly
+instead of indexing missing results after an earlier assertion.
+
+Round9's accepted35 scenarios exclude the known failed prologue recovery
+scenario. Keep that validator strict and archive its unchanged complete
+failure separately; matching failures do not establish recovery correctness.
+The reference/candidate corpus, initial harness failures, final checks, GPU
+diagnosis, source binding and measured ranges are in the
+[Round9 receipt](../verification/20261105-computation-kernels/README.md).
+No source/GPU check establishes native input, Windows or exported acceptance.
+
 ## Measured comparison explanation — 2026-11-05
 
 Run `test_layout_strategy_explanation` and

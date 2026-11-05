@@ -1,5 +1,14 @@
 # Architecture
 
+Creation generation and codec loops reuse an already-validated model and an
+explicit bounded prefix only within one synchronous operation. Public prediction
+still validates the complete model/history; the receiver validates its carried
+packet model. The linear rule scan, complete events, costs, bytes and versions
+remain unchanged. The [computation harness](scripts/benchmarks/computation/README.md)
+binds full typed results and process logs before comparing actual API timings.
+The [computation audit](docs/development/COMPUTATION_AUDIT_20261105.md) separately
+tracks the confirmed pre-existing circuit recovery defect and other model questions.
+
 The scheduling lab's `explanation.gd` reduces existing detached selected and
 baseline snapshots into reconciled phase costs, real RAM transfers, cache read
 counts and public request admission/completion/elapsed timing. It does not

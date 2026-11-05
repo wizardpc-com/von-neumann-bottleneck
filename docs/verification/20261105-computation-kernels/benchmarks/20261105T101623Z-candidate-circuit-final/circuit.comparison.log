@@ -1,0 +1,204 @@
+{
+  "passed": true,
+  "issues": [],
+  "cases": [
+    {
+      "id": "circuit.boolean.diagnostics",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 12,
+      "reference_median_us": 1582.0,
+      "candidate_median_us": 1589.0833333333333,
+      "reference_range_us": [
+        1579.8333333333333,
+        1586.5833333333333
+      ],
+      "candidate_range_us": [
+        1583.3333333333333,
+        1611.0
+      ],
+      "speed_ratio": 0.9955425035397767,
+      "time_reduction_percent": -0.44774546986936503
+    },
+    {
+      "id": "circuit.boolean.official",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 10,
+      "reference_median_us": 2128.5,
+      "candidate_median_us": 2080.9,
+      "reference_range_us": [
+        2064.9,
+        2317.2
+      ],
+      "candidate_range_us": [
+        2071.6,
+        2112.7
+      ],
+      "speed_ratio": 1.0228747176702389,
+      "time_reduction_percent": 2.2363166549213
+    },
+    {
+      "id": "circuit.boolean.stress",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 46324.0,
+      "candidate_median_us": 46746.0,
+      "reference_range_us": [
+        46054.0,
+        47307.0
+      ],
+      "candidate_range_us": [
+        46105.0,
+        47577.0
+      ],
+      "speed_ratio": 0.9909724896247807,
+      "time_reduction_percent": -0.9109748726362055
+    },
+    {
+      "id": "circuit.prologue.alu",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 64965.0,
+      "candidate_median_us": 64802.0,
+      "reference_range_us": [
+        64626.0,
+        65169.0
+      ],
+      "candidate_range_us": [
+        64688.0,
+        64891.0
+      ],
+      "speed_ratio": 1.0025153544643683,
+      "time_reduction_percent": 0.25090433310244187
+    },
+    {
+      "id": "circuit.prologue.cpu",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 47127.0,
+      "candidate_median_us": 47558.0,
+      "reference_range_us": [
+        46992.0,
+        47832.0
+      ],
+      "candidate_range_us": [
+        47248.0,
+        48228.0
+      ],
+      "speed_ratio": 0.9909373817233693,
+      "time_reduction_percent": -0.9145500456213984
+    },
+    {
+      "id": "circuit.prologue.full_adder",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 2,
+      "reference_median_us": 9963.5,
+      "candidate_median_us": 10006.0,
+      "reference_range_us": [
+        9890.5,
+        10123.0
+      ],
+      "candidate_range_us": [
+        9943.0,
+        10180.5
+      ],
+      "speed_ratio": 0.9957525484709174,
+      "time_reduction_percent": -0.4265569328047336
+    },
+    {
+      "id": "circuit.prologue.latch",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 5,
+      "reference_median_us": 4043.0,
+      "candidate_median_us": 4062.6,
+      "reference_range_us": [
+        4035.2,
+        4059.0
+      ],
+      "candidate_range_us": [
+        4042.8,
+        4131.4
+      ],
+      "speed_ratio": 0.9951755033722247,
+      "time_reduction_percent": -0.4847885233737248
+    },
+    {
+      "id": "circuit.prologue.load_store",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 40012.0,
+      "candidate_median_us": 40144.0,
+      "reference_range_us": [
+        39837.0,
+        40382.0
+      ],
+      "candidate_range_us": [
+        39971.0,
+        41694.0
+      ],
+      "speed_ratio": 0.9967118373854125,
+      "time_reduction_percent": -0.32990102969108204
+    },
+    {
+      "id": "circuit.prologue.ram",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 2,
+      "reference_median_us": 12122.0,
+      "candidate_median_us": 12234.5,
+      "reference_range_us": [
+        12073.5,
+        12322.5
+      ],
+      "candidate_range_us": [
+        12167.0,
+        14041.5
+      ],
+      "speed_ratio": 0.99080469165066,
+      "time_reduction_percent": -0.9280646757960698
+    },
+    {
+      "id": "circuit.prologue.register",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 2,
+      "reference_median_us": 12305.5,
+      "candidate_median_us": 12364.5,
+      "reference_range_us": [
+        12282.0,
+        13118.0
+      ],
+      "candidate_range_us": [
+        12301.5,
+        12505.5
+      ],
+      "speed_ratio": 0.9952282744955315,
+      "time_reduction_percent": -0.47946040388444633
+    },
+    {
+      "id": "circuit.prologue.stress",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 55690.0,
+      "candidate_median_us": 56297.0,
+      "reference_range_us": [
+        55519.0,
+        56050.0
+      ],
+      "candidate_range_us": [
+        55824.0,
+        57027.0
+      ],
+      "speed_ratio": 0.9892178979341706,
+      "time_reduction_percent": -1.0899622912551532
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+Tool-captured first invocation, before file logging helper. Command:
+/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot --headless --path .godot/verification/20261105T090809Z-3273d2f7/project --script res://tests/test_computation_snapshot.gd
+
+Godot Engine v4.7.1.stable.official.a13da4feb
+ERROR: float sign bits retained
+ at: push_error (core/variant/variant_utility.cpp:1023)
+ GDScript backtrace:
+ [0] check (res://tests/test_computation_snapshot.gd:10)
+ [1] _init (res://tests/test_computation_snapshot.gd:19)
+SCRIPT ERROR: Invalid operands String and Dictionary in operator !=.
+ at: _init (res://tests/test_computation_snapshot.gd:20)
+
+Root terminated only this owned test process after script error. Harness repair uses explicit eight-byte encode_double, a constructed negative-zero fixture and canonical string comparison for deliberately different scalar/container types. Subsequent isolated test:10 checks,0 failures. No production code involved.

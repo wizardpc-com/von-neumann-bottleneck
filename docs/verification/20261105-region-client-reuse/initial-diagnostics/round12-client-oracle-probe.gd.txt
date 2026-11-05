@@ -1,0 +1,13 @@
+extends "res://tests/test_representation_region_clients.gd"
+func run() -> void:
+	var spec: Dictionary = Region.orders(3)[0].duplicate(true)
+	spec.online = false
+	spec.clients = 2
+	var plan: Array = Region.initial_plan()
+	var actual: SimulationTrace = Region.run(spec,plan)
+	var expected: SimulationTrace = _independent_expected(spec,plan,"probe")
+	var file := FileAccess.open("user://oracle-diff.json",FileAccess.WRITE)
+	file.store_string(JSON.stringify({"actual":Snapshot.freeze(actual),"expected":Snapshot.freeze(expected)},"",true,true))
+	file.close()
+	print("PASS: diagnostic snapshots exported ",ProjectSettings.globalize_path("user://oracle-diff.json"))
+	quit()

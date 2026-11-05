@@ -1,0 +1,1409 @@
+{
+  "passed": true,
+  "checked_at_utc": "2026-11-05T14:38:29.460444+00:00",
+  "checks": 467258,
+  "issues": [],
+  "artifacts": {
+    "20261105T132834Z-reference": {
+      "directory": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/region-client-benchmarks/20261105T132834Z-reference",
+      "project": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T130540Z-round12-reference/project",
+      "raw_bytes": 47536428,
+      "raw_sha256": "c2f57e73ecbcfd0842be907c836a5ea535f9a0436eaf0f6b52e0cc86c3774b95",
+      "log_sha256": "590cd23d89d4702b6ce8615d5b4b84633e9ae516d1fdac6d306e3b135be25808",
+      "manifest_sha256": "37a90cb55a2a70687a340c09e57b9439d21bc885d560623c44ee804e4f83548d",
+      "returncode": 0,
+      "seconds": 69.640338,
+      "samples": 7,
+      "cases": 12,
+      "profile": "VonNeumannBottleneckChecks/round12/20261105T132834Z-reference/workload",
+      "files": {}
+    },
+    "20261105T143051Z-candidate": {
+      "directory": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/region-client-benchmarks/20261105T143051Z-candidate",
+      "project": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T142756Z-4bd0e0fc/project",
+      "raw_bytes": 47536395,
+      "raw_sha256": "418d5994c806fae6b7180addfb37322d685c34bcff7b88f11f7447c2be4d4bd0",
+      "log_sha256": "021f8225fd5002d71f425ba6528121bcea696e7fd95316846d84e623b8c33789",
+      "manifest_sha256": "b6ff3f961efdf0c50b7cddec546d87f6e04f72ccf7f529ee21d2d988c22b9d9c",
+      "returncode": 0,
+      "seconds": 68.601597,
+      "samples": 7,
+      "cases": 12,
+      "profile": "VonNeumannBottleneckChecks/round12/20261105T143051Z-candidate/workload",
+      "files": {}
+    },
+    "20261105T141917Z-reference-corrected": {
+      "directory": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/region-client-profiles/20261105T141917Z-reference-corrected",
+      "project": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T130540Z-round12-reference/project",
+      "raw_bytes": 87745973,
+      "raw_sha256": "c3cf916633ed3c616ef483d307808189655534656520f775282f7ba516085e1f",
+      "log_sha256": "c04cdfb15a67bfadc454a78849b697eef0611ae0b6acb184da8b1d648c3f1cb6",
+      "manifest_sha256": "8773c3d514fe015aae3776c768dabe7816143e890dd129aacd143b81fe74ceee",
+      "returncode": 0,
+      "seconds": 132.582922,
+      "samples": 7,
+      "cases": 8,
+      "profile": "VonNeumannBottleneckChecks/round12/profile/20261105T141917Z-reference-corrected",
+      "files": {
+        "scripts/benchmarks/computation/region_profile.gd": "229639c318054dd15af06bac08c3ff2844354f15169e205e642c8c3fe2f4a9cd",
+        "scripts/benchmarks/computation/snapshot.gd": "026fa6b74ae7285fa70971981cacc664b739164535779903ca452fa9b10252a5",
+        "scripts/benchmarks/computation/workload_cases.gd": "6a480e5215efcf01fc9cdb037d5ff18e68f4c1679ef8ba0f906ebf908eec4c17",
+        "experiments/representation_region/model.gd": "c7e37462fd24f23f01425cc2094e5818d1374070e08f51b46a6f6177b9423528",
+        "experiments/representation/plan_model.gd": "698029a07aa2b26097307b40fffbee99c87bcebaacc257d939d1ea942927d136"
+      }
+    },
+    "20261105T143310Z-candidate": {
+      "directory": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/region-client-profiles/20261105T143310Z-candidate",
+      "project": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T142756Z-4bd0e0fc/project",
+      "raw_bytes": 87745962,
+      "raw_sha256": "f786cb0bffccfd011652194efbf444361aa2aaf919eb4141260e781f47c2113e",
+      "log_sha256": "1bc0869b8734fa7b4e728d946f1b4faa3b2a4866f3d368f6aaa12f2f9021aa41",
+      "manifest_sha256": "52087e73fa92a41f7f72c46663c792125001233ba20281a56759c752c26f8263",
+      "returncode": 0,
+      "seconds": 132.06105566699998,
+      "samples": 7,
+      "cases": 8,
+      "profile": "VonNeumannBottleneckChecks/round12/profile/20261105T143310Z-candidate",
+      "files": {
+        "scripts/benchmarks/computation/region_profile.gd": "229639c318054dd15af06bac08c3ff2844354f15169e205e642c8c3fe2f4a9cd",
+        "scripts/benchmarks/computation/snapshot.gd": "026fa6b74ae7285fa70971981cacc664b739164535779903ca452fa9b10252a5",
+        "scripts/benchmarks/computation/workload_cases.gd": "6a480e5215efcf01fc9cdb037d5ff18e68f4c1679ef8ba0f906ebf908eec4c17",
+        "experiments/representation_region/model.gd": "71c5a91016a00163b9a3be2f64ca90030f8992469866977521ed5858814ae6d3",
+        "experiments/representation/plan_model.gd": "698029a07aa2b26097307b40fffbee99c87bcebaacc257d939d1ea942927d136"
+      }
+    }
+  },
+  "public_comparison": [
+    {
+      "id": "representation_partition_revisits",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 8,
+      "reference_median_us": 12498.375,
+      "candidate_median_us": 12739.375,
+      "reference_range_us": [
+        12446.75,
+        12598.0
+      ],
+      "candidate_range_us": [
+        12691.125,
+        12812.0
+      ],
+      "speed_ratio": 0.9810822744443899,
+      "time_reduction_percent": -1.9282506725874393
+    },
+    {
+      "id": "representation_online_clients",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 4,
+      "reference_median_us": 27856.5,
+      "candidate_median_us": 14610.0,
+      "reference_range_us": [
+        27715.5,
+        27884.0
+      ],
+      "candidate_range_us": [
+        14463.5,
+        14787.0
+      ],
+      "speed_ratio": 1.9066735112936346,
+      "time_reduction_percent": 47.552635830057625
+    },
+    {
+      "id": "representation_region_compatibility",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 80417.0,
+      "candidate_median_us": 54661.0,
+      "reference_range_us": [
+        79934.0,
+        84699.0
+      ],
+      "candidate_range_us": [
+        54085.0,
+        57479.0
+      ],
+      "speed_ratio": 1.471195184866724,
+      "time_reduction_percent": 32.028053769725304
+    },
+    {
+      "id": "representation_region_online_rle_c1",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 8,
+      "reference_median_us": 1868.625,
+      "candidate_median_us": 1886.875,
+      "reference_range_us": [
+        1864.75,
+        1873.75
+      ],
+      "candidate_range_us": [
+        1880.375,
+        1902.75
+      ],
+      "speed_ratio": 0.990327923153362,
+      "time_reduction_percent": -0.9766539567864108
+    },
+    {
+      "id": "representation_region_online_rle_c2",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 4,
+      "reference_median_us": 3478.5,
+      "candidate_median_us": 2627.5,
+      "reference_range_us": [
+        3448.5,
+        3580.75
+      ],
+      "candidate_range_us": [
+        2599.25,
+        2737.25
+      ],
+      "speed_ratio": 1.3238820171265462,
+      "time_reduction_percent": 24.464568060945812
+    },
+    {
+      "id": "representation_region_online_rle_c4",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 2,
+      "reference_median_us": 6663.5,
+      "candidate_median_us": 4002.5,
+      "reference_range_us": [
+        6644.5,
+        6687.5
+      ],
+      "candidate_range_us": [
+        3903.0,
+        4340.5
+      ],
+      "speed_ratio": 1.664834478450968,
+      "time_reduction_percent": 39.93396863510167
+    },
+    {
+      "id": "representation_region_online_rle_c8",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 12718.0,
+      "candidate_median_us": 6357.0,
+      "reference_range_us": [
+        12628.0,
+        13276.0
+      ],
+      "candidate_range_us": [
+        6280.0,
+        6578.0
+      ],
+      "speed_ratio": 2.000629227623093,
+      "time_reduction_percent": 50.01572574304136
+    },
+    {
+      "id": "representation_region_offline_revisits_c1",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 4,
+      "reference_median_us": 11768.75,
+      "candidate_median_us": 12079.0,
+      "reference_range_us": [
+        11747.25,
+        11906.25
+      ],
+      "candidate_range_us": [
+        11921.5,
+        12265.5
+      ],
+      "speed_ratio": 0.9743149267323454,
+      "time_reduction_percent": -2.636218799787571
+    },
+    {
+      "id": "representation_region_offline_revisits_c2",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 2,
+      "reference_median_us": 22984.0,
+      "candidate_median_us": 16780.5,
+      "reference_range_us": [
+        22919.5,
+        23371.5
+      ],
+      "candidate_range_us": [
+        16644.0,
+        16961.5
+      ],
+      "speed_ratio": 1.3696850511009804,
+      "time_reduction_percent": 26.99051514096763
+    },
+    {
+      "id": "representation_region_offline_revisits_c4",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 43829.0,
+      "candidate_median_us": 24822.0,
+      "reference_range_us": [
+        43586.0,
+        44111.0
+      ],
+      "candidate_range_us": [
+        24647.0,
+        25108.0
+      ],
+      "speed_ratio": 1.7657320119249054,
+      "time_reduction_percent": 43.366264345524655
+    },
+    {
+      "id": "representation_region_offline_revisits_c8",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 86719.0,
+      "candidate_median_us": 42131.0,
+      "reference_range_us": [
+        86372.0,
+        87380.0
+      ],
+      "candidate_range_us": [
+        41914.0,
+        43503.0
+      ],
+      "speed_ratio": 2.058318103059505,
+      "time_reduction_percent": 51.416644564628285
+    },
+    {
+      "id": "workload_rejections",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 1035.0,
+      "candidate_median_us": 1075.0,
+      "reference_range_us": [
+        1029.0,
+        1042.0
+      ],
+      "candidate_range_us": [
+        1062.0,
+        1135.0
+      ],
+      "speed_ratio": 0.9627906976744186,
+      "time_reduction_percent": -3.864734299516903
+    }
+  ],
+  "diagnostics": {
+    "20261105T141917Z-reference-corrected": [
+      {
+        "clients": 1,
+        "cold_us": {
+          "client_evidence_materialization": 661,
+          "independent_services": 879
+        },
+        "fixture": "online_rle",
+        "id": "representation_region_online_rle_c1",
+        "iterations_per_sample_per_boundary": 8,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 1064419,
+        "snapshot_sha256": "7619622565d9b1a4283526dd5f8357709797faa4e3a465f79c6dcc05527d809e",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              6513,
+              6024,
+              5719,
+              5844,
+              5983,
+              5631,
+              5728
+            ],
+            "max_us": 814.125,
+            "median_us": 730.5,
+            "min_us": 703.875,
+            "per_call_us": [
+              814.125,
+              753.0,
+              714.875,
+              730.5,
+              747.875,
+              703.875,
+              716.0
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              7390,
+              7195,
+              7269,
+              7446,
+              7144,
+              7085,
+              7780
+            ],
+            "max_us": 972.5,
+            "median_us": 908.625,
+            "min_us": 885.625,
+            "per_call_us": [
+              923.75,
+              899.375,
+              908.625,
+              930.75,
+              893.0,
+              885.625,
+              972.5
+            ]
+          }
+        }
+      },
+      {
+        "clients": 2,
+        "cold_us": {
+          "client_evidence_materialization": 1306,
+          "independent_services": 1721
+        },
+        "fixture": "online_rle",
+        "id": "representation_region_online_rle_c2",
+        "iterations_per_sample_per_boundary": 8,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 1843873,
+        "snapshot_sha256": "32c2a044983793531026f57efcb411b66d49248832ea4b9e62bf1d50a00f61fd",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              11515,
+              11475,
+              11655,
+              12181,
+              11664,
+              11508,
+              11642
+            ],
+            "max_us": 1522.625,
+            "median_us": 1455.25,
+            "min_us": 1434.375,
+            "per_call_us": [
+              1439.375,
+              1434.375,
+              1456.875,
+              1522.625,
+              1458.0,
+              1438.5,
+              1455.25
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              14814,
+              14597,
+              14553,
+              14885,
+              15280,
+              14855,
+              14479
+            ],
+            "max_us": 1910.0,
+            "median_us": 1851.75,
+            "min_us": 1809.875,
+            "per_call_us": [
+              1851.75,
+              1824.625,
+              1819.125,
+              1860.625,
+              1910.0,
+              1856.875,
+              1809.875
+            ]
+          }
+        }
+      },
+      {
+        "clients": 4,
+        "cold_us": {
+          "client_evidence_materialization": 2611,
+          "independent_services": 3381
+        },
+        "fixture": "online_rle",
+        "id": "representation_region_online_rle_c4",
+        "iterations_per_sample_per_boundary": 8,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 3402757,
+        "snapshot_sha256": "62cb6ac0798db21de6078af017233fd255bdf9e4dab60ca1f65b3a31c9fa151d",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              23409,
+              23499,
+              23200,
+              22915,
+              24043,
+              23280,
+              23306
+            ],
+            "max_us": 3005.375,
+            "median_us": 2913.25,
+            "min_us": 2864.375,
+            "per_call_us": [
+              2926.125,
+              2937.375,
+              2900.0,
+              2864.375,
+              3005.375,
+              2910.0,
+              2913.25
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              29771,
+              29551,
+              29119,
+              29658,
+              29580,
+              29877,
+              29735
+            ],
+            "max_us": 3734.625,
+            "median_us": 3707.25,
+            "min_us": 3639.875,
+            "per_call_us": [
+              3721.375,
+              3693.875,
+              3639.875,
+              3707.25,
+              3697.5,
+              3734.625,
+              3716.875
+            ]
+          }
+        }
+      },
+      {
+        "clients": 8,
+        "cold_us": {
+          "client_evidence_materialization": 5196,
+          "independent_services": 6702
+        },
+        "fixture": "online_rle",
+        "id": "representation_region_online_rle_c8",
+        "iterations_per_sample_per_boundary": 8,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 6520509,
+        "snapshot_sha256": "730002fe6854e79fc67f7adfa07bac1f5b973faeeb3bcc4fab7e7007fb560573",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              47657,
+              47639,
+              47152,
+              47211,
+              47661,
+              46974,
+              51486
+            ],
+            "max_us": 6435.75,
+            "median_us": 5954.875,
+            "min_us": 5871.75,
+            "per_call_us": [
+              5957.125,
+              5954.875,
+              5894.0,
+              5901.375,
+              5957.625,
+              5871.75,
+              6435.75
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              61144,
+              63242,
+              59731,
+              60578,
+              64679,
+              60148,
+              65490
+            ],
+            "max_us": 8186.25,
+            "median_us": 7643.0,
+            "min_us": 7466.375,
+            "per_call_us": [
+              7643.0,
+              7905.25,
+              7466.375,
+              7572.25,
+              8084.875,
+              7518.5,
+              8186.25
+            ]
+          }
+        }
+      },
+      {
+        "clients": 1,
+        "cold_us": {
+          "client_evidence_materialization": 4648,
+          "independent_services": 5761
+        },
+        "fixture": "offline_revisits",
+        "id": "representation_region_offline_revisits_c1",
+        "iterations_per_sample_per_boundary": 2,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 6119162,
+        "snapshot_sha256": "7da5d240fd73dabb90251047eccab6a193b52573368faefe730b2b6c193458ee",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              9984,
+              10114,
+              10184,
+              10040,
+              9912,
+              10119,
+              10166
+            ],
+            "max_us": 5092.0,
+            "median_us": 5057.0,
+            "min_us": 4956.0,
+            "per_call_us": [
+              4992.0,
+              5057.0,
+              5092.0,
+              5020.0,
+              4956.0,
+              5059.5,
+              5083.0
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              12788,
+              12380,
+              12400,
+              12545,
+              12337,
+              13406,
+              12428
+            ],
+            "max_us": 6703.0,
+            "median_us": 6214.0,
+            "min_us": 6168.5,
+            "per_call_us": [
+              6394.0,
+              6190.0,
+              6200.0,
+              6272.5,
+              6168.5,
+              6703.0,
+              6214.0
+            ]
+          }
+        }
+      },
+      {
+        "clients": 2,
+        "cold_us": {
+          "client_evidence_materialization": 9077,
+          "independent_services": 11865
+        },
+        "fixture": "offline_revisits",
+        "id": "representation_region_offline_revisits_c2",
+        "iterations_per_sample_per_boundary": 2,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 10702145,
+        "snapshot_sha256": "104b97350249b15649e8cb77e94f47eb83655de9f7242110ecce66e424920082",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              19663,
+              19617,
+              19747,
+              20177,
+              19423,
+              19703,
+              19742
+            ],
+            "max_us": 10088.5,
+            "median_us": 9851.5,
+            "min_us": 9711.5,
+            "per_call_us": [
+              9831.5,
+              9808.5,
+              9873.5,
+              10088.5,
+              9711.5,
+              9851.5,
+              9871.0
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              26122,
+              24560,
+              24592,
+              24974,
+              24968,
+              25107,
+              24620
+            ],
+            "max_us": 13061.0,
+            "median_us": 12484.0,
+            "min_us": 12280.0,
+            "per_call_us": [
+              13061.0,
+              12280.0,
+              12296.0,
+              12487.0,
+              12484.0,
+              12553.5,
+              12310.0
+            ]
+          }
+        }
+      },
+      {
+        "clients": 4,
+        "cold_us": {
+          "client_evidence_materialization": 17943,
+          "independent_services": 23123
+        },
+        "fixture": "offline_revisits",
+        "id": "representation_region_offline_revisits_c4",
+        "iterations_per_sample_per_boundary": 2,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 19870079,
+        "snapshot_sha256": "acb44b8eade13fe8f030b0cb8b7dec5b71a9eede748193c3a75b72459ffd0ff0",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              38825,
+              38766,
+              39747,
+              38867,
+              38955,
+              39719,
+              38397
+            ],
+            "max_us": 19873.5,
+            "median_us": 19433.5,
+            "min_us": 19198.5,
+            "per_call_us": [
+              19412.5,
+              19383.0,
+              19873.5,
+              19433.5,
+              19477.5,
+              19859.5,
+              19198.5
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              52146,
+              49737,
+              48930,
+              49499,
+              49234,
+              49538,
+              49886
+            ],
+            "max_us": 26073.0,
+            "median_us": 24769.0,
+            "min_us": 24465.0,
+            "per_call_us": [
+              26073.0,
+              24868.5,
+              24465.0,
+              24749.5,
+              24617.0,
+              24769.0,
+              24943.0
+            ]
+          }
+        }
+      },
+      {
+        "clients": 8,
+        "cold_us": {
+          "client_evidence_materialization": 35421,
+          "independent_services": 46316
+        },
+        "fixture": "offline_revisits",
+        "id": "representation_region_offline_revisits_c8",
+        "iterations_per_sample_per_boundary": 2,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 38206859,
+        "snapshot_sha256": "a312cffba42198ab830ecd4751ea72d733282a22a950d36a9b3a7da71a84f38c",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              78243,
+              76936,
+              76066,
+              76220,
+              77132,
+              76515,
+              76655
+            ],
+            "max_us": 39121.5,
+            "median_us": 38327.5,
+            "min_us": 38033.0,
+            "per_call_us": [
+              39121.5,
+              38468.0,
+              38033.0,
+              38110.0,
+              38566.0,
+              38257.5,
+              38327.5
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              102705,
+              99272,
+              98275,
+              98654,
+              98819,
+              98460,
+              99389
+            ],
+            "max_us": 51352.5,
+            "median_us": 49409.5,
+            "min_us": 49137.5,
+            "per_call_us": [
+              51352.5,
+              49636.0,
+              49137.5,
+              49327.0,
+              49409.5,
+              49230.0,
+              49694.5
+            ]
+          }
+        }
+      }
+    ],
+    "20261105T143310Z-candidate": [
+      {
+        "clients": 1,
+        "cold_us": {
+          "client_evidence_materialization": 662,
+          "independent_services": 862
+        },
+        "fixture": "online_rle",
+        "id": "representation_region_online_rle_c1",
+        "iterations_per_sample_per_boundary": 8,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 1064419,
+        "snapshot_sha256": "7619622565d9b1a4283526dd5f8357709797faa4e3a465f79c6dcc05527d809e",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              5902,
+              5714,
+              6585,
+              5711,
+              5804,
+              6046,
+              5692
+            ],
+            "max_us": 823.125,
+            "median_us": 725.5,
+            "min_us": 711.5,
+            "per_call_us": [
+              737.75,
+              714.25,
+              823.125,
+              713.875,
+              725.5,
+              755.75,
+              711.5
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              7270,
+              7546,
+              7773,
+              7320,
+              7410,
+              7165,
+              7287
+            ],
+            "max_us": 971.625,
+            "median_us": 915.0,
+            "min_us": 895.625,
+            "per_call_us": [
+              908.75,
+              943.25,
+              971.625,
+              915.0,
+              926.25,
+              895.625,
+              910.875
+            ]
+          }
+        }
+      },
+      {
+        "clients": 2,
+        "cold_us": {
+          "client_evidence_materialization": 1302,
+          "independent_services": 1725
+        },
+        "fixture": "online_rle",
+        "id": "representation_region_online_rle_c2",
+        "iterations_per_sample_per_boundary": 8,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 1843873,
+        "snapshot_sha256": "32c2a044983793531026f57efcb411b66d49248832ea4b9e62bf1d50a00f61fd",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              11547,
+              12041,
+              11471,
+              11579,
+              11649,
+              11919,
+              11495
+            ],
+            "max_us": 1505.125,
+            "median_us": 1447.375,
+            "min_us": 1433.875,
+            "per_call_us": [
+              1443.375,
+              1505.125,
+              1433.875,
+              1447.375,
+              1456.125,
+              1489.875,
+              1436.875
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              14719,
+              14973,
+              14940,
+              14704,
+              14524,
+              14561,
+              14575
+            ],
+            "max_us": 1871.625,
+            "median_us": 1838.0,
+            "min_us": 1815.5,
+            "per_call_us": [
+              1839.875,
+              1871.625,
+              1867.5,
+              1838.0,
+              1815.5,
+              1820.125,
+              1821.875
+            ]
+          }
+        }
+      },
+      {
+        "clients": 4,
+        "cold_us": {
+          "client_evidence_materialization": 2671,
+          "independent_services": 3411
+        },
+        "fixture": "online_rle",
+        "id": "representation_region_online_rle_c4",
+        "iterations_per_sample_per_boundary": 8,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 3402757,
+        "snapshot_sha256": "62cb6ac0798db21de6078af017233fd255bdf9e4dab60ca1f65b3a31c9fa151d",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              23204,
+              23195,
+              22898,
+              23358,
+              23133,
+              23047,
+              23061
+            ],
+            "max_us": 2919.75,
+            "median_us": 2891.625,
+            "min_us": 2862.25,
+            "per_call_us": [
+              2900.5,
+              2899.375,
+              2862.25,
+              2919.75,
+              2891.625,
+              2880.875,
+              2882.625
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              29832,
+              29884,
+              29364,
+              29490,
+              30355,
+              29714,
+              29420
+            ],
+            "max_us": 3794.375,
+            "median_us": 3714.25,
+            "min_us": 3670.5,
+            "per_call_us": [
+              3729.0,
+              3735.5,
+              3670.5,
+              3686.25,
+              3794.375,
+              3714.25,
+              3677.5
+            ]
+          }
+        }
+      },
+      {
+        "clients": 8,
+        "cold_us": {
+          "client_evidence_materialization": 5134,
+          "independent_services": 6680
+        },
+        "fixture": "online_rle",
+        "id": "representation_region_online_rle_c8",
+        "iterations_per_sample_per_boundary": 8,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 6520509,
+        "snapshot_sha256": "730002fe6854e79fc67f7adfa07bac1f5b973faeeb3bcc4fab7e7007fb560573",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              47972,
+              47371,
+              47032,
+              47042,
+              47660,
+              47782,
+              48759
+            ],
+            "max_us": 6094.875,
+            "median_us": 5957.5,
+            "min_us": 5879.0,
+            "per_call_us": [
+              5996.5,
+              5921.375,
+              5879.0,
+              5880.25,
+              5957.5,
+              5972.75,
+              6094.875
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              62623,
+              60915,
+              59782,
+              60023,
+              59971,
+              59679,
+              60183
+            ],
+            "max_us": 7827.875,
+            "median_us": 7502.875,
+            "min_us": 7459.875,
+            "per_call_us": [
+              7827.875,
+              7614.375,
+              7472.75,
+              7502.875,
+              7496.375,
+              7459.875,
+              7522.875
+            ]
+          }
+        }
+      },
+      {
+        "clients": 1,
+        "cold_us": {
+          "client_evidence_materialization": 4642,
+          "independent_services": 6073
+        },
+        "fixture": "offline_revisits",
+        "id": "representation_region_offline_revisits_c1",
+        "iterations_per_sample_per_boundary": 2,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 6119162,
+        "snapshot_sha256": "7da5d240fd73dabb90251047eccab6a193b52573368faefe730b2b6c193458ee",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              11549,
+              9633,
+              9836,
+              9684,
+              10610,
+              9786,
+              9870
+            ],
+            "max_us": 5774.5,
+            "median_us": 4918.0,
+            "min_us": 4816.5,
+            "per_call_us": [
+              5774.5,
+              4816.5,
+              4918.0,
+              4842.0,
+              5305.0,
+              4893.0,
+              4935.0
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              12316,
+              12329,
+              12284,
+              12087,
+              12739,
+              12241,
+              12392
+            ],
+            "max_us": 6369.5,
+            "median_us": 6158.0,
+            "min_us": 6043.5,
+            "per_call_us": [
+              6158.0,
+              6164.5,
+              6142.0,
+              6043.5,
+              6369.5,
+              6120.5,
+              6196.0
+            ]
+          }
+        }
+      },
+      {
+        "clients": 2,
+        "cold_us": {
+          "client_evidence_materialization": 9054,
+          "independent_services": 11491
+        },
+        "fixture": "offline_revisits",
+        "id": "representation_region_offline_revisits_c2",
+        "iterations_per_sample_per_boundary": 2,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 10702145,
+        "snapshot_sha256": "104b97350249b15649e8cb77e94f47eb83655de9f7242110ecce66e424920082",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              19844,
+              19428,
+              19141,
+              19137,
+              19161,
+              19448,
+              19425
+            ],
+            "max_us": 9922.0,
+            "median_us": 9712.5,
+            "min_us": 9568.5,
+            "per_call_us": [
+              9922.0,
+              9714.0,
+              9570.5,
+              9568.5,
+              9580.5,
+              9724.0,
+              9712.5
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              25606,
+              24469,
+              24645,
+              24316,
+              24848,
+              24536,
+              24697
+            ],
+            "max_us": 12803.0,
+            "median_us": 12322.5,
+            "min_us": 12158.0,
+            "per_call_us": [
+              12803.0,
+              12234.5,
+              12322.5,
+              12158.0,
+              12424.0,
+              12268.0,
+              12348.5
+            ]
+          }
+        }
+      },
+      {
+        "clients": 4,
+        "cold_us": {
+          "client_evidence_materialization": 17590,
+          "independent_services": 23026
+        },
+        "fixture": "offline_revisits",
+        "id": "representation_region_offline_revisits_c4",
+        "iterations_per_sample_per_boundary": 2,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 19870079,
+        "snapshot_sha256": "acb44b8eade13fe8f030b0cb8b7dec5b71a9eede748193c3a75b72459ffd0ff0",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              38403,
+              38038,
+              37979,
+              38845,
+              40053,
+              38664,
+              38244
+            ],
+            "max_us": 20026.5,
+            "median_us": 19201.5,
+            "min_us": 18989.5,
+            "per_call_us": [
+              19201.5,
+              19019.0,
+              18989.5,
+              19422.5,
+              20026.5,
+              19332.0,
+              19122.0
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              51272,
+              48919,
+              49501,
+              49452,
+              49614,
+              49966,
+              49437
+            ],
+            "max_us": 25636.0,
+            "median_us": 24750.5,
+            "min_us": 24459.5,
+            "per_call_us": [
+              25636.0,
+              24459.5,
+              24750.5,
+              24726.0,
+              24807.0,
+              24983.0,
+              24718.5
+            ]
+          }
+        }
+      },
+      {
+        "clients": 8,
+        "cold_us": {
+          "client_evidence_materialization": 35895,
+          "independent_services": 46275
+        },
+        "fixture": "offline_revisits",
+        "id": "representation_region_offline_revisits_c8",
+        "iterations_per_sample_per_boundary": 2,
+        "passed": true,
+        "samples": 7,
+        "snapshot_bytes": 38206859,
+        "snapshot_sha256": "a312cffba42198ab830ecd4751ea72d733282a22a950d36a9b3a7da71a84f38c",
+        "timings": {
+          "client_evidence_materialization": {
+            "durations_us": [
+              80519,
+              77677,
+              74999,
+              75545,
+              75317,
+              76012,
+              75514
+            ],
+            "max_us": 40259.5,
+            "median_us": 37772.5,
+            "min_us": 37499.5,
+            "per_call_us": [
+              40259.5,
+              38838.5,
+              37499.5,
+              37772.5,
+              37658.5,
+              38006.0,
+              37757.0
+            ]
+          },
+          "independent_services": {
+            "durations_us": [
+              106699,
+              96998,
+              96235,
+              97508,
+              97424,
+              97744,
+              97139
+            ],
+            "max_us": 53349.5,
+            "median_us": 48712.0,
+            "min_us": 48117.5,
+            "per_call_us": [
+              53349.5,
+              48499.0,
+              48117.5,
+              48754.0,
+              48712.0,
+              48872.0,
+              48569.5
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "engine_runs_by_reviewer": 0,
+  "git_mutations_by_reviewer": 0,
+  "checker_correction": {
+    "initial_result": "/private/tmp/vnb-round12-evidence-initial-checker-failure.json",
+    "reason": "Exact source-only correction check initially omitted the added explanatory comment.",
+    "scope": "Include that exact comment; all artifact, typed-value and timing assertions unchanged."
+  },
+  "public_coverage": {
+    "representation_partition_revisits": {
+      "traces": 4,
+      "decisions": 0,
+      "events": 1076
+    },
+    "representation_online_clients": {
+      "traces": 4,
+      "decisions": 2,
+      "events": 1104
+    },
+    "representation_region_compatibility": {
+      "traces": 32,
+      "decisions": 20,
+      "events": 3272
+    },
+    "representation_region_online_rle_c1": {
+      "traces": 1,
+      "events": 72,
+      "outputs": 64,
+      "cycles": 174,
+      "traffic_bytes": 80
+    },
+    "representation_region_online_rle_c2": {
+      "traces": 1,
+      "events": 139,
+      "outputs": 128,
+      "cycles": 259,
+      "traffic_bytes": 88
+    },
+    "representation_region_online_rle_c4": {
+      "traces": 1,
+      "events": 273,
+      "outputs": 256,
+      "cycles": 429,
+      "traffic_bytes": 104
+    },
+    "representation_region_online_rle_c8": {
+      "traces": 1,
+      "events": 541,
+      "outputs": 512,
+      "cycles": 769,
+      "traffic_bytes": 136
+    },
+    "representation_region_offline_revisits_c1": {
+      "traces": 1,
+      "events": 608,
+      "outputs": 192,
+      "cycles": 4192,
+      "traffic_bytes": 3072
+    },
+    "representation_region_offline_revisits_c2": {
+      "traces": 1,
+      "events": 1216,
+      "outputs": 384,
+      "cycles": 8384,
+      "traffic_bytes": 6144
+    },
+    "representation_region_offline_revisits_c4": {
+      "traces": 1,
+      "events": 2432,
+      "outputs": 768,
+      "cycles": 16768,
+      "traffic_bytes": 12288
+    },
+    "representation_region_offline_revisits_c8": {
+      "traces": 1,
+      "events": 4864,
+      "outputs": 1536,
+      "cycles": 33536,
+      "traffic_bytes": 24576
+    },
+    "workload_rejections": {
+      "traces": 6,
+      "decisions": 0,
+      "events": 0
+    }
+  },
+  "source": {
+    "base": "82d6d540a8c01e8ed2a810b30a9f078fc7d35365",
+    "reference_runtime_files": 556,
+    "public_gd_files": {
+      "scripts/benchmarks/computation/circuit_cases.gd": "3f16571bc472786020a508b23138929eb88fe21ed0421d4ec682d78d44e7975b",
+      "scripts/benchmarks/computation/creation_profile.gd": "7cab1d54549e1fb7ab977b6fd2b87d4bfbf072db2e7c4b235d2539a8abdfbaec",
+      "scripts/benchmarks/computation/memory_cases.gd": "480bfd9b165e22f9d9c346cd24a31054da33b9f49ef5bc8bc452f0d321723bd7",
+      "scripts/benchmarks/computation/runner.gd": "df4430bea75380901cb108842eb1bace55de9025ecba0c42f83e734e2cb8ef59",
+      "scripts/benchmarks/computation/snapshot.gd": "026fa6b74ae7285fa70971981cacc664b739164535779903ca452fa9b10252a5",
+      "scripts/benchmarks/computation/workload_cases.gd": "6a480e5215efcf01fc9cdb037d5ff18e68f4c1679ef8ba0f906ebf908eec4c17"
+    },
+    "diagnostic_helper_sha256": "229639c318054dd15af06bac08c3ff2844354f15169e205e642c8c3fe2f4a9cd"
+  },
+  "candidate_complete": true,
+  "candidate_runtime_difference": [
+    {
+      "path": "experiments/representation_region/model.gd",
+      "reference_sha256": "c7e37462fd24f23f01425cc2094e5818d1374070e08f51b46a6f6177b9423528",
+      "candidate_sha256": "71c5a91016a00163b9a3be2f64ca90030f8992469866977521ed5858814ae6d3"
+    }
+  ],
+  "excluded_initial_profile": {
+    "directory": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/region-client-profiles/20261105T141527Z-reference",
+    "returncode": 1,
+    "failure_count": 16,
+    "raw_bytes": 87746042,
+    "raw_sha256": "04493a7aa657faf8df4d95bd77f5a5ffbe9874676f6de9c3cc348c47d634a87b",
+    "log_sha256": "79f02985271bf115ad67c0c81041a435b4f3aa4badb29c106e464886c7ed101b",
+    "accepted_for_timing": false
+  },
+  "supplement_note": "556 candidate runtime files checked against frozen manifest; exactly Region model differs. Failed initial profile original hash/size/status preserved and excluded.",
+  "supplemental_runtime_files_checked": 556
+}

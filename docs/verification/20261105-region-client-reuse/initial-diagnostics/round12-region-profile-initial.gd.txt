@@ -1,0 +1,311 @@
+extends SceneTree
+## Separate diagnostic boundaries, not additive attribution or public API ratios.
+## All model/template/oracle construction and evidence inspection stay untimed.
+const Workloads = preload("res://scripts/benchmarks/computation/workload_cases.gd")
+const Base = preload("res://experiments/representation/plan_model.gd")
+const Region = preload("res://experiments/representation_region/model.gd")
+const Codec = preload("res://experiments/representation/model.gd")
+const Trace = preload("res://src/simulation/simulation_trace.gd")
+const Snapshot = preload("res://scripts/benchmarks/computation/snapshot.gd")
+const SAMPLES: int = 7
+const ITERATIONS: Dictionary = {"online_rle":8, "offline_revisits":2}
+const SERVICE_FIELDS: Array[String] = [
+	"request_cycles", "transfer_cycles", "decode_cycles", "consume_cycles",
+	"traffic_bytes", "decoded_values", "decode_ops", "cache_hits", "cache_misses", "evictions"]
+const PREPARATION_FIELDS: Array[String] = [
+	"preparation_cycles", "source_read_bytes", "prepared_write_bytes", "encode_ops",
+	"encode_cycles", "source_storage_bytes", "representation_bytes", "peak_preparation_bytes"]
+var failures: Array[String] = []
+var entries: Array[Dictionary] = []
+var retained: Array[Dictionary] = []
+var checks: int = 0
+var run_entered: bool = false
+var run_finished: bool = false
+
+
+func _init() -> void:
+	call_deferred("_run")
+
+
+func _process(_delta: float) -> bool:
+	# _run is synchronous. A nested script error must produce a failed receipt
+	# and exit, rather than leave a process waiting without its finish path.
+	if run_entered and not run_finished:
+		check(false, "Region profile aborted before its final receipt.")
+		_finish()
+	return false
+
+
+func option(name: String, fallback: String = "") -> String:
+	var prefix: String = "--" + name + "="
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with(prefix): return argument.trim_prefix(prefix)
+	return fallback
+
+
+func check(ok: bool, message: String) -> bool:
+	checks += 1
+	if not ok:
+		failures.append(message)
+		push_error(message)
+	return ok
+
+
+func freeze_checked(value: Variant, path: String) -> Variant:
+	var frozen: Variant = Snapshot.freeze(value)
+	check(Snapshot.supported(frozen), path + ": complete supported typed evidence")
+	return frozen
+
+
+func _run() -> void:
+	if not OS.get_user_data_dir().replace("\\", "/").contains("/VonNeumannBottleneckChecks/"):
+		push_error("Use an isolated QA profile for Region diagnostics.")
+		quit(1)
+		return
+	run_entered = true
+	var only: PackedStringArray = option("only").split(",", false)
+	for spec: Dictionary in Workloads.region_client_cases():
+		if not only.is_empty() and str(spec.id) not in only: continue
+		entries.append(_measure(spec))
+	for row: Dictionary in retained:
+		check(freeze_checked(row.actual, str(row.id)) == row.expected,
+			str(row.id) + ": later different fixtures preserve every retained result")
+		check(var_to_bytes(row.input) == row.input_bytes,
+			str(row.id) + ": later different fixtures preserve original input")
+	check(not entries.is_empty(), "At least one declared Region diagnostic executed")
+	_finish()
+
+
+func _measure(case_spec: Dictionary) -> Dictionary:
+	var id: String = str(case_spec.id)
+	var failure_start: int = failures.size()
+	var input_bytes: PackedByteArray = var_to_bytes(case_spec)
+	var input: Dictionary = case_spec.input
+	var source: Dictionary = input.spec.duplicate(true)
+	var plan: Array[Dictionary] = []
+	plan.assign(input.plan.duplicate(true))
+	var clients: int = int(input.clients)
+	var iterations: int = int(ITERATIONS[str(input.fixture)])
+	var source_bytes: PackedByteArray = var_to_bytes(source)
+	var plan_bytes: PackedByteArray = var_to_bytes(plan)
+	# Actual public oracles are deliberately outside both component timers.
+	var template: Trace = Base.run(source, plan)
+	var oracle: Trace = Region.run(source, plan)
+	for issue: String in Workloads.validate_case(case_spec, oracle): check(false, id + ": " + issue)
+	if not check(template.passed and oracle.passed, id + ": successful actual Base and Region oracles"):
+		return _entry(case_spec, iterations, {}, {}, {"template":template, "region":oracle}, false)
+	var template_before: Variant = freeze_checked(template, id + "/template")
+	var oracle_before: Variant = freeze_checked(oracle, id + "/region")
+	var seed: Dictionary = _materialization_seed(template, oracle)
+	var seed_bytes: PackedByteArray = var_to_bytes(seed)
+	var expected_suffix: Variant = _service_suffix_snapshot(oracle, id)
+
+	var start: int = Time.get_ticks_usec()
+	var independent: Array[Trace] = _independent_services(source, plan, clients)
+	var independent_cold: int = Time.get_ticks_usec() - start
+	start = Time.get_ticks_usec()
+	var materialized: Trace = _materialize(seed, template, clients)
+	var materialization_cold: int = Time.get_ticks_usec() - start
+	_validate_independent(independent, clients, template_before, id + "/cold")
+	check(freeze_checked(materialized, id + "/cold/materialized") == expected_suffix,
+		id + ": complete materialized service equals actual Region suffix")
+	var original_materialized: Variant = freeze_checked(materialized, id + "/retained/materialized")
+	var original_independent: Variant = freeze_checked(independent, id + "/retained/independent")
+	var independent_times: Array[int] = []
+	var materialization_times: Array[int] = []
+	if failures.size() == failure_start:
+		for sample: int in SAMPLES:
+			var last_services: Array[Trace] = []
+			start = Time.get_ticks_usec()
+			for iteration: int in iterations:
+				last_services = _independent_services(source, plan, clients)
+			independent_times.append(Time.get_ticks_usec() - start)
+			_validate_independent(last_services, clients, template_before, id + "/sample/%d" % sample)
+
+			var last_materialized: Trace
+			start = Time.get_ticks_usec()
+			for iteration: int in iterations:
+				last_materialized = _materialize(seed, template, clients)
+			materialization_times.append(Time.get_ticks_usec() - start)
+			check(freeze_checked(last_materialized, id + "/sample/%d/materialized" % sample) == expected_suffix,
+				id + ": complete timed materialization matches actual service suffix at sample%d" % sample)
+			check(freeze_checked(template, id + "/sample/template") == template_before,
+				id + ": source Base template is immutable after timed batches")
+			check(freeze_checked(oracle, id + "/sample/region") == oracle_before,
+				id + ": actual Region oracle is immutable after timed batches")
+			check(freeze_checked(independent, id + "/sample/retained_base") == original_independent
+				and freeze_checked(materialized, id + "/sample/retained_suffix") == original_materialized,
+				id + ": earlier complete results survive subsequent batches")
+			check(var_to_bytes(source) == source_bytes and var_to_bytes(plan) == plan_bytes
+				and var_to_bytes(seed) == seed_bytes and var_to_bytes(case_spec) == input_bytes,
+				id + ": inputs and materialization seed remain unchanged")
+
+	# Explicit mutation supplements value snapshots, which omit alias topology.
+	var probe: Trace = _materialize(seed, template, clients)
+	if not probe.events.is_empty(): probe.events[0].details["profile_probe"] = true
+	if not probe.metrics.accesses.is_empty():
+		probe.metrics.accesses[0].cache_after.used_bytes = -1
+	if not probe.metrics.blocks.is_empty():
+		probe.metrics.blocks[0].encoded[0] = int(probe.metrics.blocks[0].encoded[0]) ^ 1
+	probe.metrics.spec.data[0] = int(probe.metrics.spec.data[0]) ^ 1
+	check(freeze_checked(template, id + "/mutated_probe/template") == template_before
+		and freeze_checked(oracle, id + "/mutated_probe/region") == oracle_before
+		and freeze_checked(materialized, id + "/mutated_probe/retained_suffix") == original_materialized
+		and freeze_checked(independent, id + "/mutated_probe/retained_base") == original_independent,
+		id + ": disposable materialization mutation leaves template and retained results exact")
+	check(var_to_bytes(source) == source_bytes and var_to_bytes(plan) == plan_bytes
+		and var_to_bytes(seed) == seed_bytes and var_to_bytes(case_spec) == input_bytes,
+		id + ": disposable materialization mutation leaves all source inputs exact")
+	check(independent_times.size() == SAMPLES and materialization_times.size() == SAMPLES,
+		id + ": exactly seven complete fixed-count samples")
+	for duration: int in independent_times:
+		check(duration > 0, id + ": positive complete independent-service sample")
+	for duration: int in materialization_times:
+		check(duration > 0, id + ": positive complete materialization sample")
+	var evidence: Dictionary = {"template":template, "region":oracle,
+		"independent_services":independent, "materialized_service":materialized,
+		"materialization_seed":seed}
+	var frozen: Variant = freeze_checked(evidence, id + "/complete")
+	retained.append({"id":id, "actual":evidence, "expected":frozen,
+		"input":case_spec, "input_bytes":input_bytes})
+	var timings: Dictionary = {"independent_services":_timing(independent_times, iterations),
+		"client_evidence_materialization":_timing(materialization_times, iterations)}
+	var cold: Dictionary = {"independent_services":independent_cold,
+		"client_evidence_materialization":materialization_cold}
+	var result: Dictionary = _entry(case_spec, iterations, cold, timings, evidence,
+		failures.size() == failure_start, frozen)
+	print("REGION PROFILE ", id, ": clients", clients, "; ", iterations,
+		" iterations; ", SAMPLES, " samples; passed=", result.passed)
+	return result
+
+
+func _independent_services(source: Dictionary, plan: Array[Dictionary], clients: int) -> Array[Trace]:
+	# Retain all N complete results for validation. This diagnostic lifetime
+	# differs from production's first/current service references; it is not
+	# a measurement of the old wrapper loop or its peak heap.
+	var results: Array[Trace] = []
+	for client: int in clients:
+		results.append(Base.run(source, plan))
+	return results
+
+
+func _validate_independent(results: Array[Trace], clients: int, expected: Variant, path: String) -> void:
+	check(results.size() == clients, path + ": N actual independent Base results")
+	for client: int in results.size():
+		check(results[client].passed and freeze_checked(results[client], path + "/client/%d" % client) == expected,
+			path + ": complete independently cold Base service " + str(client))
+
+
+func _materialization_seed(template: Trace, oracle: Trace) -> Dictionary:
+	var seed: Dictionary = template.metrics.duplicate(true)
+	for field: String in SERVICE_FIELDS: seed[field] = 0
+	seed.outputs = []
+	seed.expected = []
+	seed.accesses = []
+	# Preparation is real observed work, not a second preparation simulator.
+	# This untimed seed retains its exact measured offset/storage/traffic only.
+	for field: String in PREPARATION_FIELDS: seed[field] = oracle.metrics[field]
+	seed.stored_bytes = oracle.metrics.stored_bytes
+	seed.total_cycles = int(oracle.metrics.preparation_cycles)
+	seed.service_cycles = 0
+	seed.total_traffic_bytes = int(seed.source_read_bytes) + int(seed.prepared_write_bytes)
+	return seed
+
+
+func _materialize(seed: Dictionary, template: Trace, clients: int) -> Trace:
+	# Benchmark-only copy of the existing wrapper's required service emission.
+	# Fresh Trace/deep copies/Codec.emit/aggregation remain inside this timer.
+	var trace := Trace.new()
+	trace.test_name = Region.VERSION
+	trace.metrics = seed.duplicate(true)
+	for client: int in clients:
+		for event: RefCounted in template.events:
+			var details: Dictionary = event.details.duplicate(true)
+			details.client = client
+			Codec.emit(trace, event.kind, event.duration, details)
+		for field: String in SERVICE_FIELDS:
+			trace.metrics[field] += int(template.metrics[field])
+		trace.metrics.outputs.append_array(template.metrics.outputs)
+		trace.metrics.expected.append_array(template.metrics.expected)
+		for entry: Dictionary in template.metrics.accesses:
+			var copied: Dictionary = entry.duplicate(true)
+			copied.client = client
+			trace.metrics.accesses.append(copied)
+	trace.metrics.service_cycles = int(trace.metrics.total_cycles) - int(trace.metrics.preparation_cycles)
+	trace.metrics.total_traffic_bytes = int(trace.metrics.source_read_bytes) \
+		+ int(trace.metrics.prepared_write_bytes) + int(trace.metrics.traffic_bytes)
+	trace.passed = trace.metrics.outputs == trace.metrics.expected
+	trace.result_value = trace.metrics.outputs.reduce(func(a: int, b: int) -> int: return a + b, 0)
+	trace.expected_value = trace.result_value
+	return trace
+
+
+func _service_suffix_snapshot(oracle: Trace, path: String) -> Variant:
+	# Retain every original object field/type and all absolute event cycles.
+	# Only the actual preparation event prefix is omitted in this comparison.
+	var expected: Variant = freeze_checked(oracle, path + "/suffix_oracle")
+	var service_events: Array = []
+	var service_started: bool = false
+	var preparation_end: int = 0
+	for event: RefCounted in oracle.events:
+		if event.details.has("client"):
+			service_started = true
+			service_events.append(freeze_checked(event, path + "/suffix_event"))
+		else:
+			check(not service_started, path + ": preparation is a contiguous actual prefix")
+			preparation_end = event.cycle + event.duration
+	check(preparation_end == int(oracle.metrics.preparation_cycles),
+		path + ": actual preparation prefix matches the materialization offset")
+	expected.fields.events["@array"] = service_events
+	return expected
+
+
+func _timing(durations: Array[int], iterations: int) -> Dictionary:
+	var per_call: Array[float] = []
+	for duration: int in durations: per_call.append(float(duration) / iterations)
+	var ordered: Array[float] = per_call.duplicate()
+	ordered.sort()
+	return {"durations_us":durations, "per_call_us":per_call,
+		"median_us":ordered[ordered.size() / 2] if not ordered.is_empty() else 0.0,
+		"min_us":ordered.front() if not ordered.is_empty() else 0.0,
+		"max_us":ordered.back() if not ordered.is_empty() else 0.0}
+
+
+func _entry(case_spec: Dictionary, iterations: int, cold: Dictionary, timings: Dictionary,
+		evidence: Dictionary, passed: bool, frozen: Variant = null) -> Dictionary:
+	var snapshot: Variant = frozen if frozen != null else freeze_checked(evidence, str(case_spec.id))
+	var encoded: String = JSON.stringify(snapshot, "", true, true)
+	return {"id":str(case_spec.id), "input":case_spec, "passed":passed,
+		"clients":int(case_spec.input.clients), "fixture":str(case_spec.input.fixture),
+		"iterations_per_sample_per_boundary":iterations, "samples":SAMPLES,
+		"cold_us":cold, "timings":timings,
+		"snapshot_bytes":encoded.to_utf8_buffer().size(),
+		"snapshot_sha256":encoded.sha256_text(), "snapshot":snapshot}
+
+
+func _finish() -> void:
+	run_finished = true
+	var result: Dictionary = {
+		"version":1, "passed":failures.is_empty(), "failures":failures, "checks":checks,
+		"engine":Engine.get_version_info(), "os":OS.get_name(),
+		"architecture":Engine.get_architecture_name(), "display":DisplayServer.get_name(),
+		"processor":OS.get_processor_name(), "processor_count":OS.get_processor_count(),
+		"host_label":option("host-label"), "execution_flags":OS.get_cmdline_args(),
+		"samples":SAMPLES, "fixed_iterations":ITERATIONS, "cases":entries,
+		"timing_scope":{
+			"independent_services":"N actual Base.run services with complete Base Trace allocation; all N results retained per invocation; typed source/plan setup excluded.",
+			"client_evidence_materialization":"Fresh Trace, deep copies, events and ordered metric/output/access accumulation from one immutable actual Base service; observed preparation offset retained.",
+			"excluded":"All template/oracle/seed construction, Snapshot inspection, hashing and export.",
+			"limits":"Separate diagnostic boundaries are not additive attribution, pure compute/allocation timing, peak heap, or public Region/Run-button speed ratios; independent-service retention differs from the production first/current lifetime."},
+	}
+	var file := FileAccess.open("user://region-profile.json", FileAccess.WRITE)
+	if file == null:
+		check(false, "Cannot write Region profile receipt: " + str(FileAccess.get_open_error()))
+	else:
+		file.store_string(JSON.stringify(result, "", true, true))
+		file.flush()
+		check(file.get_error() == OK, "Complete Region profile receipt written")
+		file.close()
+		print("REGION PROFILE: ", ProjectSettings.globalize_path("user://region-profile.json"))
+	print(("PASS: " if failures.is_empty() else "FAIL: ") + "Region diagnostic profile %d cases, %d failures" % [entries.size(), failures.size()])
+	quit(0 if failures.is_empty() else 1)

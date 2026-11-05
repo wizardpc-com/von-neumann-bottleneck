@@ -1,0 +1,12 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+REGION PROFILE representation_region_online_rle_c1: clients1; 8 iterations; 7 samples; passed=true
+REGION PROFILE representation_region_online_rle_c2: clients2; 8 iterations; 7 samples; passed=true
+REGION PROFILE representation_region_online_rle_c4: clients4; 8 iterations; 7 samples; passed=true
+REGION PROFILE representation_region_online_rle_c8: clients8; 8 iterations; 7 samples; passed=true
+REGION PROFILE representation_region_offline_revisits_c1: clients1; 2 iterations; 7 samples; passed=true
+REGION PROFILE representation_region_offline_revisits_c2: clients2; 2 iterations; 7 samples; passed=true
+REGION PROFILE representation_region_offline_revisits_c4: clients4; 2 iterations; 7 samples; passed=true
+REGION PROFILE representation_region_offline_revisits_c8: clients8; 2 iterations; 7 samples; passed=true
+REGION PROFILE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round12/profile/20261105T141917Z-reference-corrected/region-profile.json
+PASS: Region diagnostic profile 8 cases, 0 failures

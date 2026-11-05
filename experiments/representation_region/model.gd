@@ -45,7 +45,9 @@ static func run(spec: Dictionary, plan: Array) -> Trace:
 	trace.metrics.peak_preparation_bytes = trace.metrics.stored_bytes if spec.online else 0
 	trace.metrics.preparation_cycles = trace.metrics.total_cycles
 	for client: int in spec.clients:
-		var current: Trace = service if client == 0 else Base.run(spec,plan)
+		# Identical clients start cold. Reuse only this call's immutable service;
+		# each client's events and access evidence are still constructed below.
+		var current: Trace = service
 		for event: RefCounted in current.events:
 			var d: Dictionary = event.details.duplicate(true); d.client = client
 			Codec.emit(trace,event.kind,event.duration,d)

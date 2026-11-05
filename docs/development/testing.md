@@ -1,3 +1,36 @@
+## Region cold-client reuse — 2026-11-05
+
+Run `test_representation_region_clients` on both the independently frozen
+reference and candidate. Its40 combinations execute162 independent Base
+services, retaining the full typed Trace oracle and explicit mutation checks.
+Cover clients1/2/4/8, both preparation modes, empty requests, cache0/undersized
+cache and zero latency. String and StringName dictionary keys are intentionally
+distinct in the complete Snapshot; preserve the actual key type in oracles.
+Keep Region/rejection, Base plan/cache, session/support/journey, workbench
+presentation and snapshot suites in the isolated verifier.
+
+The workload benchmark adds eight complete Region client-sweep cases alongside
+the32-trace compatibility workflow, four existing online traces, unchanged
+Base control and corrected rejection diagnostic. Use identical fixed counts
+and seven samples on both sides, and seal actual process logs before strict
+comparison. Full events, costs, results and22 existing goal decisions remain
+exact. Report client1 and Base controls separately, including slower samples.
+
+`scripts/benchmarks/computation/region_profile.gd` is a separate diagnostic.
+It times N actual Base services and client evidence construction from a
+precomputed immutable Base result, then compares complete evidence against
+the actual Region suffix with its real preparation offset. Base includes its
+own Trace work and retains all N results per invocation; these component
+timings are not additive attribution, heap measurements or public API ratios.
+Preserve original outputs, source identities, failure status and complete logs.
+
+Run `test_representation_workbench_presentation` with a renderer and
+`-- --workbench-capture --capture-size=1280x720` in the final QA project,
+then inspect its bilingual raw frames. The scripted capture selects tasks3/4;
+it does not replace the complete headless matrix or native OS interaction.
+Follow with ordinary isolated startup. See the
+[Round12 receipt](../verification/20261105-region-client-reuse/README.md).
+
 ## Region preparation rejection — 2026-11-05
 
 Run `test_representation_region_rejections` through `scripts/verify-project.py`

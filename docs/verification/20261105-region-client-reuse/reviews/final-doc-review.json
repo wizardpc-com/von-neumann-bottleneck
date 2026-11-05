@@ -1,0 +1,159 @@
+{
+  "passed": true,
+  "issues": [],
+  "source_entries_rehashed": 1255,
+  "source_and_qa_hashes_checked": 2510,
+  "project_extras": [
+    "config/use_custom_user_dir=true",
+    "config/custom_user_dir_name=\"VonNeumannBottleneckChecks/round12/playable-preview-20261105\""
+  ],
+  "standard_suites": 10,
+  "standard_logs": [
+    {
+      "name": "import",
+      "sha256": "d25a0de7d9bac0104757d419b16f30409352b81690ccde295e66c33e73bc9366",
+      "bytes": 41193,
+      "pass_lines": [],
+      "diagnostics": []
+    },
+    {
+      "name": "user_directory",
+      "sha256": "97cb29f1f9b7840e87d0d113a4858eba21c6ee2a8c0b919a8a70759db8f3bb5f",
+      "bytes": 205,
+      "pass_lines": [],
+      "diagnostics": []
+    },
+    {
+      "name": "test_candidate_journey_review",
+      "sha256": "1fe1aaf1da000130a92b54fd7f9f3e4943d00ce412178efefab63156b212c0da",
+      "bytes": 131,
+      "pass_lines": [
+        "PASS: test_candidate_journey_review 45 checks, 0 failures"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_candidate_supports",
+      "sha256": "4cce445ecada9b6649de2dcc57986e1405e66de699cd7e7e1ea68e88330fcc8c",
+      "bytes": 125,
+      "pass_lines": [
+        "PASS: test_candidate_supports 54 checks, 0 failures"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_computation_snapshot",
+      "sha256": "a2ac7469f6e2743cd5aea652e23ded47d13bc9dccf1e8a093629cc1be0f855aa",
+      "bytes": 121,
+      "pass_lines": [
+        "PASS: computation snapshot checks=10 failures=0"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_representation_cache",
+      "sha256": "bda45b41f248eb7b997be799143e5cea9e2bae1976be7839adef118fdc7383e1",
+      "bytes": 179,
+      "pass_lines": [
+        "PASS: representation cache 1395 checks; per-access invariants, independent victims, byte budget and costs"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_representation_plan",
+      "sha256": "5e42f0ffd1c2394112c75b9617786be1e0810babedf220ac29b99b56c9b76506",
+      "bytes": 703,
+      "pass_lines": [
+        "PASS: representation plan 10403 checks"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_representation_region",
+      "sha256": "58253617873b4d3efb75eec3e46333f525fbbdd19690bcbabb48740b1b5f89bd",
+      "bytes": 2142,
+      "pass_lines": [
+        "PASS: test_representation_region: 3329 checks, 0 failures"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_representation_region_clients",
+      "sha256": "751afb43aeba634bff1037357c2d578977e099d8abb1a76d24a1c41b1ad5d10a",
+      "bytes": 182,
+      "pass_lines": [
+        "PASS: representation region clients 900 checks / 0 failures (40 combinations, 162 independent Base services)"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_representation_region_rejections",
+      "sha256": "b5515ec3d7b8dfee2fe2e84b51f5e14a184595f11187db38abcfcb9f80ca73f2",
+      "bytes": 189,
+      "pass_lines": [
+        "PASS: representation region rejections 854 checks / 0 failures (63 rejected, 11 delegated, 12 valid boundary cases)"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_representation_session",
+      "sha256": "1ffcf1c4f65c7dbb20eff5fd1c9d40ec76ace6806e50ef98864e1451bf025f68",
+      "bytes": 129,
+      "pass_lines": [
+        "PASS: test_representation_session 47 checks, 0 failures"
+      ],
+      "diagnostics": []
+    },
+    {
+      "name": "test_representation_workbench_presentation",
+      "sha256": "c75a739834c04b79c169b820280bf7f69a3ee694e29bbdcdd00335c4d66a6a5c",
+      "bytes": 146,
+      "pass_lines": [
+        "PASS: test_representation_workbench_presentation 9303 checks, 0 failures"
+      ],
+      "diagnostics": []
+    }
+  ],
+  "other_invocations": [
+    {
+      "stamp": "20261105T143611Z",
+      "suite": "test_representation_workbench_presentation",
+      "sha256": "651953467ac63cec94285c08786e3b7c1afbcd40239d1049dbe6bf53db91f0f4",
+      "text": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2\n\nPASS: test_representation_workbench_presentation 2115 checks, 0 failures\n",
+      "diagnostics": []
+    },
+    {
+      "stamp": "20261105T144051Z",
+      "suite": "startup",
+      "sha256": "1f4aefb7bdaa3aac5c3ea38b8d505eb0d072d02dfef33d1c42767bcd075bbb24",
+      "text": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\n\n",
+      "diagnostics": []
+    },
+    {
+      "stamp": "20261105T132659Z",
+      "suite": "test_representation_region_clients",
+      "sha256": "751afb43aeba634bff1037357c2d578977e099d8abb1a76d24a1c41b1ad5d10a",
+      "text": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\n\nPASS: representation region clients 900 checks / 0 failures (40 combinations, 162 independent Base services)\n",
+      "diagnostics": []
+    }
+  ],
+  "frame_files_rehashed": 20,
+  "production_diff": "--- \n+++ \n@@ -45,7 +45,9 @@\n \ttrace.metrics.peak_preparation_bytes = trace.metrics.stored_bytes if spec.online else 0\n \ttrace.metrics.preparation_cycles = trace.metrics.total_cycles\n \tfor client: int in spec.clients:\n-\t\tvar current: Trace = service if client == 0 else Base.run(spec,plan)\n+\t\t# Identical clients start cold. Reuse only this call's immutable service;\n+\t\t# each client's events and access evidence are still constructed below.\n+\t\tvar current: Trace = service\n \t\tfor event: RefCounted in current.events:\n \t\t\tvar d: Dictionary = event.details.duplicate(true); d.client = client\n \t\t\tCodec.emit(trace,event.kind,event.duration,d)\n",
+  "helper_correction_exact": true,
+  "documents": {
+    "docs/verification/20261105-region-client-reuse/README.md": "89e878288409b61d8317439f174e57ff528699e9d3e40b9fd82c9b7f241b3ebe",
+    "docs/CURRENT_STATE.md": "faed94880b3d9ca7846275494636460c57dd09f2d84fe75358864cb5b4c725fb",
+    "docs/exec-plans/completed/region-client-reuse-20261105.md": "fdfd06ea259472aa35e561e0c051ad9a5d4084210402ac7de551c9a55d878892",
+    "docs/exec-plans/active/README.md": "5018571f1c084e9488b6dc742eaa2d87b9dde3afc4876370caaa5904920adea2",
+    "ARCHITECTURE.md": "47619ff20d16c08ca69fa3eb68ec0635a0616403ebe4c0b678842ad26119556c",
+    "docs/architecture/simulation.md": "22e049f1127963dcf62b121f3bb1748c7c4a483f871a6fb21e2b4178c4df09a6",
+    "docs/development/testing.md": "9517648a13cecb6188be164ff08cdc9233fb303e538c7b6360b350b1b5fb7532",
+    "docs/development/COMPUTATION_AUDIT_20261105.md": "bd4295f8d07d8b234a852695d58bead3cf4df141b926f76724de877171ddbd9c",
+    "scripts/benchmarks/computation/README.md": "16a80c092a67099cf272f624fc3e43b3a3b5e787a62532347f98d3553cd0cd65",
+    "docs/README.md": "04a188a0f9fed9f527597d1d66545effe2be6a608f8c73797982717bf31f5d4f"
+  },
+  "evidence_review_reused": "/private/tmp/vnb-round12-timing-evidence-review.md",
+  "typed_raw_audit_repeated": false,
+  "engine_runs_by_reviewer": 0,
+  "git_operations_by_reviewer": 0
+}

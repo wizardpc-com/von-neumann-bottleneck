@@ -1,5 +1,14 @@
 # Architecture
 
+Representation Region reuses one completed immutable Base service within a
+single synchronous call for identical cold clients. It still constructs every
+client's detached events and access rows in the original order, preserving
+absolute cycles, simulated costs, outputs and goal decisions. There is no
+cross-call cache or shared live client cache. The GDScript implementation and
+all condition/save identities remain; full typed differential and mutation
+checks bind this optimization to its current same-input contract. See the
+[Round12 evidence](docs/verification/20261105-region-client-reuse/README.md).
+
 Representation Region distinguishes Base rejection from preparation-parameter
 rejection. Base errors keep their existing priority and complete evidence.
 Invalid preparation parameters after a valid Base result instead return a fresh

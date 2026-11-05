@@ -1,0 +1,105 @@
+[
+  {
+    "group": "workload",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T130540Z-round12-reference/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=workload",
+      "--label=reference",
+      "--host-label=yrq-mac-round12",
+      "--samples=7",
+      "--iterations-file=/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/collaboration/round12-iterations.json",
+      "--only=representation_region_compatibility,representation_online_clients,representation_partition_revisits,workload_rejections,representation_region_online_rle_c1,representation_region_online_rle_c2,representation_region_online_rle_c4,representation_region_online_rle_c8,representation_region_offline_revisits_c1,representation_region_offline_revisits_c2,representation_region_offline_revisits_c4,representation_region_offline_revisits_c8"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round12/20261105T132834Z-reference/workload",
+    "returncode": 0,
+    "seconds": 69.640338,
+    "log": "workload.log",
+    "diagnostics": [],
+    "output": "workload.json.gz",
+    "raw_sha256": "c2f57e73ecbcfd0842be907c836a5ea535f9a0436eaf0f6b52e0cc86c3774b95",
+    "raw_bytes": 47536428,
+    "compressed_bytes": 537208,
+    "sealed_output": "workload.sealed.json.gz",
+    "failures": [],
+    "cases": [
+      {
+        "id": "representation_partition_revisits",
+        "iterations": 8,
+        "median_us": 12498.375,
+        "snapshot_bytes": 3138242
+      },
+      {
+        "id": "representation_online_clients",
+        "iterations": 4,
+        "median_us": 27856.5,
+        "snapshot_bytes": 4364832
+      },
+      {
+        "id": "representation_region_compatibility",
+        "iterations": 1,
+        "median_us": 80417.0,
+        "snapshot_bytes": 12810657
+      },
+      {
+        "id": "representation_region_online_rle_c1",
+        "iterations": 8,
+        "median_us": 1868.625,
+        "snapshot_bytes": 273644
+      },
+      {
+        "id": "representation_region_online_rle_c2",
+        "iterations": 4,
+        "median_us": 3478.5,
+        "snapshot_bytes": 533931
+      },
+      {
+        "id": "representation_region_online_rle_c4",
+        "iterations": 2,
+        "median_us": 6663.5,
+        "snapshot_bytes": 1054493
+      },
+      {
+        "id": "representation_region_online_rle_c8",
+        "iterations": 1,
+        "median_us": 12718.0,
+        "snapshot_bytes": 2095609
+      },
+      {
+        "id": "representation_region_offline_revisits_c1",
+        "iterations": 4,
+        "median_us": 11768.75,
+        "snapshot_bytes": 1549429
+      },
+      {
+        "id": "representation_region_offline_revisits_c2",
+        "iterations": 2,
+        "median_us": 22984.0,
+        "snapshot_bytes": 3088465
+      },
+      {
+        "id": "representation_region_offline_revisits_c4",
+        "iterations": 1,
+        "median_us": 43829.0,
+        "snapshot_bytes": 6167521
+      },
+      {
+        "id": "representation_region_offline_revisits_c8",
+        "iterations": 1,
+        "median_us": 86719.0,
+        "snapshot_bytes": 12326089
+      },
+      {
+        "id": "workload_rejections",
+        "iterations": 1,
+        "median_us": 1035.0,
+        "snapshot_bytes": 107986
+      }
+    ]
+  }
+]

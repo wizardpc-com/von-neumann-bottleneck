@@ -1,0 +1,13 @@
+{
+  "id": "representation_region_online_rle_c1",
+  "differences": [
+    [
+      "/fields/metrics/service_cycles",
+      "key type",
+      "service_cycles",
+      {
+        "@string_name": "service_cycles"
+      }
+    ]
+  ]
+}

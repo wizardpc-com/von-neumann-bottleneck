@@ -1,0 +1,4 @@
+#!/bin/zsh
+set -euo pipefail
+cd "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T142756Z-4bd0e0fc/project"
+exec "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot" --path "$PWD"

@@ -1,0 +1,414 @@
+extends SceneTree
+## Pure Region client contracts; no scene, profile, timing or completion writes.
+## Independent Base executions supply every client's complete service evidence.
+
+const Region = preload("res://experiments/representation_region/model.gd")
+const Base = preload("res://experiments/representation/plan_model.gd")
+const Snapshot = preload("res://scripts/benchmarks/computation/snapshot.gd")
+const SERVICE_METRICS: Array[String] = [
+	"request_cycles", "transfer_cycles", "decode_cycles", "consume_cycles",
+	"traffic_bytes", "decoded_values", "decode_ops", "cache_hits", "cache_misses", "evictions",
+]
+
+var checks: int = 0
+var failures: Array[String] = []
+var cases: int = 0
+var independent_services: int = 0
+
+
+func _init() -> void:
+	call_deferred("run")
+
+
+func check(ok: bool, message: String) -> bool:
+	checks += 1
+	if not ok:
+		failures.append(message)
+		push_error(message)
+	return ok
+
+
+func _signature(value: Variant) -> String:
+	return Snapshot.canonical(value)
+
+
+func _mixed_plan() -> Array[Dictionary]:
+	return [
+		{"start":0, "end":8, "codec":"raw"},
+		{"start":8, "end":16, "codec":"rle"},
+		{"start":16, "end":48, "codec":"raw"},
+		{"start":48, "end":64, "codec":"rle"},
+	]
+
+
+func _revisit_spec() -> Dictionary:
+	var spec: Dictionary = Region.orders(0)[0].duplicate(true)
+	spec.addresses = [0, 1, 8, 9, 16, 17, 48, 49, 0, 8, 16, 48]
+	spec.cache_bytes = 24
+	spec.bandwidth = 3
+	spec.decoder = 5
+	spec.encoder = 3
+	return spec
+
+
+func _families() -> Array[Dictionary]:
+	var full: Dictionary = Region.orders(3)[1].duplicate(true)
+	var empty: Dictionary = _revisit_spec()
+	empty.addresses = []
+	var disabled: Dictionary = _revisit_spec()
+	disabled.addresses = [0, 8, 0, 48]
+	disabled.cache_bytes = 0
+	var uncacheable: Dictionary = disabled.duplicate(true)
+	uncacheable.cache_bytes = 4
+	var instant_request: Dictionary = _revisit_spec()
+	instant_request.latency = 0
+	return [
+		{"name":"whole RAW scan", "spec":full, "plan":Region.initial_plan(), "counts":[1, 2, 4, 8]},
+		{"name":"whole RLE scan", "spec":full, "plan":[{"start":0, "end":64, "codec":"rle"}],
+			"counts":[1, 2, 4, 8]},
+		{"name":"mixed cold revisits", "spec":_revisit_spec(), "plan":_mixed_plan(), "counts":[1, 2, 4, 8]},
+		{"name":"empty requests", "spec":empty, "plan":_mixed_plan(), "counts":[1, 8]},
+		{"name":"cache disabled", "spec":disabled, "plan":_mixed_plan(), "counts":[1, 8]},
+		{"name":"uncacheable blocks", "spec":uncacheable, "plan":_mixed_plan(), "counts":[1, 8]},
+		{"name":"zero request latency", "spec":instant_request, "plan":_mixed_plan(), "counts":[1, 8]},
+	]
+
+
+func _preparation_count(trace: SimulationTrace) -> int:
+	var count: int = 0
+	for event: SimulationEvent in trace.events:
+		if event.details.has("client"):
+			break
+		count += 1
+	return count
+
+
+func _independent_expected(spec: Dictionary, plan: Array, label: String) -> SimulationTrace:
+	# Preparation is independent of client count. A real one-client Region call
+	# supplies that unchanged prefix; this test does not reimplement its codec.
+	var one_spec: Dictionary = spec.duplicate(true)
+	one_spec.clients = 1
+	var expected: SimulationTrace = Region.run(one_spec, plan)
+	if not check(expected.passed, label + ": one-client public control succeeds"):
+		return null
+	var preparation: int = int(expected.metrics.preparation_cycles)
+	expected.events.resize(_preparation_count(expected))
+	expected.metrics.spec = spec.duplicate(true)
+	for metric: String in SERVICE_METRICS:
+		expected.metrics[metric] = 0
+	expected.metrics.outputs = []
+	expected.metrics.expected = []
+	expected.metrics.accesses = []
+	expected.metrics.service_cycles = 0
+	expected.metrics.total_cycles = preparation
+	expected.result_value = 0
+	expected.expected_value = 0
+	var first_service_signature: String = ""
+	for client: int in spec.clients:
+		# Never reuse the earlier service here: the oracle really executes a
+		# new cold Base cache for every client, including clients1 through7.
+		var service: SimulationTrace = Base.run(spec, plan)
+		independent_services += 1
+		if not check(service.passed, label + ": independent Base client%d succeeds" % client):
+			return null
+		var service_signature: String = _signature(service)
+		if client == 0:
+			first_service_signature = service_signature
+			expected.metrics.overfetch_values = service.metrics.overfetch_values
+			expected.metrics.peak_cache_bytes = service.metrics.peak_cache_bytes
+			check(_signature(expected.metrics.blocks) == _signature(service.metrics.blocks),
+				label + ": preparation retains actual Base block bytes and types")
+		else:
+			check(service_signature == first_service_signature,
+				label + ": independently cold Base client%d has complete identical evidence" % client)
+		var offset: int = int(expected.metrics.total_cycles)
+		for event: SimulationEvent in service.events:
+			# Transform only the two wrapper additions on this disposable,
+			# independently executed event. Every other typed field stays exact.
+			event.cycle += offset
+			event.details[&"client"] = client
+			expected.events.append(event)
+		for metric: String in SERVICE_METRICS:
+			expected.metrics[metric] += int(service.metrics[metric])
+		expected.metrics.outputs.append_array(service.metrics.outputs)
+		expected.metrics.expected.append_array(service.metrics.expected)
+		for access: Dictionary in service.metrics.accesses:
+			access[&"client"] = client
+			expected.metrics.accesses.append(access)
+		expected.metrics.service_cycles += int(service.metrics.total_cycles)
+		expected.metrics.total_cycles += int(service.metrics.total_cycles)
+		expected.result_value += service.result_value
+		expected.expected_value += service.expected_value
+	expected.metrics.total_traffic_bytes = int(expected.metrics.source_read_bytes) \
+		+ int(expected.metrics.prepared_write_bytes) + int(expected.metrics.traffic_bytes)
+	return expected
+
+
+func _check_case(spec: Dictionary, plan: Array, label: String) -> void:
+	cases += 1
+	var inputs: String = _signature({"spec":spec, "plan":plan})
+	var actual: SimulationTrace = Region.run(spec, plan)
+	if not check(actual.passed, label + ": actual Region service succeeds"):
+		return
+	var expected: SimulationTrace = _independent_expected(spec, plan, label)
+	if expected == null:
+		return
+	var actual_signature: String = _signature(actual)
+	check(Snapshot.supported(Snapshot.freeze(actual)), label + ": every typed field is supported")
+	check(actual_signature == _signature(expected),
+		label + ": complete typed Trace equals independently executed cold services")
+	check(_signature({"spec":spec, "plan":plan}) == inputs,
+		label + ": Region, one-client control and independent Base preserve inputs")
+	var oracle_values: Array = []
+	var oracle_sum: int = 0
+	for client: int in spec.clients:
+		for address: int in spec.addresses:
+			oracle_values.append(spec.data[address])
+			oracle_sum += int(spec.data[address])
+	check(actual.metrics.outputs == oracle_values and actual.metrics.expected == oracle_values
+		and actual.result_value == oracle_sum and actual.expected_value == oracle_sum,
+		label + ": ordered logical source oracle covers every client")
+	var cursor: int = 0
+	var identities: Dictionary = {}
+	var distinct: bool = true
+	for event: SimulationEvent in actual.events:
+		if identities.has(event.get_instance_id()):
+			distinct = false
+		identities[event.get_instance_id()] = true
+		if event.cycle != cursor or event.duration < 0:
+			distinct = false
+		cursor += event.duration
+	check(distinct and cursor == int(actual.metrics.total_cycles),
+		label + ": fresh Event objects retain every consecutive duration")
+	if not check(actual.metrics.accesses.size() == spec.addresses.size() * spec.clients,
+			label + ": complete access vector contains every client request"):
+		return
+	var cold: bool = true
+	if not spec.addresses.is_empty():
+		for client: int in spec.clients:
+			var access: Dictionary = actual.metrics.accesses[client * spec.addresses.size()]
+			var before: Dictionary = access.cache_before
+			cold = cold and access.client == client and not access.hit \
+				and before.keys.is_empty() and before.lru.is_empty() and before.used_bytes == 0
+	check(cold, label + ": each client begins with its own empty decoded cache")
+	if spec.addresses.is_empty():
+		check(actual.metrics.service_cycles == 0 and actual.metrics.accesses.is_empty()
+			and _preparation_count(actual) == actual.events.size(),
+			label + ": no request creates no client work, while preparation is retained")
+	if spec.cache_bytes < 8:
+		check(actual.metrics.cache_hits == 0 and actual.metrics.peak_cache_bytes == 0
+			and actual.metrics.cache_misses == spec.addresses.size() * spec.clients,
+			label + ": uncacheable blocks remain misses for every request")
+	if spec.latency == 0:
+		var requests: int = 0
+		var zero_preserved: bool = true
+		for event: SimulationEvent in actual.events:
+			if event.kind == &"request":
+				requests += 1
+				zero_preserved = zero_preserved and event.duration == 0
+		check(requests > 0 and zero_preserved,
+			label + ": zero-duration requests remain real events")
+	check(_signature(Region.run(spec, plan)) == actual_signature,
+		label + ": fresh Region repetition preserves complete types and values")
+	check(_signature(actual) == actual_signature
+		and _signature({"spec":spec, "plan":plan}) == inputs,
+		label + ": later execution preserves retained evidence and submitted inputs")
+
+
+func _outside(trace: SimulationTrace, surface: String, excluded_index: int = -1) -> String:
+	# Keep every script field except the deliberately edited object. This checks
+	# cross-client, same-client and metrics/event aliases without an alias oracle.
+	var rest: Dictionary = {}
+	for property: Dictionary in trace.get_property_list():
+		if int(property.usage) & PROPERTY_USAGE_SCRIPT_VARIABLE:
+			rest[str(property.name)] = trace.get(property.name)
+	if surface == "events":
+		var other_events: Array[SimulationEvent] = []
+		for index: int in trace.events.size():
+			if index != excluded_index:
+				other_events.append(trace.events[index])
+		rest.events = other_events
+	else:
+		var metrics: Dictionary = trace.metrics.duplicate()
+		if excluded_index < 0:
+			metrics.erase(surface)
+		else:
+			var other_rows: Array = []
+			for index: int in metrics[surface].size():
+				if index != excluded_index:
+					other_rows.append(metrics[surface][index])
+			metrics[surface] = other_rows
+		rest.metrics = metrics
+	return _signature(rest)
+
+
+func _find_event(trace: SimulationTrace, kind: StringName, client: int) -> int:
+	for index: int in trace.events.size():
+		var event: SimulationEvent = trace.events[index]
+		if event.kind == kind and int(event.details.get("client", -1)) == client:
+			return index
+	return -1
+
+
+func _mutate_event(trace: SimulationTrace, kind: StringName, client: int, label: String) -> void:
+	var index: int = _find_event(trace, kind, client)
+	if not check(index >= 0, label + ": real %s/client%d mutation target exists" % [kind, client]):
+		return
+	var before: String = _outside(trace, "events", index)
+	var event: SimulationEvent = trace.events[index]
+	event.value = 917
+	event.route_devices.append(&"test_only_mutation")
+	match kind:
+		&"request":
+			event.details.range[0] = -9
+			event.details.cache_before.keys.append(917)
+			event.details.cache_before.lru.append(917)
+			event.details.cache_before.sizes[917] = 3
+		&"transfer":
+			event.details.encoded[0] = (int(event.details.encoded[0]) + 1) % 256
+			event.details.directory[0] = 917
+		&"decode":
+			event.details.decoded[0] = 917
+		&"consume":
+			event.details.evicted.append(917)
+			event.details.cache_after.keys.append(917)
+			event.details.cache_after.lru.append(917)
+			event.details.cache_after.sizes[917] = 3
+			event.details.cache_after.used_bytes = 917
+		&"prepare_source_read":
+			event.details.values[0] = 917
+		&"encode":
+			event.details.values[0] = 918
+			event.details.encoded[0] = 917
+		&"prepare_write":
+			event.details.encoded.append(917)
+			event.details.directory[0] = 917
+	check(_outside(trace, "events", index) == before,
+		label + ": editing %s/client%d leaves all other events and metrics detached" % [kind, client])
+
+
+func _isolation(online: bool, clients: int) -> void:
+	var label: String = "isolation online=%s clients=%d" % [online, clients]
+	var spec: Dictionary = _revisit_spec()
+	spec.online = online
+	spec.clients = clients
+	spec["context"] = {"nested":[1, {"note":"submitted"}]}
+	var plan: Array[Dictionary] = _mixed_plan()
+	plan[0]["context"] = {"nested":[1, {"note":"plan"}]}
+	var inputs: String = _signature({"spec":spec, "plan":plan})
+	var trace: SimulationTrace = Region.run(spec, plan)
+	if not check(trace.passed and not trace.events.is_empty(), label + ": complete mutation fixture executes"):
+		return
+	var untouched: SimulationTrace = Region.run(spec, plan)
+	var untouched_signature: String = _signature(untouched)
+	for kind: StringName in [&"request", &"transfer", &"decode", &"consume"]:
+		_mutate_event(trace, kind, 0, label)
+		_mutate_event(trace, kind, clients - 1, label)
+	if online:
+		for kind: StringName in [&"prepare_source_read", &"encode", &"prepare_write"]:
+			_mutate_event(trace, kind, -1, label)
+	var outside_block: String = _outside(trace, "blocks", 0)
+	trace.metrics.blocks[0].values[0] = 917
+	trace.metrics.blocks[0].encoded[0] = 918
+	trace.metrics.blocks[0].directory[0] = 919
+	check(_outside(trace, "blocks", 0) == outside_block,
+		label + ": a block's values/payload/directory cannot edit events or another block")
+	var outside_access: String = _outside(trace, "accesses", 0)
+	trace.metrics.accesses[0].client = 917
+	trace.metrics.accesses[0].evicted.append(917)
+	trace.metrics.accesses[0].cache_before.keys.append(917)
+	trace.metrics.accesses[0].cache_after.lru.append(917)
+	trace.metrics.accesses[0].cache_after.sizes[917] = 3
+	check(_outside(trace, "accesses", 0) == outside_access,
+		label + ": a metrics access cannot edit another client, access or consume event")
+	check(_signature({"spec":spec, "plan":plan}) == inputs
+		and _signature(untouched) == untouched_signature,
+		label + ": all evidence mutations preserve caller and separately retained run")
+
+	var outside_spec: String = _outside(trace, "spec")
+	trace.metrics.spec.data[0] = 917
+	trace.metrics.spec.addresses.append(63)
+	trace.metrics.spec.context.nested[1].note = "result changed"
+	check(_outside(trace, "spec") == outside_spec,
+		label + ": returned spec mutation cannot edit measured blocks, events or plan")
+	var outside_plan: String = _outside(trace, "plan")
+	trace.metrics.plan[0].codec = "rle"
+	trace.metrics.plan[0].context.nested[1].note = "result plan changed"
+	check(_outside(trace, "plan") == outside_plan,
+		label + ": returned plan mutation cannot edit measured blocks, events or spec")
+	check(_signature({"spec":spec, "plan":plan}) == inputs,
+		label + ": returned nested provenance cannot edit its caller")
+	check(_signature(Region.run(spec, plan)) == untouched_signature,
+		label + ": future public execution cannot inherit edits to another returned result")
+	var edited_signature: String = _signature(trace)
+	spec.data[0] = 916
+	spec.addresses.append(62)
+	spec.context.nested[1].note = "caller changed"
+	plan[0].end = 7
+	plan[0].context.nested[1].note = "caller plan changed"
+	check(_signature(trace) == edited_signature and _signature(untouched) == untouched_signature,
+		label + ": later caller byte/request/metadata/plan edits preserve both retained results")
+
+
+func _retained_success_and_failures() -> void:
+	var spec: Dictionary = _revisit_spec()
+	spec.online = true
+	spec.clients = 8
+	var plan: Array[Dictionary] = _mixed_plan()
+	var retained: SimulationTrace = Region.run(spec, plan)
+	if not check(retained.passed, "Retained eight-client source run actually succeeds"):
+		return
+	var retained_signature: String = _signature(retained)
+	var other_spec: Dictionary = Region.orders(3)[0].duplicate(true)
+	other_spec.online = false
+	other_spec.clients = 2
+	var other: SimulationTrace = Region.run(other_spec, Region.initial_plan())
+	check(other.passed, "Later different RAW/offline two-client run actually succeeds")
+	var other_signature: String = _signature(other)
+	var bad_base: Dictionary = spec.duplicate(true)
+	bad_base.bandwidth = 0
+	bad_base.clients = 0
+	var base_failure: SimulationTrace = Region.run(bad_base, plan)
+	check(not base_failure.passed and base_failure.metrics.error == "machine",
+		"Later compound rejection preserves Base-first error priority")
+	var expected_failure: SimulationTrace = Base.run(bad_base, plan)
+	expected_failure.test_name = Region.VERSION
+	check(_signature(base_failure) == _signature(expected_failure),
+		"Later Base rejection still delegates the entire typed failure")
+	var bad_preparation: Dictionary = spec.duplicate(true)
+	bad_preparation.encoder = 0
+	var preparation_failure: SimulationTrace = Region.run(bad_preparation, plan)
+	check(not preparation_failure.passed and preparation_failure.metrics.error == "preparation_machine"
+		and preparation_failure.events.is_empty() and preparation_failure.metrics.traffic_bytes == 0,
+		"Later valid-Base preparation rejection retains the clean Round11 contract")
+	check(_signature(retained) == retained_signature and _signature(other) == other_signature,
+		"Later successful and both failed public calls preserve earlier complete results")
+	other.metrics.blocks[0].values[0] = 917
+	if not other.events.is_empty():
+		other.events[0].details["mutation"] = [917]
+	base_failure.metrics.spec.data[0] = 918
+	preparation_failure.metrics.plan[0].codec = "rle"
+	check(_signature(retained) == retained_signature,
+		"Mutating later successful/rejected results cannot change earlier eight-client evidence")
+	check(_signature(Region.run(spec, plan)) == retained_signature,
+		"Success after mutated later failures retains full original evidence")
+
+
+func run() -> void:
+	for family: Dictionary in _families():
+		for online: bool in [false, true]:
+			for clients: int in family.counts:
+				var spec: Dictionary = family.spec.duplicate(true)
+				spec.online = online
+				spec.clients = clients
+				_check_case(spec, family.plan.duplicate(true),
+					"%s online=%s clients=%d" % [family.name, online, clients])
+	for online: bool in [false, true]:
+		for clients: int in [2, 8]:
+			_isolation(online, clients)
+	_retained_success_and_failures()
+	print(("PASS: " if failures.is_empty() else "FAIL: ")
+		+ "representation region clients %d checks / %d failures"
+		% [checks, failures.size()]
+		+ " (%d combinations, %d independent Base services)" % [cases, independent_services])
+	quit(0 if failures.is_empty() else 1)

@@ -1,0 +1,51 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Feedback Escape returns exact focus without requesting departure zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation_ui.gd:22)
+       [1] explanation_exercise (res://tests/test_layout_strategy_explanation_ui.gd:262)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Mouse explanation preserves pending numeric text without committing on focus loss zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation_ui.gd:22)
+       [1] explanation_exercise (res://tests/test_layout_strategy_explanation_ui.gd:262)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Pending-number inspection changes no draft, Undo, history, goal, target or file zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation_ui.gd:22)
+       [1] explanation_exercise (res://tests/test_layout_strategy_explanation_ui.gd:262)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Event browsing also preserves pending editor and underlying state zh_CN
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation_ui.gd:22)
+       [1] explanation_exercise (res://tests/test_layout_strategy_explanation_ui.gd:262)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Feedback Escape returns exact focus without requesting departure en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation_ui.gd:22)
+       [1] explanation_exercise (res://tests/test_layout_strategy_explanation_ui.gd:262)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Mouse explanation preserves pending numeric text without committing on focus loss en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation_ui.gd:22)
+       [1] explanation_exercise (res://tests/test_layout_strategy_explanation_ui.gd:262)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Pending-number inspection changes no draft, Undo, history, goal, target or file en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation_ui.gd:22)
+       [1] explanation_exercise (res://tests/test_layout_strategy_explanation_ui.gd:262)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Event browsing also preserves pending editor and underlying state en
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_explanation_ui.gd:22)
+       [1] explanation_exercise (res://tests/test_layout_strategy_explanation_ui.gd:262)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+FAIL: layout explanation UI 453 checks, 8 failures

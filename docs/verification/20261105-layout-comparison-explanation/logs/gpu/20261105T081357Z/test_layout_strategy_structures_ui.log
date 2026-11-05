@@ -1,0 +1,22 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-zh_CN-pair-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-zh_CN-pair-notebook-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-zh_CN-phased-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-zh_CN-phased-starter-720.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-zh_CN-invalid-draft-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-zh_CN-legacy-copy-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-zh_CN-protected-source-720.png
+EMPTY_TARGET_BEFORE zh_CN: size=(960, 640) tab=0 visible=true disabled=false bounds=[P: (621.0, 515.0), S: (69.0, 39.0)] modal=root:<Window#38285608423> blocked=false exit=false focus=Run:<Button#616210368994> window=<null>
+EMPTY_TARGET_AFTER zh_CN: size=(960, 640) tab=0 visible=true disabled=false bounds=[P: (621.0, 515.0), S: (69.0, 39.0)] modal=ReplayChallenges:<Window#629581810112> blocked=true exit=false focus=Challenges:<Button#620354341985> window=ReplayChallenges:<Window#629581810112>
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-en-pair-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-en-pair-notebook-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-en-phased-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-en-phased-starter-720.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-en-invalid-draft-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-en-legacy-copy-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/20261105-round8/20261105T081357Z/test_layout_strategy_structures_ui/layout-structures-en-protected-source-720.png
+EMPTY_TARGET_BEFORE en: size=(960, 640) tab=0 visible=true disabled=false bounds=[P: (648.0, 515.0), S: (118.0, 39.0)] modal=root:<Window#38285608423> blocked=false exit=false focus=Run:<Button#1122160871911> window=<null>
+EMPTY_TARGET_AFTER en: size=(960, 640) tab=0 visible=true disabled=false bounds=[P: (648.0, 515.0), S: (118.0, 39.0)] modal=ReplayChallenges:<Window#1135532313035> blocked=true exit=false focus=Challenges:<Button#1126304845045> window=ReplayChallenges:<Window#1135532313035>
+PASS: layout strategy structures UI 348 checks, 0 failures

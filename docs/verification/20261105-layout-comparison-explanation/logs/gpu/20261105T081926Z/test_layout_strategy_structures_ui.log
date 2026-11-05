@@ -1,0 +1,8 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+EMPTY_TARGET_BEFORE zh_CN: size=(960, 640) tab=0 visible=true disabled=false bounds=[P: (621.0, 515.0), S: (69.0, 39.0)] modal=root:<Window#38285608423> blocked=false exit=false focus=Run:<Button#613358242274> window=<null>
+EMPTY_TARGET_AFTER zh_CN: size=(960, 640) tab=0 visible=true disabled=false bounds=[P: (621.0, 515.0), S: (69.0, 39.0)] modal=ReplayChallenges:<Window#626729685238> blocked=true exit=false focus=Challenges:<Button#617502215265> window=ReplayChallenges:<Window#626729685238>
+EMPTY_TARGET_BEFORE en: size=(960, 640) tab=0 visible=true disabled=false bounds=[P: (648.0, 515.0), S: (118.0, 39.0)] modal=root:<Window#38285608423> blocked=false exit=false focus=Run:<Button#1116909603303> window=<null>
+EMPTY_TARGET_AFTER en: size=(960, 640) tab=0 visible=true disabled=false bounds=[P: (648.0, 515.0), S: (118.0, 39.0)] modal=ReplayChallenges:<Window#1130281046370> blocked=true exit=false focus=Challenges:<Button#1121053576437> window=ReplayChallenges:<Window#1130281046370>
+PASS: layout strategy structures UI 320 checks, 0 failures

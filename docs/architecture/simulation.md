@@ -8,7 +8,7 @@
 4. Basic AND, OR, NOT, and NOR gates add one simulation tick. Ordinary wires and routing junctions add zero ticks; all segments reached through any number of junctions retain one causal wire wave. Physical curve length, anchors, zoom, and component positions never change a result or delay.
 5. `evaluate()` settles one combinational/state boundary. `run_sequence()` executes fixed Test Bench steps in order, carrying only explicit runtime state and prior outputs between steps. Input edits use `evaluate()` as preview; only a debug/official `run_sequence()` commits a boundary. Raw feedback is allowed only for the SR-latch challenge; stable `S=R=1`, unresolved oscillation, short circuits, and width mismatches fail deterministically.
 6. `Register1`/`Register4` sample `D` when `LOAD=1` at a Test Bench step boundary. `RAM2x4` retains two four-bit words and writes the addressed word when `WE=1`. `TinyComputer` retains accumulator/RAM state and accepts an external opcode, argument, and address for `LOAD_IMM`, `ADD_IMM`, `LOAD_MEM`, and `STORE_MEM`.
-7. Each evaluation completes all outputs, state, errors, and typed `PrologueEvent` values before playback. A state commit emits an explicit `state_transition` event even for HOLD/READ with unchanged output; all storage cells at the same boundary share one presentation wave. Presentation-only `visual_step` groups independent ready components and zero-delay net segments into parallel causal waves and is absent from canonical simulation evidence.
+7. Each evaluation completes all outputs, state, errors, and typed `PrologueEvent` values before playback. A state commit emits an explicit `state_transition` event even for HOLD/READ with unchanged output; all storage cells at the same boundary share one presentation wave. Deterministically assigned `visual_step` groups independent ready components and zero-delay net segments into parallel causal waves. Circuit/Prologue event dictionaries currently include it in canonical evidence; this differs from `SimulationEvent`'s excluded playback coordinates. Animation duration, wall-clock timing and rendered geometry never feed simulation or these indexes.
 8. The UI colors ports from event-driven analysis, not `_process()`. During playback every wire event resolves the exact current `GraphEdit.get_connection_line()` path; one-bit flow advances as a growing stroke and wider values add one readable badge. Moving a component or junction changes only that rendered path.
 9. Every level owns a fixed external Test Bench of truth-table cases or temporal steps. Actual values always come from the displayed graph. A complete pass records that exact topology signature; any later topology edit invalidates the evidence.
 10. Sealing creates a `ReusableComponent` with named interface, source-level identity, cloned player circuit/signature, and provenance. `PlayerContentState` installs the level's declared reward and any registered generated wrappers; ALU1 and Register1 completion therefore create four-bit wrappers referencing their source signatures because repeating four identical slices is not a new puzzle.
@@ -17,6 +17,15 @@
 13. Named workbench snapshots and hint boards only reconstruct supported components, positions, displayed connections, and optional palette indices before export. Snapshot names, file order, positions, cable hues, hint stage, and save timing never enter a `LogicCircuit` signature or affect latency/results. Hint graphs are read-only and cannot produce official/sealing evidence.
 
 Unused supplied components are legal and every input with zero incoming segments resolves low. Multiple distinct wires may share a port: connected high-impedance drivers remain `Z` and are ignored when resolving active values, equal active values agree, and simultaneous low/high values are a short circuit. Missing external Test Bench stimuli, shorts, illegal cycles/state, incompatible widths, invalid ports, and unsupported components fail deterministically.
+
+The [2026-11-05 computation audit](../development/COMPUTATION_AUDIT_20261105.md)
+records two implementation distinctions requiring design review: raw two-NOR
+`S=R=1` can settle with a separate UI warning while the sealed SRLatch rejects it;
+Boolean missing required stimuli reject, while prologue high-Z resolution may
+accept another known driver. Its64-tick settling ceiling also limits deep
+acyclic circuits. These existing behaviors and canonical fields are preserved
+by the computation optimization; the general rules above are not evidence of
+identical edge-case contracts across the two APIs.
 
 ## Chapter 1 system-performance pipeline
 

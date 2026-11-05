@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--headless",
+    "--path",
+    "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T095516Z-05af4f51/project",
+    "--quit-after",
+    "8"
+  ],
+  "returncode": 0,
+  "seconds": 1.9357914999999999,
+  "profile": "VonNeumannBottleneckChecks/round9/playable-preview-20261105",
+  "engine_sha256": "ecc8da2d60100102cfca6e833d3860d7436b46ae062fa072ce89a6c95d664a3f",
+  "project_sha256": "cb8891f0e8de4cc144ca9bc3c5832b6f944703c8475266fb187e4bb1b6a36933",
+  "log_sha256": "1f4aefb7bdaa3aac5c3ea38b8d505eb0d072d02dfef33d1c42767bcd075bbb24"
+}

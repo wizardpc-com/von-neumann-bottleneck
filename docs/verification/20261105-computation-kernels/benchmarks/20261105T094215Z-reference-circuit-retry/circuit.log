@@ -1,0 +1,932 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_half_adder (res://scripts/benchmarks/computation/circuit_cases.gd:137)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:86)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_half_adder (res://scripts/benchmarks/computation/circuit_cases.gd:137)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:86)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_half_adder (res://scripts/benchmarks/computation/circuit_cases.gd:137)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:86)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_half_adder (res://scripts/benchmarks/computation/circuit_cases.gd:137)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:86)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.boolean.official: 10 iterations/sample; median 2120.8 us; snapshot 49062 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.boolean.stress: 1 iterations/sample; median 46213.0 us; snapshot 541953 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:160)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_boolean (res://scripts/benchmarks/computation/circuit_cases.gd:161)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:88)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.boolean.diagnostics: 12 iterations/sample; median 1585.66666666667 us; snapshot 59596 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.full_adder: 3 iterations/sample; median 10013.0 us; snapshot 696151 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.alu: 1 iterations/sample; median 65069.0 us; snapshot 4392321 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.latch: 5 iterations/sample; median 4077.6 us; snapshot 238804 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[int]".
+          at: _validate_continuation (res://scripts/benchmarks/computation/circuit_cases.gd:316)
+          GDScript backtrace (most recent call first):
+              [0] _validate_continuation (res://scripts/benchmarks/computation/circuit_cases.gd:316)
+              [1] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:94)
+              [2] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [3] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [4] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.register: 2 iterations/sample; median 12331.5 us; snapshot 792929 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.ram: 2 iterations/sample; median 12220.0 us; snapshot 824685 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.cpu: 1 iterations/sample; median 47234.0 us; snapshot 4120212 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_sequence (res://scripts/benchmarks/computation/circuit_cases.gd:271)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:92)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.load_store: 1 iterations/sample; median 39945.0 us; snapshot 6725196 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.stress: 1 iterations/sample; median 55713.0 us; snapshot 2364547 bytes
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[String]".
+          at: _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+          GDScript backtrace (most recent call first):
+              [0] _validate_errors (res://scripts/benchmarks/computation/circuit_cases.gd:109)
+              [1] _validate_prologue (res://scripts/benchmarks/computation/circuit_cases.gd:202)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:90)
+              [3] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [4] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [5] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [6] _run (res://scripts/benchmarks/computation/runner.gd:84)
+SCRIPT ERROR: Trying to assign an array of type "Array" to a variable of type "Array[int]".
+          at: _validate_continuation (res://scripts/benchmarks/computation/circuit_cases.gd:316)
+          GDScript backtrace (most recent call first):
+              [0] _validate_continuation (res://scripts/benchmarks/computation/circuit_cases.gd:316)
+              [1] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:94)
+              [2] _validate_payload (res://scripts/benchmarks/computation/circuit_cases.gd:83)
+              [3] validate_case (res://scripts/benchmarks/computation/circuit_cases.gd:57)
+              [4] measure (res://scripts/benchmarks/computation/runner.gd:124)
+              [5] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE circuit.prologue.diagnostics: 1 iterations/sample; median 80619.0 us; snapshot 3730514 bytes
+BENCHMARK: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round9/20261105T094215Z-reference-circuit-retry/circuit/computation-benchmark.json
+PASS: computation benchmark 12 cases, 0 failures

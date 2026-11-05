@@ -11,12 +11,14 @@ static func encode(symbols: Array, model: Dictionary, machine: Dictionary, codec
 	if codec not in ["raw", "predictive"]: error = "codec"
 	if error.is_empty() and codec == "predictive": error = Model.validate(model)
 	if not error.is_empty(): return {"ok": false, "error": error}
-	var model_bytes: PackedByteArray = Model.canonical_bytes(model) if codec == "predictive" else PackedByteArray()
+	# The public entry validated the entire source and model above. Reuse only
+	# operation-local canonical data; later calls must validate again.
+	var model_bytes: PackedByteArray = Model._serialize(model) if codec == "predictive" else PackedByteArray()
 	var writer: Dictionary = {"data": PackedByteArray(), "bits": 0}
 	var events: Array = []
 	var mismatches: int = 0
 	var start: int = mini(int(model.order), symbols.size()) if codec == "predictive" else symbols.size()
-	if codec == "predictive": events.append(Model.event("encode", "model_load", model_bytes.size(), model_bytes.size(), {"model_id": Model.identity(model)}))
+	if codec == "predictive": events.append(Model.event("encode", "model_load", model_bytes.size(), model_bytes.size(), {"model_id": Model.digest(model_bytes).hex_encode()}))
 	for index: int in symbols.size():
 		var symbol: int = symbols[index]
 		events.append(Model.event("encode", "input_read", 1, 1, {"index": index, "symbol": symbol}))
@@ -25,7 +27,7 @@ static func encode(symbols: Array, model: Dictionary, machine: Dictionary, codec
 			_write(writer, symbol, 2)
 			events.append(Model.event("encode", "literal_write", 2, writer.data.size() - before_bytes, {"index": index, "symbol": symbol}))
 		else:
-			var decision: Dictionary = Model.predict(model, symbols.slice(0, index))
+			var decision: Dictionary = Model._predict_validated(model, symbols, index)
 			for item: Dictionary in decision.events:
 				item.phase = "encode"
 				item.index = index
@@ -69,8 +71,10 @@ static func decode(packet: PackedByteArray, machine: Dictionary) -> Dictionary:
 	if HEADER_BYTES + model_size + payload_size != body.size(): return {"ok": false, "error": "packet_lengths"}
 	if (predictive and model_size < 40) or (not predictive and (model_size != 0 or payload_bits != length * 2)): return {"ok": false, "error": "packet_model"}
 	var model: Dictionary = {}
+	var model_bytes: PackedByteArray = PackedByteArray()
 	if predictive:
-		var restored: Dictionary = Model.from_bytes(packet.slice(HEADER_BYTES, HEADER_BYTES + model_size))
+		model_bytes = packet.slice(HEADER_BYTES, HEADER_BYTES + model_size)
+		var restored: Dictionary = Model.from_bytes(model_bytes)
 		if not restored.ok: return restored
 		model = restored.model
 	var payload: PackedByteArray = packet.slice(HEADER_BYTES + model_size, body.size())
@@ -81,7 +85,7 @@ static func decode(packet: PackedByteArray, machine: Dictionary) -> Dictionary:
 	if peak > machine.memory_bytes: return {"ok": false, "error": "memory_limit", "required_bytes": peak}
 	var reader: Dictionary = {"data": payload, "cursor": 0, "limit": payload_bits}
 	var events: Array = [Model.event("decode", "packet_validate", packet.size(), HEADER_BYTES + CHECKSUM_BYTES)]
-	if predictive: events.append(Model.event("decode", "model_load", model_size, model_size, {"model_id": Model.identity(model)}))
+	if predictive: events.append(Model.event("decode", "model_load", model_size, model_size, {"model_id": Model.digest(model_bytes).hex_encode()}))
 	var output: Array = []
 	var start: int = mini(int(model.order), length) if predictive else length
 	for index: int in length:
@@ -90,7 +94,9 @@ static func decode(packet: PackedByteArray, machine: Dictionary) -> Dictionary:
 			symbol = _read(reader, 2)
 			events.append(Model.event("decode", "literal_read", 2, 0, {"index": index, "symbol": symbol}))
 		else:
-			var decision: Dictionary = Model.predict(model, output)
+			# from_bytes validated the packet's model. Earlier iterations append
+			# only two-bit literals or valid predicted symbols to this prefix.
+			var decision: Dictionary = Model._predict_validated(model, output, output.size())
 			for item: Dictionary in decision.events:
 				item.phase = "decode"
 				item.index = index

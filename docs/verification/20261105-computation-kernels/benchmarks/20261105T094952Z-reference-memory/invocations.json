@@ -1,0 +1,102 @@
+[
+  {
+    "group": "memory",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T090809Z-3273d2f7/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=memory",
+      "--label=reference-memory",
+      "--host-label=yrq-mac-round9",
+      "--samples=7"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/20261105T094952Z-reference-memory/memory",
+    "returncode": 0,
+    "seconds": 80.888569167,
+    "log": "memory.log",
+    "diagnostics": [],
+    "output": "memory.json.gz",
+    "raw_sha256": "12cecf52ba399025b8331162805d60da97d95df00bf2ae13fc465d105659c795",
+    "raw_bytes": 56962649,
+    "compressed_bytes": 858521,
+    "failures": [],
+    "cases": [
+      {
+        "id": "memory.locality.public",
+        "iterations": 7,
+        "median_us": 3314.714285714286,
+        "snapshot_bytes": 698989
+      },
+      {
+        "id": "memory.locality.blocked64",
+        "iterations": 1,
+        "median_us": 39237.0,
+        "snapshot_bytes": 9489097
+      },
+      {
+        "id": "memory.system.public",
+        "iterations": 3,
+        "median_us": 7309.666666666667,
+        "snapshot_bytes": 454189
+      },
+      {
+        "id": "memory.system.failure_reuse",
+        "iterations": 29,
+        "median_us": 633.0,
+        "snapshot_bytes": 22313
+      },
+      {
+        "id": "memory.overlap.public",
+        "iterations": 9,
+        "median_us": 2574.0,
+        "snapshot_bytes": 443683
+      },
+      {
+        "id": "memory.overlap.queue64",
+        "iterations": 2,
+        "median_us": 14905.5,
+        "snapshot_bytes": 5722056
+      },
+      {
+        "id": "memory.overlap.failure_reuse",
+        "iterations": 24,
+        "median_us": 772.375,
+        "snapshot_bytes": 203644
+      },
+      {
+        "id": "memory.layout.public_native64",
+        "iterations": 1,
+        "median_us": 20500.0,
+        "snapshot_bytes": 4606499
+      },
+      {
+        "id": "memory.layout.batch64_reuse",
+        "iterations": 1,
+        "median_us": 39789.0,
+        "snapshot_bytes": 9362606
+      },
+      {
+        "id": "memory.scheduling.public",
+        "iterations": 1,
+        "median_us": 42404.0,
+        "snapshot_bytes": 8023941
+      },
+      {
+        "id": "memory.scheduling.maximum4096",
+        "iterations": 1,
+        "median_us": 79449.0,
+        "snapshot_bytes": 16286541
+      },
+      {
+        "id": "memory.scheduling.failure_reuse",
+        "iterations": 3,
+        "median_us": 8287.0,
+        "snapshot_bytes": 1639604
+      }
+    ]
+  }
+]

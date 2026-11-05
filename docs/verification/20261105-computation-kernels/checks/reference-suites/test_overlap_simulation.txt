@@ -1,0 +1,11 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+MEASURE arrival/standard {"compute_busy":8,"cost":1,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0],"overlap":4,"queue_wait":0,"total_cycles":10,"transfer_busy":6,"wait":2}
+MEASURE buffers/standard {"compute_busy":16,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":12,"queue_wait":0,"total_cycles":28,"transfer_busy":24,"wait":12}
+MEASURE backpressure/standard {"compute_busy":22,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":10,"queue_wait":0,"total_cycles":28,"transfer_busy":16,"wait":6}
+MEASURE backpressure/changing {"compute_busy":22,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":9,"queue_wait":0,"total_cycles":29,"transfer_busy":16,"wait":7}
+MEASURE prefetch/standard {"compute_busy":16,"cost":1,"error":"","error_line":0,"evictions":3,"hits":0,"misses":4,"outputs":[0,1,2,3],"overlap":12,"queue_wait":0,"total_cycles":28,"transfer_busy":24,"wait":12}
+MEASURE distance/standard {"compute_busy":24,"cost":1,"error":"","error_line":0,"evictions":3,"hits":2,"misses":2,"outputs":[0,1,2,3],"overlap":10,"queue_wait":0,"total_cycles":30,"transfer_busy":16,"wait":6}
+MEASURE synthesis/standard {"compute_busy":16,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":12,"queue_wait":0,"total_cycles":28,"transfer_busy":24,"wait":12}
+MEASURE synthesis/bandwidth {"compute_busy":4,"cost":2,"error":"","error_line":0,"evictions":0,"hits":0,"misses":0,"outputs":[0,1,2,3],"overlap":3,"queue_wait":0,"total_cycles":33,"transfer_busy":32,"wait":29}
+PASS: deterministic overlap, backpressure, prefetch limits and alternative synthesis

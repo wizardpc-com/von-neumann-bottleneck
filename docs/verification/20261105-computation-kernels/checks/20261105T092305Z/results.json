@@ -1,0 +1,17 @@
+[
+  {
+    "suite": "test_computation_snapshot",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T090809Z-3273d2f7/project",
+      "--script",
+      "res://tests/test_computation_snapshot.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/checks/20261105T092305Z/test_computation_snapshot",
+    "returncode": 0,
+    "seconds": 0.930881583,
+    "diagnostics": []
+  }
+]

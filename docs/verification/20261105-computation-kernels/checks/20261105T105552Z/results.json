@@ -1,0 +1,47 @@
+[
+  {
+    "suite": "test_creation_playable_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T095516Z-05af4f51/project",
+      "--script",
+      "res://tests/test_creation_playable_loop.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/checks/20261105T105552Z/test_creation_playable_loop",
+    "returncode": 0,
+    "seconds": 13.213848083,
+    "diagnostics": []
+  },
+  {
+    "suite": "test_creation_workbench",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T095516Z-05af4f51/project",
+      "--script",
+      "res://tests/test_creation_workbench.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/checks/20261105T105552Z/test_creation_workbench",
+    "returncode": 0,
+    "seconds": 12.014090584,
+    "diagnostics": []
+  },
+  {
+    "suite": "test_creation_choice_completion",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T095516Z-05af4f51/project",
+      "--script",
+      "res://tests/test_creation_choice_completion.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/checks/20261105T105552Z/test_creation_choice_completion",
+    "returncode": 0,
+    "seconds": 3.796527791999999,
+    "diagnostics": []
+  }
+]

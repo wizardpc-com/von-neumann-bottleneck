@@ -1,0 +1,15 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CASE circuit.boolean.official: 10 iterations/sample; median 2128.5 us; snapshot 49062 bytes
+CASE circuit.boolean.stress: 1 iterations/sample; median 46324.0 us; snapshot 541953 bytes
+CASE circuit.boolean.diagnostics: 12 iterations/sample; median 1582.0 us; snapshot 59596 bytes
+CASE circuit.prologue.full_adder: 2 iterations/sample; median 9963.5 us; snapshot 696151 bytes
+CASE circuit.prologue.alu: 1 iterations/sample; median 64965.0 us; snapshot 4392321 bytes
+CASE circuit.prologue.latch: 5 iterations/sample; median 4043.0 us; snapshot 238804 bytes
+CASE circuit.prologue.register: 2 iterations/sample; median 12305.5 us; snapshot 792929 bytes
+CASE circuit.prologue.ram: 2 iterations/sample; median 12122.0 us; snapshot 824685 bytes
+CASE circuit.prologue.cpu: 1 iterations/sample; median 47127.0 us; snapshot 4120212 bytes
+CASE circuit.prologue.load_store: 1 iterations/sample; median 40012.0 us; snapshot 6725196 bytes
+CASE circuit.prologue.stress: 1 iterations/sample; median 55690.0 us; snapshot 2364547 bytes
+BENCHMARK: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round9/20261105T101607Z-reference-circuit-final/circuit/computation-benchmark.json
+PASS: computation benchmark 11 cases, 0 failures

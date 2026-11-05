@@ -1,0 +1,204 @@
+[
+  {
+    "group": "workload",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T090809Z-3273d2f7/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=workload",
+      "--label=reference-final",
+      "--host-label=yrq-mac-round9",
+      "--samples=7",
+      "--iterations-file=/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/collaboration/round9-iterations.json"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/20261105T100056Z-reference-final/workload",
+    "returncode": 0,
+    "seconds": 235.30821724999998,
+    "log": "workload.log",
+    "diagnostics": [],
+    "output": "workload.json.gz",
+    "raw_sha256": "3c430c4d0ce52e73aafa0c56ffb4f071af7cf46279bc10d2598c8161c50d0a7b",
+    "raw_bytes": 134073216,
+    "compressed_bytes": 1667756,
+    "failures": [],
+    "cases": [
+      {
+        "id": "representation_fixed",
+        "iterations": 13,
+        "median_us": 1523.076923076923,
+        "snapshot_bytes": 315053
+      },
+      {
+        "id": "representation_partition_revisits",
+        "iterations": 2,
+        "median_us": 11964.0,
+        "snapshot_bytes": 3138242
+      },
+      {
+        "id": "representation_online_clients",
+        "iterations": 1,
+        "median_us": 26101.0,
+        "snapshot_bytes": 4364832
+      },
+      {
+        "id": "linear_precision_batch",
+        "iterations": 19,
+        "median_us": 1064.7894736842106,
+        "snapshot_bytes": 218216
+      },
+      {
+        "id": "persistent_context",
+        "iterations": 8,
+        "median_us": 2873.375,
+        "snapshot_bytes": 569529
+      },
+      {
+        "id": "address_prediction",
+        "iterations": 2,
+        "median_us": 10768.0,
+        "snapshot_bytes": 1096676
+      },
+      {
+        "id": "service_baseline_replay",
+        "iterations": 3,
+        "median_us": 8210.666666666666,
+        "snapshot_bytes": 4388612
+      },
+      {
+        "id": "service_representations",
+        "iterations": 7,
+        "median_us": 3119.1428571428573,
+        "snapshot_bytes": 573607
+      },
+      {
+        "id": "creation_public_transport",
+        "iterations": 1,
+        "median_us": 395804.0,
+        "snapshot_bytes": 43798636
+      },
+      {
+        "id": "creation_generation_stress",
+        "iterations": 1,
+        "median_us": 1589433.0,
+        "snapshot_bytes": 73056594
+      },
+      {
+        "id": "creation_committed_session",
+        "iterations": 1,
+        "median_us": 43118.0,
+        "snapshot_bytes": 2419852
+      },
+      {
+        "id": "workload_rejections",
+        "iterations": 12,
+        "median_us": 1334.9166666666667,
+        "snapshot_bytes": 111999
+      }
+    ]
+  },
+  {
+    "group": "memory",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T090809Z-3273d2f7/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=memory",
+      "--label=reference-final",
+      "--host-label=yrq-mac-round9",
+      "--samples=7",
+      "--iterations-file=/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/collaboration/round9-iterations.json"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/20261105T100056Z-reference-final/memory",
+    "returncode": 0,
+    "seconds": 80.79674304099998,
+    "log": "memory.log",
+    "diagnostics": [],
+    "output": "memory.json.gz",
+    "raw_sha256": "be8673c0c671c3fa0b3c123e7d2cc7fc559a34ec6432deec99a175d579a7cbbe",
+    "raw_bytes": 56962685,
+    "compressed_bytes": 858533,
+    "failures": [],
+    "cases": [
+      {
+        "id": "memory.locality.public",
+        "iterations": 7,
+        "median_us": 3308.714285714286,
+        "snapshot_bytes": 698989
+      },
+      {
+        "id": "memory.locality.blocked64",
+        "iterations": 1,
+        "median_us": 38698.0,
+        "snapshot_bytes": 9489097
+      },
+      {
+        "id": "memory.system.public",
+        "iterations": 3,
+        "median_us": 7332.0,
+        "snapshot_bytes": 454189
+      },
+      {
+        "id": "memory.system.failure_reuse",
+        "iterations": 29,
+        "median_us": 630.6896551724138,
+        "snapshot_bytes": 22313
+      },
+      {
+        "id": "memory.overlap.public",
+        "iterations": 9,
+        "median_us": 2569.222222222222,
+        "snapshot_bytes": 443683
+      },
+      {
+        "id": "memory.overlap.queue64",
+        "iterations": 2,
+        "median_us": 14938.5,
+        "snapshot_bytes": 5722056
+      },
+      {
+        "id": "memory.overlap.failure_reuse",
+        "iterations": 24,
+        "median_us": 771.2083333333334,
+        "snapshot_bytes": 203644
+      },
+      {
+        "id": "memory.layout.public_native64",
+        "iterations": 1,
+        "median_us": 20683.0,
+        "snapshot_bytes": 4606499
+      },
+      {
+        "id": "memory.layout.batch64_reuse",
+        "iterations": 1,
+        "median_us": 40053.0,
+        "snapshot_bytes": 9362606
+      },
+      {
+        "id": "memory.scheduling.public",
+        "iterations": 1,
+        "median_us": 42757.0,
+        "snapshot_bytes": 8023941
+      },
+      {
+        "id": "memory.scheduling.maximum4096",
+        "iterations": 1,
+        "median_us": 79914.0,
+        "snapshot_bytes": 16286541
+      },
+      {
+        "id": "memory.scheduling.failure_reuse",
+        "iterations": 3,
+        "median_us": 8283.666666666666,
+        "snapshot_bytes": 1639604
+      }
+    ]
+  }
+]

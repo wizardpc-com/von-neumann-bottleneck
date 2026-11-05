@@ -1,0 +1,11 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: Available visible action: FocusWork
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_creation_workbench.gd:8)
+       [1] press (res://tests/test_creation_workbench.gd:15)
+       [2] run (res://tests/test_creation_playable_loop.gd:76)
+       [3] press (res://tests/test_creation_workbench.gd:42)
+       [4] settle (res://tests/test_creation_workbench.gd:10)

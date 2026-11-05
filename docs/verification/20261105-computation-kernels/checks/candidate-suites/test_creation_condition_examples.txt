@@ -1,0 +1,5 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CONDITIONS order=1 source=1536 RAW=436 B predictive=430 B A=235928/258602 cycles B=225601/220899 cycles
+CONDITIONS order=2 source=1536 RAW=436 B predictive=369 B A=235928/283698 cycles B=225601/215664 cycles
+PASS: creation condition examples 24 checks

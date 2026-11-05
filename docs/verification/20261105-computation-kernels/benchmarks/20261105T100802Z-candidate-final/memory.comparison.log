@@ -1,0 +1,222 @@
+{
+  "passed": true,
+  "issues": [],
+  "cases": [
+    {
+      "id": "memory.layout.batch64_reuse",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 40053.0,
+      "candidate_median_us": 39886.0,
+      "reference_range_us": [
+        39993.0,
+        40539.0
+      ],
+      "candidate_range_us": [
+        39630.0,
+        41298.0
+      ],
+      "speed_ratio": 1.0041869327583612,
+      "time_reduction_percent": 0.416947544503532
+    },
+    {
+      "id": "memory.layout.public_native64",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 20683.0,
+      "candidate_median_us": 20504.0,
+      "reference_range_us": [
+        20540.0,
+        21242.0
+      ],
+      "candidate_range_us": [
+        20431.0,
+        20697.0
+      ],
+      "speed_ratio": 1.0087300039016778,
+      "time_reduction_percent": 0.8654450514915646
+    },
+    {
+      "id": "memory.locality.blocked64",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 38698.0,
+      "candidate_median_us": 38512.0,
+      "reference_range_us": [
+        38450.0,
+        39127.0
+      ],
+      "candidate_range_us": [
+        38337.0,
+        38646.0
+      ],
+      "speed_ratio": 1.0048296634815121,
+      "time_reduction_percent": 0.48064499457336485
+    },
+    {
+      "id": "memory.locality.public",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 7,
+      "reference_median_us": 3308.714285714286,
+      "candidate_median_us": 3298.5714285714284,
+      "reference_range_us": [
+        3300.0,
+        3373.714285714286
+      ],
+      "candidate_range_us": [
+        3289.1428571428573,
+        3310.5714285714284
+      ],
+      "speed_ratio": 1.0030749242096146,
+      "time_reduction_percent": 0.30654980354907213
+    },
+    {
+      "id": "memory.overlap.failure_reuse",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 24,
+      "reference_median_us": 771.2083333333334,
+      "candidate_median_us": 811.2916666666666,
+      "reference_range_us": [
+        769.625,
+        787.0416666666666
+      ],
+      "candidate_range_us": [
+        770.75,
+        867.4583333333334
+      ],
+      "speed_ratio": 0.9505931898721176,
+      "time_reduction_percent": -5.19747150035117
+    },
+    {
+      "id": "memory.overlap.public",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 9,
+      "reference_median_us": 2569.222222222222,
+      "candidate_median_us": 2563.3333333333335,
+      "reference_range_us": [
+        2560.3333333333335,
+        2579.4444444444443
+      ],
+      "candidate_range_us": [
+        2555.5555555555557,
+        2617.8888888888887
+      ],
+      "speed_ratio": 1.0022973558734287,
+      "time_reduction_percent": 0.22920901267136085
+    },
+    {
+      "id": "memory.overlap.queue64",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 2,
+      "reference_median_us": 14938.5,
+      "candidate_median_us": 14862.5,
+      "reference_range_us": [
+        14854.0,
+        15062.5
+      ],
+      "candidate_range_us": [
+        14813.0,
+        15724.5
+      ],
+      "speed_ratio": 1.0051135407905802,
+      "time_reduction_percent": 0.5087525521303982
+    },
+    {
+      "id": "memory.scheduling.failure_reuse",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 3,
+      "reference_median_us": 8283.666666666666,
+      "candidate_median_us": 8290.0,
+      "reference_range_us": [
+        8250.0,
+        8351.333333333334
+      ],
+      "candidate_range_us": [
+        8228.666666666666,
+        8821.0
+      ],
+      "speed_ratio": 0.9992360273421793,
+      "time_reduction_percent": -0.07645567582794666
+    },
+    {
+      "id": "memory.scheduling.maximum4096",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 79914.0,
+      "candidate_median_us": 79730.0,
+      "reference_range_us": [
+        79305.0,
+        80461.0
+      ],
+      "candidate_range_us": [
+        78896.0,
+        80542.0
+      ],
+      "speed_ratio": 1.0023077887871568,
+      "time_reduction_percent": 0.23024751607978455
+    },
+    {
+      "id": "memory.scheduling.public",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 42757.0,
+      "candidate_median_us": 42664.0,
+      "reference_range_us": [
+        42621.0,
+        42904.0
+      ],
+      "candidate_range_us": [
+        42336.0,
+        43672.0
+      ],
+      "speed_ratio": 1.0021798237389836,
+      "time_reduction_percent": 0.21750824426409743
+    },
+    {
+      "id": "memory.system.failure_reuse",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 29,
+      "reference_median_us": 630.6896551724138,
+      "candidate_median_us": 625.8965517241379,
+      "reference_range_us": [
+        627.8275862068965,
+        639.8275862068965
+      ],
+      "candidate_range_us": [
+        624.448275862069,
+        628.9310344827586
+      ],
+      "speed_ratio": 1.0076579802765688,
+      "time_reduction_percent": 0.7599781301257602
+    },
+    {
+      "id": "memory.system.public",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 3,
+      "reference_median_us": 7332.0,
+      "candidate_median_us": 7294.0,
+      "reference_range_us": [
+        7242.333333333333,
+        7407.666666666667
+      ],
+      "candidate_range_us": [
+        7273.666666666667,
+        7416.666666666667
+      ],
+      "speed_ratio": 1.0052097614477653,
+      "time_reduction_percent": 0.5182760501909467
+    }
+  ]
+}

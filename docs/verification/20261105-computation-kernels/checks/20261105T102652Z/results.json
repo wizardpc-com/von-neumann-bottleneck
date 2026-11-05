@@ -1,0 +1,22 @@
+[
+  {
+    "suite": "round9-creation-gpu-probe",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261105T095516Z-05af4f51/project",
+      "--script",
+      "res://.godot/collaboration/round9-creation-gpu-probe.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/checks/20261105T102652Z/round9-creation-gpu-probe",
+    "returncode": 1,
+    "seconds": 3.1368405420000003,
+    "diagnostics": [
+      "ERROR: Original viewport click did not activate RunCostComparison",
+      "Missing suite PASS marker"
+    ]
+  }
+]

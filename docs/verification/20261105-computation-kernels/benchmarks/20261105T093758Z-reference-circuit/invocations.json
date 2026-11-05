@@ -1,0 +1,27 @@
+[
+  {
+    "group": "circuit",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T090809Z-3273d2f7/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=circuit",
+      "--label=reference-circuit",
+      "--host-label=yrq-mac-round9",
+      "--samples=7"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round9/20261105T093758Z-reference-circuit/circuit",
+    "returncode": -15,
+    "seconds": 154.975027917,
+    "log": "circuit.log",
+    "diagnostics": [
+      "SCRIPT ERROR: Parse Error: Expected parameter name.",
+      "ERROR: Failed to load script \"res://scripts/benchmarks/computation/circuit_cases.gd\" with error \"Parse error\".",
+      "SCRIPT ERROR: Invalid call. Nonexistent function 'cases' in base 'GDScript'."
+    ]
+  }
+]

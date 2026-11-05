@@ -1,0 +1,78 @@
+{
+  "scope": "Diagnostic three-sample public generation; full4096 parity is separately in the workload corpus.",
+  "matching_output_cost_counts": true,
+  "cases": [
+    {
+      "length": 64,
+      "reference_us": [
+        11845,
+        11988,
+        11284
+      ],
+      "candidate_us": [
+        4136,
+        4348,
+        4271
+      ],
+      "reference_median_us": 11845,
+      "candidate_median_us": 4271,
+      "speed_ratio": 2.7733551861390775,
+      "event_count": 1078,
+      "cost": {
+        "cpu_ops": 3244,
+        "peak_bytes": 375,
+        "total_cycles": 5207,
+        "transfer_bytes": 9054
+      },
+      "output_sha256": "bf5925f6ebe26cfed0bdb757d5dafe6a714eaad8aa292c0b40b199a3fc43ad2a"
+    },
+    {
+      "length": 1024,
+      "reference_us": [
+        205502,
+        211853,
+        206432
+      ],
+      "candidate_us": [
+        69308,
+        72126,
+        69670
+      ],
+      "reference_median_us": 206432,
+      "candidate_median_us": 69670,
+      "speed_ratio": 2.9629969857901535,
+      "event_count": 18024,
+      "cost": {
+        "cpu_ops": 50242,
+        "peak_bytes": 1335,
+        "total_cycles": 85367,
+        "transfer_bytes": 148420
+      },
+      "output_sha256": "3af6f68af282c1363c4ed4d71e746d34602facd537af24f0716f9f438dc84de1"
+    },
+    {
+      "length": 4096,
+      "reference_us": [
+        1167367,
+        1192666,
+        1183029
+      ],
+      "candidate_us": [
+        262132,
+        284240,
+        279781
+      ],
+      "reference_median_us": 1183029,
+      "candidate_median_us": 279781,
+      "speed_ratio": 4.228410792727169,
+      "event_count": 71680,
+      "cost": {
+        "cpu_ops": 198922,
+        "peak_bytes": 4407,
+        "total_cycles": 338593,
+        "transfer_bytes": 588108
+      },
+      "output_sha256": "beed17601aedeee384b5f1a258972c6c621575e75df2c4492e6d37e80fb32d04"
+    }
+  ]
+}

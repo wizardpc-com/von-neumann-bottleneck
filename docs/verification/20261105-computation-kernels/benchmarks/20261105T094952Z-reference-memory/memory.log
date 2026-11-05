@@ -1,0 +1,16 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CASE memory.locality.public: 7 iterations/sample; median 3314.71428571429 us; snapshot 698989 bytes
+CASE memory.locality.blocked64: 1 iterations/sample; median 39237.0 us; snapshot 9489097 bytes
+CASE memory.system.public: 3 iterations/sample; median 7309.66666666667 us; snapshot 454189 bytes
+CASE memory.system.failure_reuse: 29 iterations/sample; median 633.0 us; snapshot 22313 bytes
+CASE memory.overlap.public: 9 iterations/sample; median 2574.0 us; snapshot 443683 bytes
+CASE memory.overlap.queue64: 2 iterations/sample; median 14905.5 us; snapshot 5722056 bytes
+CASE memory.overlap.failure_reuse: 24 iterations/sample; median 772.375 us; snapshot 203644 bytes
+CASE memory.layout.public_native64: 1 iterations/sample; median 20500.0 us; snapshot 4606499 bytes
+CASE memory.layout.batch64_reuse: 1 iterations/sample; median 39789.0 us; snapshot 9362606 bytes
+CASE memory.scheduling.public: 1 iterations/sample; median 42404.0 us; snapshot 8023941 bytes
+CASE memory.scheduling.maximum4096: 1 iterations/sample; median 79449.0 us; snapshot 16286541 bytes
+CASE memory.scheduling.failure_reuse: 3 iterations/sample; median 8287.0 us; snapshot 1639604 bytes
+BENCHMARK: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round9/20261105T094952Z-reference-memory/memory/computation-benchmark.json
+PASS: computation benchmark 12 cases, 0 failures

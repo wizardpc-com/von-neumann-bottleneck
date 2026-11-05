@@ -19,10 +19,17 @@ func run() -> void:
 		var identity: String = Model.identity(scene.session.data.model)
 		for condition: int in 2:
 			await press(scene,"MachineCondition"+str(condition))
+			# Learn selects its causal explanation; open the visible ledger
+			# before clicking its action instead of emitting a hidden signal.
+			scene.causal_tabs.current_tab = scene.cost_comparison_page.get_index()
+			await settle()
 			await press(scene,"RunCostComparison")
 			check(Model.identity(scene.session.data.model)==identity,"Machine intervention keeps learned rules")
 			await capture("condition-%d-"%condition+locale)
 		check(scene.transport_comparisons.size()==2,"Both immutable machine observations remain available")
+		if scene.transport_comparisons.size() != 2:
+			quit(1)
+			return
 		var ledger = preload("res://experiments/creation/cost_ledger.gd")
 		var a: Dictionary = scene.transport_comparisons[0]
 		var b: Dictionary = scene.transport_comparisons[1]
@@ -65,6 +72,8 @@ func run() -> void:
 		tabs = control(scene,"DraftTabs"); tabs.current_tab = 2; await settle()
 		await press(scene,"KeepCreationB")
 		check(scene.session.data.works.size()==2 and not scene.session.dirty,"Choosing B keeps both named works transactionally")
+		scene.causal_tabs.current_tab = 3 # Works / recipes is an explicit visible page.
+		await settle()
 		var works: ItemList = control(scene,"Works"); works.select(1)
 		await press(scene,"FocusWork")
 		await capture("saved-work-"+locale)

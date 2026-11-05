@@ -4,9 +4,15 @@
 for independently scheduled queries and one retained physical copy. Its model
 `layout-schedule-experiment-1` reuses original memory operations, emits causal
 request/response events and measures Q1 completion separately from total work.
-The session owns bounded drafts/history/baselines in memory; the UI has no
-campaign completion or persistence authority. Its isolated runner changes only
-the copied project entry and user directory. Shared query-value/output helper
+The pure session owns bounded drafts/history/baselines and per-workload goals.
+`goals.gd` filters complete same-condition measurements by inclusive Q1/copy caps,
+then ranks total work or traffic with explicit ties. `workspace.gd` retains the
+editable proposal and remeasures kept recipes; `notebook_store.gd` accepts only
+strict version1 input snapshots, protects stale/corrupt files and commits through
+an isolated cooperative writer lease and atomic replacement. Metrics/Trace are
+never persistent score authority. The UI has no campaign completion authority.
+The runner binds an optional stable experiment-only profile before autoloads;
+temporary history/Undo remain in memory. Shared query-value/output helper
 extractions preserve the frozen official Trace sample. See the
 [experimental contract](experiments/layout_strategy/README.md).
 

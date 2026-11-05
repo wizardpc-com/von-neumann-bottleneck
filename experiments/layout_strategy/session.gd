@@ -1,6 +1,7 @@
 extends RefCounted
 ## Bounded in-memory experiments. No campaign, file, telemetry or UI authority.
 const Model = preload("res://experiments/layout_strategy/model.gd")
+const Goals = preload("res://experiments/layout_strategy/goals.gd")
 const MAX_RUNS: int = 24
 const MAX_EDITS: int = 64
 var task_id: String = "scan_batch"
@@ -9,17 +10,29 @@ var _next_id: int = 1
 
 func _state() -> Dictionary:
 	if not _states.has(task_id):
-		_states[task_id] = {
-			"draft":Model.starter_plan(), "undo":[], "redo":[],
-			"runs":[], "selected":-1, "baseline":-1,
-		}
+		_states[task_id] = _new_state()
 	return _states[task_id]
+
+func _new_state() -> Dictionary:
+	return {
+		"draft":Model.starter_plan(), "goal":Goals.default_goal(), "undo":[], "redo":[],
+		"runs":[], "selected":-1, "baseline":-1,
+	}
 
 func task() -> Dictionary:
 	return Model.scenario(task_id)
 
 func draft() -> Dictionary:
 	return _state().draft.duplicate(true)
+
+func goal() -> Dictionary:
+	return _state().goal.duplicate(true)
+
+func set_goal(value: Dictionary) -> bool:
+	var normalized: Dictionary = Goals.normalize(value)
+	if normalized.is_empty() or normalized == _state().goal: return false
+	_state().goal = normalized
+	return true
 
 func change_task(id: String) -> bool:
 	if id not in Model.SCENARIO_IDS: return false
@@ -58,15 +71,17 @@ func redo() -> bool:
 	return true
 
 func run_current() -> Dictionary:
+	return replay(draft())
+
+func replay(plan: Dictionary) -> Dictionary:
 	var state: Dictionary = _state()
-	var plan: Dictionary = draft()
 	var result: Dictionary = Model.evaluate(task(),plan)
 	if not result.get("valid",false) or result.get("run") == null: return result
 	var trace: LayoutRun = result.run
 	var events: Array[Dictionary] = []
 	for event: SimulationEvent in trace.events: events.append(event.to_dictionary())
 	var entry: Dictionary = {
-		"id":_next_id, "task_id":task_id, "plan":plan.duplicate(true),
+		"id":_next_id, "task_id":task_id, "plan":Model.normalize_plan(plan),
 		"condition_id":trace.case_signature, "trace_id":trace.canonical_signature().sha256_text(),
 		"metrics":trace.metrics.duplicate(true), "correct":trace.passed,
 		"events":events, "outputs":trace.output_values.duplicate(),
@@ -98,6 +113,30 @@ func rows() -> Array[Dictionary]:
 			row[key] = entry[key]
 		result.append(row.duplicate(true))
 	return result
+
+func ranked_rows() -> Array[Dictionary]:
+	return Goals.rank(rows(),Model.condition_id(task()),goal())
+
+func restore_checkpoint(active: String, drafts: Dictionary, goals: Dictionary) -> bool:
+	if has_work() or active not in Model.SCENARIO_IDS: return false
+	var pending: Dictionary = {}
+	for id: Variant in drafts:
+		if not id is String or id not in Model.SCENARIO_IDS or not drafts[id] is Dictionary: return false
+		var normalized: Dictionary = Model.normalize_plan(drafts[id])
+		if normalized.is_empty(): return false
+		pending[id] = _new_state()
+		pending[id].draft = normalized
+	for id: Variant in goals:
+		if not id is String or id not in Model.SCENARIO_IDS or not goals[id] is Dictionary: return false
+		var normalized: Dictionary = Goals.normalize(goals[id])
+		if normalized.is_empty(): return false
+		if not pending.has(id): pending[id] = _new_state()
+		pending[id].goal = normalized
+	_states = pending
+	task_id = active
+	_next_id = 1
+	_state()
+	return true
 
 func selected_entry() -> Dictionary:
 	return _entry(int(_state().selected)).duplicate(true)
@@ -153,6 +192,6 @@ func is_stale() -> bool:
 
 func has_work() -> bool:
 	for state: Dictionary in _states.values():
-		if not state.runs.is_empty() or not state.undo.is_empty() or not state.redo.is_empty() or state.draft != Model.starter_plan():
+		if not state.runs.is_empty() or not state.undo.is_empty() or not state.redo.is_empty() or state.draft != Model.starter_plan() or state.goal != Goals.default_goal():
 			return true
 	return false

@@ -1,0 +1,2327 @@
+{
+	"mixed_batch": {
+		"count": 612,
+		"goals": [
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 0,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 80,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 160,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 0,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 80,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 160,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 1696,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 2,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 405,
+					"ram": 1120
+				},
+				"copy_limit": 0,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 1696,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 2,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 405,
+					"ram": 1120
+				},
+				"copy_limit": 80,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 1696,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 2,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 405,
+					"ram": 1120
+				},
+				"copy_limit": 160,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 1392,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 3,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 469,
+					"ram": 816
+				},
+				"copy_limit": 0,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 1392,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 3,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 469,
+					"ram": 816
+				},
+				"copy_limit": 80,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 1392,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 3,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 469,
+					"ram": 816
+				},
+				"copy_limit": 160,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 1120,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 5,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 597,
+					"ram": 544
+				},
+				"copy_limit": 0,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 1120,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 5,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 597,
+					"ram": 544
+				},
+				"copy_limit": 80,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 1120,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 5,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 597,
+					"ram": 544
+				},
+				"copy_limit": 160,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 848,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 9,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 813,
+					"ram": 272
+				},
+				"copy_limit": 0,
+				"q1_limit": 900
+			},
+			{
+				"best": {
+					"cycles": 848,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 9,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 813,
+					"ram": 272
+				},
+				"copy_limit": 80,
+				"q1_limit": 900
+			},
+			{
+				"best": {
+					"cycles": 848,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 9,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 813,
+					"ram": 272
+				},
+				"copy_limit": 160,
+				"q1_limit": 900
+			}
+		]
+	},
+	"mixed_serial": {
+		"count": 68,
+		"goals": [
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 0,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 80,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 160,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 0,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 80,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 160,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 0,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 80,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 160,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 0,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 80,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 160,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 0,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 80,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 160,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 0,
+				"q1_limit": 900
+			},
+			{
+				"best": {
+					"cycles": 2784,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 341,
+					"ram": 2208
+				},
+				"copy_limit": 80,
+				"q1_limit": 900
+			},
+			{
+				"best": {
+					"cycles": 2404,
+					"peak": 144,
+					"plan": {
+						"copy_fields": [
+							0,
+							3
+						],
+						"copy_mode": "full",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 825,
+					"ram": 1624
+				},
+				"copy_limit": 160,
+				"q1_limit": 900
+			}
+		]
+	},
+	"scan_batch": {
+		"count": 544,
+		"goals": [
+			{
+				"best": {
+					"cycles": 1368,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 2,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 339,
+					"ram": 1088
+				},
+				"copy_limit": 0,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 1368,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 2,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 339,
+					"ram": 1088
+				},
+				"copy_limit": 80,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 1368,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 2,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 339,
+					"ram": 1088
+				},
+				"copy_limit": 160,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 1096,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 3,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 371,
+					"ram": 816
+				},
+				"copy_limit": 0,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 1096,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 3,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 371,
+					"ram": 816
+				},
+				"copy_limit": 80,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 1096,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 3,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 371,
+					"ram": 816
+				},
+				"copy_limit": 160,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 824,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 4,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 403,
+					"ram": 544
+				},
+				"copy_limit": 0,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 824,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 4,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 403,
+					"ram": 544
+				},
+				"copy_limit": 80,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 824,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 4,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 403,
+					"ram": 544
+				},
+				"copy_limit": 160,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 824,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 4,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 403,
+					"ram": 544
+				},
+				"copy_limit": 0,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 824,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 4,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 403,
+					"ram": 544
+				},
+				"copy_limit": 80,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 824,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 4,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 403,
+					"ram": 544
+				},
+				"copy_limit": 160,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 552,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 8,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 531,
+					"ram": 272
+				},
+				"copy_limit": 0,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 552,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 8,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 531,
+					"ram": 272
+				},
+				"copy_limit": 80,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 552,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 8,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 531,
+					"ram": 272
+				},
+				"copy_limit": 160,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 552,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 8,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 531,
+					"ram": 272
+				},
+				"copy_limit": 0,
+				"q1_limit": 900
+			},
+			{
+				"best": {
+					"cycles": 552,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 8,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 531,
+					"ram": 272
+				},
+				"copy_limit": 80,
+				"q1_limit": 900
+			},
+			{
+				"best": {
+					"cycles": 552,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 8,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 531,
+					"ram": 272
+				},
+				"copy_limit": 160,
+				"q1_limit": 900
+			}
+		]
+	},
+	"scan_serial": {
+		"count": 68,
+		"goals": [
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 0,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 80,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 160,
+				"q1_limit": 350
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 0,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 80,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 160,
+				"q1_limit": 400
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 0,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 80,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 160,
+				"q1_limit": 450
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 0,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 80,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 160,
+				"q1_limit": 500
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 0,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 1362,
+					"peak": 80,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "full",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 557,
+					"ram": 980
+				},
+				"copy_limit": 80,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 1362,
+					"peak": 80,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "full",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 557,
+					"ram": 980
+				},
+				"copy_limit": 160,
+				"q1_limit": 600
+			},
+			{
+				"best": {
+					"cycles": 2456,
+					"peak": 0,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "none",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 307,
+					"ram": 2176
+				},
+				"copy_limit": 0,
+				"q1_limit": 900
+			},
+			{
+				"best": {
+					"cycles": 1362,
+					"peak": 80,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "full",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 557,
+					"ram": 980
+				},
+				"copy_limit": 80,
+				"q1_limit": 900
+			},
+			{
+				"best": {
+					"cycles": 1362,
+					"peak": 80,
+					"plan": {
+						"copy_fields": [
+							0
+						],
+						"copy_mode": "full",
+						"query_group": 1,
+						"recipe": {
+							"block": 0,
+							"groups": [
+								{
+									"fields": [
+										0,
+										1,
+										2,
+										3
+									],
+									"order": "record"
+								}
+							]
+						},
+						"record_tile": 1
+					},
+					"q1": 557,
+					"ram": 980
+				},
+				"copy_limit": 160,
+				"q1_limit": 900
+			}
+		]
+	}
+}

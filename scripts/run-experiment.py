@@ -16,11 +16,11 @@ def main():
     parser.add_argument('--locale', choices=['en', 'zh_CN'], default='zh_CN')
     parser.add_argument('--prepare-only', action='store_true')
     parser.add_argument('--journey', action='store_true', help='Enter the existing hub with isolated representation and service journeys enabled')
-    parser.add_argument('--profile', help='Opt-in isolated candidate profile (letters, digits, hyphen; no campaign saves)')
+    parser.add_argument('--profile', help='Reusable isolated notebook/candidate profile (letters, digits, hyphen; no campaign saves)')
     parser.add_argument('--replay', choices=['lab', 'proxy', 'depth', 'candidate', 'candidate-proxy'])
     args = parser.parse_args()
-    if args.profile is not None and (args.experiment not in ['representation_region', 'service_plan', 'creation'] or args.replay or not re.fullmatch(r'[A-Za-z0-9-]{1,40}', args.profile)):
-        parser.error('--profile requires representation_region, service_plan or creation, no replay, and a 1-40 character safe profile name')
+    if args.profile is not None and (args.experiment not in ['representation_region', 'service_plan', 'creation', 'layout_strategy'] or args.replay or not re.fullmatch(r'[A-Za-z0-9-]{1,40}', args.profile)):
+        parser.error('--profile requires layout_strategy, representation_region, service_plan or creation, no replay, and a 1-40 character safe profile name')
     if args.journey and (args.experiment not in ['representation_region', 'service_plan', 'creation'] or not args.profile or args.replay):
         parser.error('--journey requires representation_region, service_plan or creation with --profile and no replay')
     if args.experiment == 'layout_strategy' and args.replay:
@@ -48,8 +48,13 @@ def main():
     if 'config/custom_user_dir_name=' in settings or 'config/use_custom_user_dir=' in settings:
         raise RuntimeError('Review custom user directory settings')
     primary = 'representation' if args.experiment in ['representation_region', 'creation'] else 'service'
-    settings = settings.replace('[application]\n', '[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name=' + json.dumps('VonNeumannBottleneckCandidates/' + primary + '/' + args.profile if args.profile else 'VonNeumannBottleneckChecks/experiments/' + stamp) + '\n', 1)
-    if args.profile:
+    strategy_profile = args.experiment == 'layout_strategy' and bool(args.profile)
+    custom_dir = ('VonNeumannBottleneckChecks/layout_strategy/' + args.profile
+                  if strategy_profile else
+                  'VonNeumannBottleneckCandidates/' + primary + '/' + args.profile
+                  if args.profile else 'VonNeumannBottleneckChecks/experiments/' + stamp)
+    settings = settings.replace('[application]\n', '[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name=' + json.dumps(custom_dir) + '\n', 1)
+    if args.profile and not strategy_profile:
         settings += '\n[candidate]\nprimary_domain=' + json.dumps(primary) + '\nprofile=' + json.dumps(args.profile) + '\n'
         if args.journey:
             settings += 'journey_enabled=true\n'
@@ -70,7 +75,10 @@ def main():
     print(('Open this file in Godot: ' if args.locale == 'en' else '在 Godot 中打开此文件：') + str((project / 'project.godot').resolve()), flush=True)
     print('Source-root F5 opens the 60-task journey. This copy uses isolated player data.' if args.locale == 'en' else '源码根目录 F5 默认运行60项旅程；此副本使用独立测试数据。', flush=True)
     if args.experiment == 'layout_strategy':
-        print('This copy opens the scheduling lab; its plans and history last only for this session.' if args.locale == 'en' else '此副本直接进入调度实验室；方案与历史仅保留在本次会话。', flush=True)
+        print('This copy opens the scheduling notebook. Save workspace explicitly; recent runs and Undo remain session-only.' if args.locale == 'en' else '此副本直接进入调度方案簿。请显式保存工作区；近期运行与撤销记录仅保留在本次启动。', flush=True)
+        print(('Notebook profile: ' if args.locale == 'en' else '方案簿存档：') + custom_dir, flush=True)
+        if not strategy_profile:
+            print('Reopen this prepared copy, or use --profile <name> for a reusable notebook across launches.' if args.locale == 'en' else '下次可重开此副本；使用 --profile <名称> 可在重复启动命令时找回同一方案簿。', flush=True)
     if args.prepare_only:
         return
     command = [engine, '--path', str(project)]
@@ -85,7 +93,7 @@ def main():
         if not args.journey:
             command += ['res://experiments/' + scenes.get(args.experiment, args.experiment + '/lab.tscn')]
     command += ['--', '--locale=' + args.locale, '--experiment=' + args.experiment, '--evidence-dir=' + str(output / 'captures')]
-    if args.profile:
+    if args.profile and not strategy_profile:
         command += ['--candidate-save']
     if args.journey:
         command += ['--candidate-journey']

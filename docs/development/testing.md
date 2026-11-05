@@ -1,3 +1,52 @@
+## Retained experiment notebook — 2026-11-04
+
+Alongside the model/session/legacy/UI gates below, run
+`test_layout_strategy_goals`, `test_layout_strategy_notebook_store`,
+`test_layout_strategy_workspace` and `test_layout_strategy_notebook_ui` through
+the isolated verifier. Goals test inclusive boundaries, unavailable responses,
+wrong conditions and objective ties. Store checks bounded canonical nested
+inputs, stale/unknown/UTF-8 protection, real write/replace failures, external
+changes, cooperative leases and retry. Workspace checks selected evidence versus
+draft, retained recipes beyond transient history, startup reconstruction and
+proposed versus committed state. All fixtures use isolated profiles.
+
+For the notebook GPU fixture:
+
+```sh
+<Godot-4.7.1> --path <isolated-project> --windowed --resolution 1280x720 \
+  --script res://tests/test_layout_strategy_notebook_ui.gd \
+  -- --capture-size=1280x720 --layout-notebook-capture
+python3 tests/test_layout_strategy_runner.py -v
+```
+
+The UI fixture checks both locales at1280×720/960×640, selection/restore,
+goal ranking, name TextEdit Undo, saved/dirty labels, explicit-save failure and
+exit/focus guards. Python runner tests mock the engine and verify routing; they
+do not replace actual import/startup. A normal resumable experiment launch is:
+
+```sh
+python3 scripts/run-experiment.py layout_strategy \
+  --godot <Godot-4.7.1> --profile my-notebook
+```
+
+The named profile is `VonNeumannBottleneckChecks/layout_strategy/<name>`, set
+before autoloads. The notebook stores only inputs; remeasure kept plans after
+reopen. Real process acceptance uses
+`tests/recovery/layout_notebook_process_probe.gd` in a dedicated QA profile:
+seed/reopen, hold a live lease, reject contention, stop only that owned test
+process, explicitly recover, **change persisted input**, save and reopen again.
+An unchanged no-op save cannot establish successful post-recovery writing.
+The fifth-round receipt archives its exact orchestration and logs; its deliberate
+SIGKILL is not graceful-exit acceptance. Another profile must remain separate.
+Do not use a player's ordinary notebook for recovery tests.
+
+When constructing a stale-writer fixture, actually change disk contents; returning
+to the exact observed bytes correctly passes a digest check. Normalize parsed
+JSON recipes before comparing with typed GDScript arrays/integers. Preserve
+failed logs and first captures rather than silently replacing them.
+See the [notebook receipt](../verification/20261104-layout-notebook/README.md).
+Its scripted GPU and real process checks do not establish native UI or exports.
+
 ## Independent scheduling experiment — 2026-11-04
 
 Use pinned Godot4.7.1 and the isolated verifier for
@@ -34,7 +83,8 @@ or a prepared QA copy whose main scene is the lab. Do not pass `--capture*`
 for normal Settings/persistence acceptance: those arguments disable campaign
 writes and can produce the existing write-disabled dialog after a language
 change. Native observation and scripted GPU assertions have separate evidence
-boundaries. The session remains transient and cannot award official progress.
+boundaries. Recent history/Undo/baselines remain transient; the later notebook
+explicitly retains input recipes/goals/drafts. Neither can award official progress.
 The finite strategy grid is research evidence, not a global-optimum test.
 See the [receipt](../verification/20261104-layout-scheduling/README.md) and
 [experimental rules](../../experiments/layout_strategy/README.md).

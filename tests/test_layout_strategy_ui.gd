@@ -50,12 +50,21 @@ func select_history(host: Control, id: int) -> void:
 	await settle()
 	check(root.gui_get_focus_owner() == host.history_table,"Measured history has keyboard focus")
 	var count: int = host.history_table.get_root().get_child_count()
-	for index: int in count+1:
-		var item: TreeItem = host.history_table.get_selected()
-		if item != null and int(item.get_metadata(0)) == id:
+	for step: int in count+1:
+		var selected: TreeItem = host.history_table.get_selected()
+		if selected != null and int(selected.get_metadata(0)) == id:
 			check(int(host.session.selected_entry().id) == id,"Viewport history selection inspects measured run #"+str(id))
 			return
-		await key(KEY_UP if item != null and int(item.get_metadata(0)) > id else KEY_DOWN)
+		var item: TreeItem = host.history_table.get_root().get_first_child()
+		var selected_index: int = -1
+		var target_index: int = -1
+		var index: int = 0
+		while item != null:
+			if item == selected: selected_index = index
+			if int(item.get_metadata(0)) == id: target_index = index
+			index += 1
+			item = item.get_next()
+		await key(KEY_UP if selected_index > target_index else KEY_DOWN)
 	check(false,"Viewport selection reaches measured history #%d; selected=%s focus=%s" % [
 		id,host.history_table.get_selected(),root.gui_get_focus_owner()])
 
@@ -143,6 +152,7 @@ func _run() -> void:
 func exercise(locale: String) -> void:
 	var auto_quit_before: bool = auto_accept_quit
 	var host: Control = Scene.instantiate()
+	host.notebook_path = "user://layout-strategy-ui-%s-%d/notebook.json" % [locale,Time.get_ticks_usec()]
 	root.add_child(host)
 	current_scene = host
 	await settle()
@@ -316,7 +326,7 @@ func exercise(locale: String) -> void:
 	host.notification(Node.NOTIFICATION_WM_CLOSE_REQUEST)
 	await settle()
 	check(host.exit_overlay.visible,"OS-close notification uses the same unsaved-session guard "+locale)
-	for control: Control in [host.exit_question,host.exit_cancel,host.exit_confirm]:
+	for control: Control in [host.exit_question,host.exit_cancel,host.exit_save,host.exit_confirm]:
 		fits(control,"Minimum quit guard "+locale)
 	await capture(locale+"-quit-960")
 	await click(host.exit_cancel)

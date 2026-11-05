@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/experiments/0c8288dacf9e/project",
+    "--headless",
+    "--quit-after",
+    "8"
+  ],
+  "exit": 0,
+  "diagnostics": [],
+  "passed": true,
+  "profile": "VonNeumannBottleneckChecks/layout_strategy/codex-round5-preview-20261104",
+  "launcher": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/layout-notebook-preview-20261104.command",
+  "launcher_syntax_exit": 0,
+  "scope": "Ordinary lab startup with isolated stable profile; no test/capture flags or native input"
+}

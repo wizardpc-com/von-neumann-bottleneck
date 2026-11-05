@@ -1,0 +1,10 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+scan_batch: 914 combinations, 5 frontier classes
+scan_serial: 27 combinations, 2 frontier classes
+mixed_batch: 1027 combinations, 7 frontier classes
+mixed_serial: 27 combinations, 2 frontier classes
+sparse3_cluster_serial: 17 combinations, 2 frontier classes
+sparse3_spread_serial: 17 combinations, 1 frontier classes
+split_hot_fields_serial: 17 combinations, 3 frontier classes
+PASS: round5 strategy probe 2046 candidates, 40 expected space failures, 56 replays, 16 value comparisons, 34342.070 ms

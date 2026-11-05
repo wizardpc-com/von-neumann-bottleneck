@@ -1,6 +1,8 @@
 extends SceneTree
 const Session = preload("res://experiments/layout_strategy/session.gd")
 const Model = preload("res://experiments/layout_strategy/model.gd")
+const Goals = preload("res://experiments/layout_strategy/goals.gd")
+const Recipe = preload("res://src/layout_chapter/layout_recipe.gd")
 var checks: int = 0
 var failures: Array[String] = []
 
@@ -93,6 +95,104 @@ func _run() -> void:
 	check(redo_count == Session.MAX_EDITS,"Bounded Undo retains symmetric Redo")
 	check(root.get_node("LayoutChapter").game_snapshot() == old_state,"Experimental actions never change official layout progress/drafts")
 	check(session.has_work(),"Existing session work is detectable before exit")
+	_goal_and_replay()
+	_checkpoint()
+	check(root.get_node("LayoutChapter").game_snapshot() == old_state,"Goals, checkpoint and replay preserve official state")
 	for issue: String in failures: push_error(issue)
 	print(("PASS: " if failures.is_empty() else "FAIL: ")+"layout strategy session %d checks, %d failures" % [checks,failures.size()])
 	quit(0 if failures.is_empty() else 1)
+
+func _goal_and_replay() -> void:
+	var session = Session.new()
+	check(session.goal() == Goals.default_goal(),"Fresh session has no extra player limits")
+	var goal_copy: Dictionary = session.goal()
+	goal_copy.first_limit = 0
+	check(session.goal() == Goals.default_goal(),"Goal getter cannot mutate live rules")
+	var cap: Dictionary = {"objective":"cycles","first_limit":350,"copy_limit":0}
+	check(session.set_goal(cap) and session.has_work(),"Goal-only changes count as unsaved session work")
+	cap.first_limit = 0
+	check(session.goal().first_limit == 350,"Goal input is detached")
+	check(not session.can_undo() and session.rows().is_empty(),"Goal editing does not edit a recipe or manufacture a run")
+	check(not session.set_goal(session.goal()),"An unchanged goal is not a new edit")
+	var malformed: Dictionary = session.goal()
+	malformed["score"] = 0
+	check(not session.set_goal(malformed) and session.goal().first_limit == 350,"Malformed goals preserve prior rules")
+	var starter: Dictionary = session.draft()
+	var first: Dictionary = session.run_current()
+	check(session.set_baseline(first.entry.id),"Replay test keeps a measured baseline")
+	var grouped: Dictionary = starter.duplicate(true)
+	grouped.query_group = 2
+	grouped.record_tile = 1
+	session.edit(grouped)
+	var later: Dictionary = grouped.duplicate(true)
+	later.query_group = 3
+	session.edit(later)
+	session.undo()
+	check(session.can_undo() and session.can_redo(),"Replay starts with both Undo and Redo available")
+	var before: Array[Dictionary] = session.rows()
+	var replayed: Dictionary = session.replay(starter)
+	check(replayed.valid and replayed.entry.correct and session.selected_entry().id == replayed.entry.id,"Replay records/selects actual evidence")
+	check(replayed.entry.trace_id == first.entry.trace_id and replayed.entry.metrics == first.entry.metrics,"Recipe replay reproduces exact real evidence")
+	check(session.draft() == grouped and session.can_undo() and session.can_redo(),"Replay preserves current draft and both edit stacks")
+	check(session.rows().size() == before.size()+1 and session.baseline_id() == first.entry.id,"Replay preserves baseline and appends one observation")
+	check(session.redo() and session.draft() == later,"The original Redo still restores its exact pre-replay edit")
+	check(session.undo() and session.draft() == grouped,"Undo still returns the original grouped draft")
+	var count: int = session.rows().size()
+	var selected: int = session.selected_entry().id
+	var bad_plan: Dictionary = starter.duplicate(true)
+	bad_plan["claimed_cycles"] = 0
+	var invalid: Dictionary = session.replay(bad_plan)
+	check(not invalid.valid and session.rows().size() == count and session.selected_entry().id == selected,"Invalid replay preserves selection and history")
+	session.run_current()
+	var snapshot: Array[Dictionary] = session.rows()
+	var ranked: Array[Dictionary] = session.ranked_rows()
+	check(ranked[0].metrics.total_cycles == 1368 and ranked[0].rank == 1,"Session ranks actual current-condition runs under its goal")
+	check(session.rows() == snapshot and session.draft() == grouped,"Reading rankings does not mutate observation order or draft")
+	session.change_task("scan_serial")
+	check(session.goal() == Goals.default_goal(),"Another workload has separate player limits")
+	session.set_goal({"objective":"traffic","first_limit":600,"copy_limit":80})
+	session.change_task("scan_batch")
+	check(session.goal().first_limit == 350 and session.goal().copy_limit == 0,"Returning restores that workload's goal")
+
+func _checkpoint() -> void:
+	var session = Session.new()
+	var dormant: Dictionary = Model.starter_plan()
+	dormant.recipe = Recipe.field_major()
+	dormant.copy_fields = [3,2]
+	dormant.record_tile = 4
+	var copied: Dictionary = Model.starter_plan()
+	copied.copy_mode = "full"
+	copied.copy_fields = [0]
+	var drafts: Dictionary = {"scan_batch":dormant.duplicate(true),"scan_serial":copied.duplicate(true)}
+	var goals: Dictionary = {
+		"scan_batch":{"objective":"traffic","first_limit":0,"copy_limit":-1},
+		"scan_serial":{"objective":"cycles","first_limit":557,"copy_limit":80},
+	}
+	var bad_goals: Dictionary = goals.duplicate(true)
+	bad_goals.scan_serial.copy_limit = -2
+	check(not session.restore_checkpoint("scan_serial",drafts,bad_goals),"A bad later checkpoint entry rejects the whole proposal")
+	check(session.task_id == "scan_batch" and session.draft() == Model.starter_plan() and session.goal() == Goals.default_goal(),"Rejected checkpoint makes no partial active/draft/goal change")
+	var bad_drafts: Dictionary = drafts.duplicate(true)
+	bad_drafts["unknown"] = Model.starter_plan()
+	check(not session.restore_checkpoint("scan_batch",bad_drafts,goals),"Unknown workload draft is rejected")
+	var extra_goal: Dictionary = goals.duplicate(true)
+	extra_goal["unknown"] = Goals.default_goal()
+	check(not session.restore_checkpoint("scan_batch",drafts,extra_goal),"Unknown workload goal is rejected")
+	check(not session.restore_checkpoint("unknown",drafts,goals),"Unknown active workload is rejected")
+	check(not session.restore_checkpoint("scan_batch",{"scan_batch":"bad"},{}),"Non-dictionary draft is rejected")
+	check(not session.restore_checkpoint("scan_batch",{},{"scan_batch":"bad"}),"Non-dictionary goal is rejected")
+	check(session.restore_checkpoint("scan_serial",drafts,goals),"Whole valid checkpoint restores before session work")
+	check(session.task_id == "scan_serial" and session.draft() == copied and session.goal() == goals.scan_serial,"Checkpoint restores active workload and exact rules")
+	check(session.rows().is_empty() and not session.can_undo() and not session.can_redo() and session.baseline_id() == -1,"Checkpoint never restores score/history/Undo authority")
+	drafts.scan_serial.copy_fields.clear()
+	goals.scan_serial.first_limit = 0
+	check(session.draft() == copied and session.goal().first_limit == 557,"Restored checkpoint is detached from caller data")
+	session.change_task("scan_batch")
+	check(session.draft() == dormant and session.goal().first_limit == 0,"Dormant editable copy choices and zero Q1 survive checkpoint")
+	check(not session.restore_checkpoint("mixed_batch",{},{}),"Checkpoint cannot overwrite existing restored work")
+	var goal_only = Session.new()
+	goal_only.set_goal({"objective":"traffic","first_limit":-1,"copy_limit":-1})
+	check(not goal_only.restore_checkpoint("mixed_serial",{},{}),"Goal-only user work also blocks startup restore")
+	var blank = Session.new()
+	check(blank.restore_checkpoint("mixed_serial",{},{}),"Absent saved states use fresh defaults for a valid active workload")
+	check(blank.task_id == "mixed_serial" and blank.draft() == Model.starter_plan() and blank.goal() == Goals.default_goal() and not blank.has_work(),"Empty checkpoint does not manufacture work")

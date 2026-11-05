@@ -1,0 +1,95 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: workload_rejections: region/rejected: zero integer request_cycles
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: zero integer transfer_cycles
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: zero integer consume_cycles
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: zero integer stored_bytes
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: zero integer traffic_bytes
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: zero integer decoded_values
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: zero integer cache_misses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: zero integer overfetch_values
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: zero integer peak_cache_bytes
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: empty outputs
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: empty expected
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: empty blocks
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: empty accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: exact schema and submitted provenance
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+ERROR: workload_rejections: region/rejected: fresh failed Trace without published service work
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://scripts/benchmarks/computation/runner.gd:37)
+       [1] measure (res://scripts/benchmarks/computation/runner.gd:125)
+       [2] _run (res://scripts/benchmarks/computation/runner.gd:84)
+CASE workload_rejections: 1 iterations/sample; median 1234.0 us; snapshot 111999 bytes
+BENCHMARK: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/round11/20261105T122734Z-reference-rejection-defect/workload/computation-benchmark.json
+FAIL: computation benchmark 1 cases, 15 failures

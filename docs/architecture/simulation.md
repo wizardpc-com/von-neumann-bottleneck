@@ -69,6 +69,28 @@ The authored CPU investigation is deliberately memory-heavy: replacing Eco with 
 
 The current DSL accepts integer initialization, exactly two four-space-indented `for name in range(4):` loops, `name = load(A[i][j])`, `name += name`, `name += load(A[i][j])`, and a final `store(OUT[0], name)`. Tabs, other loop bounds, invalid indentation, and old v0.1 syntax are rejected. It is a purpose-built Python-shaped parser, not a Python interpreter or compiler platform.
 
+## Representation Region rejection
+
+`experiments/representation_region/model.gd` runs the editable representation
+Base model before validating its preparation parameters. A Base rejection
+retains its existing error priority and complete result with Region identity.
+For a Base-successful input, `online` must be a bool, `clients` an int1–8, and
+`encoder` an int≥1. These requirements also apply to offline orders.
+
+A preparation rejection returns a fresh failed `SimulationTrace` with error
+`preparation_machine` and the same metric keys as before. Its fourteen numeric
+execution/storage metrics are zero; events, outputs, expected outputs, encoded
+blocks and accesses are empty. The top-level result/expected values are zero
+and other fields keep fresh Trace defaults. Deep copies of the submitted spec
+and plan preserve the attempted inputs without retaining discarded service
+output or cache evidence.
+
+This branch defines rejected simulation evidence, not host execution time:
+the current implementation still performs Base computation first. Moving
+validation or reusing cold-client work is a separate measured optimization.
+Valid preparation/service traces, catalog orders, `meets()` decisions, version,
+saved-plan replay and condition identity retain their existing contract.
+
 ## Intended invariants and current status
 
 | invariant | current implementation |

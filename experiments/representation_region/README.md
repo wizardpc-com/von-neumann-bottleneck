@@ -1,5 +1,14 @@
 # Candidate representation region
 
+Current source: this Region is used by the full60-task journey, with protected
+plans remeasured by the host and journey review. The candidate-only integration
+and verification statements below describe the original implementation period;
+current product scope lives in [CURRENT_STATE](../../docs/CURRENT_STATE.md).
+Preparation-parameter rejection now returns a fresh failed Trace with detached
+inputs and no residual costs, output or cache work. Base-error priority and
+all valid computation retain their contract; see
+[simulation architecture](../../docs/architecture/simulation.md).
+
 Rules recorded before implementation. This isolated five-task region reuses the
 editable representation codec, directory, automatic decoded LRU and authoritative
 Trace. No campaign registry, ordinary campaign save, receipt, Notebook or telemetry is involved. Optional candidate-profile storage is described below.

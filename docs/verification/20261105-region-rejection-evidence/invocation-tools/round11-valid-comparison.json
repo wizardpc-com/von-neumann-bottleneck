@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "issues": [],
+  "cases": [
+    {
+      "id": "representation_online_clients",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 4,
+      "reference_median_us": 29633.0,
+      "candidate_median_us": 30257.75,
+      "reference_range_us": [
+        28302.0,
+        29854.0
+      ],
+      "candidate_range_us": [
+        30027.5,
+        31311.5
+      ],
+      "speed_ratio": 0.9793523973196949,
+      "time_reduction_percent": -2.1082914318496293
+    },
+    {
+      "id": "representation_region_compatibility",
+      "parity": true,
+      "timing_comparable": true,
+      "iterations": 1,
+      "reference_median_us": 81655.0,
+      "candidate_median_us": 84149.0,
+      "reference_range_us": [
+        81473.0,
+        82143.0
+      ],
+      "candidate_range_us": [
+        82678.0,
+        88982.0
+      ],
+      "speed_ratio": 0.9703620958062484,
+      "time_reduction_percent": -3.0543138815749105
+    }
+  ]
+}

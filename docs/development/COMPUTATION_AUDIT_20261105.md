@@ -58,7 +58,7 @@ These issues are scoped separately from a performance-only change.
 | Settling ceiling | The64-tick limit can reject a deep acyclic circuit as well as feedback. | Any topological fast path or bound change needs explicit version/Trace/old-achievement analysis. |
 | Failed-step recovery — corrected in Round10 | Whole and incremental register sequences write3, encounter conflicting5/6 drivers, then previously failed again on legal0/0 HOLD input. Failed prior outputs were resolved before new stimuli. | Retain last-valid final electrical carry; original failed observation and pre-recovery events stay exact. Eleven successful circuit scenarios retain full parity. Actual Debug/Step recovery and a related interrupted-playback caption correction are documented in the [Round10 receipt](../verification/20261105-circuit-failure-recovery/README.md). No global initialization reorder or validator relaxation. |
 | Malformed prologue API | Null sequence/certain malformed port arities assume trusted catalog input. | Separate bounded robustness probe and explicit failure contract; not covered by normal campaign success. |
-| Invalid Region metrics | Rejected preparation parameters clear total cycles/events but retain some completed base-service fields. | Repair rejected evidence consistently in a separate change; valid traces must stay equal, invalid differences must be declared. |
+| Invalid Region metrics — corrected in Round11 | Rejected preparation parameters previously cleared total cycles/events but retained completed base-service fields. | A fresh failed Trace retains submitted inputs and clears all published work/output/cache evidence. Base-error precedence remains intact;32 authored-order traces plus4 existing online traces retain complete typed parity. See the [Round11 evidence](../verification/20261105-region-rejection-evidence/README.md). |
 | Receipt reuse | `SystemRunReceipt.populate_from_traces` accumulates fields if reused. Production currently creates fresh receipts. | Keep immutable-use convention or add an explicit tested reset before pooling. |
 | Layout rejection state | A rejected run may retain the previous internal `data` reference, while its returned failed Trace is clean. | Define reset contract before exposing/using internal failed state. |
 | Trusted catalog boundaries | Original APIs accept some workload assumptions upstream; the scheduling experiment has stricter explicit bounds. | Do not treat those entry points as interchangeable arbitrary-input APIs. |
@@ -78,8 +78,9 @@ complete typed input/result/state/event snapshots between frozen2748138 and
 the candidate. Each process validates intended outcomes, repeat/JSON equality,
 input immutability and retained results. The36th scenario's known recovery
 failure is separately identical; strict performance comparison rejects it.
-The broader corpus also preserves existing invalid Region evidence, which
-still requires its own explicit correction.
+That historical broader corpus also preserved invalid Region evidence.
+Round11 separately corrects only its preparation-specific rejected result;
+the original Round9 artifacts remain unchanged.
 
 The Generation workflow contains64max,1024weighted,1024max and4096weighted
 calls, not one generation. Its median improves3.96×; actual public transport
@@ -95,8 +96,9 @@ does not change game cycles, memory formulas, saved results or score conditions.
 See the [complete evidence and method](../verification/20261105-computation-kernels/README.md).
 The separate Round10 correction closes the demonstrated circuit recovery
 defect without changing old valid results or post-commit storage behavior.
-Next define consistent rejected Region evidence,
-then measure the remaining source-level duplication candidates. Proposed native
+Round11 defines consistent preparation-rejection evidence while retaining Base
+failure priority and all valid measured results. Next measure repeated cold-client
+computation and the remaining source-level duplication candidates. Proposed native
 thresholds in the independent priority report remain recommendations for a
 future scoped pilot, not an adopted platform or product rule.
 

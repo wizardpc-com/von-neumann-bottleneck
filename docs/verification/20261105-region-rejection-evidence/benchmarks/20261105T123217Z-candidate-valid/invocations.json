@@ -1,0 +1,45 @@
+[
+  {
+    "group": "workload",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T122827Z-1645209e/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=workload",
+      "--label=candidate-valid",
+      "--host-label=yrq-mac-round11",
+      "--samples=3",
+      "--iterations-file=/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/collaboration/round11-iterations.json",
+      "--only=representation_region_compatibility,representation_online_clients"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round11/20261105T123217Z-candidate-valid/workload",
+    "returncode": 0,
+    "seconds": 20.298918041,
+    "log": "workload.log",
+    "diagnostics": [],
+    "output": "workload.json.gz",
+    "raw_sha256": "15ccc9c0e88655f7e95288225f794c313fecff0e5c428fe66519354f9abda055",
+    "raw_bytes": 17183932,
+    "compressed_bytes": 207537,
+    "sealed_output": "workload.sealed.json.gz",
+    "failures": [],
+    "cases": [
+      {
+        "id": "representation_online_clients",
+        "iterations": 4,
+        "median_us": 30257.75,
+        "snapshot_bytes": 4364832
+      },
+      {
+        "id": "representation_region_compatibility",
+        "iterations": 1,
+        "median_us": 84149.0,
+        "snapshot_bytes": 12810657
+      }
+    ]
+  }
+]

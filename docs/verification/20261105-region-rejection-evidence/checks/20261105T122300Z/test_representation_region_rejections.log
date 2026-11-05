@@ -1,0 +1,1767 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: online missing (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online missing (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online missing (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online missing (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case0 type0 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case0 type0 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case0 type0 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case0 type0 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case1 type2 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case1 type2 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case1 type2 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case1 type2 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case2 type2 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case2 type2 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case2 type2 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case2 type2 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case3 type2 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case3 type2 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case3 type2 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case3 type2 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case4 type3 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case4 type3 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case4 type3 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case4 type3 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case5 type4 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case5 type4 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case5 type4 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case5 type4 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case6 type28 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case6 type28 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case6 type28 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case6 type28 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case7 type27 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case7 type27 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case7 type27 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: online case7 type27 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients missing (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients missing (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients missing (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients missing (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case0 type0 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case0 type0 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case0 type0 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case0 type0 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case1 type2 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case1 type2 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case1 type2 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case1 type2 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case2 type2 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case2 type2 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case2 type2 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case2 type2 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case3 type2 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case3 type2 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case3 type2 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case3 type2 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case4 type3 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case4 type3 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case4 type3 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case4 type3 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case5 type3 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case5 type3 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case5 type3 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case5 type3 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case6 type4 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case6 type4 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case6 type4 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case6 type4 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case7 type1 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case7 type1 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case7 type1 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case7 type1 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case8 type28 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case8 type28 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case8 type28 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case8 type28 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case9 type27 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case9 type27 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case9 type27 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case9 type27 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients missing (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients missing (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients missing (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients missing (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case0 type0 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case0 type0 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case0 type0 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case0 type0 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case1 type2 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case1 type2 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case1 type2 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case1 type2 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case2 type2 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case2 type2 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case2 type2 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case2 type2 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case3 type2 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case3 type2 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case3 type2 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case3 type2 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case4 type3 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case4 type3 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case4 type3 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case4 type3 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case5 type3 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case5 type3 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case5 type3 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case5 type3 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case6 type4 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case6 type4 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case6 type4 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case6 type4 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case7 type1 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case7 type1 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case7 type1 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case7 type1 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case8 type28 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case8 type28 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case8 type28 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case8 type28 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case9 type27 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case9 type27 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case9 type27 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: clients case9 type27 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder missing (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder missing (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder missing (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder missing (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case0 type0 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case0 type0 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case0 type0 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case0 type0 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case1 type2 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case1 type2 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case1 type2 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case1 type2 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case2 type2 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case2 type2 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case2 type2 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case2 type2 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case3 type3 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case3 type3 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case3 type3 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case3 type3 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case4 type3 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case4 type3 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case4 type3 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case4 type3 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case5 type4 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case5 type4 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case5 type4 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case5 type4 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case6 type1 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case6 type1 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case6 type1 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case6 type1 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case7 type28 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case7 type28 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case7 type28 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case7 type28 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case8 type27 (online=false): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case8 type27 (online=false): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case8 type27 (online=false): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case8 type27 (online=false): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder missing (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder missing (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder missing (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder missing (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:129)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case0 type0 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case0 type0 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case0 type0 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case0 type0 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case1 type2 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case1 type2 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case1 type2 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case1 type2 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case2 type2 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case2 type2 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case2 type2 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case2 type2 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case3 type3 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case3 type3 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case3 type3 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case3 type3 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case4 type3 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case4 type3 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case4 type3 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case4 type3 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case5 type4 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case5 type4 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case5 type4 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case5 type4 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case6 type1 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case6 type1 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case6 type1 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case6 type1 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case7 type28 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case7 type28 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case7 type28 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case7 type28 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case8 type27 (online=true): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case8 type27 (online=true): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case8 type27 (online=true): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: encoder case8 type27 (online=true): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _invalid_parameters (res://tests/test_representation_region_rejections.gd:136)
+       [3] run (res://tests/test_representation_region_rejections.gd:289)
+ERROR: codec0 order0 encoder0 (online=false, clients=1): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order0 encoder0 (online=false, clients=1): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order0 encoder0 (online=false, clients=1): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order0 encoder0 (online=false, clients=1): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order0 encoder0 (online=false, clients=1): no residual execution or storage metrics: request_cycles=4, transfer_cycles=8, decode_cycles=9, consume_cycles=1, stored_bytes=8, traffic_bytes=8, decoded_values=64, decode_ops=65, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order0 encoder0 (online=false, clients=1): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order0 encoder0 (online=false, clients=1): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order0 encoder0 (online=false, clients=1): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order0 encoder0 (online=false, clients=1): no residual execution or storage metrics: request_cycles=4, transfer_cycles=12, consume_cycles=1, stored_bytes=20, traffic_bytes=12, decoded_values=8, cache_misses=1, overfetch_values=7, peak_cache_bytes=8
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order0 encoder0 (online=false, clients=1): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order0 encoder0 (online=false, clients=1): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order0 encoder0 (online=false, clients=1): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order1 encoder0 (online=false, clients=8): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=64, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_hits=63, cache_misses=1, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order1 encoder0 (online=false, clients=8): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order1 encoder0 (online=false, clients=8): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order1 encoder0 (online=false, clients=8): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order1 encoder0 (online=false, clients=8): no residual execution or storage metrics: request_cycles=4, transfer_cycles=8, decode_cycles=9, consume_cycles=64, stored_bytes=8, traffic_bytes=8, decoded_values=64, decode_ops=65, cache_hits=63, cache_misses=1, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order1 encoder0 (online=false, clients=8): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order1 encoder0 (online=false, clients=8): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order1 encoder0 (online=false, clients=8): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order1 encoder0 (online=false, clients=8): no residual execution or storage metrics: request_cycles=8, transfer_cycles=20, decode_cycles=8, consume_cycles=64, stored_bytes=20, traffic_bytes=20, decoded_values=64, decode_ops=57, cache_hits=62, cache_misses=2, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order1 encoder0 (online=false, clients=8): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order1 encoder0 (online=false, clients=8): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order1 encoder0 (online=false, clients=8): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order0 encoder0 (online=true, clients=1): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=1, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order0 encoder0 (online=true, clients=1): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order0 encoder0 (online=true, clients=1): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order0 encoder0 (online=true, clients=1): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order0 encoder0 (online=true, clients=1): no residual execution or storage metrics: request_cycles=4, transfer_cycles=8, decode_cycles=9, consume_cycles=1, stored_bytes=8, traffic_bytes=8, decoded_values=64, decode_ops=65, cache_misses=1, overfetch_values=63, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order0 encoder0 (online=true, clients=1): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order0 encoder0 (online=true, clients=1): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order0 encoder0 (online=true, clients=1): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order0 encoder0 (online=true, clients=1): no residual execution or storage metrics: request_cycles=4, transfer_cycles=12, consume_cycles=1, stored_bytes=20, traffic_bytes=12, decoded_values=8, cache_misses=1, overfetch_values=7, peak_cache_bytes=8
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order0 encoder0 (online=true, clients=1): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order0 encoder0 (online=true, clients=1): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order0 encoder0 (online=true, clients=1): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order1 encoder0 (online=true, clients=8): no residual execution or storage metrics: request_cycles=4, transfer_cycles=68, consume_cycles=64, stored_bytes=68, traffic_bytes=68, decoded_values=64, cache_hits=63, cache_misses=1, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order1 encoder0 (online=true, clients=8): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order1 encoder0 (online=true, clients=8): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec0 order1 encoder0 (online=true, clients=8): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order1 encoder0 (online=true, clients=8): no residual execution or storage metrics: request_cycles=4, transfer_cycles=8, decode_cycles=9, consume_cycles=64, stored_bytes=8, traffic_bytes=8, decoded_values=64, decode_ops=65, cache_hits=63, cache_misses=1, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order1 encoder0 (online=true, clients=8): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order1 encoder0 (online=true, clients=8): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec1 order1 encoder0 (online=true, clients=8): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order1 encoder0 (online=true, clients=8): no residual execution or storage metrics: request_cycles=8, transfer_cycles=20, decode_cycles=8, consume_cycles=64, stored_bytes=20, traffic_bytes=20, decoded_values=64, decode_ops=57, cache_hits=62, cache_misses=2, peak_cache_bytes=64
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:72)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order1 encoder0 (online=true, clients=8): no computed output, codec or cache rows: outputs, expected, blocks, accesses
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:79)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order1 encoder0 (online=true, clients=8): no events or completed scalar result
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:81)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+ERROR: codec2 order1 encoder0 (online=true, clients=8): every remaining typed Trace field retains its fresh default
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_representation_region_rejections.gd:32)
+       [1] _check_rejected (res://tests/test_representation_region_rejections.gd:92)
+       [2] _codecs_and_loads (res://tests/test_representation_region_rejections.gd:152)
+       [3] run (res://tests/test_representation_region_rejections.gd:290)
+FAIL: representation region rejections 854 checks / 252 failures (63 rejected, 11 delegated, 12 valid boundary cases)

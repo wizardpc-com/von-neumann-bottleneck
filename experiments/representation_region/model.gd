@@ -17,7 +17,7 @@ static func run(spec: Dictionary, plan: Array) -> Trace:
 	service.test_name = VERSION
 	if not service.passed: return service
 	if not spec.get("online",null) is bool or not spec.get("clients",null) is int or not spec.get("encoder",null) is int or spec.clients < 1 or spec.clients > 8 or spec.encoder < 1:
-		service.passed = false; service.metrics.error = "preparation_machine"; service.events.clear(); service.metrics.total_cycles = 0; return service
+		return _rejected_preparation(spec,plan)
 	var trace := Trace.new(); trace.test_name = VERSION
 	trace.metrics = service.metrics.duplicate(true)
 	for key: String in ["total_cycles","request_cycles","transfer_cycles","decode_cycles","consume_cycles","traffic_bytes","decoded_values","decode_ops","cache_hits","cache_misses","evictions"]: trace.metrics[key] = 0
@@ -59,6 +59,24 @@ static func run(spec: Dictionary, plan: Array) -> Trace:
 	trace.result_value = trace.metrics.outputs.reduce(func(a: int,b: int) -> int: return a+b,0)
 	trace.expected_value = trace.result_value
 	return trace
+
+static func _rejected_preparation(spec: Dictionary, plan: Array) -> Trace:
+	# A rejected preparation publishes no service work. Preserve submitted inputs,
+	# but do not leave costs, decoded output or cache evidence from Base.run().
+	var trace := Trace.new()
+	trace.test_name = VERSION
+	trace.metrics = {
+		"total_cycles":0,"request_cycles":0,"transfer_cycles":0,
+		"decode_cycles":0,"consume_cycles":0,"stored_bytes":0,
+		"traffic_bytes":0,"decoded_values":0,"decode_ops":0,
+		"cache_hits":0,"cache_misses":0,"evictions":0,
+		"overfetch_values":0,"peak_cache_bytes":0,
+		"outputs":[],"expected":[],"blocks":[],"accesses":[],
+		"error":"preparation_machine",
+		"plan":plan.duplicate(true),"spec":spec.duplicate(true),
+	}
+	return trace
+
 static func meets(task: int, traces: Array) -> bool:
 	var authored: Array[Dictionary] = orders(task)
 	if authored.is_empty() or traces.size() != authored.size(): return false

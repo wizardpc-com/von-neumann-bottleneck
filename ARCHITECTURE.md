@@ -1,5 +1,13 @@
 # Architecture
 
+Representation Region distinguishes Base rejection from preparation-parameter
+rejection. Base errors keep their existing priority and complete evidence.
+Invalid preparation parameters after a valid Base result instead return a fresh
+failed Trace with detached submitted inputs and no published costs, output,
+encoded blocks or cache work. The valid preparation/service path, condition
+identity and saved-plan replay stay unchanged. See the
+[simulation contract](docs/architecture/simulation.md).
+
 Prologue sequences retain the last electrically valid final output map after
 an invalid step. The failed observation remains complete and the sequence still
 fails; expected-answer comparison does not decide state carry. Already committed

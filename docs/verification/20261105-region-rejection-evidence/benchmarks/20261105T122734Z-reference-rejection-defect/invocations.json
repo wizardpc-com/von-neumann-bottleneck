@@ -1,0 +1,71 @@
+[
+  {
+    "group": "workload",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261105T121412Z-round11-reference/project",
+      "--script",
+      "res://scripts/benchmarks/computation/runner.gd",
+      "--",
+      "--benchmark-group=workload",
+      "--label=reference-rejection-defect",
+      "--host-label=yrq-mac-round11",
+      "--samples=3",
+      "--iterations-file=/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/collaboration/round11-iterations.json",
+      "--only=workload_rejections"
+    ],
+    "profile": "VonNeumannBottleneckChecks/round11/20261105T122734Z-reference-rejection-defect/workload",
+    "returncode": 1,
+    "seconds": 1.266969791,
+    "log": "workload.log",
+    "diagnostics": [
+      "ERROR: workload_rejections: region/rejected: zero integer request_cycles",
+      "ERROR: workload_rejections: region/rejected: zero integer transfer_cycles",
+      "ERROR: workload_rejections: region/rejected: zero integer consume_cycles",
+      "ERROR: workload_rejections: region/rejected: zero integer stored_bytes",
+      "ERROR: workload_rejections: region/rejected: zero integer traffic_bytes",
+      "ERROR: workload_rejections: region/rejected: zero integer decoded_values",
+      "ERROR: workload_rejections: region/rejected: zero integer cache_misses",
+      "ERROR: workload_rejections: region/rejected: zero integer overfetch_values",
+      "ERROR: workload_rejections: region/rejected: zero integer peak_cache_bytes",
+      "ERROR: workload_rejections: region/rejected: empty outputs",
+      "ERROR: workload_rejections: region/rejected: empty expected",
+      "ERROR: workload_rejections: region/rejected: empty blocks",
+      "ERROR: workload_rejections: region/rejected: empty accesses",
+      "ERROR: workload_rejections: region/rejected: exact schema and submitted provenance",
+      "ERROR: workload_rejections: region/rejected: fresh failed Trace without published service work"
+    ],
+    "output": "workload.json.gz",
+    "raw_sha256": "5fea0f922d834beece9b315d2873beb262419b251ac7018164a7cbf0a467f947",
+    "raw_bytes": 115340,
+    "compressed_bytes": 6055,
+    "sealed_output": "workload.sealed.json.gz",
+    "failures": [
+      "workload_rejections: region/rejected: zero integer request_cycles",
+      "workload_rejections: region/rejected: zero integer transfer_cycles",
+      "workload_rejections: region/rejected: zero integer consume_cycles",
+      "workload_rejections: region/rejected: zero integer stored_bytes",
+      "workload_rejections: region/rejected: zero integer traffic_bytes",
+      "workload_rejections: region/rejected: zero integer decoded_values",
+      "workload_rejections: region/rejected: zero integer cache_misses",
+      "workload_rejections: region/rejected: zero integer overfetch_values",
+      "workload_rejections: region/rejected: zero integer peak_cache_bytes",
+      "workload_rejections: region/rejected: empty outputs",
+      "workload_rejections: region/rejected: empty expected",
+      "workload_rejections: region/rejected: empty blocks",
+      "workload_rejections: region/rejected: empty accesses",
+      "workload_rejections: region/rejected: exact schema and submitted provenance",
+      "workload_rejections: region/rejected: fresh failed Trace without published service work"
+    ],
+    "cases": [
+      {
+        "id": "workload_rejections",
+        "iterations": 1,
+        "median_us": 1234.0,
+        "snapshot_bytes": 111999
+      }
+    ]
+  }
+]

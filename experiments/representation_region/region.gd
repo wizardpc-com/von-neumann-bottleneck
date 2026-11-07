@@ -56,6 +56,7 @@ var order_choice: OptionButton
 var events: Tree
 var details: RichTextLabel
 var recorded_plan_label: Label
+var target_card: VBoxContainer
 var cost_source: Label
 var cost_view: OrderCostStrip
 var result: Label
@@ -128,6 +129,7 @@ func make_label(text: String, parent: Node, size: int = 16) -> Label:
 
 func make_button(text: String, parent: Node, action: Callable, handle: String) -> Button:
 	var node := Button.new(); node.text = text; node.name = handle
+	InstrumentTheme.nav(node)
 	node.custom_minimum_size.y = 38; node.pressed.connect(action); parent.add_child(node)
 	return node
 
@@ -168,7 +170,9 @@ func build() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
 	make_button(text2("区域回顾", "Region review"),top,show_closure,"RegionClosure")
-	if candidate_journey: make_button(text2("旅程地图", "Journey map") if get_node("/root/TaskNavigation").from_tree else text2("实验室", "Laboratory"),top,request_hub,"CandidateHome")
+	if candidate_journey:
+		make_button(text2("旅程地图", "Journey map"),top,request_map,"CandidateHome")
+		make_button(text2("实验室", "Laboratory"),top,request_laboratory,"Laboratory")
 	top.add_child(get_node("/root/WindowMode").settings_button())
 	preload("res://src/ui/workbench_chrome.gd").frame(top)
 	var nav := HBoxContainer.new(); page.add_child(nav)
@@ -181,23 +185,19 @@ func build() -> void:
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL; task_buttons.append(b)
 	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.name = "WorkspaceSplit"; body.split_offset = 40; page.add_child(body)
 	var editor := VBoxContainer.new(); editor.name = "RepresentationEditor"
-	editor.custom_minimum_size.x = 530; editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	editor.custom_minimum_size.x = 580; editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	editor.add_theme_constant_override("separation",6); body.add_child(editor)
 	# Reading can grow independently. Selecting/editing/running a plan never requires scrolling it.
 	var edit_scroll := ScrollContainer.new(); edit_scroll.name = "EditorScroll"
-	edit_scroll.custom_minimum_size = Vector2(530,92)
+	edit_scroll.custom_minimum_size = Vector2(530,80)
 	edit_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	edit_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.size_flags_vertical = Control.SIZE_FILL
 	edit_scroll.follow_focus = true; editor.add_child(edit_scroll)
 	var reading := VBoxContainer.new(); reading.name = "TaskAssetReading"
 	reading.size_flags_horizontal = Control.SIZE_EXPAND_FILL; edit_scroll.add_child(reading)
 	mission = make_label("",reading,14); mission.name = "Mission"
-	var orders: Array[String] = []
-	for i: int in Catalog.goals(task).size():
-		orders.append(display_order_name(str(Model.orders(task)[i].name))+": "+goal_text(Catalog.goals(task)[i]))
-	mission.text = " / ".join(orders)
+	mission.text = text2("缓存%dB · 链路1B/周期", "Cache %dB · link 1B/cycle") % Model.orders(task)[0].cache_bytes
 	mission.tooltip_text = mission_text()
-	mission.text += text2("  |  缓存%dB / 链路1B/周期", "  |  Cache %dB / link 1B/cycle") % Model.orders(task)[0].cache_bytes
 	journey_context = preload("res://src/ui/journey_context_card.gd").new(); reading.add_child(journey_context)
 	reading.move_child(journey_context, 1)
 	_refresh_journey_context()
@@ -208,9 +208,11 @@ func build() -> void:
 	journey_context.verify_label.reparent(journey_context.details)
 	var card_actions := HBoxContainer.new(); reading.add_child(card_actions)
 	journey_context.toggle.reparent(card_actions)
-	journey_context.toggle.custom_minimum_size.y = 30
+	journey_context.toggle.custom_minimum_size = Vector2(180,30)
+	journey_context.toggle.autowrap_mode = TextServer.AUTOWRAP_OFF
 	journey_context.toggle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var hint := make_button(text2("看一个线索","A clue"),card_actions,func() -> void: status.text = Catalog.hint(task,english),"Hint1")
+	hint.custom_minimum_size.x = 100
 	hint.tooltip_text = Catalog.hint(task,english)
 	make_label(text2("五个任务可按任意顺序探索；第 4 个任务要把准备成本也算进去", "Five freely accessible tasks · task4 includes online preparation · candidate plans save separately from core progress"),journey_context.details,13)
 	make_label(text2("公开资产（十进制字节，地址0–63）","Public assets (decimal bytes, addresses 0–63)"),journey_context.details,17)
@@ -253,11 +255,12 @@ func build() -> void:
 		previous_plan.tooltip_text = text2("复制上一任务保留的达标方案到当前草稿，可撤销；旧记录不变，新订单仍需运行验收。", "Copy the previous task's protected success into this draft. Undo is available; records stay intact and this order still needs measuring.") if support_plans.has(task-1) else text2("上一任务尚无保留的达标方案。可先独立探索当前任务，或返回上一任务完成实测。", "No protected success for the previous task. Explore this task independently or measure a successful plan in the previous task first.")
 	blocks = Tree.new(); blocks.name = "Blocks"; blocks.columns = 4; blocks.hide_root = true; blocks.column_titles_visible = true
 	for i: int in 4: blocks.set_column_title(i,[text2("区间 [起点,终点)","Range [start,end)"),text2("表示","Codec"),text2("存储B","Stored B"),text2("载荷+目录","Payload + directory")][i])
-	blocks.custom_minimum_size.y = 80; editor.add_child(blocks)
+	blocks.custom_minimum_size.y = 150; blocks.size_flags_vertical = Control.SIZE_FILL; editor.add_child(blocks)
+	blocks.add_theme_font_size_override("font_size",14)
 	blocks.item_selected.connect(func() -> void:
 		var row: TreeItem = blocks.get_selected()
 		if row != null: selected_block = int(row.get_metadata(0)); refresh_actions())
-	var edit := HBoxContainer.new(); edit.name = "PartitionActions"; editor.add_child(edit)
+	var edit := HFlowContainer.new(); edit.name = "PartitionActions"; editor.add_child(edit)
 	var split_label: Label = make_label(text2("分割地址","Split at"),edit,14)
 	split_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	split_label.custom_minimum_size.x = 80
@@ -266,10 +269,10 @@ func build() -> void:
 	split_at.value_changed.connect(func(_v: float) -> void: refresh_actions())
 	split_button = make_button(text2("分割","Split"),edit,func() -> void: edit_plan(Model.split(plan,selected_block,int(split_at.value))),"Split")
 	merge_button = make_button(text2("合并右块","Merge right"),edit,func() -> void: edit_plan(Model.merge(plan,selected_block)),"Merge")
-	var codec_row := HBoxContainer.new(); codec_row.name = "CodecActions"; editor.add_child(codec_row)
-	raw_button = make_button(text2("选中块 → 原始","Block → Raw"),codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"raw")),"Raw")
+	var codec_row := HBoxContainer.new(); codec_row.name = "CodecActions"; edit.add_child(codec_row)
+	raw_button = make_button("RAW",codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"raw")),"Raw")
 	raw_button.tooltip_text = text2("RAW按原始字节读取，每块仍有目录成本。", "RAW reads the original bytes. Each block still has a directory cost.")
-	rle_button = make_button(text2("选中块 → RLE","Block → RLE"),codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"rle")),"RLE")
+	rle_button = make_button("RLE",codec_row,func() -> void: edit_plan(Model.represent(plan,selected_block,"rle")),"RLE")
 	rle_button.tooltip_text = text2("RLE用“次数＋数值”记录连续重复字节；读出时需要解码。是否省空间，要看这块数据。", "RLE stores consecutive repeated bytes as count/value pairs. Reading costs decoding work; space savings depend on this block's data.")
 	undo_button = make_button(text2("撤销","Undo"),codec_row,undo,"Undo")
 	redo_button = make_button(text2("重做","Redo"),codec_row,redo,"Redo")
@@ -285,10 +288,13 @@ func build() -> void:
 		save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		save_button.tooltip_text = text2("保存各任务草稿、实测对照与收藏；撤销栈仅在本窗口保留。", "Save task drafts, measured comparisons and named designs. Undo stacks remain in this window.")
 		set_action_disabled(save_button,save_blocked)
-		InstrumentTheme.primary(save_button,Color("62dca7"))
+		InstrumentTheme.nav(save_button)
 		save_button.add_theme_color_override("font_focus_color",Color("071823"))
 		add_recovery_controls(reading)
-	make_button(text2("退出游戏", "Quit"),execute,request_quit,"Quit")
+	if not candidate_journey:
+		var quit := make_button(text2("退出游戏", "Quit"),top,request_quit,"Quit")
+		preload("res://src/ui/workbench_chrome.gd").quit_style(quit)
+	var calm := Control.new(); calm.size_flags_vertical = Control.SIZE_EXPAND_FILL; editor.add_child(calm)
 	var feedback := ScrollContainer.new(); feedback.name = "FeedbackScroll"
 	feedback.custom_minimum_size.y = 36; feedback.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	editor.add_child(feedback)
@@ -300,11 +306,14 @@ func build() -> void:
 	var continue_task := make_button("",evidence_column,func() -> void:
 		var next: int = next_unfinished_task()
 		if next >= 0: change_task(next),"ContinueRepresentationTask")
-	InstrumentTheme.primary(continue_task)
+	InstrumentTheme.nav(continue_task)
 	var completed_review := make_button(text2("成果回顾与下一步" if candidate_journey else "回顾五份成果", "Review and next step" if candidate_journey else "Review five achievements"),evidence_column,show_closure,"CompletedRegionReview")
 	completed_review.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	InstrumentTheme.primary(completed_review)
+	InstrumentTheme.nav(completed_review)
 	completed_review.add_theme_color_override("font_focus_color",Color("071823"))
+	var target_panel := PanelContainer.new(); evidence_column.add_child(target_panel)
+	target_panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("102330"),Color("2d5266")))
+	target_card = VBoxContainer.new(); target_card.name = "TaskTargets"; target_panel.add_child(target_card)
 	cost_source = make_label("",evidence_column,14); cost_source.name = "MeasuredCostSource"
 	cost_view = OrderCostStrip.new(); cost_view.name = "MeasuredOrderCosts"; evidence_column.add_child(cost_view)
 	var evidence_scroll := ScrollContainer.new(); evidence_scroll.name = "EvidenceScroll"
@@ -312,7 +321,7 @@ func build() -> void:
 	evidence_scroll.custom_minimum_size.x = 430; evidence_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	evidence_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; evidence_column.add_child(evidence_scroll)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; evidence_scroll.add_child(evidence)
-	make_label(text2("实际运行记录（选择旧记录复查）","Recorded runs (select an older run to inspect)"),evidence,17)
+	var history_heading := make_label(text2("实际运行记录（选择旧记录复查）","Recorded runs (select an older run to inspect)"),evidence,17); history_heading.name = "HistoryHeading"
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64; evidence.add_child(history_list); history_list.item_selected.connect(select_run)
 	var plan_actions := HFlowContainer.new(); evidence.add_child(plan_actions)
 	var support_button := make_button(text2("取回本任务保留的达标方案", "Restore this task’s protected successful plan"),plan_actions,restore_support,"RestoreSupport")
@@ -340,7 +349,7 @@ func build() -> void:
 			order_choice.select(index); show_trace(index))
 	order_choice = OptionButton.new(); order_choice.name = "RecordedOrder"; evidence.add_child(order_choice)
 	order_choice.item_selected.connect(func(i: int) -> void: show_trace(i))
-	var playback_row := HBoxContainer.new(); evidence_column.add_child(playback_row); evidence_column.move_child(playback_row,4)
+	var playback_row := HBoxContainer.new(); playback_row.name = "PlaybackActions"; evidence.add_child(playback_row)
 	trace_player = preload("res://experiments/representation_region/trace_player.gd").new()
 	trace_player.name = "TracePlayer"
 	trace_play = make_button(text2("回放真实事件", "Replay recorded events"),playback_row,trace_player.toggle_play,"TracePlay")
@@ -349,7 +358,7 @@ func build() -> void:
 	set_action_disabled(trace_play,true); set_action_disabled(trace_step,true)
 	trace_player.playing_changed.connect(func(value: bool) -> void: trace_play.text = text2("暂停回放", "Pause replay") if value else text2("回放真实事件", "Replay recorded events"))
 	trace_player.event_selected.connect(select_replay_event)
-	evidence_column.add_child(trace_player); evidence_column.move_child(trace_player,5)
+	evidence.add_child(trace_player)
 	trace_player.configure([],english)
 	var detail_button := make_button(text2("展开 / 收起成本与事件细节", "Show / hide cost and event details"),evidence,func() -> void:
 		details_expanded = not details_expanded
@@ -359,7 +368,7 @@ func build() -> void:
 	trace_details_group.visible = details_expanded; evidence.add_child(trace_details_group)
 	recorded_plan_label.reparent(trace_details_group)
 	result.reparent(evidence_column); evidence_column.move_child(result,0)
-	result.add_theme_font_size_override("font_size",14)
+	result.add_theme_font_size_override("font_size",16)
 	order_comparison.reparent(trace_details_group)
 	order_choice.reparent(evidence_column); evidence_column.move_child(order_choice,4)
 	metric_details = make_label("",trace_details_group,13); metric_details.name = "CostBreakdown"
@@ -514,6 +523,8 @@ func refresh_plan() -> void:
 		online_writes += int(block.stored_bytes) if block.codec == "rle" else 4
 		var row: TreeItem = blocks.create_item(root_row); row.set_metadata(0,i)
 		row.set_text(0,"[%d, %d)" % [block.start,block.end]); row.set_text(1,str(block.codec)); row.set_text(2,str(block.stored_bytes)); row.set_text(3,"%d + %d" % [block.payload_bytes,block.metadata_bytes])
+		row.set_text_alignment(2,HORIZONTAL_ALIGNMENT_RIGHT)
+		row.set_text_alignment(3,HORIZONTAL_ALIGNMENT_RIGHT)
 		row.set_tooltip_text(0,JSON.stringify(block,"  "))
 		if i == selected_block: row.select(0)
 	draft_label.text = text2("当前草稿：%d块 · 实际编码后存储%dB · 所有字节恰好覆盖一次","Current draft: %d blocks · actual encoded storage %dB · every byte covered exactly once") % [plan.size(),stored]
@@ -521,7 +532,8 @@ func refresh_plan() -> void:
 	if task == 4:
 		var stored_b: int = 0
 		for block: Dictionary in Model.block_evidence(Catalog.asset(5),plan): stored_b += int(block.stored_bytes)
-		draft_label.text = text2("当前草稿：%d块 · 实际空间：资产A %dB / 资产B %dB\n两份资产共用划分与表示；运行后比较各订单服务成本。", "Current draft: %d blocks · actual storage: Asset A %dB / Asset B %dB\nBoth assets use the same partition and codecs; run to compare order service costs.") % [plan.size(),stored,stored_b]
+		draft_label.text = text2("当前草稿：%d块 · 实际空间：资产A %dB / 资产B %dB", "Current draft: %d blocks · actual storage: Asset A %dB / Asset B %dB") % [plan.size(),stored,stored_b]
+	blocks.custom_minimum_size.y = 24 + 22 * maxi(5,plan.size())
 	refresh_actions()
 
 func refresh_request_preview() -> void:
@@ -569,7 +581,7 @@ func run_current() -> void:
 	if not accepted:
 		status.text = constraint_feedback(task,traces)
 		var reading_cue: String = evidence_reading_cue(task,traces)
-		if not reading_cue.is_empty(): status.text += "\n"+reading_cue
+		if not reading_cue.is_empty(): status.tooltip_text = reading_cue
 		for i: int in traces.size():
 			if not order_within_limits(task,i,traces[i]):
 				order_choice.select(i); show_trace(i); break
@@ -625,7 +637,9 @@ func refresh_order_comparison(record: Dictionary) -> void:
 		var met: bool = order_within_limits(int(record.task),i,trace)
 		item.set_text(0,"[%s] %s" % [text2("达标", "Met") if met else text2("未达标", "Unmet"),display_order_name(str(m.spec.name))])
 		item.set_tooltip_text(0,display_order_name(str(m.spec.name))+"\n"+goal_text(Catalog.goals(int(record.task))[i]))
-		for column: int in range(1,5): item.set_text(column,str(m[["preparation_cycles","service_cycles","stored_bytes","traffic_bytes"][column-1]]))
+		for column: int in range(1,5):
+			item.set_text(column,str(m[["preparation_cycles","service_cycles","stored_bytes","traffic_bytes"][column-1]]))
+			item.set_text_alignment(column,HORIZONTAL_ALIGNMENT_RIGHT)
 		item.set_custom_color(0,Color("62dca7") if met else Color("f2ba70"))
 
 func prior_comparable_trace(run_index: int, spec: Dictionary) -> Dictionary:
@@ -661,8 +675,10 @@ func show_trace(index: int) -> void:
 		result.text = delta + "\n" + result.text
 		metric_details.text += text2("\n比较来源：记录#%d → #%d · %s（同任务、同规格）\n本次减去旧记录：准备%+d、服务%+d、总计%+d周期\n实际空间%+dB · 服务搬运%+dB · 全阶段搬运%+dB", "\nComparison source: run #%d → #%d · %s (same task and spec)\nCurrent minus prior: prepare%+d, serve%+d, total%+d cycles\nActual storage%+dB · service traffic%+dB · all-phase traffic%+dB") % [int(comparison.run_index)+1,selected_run+1,display_order_name(str(m.spec.name)),int(m.preparation_cycles)-int(before.preparation_cycles),int(m.service_cycles)-int(before.service_cycles),int(m.total_cycles)-int(before.total_cycles),int(m.stored_bytes)-int(before.stored_bytes),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.total_traffic_bytes)-int(before.total_traffic_bytes)]
 	metric_details.text += "\n" + result.text
-	result.text = display_order_name(str(m.spec.name))+" / "+text2("达标", "Met") if met else display_order_name(str(m.spec.name))+" / "+text2("未达标", "Unmet")
-	result.add_theme_color_override("font_color",Color("62dca7") if met else Color("f2ba70"))
+	result.text = text2("达标", "Met") if bool(row.accepted) else text2("未达标", "Unmet")
+	result.text += " · " + deciding_limit(row)
+	result.tooltip_text = constraint_feedback(int(row.task),row.traces)
+	result.add_theme_color_override("font_color",Color("62dca7") if bool(row.accepted) else Color("f2ba70"))
 	var limit_feedback: String = constraint_feedback(int(row.task),row.traces)
 	if not limit_feedback.is_empty(): metric_details.text += "\n" + limit_feedback
 	var comparison_row: TreeItem = order_comparison.get_root().get_first_child()
@@ -694,11 +710,15 @@ func refresh_recorded_plan_label() -> void:
 
 func refresh_cost_overview(current_order: int = -1) -> void:
 	if not is_instance_valid(cost_view) or not is_instance_valid(cost_source): return
+	refresh_targets()
 	if selected_run < 0 or selected_run >= history.size():
 		cost_source.text = text2("订单成本 · 紫=准备，青=服务（各订单独立）", "Order costs · purple=prepare, cyan=serve; independent orders")
+		set_evidence_visible(false)
+		cost_source.text = text2("运行当前草稿，测量成本与约束差值。", "Run the draft to measure costs and limits.")
 		var unmeasured: Array[Dictionary] = []
 		cost_view.configure(unmeasured,english)
 		return
+	set_evidence_visible(true)
 	var record: Dictionary = history[selected_run]
 	var matches: bool = int(record.task) == task and record.plan == plan
 	cost_source.text = text2("实测#%d · 任务%d · %s · 紫=准备，青=服务", "Measured #%d · task %d · %s · purple=prepare, cyan=serve") % [selected_run+1,int(record.task)+1,text2("与草稿一致", "matches draft") if matches else text2("与当前草稿不同", "differs from draft")]
@@ -715,6 +735,54 @@ func refresh_cost_overview(current_order: int = -1) -> void:
 	if current_order < 0: current_order = int(cost_view.selected_order)
 	cost_view.configure(rows,english,current_order)
 	cost_view.tooltip_text = "\n".join(tips)
+
+func set_evidence_visible(measured: bool) -> void:
+	for control: Control in [result,cost_view,order_choice,trace_player,find_child("PlaybackActions",true,false),history_list,reuse_button,find_child("HistoryHeading",true,false),find_child("ToggleTraceDetails",true,false)]:
+		control.visible = measured
+	trace_details_group.visible = measured and details_expanded
+
+func refresh_targets() -> void:
+	if not is_instance_valid(target_card): return
+	for child: Node in target_card.get_children(): target_card.remove_child(child); child.queue_free()
+	var record: Dictionary = history[selected_run] if selected_run >= 0 and selected_run < history.size() else {}
+	# A previous task's selected recording cannot measure this task's targets.
+	var measured: bool = not record.is_empty() and int(record.task) == task
+	var goals: Array[Dictionary] = Catalog.goals(task)
+	var orders: Array[Dictionary] = Catalog.orders(task)
+	for index: int in goals.size():
+		make_label(display_order_name(str(orders[index].name)),target_card,14)
+		var metrics_row := HBoxContainer.new(); target_card.add_child(metrics_row)
+		for metric: String in goals[index]:
+			var cell := VBoxContainer.new(); cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL; metrics_row.add_child(cell)
+			var limit: int = int(goals[index][metric])
+			var actual: int = int(record.traces[index].metrics.get(metric,0)) if measured else 0
+			var label: String = text2("总周期", "Cycles") if metric == "total_cycles" else (text2("存储", "Storage") if metric == "stored_bytes" else text2("搬运", "Traffic"))
+			var unit: String = " B" if metric != "total_cycles" else ""
+			var value := make_label("%s ≤ %d%s · %s" % [label,limit,unit,str(actual)+unit if measured else "—"],cell,13)
+			value.autowrap_mode = TextServer.AUTOWRAP_OFF
+			var bar := ProgressBar.new(); bar.show_percentage = false; bar.custom_minimum_size.y = 5
+			bar.max_value = limit; bar.value = actual; cell.add_child(bar)
+			value.add_theme_color_override("font_color",Color("f2ba70") if measured and actual > limit else Color("77d8df"))
+			bar.tooltip_text = value.text
+
+func deciding_limit(record: Dictionary) -> String:
+	var goals: Array[Dictionary] = Catalog.goals(int(record.task))
+	var chosen_order: int = 0
+	var chosen_metric: String = "total_cycles"
+	for i: int in record.traces.size():
+		var trace: Trace = record.traces[i]
+		if not trace.passed: return text2("订单%d：输出校验未通过", "Order %d: output validation failed") % [i+1]
+		for metric: String in goals[i]:
+			if int(trace.metrics[metric]) > int(goals[i][metric]):
+				chosen_order = i; chosen_metric = metric
+				return limit_delta(record,chosen_order,chosen_metric)
+	return limit_delta(record,chosen_order,chosen_metric)
+
+func limit_delta(record: Dictionary, index: int, metric: String) -> String:
+	var actual: int = int(record.traces[index].metrics[metric])
+	var limit: int = int(Catalog.goals(int(record.task))[index][metric])
+	var label: String = text2("总周期", "cycles") if metric == "total_cycles" else (text2("存储B", "stored B") if metric == "stored_bytes" else text2("搬运B", "traffic B"))
+	return text2("订单%d · %s %d / %d（差值%+d）", "Order %d · %s %d / %d (delta %+d)") % [index+1,label,actual,limit,actual-limit]
 
 func evidence_reading_cue(task_index: int, traces: Array) -> String:
 	var cues: Array[String] = []
@@ -880,6 +948,18 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		request_hub()
+
+func request_map() -> void:
+	leave_from_review = false
+	leave_to_hub = false
+	leave_scene = "res://src/campaign/task_tree.tscn"
+	request_leave()
+
+func request_laboratory() -> void:
+	leave_from_review = false
+	leave_to_hub = false
+	leave_scene = "res://src/ui/prototype_hub.tscn"
+	request_leave()
 
 func request_hub() -> void:
 	leave_from_review = false

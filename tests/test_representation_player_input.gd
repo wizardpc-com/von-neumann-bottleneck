@@ -15,11 +15,11 @@ func order_labels() -> void:
 	var names: Array = ["Prepare + short read", "Prepare + eight cold scans"] if ui.english else ["准备 + 短读", "准备 + 八次冷扫描"]
 	var row: TreeItem = ui.order_comparison.get_root().get_first_child()
 	for index: int in 2:
-		check(ui.mission.text.contains(names[index]), "The mission names the current-language order " + str(index + 1))
+		check((ui.target_card.get_child(index*2) as Label).text == names[index], "The target card names the current-language order " + str(index + 1))
 		check(ui.public_order_choice.get_item_text(index + 1) == names[index], "The request preview uses the same order name as the mission.")
 		check(ui.order_choice.get_item_text(index).contains(names[index]) and row.get_text(0).contains(names[index]), "The recorded selector and result table retain the mission's order names.")
 		row = row.get_next()
-	check(ui.result.text.contains(names[ui.order_choice.selected]), "The primary measured result names the selected order in the current language.")
+	check(ui.result.text.contains(ui.deciding_limit(ui.history[ui.selected_run])), "The primary verdict keeps the first exceeded limit or target delta visible.")
 
 func measured(totals: Array, preparation: int, stored: int, accepted: bool) -> void:
 	var record: Dictionary = ui.history.back()
@@ -65,8 +65,7 @@ func _run() -> void:
 	await edit_number(ui.split_at,8)
 	await press(ui.split_button)
 	check(ui.plan.size() == 2 and ui.plan[0].end == 8 and ui.plan[1].start == 8, "Typing a split address and pressing Split creates the two requested ranges.")
-	await press(ui.blocks)
-	await key(KEY_HOME)
+	await click(ui.blocks.global_position + ui.blocks.get_item_area_rect(ui.blocks.get_root().get_first_child()).get_center())
 	await press(ui.raw_button)
 	check(ui.plan[0].codec == "raw" and ui.plan[1].codec == "rle", "The player changes only the selected first block to RAW.")
 	await press(ui.run_button)

@@ -78,11 +78,11 @@ func cache_evidence() -> Dictionary:
 func draw_cache_snapshot(font: Font, cache: Dictionary, y: float, after: bool) -> void:
 	var caption: String = ("After" if after else "Before") if english else ("之后" if after else "之前")
 	if cache.is_empty():
-		draw_string(font,Vector2(4,y+15),caption+(": not recorded for this event" if english else "：此事件未记录"),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,12,Color("90a7b7"))
+		draw_string(font,Vector2(4,y+15),caption+(": not recorded for this event" if english else "：此事件未记录"),HORIZONTAL_ALIGNMENT_LEFT,size.x-8,14,Color("90a7b7"))
 		return
 	var budget: int = int(cache.get("byte_budget",0))
 	var used: int = int(cache.get("used_bytes",0))
-	draw_string(font,Vector2(4,y+15),caption+" %d/%dB" % [used,budget],HORIZONTAL_ALIGNMENT_LEFT,110,12,Color("dfeaf2"))
+	draw_string(font,Vector2(4,y+15),caption+" %d/%dB" % [used,budget],HORIZONTAL_ALIGNMENT_LEFT,110,14,Color("dfeaf2"))
 	var bar := Rect2(114,y,maxf(1,size.x-120),21)
 	draw_rect(bar,Color("101e2b")); draw_rect(bar,Color("354b5a"),false,1.0)
 	if budget <= 0: return
@@ -92,7 +92,7 @@ func draw_cache_snapshot(font: Font, cache: Dictionary, y: float, after: bool) -
 		var width: float = minf(bar.end.x-cursor,bar.size.x*float(bytes)/float(budget))
 		var segment := Rect2(cursor,y,width,21)
 		draw_rect(segment,Color.from_hsv(fmod(float(key)*0.618034,1.0),0.45,0.42))
-		if width >= 35: draw_string(font,segment.position+Vector2(0,15),"#%d" % [key],HORIZONTAL_ALIGNMENT_CENTER,width,12,Color("eef4f8"))
+		if width >= 35: draw_string(font,segment.position+Vector2(0,15),"#%d" % [key],HORIZONTAL_ALIGNMENT_CENTER,width,14,Color("eef4f8"))
 		cursor += width
 
 func _draw() -> void:
@@ -101,10 +101,12 @@ func _draw() -> void:
 	labels.assign(["Request","Transfer","Transform","Consume"] if english else ["请求","搬运","编码/解码","读取结果"])
 	var active: int = -1
 	var detail: String = "Choose a recorded event or play its evidence" if english else "选择已记录事件，或播放它的证据"
+	var timing: String = ""
 	if current >= 0 and current < recorded_events.size():
 		var event: Dictionary = recorded_events[current]
 		active = phase(str(event.kind))
-		detail = "#%d/%d · %s · t=%d + %d · @%d" % [current+1,recorded_events.size(),str(event.kind),int(event.cycle),int(event.duration),int(event.address)]
+		detail = "%s · @%d" % [str(event.kind),int(event.address)]
+		timing = "#%d/%d · t=%d + %d" % [current+1,recorded_events.size(),int(event.cycle),int(event.duration)]
 	var width: float = size.x/4.0
 	for i: int in 4:
 		var rect := Rect2(i*width+2,6,width-6,34)
@@ -113,10 +115,10 @@ func _draw() -> void:
 		if i == active and playing and not bool(ProjectSettings.get_setting("game/reduced_motion",false)):
 			var fraction: float = clampf(elapsed/display_duration(),0,1)
 			draw_line(rect.position+Vector2(4,30),rect.position+Vector2(4+(rect.size.x-8)*fraction,30),Color("62dca7"),3.0)
-	draw_string(font,Vector2(4,61),detail,HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),12,Color("dfeaf2"))
-	draw_string(font,Vector2(4,82),"Visual replay only; recorded cycles and results never change." if english else "回放已完成的事件",HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),11,Color("90a7b7"))
+	draw_string(font,Vector2(4,61),detail,HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),14,Color("dfeaf2"))
+	draw_string(font,Vector2(4,82),timing,HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-8),13,Color("90a7b7"))
 
 	var snapshots: Dictionary = cache_evidence()
 	draw_cache_snapshot(font,snapshots.get("cache_before",{}),99,false)
 	draw_cache_snapshot(font,snapshots.get("cache_after",{}),128,true)
-	draw_string(font,Vector2(114,164),"Decoded cache · blocks ordered oldest → newest" if english else "恢复后缓存 · 块按旧→新排列",HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-120),11,Color("90a7b7"))
+	draw_string(font,Vector2(114,164),"Cache · oldest → newest" if english else "恢复后缓存 · 块按旧→新排列",HORIZONTAL_ALIGNMENT_LEFT,maxf(0,size.x-120),13,Color("90a7b7"))

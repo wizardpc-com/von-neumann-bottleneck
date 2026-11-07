@@ -7355,3 +7355,23 @@ msgstr "关闭猜测  %d 周期    →    本轮  %d 周期"
 
 msgid "差值 %+d 周期"
 msgstr "差值 %+d 周期"
+# --- W2 20261108 ---
+
+msgid "representation.workbench.measure"
+msgstr "运行当前草稿，测量成本与约束差值。"
+
+
+msgid "representation.workbench.validation"
+msgstr "订单%d：输出校验未通过"
+
+
+msgid "representation.workbench.limit_delta"
+msgstr "订单%d · %s %d / %d（差值%+d）"
+
+
+msgid "representation.workbench.traffic_unit"
+msgstr "搬运B"
+
+
+msgid "representation.workbench.cache_order"
+msgstr "恢复后缓存 · 块按旧→新排列"

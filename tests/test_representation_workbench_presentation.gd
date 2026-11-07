@@ -63,6 +63,21 @@ func check_costs(scene: WorkbenchProbe, context: String) -> void:
 	check(chart.get_parent().name == "RepresentationEvidence" and source.get_parent() == chart.get_parent(),context+": measured cost breakdown remains outside deep evidence scrolling")
 	check(root.get_visible_rect().encloses(chart.get_global_rect()) and root.get_visible_rect().encloses(source.get_global_rect()),context+": compact costs and source fit the actual viewport")
 	check(chart.size.y <= 140,context+": cost overview preserves evidence reading space")
+	var goals: Array[Dictionary] = scene.Catalog.goals(scene.task)
+	check(scene.target_card.is_visible_in_tree() and scene.target_card.get_child_count() == goals.size()*2,context+": catalog targets stay visible for every order")
+	for index: int in goals.size():
+		var column: int = 0
+		for metric: String in goals[index]:
+			var cell: Node = scene.target_card.get_child(index*2+1).get_child(column)
+			var label: Label = cell.get_child(0)
+			var bar: ProgressBar = cell.get_child(1)
+			check(bar.max_value == goals[index][metric],context+": target bar uses the catalog limit")
+			if scene.selected_run < 0:
+				check(label.text.ends_with("—") and bar.value == 0,context+": pending target has no fabricated measurement")
+			else:
+				var actual: int = scene.history[scene.selected_run].traces[index].metrics[metric]
+				check(label.text.contains("· "+str(actual)) and bar.value == mini(actual,goals[index][metric]),context+": target value comes from the selected recording")
+			column += 1
 	if scene.selected_run < 0:
 		check(chart.measurements.is_empty(),context+": unrun draft has no fabricated zero-cost measurement")
 		check(chart.english == scene.english and chart.selected_order == -1,context+": typed empty presentation is configured in the actual workbench language")
@@ -128,6 +143,12 @@ func run() -> void:
 					await screenshot(capture_prefix+"-initial",dimensions)
 				var original_rects: Dictionary = fixed_controls(scene,context+"-initial")
 				check_costs(scene,context+"-initial")
+				check(not scene.cost_view.visible and not scene.trace_player.visible and not scene.history_list.is_visible_in_tree(),context+": unmeasured state hides empty evidence boxes")
+				check(scene.blocks.get_selected() == scene.blocks.get_root().get_first_child() and not scene.split_button.disabled,context+": first draft row is selected and Split works immediately")
+				check(scene.design_shelf.is_visible_in_tree() and button(scene,"RestoreSupport").is_visible_in_tree(),context+": designs and protected-plan access remain visible before measuring")
+				check(scene.blocks.size.y <= 160,context+": initial one-row table keeps only the five-row minimum")
+				check(scene.journey_context.toggle.size.x >= 180 and button(scene,"Hint1").size.x >= 100,context+": English reading controls retain room for their labels")
+				check(button(scene,"Quit") == null and button(scene,"Laboratory") != null and button(scene,"CandidateHome") != null,context+": journey exposes map and laboratory without standalone Quit")
 				check(scene.find_child("TaskPurpose",true,false) != null,context+": task purpose has its own visual hierarchy in the existing reading area")
 				var reading := scene.find_child("EditorScroll",true,false) as ScrollContainer
 				var evidence := scene.find_child("EvidenceScroll",true,false) as ScrollContainer
@@ -144,8 +165,10 @@ func run() -> void:
 				button(scene,"Run").grab_focus(); button(scene,"Run").pressed.emit(); await settle()
 				check(scene.history.size() == 1,context+": fixed Run produces one actual measurement")
 				check_costs(scene,context+"-first-run")
+				check(scene.result.is_visible_in_tree() and scene.result.text.contains(scene.deciding_limit(scene.history[0])),context+": verdict exposes the real first exceeded limit or target delta by default")
+				check(not scene.trace_details_group.visible,context+": detailed costs and events remain foldable")
 				if not scene.history[0].accepted:
-					check(scene.status.text.contains("above") if scene.english else scene.status.text.contains("顶部"),context+": unmet run directs the player to its actual cost evidence without giving a plan")
+					check(scene.status.text == scene.constraint_feedback(task_index,scene.history[0].traces),context+": bottom feedback names measured constraint failures without duplicating the evidence reading guide")
 				var original_plan: Array = scene.history[0].plan.duplicate(true)
 				var signature: String = scene.history[0].traces[0].canonical_signature()
 				scene.split_at.value = 18; button(scene,"Split").pressed.emit(); button(scene,"RLE").pressed.emit(); await settle()

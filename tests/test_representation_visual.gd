@@ -132,7 +132,7 @@ func run() -> void:
 		check(compared.get_text(3) == str(measured.stored_bytes) and compared.get_text(4) == str(measured.traffic_bytes),"Cross-asset costs come from each distinct Trace")
 	comparison_root.get_child(1).select(0); scene.order_comparison.item_selected.emit()
 	check(scene.order_choice.selected == 1 and scene.visible_trace == scene.history[paired_index].traces[1],"Choosing Asset B comparison opens its own recorded Trace")
-	check(scene.result.text.contains("Asset B revisits"),"Selected primary costs name the compared asset order")
+	check(scene.result.text.contains(scene.deciding_limit(scene.history[paired_index])),"Primary verdict retains the deciding constraint while the selector names the compared asset")
 	scene.edit_plan(Model.represent(scene.plan,0,"raw"))
 	check(scene.recorded_plan_label.text.contains("immutable measured evidence") and scene.recorded_plan_label.text.contains("differs from current draft"),"Record authority and changed draft remain explicit in English")
 	check(scene.history[paired_index].traces[0].canonical_signature() == paired_signature,"Draft changes preserve paired measured evidence")

@@ -7356,3 +7356,23 @@ msgstr "Off  %d cycles    →    This run  %d cycles"
 
 msgid "差值 %+d 周期"
 msgstr "Delta %+d cycles"
+# --- W2 20261108 ---
+
+msgid "representation.workbench.measure"
+msgstr "Run the draft to measure costs and limits."
+
+
+msgid "representation.workbench.validation"
+msgstr "Order %d: output validation failed"
+
+
+msgid "representation.workbench.limit_delta"
+msgstr "Order %d · %s %d / %d (delta %+d)"
+
+
+msgid "representation.workbench.traffic_unit"
+msgstr "traffic B"
+
+
+msgid "representation.workbench.cache_order"
+msgstr "Cache · oldest → newest"

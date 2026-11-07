@@ -69,7 +69,7 @@ func _gui_input(event: InputEvent) -> void:
 func _draw() -> void:
 	var font: Font = get_theme_font("font","Label")
 	for row: int in 4:
-		draw_string(font,Vector2(0,TOP+row*CELL_HEIGHT+20),"%02d" % [row*16],HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("8ba3b4"))
+		draw_string(font,Vector2(0,TOP+row*CELL_HEIGHT+20),"%02d" % [row*16],HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("8ba3b4"))
 	for address: int in mini(64,values.size()):
 		var rect: Rect2 = cell_rect(address)
 		var index: int = block_at(address)

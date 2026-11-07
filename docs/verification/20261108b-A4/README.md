@@ -1,4 +1,4 @@
-# A4 ? Journey map chapter identity ? 2026-11-08
+# A4 — Journey map chapter identity — 2026-11-08
 
 Presentation only. The uncommitted diff belongs to `claude/vux-a4-mapart-20261108`, based on `196d08e`.
 
@@ -13,12 +13,12 @@ Re-ran the same eight suites with the command below: **8 PASS / 0 FAIL**, import
 - Eleven pastel chapter accents and eleven schematic emblems replace eight repeating map colours. Tab, tray heading, task detail and real progress bar share their chapter accent. The existing large chapter-card artwork remains the default outside the map.
 - Available tasks keep a quiet outline; completed tasks use a filled check and accent edge; locked tasks remain dim with a lock; optional tasks gain a dashed perimeter. Continue keeps its steady ring. Owner choice: the old card styling remains visible in the before PNGs; the new styling reduces reliance on status text.
 - A restrained screen-space signal grid and flat trays replace the blank canvas and broad tray shadows. Solid prerequisites and dashed suggestions retain their actual relationships; non-focused edges are less heavily dimmed. Incoming selected edges keep the existing amber emphasis.
-- Node titles are at least 18 logical px and visible status captions at least 17 (14.4 / 13.6 output px at 1280?720). At overview scale, task text remains intentionally omitted. Badges reserve title width.
+- Node titles are at least 18 logical px and visible status captions at least 17 (14.4 / 13.6 output px at 1280×720). At overview scale, task text remains intentionally omitted. Badges reserve title width.
 - Chinese tabs fit the strip. English labels retain full text inside their buttons and use the existing scrolling strip; later tabs require horizontal scrolling. No player setting was added.
 
 ## PNG comparisons
 
-All game captures are native 1280?720. Pair sheets preserve original pixels, before on the left and after on the right.
+All game captures are native 1280×720. Pair sheets preserve original pixels, before on the left and after on the right.
 
 | Route | Before | After |
 | --- | --- | --- |

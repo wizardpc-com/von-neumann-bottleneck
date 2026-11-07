@@ -1,4 +1,4 @@
-# A1 laboratory room art ? 2026-11-08
+# A1 laboratory room art — 2026-11-08
 
 The outer room uses warm daylight, a pale mineral rear wall, cooler side walls,
 a warm taupe floor, brown desk legs and a wood-toned desk with procedural surface relief. A passive
@@ -12,7 +12,7 @@ Owner choice: `WARM_ROOM` in `src/lab/lab_room_3d.gd` selects the new presentati
 passive wall treatment, inscriptions and empty-frame presentation. No player setting.
 The old room remains available for comparison; owner aesthetic acceptance is pending.
 
-| Route (1280 ? 720) | Before | After |
+| Route (1280×720) | Before | After |
 | --- | --- | --- |
 | Chinese, settled normal motion | [before](before-room.png) | [after](after-room.png) |
 | English, settled normal motion | [before](before-en.png) | [after](after-en.png) |
@@ -36,7 +36,7 @@ $env:LOCALAPPDATA=$env:APPDATA
 ```
 
 Frame sample: 180 rendered wall-clock frame intervals after 8 seconds warmup,
-normal motion, Compatibility / RTX 5070 Ti Laptop, 1280 ? 720:
+normal motion, Compatibility / RTX 5070 Ti Laptop, 1280×720:
 
 | Locale | Before mean ms | After mean ms | FPS monitor |
 | --- | ---: | ---: | ---: |
@@ -83,7 +83,7 @@ Additional production dev-route smoke (normal motion, fresh profile):
 -- --test-mode --dev-move=1225,650@8 --dev-shot=<scratch>/settings.png@9 --dev-move=175,412@10 --dev-shot=<scratch>/archive.png@11 --dev-click=175,412@12 --dev-shot=<scratch>/open.png@14 --dev-key=Escape@15 --dev-shot=<scratch>/returned.png@18 --dev-quit=20
 ```
 
-Coordinates are logical 1600 ? 900 coordinates for the default scaled main scene.
+Coordinates are logical 1600×900 coordinates for the default scaled main scene.
 Observed `dev-scaled-open.png` shows the actual archive reader and
 `dev-scaled-returned.png` shows the restored room; images and full log remain in
 `.godot/a1/`. The `dev-move` shots did not show hover brackets, so they are not

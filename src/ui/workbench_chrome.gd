@@ -26,11 +26,14 @@ static func add_handbook(host: Control, navigation: Control, domain: String, les
 
 
 ## The navigation line's surface: a faint lift and a hairline, no box.
-static func bar_style() -> StyleBoxFlat:
+static func bar_style(accent: Color = Color.TRANSPARENT) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
 	box.bg_color = Palette.with_alpha(Palette.TERM_PANEL, 0.55)
 	box.border_color = Palette.with_alpha(Palette.TERM_EDGE, 0.9)
 	box.border_width_bottom = 1
+	if accent.a > 0.0:
+		box.border_color = accent
+		box.border_width_bottom = 2
 	box.set_corner_radius_all(0)
 	box.corner_radius_top_left = 8; box.corner_radius_top_right = 8
 	box.content_margin_left = 14; box.content_margin_right = 8; box.content_margin_top = 3; box.content_margin_bottom = 4
@@ -38,14 +41,15 @@ static func bar_style() -> StyleBoxFlat:
 
 
 ## Wraps `header` (an HBoxContainer already in the tree) in the shared frame.
-static func frame(header: Control) -> PanelContainer:
+## Optional chapter accent is a thin rule; existing callers retain the neutral line.
+static func frame(header: Control, accent: Color = Color.TRANSPARENT) -> PanelContainer:
 	if header.get_parent() is PanelContainer and str(header.get_parent().name).ends_with("Chrome"):
 		return header.get_parent()
 	var parent: Node = header.get_parent()
 	var index: int = header.get_index()
 	var chrome := PanelContainer.new(); chrome.name = str(header.name) + "Chrome"
 	if chrome.name == "Chrome": chrome.name = "WorkbenchHeaderChrome"
-	chrome.add_theme_stylebox_override("panel", bar_style())
+	chrome.add_theme_stylebox_override("panel", bar_style(accent))
 	chrome.add_to_group(NAV_GROUP)
 	if parent != null:
 		parent.remove_child(header)
@@ -88,16 +92,7 @@ static func tidy_button(button: Button) -> void:
 ## Leaving the game reads apart from every other action, everywhere.
 static func quit_style(button: Button) -> void:
 	button.set_meta("keep_style", true)
-	for state: String in ["normal", "hover", "pressed", "focus"]:
-		var box := StyleBoxFlat.new()
-		box.bg_color = Palette.QUIT_DEEP.lightened(0.08 if state == "hover" else 0.0).darkened(0.2 if state == "pressed" else 0.0)
-		box.border_color = Palette.QUIT if state != "normal" else Palette.with_alpha(Palette.QUIT, 0.7)
-		box.set_border_width_all(2 if state == "focus" else 1); box.set_corner_radius_all(7)
-		box.content_margin_left = 12; box.content_margin_right = 12
-		box.draw_center = state != "focus"
-		button.add_theme_stylebox_override(state, box)
-	for color_name: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-		button.add_theme_color_override(color_name, Palette.QUIT)
+	preload("res://src/ui/instrument_theme.gd").danger(button)
 
 
 ## Moves the shared navigation buttons to the end of the header, in order.

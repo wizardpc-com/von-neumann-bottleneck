@@ -421,9 +421,7 @@ func _build_interface() -> void:
 	entry_button.offset_top = -56.0
 	entry_button.offset_right = -14.0
 	entry_button.offset_bottom = -12.0
-	entry_button.add_theme_stylebox_override("normal", _stylebox(Color("26334a"), 7, 1, Color("354866"), 10.0))
-	entry_button.add_theme_stylebox_override("hover", _stylebox(Color("30435f"), 7, 1, ACCENT, 10.0))
-	entry_button.add_theme_stylebox_override("pressed", _stylebox(Color("17283e"), 7, 1, ACCENT, 10.0))
+	preload("res://src/ui/instrument_theme.gd").nav(entry_button)
 	entry_button.pressed.connect(open_handbook)
 	add_child(entry_button)
 

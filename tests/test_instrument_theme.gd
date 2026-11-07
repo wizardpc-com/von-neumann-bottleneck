@@ -21,6 +21,32 @@ func _run() -> void:
 	_check(_contrast((primary.get_theme_stylebox("focus") as StyleBoxFlat).border_color, (primary.get_theme_stylebox("normal") as StyleBoxFlat).bg_color) >= 3.0, "Primary action focus remains visible on its bright fill.")
 	_check(_contrast(primary.get_theme_color("font_disabled_color"), (primary.get_theme_stylebox("disabled") as StyleBoxFlat).bg_color) >= 4.5, "Disabled primary action remains readable.")
 	primary.free()
+	# Reusing a button across tiers must not leave bright primary text on a ghost.
+	for tier: String in ["secondary", "tool", "nav", "danger"]:
+		var button := Button.new()
+		ThemeType.primary(button)
+		ThemeType.new().call(tier, button)
+		for state: String in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+			var box: StyleBoxFlat = button.get_theme_stylebox(state)
+			var background: Color = box.bg_color if box.bg_color.a == 1.0 else Color("15212a").blend(box.bg_color)
+			var foreground: Color = button.get_theme_color("font_disabled_color" if state == "disabled" else "font_" + ("color" if state == "normal" else state + "_color"))
+			_check(_contrast(foreground, background) >= 4.5, tier + " " + state + " remains readable after tier change")
+		var ring: StyleBoxFlat = button.get_theme_stylebox("focus")
+		_check(not ring.draw_center and ring.border_width_left >= 2, tier + " keyboard focus preserves the visible button state")
+		button.free()
+	var host := Control.new()
+	host.theme = Theme.new()
+	host.theme.default_font_size = 14
+	var inherited := Button.new()
+	ThemeType.tool(inherited)
+	host.add_child(inherited)
+	root.add_child(host)
+	_check(inherited.get_theme_font_size("font_size") == 14, "Styling before parenting preserves the scene font size")
+	host.free()
+	var chrome = preload("res://src/ui/workbench_chrome.gd")
+	_check(chrome.bar_style().border_width_bottom == 1, "Default headers keep the neutral hairline")
+	var accent: StyleBoxFlat = chrome.bar_style(Color("8fd3dc"))
+	_check(accent.border_width_bottom == 2, "Opt-in chapter accent remains a thin rule")
 	if "--theme-capture" in OS.get_cmdline_user_args():
 		await _capture_comparison()
 	if failures.is_empty():

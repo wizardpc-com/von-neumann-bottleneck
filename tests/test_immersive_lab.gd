@@ -66,7 +66,7 @@ func run() -> void:
 		lab._process_immersive_room(0.0)
 		room._process(0.0)
 		check(not lab.room_hover.visible and lab.room_hover_frame.target.has_area(), "Physical plate keeps brackets without duplicate pill: " + id)
-		check(room._plates[id].modulate == Color("ffe1ab"), "Physical plate brightens for selected object: " + id)
+		check(room._plates[id].modulate == (Color("563d21") if Room.WARM_ROOM else Color("ffe1ab")), "Physical plate brightens for selected object: " + id)
 	for id: String in ["globe", "journey"]:
 		room._set_hover(id)
 		lab._process_immersive_room(0.0)
@@ -385,6 +385,12 @@ func check_display_state(lab: LabHome) -> void:
 	check(room._plates["handbook"].text == "Handbook", "Object nameplates follow the display language")
 	check(room._gallery.size() == 4 and room._gallery[0][0].modulate == Room.WORK_COLORS[0], "Framed miniature uses the supplied output palette")
 	check(room._gallery[1][0].modulate.a < 0.2, "An unused frame never fabricates a saved work")
+	if Room.WARM_ROOM:
+		check(not room._gallery[1][0].visible, "An unused frame is empty rather than a repeated placeholder matrix")
+		for id: String in room._plates:
+			var plate: Label3D = room._plates[id]
+			var width: float = 0.59 if id in ["handbook", "settings", "feedback"] else 1.80
+			check(plate.font.get_string_size(plate.text, HORIZONTAL_ALIGNMENT_LEFT, -1, plate.font_size).x * plate.pixel_size <= width + 0.001, "English inscription retains a margin inside the physical plate: " + id)
 	var fixture: Dictionary = room.display_state
 	check(fixture.stations.size() == 11, "The station display is not limited to the imported decorative nine cells")
 	check(fixture.stations[0].status == "completed", "A fully completed station is displayed as completed")

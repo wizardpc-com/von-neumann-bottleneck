@@ -1,0 +1,914 @@
+import
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started 项目初始化 (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | 正在扫描文件结构……[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | 正在加载全局类名……[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | 正在校验 GDExtension……[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | 正在创建自动加载脚本……[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | 正在初始化插件……[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | 正在启动文件扫描……[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started 正在注册全局类…… (590 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   1% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   4% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   6% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   9% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  13% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  19% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | TaskTreeLayout[39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | CircuitAnalyzer[39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | CircuitEvent[39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | CircuitLiveState[39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | CircuitSimulator[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | CircuitTrace[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | DigitalValue[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | HalfAdderTestBench[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | LogicCircuit[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | LogicComponent[39m[0m
+[  21% ] [90m[1mupdate_scripts_classes[22m | LogicSignal[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | LogicWire[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | PrologueEvent[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | PrologueSimulationResult[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | PrologueSimulator[39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | ReusableComponent[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | ReusableHalfAdder[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | CampaignBranchDefinition[39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | CampaignContentRegistry[39m[0m
+[  24% ] [90m[1mupdate_scripts_classes[22m | CampaignLevelDefinition[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | PlayerContentState[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | CampaignMapView[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | CircuitComponentSymbol[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | CircuitGraphEdit[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | CircuitModuleRow[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | CircuitModuleThumbnail[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | CircuitTraceOverlay[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | CircuitWorkbenchStore[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | ComponentPaletteCatalog[39m[0m
+[  26% ] [90m[1mupdate_scripts_classes[22m | ComponentPaletteItem[39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | ComponentVisualLayout[39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | ComponentVisualStyle[39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | EncapsulationEffect[39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  27% ] [90m[1mupdate_scripts_classes[22m | HardwareFoundations[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | OperationCurriculum[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | PrologueLevelCatalog[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | LayoutCatalog[39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | LayoutRecipe[39m[0m
+[  31% ] [90m[1mupdate_scripts_classes[22m | LayoutRun[39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | LayoutScoreboard[39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | LayoutSimulator[39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  32% ] [90m[1mupdate_scripts_classes[22m | LocalityLevelCatalog[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | LocalityRunReceipt[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | OverlapCatalog[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | OverlapSimulator[39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | OverlapTimeline[39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  34% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | PlaytestDataStore[39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | PlaytestFeedbackOverlay[39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | ChapterWorkspace[39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  36% ] [90m[1mupdate_scripts_classes[22m | StableSignatureMigration[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | DSLInstruction[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | DSLParser[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | DSLProgram[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | ProgramTemplates[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | SimulationCore[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | SimulationEvent[39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | SimulationTrace[39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | SystemChapterMapView[39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | SystemDeviceSurface[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | SystemDSLParser[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | SystemEvent[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | SystemGraphEdit[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | SystemInstruction[39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  39% ] [90m[1mupdate_scripts_classes[22m | SystemLevelCatalog[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | SystemPartSpec[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | SystemProgram[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | SystemRunReceipt[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | SystemSimulationCore[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | SystemTopology[39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | SystemTrace[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | SystemTraceOverlay[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | ChapterEmblem[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | CinematicPlayer[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | FloatingInstrumentPanel[39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | FullscreenButton[39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | GameModeSelector[39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  42% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | InstrumentTheme[39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | JourneyJournal[39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | LevelCompletionOverlay[39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | LinkedMissionText[39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | MissionNarrativeCatalog[39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | SavedContentPreview[39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | SignalLevelButton[39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | SignalNotation[39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  45% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | TechnicalBackdrop[39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | TerminologyDiagram[39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | TerminologyHandbook[39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | TraceOverlay[39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  47% ] [90m[1mupdate_scripts_classes[22m | UiMotion[39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | UiTypography[39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | WirePalette[39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  49% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  52% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  54% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  57% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  63% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  65% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  67% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  68% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  72% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  73% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  78% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  86% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  90% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  91% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  93% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  95% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  96% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  97% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  98% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  99% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  99% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  99% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  99% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started 正在扫描动作…… (16 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | game-icon.svg[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | NotoSansSC-Variable.ttf[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | laboratory.glb[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | laboratory_Earth PBR albedo.png[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | first-light-quiet-space.png[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | yi-learning-fragment.svg[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | yi_text_caret_16.svg[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | yi_text_caret_24.svg[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | yi_text_caret_32.svg[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | feedback_note.svg[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | feedback_privacy.svg[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | feedback_scene.svg[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | settings_audio.svg[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | settings_display.svg[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | settings_support.svg[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | settings_text.svg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started 正在导入或重新导入资产 (12 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[   7% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  15% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  23% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  30% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  38% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  46% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  53% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  61% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  69% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  76% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[  84% ] [90m[1mreimport[22m | 正在准备重新导入文件……[39m[0m
+[   0% ] [90m[1mreimport[22m | 正在执行重新导入的前置操作……[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Started 正在准备重新加载场景 (1 steps)[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | 正在分析场景 [空][39m[0m
+[  50% ] [90m[1mpreload_reimporting_scene[22m | 准备完成。[39m[0m
+[92m[ DONE ][39m [1mpreload_reimporting_scene[22m
+[0m
+[   0% ] [90m[1mreimport[22m | game-icon.svg[39m[0m
+[   7% ] [90m[1mreimport[22m | laboratory_Earth PBR albedo.png[39m[0m
+[  15% ] [90m[1mreimport[22m | first-light-quiet-space.png[39m[0m
+[  23% ] [90m[1mreimport[22m | yi-learning-fragment.svg[39m[0m
+[  30% ] [90m[1mreimport[22m | feedback_note.svg[39m[0m
+[  38% ] [90m[1mreimport[22m | feedback_privacy.svg[39m[0m
+[  46% ] [90m[1mreimport[22m | feedback_scene.svg[39m[0m
+[  53% ] [90m[1mreimport[22m | settings_audio.svg[39m[0m
+[  61% ] [90m[1mreimport[22m | settings_display.svg[39m[0m
+[  69% ] [90m[1mreimport[22m | settings_support.svg[39m[0m
+[  76% ] [90m[1mreimport[22m | settings_text.svg[39m[0m
+[  84% ] [90m[1mreimport[22m | laboratory.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started 导入场景 (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | 导入场景中...[39m[0m
+[   1% ] [90m[1mimport[22m | 执行自定义脚本...[39m[0m
+[  99% ] [90m[1mimport[22m | 保存中...[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  92% ] [90m[1mreimport[22m | 正在结束资产导入……[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started 正在导入或重新导入资产 (12 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | 正在执行重新导入的后置操作……[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started 正在加载编辑器 (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | 正在加载编辑器布局……[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | 正在加载停靠面板……[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+
+user_directory
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+Isolated user directory: E:/VNB/temp/claude-visual-20261108/wt/a1/.godot/verification/20261107T183821Z-68a4ecb2/runtime/VonNeumannBottleneckChecks/20261107T183821Z-68a4ecb2/user_directory
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+
+
+test_immersive_lab
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+LAYOUT room=(1280.0, 720.0) viewport=(1280, 720) glass=[P: (407.1256, 263.4816), S: (465.7488, 206.4688)] terminal=[P: (120.0, 110.0), S: (1040.0, 500.0)]
+LAYOUT focused 1280x720 zh glass=[P: (407.1256, 263.4816), S: (465.7488, 206.4688)] terminal=[P: (120.0, 110.0), S: (1040.0, 500.0)]
+LAYOUT control 1280x720 zh TerminalPrimary=[P: (142.0, 309.0), S: (600.0, 88.0)]
+LAYOUT control 1280x720 zh @HFlowContainer@1590=[P: (142.0, 558.0), S: (996.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalLanguage=[P: (1082.0, 132.0), S: (44.0, 24.0)]
+LAYOUT control 1280x720 zh TerminalJourney=[P: (142.0, 558.0), S: (84.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalArchive=[P: (230.0, 558.0), S: (65.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalHandbook=[P: (299.0, 558.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalSettings=[P: (355.0, 558.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalWorks=[P: (411.0, 558.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalAchievements=[P: (467.0, 558.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalFeedback=[P: (523.0, 558.0), S: (52.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalLook=[P: (579.0, 558.0), S: (133.0, 36.0)]
+LAYOUT control 1280x720 zh TerminalQuit=[P: (716.0, 558.0), S: (84.0, 36.0)]
+LAYOUT focused 1280x720 en glass=[P: (407.1256, 263.4816), S: (465.7488, 206.4688)] terminal=[P: (120.0, 110.0), S: (1040.0, 500.0)]
+LAYOUT control 1280x720 en TerminalPrimary=[P: (142.0, 309.0), S: (600.0, 106.0)]
+LAYOUT control 1280x720 en @HFlowContainer@1590=[P: (142.0, 558.0), S: (996.0, 36.0)]
+LAYOUT control 1280x720 en TerminalLanguage=[P: (1082.0, 132.0), S: (44.0, 24.0)]
+LAYOUT control 1280x720 en TerminalJourney=[P: (142.0, 558.0), S: (120.0, 36.0)]
+LAYOUT control 1280x720 en TerminalArchive=[P: (266.0, 558.0), S: (89.0, 36.0)]
+LAYOUT control 1280x720 en TerminalHandbook=[P: (359.0, 558.0), S: (100.0, 36.0)]
+LAYOUT control 1280x720 en TerminalSettings=[P: (463.0, 558.0), S: (82.0, 36.0)]
+LAYOUT control 1280x720 en TerminalWorks=[P: (549.0, 558.0), S: (67.0, 36.0)]
+LAYOUT control 1280x720 en TerminalAchievements=[P: (620.0, 558.0), S: (126.0, 36.0)]
+LAYOUT control 1280x720 en TerminalFeedback=[P: (750.0, 558.0), S: (93.0, 36.0)]
+LAYOUT control 1280x720 en TerminalLook=[P: (847.0, 558.0), S: (169.0, 36.0)]
+LAYOUT control 1280x720 en TerminalQuit=[P: (1020.0, 558.0), S: (53.0, 36.0)]
+LAYOUT focused 1600x900 zh glass=[P: (508.907, 329.352), S: (582.186, 258.0861)] terminal=[P: (150.0, 137.5), S: (1300.0, 625.0)]
+LAYOUT control 1600x900 zh TerminalPrimary=[P: (177.5, 386.25), S: (750.0, 110.0)]
+LAYOUT control 1600x900 zh @HFlowContainer@1590=[P: (177.5, 697.5), S: (1245.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalLanguage=[P: (1352.5, 165.0), S: (55.0, 30.0)]
+LAYOUT control 1600x900 zh TerminalJourney=[P: (177.5, 697.5), S: (105.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalArchive=[P: (287.5, 697.5), S: (81.25, 45.0)]
+LAYOUT control 1600x900 zh TerminalHandbook=[P: (373.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalSettings=[P: (443.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalWorks=[P: (513.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalAchievements=[P: (583.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalFeedback=[P: (653.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1600x900 zh TerminalLook=[P: (723.75, 697.5), S: (166.25, 45.0)]
+LAYOUT control 1600x900 zh TerminalQuit=[P: (895.0, 697.5), S: (105.0, 45.0)]
+LAYOUT focused 1600x900 en glass=[P: (508.907, 329.352), S: (582.186, 258.0861)] terminal=[P: (150.0, 137.5), S: (1300.0, 625.0)]
+LAYOUT control 1600x900 en TerminalPrimary=[P: (177.5, 386.25), S: (750.0, 132.5)]
+LAYOUT control 1600x900 en @HFlowContainer@1590=[P: (177.5, 697.5), S: (1245.0, 45.0)]
+LAYOUT control 1600x900 en TerminalLanguage=[P: (1352.5, 165.0), S: (55.0, 30.0)]
+LAYOUT control 1600x900 en TerminalJourney=[P: (177.5, 697.5), S: (150.0, 45.0)]
+LAYOUT control 1600x900 en TerminalArchive=[P: (332.5, 697.5), S: (111.25, 45.0)]
+LAYOUT control 1600x900 en TerminalHandbook=[P: (448.75, 697.5), S: (125.0, 45.0)]
+LAYOUT control 1600x900 en TerminalSettings=[P: (578.75, 697.5), S: (102.5, 45.0)]
+LAYOUT control 1600x900 en TerminalWorks=[P: (686.25, 697.5), S: (83.75, 45.0)]
+LAYOUT control 1600x900 en TerminalAchievements=[P: (775.0, 697.5), S: (157.5, 45.0)]
+LAYOUT control 1600x900 en TerminalFeedback=[P: (937.5, 697.5), S: (116.25, 45.0)]
+LAYOUT control 1600x900 en TerminalLook=[P: (1058.75, 697.5), S: (211.25, 45.0)]
+LAYOUT control 1600x900 en TerminalQuit=[P: (1275.0, 697.5), S: (66.25, 45.0)]
+LAYOUT focused 1280x800 zh glass=[P: (407.1256, 303.4816), S: (465.7488, 206.4688)] terminal=[P: (120.0, 150.0), S: (1040.0, 500.0)]
+LAYOUT control 1280x800 zh TerminalPrimary=[P: (142.0, 349.0), S: (600.0, 88.0)]
+LAYOUT control 1280x800 zh @HFlowContainer@1590=[P: (142.0, 598.0), S: (996.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalLanguage=[P: (1082.0, 172.0), S: (44.0, 24.0)]
+LAYOUT control 1280x800 zh TerminalJourney=[P: (142.0, 598.0), S: (84.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalArchive=[P: (230.0, 598.0), S: (65.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalHandbook=[P: (299.0, 598.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalSettings=[P: (355.0, 598.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalWorks=[P: (411.0, 598.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalAchievements=[P: (467.0, 598.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalFeedback=[P: (523.0, 598.0), S: (52.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalLook=[P: (579.0, 598.0), S: (133.0, 36.0)]
+LAYOUT control 1280x800 zh TerminalQuit=[P: (716.0, 598.0), S: (84.0, 36.0)]
+LAYOUT focused 1280x800 en glass=[P: (407.1256, 303.4816), S: (465.7488, 206.4688)] terminal=[P: (120.0, 150.0), S: (1040.0, 500.0)]
+LAYOUT control 1280x800 en TerminalPrimary=[P: (142.0, 349.0), S: (600.0, 106.0)]
+LAYOUT control 1280x800 en @HFlowContainer@1590=[P: (142.0, 598.0), S: (996.0, 36.0)]
+LAYOUT control 1280x800 en TerminalLanguage=[P: (1082.0, 172.0), S: (44.0, 24.0)]
+LAYOUT control 1280x800 en TerminalJourney=[P: (142.0, 598.0), S: (120.0, 36.0)]
+LAYOUT control 1280x800 en TerminalArchive=[P: (266.0, 598.0), S: (89.0, 36.0)]
+LAYOUT control 1280x800 en TerminalHandbook=[P: (359.0, 598.0), S: (100.0, 36.0)]
+LAYOUT control 1280x800 en TerminalSettings=[P: (463.0, 598.0), S: (82.0, 36.0)]
+LAYOUT control 1280x800 en TerminalWorks=[P: (549.0, 598.0), S: (67.0, 36.0)]
+LAYOUT control 1280x800 en TerminalAchievements=[P: (620.0, 598.0), S: (126.0, 36.0)]
+LAYOUT control 1280x800 en TerminalFeedback=[P: (750.0, 598.0), S: (93.0, 36.0)]
+LAYOUT control 1280x800 en TerminalLook=[P: (847.0, 598.0), S: (169.0, 36.0)]
+LAYOUT control 1280x800 en TerminalQuit=[P: (1020.0, 598.0), S: (53.0, 36.0)]
+LAYOUT focused 1440x1080 zh glass=[P: (458.0163, 431.4168), S: (523.9674, 232.2775)] terminal=[P: (135.0, 258.75), S: (1170.0, 562.5)]
+LAYOUT control 1440x1080 zh TerminalPrimary=[P: (159.75, 482.625), S: (675.0, 99.0)]
+LAYOUT control 1440x1080 zh @HFlowContainer@1590=[P: (159.75, 762.75), S: (1120.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalLanguage=[P: (1217.25, 283.5), S: (49.5, 27.0)]
+LAYOUT control 1440x1080 zh TerminalJourney=[P: (159.75, 762.75), S: (94.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalArchive=[P: (258.75, 762.75), S: (73.125, 40.5)]
+LAYOUT control 1440x1080 zh TerminalHandbook=[P: (336.375, 762.75), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalSettings=[P: (399.375, 762.75), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalWorks=[P: (462.375, 762.75), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalAchievements=[P: (525.375, 762.75), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalFeedback=[P: (588.375, 762.75), S: (58.5, 40.5)]
+LAYOUT control 1440x1080 zh TerminalLook=[P: (651.375, 762.75), S: (149.625, 40.5)]
+LAYOUT control 1440x1080 zh TerminalQuit=[P: (805.5, 762.75), S: (94.5, 40.5)]
+LAYOUT focused 1440x1080 en glass=[P: (458.0163, 431.4168), S: (523.9674, 232.2775)] terminal=[P: (135.0, 258.75), S: (1170.0, 562.5)]
+LAYOUT control 1440x1080 en TerminalPrimary=[P: (159.75, 482.625), S: (675.0, 119.25)]
+LAYOUT control 1440x1080 en @HFlowContainer@1590=[P: (159.75, 762.75), S: (1120.5, 40.5)]
+LAYOUT control 1440x1080 en TerminalLanguage=[P: (1217.25, 283.5), S: (49.5, 27.0)]
+LAYOUT control 1440x1080 en TerminalJourney=[P: (159.75, 762.75), S: (135.0, 40.5)]
+LAYOUT control 1440x1080 en TerminalArchive=[P: (299.25, 762.75), S: (100.125, 40.5)]
+LAYOUT control 1440x1080 en TerminalHandbook=[P: (403.875, 762.75), S: (112.5, 40.5)]
+LAYOUT control 1440x1080 en TerminalSettings=[P: (520.875, 762.75), S: (92.25, 40.5)]
+LAYOUT control 1440x1080 en TerminalWorks=[P: (617.625, 762.75), S: (75.375, 40.5)]
+LAYOUT control 1440x1080 en TerminalAchievements=[P: (697.5, 762.75), S: (141.75, 40.5)]
+LAYOUT control 1440x1080 en TerminalFeedback=[P: (843.75, 762.75), S: (104.625, 40.5)]
+LAYOUT control 1440x1080 en TerminalLook=[P: (952.875, 762.75), S: (190.125, 40.5)]
+LAYOUT control 1440x1080 en TerminalQuit=[P: (1147.5, 762.75), S: (59.625, 40.5)]
+LAYOUT focused 1920x900 zh glass=[P: (668.907, 329.352), S: (582.186, 258.0861)] terminal=[P: (310.0, 137.5), S: (1300.0, 625.0)]
+LAYOUT control 1920x900 zh TerminalPrimary=[P: (337.5, 386.25), S: (750.0, 110.0)]
+LAYOUT control 1920x900 zh @HFlowContainer@1590=[P: (337.5, 697.5), S: (1245.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalLanguage=[P: (1512.5, 165.0), S: (55.0, 30.0)]
+LAYOUT control 1920x900 zh TerminalJourney=[P: (337.5, 697.5), S: (105.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalArchive=[P: (447.5, 697.5), S: (81.25, 45.0)]
+LAYOUT control 1920x900 zh TerminalHandbook=[P: (533.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalSettings=[P: (603.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalWorks=[P: (673.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalAchievements=[P: (743.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalFeedback=[P: (813.75, 697.5), S: (65.0, 45.0)]
+LAYOUT control 1920x900 zh TerminalLook=[P: (883.75, 697.5), S: (166.25, 45.0)]
+LAYOUT control 1920x900 zh TerminalQuit=[P: (1055.0, 697.5), S: (105.0, 45.0)]
+LAYOUT focused 1920x900 en glass=[P: (668.907, 329.352), S: (582.186, 258.0861)] terminal=[P: (310.0, 137.5), S: (1300.0, 625.0)]
+LAYOUT control 1920x900 en TerminalPrimary=[P: (337.5, 386.25), S: (750.0, 132.5)]
+LAYOUT control 1920x900 en @HFlowContainer@1590=[P: (337.5, 697.5), S: (1245.0, 45.0)]
+LAYOUT control 1920x900 en TerminalLanguage=[P: (1512.5, 165.0), S: (55.0, 30.0)]
+LAYOUT control 1920x900 en TerminalJourney=[P: (337.5, 697.5), S: (150.0, 45.0)]
+LAYOUT control 1920x900 en TerminalArchive=[P: (492.5, 697.5), S: (111.25, 45.0)]
+LAYOUT control 1920x900 en TerminalHandbook=[P: (608.75, 697.5), S: (125.0, 45.0)]
+LAYOUT control 1920x900 en TerminalSettings=[P: (738.75, 697.5), S: (102.5, 45.0)]
+LAYOUT control 1920x900 en TerminalWorks=[P: (846.25, 697.5), S: (83.75, 45.0)]
+LAYOUT control 1920x900 en TerminalAchievements=[P: (935.0, 697.5), S: (157.5, 45.0)]
+LAYOUT control 1920x900 en TerminalFeedback=[P: (1097.5, 697.5), S: (116.25, 45.0)]
+LAYOUT control 1920x900 en TerminalLook=[P: (1218.75, 697.5), S: (211.25, 45.0)]
+LAYOUT control 1920x900 en TerminalQuit=[P: (1435.0, 697.5), S: (66.25, 45.0)]
+ROOM_BOUNDS (1280, 720) archive [P: (60.82592, 224.6543), S: (156.9316, 231.2638)]
+ROOM_BOUNDS (1280, 720) journey [P: (1067.155, 224.6543), S: (152.019, 231.2638)]
+RAY_GRID look_degrees=(0.0, 0.0) hits={ "works": 168, "achievements": 47, "archive": 173, "journey": 188, "terminal": 714, "globe": 26, "handbook": 56, "settings": 30, "feedback": 35 }
+RAY_REACH terminal { "pixel": (414.0, 258.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH archive { "pixel": (66.0, 234.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH journey { "pixel": (1086.0, 234.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH works { "pixel": (450.0, 126.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH achievements { "pixel": (726.0, 162.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH handbook { "pixel": (414.0, 498.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH settings { "pixel": (942.0, 498.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH feedback { "pixel": (906.0, 510.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH globe { "pixel": (318.0, 426.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+ROOM_BOUNDS (1280, 800) archive [P: (60.82596, 264.6543), S: (156.9316, 231.2638)]
+ROOM_BOUNDS (1280, 800) journey [P: (1067.155, 264.6543), S: (152.0192, 231.2638)]
+RAY_GRID look_degrees=(0.0, 0.0) hits={ "works": 168, "achievements": 42, "archive": 174, "journey": 191, "terminal": 715, "globe": 28, "settings": 37, "handbook": 46, "feedback": 35 }
+RAY_REACH terminal { "pixel": (414.0, 306.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH archive { "pixel": (66.0, 270.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH journey { "pixel": (1086.0, 270.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH works { "pixel": (450.0, 162.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH achievements { "pixel": (726.0, 210.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH handbook { "pixel": (402.0, 546.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH settings { "pixel": (942.0, 534.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH feedback { "pixel": (906.0, 546.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH globe { "pixel": (318.0, 462.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+ROOM_BOUNDS (1440, 1080) archive [P: (68.4292, 387.7361), S: (176.548, 260.1717)]
+ROOM_BOUNDS (1440, 1080) journey [P: (1200.549, 387.7361), S: (171.0215, 260.1717)]
+RAY_GRID look_degrees=(0.0, 0.0) hits={ "works": 216, "achievements": 51, "archive": 224, "journey": 246, "terminal": 932, "globe": 32, "settings": 41, "handbook": 62, "feedback": 52 }
+RAY_REACH terminal { "pixel": (474.0, 426.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH archive { "pixel": (78.0, 390.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH journey { "pixel": (1218.0, 390.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH works { "pixel": (498.0, 270.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH achievements { "pixel": (822.0, 318.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH handbook { "pixel": (450.0, 702.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH settings { "pixel": (1062.0, 690.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH feedback { "pixel": (1014.0, 702.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH globe { "pixel": (366.0, 606.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+ROOM_BOUNDS (1920, 900) archive [P: (236.0325, 280.8179), S: (196.1644, 289.0797)]
+ROOM_BOUNDS (1920, 900) journey [P: (1493.944, 280.8179), S: (190.0238, 289.0797)]
+RAY_GRID look_degrees=(0.0, 0.0) hits={ "works": 260, "achievements": 63, "archive": 269, "journey": 298, "terminal": 1091, "globe": 42, "settings": 56, "handbook": 71, "feedback": 68 }
+RAY_REACH terminal { "pixel": (666.0, 330.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH archive { "pixel": (402.0, 282.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH journey { "pixel": (1518.0, 282.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH works { "pixel": (714.0, 150.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH achievements { "pixel": (1062.0, 210.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH handbook { "pixel": (666.0, 630.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH settings { "pixel": (1338.0, 618.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH feedback { "pixel": (1146.0, 630.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+RAY_REACH globe { "pixel": (570.0, 522.0), "look_degrees": (0.0, 0.0), "source": "12px grid" }
+PASS: immersive lab 466 checks, 0 failures
+
+
+test_lab_journey
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: lab journey 52 checks, 0 failures
+
+
+test_lab_navigation_soak
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+SOAK node_counts=[2490, 2490, 2490, 2490, 2490, 2490, 2490, 2490] orphan_counts=[0, 0, 0, 0, 0, 0, 0, 0]
+PASS: test_lab_navigation_soak 162 checks, 0 failures
+
+
+test_lab_saved_work_window
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+LAB_WORK_STAGE {"nodes":284,"stage":"start","static_bytes":62890601,"ticks_ms":2350}
+LAB_WORK_STAGE {"nodes":284,"stage":"valid-work-saved","static_bytes":63060979,"ticks_ms":2393}
+LAB_WORK_STAGE {"nodes":2311,"stage":"laboratory-ready","static_bytes":186077218,"ticks_ms":4997}
+LAB_WORK_STAGE {"nodes":2458,"stage":"before-open-work","static_bytes":191048162,"ticks_ms":5274}
+LAB_WORK_STAGE {"nodes":2459,"stage":"work-focus-entered-tree","static_bytes":191099262,"ticks_ms":5285,"window":{"embedded":true,"exclusive":false,"position":"(0, 0)","ready":false,"size":"(100, 100)","visible":true}}
+LAB_WORK_STAGE {"nodes":2540,"stage":"work-focus-ready","static_bytes":193057824,"ticks_ms":5303,"window":{"embedded":true,"exclusive":true,"position":"(0, 0)","ready":true,"size":"(1080, 620)","visible":true}}
+LAB_WORK_STAGE {"nodes":2541,"stage":"after-open-work-return","static_bytes":193416304,"ticks_ms":5308,"window":{"embedded":true,"exclusive":true,"position":"(100, 50)","ready":true,"size":"(640, 420)","visible":true}}
+LAB_WORK_STAGE {"nodes":2541,"stage":"first-process-frame","static_bytes":193687826,"ticks_ms":5316,"window":{"embedded":true,"exclusive":false,"position":"(0, 0)","ready":true,"size":"(1280, 720)","visible":true}}
+LAB_WORK_STAGE {"nodes":2541,"stage":"second-process-frame","static_bytes":193687826,"ticks_ms":5319,"window":{"embedded":true,"exclusive":false,"position":"(0, 0)","ready":true,"size":"(1280, 720)","visible":true}}
+LAB_WORK_STAGE {"nodes":2541,"stage":"window-settled","static_bytes":193689814,"ticks_ms":5383,"window":{"embedded":true,"exclusive":false,"position":"(0, 0)","ready":true,"size":"(1280, 720)","visible":true}}
+LAB_WORK_STAGE {"nodes":2458,"stage":"viewer-closed","static_bytes":191840978,"ticks_ms":5444}
+PASS: laboratory saved-work window 26 checks, 0 failures
+
+
+test_two_worlds
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: two worlds 45 checks, 0 failures

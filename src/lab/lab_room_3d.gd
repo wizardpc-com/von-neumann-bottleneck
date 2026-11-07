@@ -3,6 +3,8 @@ extends SubViewportContainer
 signal activated(id: String)
 signal hover_changed(id: String)
 
+const WARM_ROOM := true
+const Palette = preload("res://src/lab/lab_palette.gd")
 const LabState = preload("res://src/lab/lab_state.gd")
 const DISPLAY_FONT = preload("res://assets/fonts/interface_regular.tres")
 const WORK_COLORS := [Color("7fcbd6"), Color("f0c674"), Color("aab6e6"), Color("7fd8a4")]
@@ -212,7 +214,7 @@ func _process(delta: float) -> void:
 		_dust.emitting = not reduced
 		_dust.speed_scale = 0.0 if reduced else 1.0
 	for id: String in _plates:
-		(_plates[id] as Label3D).modulate = Color("ffe1ab") if id == _hovered else Color("d5dedb")
+		(_plates[id] as Label3D).modulate = (Color("563d21") if id == _hovered else Palette.LAB_INK) if WARM_ROOM else (Color("ffe1ab") if id == _hovered else Color("d5dedb"))
 	var looking: Basis = _neutral_basis * Basis(Vector3.UP, deg_to_rad(_look_current.x)) * Basis(Vector3.RIGHT, deg_to_rad(_look_current.y))
 	var aim: Basis = Transform3D(Basis(), OBSERVATION).looking_at(_focus_point, Vector3.UP).basis
 	# Turn toward the object early, walk toward it, and narrow the view last,
@@ -540,7 +542,11 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 		_chapter_lights[index].albedo_color = Color("8ed8c5") if earned else Color("344a50")
 		_chapter_lights[index].emission_enabled = earned
 	for id: String in _plates:
-		(_plates[id] as Label3D).text = _plate_name(id, english)
+		var plate := _plates[id] as Label3D
+		plate.text = _plate_name(id, english)
+		if WARM_ROOM:
+			var width: float = 0.59 if id in ["handbook", "settings", "feedback"] else 1.80
+			plate.pixel_size = minf(0.0025 if id in ["handbook", "settings", "feedback"] else 0.005, width / DISPLAY_FONT.get_string_size(plate.text, HORIZONTAL_ALIGNMENT_LEFT, -1, plate.font_size).x)
 	var count := maxi(0, works_count)
 	var latest: Dictionary = works[-1] if count > 0 and not works.is_empty() and works[-1] is Dictionary else {}
 	var latest_name := str(latest.get("name", ""))
@@ -556,6 +562,7 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 	for index in range(_work_pixels.size()):
 		# Unlit cells read as an empty light-print matrix waiting for a saved work.
 		var pixel := _work_pixels[index]
+		pixel.visible = not WARM_ROOM or index < output.size()
 		pixel.modulate = WORK_COLORS[clampi(int(output[index]), 0, WORK_COLORS.size() - 1)] if index < output.size() else Color(0.55, 0.68, 0.76, 0.16)
 	for slot in range(_gallery.size()):
 		var work_index: int = works.size() - 1 - slot
@@ -564,6 +571,7 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 			var raw: Variant = works[work_index].get("output", [])
 			if raw is Array: values = raw
 		for cell in range(_gallery[slot].size()):
+			(_gallery[slot][cell] as Label3D).visible = not WARM_ROOM or cell < values.size()
 			(_gallery[slot][cell] as Label3D).modulate = WORK_COLORS[clampi(int(values[cell]), 0, 3)] if cell < values.size() else Color(0.55, 0.68, 0.76, 0.16)
 	if _achievement_label != null:
 		_achievement_label.text = ("Completed\n%d / %d" if english else "已完成\n%d / %d") % [maxi(0, completed), maxi(0, total)]
@@ -777,7 +785,7 @@ func _setup_environment() -> void:
 	environment.background_mode = Environment.BG_COLOR
 	environment.background_color = Color(0.15, 0.17, 0.20)
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	environment.ambient_light_energy = 0.12
+	environment.ambient_light_energy = 0.32 if WARM_ROOM else 0.12
 	environment.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	environment.tonemap_exposure = 0.95
@@ -789,8 +797,8 @@ func _setup_environment() -> void:
 	environment.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	world_environment.environment = environment
 	viewport.add_child(world_environment)
-	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color(0.78, 0.86, 1.0), 0.26, 75.0, 19.0, true)
-	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color(0.56, 0.75, 1.0), 0.38, 75.0, 18.0, true)
+	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color("ffe8c6") if WARM_ROOM else Color(0.78, 0.86, 1.0), 0.65 if WARM_ROOM else 0.26, 75.0, 19.0, true)
+	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color("d7e7ed") if WARM_ROOM else Color(0.56, 0.75, 1.0), 0.32 if WARM_ROOM else 0.38, 75.0, 18.0, true)
 	_add_light(Vector3(0, 5.6, 1.5), Vector3(0, 1.4, 2.4), Color(1.0, 0.95, 0.86), 0.12, 48.0, 9.0, false)
 	_add_light(Vector3(-1.2, 6.8, -8.6), Vector3(-1.2, 5.1, -11.7), Color(1.0, 0.90, 0.75), 0.8, 62.0, 10.0, false)
 
@@ -866,12 +874,28 @@ func _setup_furnishings() -> void:
 		if title.begins_with("Architecture |") or (title.begins_with("Side wall |") and "integrated field" in title):
 			var finish := StandardMaterial3D.new()
 			finish.albedo_color = Color("465c69") if "floor" not in title else Color("414b53")
+			if WARM_ROOM:
+				finish.albedo_color = Palette.LAB_WALL
+				if "floor" in title: finish.albedo_color = Color("817565")
+				elif "ceiling" in title: finish.albedo_color = Palette.LAB_CEILING
+				elif "side" in title or "Side wall" in title: finish.albedo_color = Color("aabbb8")
 			finish.roughness = 0.87
 			mesh.material_override = finish
 		if title.begins_with("Workstation |") and "light" not in title.to_lower():
 			var wood := StandardMaterial3D.new()
 			wood.albedo_color = Color("9da3a7"); wood.roughness = 0.88
+			if WARM_ROOM:
+				wood.albedo_color = Color("b79a73") if "top" in title else Color("716353")
+				if "rim" in title or "seam" in title: wood.albedo_color = Color("8c785d")
+				if "top" in title:
+					wood.normal_enabled = true; wood.normal_texture = texture
+					wood.uv1_scale = Vector3(1, 14, 1)
 			mesh.material_override = wood
+		if WARM_ROOM and title.begins_with("Archive |"):
+			var paper := StandardMaterial3D.new()
+			paper.albedo_color = Color("e2d5b6") if "document" in title or "card" in title else Color("718888")
+			paper.roughness = 0.9
+			mesh.material_override = paper
 		if title.begins_with("Works |") and mesh.visible:
 			var finish := mesh.get_active_material(0).duplicate() as StandardMaterial3D
 			finish.roughness = 0.95; finish.metallic_specular = 0.15
@@ -886,6 +910,7 @@ func _setup_furnishings() -> void:
 			mesh.material_override = diffuser
 		if title.begins_with("Handbook |") or title.begins_with("Settings |") or title.begins_with("Letter |"):
 			mesh.hide()
+	if WARM_ROOM: _setup_wall_details()
 	_rounded("Handbook | pages", Vector3(-1.71,1.55,3.05), Vector3(1.08,0.15,0.76), Color("c2baa2"),0.035)
 	for y in [1.46,1.65]:
 		_rounded("Handbook | cloth cover", Vector3(-1.71,y,3.05), Vector3(1.19,0.045,0.84),Color("234c58"),0.055)
@@ -939,6 +964,10 @@ func _setup_furnishings() -> void:
 	var positions := {"handbook":Vector3(-1.70,1.72,3.29),"settings":Vector3(3.14,1.56,3.35),"feedback":Vector3(2.06,1.52,3.55),"works":Vector3(-1.9,6.95,-11.5),"achievements":Vector3(3.4,6.12,-11.5),"archive":Vector3(-7.20,4.40,-1.85)}
 	for id: String in positions:
 		var small: bool = id in ["handbook","settings","feedback"]
+		if WARM_ROOM:
+			if id == "archive": positions[id] = Vector3(-7.20,4.15,-1.85)
+			if id == "works": positions[id].y = 7.05
+			if id == "achievements": positions[id].y = 6.05
 		var plate := Label3D.new()
 		plate.font = DISPLAY_FONT; plate.font_size = 64; plate.pixel_size = 0.0025 if small else 0.005
 		plate.outline_size = 0; plate.modulate = Color("d5dedb"); plate.double_sided = true
@@ -947,9 +976,9 @@ func _setup_furnishings() -> void:
 		if small: plate.rotation_degrees.x = -20
 		if id == "archive": plate.rotation_degrees.y = 90
 		var prefix: String = {"handbook":"Handbook |", "settings":"Settings |", "feedback":"Letter |"}.get(id,"Nameplate |")
-		var backing := _box(prefix + " engraved plate " + id, positions[id],Vector3(0.78 if small else 2.2,0.16 if small else 0.36,0.016),Color("9eabad"))
+		var backing := _box(prefix + " engraved plate " + id, positions[id],Vector3(0.78 if small else 2.2,0.16 if small else 0.36,0.016),Color("ae936b") if WARM_ROOM else Color("9eabad"))
 		backing.rotation = plate.rotation
-		var face := _box(prefix + " plate face " + id, positions[id] + plate.basis.z * 0.011,Vector3(0.75 if small else 2.16,0.14 if small else 0.32,0.008),Color("344650"))
+		var face := _box(prefix + " plate face " + id, positions[id] + plate.basis.z * 0.011,Vector3(0.75 if small else 2.16,0.14 if small else 0.32,0.008),Color("d8c5a1") if WARM_ROOM else Color("344650"))
 		face.rotation = plate.rotation
 		(backing.material_override as StandardMaterial3D).metallic = 0.55
 		plate.position += plate.basis.z * 0.02
@@ -983,3 +1012,20 @@ func _setup_furnishings() -> void:
 	_dust.process_material = particles
 	_dust.emitting = not bool(ProjectSettings.get_setting("game/reduced_motion",false))
 	viewport.add_child(_dust); _dust.position = Vector3(-1.8,2.1,2.8)
+
+## Passive architecture stays outside semantic objects and their focus bounds.
+func _setup_wall_details() -> void:
+	# The shallow reveals add depth without more lights or shadow maps.
+	for x in [-6.0, 6.0]:
+		_box("Room finish | rear reveal", Vector3(x, 3.4, -11.68), Vector3(0.035, 6.0, 0.025), Color("81928f"))
+	_box("Room finish | skirting", Vector3(0, 0.25, -11.60), Vector3(15.5, 0.18, 0.08), Color("7c8a87"))
+	for x in [-7.65, 7.65]:
+		_box("Room finish | side skirting", Vector3(x, 0.25, -3.0), Vector3(0.08, 0.18, 17.0), Color("7c8a87"))
+	# A quiet daylight panel on the rear wall, with physical mullions and sill.
+	_box("Room finish | window surround", Vector3(5.9, 4.6, -11.58), Vector3(1.9, 2.8, 0.10), Color("607a7e"))
+	var glass := _box("Room finish | daylight glass", Vector3(5.9, 4.6, -11.50), Vector3(1.70, 2.58, 0.025), Palette.LAB_SKY_TOP)
+	var material := glass.material_override as StandardMaterial3D
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_box("Room finish | window mullion", Vector3(5.9, 4.6, -11.46), Vector3(0.055, 2.60, 0.045), Color("8b9f9d"))
+	_box("Room finish | window transom", Vector3(5.9, 4.95, -11.45), Vector3(1.72, 0.055, 0.045), Color("8b9f9d"))
+	_box("Room finish | window sill", Vector3(5.9, 3.19, -11.40), Vector3(2.05, 0.10, 0.34), Palette.LAB_CEILING)

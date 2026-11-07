@@ -76,9 +76,9 @@ func run() -> void:
 		session.data.mode = "compress"; scene.call("change_task",0); await settle()
 		for unit: int in [1,2,4,5,7,8]:
 			scene.call("change_task",unit); await settle()
-			bounds(scene,["Language","SaveDraft","Journey","Train","ModeActions","SignalView","MachineResources","Status"])
+			bounds(scene,["Laboratory","SaveDraft","Journey","Train","ModeActions","SignalView","MachineResources","Status"])
 		scene.call("change_task",0); await settle()
-		bounds(scene,["Language","SaveDraft","Journey","NextStepAction","Train","Transport","Raw","ToPredict","SignalView","MachineResources","Status"])
+		bounds(scene,["Laboratory","SaveDraft","Journey","NextStepAction","Train","Transport","Raw","ToPredict","SignalView","MachineResources","Status"])
 		if session.data.model.is_empty(): check(scene.next_step().action == "train", "Fresh workbench guides the selected examples to Learn")
 		await press(scene,"Train")
 		check(not session.data.model.is_empty(),"Learn creates real sample-derived rules")

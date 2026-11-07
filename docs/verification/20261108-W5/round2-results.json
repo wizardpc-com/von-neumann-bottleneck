@@ -1,0 +1,137 @@
+{
+  "headless_logs": ".godot\\verification\\20261107T164532Z-d0392a31",
+  "headless": {
+    "engine": "4.7.1.stable.official.a13da4feb",
+    "platform": "win32",
+    "results": [
+      {
+        "name": "import",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "import.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/import"
+      },
+      {
+        "name": "user_directory",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "user_directory.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/user_directory"
+      },
+      {
+        "name": "test_cpg_connection_fragment",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_cpg_connection_fragment.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_cpg_connection_fragment"
+      },
+      {
+        "name": "test_creation_comparison_view",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_creation_comparison_view.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_creation_comparison_view"
+      },
+      {
+        "name": "test_creation_draft_undo",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_creation_draft_undo.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_creation_draft_undo"
+      },
+      {
+        "name": "test_creation_edit_controls",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_creation_edit_controls.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_creation_edit_controls"
+      },
+      {
+        "name": "test_creation_navigation",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_creation_navigation.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_creation_navigation"
+      },
+      {
+        "name": "test_creation_playable_loop",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_creation_playable_loop.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_creation_playable_loop"
+      },
+      {
+        "name": "test_creation_sample_editing",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_creation_sample_editing.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_creation_sample_editing"
+      },
+      {
+        "name": "test_creation_work_focus",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_creation_work_focus.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_creation_work_focus"
+      },
+      {
+        "name": "test_creation_workbench",
+        "exit": 0,
+        "passed": true,
+        "errors": [],
+        "log": "test_creation_workbench.txt",
+        "custom_user_dir": "VonNeumannBottleneckChecks/20261107T164532Z-d0392a31/test_creation_workbench"
+      }
+    ]
+  },
+  "gpu": {
+    "exit": 0,
+    "errors": [],
+    "log": ".godot\\verification\\20261107T164532Z-d0392a31\\gpu-workbench.txt"
+  },
+  "c1": {
+    "exit": 0,
+    "errors": [],
+    "log": ".godot\\verification\\20261107T164532Z-d0392a31\\capture-c1.txt"
+  },
+  "c1-run": {
+    "exit": 0,
+    "errors": [],
+    "log": ".godot\\verification\\20261107T164532Z-d0392a31\\capture-c1-run.txt"
+  },
+  "c1-en": {
+    "exit": 0,
+    "errors": [],
+    "log": ".godot\\verification\\20261107T164532Z-d0392a31\\capture-c1-en.txt"
+  },
+  "g3": {
+    "exit": 0,
+    "errors": [],
+    "log": ".godot\\verification\\20261107T164532Z-d0392a31\\capture-g3.txt"
+  },
+  "g3-en": {
+    "exit": 0,
+    "errors": [],
+    "log": ".godot\\verification\\20261107T164532Z-d0392a31\\capture-g3-en.txt"
+  },
+  "p1": {
+    "exit": 0,
+    "errors": [],
+    "log": ".godot\\verification\\20261107T164532Z-d0392a31\\capture-p1.txt"
+  },
+  "p1-en": {
+    "exit": 0,
+    "errors": [],
+    "log": ".godot\\verification\\20261107T164532Z-d0392a31\\capture-p1-en.txt"
+  }
+}

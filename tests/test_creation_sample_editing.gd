@@ -125,7 +125,7 @@ func exercise(locale: String) -> void:
 	await press(scene,"ApplySampleEdit")
 	check(scene.session.data.draft == draft_before and field(scene,"SampleEditText").text.split(" ").size() == 97,"Oversize replacement retains text and legal draft")
 	field(scene,"SampleEditText").text = "A X"
-	await press(scene,"Language"); await press(scene,"Next"); await press(scene,"Previous")
+	scene.toggle_language(); await settle(); await press(scene,"Next"); await press(scene,"Previous")
 	check(field(scene,"SampleEditText").text == "A X" and field(scene,"CreationIntent").text == intent_text and scene.sample_edit_index == 1,"Language and task navigation retain pending sample text, target and intent")
 	(scene.find_child("DraftTabs",true,false) as TabContainer).current_tab = 0
 	await capture("invalid-"+locale)

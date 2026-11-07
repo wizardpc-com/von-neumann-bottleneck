@@ -1,0 +1,91 @@
+{
+  "files": {
+    "experiments/creation/cost_ledger_view.gd": "f6d9395b6f5788cbb01dde30590634b1a26ab49f6fa56edfa1c514fcad2a0fa0",
+    "experiments/creation/signal_view.gd": "5ff4d9b2290f1465fe150937e3e69563da754b30e5e58567c85d4a5f6c448505",
+    "experiments/creation/work_canvas.gd": "e6f139a3326e3ef4904dca612aeeca9c2ad7969b6f8160c48b74b3aef295acee",
+    "experiments/creation/work_focus.gd": "f3755d6a0bf5bfe4b15efc0e7f48c6005d97f78137ddfeac2989c0fa91da37fc",
+    "experiments/creation/workbench.gd": "929121571b3c3f69ec1a204c4e86ebae1a160aac3bda08659af53b92cf62ee81",
+    "tests/test_cpg_connection_fragment.gd": "cbfbca70a723d794b7042c6cdc37256f00f013ee19c99e73fe07553159135bd3",
+    "tests/test_creation_edit_controls.gd": "143314d6e72af15d91bd90be428a5394a1183daf580592fb148d964028126ae3",
+    "tests/test_creation_sample_editing.gd": "6e8db2f680a610b7100bf95ad55f4de92ac0e6b1a020f5e5c4285fda7f51efa5",
+    "tests/test_creation_workbench.gd": "9bf917bd8053c8423d608bf04d60cc288ce23b5b83597ceac074dfd7b275f18d"
+  },
+  "pngs": {
+    "after-c1-en.png": "a281889b340df24859bc5eb7e62a8fb7d6cf87877eb5c3db10ad5509fa40e763",
+    "after-c1-run.png": "04f191e4e6b050984645c8b7800edc4a3ef160dc4bb9315b764f117cd6374990",
+    "after-c1.png": "9cbd154af30d9fa48a5bd88952e4ded1122ff9ec9dac8549c9753ca438fec9fd",
+    "after-g3-en.png": "5f0c040697e1d94c699d753bef183d10459b17a7606003e1edb0f83fdc67f945",
+    "after-g3.png": "2ef6e96c3e04313588ca88c4c77b98cfbed1a2f6e470260592a9c75336a938f0",
+    "after-p1-en.png": "8f0813daa7874dd190d4b9df0896201a080ecd988b6ec14d8e4ed77f717e7f9d",
+    "after-p1.png": "3a983acfe7e7b97db889af2ea74a17b7ac6bcdd30f5d0e083322dd3440e085d2",
+    "before-c1-run.png": "d08b19b6eeb7d7fbe31fe5ecce96727e722d23799eb9a85a68ec634df3cd2c6a",
+    "before-c1.png": "5f72d247f2c38c90e6ee30d1c6f8a76a6040915fa27fbc045af9ffee28ee7b85",
+    "before-g3.png": "5f01a23a727ff625512133fdcb99762b6a5c706c15725637586db7d9fd3c1796"
+  },
+  "headless": {
+    "suites": 9,
+    "checks": 1502,
+    "failures": 0,
+    "logs": ".godot/verification/20261107T164532Z-d0392a31",
+    "scope": "Before final cue offset only; final offset covered by GPU, captures and final-headless-workbench.txt"
+  },
+  "gpu": {
+    "test_creation_workbench": {
+      "checks": 461,
+      "failures": 0,
+      "log": ".godot/verification/20261107T164532Z-d0392a31/gpu-workbench.txt"
+    }
+  },
+  "round1_headless": {
+    "suites": 9,
+    "checks": 1502,
+    "failures": 0,
+    "logs": ".godot/verification/20261107T162356Z-9525f34e"
+  },
+  "round1_gpu": {
+    "test_creation_workbench": {
+      "checks": 461,
+      "failures": 0
+    },
+    "test_late_settings_localization": {
+      "checks": 511,
+      "failures": 0
+    },
+    "test_cpg_connection_fragment": {
+      "failures": [
+        "Actual role feedback owns the original viewport and focus",
+        "First Escape closes feedback only and returns the exact original step focus",
+        "Second genuine-focus Escape collapses only the optional CPG fragment",
+        "Escape outside the fragment does not steal the original Host input",
+        "Actual role feedback owns the original viewport and focus",
+        "First Escape closes feedback only and returns the exact original step focus",
+        "Second genuine-focus Escape collapses only the optional CPG fragment",
+        "Escape outside the fragment does not steal the original Host input",
+        "Actual role feedback owns the original viewport and focus",
+        "First Escape closes feedback only and returns the exact original step focus",
+        "Second genuine-focus Escape collapses only the optional CPG fragment",
+        "Escape outside the fragment does not steal the original Host input"
+      ],
+      "baseline_failures": [
+        "Actual role feedback owns the original viewport and focus",
+        "First Escape closes feedback only and returns the exact original step focus",
+        "Second genuine-focus Escape collapses only the optional CPG fragment",
+        "Escape outside the fragment does not steal the original Host input",
+        "Actual role feedback owns the original viewport and focus",
+        "First Escape closes feedback only and returns the exact original step focus",
+        "Second genuine-focus Escape collapses only the optional CPG fragment",
+        "Escape outside the fragment does not steal the original Host input",
+        "Actual role feedback owns the original viewport and focus",
+        "First Escape closes feedback only and returns the exact original step focus",
+        "Second genuine-focus Escape collapses only the optional CPG fragment",
+        "Escape outside the fragment does not steal the original Host input"
+      ],
+      "identical_order": true
+    }
+  },
+  "evidence_files": {
+    "README.md": "fff3d7e42879f5e5b0413d2caf27229bb0908105b29fd50cd23d05530bc6f8c0",
+    "capture.gd": "b192d938b89c719c530c3b42e0fa034c8620ed874ce7d9cac78abb8ee1914dc0",
+    "round2-results.json": "93525de660bebf454bb0fc30e836220e0648d4193b617e9e6f6a4072d81c9108"
+  }
+}

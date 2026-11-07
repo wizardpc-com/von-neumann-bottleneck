@@ -13,6 +13,7 @@ var cursor: int = -1
 var page: int = 0
 var english: bool = false
 var stage_done: Array = [false,false,false,false]
+var stage_details: Array = ["", "", "", ""]
 var _cells: Array[Dictionary] = []
 
 func _ready() -> void:
@@ -45,12 +46,21 @@ func _draw() -> void:
 	var lane_height: float = (size.y - 24) / 3
 	if output_length() == 0:
 		var names: Array = ["样例", "冻结规则", "输出", "已保存作品"] if not english else ["Examples", "Frozen rules", "Output", "Saved works"]
-		var gap: float = size.x / 4.0
+		var gap: float = 24
+		var card_width: float = minf(168,(size.x-5*gap)/4)
+		var card_height: float = 92
+		var origin := Vector2((size.x-(4*card_width+3*gap))/2,(size.y-card_height)/2)
 		for index: int in 4:
-			var rect := Rect2(index*gap+12,size.y/2.0-25,gap-28,50)
-			draw_style_box(InstrumentTheme.surface(Color("112432"),Color("6ce2de") if stage_done[index] else Color("365463"),8),rect)
-			draw_string(font,rect.position+Vector2(12,31),("✓ " if stage_done[index] else "→ " if index == stage_done.find(false) else "")+names[index],HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("6ce2de") if stage_done[index] else Color("a9bbc9"))
-			if index < 3: draw_line(rect.end-Vector2(0,25),rect.end+Vector2(28,-25),Color("536674"),2)
+			var rect := Rect2(origin+Vector2(index*(card_width+gap),0),Vector2(card_width,card_height))
+			var ink := Color("6ce2de") if stage_done[index] else Color("a9bbc9")
+			draw_style_box(InstrumentTheme.surface(Color("112432"),Color("365463"),8),rect)
+			var title: String = ("✓ " if stage_done[index] else "→ " if index == stage_done.find(false) else "")+names[index]
+			var title_width: float = font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,18).x
+			draw_string(font,rect.position+Vector2((card_width-title_width)/2,38),title,HORIZONTAL_ALIGNMENT_LEFT,-1,18,ink)
+			var detail: String = stage_details[index]
+			var detail_width: float = font.get_string_size(detail,HORIZONTAL_ALIGNMENT_LEFT,-1,13).x
+			draw_string(font,rect.position+Vector2((card_width-detail_width)/2,64),detail,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("8fa3ad"))
+			if index < 3: draw_line(rect.position+Vector2(card_width,card_height/2),rect.position+Vector2(card_width+gap,card_height/2),Color("536674"),1)
 		return
 	for lane_index: int in 3:
 		var y: float = lane_index * lane_height
@@ -74,13 +84,13 @@ func _draw() -> void:
 				2: draw_colored_polygon(PackedVector2Array([center+Vector2(0,-5),center+Vector2(5,4),center+Vector2(-5,4)]),color)
 				3: draw_polyline(PackedVector2Array([center+Vector2(0,-5),center+Vector2(5,0),center+Vector2(0,5),center+Vector2(-5,0),center+Vector2(0,-5)]),color,1.8,true)
 				_: draw_line(center-Vector2(4,0),center+Vector2(4,0),color,1.5)
-			draw_string(font,rect.position+Vector2(17,14),["A","B","C","D"][value] if value >= 0 and value < 4 else "?",HORIZONTAL_ALIGNMENT_LEFT,-1,11,color)
+			draw_string(font,rect.position+Vector2(17,14),["A","B","C","D"][value] if value >= 0 and value < 4 else "?",HORIZONTAL_ALIGNMENT_LEFT,-1,13,color)
 			if lane_index == 2 and i in corrections:
 				draw_line(rect.position+Vector2(2,18),rect.position+Vector2(width-5,18),Color("eead67"),2)
 			_cells.append({"rect":rect,"index":i,"lane":lane_index})
 	var last: int = mini(start+count,output_length())
 	if output_length() > 0:
-		draw_string(font,Vector2(10,size.y-5),"%d–%d / %d"%[start+1,last,output_length()],HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("8fa3ad"))
+		draw_string(font,Vector2(10,size.y-5),"%d–%d / %d"%[start+1,last,output_length()],HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("8fa3ad"))
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:

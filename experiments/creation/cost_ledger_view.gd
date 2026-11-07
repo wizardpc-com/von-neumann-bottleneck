@@ -41,17 +41,17 @@ func _draw() -> void:
 		for row: int in 2:
 			var codec: String = Ledger.CODECS[row]
 			var top: float = y+10+row*27
-			draw_string(font,Vector2(0,top+14),"RAW" if row == 0 else ("Predictive" if english else "预测包"),HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("a9bbc9"))
+			draw_string(font,Vector2(0,top+14),"RAW" if row == 0 else ("Predictive" if english else "预测包"),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("a9bbc9"))
 			var result: Dictionary = snapshot.results[codec]
 			if not result.ok:
-				draw_string(font,Vector2(left,top+14),"not completed" if english else "未完成",HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("eead67"))
+				draw_string(font,Vector2(left,top+14),"not completed" if english else "未完成",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("eead67"))
 				continue
 			draw_rect(Rect2(left,top,width,18),Color("112432"))
 			for piece: Dictionary in bar_geometry(codec,metric,width):
 				if piece.width>0: draw_rect(Rect2(left+float(piece.x),top,float(piece.width),18),COLORS.get(piece.phase,Color("6ce2de")))
-			draw_string(font,Vector2(left+width+6,top+14),str(Ledger.total(snapshot,codec,metric)),HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("dce6ef"))
+			draw_string(font,Vector2(left+width+6,top+14),str(Ledger.total(snapshot,codec,metric)),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("dce6ef"))
 	var x: float = 0
 	for phase: String in Ledger.PHASES:
 		draw_rect(Rect2(x,195,9,9),COLORS[phase])
-		draw_string(font,Vector2(x+14,204),Ledger.phase_name(phase,english),HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("a9bbc9"))
+		draw_string(font,Vector2(x+14,204),Ledger.phase_name(phase,english),HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("a9bbc9"))
 		x += 80 if english else 63

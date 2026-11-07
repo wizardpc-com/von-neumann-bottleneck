@@ -55,7 +55,7 @@ func make_label(value: String, parent: Node, font_size: int = 14) -> Label:
 	result.text = value
 	result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	result.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	result.add_theme_font_size_override("font_size",font_size)
+	result.add_theme_font_size_override("font_size",maxi(13,font_size))
 	parent.add_child(result)
 	return result
 

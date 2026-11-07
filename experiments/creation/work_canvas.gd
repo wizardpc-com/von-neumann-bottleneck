@@ -76,10 +76,10 @@ func draw_phrases(font: Font) -> void:
 		var end: int = mini(start+columns,output.size())
 		var right: float = PHRASE_LEFT+columns*cell_size
 		draw_style_box(panel,Rect2(8,top+8,size.x-16,160))
-		draw_string(font,Vector2(PHRASE_LEFT,top+25),"%d — %d"%[start+1,end],HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(ink,0.55))
+		draw_string(font,Vector2(PHRASE_LEFT,top+25),"%d — %d"%[start+1,end],HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color(ink,0.55))
 		for lane: int in 4:
 			var y: float = top+LANE_TOP+lane*LANE_PITCH
-			draw_string(font,Vector2(18,y+4),["A","B","C","D"][lane],HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color(COLORS[lane],0.65))
+			draw_string(font,Vector2(18,y+4),["A","B","C","D"][lane],HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color(COLORS[lane],0.65))
 			draw_line(Vector2(PHRASE_LEFT,y),Vector2(right-3,y),Color(COLORS[lane],0.08),1.0,true)
 		for index: int in range(start,end):
 			var rect: Rect2 = cell_rect(index)
@@ -103,10 +103,10 @@ func draw_phrases(font: Font) -> void:
 				draw_circle(center,1.5,Color(color,0.20))
 			if selected == index: draw_arc(center,9,0,TAU,24,ink,1.3,true)
 			var caption: String = str(index+1)
-			var number_width: float = font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,10).x
-			draw_string(font,Vector2(rect.get_center().x-number_width/2,top+157),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color(ink,0.90 if selected == index else 0.42))
+			var number_width: float = font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13).x
+			draw_string(font,Vector2(rect.get_center().x-number_width/2,top+157),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color(ink,0.90 if selected == index else 0.42))
 		# A phrase break is a viewing fold, not a gap in the output sequence.
-		if end < output.size(): draw_string(font,Vector2(right-14,top+25),"↳",HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color(ink,0.55))
+		if end < output.size(): draw_string(font,Vector2(right-14,top+25),"↳",HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color(ink,0.55))
 
 func phrase_panel() -> StyleBoxFlat:
 	var panel := StyleBoxFlat.new()
@@ -137,7 +137,7 @@ func _draw() -> void:
 		var radius: float = minf(6,cell_size*0.17)
 		draw_symbol(center,radius,value,color)
 		if cell_size >= 28:
-			draw_string(font,rect.position+Vector2(cell_size*0.62,cell_size*0.62),["A","B","C","D"][clampi(value,0,3)],HORIZONTAL_ALIGNMENT_LEFT,-1,12,color)
+			draw_string(font,rect.position+Vector2(cell_size*0.62,cell_size*0.62),["A","B","C","D"][clampi(value,0,3)],HORIZONTAL_ALIGNMENT_LEFT,-1,13,color)
 		if selected == index: draw_rect(rect,Color("e2ebef"),false,2)
 
 func _gui_input(event: InputEvent) -> void:

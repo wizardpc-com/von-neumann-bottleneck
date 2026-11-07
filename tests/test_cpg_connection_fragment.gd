@@ -220,7 +220,7 @@ func matrix(host: Control,locale: String) -> void:
 		var playback_note: Label
 		for child: Node in host.play_button.get_parent().get_children():
 			if child is Label: playback_note=child
-		check(playback_note!=null and fully_visible(playback_note) and playback_note.get_theme_font_size("font_size")==12,"The original playback explanation remains visible at 12px: "+suffix)
+		check(playback_note!=null and fully_visible(playback_note) and playback_note.get_theme_font_size("font_size")==13,"The original playback explanation remains visible at 13px: "+suffix)
 		check(fully_visible(host.journey_context.verify_label) and host.journey_context.verify_label.get_theme_font_size("font_size")==16,"Default original Verify remains visible at its original body size: "+suffix)
 		check(host.signal_view.custom_minimum_size==Vector2(400,216) and fully_visible(host.signal_view),"Default original signal keeps its exact minimum and visible viewport: "+suffix)
 		check(fully_visible(host.find_child("ModeActions",true,false)) and fully_visible(host.status),"The original run actions and result status remain inside the default viewport: "+suffix)

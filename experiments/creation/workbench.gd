@@ -15,10 +15,10 @@ const SignalView = preload("res://experiments/creation/signal_view.gd")
 const ConnectionFragment = preload("res://experiments/creation/cpg_connection_fragment.gd")
 const Typography = preload("res://src/ui/ui_typography.gd")
 const OPENING_GUIDANCE := [
-	["先选一段样例，再点「学习」。", "Select an example, then press Learn."],
-	["已选 %d 段样例。点「学习」，让规则盒从中找出规律。", "%d examples selected. Press Learn so the rule box can find the pattern."],
-	["已打开上次保存的作品。可以回看，也可以从配方另开草稿。", "Your last saved work is open. View it or fork its recipe into a new draft."],
-	["草稿和已学规则已打开。按上方提示继续运行。", "Draft and learned rules loaded. Follow the next action above."],
+	["尚未选择样例。", "No examples selected."],
+	["已选 %d 段样例。", "%d examples selected."],
+	["已打开上次保存的作品。", "Your last saved work is open."],
+	["草稿和已学规则已打开。", "Draft and learned rules loaded."],
 ]
 var work_focus: Window
 var work_focus_return: Control
@@ -46,6 +46,7 @@ var playing: bool = false
 var playback_elapsed: float = 0
 var previous_auto_quit: bool = true
 var leaving_to_hub: bool = false
+var leaving_to_lab: bool = false
 var status_text: String = ""
 var evidence_expanded: bool = false
 var more_tools: bool = false
@@ -177,7 +178,7 @@ func label(value: String, parent: Node, font_size: int = 14) -> Label:
 	var node := Label.new()
 	node.text = value
 	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	node.add_theme_font_size_override("font_size",font_size)
+	node.add_theme_font_size_override("font_size",maxi(13,font_size))
 	parent.add_child(node)
 	return node
 
@@ -187,6 +188,7 @@ func button(value: String, handle: String, parent: Node, action: Callable) -> Bu
 	node.text = value
 	node.custom_minimum_size.y = 36
 	node.pressed.connect(action)
+	InstrumentTheme.tool(node)
 	parent.add_child(node)
 	return node
 
@@ -245,22 +247,24 @@ func build() -> void:
 	title.clip_text = true
 	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	# Long enough for "Chapter 10 · Creation" without trimming.
-	title.custom_minimum_size.x = 150 if not english else 240
+	title.custom_minimum_size.x = 140 if not english else (310 if task >= 3 and task < 6 else 270)
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_build_arc_stepper(header)
-	header.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
 	button(text2("保存草稿","Save draft"),"SaveDraft",header,save_draft).disabled = not writable
 	button(text2("旅程地图","Journey map"),"Journey",header,func() -> void: request_leave(true))
+	button(text2("实验室","Laboratory"),"Laboratory",header,func() -> void: request_leave(true,true))
 	header.add_child(get_node("/root/WindowMode").settings_button())
-	button(text2("退出游戏","Quit"),"Quit",header,func() -> void: request_leave(false))
+	var quit := button(text2("退出游戏","Quit"),"Quit",header,func() -> void: request_leave(false))
+	quit.visible = not get_node("/root/TaskNavigation").from_tree
+	preload("res://src/ui/workbench_chrome.gd").quit_style(quit)
 	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	if not writable: _build_writer_controls(page)
 	var navigation := HBoxContainer.new()
 	navigation.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
-	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, header, "creation", Catalog.IDS[task])
-	header.move_child(terminology_handbook.entry_button,1)
-	page.add_child(navigation)
+	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, navigation, "creation", Catalog.IDS[task])
+	InstrumentTheme.tool(terminology_handbook.entry_button)
+
 	task_choice = OptionButton.new()
 	task_choice.name = "Unit"
 	task_choice.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -270,11 +274,11 @@ func build() -> void:
 	task_choice.select(task)
 	task_choice.item_selected.connect(change_task)
 	navigation.add_child(task_choice)
-	button("中文 / EN","Language",navigation,toggle_language)
+	task_choice.hide()
+	button("中文 / EN","Language",navigation,toggle_language).hide()
+	navigation.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
 	button(text2("撤销","Undo"),"UndoDraft",navigation,func() -> void: restore_draft_history(false))
 	button(text2("重做","Redo"),"RedoDraft",navigation,func() -> void: restore_draft_history(true))
-	button(text2("上一单元","Previous"),"Previous",navigation,func() -> void: change_task(maxi(0,task-1)))
-	button(text2("下一单元","Next"),"Next",navigation,func() -> void: change_task(mini(8,task+1)))
 	var guide := HBoxContainer.new()
 	guide.name = "NextStep"
 	page.add_child(guide)
@@ -284,9 +288,15 @@ func build() -> void:
 	guide.add_child(guide_copy)
 	var mission: Label = label(Catalog.workbench_goal(task,english),guide_copy,12)
 	mission.name = "Mission"
+	mission.hide()
+	guide.tooltip_text = mission.text
 	mission.add_theme_color_override("font_color",Color("a9bbc9"))
 	next_step_label = label("",guide_copy,14)
 	next_step_label.name = "NextStepText"
+	next_step_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	next_step_label.clip_text = true
+	next_step_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	guide.add_child(navigation)
 	next_step_button = button("","NextStepAction",guide,advance_step)
 	next_step_button.custom_minimum_size.x = 164
 	InstrumentTheme.primary(next_step_button)
@@ -302,14 +312,12 @@ func build() -> void:
 	edit_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	edit_tabs.use_hidden_tabs_for_min_size = false
 	left.add_child(edit_tabs)
-	_build_examples(scroll_column(tab(edit_tabs,text2("样例与记忆","Examples / history"))))
-	_build_machine(scroll_column(tab(edit_tabs,text2("机器与材料","Machine / material"))))
-	_build_generation(scroll_column(tab(edit_tabs,text2("创作配方","Creation recipe"))))
+	_build_examples(scroll_column(tab(edit_tabs,text2("样例与记忆","Examples"))))
+	_build_machine(scroll_column(tab(edit_tabs,text2("机器与材料","Machine"))))
+	_build_generation(scroll_column(tab(edit_tabs,text2("创作配方","Recipe"))))
 	if task >= 6: edit_tabs.current_tab = 2
 	if task == 2: edit_tabs.current_tab = 1
 	train_button = button(text2("从当前样例学习","Learn selected examples"),"Train",left,train_model)
-	var learn_note: Label = label(text2("改了样例，记得再点一次「学习」。","After changing examples, press Learn again."),left,12)
-	learn_note.add_theme_color_override("font_color",Color("8fa3ad"))
 	var right: VBoxContainer = panel(body,"SignalEvidence")
 	right.add_theme_constant_override("separation",4)
 	var evidence_header := HBoxContainer.new()
@@ -564,7 +572,7 @@ func begin_sample_edit(index: int) -> void:
 	build()
 	_restore_editor_state(editor_state)
 	call_deferred("focus_sample_editor",true)
-	set_status(text2("正在修改第 %d 段；确认替换后，再学习并检查真实计数与输出。", "Editing passage %d; replace, then learn and inspect actual counts and output.")%[index+1])
+	set_status(text2("正在修改第 %d 段。", "Editing passage %d.")%[index+1])
 
 func focus_sample_editor(select_text: bool = false) -> void:
 	await get_tree().process_frame
@@ -604,7 +612,7 @@ func apply_sample_edit() -> void:
 	sample_edit_source.clear()
 	sample_edit_selection.clear()
 	rebuild_editor_preserving_inputs()
-	set_status(text2("这一段已替换；其他样例与已学模型保留。点「学习」更新规则，再运行B。", "Passage replaced; other examples and learned rules stay intact. Learn to update rules, then run B.") if changed else text2("这一段没有变化；已学模型和输出保留。", "This passage is unchanged; learned rules and output stay intact."))
+	set_status(text2("这一段已替换；其他样例与已学模型保留。", "Passage replaced; other examples and learned rules stay intact.") if changed else text2("这一段没有变化；已学模型和输出保留。", "This passage is unchanged; learned rules and output stay intact."))
 
 func cancel_sample_edit() -> void:
 	sample_edit_index = -1
@@ -932,7 +940,7 @@ func failure_text(result: Dictionary) -> String:
 
 func edit_draft() -> void:
 	session.mark_dirty()
-	set_status(text2("草稿已改；已学模型和已保存作品保留。样例或记忆改变后需主动重新学习。","Draft changed; learned rules and saved works remain. Learn again explicitly after changing examples or history."))
+	set_status(text2("草稿已改；已学模型和已保存作品保留。","Draft changed; learned rules and saved works remain."))
 	refresh()
 	if is_instance_valid(journey_context): journey_context.draft_changed()
 
@@ -981,7 +989,7 @@ func transport(chosen_codec: String) -> void:
 	records.append({"kind":"transport","codec":chosen_codec,"source_kind":source_kind,"source_id":JSON.stringify(latest.source).sha256_text(),"source_length":latest.source.size(),"model_id":str(result.get("model_id","")),"machine":session.data.draft.machine.duplicate(true),"cost":result.cost.duplicate(true),"metrics":result.metrics.duplicate(true)})
 	if bool(result.get("lossless",false)):
 		session.complete(Catalog.IDS[task] if task < 3 else "C1_restore",{"model_id":result.get("model_id",""),"codec":chosen_codec,"lossless":true,"cost":result.cost.duplicate(true),"metrics":result.metrics.duplicate(true)})
-	set_status(text2("包已抵达，接收端独立复原。原文逐项一致：","Packet arrived; receiver restored independently. Exact equality: ")+str(result.get("lossless",false)))
+	set_status(text2("包已抵达，接收端独立复原。原文核对：","Packet arrived; receiver restored independently. Source check: ")+(text2("一致","match") if result.get("lossless",false) else text2("不一致","mismatch")))
 	if task in [1,2] and not session.data.supports.has(Catalog.IDS[task]):
 		set_status(status_text+" · "+(text2("同条件再运行另一codec，才形成字节对照。","Run the other codec under the same conditions for a byte comparison.") if task == 1 else text2("保持原文/模型/codec，改机器再运行，才形成成本对照。","Keep source/model/codec; change the machine and rerun for a cost comparison.")))
 	_playtest_completion()
@@ -1026,7 +1034,7 @@ func commit_prediction() -> void:
 		return
 	latest = session.prediction_evidence()
 	latest.kind = "prediction"
-	set_status(text2("预测已提交，真值尚未进入界面。现在可揭晓。","Prediction committed; truth has not entered the UI. Reveal when ready."))
+	set_status(text2("预测已提交，真值尚未进入界面。","Prediction committed; truth has not entered the UI."))
 	_remember_connection("prediction")
 	refresh()
 	refresh_tracks(true)
@@ -1238,6 +1246,7 @@ func refresh() -> void:
 	refresh_tools()
 	if is_instance_valid(signal_view):
 		signal_view.stage_done = [not session.data.draft.examples.is_empty(), not session.data.model.is_empty(), not session.generated.is_empty(), not session.data.works.is_empty()]
+		signal_view.stage_details = [text2("已选 %d 段","%d selected") % session.data.draft.examples.size(), text2("已冻结","Frozen") if not session.data.model.is_empty() else text2("未学习","Not learned"), text2("%d 格","%d cells") % session.generated.size(), text2("%d 份","%d works") % session.data.works.size()]
 		signal_view.queue_redraw()
 	_refresh_journey_context()
 	_refresh_connection_fragment()
@@ -1390,7 +1399,7 @@ func measurement_text() -> String:
 		var observed: Dictionary = session.prediction
 		lines.append("%s · %s · %d / %d"%[str(observed.get("kind","")),text2("已揭晓命中/总数","revealed hits/total"),int(observed.get("hits",0)),observed.get("rows",[]).size()])
 		if not observed.get("rows",[]).is_empty(): lines.append(cost_text(observed.rows[-1].cost))
-		lines.append(text2("本轮开始前，检查答案已见：","Check answers seen before this run: ")+str(observed.get("seen",false)))
+		lines.append(text2("本轮开始前，检查答案：","Check answers before this run: ")+(text2("已见","seen") if observed.get("seen",false) else text2("未见","unseen")))
 		lines.append(text2("这只统计已揭晓部分，下一格还未知。","Only revealed observations are counted; the next cell is unknown."))
 	elif latest.has("cost"):
 		lines.append(text2("当前运行：","Current run: ")+cost_text(latest.cost))
@@ -1412,7 +1421,7 @@ func measurement_text() -> String:
 			if record.kind == "transport":
 				lines.append("%s · N=%d · %s · CPU %s / bus %s / cache %s / req %s · %s"%[record.codec,record.source_length,str(record.source_id).substr(0,8),str(record.machine.cpu_ops_per_cycle),str(record.machine.bytes_per_cycle),str(record.machine.cache_rows),str(record.machine.request_cycles),cost_text(record.cost)])
 			elif record.kind == "prediction":
-				lines.append("%s · %s %s · %s · %d / %d · %s %s · %s"%[record.check_kind,text2("记忆","history"),str(record.order),str(record.model_id).substr(0,8),record.hits,record.total,text2("已见检查","seen check"),str(record.seen),cost_text(record.cost)])
+				lines.append("%s · %s %s · %s · %d / %d · %s %s · %s"%[record.check_kind,text2("记忆","history"),str(record.order),str(record.model_id).substr(0,8),record.hits,record.total,text2("已见检查","seen check"),(text2("已见","seen") if record.seen else text2("未见","unseen")),cost_text(record.cost)])
 			else:
 				lines.append(text2("学习","learning")+" · "+str(record.model_id).substr(0,8)+" · "+text2("记忆 ","history ")+str(record.order)+" · "+cost_text(record.cost))
 	if not pinned_creation.is_empty():
@@ -1739,8 +1748,9 @@ func _build_leave_dialog() -> void:
 		if action == &"discard": finish_leave())
 	add_child(leave_dialog)
 
-func request_leave(to_hub: bool) -> void:
+func request_leave(to_hub: bool, to_lab: bool = false) -> void:
 	leaving_to_hub = to_hub
+	leaving_to_lab = to_lab
 	if has_pending_sample_text(): sample_leave_dialog.popup_centered(Vector2i(560,250))
 	else: request_saved_draft_leave()
 
@@ -1777,7 +1787,7 @@ func focus_initial_editor() -> void:
 func finish_leave() -> void:
 	if leaving_to_hub:
 		var navigation := get_node_or_null("/root/TaskNavigation")
-		if navigation != null and navigation.return_to_tree(): return
+		if navigation != null and not leaving_to_lab and navigation.return_to_tree(): return
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn")
 	else: get_tree().quit()
 
@@ -2257,6 +2267,9 @@ func _playtest_run(result: Dictionary) -> void:
 func _playtest_completion() -> void:
 	if session.data.supports.has(String(_playtest_id())):
 		preload("res://src/ui/ui_cue.gd").met(self, cue_completed.has(String(_playtest_id())))
+		var cue := get_node("UiMetCue") as Control
+		# Keep the transient cue in the summary margin, clear of navigation and canvas input.
+		cue.position = provenance.global_position - global_position + Vector2(provenance.size.x-cue.size.x-16, 0)
 		cue_completed = session.data.supports.duplicate(true)
 		get_node("/root/PlaytestData").level_completed(&"creation",_playtest_id())
 	_refresh_journey_context()
@@ -2346,8 +2359,9 @@ func _build_arc_stepper(parent: Node) -> void:
 	stepper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stepper.alignment = BoxContainer.ALIGNMENT_CENTER
 	stepper.add_theme_constant_override("separation",2)
-	stepper.clip_contents = true
+	stepper.clip_contents = false
 	parent.add_child(stepper)
+	button("‹","Previous",stepper,func() -> void: change_task(maxi(0,task-1)))
 	var groups: Array = [[text2("压缩","Compress"),0],[text2("内容预测","Predict"),3],[text2("创造","Create"),6]]
 	for group: Array in groups:
 		# The header title already names the chapter; chip tooltips name each unit.
@@ -2357,14 +2371,20 @@ func _build_arc_stepper(parent: Node) -> void:
 			var chip := Button.new(); chip.name = "ArcStep"+str(index)
 			chip.text = ("✓" if done else "") + Catalog.number(index)
 			chip.tooltip_text = Catalog.title(index,english)
-			chip.custom_minimum_size = Vector2(40,28)
-			chip.add_theme_font_size_override("font_size",12)
+			chip.custom_minimum_size = Vector2(36,30)
+			chip.add_theme_font_size_override("font_size",13)
 			chip.tooltip_text = str(group[0]) + " · " + Catalog.title(index,english)
 			chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			chip.toggle_mode = true
 			chip.set_pressed_no_signal(index == task)
 			chip.focus_mode = Control.FOCUS_NONE
-			if index == task: chip.add_theme_color_override("font_color",Color("111a21"))
+			InstrumentTheme.tool(chip)
+			for state: String in ["normal","hover","pressed","hover_pressed","disabled"]:
+				var style: StyleBox = chip.get_theme_stylebox(state).duplicate()
+				style.content_margin_left = 4
+				style.content_margin_right = 4
+				chip.add_theme_stylebox_override(state,style)
+			if index == task: chip.add_theme_color_override("font_color",InstrumentTheme.ACCENT)
 			elif done: chip.add_theme_color_override("font_color",Color("ffd27a"))
 			var target: int = index
 			chip.pressed.connect(func() -> void: change_task(target))
@@ -2373,10 +2393,16 @@ func _build_arc_stepper(parent: Node) -> void:
 			var arrow := Label.new(); arrow.text = "→"
 			arrow.add_theme_color_override("font_color",Color("4fa7b5"))
 			stepper.add_child(arrow)
+	button("›","Next",stepper,func() -> void: change_task(mini(8,task+1)))
 
 func refresh_tools() -> void:
 	var tabs := find_child("EvidenceTabs",true,false) as TabContainer
-	if tabs != null: tabs.tabs_visible = more_tools or evidence_expanded or not latest.is_empty()
+	if tabs != null:
+		tabs.tabs_visible = more_tools or evidence_expanded or not latest.is_empty()
+		tabs.visible = tabs.tabs_visible or task < 6
+		tabs.size_flags_vertical = Control.SIZE_FILL if not tabs.tabs_visible and task >= 6 else Control.SIZE_EXPAND_FILL
+	if is_instance_valid(signal_view): signal_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	if is_instance_valid(signal_area): signal_area.size_flags_vertical = Control.SIZE_EXPAND_FILL if not evidence_expanded and latest.is_empty() and task >= 6 else Control.SIZE_FILL
 	for handle: String in ["CompareTransport","TrainingPassage","Memorize"]:
 		var action := find_child(handle,true,false) as Control
 		if action != null: action.visible = more_tools

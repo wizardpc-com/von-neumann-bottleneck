@@ -123,7 +123,7 @@ func _run() -> void:
 	_assert(graph.get_connection_list().size() == 6, "Fixed topology must contain all six programmatic links.")
 	_assert(instruments.size() == 7, "Chapter 2 must retain the four v0.2 instruments and add Mission, Work Group, and Notebook.")
 	for id: StringName in instruments:
-		_assert((instruments[id] as Control).visible == (id in [&"mission", &"cache"]), "Mission and the available storage tool should open automatically when a Chapter 2 level starts (%s)." % id)
+		_assert((instruments[id] as Control).visible == (id == &"mission"), "The task opens alone; storage options remain available on demand (%s)." % id)
 	var chapter2_mission: Control = instruments[&"mission"]
 	var chapter2_mission_minimize: Button = chapter2_mission.find_child("MinimizeButton", true, false)
 	_assert(not chapter2_mission_minimize.visible and (main.get("mission_title_label") as Label).get_theme_font_size("font_size") == UiTypographyType.TITLE_SIZE and (main.get("mission_objective_label") as RichTextLabel).get_theme_font_size("font_size") == UiTypographyType.BODY_SIZE, "Chapter 2 Mission must use the shared title/body sizes and omit minimization.")

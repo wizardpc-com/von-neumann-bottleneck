@@ -13,10 +13,46 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 
 func run() -> void:
+	root.size = Vector2i(1280, 720)
 	root.get_node("GameMode").set_mode(&"test")
 	var main = load("res://src/ui/main.tscn").instantiate()
 	root.add_child(main)
 	await process_frame
+	for level: StringName in [&"distant_reads", &"nearby_storage", &"cache_failure"]:
+		main._start_level(level)
+		if level == &"nearby_storage": main._select_cache(1, false)
+		for frame: int in 4: await process_frame
+		check(not main.trace_progress.visible and not main.pause_button.visible, "Pending replay has no empty progress bar or unavailable controls.")
+		main.instrument_open_buttons[&"test_bench"].pressed.emit()
+		for frame: int in 4: await process_frame
+		check(main.current_trace != null and main.current_trace.test_name == "Official Test Set" and main.playback_running, "One toolbar press runs the existing formal workload.")
+		check(not main.instrument_windows[&"mission"].visible and main.instrument_windows[&"test_bench"].visible, "Results yield the task window.")
+		check(main.trace_progress.visible and main.pause_button.visible, "Recorded replay exposes its controls and progress.")
+		var band: Vector2 = preload("res://src/ui/instrument_dock.gd").free_band(main.graph.size, main.instrument_windows)
+		for node: GraphNode in main.device_nodes.values():
+			if not node.visible: continue
+			var left: float = node.position_offset.x * main.graph.zoom - main.graph.scroll_offset.x
+			check(left >= band.x and left + node.size.x * main.graph.zoom <= band.y, "Every machine node fits the free canvas during replay.")
+		check(main.trace_progress.get_global_rect().end.x <= main.terminology_handbook.entry_button.get_global_rect().position.x - 4, "Full replay progress ends before the Handbook button.")
+		var window = main.instrument_windows[&"test_bench"]
+		var body = window.content_host.get_child(0).get_child(1).get_child(0)
+		check(window.size.y <= body.get_combined_minimum_size().y + 110, "Result bench fits its existing content without an empty lower half.")
+		main.playback_running = false
+		for event in main.current_trace.events:
+			main._draw_event(event, 0.5)
+			var points: PackedVector2Array = main.trace_overlay.primary_path
+			if points.size() < 2: continue
+			var caption: Rect2 = main.trace_overlay.caption_rect(points, main._event_short_label(event))
+			check(caption.has_area(), "Each authored event has room for its wire caption.")
+			for node: GraphNode in main.device_nodes.values():
+				if not node.visible: continue
+				var node_rect := Rect2(node.global_position - main.trace_overlay.global_position, node.size * main.graph.zoom)
+				check(not caption.intersects(node_rect), "Wire caption avoids every node, including CPU, RAM and near storage.")
+		var recorded: String = main.current_trace.canonical_signature()
+		main._open_instrument(&"mission", true)
+		check(main.instrument_windows[&"mission"].visible and not main.instrument_windows[&"test_bench"].visible, "Task returns on demand and yields results.")
+		check(main.current_trace.canonical_signature() == recorded, "Window navigation does not change the measured trace.")
+	main.session_previous_runs.clear()
 	main._start_level(&"access_order")
 	await process_frame
 	main._open_instrument(&"test_bench")

@@ -21,6 +21,43 @@ const ChapterMapViewType = preload("res://src/system_lab/system_chapter_map_view
 const LocalityLevelCatalogType = preload("res://src/locality_chapter/locality_level_catalog.gd")
 const LocalityRunReceiptType = preload("res://src/locality_chapter/locality_run_receipt.gd")
 
+class LocalityTraceOverlay extends TraceOverlayType:
+	var node_rects: Array[Rect2] = []
+
+	func caption_rect(points: PackedVector2Array, text: String) -> Rect2:
+		var extent := ThemeDB.fallback_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 14) + Vector2(10, 8)
+		var midpoint: Vector2 = _point_on_path(points, 0.5)
+		var preferred := midpoint - Vector2(extent.x * 0.5, extent.y + 14)
+		var candidates: Array[Vector2] = [preferred, midpoint + Vector2(-extent.x * 0.5, 14)]
+		for rect: Rect2 in node_rects:
+			candidates.append(Vector2(preferred.x, rect.position.y - extent.y - 8))
+			candidates.append(Vector2(preferred.x, rect.end.y + 8))
+		var best := Rect2()
+		var distance: float = INF
+		for candidate: Vector2 in candidates:
+			candidate.x = clampf(candidate.x, 4, maxf(4, size.x - extent.x - 4))
+			candidate.y = clampf(candidate.y, 4, maxf(4, size.y - extent.y - 4))
+			var rect := Rect2(candidate, extent)
+			var blocked: bool = false
+			for node_rect: Rect2 in node_rects:
+				if rect.intersects(node_rect.grow(6)):
+					blocked = true
+					break
+			if not blocked and candidate.distance_squared_to(preferred) < distance:
+				best = rect
+				distance = candidate.distance_squared_to(preferred)
+		return best
+
+	func _draw_packet(points: PackedVector2Array, progress: float, color: Color, text: String) -> void:
+		super._draw_packet(points, progress, color, "")
+		if text.is_empty(): return
+		var rect: Rect2 = caption_rect(points, text)
+		# Crowded or dragged layouts must never put a transient label over a node.
+		if not rect.has_area(): return
+		draw_rect(rect, Color(0.035, 0.047, 0.071, 0.94))
+		draw_string(ThemeDB.fallback_font, rect.position + Vector2(5, 4 + ThemeDB.fallback_font.get_ascent(14)), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.94, 0.97, 1.0))
+
+
 const PANEL_COLOR := Color("1a252e")
 const PANEL_DARK := Color("101725")
 const ACCENT := Color("7fcbd6")
@@ -99,7 +136,7 @@ var chapter_title_label: Label
 var chapter_subtitle_label: Label
 var workbench_goal_label: Label
 var graph: GraphEdit
-var trace_overlay: TraceOverlayType
+var trace_overlay: LocalityTraceOverlay
 var editor: CodeEdit
 var debug_inputs: Array[SpinBox] = []
 var debug_grid: GridContainer
@@ -138,6 +175,8 @@ var clock_period_control: SpinBox
 var mode_selector: GameModeSelectorType
 var fullscreen_button: FullscreenButtonType
 var trace_progress: ProgressBar
+var playback_panel: PanelContainer
+var playback_controls: HBoxContainer
 var official_run_button: Button
 var debug_run_button: Button
 var result_label: Label
@@ -485,7 +524,7 @@ func _build_workbench() -> Control:
 		var tool_button := Button.new()
 		tool_button.name = "%sToolButton" % String(tool_id).to_pascal_case()
 		tool_button.text = _t(StringName(tool[1]))
-		tool_button.toggle_mode = true
+		tool_button.toggle_mode = tool_id != &"test_bench"
 		tool_button.custom_minimum_size.y = UiTypographyType.TOOL_BUTTON_HEIGHT
 		tool_button.pressed.connect(_toggle_instrument.bind(tool_id))
 		instrument_open_buttons[tool_id] = tool_button
@@ -496,6 +535,7 @@ func _build_workbench() -> Control:
 	layout_button.pressed.connect(func() -> void: _auto_layout(true))
 	bar_row.add_child(layout_button)
 	InstrumentTheme.tool_row(bar_row)
+	InstrumentTheme.primary(instrument_open_buttons[&"test_bench"])
 	content.add_child(hardware_bar)
 
 	var stack := Control.new()
@@ -522,7 +562,7 @@ func _build_workbench() -> Control:
 	stack.add_child(graph)
 	_build_graph_nodes()
 
-	trace_overlay = TraceOverlayType.new()
+	trace_overlay = LocalityTraceOverlay.new()
 	trace_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	trace_overlay.z_index = 50
 	stack.add_child(trace_overlay)
@@ -1092,10 +1132,11 @@ func _build_cache_instrument() -> Control:
 
 func _build_playback_panel() -> Control:
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size.y = 135.0
+	playback_panel = panel
 	var content := VBoxContainer.new()
 	panel.add_child(content)
 	var controls := HBoxContainer.new()
+	playback_controls = controls
 	content.add_child(controls)
 	var heading := Label.new()
 	heading.text = _t(&"trace.playback.title")
@@ -1142,7 +1183,7 @@ func _build_playback_panel() -> Control:
 	run_summary_label.hide()
 	content.add_child(run_summary_label)
 	playback_label = Label.new()
-	playback_label.text = _t(&"trace.playback.empty")
+	playback_label.text = _t(&"state.not_run")
 	playback_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	playback_label.add_theme_color_override("font_color", MUTED)
 	content.add_child(playback_label)
@@ -1154,9 +1195,20 @@ func _build_playback_panel() -> Control:
 	trace_progress.custom_minimum_size.y = 9.0
 	trace_progress.add_theme_stylebox_override("background", _stylebox(Color("0b111d"), 4))
 	trace_progress.add_theme_stylebox_override("fill", _stylebox(ACCENT, 4))
-	content.add_child(trace_progress)
+	var progress_margin := MarginContainer.new()
+	progress_margin.add_theme_constant_override("margin_right", 132)
+	progress_margin.add_child(trace_progress)
+	content.add_child(progress_margin)
 	preload("res://src/ui/instrument_theme.gd").tool_row(controls)
 	return panel
+
+
+func _set_playback_available(available: bool) -> void:
+	for child: Control in playback_controls.get_children():
+		if child != playback_controls.get_child(0):
+			child.visible = available
+	trace_progress.visible = available
+	playback_panel.custom_minimum_size.y = 135.0 if available else 0.0
 
 
 func _show_chapter_map() -> void:
@@ -1295,13 +1347,11 @@ func _start_level(level_id: StringName) -> void:
 	_auto_layout(false)
 	_invalidate_current_run(_t(&"workspace.model_changed" if restored.get("stale",false) else &"workspace.restored" if not restored.is_empty() else &"chapter2.status.level_ready"))
 	# Entering a task is not a change the player made: the playback bar starts neutral.
-	playback_label.text = _t(&"trace.playback.empty")
+	playback_label.text = _t(&"state.not_run")
 	playback_label.add_theme_color_override("font_color", MUTED)
 	_update_history_label()
 	_configure_mission()
 	_update_notebook()
-	if &"cache" in current_level.get("tools", []):
-		_open_instrument(&"cache")
 	_open_instrument(&"mission")
 
 
@@ -1838,6 +1888,9 @@ func _paired_baseline_receipt(level_id: StringName) -> Variant:
 
 
 func _toggle_instrument(id: StringName) -> void:
+	if id == &"test_bench":
+		_run_simulation("Official Test Set")
+		return
 	if not instrument_windows.has(id):
 		return
 	if instrument_windows[id].should_hide_on_toggle():
@@ -1852,6 +1905,10 @@ func _open_instrument(id: StringName, user_initiated: bool = false) -> void:
 	if not _tool_available(id):
 		_set_status(_t(&"chapter2.status.tool_unavailable"), MUTED)
 		return
+	if id == &"test_bench":
+		_close_instrument(&"mission")
+	elif id == &"mission" and instrument_windows[&"test_bench"].visible:
+		_close_instrument(&"test_bench")
 	# Task docks left, tools dock right on first opening; the machine keeps the middle.
 	InstrumentDock.place(instrument_windows[id], id, instrument_host.size, [&"mission"], [&"program", &"profiler", &"notebook"], instrument_windows)
 	instrument_windows[id].fit_to_parent(10.0)
@@ -1860,7 +1917,7 @@ func _open_instrument(id: StringName, user_initiated: bool = false) -> void:
 	if user_initiated:
 		PlaytestData.record_tool_opened(&"chapter_2", current_level_id, id)
 	var button: Button = instrument_open_buttons.get(id)
-	if button != null:
+	if button != null and button.toggle_mode:
 		button.set_pressed_no_signal(true)
 
 
@@ -2277,6 +2334,8 @@ func _run_simulation(test_name: String) -> void:
 	var mission_window: FloatingInstrumentPanel = instrument_windows.get(&"mission")
 	if mission_window != null and mission_window.visible:
 		_close_instrument(&"mission")
+	_open_instrument(&"test_bench")
+	_set_playback_available(true)
 	var data: Array[int] = []
 	if test_name == "Official Test Set":
 		data = SimulationCoreType.official_data_copy()
@@ -2378,6 +2437,19 @@ func _run_simulation(test_name: String) -> void:
 		GOOD if current_trace.passed and (target_cycles == 0 or current_goal_met or test_name == "Debug Data") else WARNING
 	)
 	_evaluate_level_completion()
+	call_deferred("_fit_result_bench")
+
+
+func _fit_result_bench() -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var window: FloatingInstrumentPanel = instrument_windows[&"test_bench"]
+	if window.minimized: return
+	var bench: Control = window.content_host.get_child(0)
+	var scroll: ScrollContainer = bench.get_child(1)
+	var body: Control = scroll.get_child(0)
+	window.size.y = bench.get_child(0).size.y + body.get_combined_minimum_size().y + 68.0
+	window.fit_to_parent(10.0)
 
 
 func _result_trace_event_index() -> int:
@@ -2960,6 +3032,10 @@ func _display_duration_for(event: SimulationEventType) -> float:
 
 
 func _draw_event(event: SimulationEventType, progress: float) -> void:
+	trace_overlay.node_rects.clear()
+	for node: GraphNode in device_nodes.values():
+		if node.visible:
+			trace_overlay.node_rects.append(Rect2(node.global_position - trace_overlay.global_position, node.size * graph.zoom))
 	var animation: Dictionary = _event_animation(event)
 	trace_overlay.show_event(
 		animation.get("path", PackedVector2Array()), animation.get("processing_ranges", []),
@@ -3393,6 +3469,7 @@ func _invalidate_current_run(reason: String) -> void:
 	next_evidence_button.disabled = true
 	finish_playback_button.disabled = true
 	trace_overlay.clear_event()
+	_set_playback_available(false)
 	trace_progress.value = 0.0
 	playback_label.text = _t(&"trace.playback.inputs_changed")
 	playback_label.add_theme_color_override("font_color", WARNING)

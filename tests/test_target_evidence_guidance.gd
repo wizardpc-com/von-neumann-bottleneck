@@ -180,7 +180,7 @@ func overlap_cases(english: bool) -> void:
 	check(host.runs[1].passed and int(host.runs[1].metrics.total_cycles)>int(tasks[1].target),"Actual second workload has correct output but exceeds its own target")
 	check(host.case_select.selected==1 and host.trace==host.runs[1] and host.trace.test_name==str(tasks[1].name),"First unmet case, dropdown, trace and name all agree")
 	var gap: int = int(host.trace.metrics.total_cycles)-int(tasks[1].target)
-	check(host.metrics.text.contains(("Over by %d cycles." if english else "超出 %d 周期。")%gap),"Selected second case reports its exact cycle gap")
+	check(host.metrics.text.contains(host._t("result.over")%gap),"Selected second case reports its exact cycle gap")
 	var before: Dictionary = protected_state(host)
 	host.locate_issue_button.pressed.emit(); await settle()
 	check(not host.events.get_selected_items().is_empty() and int(host.scrub.value)==int(host.events.get_item_metadata(host.events.get_selected_items()[0])),"Performance location synchronizes actual event row and playback cycle")
@@ -188,7 +188,7 @@ func overlap_cases(english: bool) -> void:
 	# An inconsistent read-only receipt must not be presented as a performance pass.
 	var passed: bool = host.trace.passed
 	host.trace.passed=false; host._select_run(1)
-	check(host.metrics.text.contains("Output was not verified" if english else "输出尚未通过核验"),"An unverified output is distinct from a correct-but-slow receipt")
+	check(host.result_details.text.contains("Output was not verified" if english else "输出尚未通过核验") and not host.metrics.text.contains(host._t("result.over")%gap),"An unverified output is distinct from a correct-but-slow receipt")
 	host.trace.passed=passed; host._select_run(1)
 	await close_host(host)
 	host=await open_overlap("buffers"); host.board=Overlap.buffer_board(1)

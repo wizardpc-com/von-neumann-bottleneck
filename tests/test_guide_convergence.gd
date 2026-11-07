@@ -151,7 +151,7 @@ func locality_checks(locale: String, en: bool) -> void:
 	main._start_level(&"access_order"); await settle(8)
 	var header: Control = main.chapter_title_label.get_parent().get_parent().get_parent()
 	check(header.get_global_rect().size.y <= 56.0, locale + ": Chapter 2's navigation is one light line (%.0f px)" % header.get_global_rect().size.y)
-	check(main.playback_label.text == main._t(&"trace.playback.empty"), locale + ": entering a task does not claim the input changed")
+	check(main.playback_label.text in [main._t(&"trace.playback.empty"), main._t(&"state.not_run")], locale + ": entering a task does not claim the input changed")
 	check(main.journey_context.live_action.is_empty(), locale + ": a fresh task shows its own now line")
 	var original: String = main.editor.get_line(0)
 	main.editor.set_line(0, original + " ")

@@ -105,6 +105,7 @@ func _ready() -> void:
 	journal.text = "成长档案" if Localization.current_locale() != "en" else "Journal"
 	journal.custom_minimum_size.y = 42; navigation.add_child(journal)
 	journal.pressed.connect(_open_journey_journal)
+	observatory.reparent(header)
 	journal.reparent(header)
 	header.move_child(home,header.get_child_count()-1)
 	header.move_child(settings,header.get_child_count()-1)

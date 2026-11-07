@@ -1,17 +1,68 @@
 class_name ChapterEmblem
 extends Control
 
+# Journey accents share the palette's pastel range; identity never encodes status.
+const REGION_SYMBOLS := [&"hardware", &"system", &"locality", &"overlap", &"layout", &"representation", &"service", &"address", &"compression", &"content", &"creation"]
+const REGION_COLORS := [Color("91d5ad"), Color("e4c57e"), Color("86d2dd"), Color("b9c1ed"), Color("e6b5ce"), Color("adc5ed"), Color("87d6c2"), Color("d0cc8e"), Color("d8bde4"), Color("a4d0de"), Color("dac294")]
+var map_icon: bool = false
 var chapter: StringName = &"hardware"
 var accent := Color("7fcbd6")
 
 
 func _ready() -> void:
-	custom_minimum_size.y = 108.0
+	custom_minimum_size.y = 24.0 if map_icon else 108.0
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	resized.connect(queue_redraw)
 
 
+static func region_accent(region: int) -> Color:
+	return REGION_COLORS[posmod(region, REGION_COLORS.size())]
+
+static func draw_region(host: CanvasItem, region: int, at: Vector2, extent: float, ink: Color) -> void:
+	host.draw_set_transform(at, 0, Vector2.ONE * extent / 32.0)
+	var stroke: float = 2.0
+	match posmod(region, 11):
+		0:
+			host.draw_polyline(PackedVector2Array([Vector2(-11,-10),Vector2(-11,10),Vector2(6,0),Vector2(-11,-10)]),ink,stroke,true)
+			host.draw_circle(Vector2(10,0),3,ink,false,stroke,true)
+		1:
+			for x: int in [-11,0,11]: host.draw_rect(Rect2(x-4,-8,8,16),ink,false,stroke)
+			host.draw_line(Vector2(-7,0),Vector2(7,0),ink,stroke,true)
+		2:
+			host.draw_rect(Rect2(-12,-10,24,20),ink,false,stroke)
+			for x: int in [-7,0,7]: host.draw_line(Vector2(x,-6),Vector2(x,6),ink,stroke,true)
+		3:
+			for lane: int in 2:
+				for col: int in 3: host.draw_rect(Rect2(-13+col*9+lane*3,-9+lane*11,7,6),ink)
+		4:
+			for row: int in 2:
+				for col: int in 3: host.draw_rect(Rect2(-12+col*9,-9+row*11,6,7),ink,false,stroke)
+		5:
+			host.draw_rect(Rect2(-12,-10,9,20),ink,false,stroke)
+			for y: int in [-7,0,7]: host.draw_line(Vector2(2,y),Vector2(12,y),ink,stroke,true)
+		6:
+			host.draw_polyline(PackedVector2Array([Vector2(-13,-6),Vector2(11,-6),Vector2(5,-12)]),ink,stroke,true)
+			host.draw_polyline(PackedVector2Array([Vector2(13,6),Vector2(-11,6),Vector2(-5,12)]),ink,stroke,true)
+		7:
+			host.draw_polyline(PackedVector2Array([Vector2(-12,9),Vector2(-4,9),Vector2(-4,1),Vector2(4,1),Vector2(4,-7),Vector2(12,-7)]),ink,stroke,true)
+			host.draw_circle(Vector2(12,-7),3,ink)
+		8:
+			for side: int in [-1,1]:
+				host.draw_polyline(PackedVector2Array([Vector2(side*12,-10),Vector2(side*4,0),Vector2(side*12,10)]),ink,stroke,true)
+			host.draw_line(Vector2(-1,-10),Vector2(-1,10),ink,stroke,true)
+		9:
+			for x: int in [-11,-3,5]: host.draw_rect(Rect2(x,-8,5,16),ink,false,stroke)
+			host.draw_line(Vector2(13,-8),Vector2(13,8),Color(ink,0.4),stroke,true)
+		10:
+			host.draw_arc(Vector2.ZERO,11,-PI*0.8,PI*0.8,24,ink,stroke,true)
+			host.draw_polyline(PackedVector2Array([Vector2(-12,1),Vector2(-9,8),Vector2(-3,4)]),ink,stroke,true)
+			host.draw_circle(Vector2.ZERO,3,ink)
+	host.draw_set_transform(Vector2.ZERO)
+
 func _draw() -> void:
+	if map_icon:
+		draw_region(self, REGION_SYMBOLS.find(chapter), size/2, minf(size.x,size.y)-4, accent)
+		return
 	# Keep the complete artwork inside narrow cards rather than joining a neighbor's
 	# leads. Only this decorative illustration scales; its text remains screen sized.
 	var artwork_scale: float = minf(1.0,size.x/260.0)

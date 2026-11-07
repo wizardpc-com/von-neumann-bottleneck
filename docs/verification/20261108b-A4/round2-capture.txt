@@ -1,0 +1,10 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 596.36 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 5070 Ti Laptop GPU
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+A4_SESSION_TOOLTIP=7-1 规律流
+时钟：可选临时探索；离开后不保留。
+A4_EN_SESSION_TOOLTIP=7-1 Regular stream
+Clock: optional temporary exploration; not retained after leaving.
+A4_IDLE_REDRAWS=0 / 240 frames

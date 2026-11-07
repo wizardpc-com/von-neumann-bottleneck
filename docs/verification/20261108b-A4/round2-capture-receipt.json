@@ -1,0 +1,14 @@
+{
+  "command": [
+    "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+    "--path",
+    "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a4",
+    "--script",
+    "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a4\\.godot\\a4-temp\\capture.gd",
+    "--",
+    "--capture-size=1280x720",
+    "--test-mode"
+  ],
+  "exit": 0,
+  "APPDATA": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a4\\.godot\\a4-temp\\round2-sealed-capture-profile"
+}

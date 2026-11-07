@@ -1,0 +1,81 @@
+extends SceneTree
+var map: Control
+func _init() -> void: call_deferred("run")
+func shot(name: String) -> void:
+    for i: int in 8: await process_frame
+    await RenderingServer.frame_post_draw
+    root.get_texture().get_image().save_png("res://.godot/a4-temp/"+OS.get_environment("A4_PHASE")+"-"+name+".png")
+func run() -> void:
+    root.get_node("GameMode").set_mode(&"test")
+    root.get_node("TaskNavigation").camera_saved=false
+    root.get_node("TaskNavigation").selected="hardware_foundations/tutorial"
+    map=load("res://src/campaign/task_tree.tscn").instantiate()
+    root.add_child(map)
+    await shot("tree")
+    map._choose_region(4)
+    await shot("chapter4")
+    map._choose_region(7)
+    await shot("chapter7")
+    for row: Dictionary in map.rows:
+        if int(row.region)==7:
+            map.canvas.locate(row.key)
+            var motion := InputEventMouseMotion.new()
+            motion.position=map.canvas.positions[row.key]*map.canvas.magnification+map.canvas.pan+Vector2(20,20)
+            map.canvas._gui_input(motion)
+            print("A4_SESSION_TOOLTIP=",map.canvas.tooltip_text)
+            await shot("chapter7-tooltip")
+            break
+    map._choose_region(8)
+    await shot("chapter8")
+    map.search.text="cache"
+    map._on_search_changed("cache")
+    var keys: Array[String]=map.canvas.matching_keys()
+    if not keys.is_empty(): map._select_and_locate(keys[0])
+    await shot("search")
+    map.search.clear();map.canvas.set_search("")
+    map.canvas.overview()
+    await shot("overview")
+    map.queue_free();await process_frame
+    root.get_node("Localization").set_locale("en")
+    root.get_node("TaskNavigation").selected="hardware_foundations/tutorial"
+    root.get_node("TaskNavigation").camera_saved=false
+    map=load("res://src/campaign/task_tree.tscn").instantiate();root.add_child(map)
+    await shot("english")
+    map._choose_region(7);await shot("english7")
+    for row: Dictionary in map.rows:
+        if int(row.region)==7:
+            var motion := InputEventMouseMotion.new()
+            motion.position=map.canvas.positions[row.key]*map.canvas.magnification+map.canvas.pan+Vector2(20,20)
+            map.canvas._gui_input(motion)
+            if not map.canvas.tooltip_text.begins_with(row.title) or not "not retained after leaving" in map.canvas.tooltip_text:
+                push_error("Session tooltip verification failed");quit(1);return
+            print("A4_EN_SESSION_TOOLTIP=",map.canvas.tooltip_text)
+            break
+    map._choose_region(4);await shot("english4")
+    map._choose_region(8);await shot("english8")
+    var redraws: Array[int]=[0]
+    map.canvas.draw.connect(func() -> void: redraws[0]+=1)
+    for i: int in 240: await process_frame
+    print("A4_IDLE_REDRAWS=",redraws[0]," / 240 frames")
+    map.queue_free();await process_frame
+    var sheet := Panel.new();sheet.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.add_child(sheet)
+    sheet.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("0a141c"),Color.TRANSPARENT,0))
+    var heading := Label.new();heading.text="A4 / CHAPTER IDENTITIES";heading.position=Vector2(40,20);heading.add_theme_font_size_override("font_size",28);sheet.add_child(heading)
+    for i: int in 11:
+        var card := PanelContainer.new();card.position=Vector2(40+(i%4)*385,90+(i/4)*250);card.size=Vector2(355,220)
+        var ink: Color=ChapterEmblem.region_accent(i)
+        card.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("14232d"),Color(ink,0.5),8));sheet.add_child(card)
+        var col := VBoxContainer.new();col.alignment=BoxContainer.ALIGNMENT_CENTER;card.add_child(col)
+        var emblem := ChapterEmblem.new();emblem.map_icon=true;emblem.chapter=ChapterEmblem.REGION_SYMBOLS[i];emblem.accent=ink;emblem.custom_minimum_size.y=100;col.add_child(emblem);emblem.custom_minimum_size.y=100
+        var label := Label.new();label.text=str(i)+" / "+str(ChapterEmblem.REGION_SYMBOLS[i]);label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;label.add_theme_font_size_override("font_size",22);label.add_theme_color_override("font_color",ink);col.add_child(label)
+    var fixture_label := Label.new();fixture_label.text="STATE STYLE FIXTURES";fixture_label.position=Vector2(1200,595);fixture_label.add_theme_font_size_override("font_size",18);sheet.add_child(fixture_label)
+    var samples: Control=load("res://src/campaign/task_tree_canvas.gd").new();samples.position=Vector2(1195,635);samples.size=Vector2(355,175);sheet.add_child(samples)
+    var fixtures: Array[Dictionary]=[]
+    for i: int in 4:
+        var task: Dictionary=root.get_node("TaskNavigation").tasks()[0].duplicate(true)
+        task.key="fixture/"+str(i);task.id="fixture";task.title=["Completed","Available","Locked","Optional"][i];task.completed=i==0;task.unlocked=i!=2;task.optional=i==3;task.dependencies=[];task.recommended_from=[]
+        fixtures.append(task)
+    samples.configure(fixtures);samples.region_rects.clear();samples.pan=Vector2(10,10);samples.magnification=0.65
+    for i: int in 4: samples.positions[fixtures[i].key]=Vector2((i%2)*255,(i/2)*115)
+    await shot("emblems")
+    quit()

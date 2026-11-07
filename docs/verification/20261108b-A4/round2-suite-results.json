@@ -1,0 +1,86 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/user_directory"
+    },
+    {
+      "name": "test_direct_task_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_direct_task_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/test_direct_task_navigation"
+    },
+    {
+      "name": "test_task_tree",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/test_task_tree"
+    },
+    {
+      "name": "test_task_tree_completed_detail",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_completed_detail.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/test_task_tree_completed_detail"
+    },
+    {
+      "name": "test_task_tree_layout",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_layout.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/test_task_tree_layout"
+    },
+    {
+      "name": "test_task_tree_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/test_task_tree_presentation"
+    },
+    {
+      "name": "test_tree_journey_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_journey_presentation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/test_tree_journey_presentation"
+    },
+    {
+      "name": "test_tree_relation_focus",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_tree_relation_focus.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/test_tree_relation_focus"
+    },
+    {
+      "name": "test_unified_journey_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_unified_journey_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T183734Z-30b380a1/test_unified_journey_navigation"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ var search: LineEdit
 var rows: Array[Dictionary] = []
 var selected: Dictionary = {}
 var detail_title: Label
+var detail_emblem: ChapterEmblem
 var detail_kind: Label
 var detail_status: Label
 var detail_scroll: ScrollContainer
@@ -156,7 +157,9 @@ func _ready() -> void:
 	list_empty=Label.new(); list_empty.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; list_view.add_child(list_empty)
 	detail_view=VBoxContainer.new(); detail_view.name="JourneyTaskDetail"; detail_view.add_theme_constant_override("separation",8)
 	detail_view.size_flags_vertical=Control.SIZE_EXPAND_FILL; side.add_child(detail_view)
-	detail_kind=Label.new(); detail_kind.add_theme_font_size_override("font_size",15); detail_kind.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; detail_view.add_child(detail_kind)
+	var identity := HBoxContainer.new(); identity.add_theme_constant_override("separation",10); detail_view.add_child(identity)
+	detail_emblem=ChapterEmblem.new(); detail_emblem.map_icon=true; detail_emblem.custom_minimum_size=Vector2(32,32); identity.add_child(detail_emblem)
+	detail_kind=Label.new(); detail_kind.size_flags_horizontal=Control.SIZE_EXPAND_FILL; detail_kind.add_theme_font_size_override("font_size",15); detail_kind.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; identity.add_child(detail_kind)
 	detail_title=Label.new(); detail_title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	detail_title.add_theme_font_size_override("font_size",23)
 	detail_status=Label.new(); detail_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -302,10 +305,17 @@ func _build_route_shortcuts() -> void:
 		button.text = Naming.chapter_ordinal(region) + "\n" + _short_region(region) + "  " + str(done) + "/" + str(total)
 		if region_counts.temporary > 0 and total == 0:
 			button.text = Naming.chapter_ordinal(region) + "\n" + (("临时探索 %d 项" if not english else "Temporary · %d") % region_counts.temporary)
-		button.custom_minimum_size = Vector2(180 if english else 120, 56)
+		button.custom_minimum_size = Vector2(162 if english else 132, 64)
+		var accent: Color = ChapterEmblem.region_accent(region)
+		var tab_style: StyleBoxFlat = InstrumentTheme.panel(Color("14232d"),Color(accent,0.4),6)
+		tab_style.content_margin_left=34
+		tab_style.content_margin_right=8
+		button.add_theme_stylebox_override("normal",tab_style)
+		var icon := ChapterEmblem.new(); icon.map_icon=true; icon.chapter=ChapterEmblem.REGION_SYMBOLS[region]; icon.accent=accent
+		icon.position=Vector2(5,18); icon.size=Vector2(24,24); button.add_child(icon)
 		button.add_theme_constant_override("line_spacing", -2)
-		button.clip_text = true
-		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		button.clip_text = false
+		button.text_overrun_behavior = TextServer.OVERRUN_NO_TRIMMING
 		button.add_theme_font_size_override("font_size",17)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.set_meta("region",region)
@@ -321,6 +331,8 @@ func _build_route_shortcuts() -> void:
 		var progress := ProgressBar.new()
 		progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		progress.show_percentage = false
+		progress.add_theme_stylebox_override("background",InstrumentTheme.panel(Color("24333c"),Color.TRANSPARENT,0))
+		progress.add_theme_stylebox_override("fill",InstrumentTheme.panel(accent,Color.TRANSPARENT,0))
 		progress.max_value = maxi(1,total)
 		progress.value = done
 		progress.visible = total > 0
@@ -355,6 +367,8 @@ func _select(key: String) -> void:
 				region_choice.select(index)
 				break
 		var accent: Color = canvas._color(task.region)
+		detail_emblem.chapter=ChapterEmblem.REGION_SYMBOLS[int(task.region)]
+		detail_emblem.accent=accent; detail_emblem.queue_redraw()
 		var frame: StyleBoxFlat = InstrumentTheme.surface(Color("132330"),Color(accent,0.4),8)
 		frame.content_margin_left=18; frame.content_margin_right=18
 		frame.content_margin_top=18; frame.content_margin_bottom=18

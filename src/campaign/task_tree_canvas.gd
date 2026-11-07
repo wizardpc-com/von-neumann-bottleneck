@@ -2,15 +2,9 @@ extends Control
 signal task_selected(key: String)
 const Layout = preload("res://src/campaign/task_tree_layout.gd")
 const NODE_SIZE: Vector2 = Layout.NODE_SIZE
-const COLORS := [Color("7fd8a4"),Color("f0c674"),Color("7fcbd6"),Color("aab6e6"),Color("f4a6cb"),Color("a6b4ff"),Color("75dcc0"),Color("e2c87d")]
+const Emblem = preload("res://src/ui/chapter_emblem.gd")
 var region_rects: Dictionary = {}
 var world_size := Vector2(2500,1900)
-const SHORT_TITLES := {
- "tutorial":["接线","Wiring"],"half_adder":["半加器","Half adder"],"full_adder":["全加器","Full adder"],"alu":["ALU","ALU"],"latch":["锁存器","Latch"],"register":["寄存器","Register"],"ram":["RAM","RAM"],"cpu":["CPU","CPU"],"load_store":["存取指令","Load/store"],"selector":["两路选择","Select 2"],"selector4":["四路选择","Select 4"],"parity":["一位校验","Parity"],"alarm":["留住一瞬","Remember"],"delay":["晚一拍","Delay"],
- "assembly":["三器相连","One Machine"],"cpu_speed":["快慢之间","Still Waiting"],"ram_wait":["等待的来处","Round Trip"],"bus_width":["宽窄之间","Room to Pass"],"bottleneck":["循时寻因","Find Delay"],"read_once":["一取再用","Read Once"],"two_orders":["两张订单","Two orders"],
- "distant_reads":["远取之累","Far Reads"],"nearby_storage":["留待再用","Reuse"],"cache_failure":["留不住的数据","Eviction"],"access_order":["先后有序","Order"],"working_set":["容量有界","Working Set"],"blocking":["分而复用","Batches"],"capstone":["循迹而行","Investigate"],
- "arrival":["尚在途中","Still on the Way"],"buffers":["交替接力","Taking Turns"],"backpressure":["进退有度","Give and Take"],"prefetch":["先行一步","One Step Ahead"],"distance":["过犹不及","Too Far Ahead"],"synthesis":["各行其时","In Good Time"],
- "fields":["只取所需","What We Need"],"records":["一窥全貌","Whole Picture"],"hot_cold":["冷热有别","Separate Ways"],"relocation":["搬迁有价","Moving Costs"],"batches":["化整为零","Piece by Piece"],"mixed":["两全之策","Common Ground"]}
 var rows: Array[Dictionary] = []
 var positions: Dictionary = {}
 var pan := Vector2.ZERO
@@ -64,7 +58,11 @@ func configure(tasks: Array[Dictionary]) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO,size),Color(0.025,0.055,0.085,0.68))
+	draw_rect(Rect2(Vector2.ZERO,size),Color("0a141c"))
+	for x: int in range(0, int(size.x), 32):
+		draw_line(Vector2(x,0),Vector2(x,size.y),Color(0.5,0.7,0.8,0.035),1)
+	for y: int in range(0, int(size.y), 32):
+		draw_line(Vector2(0,y),Vector2(size.x,y),Color(0.5,0.7,0.8,0.035),1)
 	if rows.is_empty(): return
 	if not is_equal_approx(dash_cache_zoom,magnification):
 		dash_geometry_cache.clear();dash_cache_zoom=magnification
@@ -73,8 +71,8 @@ func _draw() -> void:
 	# They distinguish chapters without becoming new navigation or progress gates.
 	for region: int in region_rects:
 		var tray: Rect2 = region_rects[region]
-		var tray_style: StyleBoxFlat = InstrumentTheme.surface(Color("0c1925"),Color(_color(region),0.16),18)
-		tray_style.shadow_size=24
+		var tray_style: StyleBoxFlat = InstrumentTheme.surface(Color("101e28"),Color(_color(region),0.24),12)
+		tray_style.shadow_size=0
 		draw_style_box(tray_style,tray)
 	for task: Dictionary in rows:
 		for dep: String in task.dependencies: _draw_edge(task,dep,false)
@@ -87,7 +85,7 @@ func _draw() -> void:
 		if not matched: color.a = 0.28
 		elif not relation_to_focus(task.key).is_empty(): color = color.lightened(0.12)
 		var style := StyleBoxFlat.new()
-		style.bg_color = Color("1b3443") if task.unlocked else Color("132331")
+		style.bg_color = Color("19313e") if task.completed else Color("11232e") if task.unlocked else Color("111e28")
 		style.border_color = color.lightened(0.35) if task.key==hovered_key else color
 		style.set_border_width_all(3 if task.key == TaskNavigation.selected else 2 if task.key==hovered_key else 1)
 		if task.key==hovered_key: style.bg_color=style.bg_color.lightened(0.06)
@@ -97,12 +95,17 @@ func _draw() -> void:
 		style.shadow_offset=Vector2(0,5)
 		if task.key==TaskNavigation.selected:
 			style.shadow_color=Color(color,0.16); style.shadow_size=12
+		if task.optional: style.set_border_width_all(0)
 		draw_style_box(style,rect)
+		if task.optional:
+			var perimeter := PackedVector2Array([rect.position,Vector2(rect.end.x,rect.position.y),rect.end,Vector2(rect.position.x,rect.end.y),rect.position])
+			draw_multiline(dash_polyline(perimeter,10/magnification,6/magnification),color,1.5/magnification,true)
 		draw_line(rect.position+Vector2(12,3),rect.position+Vector2(NODE_SIZE.x-12,3),Color(color,0.22),1,true)
 		if task.completed:
-			draw_line(rect.position+Vector2(3,12),rect.position+Vector2(3,NODE_SIZE.y-12),Color("7fd8a4"),5,true)
+			draw_line(rect.position+Vector2(3,12),rect.position+Vector2(3,NODE_SIZE.y-12),color,5,true)
 			var tick: Vector2 = rect.position+Vector2(NODE_SIZE.x-20,16)
-			draw_polyline(PackedVector2Array([tick+Vector2(-5,0),tick+Vector2(-1,4),tick+Vector2(7,-5)]),Color("7fd8a4"),2,true)
+			draw_circle(tick,11,color)
+			draw_polyline(PackedVector2Array([tick+Vector2(-5,0),tick+Vector2(-1,4),tick+Vector2(7,-5)]),Color("0a1821"),2,true)
 		elif not task.unlocked:
 			draw_arc(rect.position+Vector2(NODE_SIZE.x-17,14),5,PI,TAU,12,color,2,true)
 			draw_rect(Rect2(rect.position+Vector2(NODE_SIZE.x-23,14),Vector2(12,10)),color,false,2)
@@ -153,11 +156,11 @@ func _draw_edge(task: Dictionary,dep: String,recommended: bool) -> void:
 	var satisfied: bool = false
 	for source: Dictionary in rows:
 		if source.key == dep: satisfied = source.completed; break
-	var color := Color("59736a") if recommended else Color("7fd8a4") if satisfied else Color("61748b")
+	var color := Color("59736a") if recommended else Color("7fd8a4") if satisfied else Color("8a9caa")
 	var focus: String = relation_focus_key()
 	var emphasized: bool = task.key == focus or dep == focus
 	if emphasized: color = Color("f0c674") if task.key == focus else Color("7fcbd6")
-	elif not focus.is_empty(): color.a = 0.25
+	elif not focus.is_empty(): color.a = 0.48
 	var points: PackedVector2Array=edge_points(task,dep)
 	if points.size()<2: return
 	var arrow: float=maxf(8.0,5.0/magnification)
@@ -180,17 +183,17 @@ func node_text_layout(task: Dictionary) -> Dictionary:
 	var rect := Rect2(positions[task.key]*magnification+pan,NODE_SIZE*magnification)
 	if magnification<0.34: return {}
 	var compact: bool = magnification<0.62
-	var names: Array = SHORT_TITLES.get(task.id,[task.title,task.title])
-	var number: String = str(task.get("number", ""))
-	if not number.is_empty() and SHORT_TITLES.has(task.id): names = [number + " " + str(names[0]), number + " " + str(names[1])]
-	var title: String = names[0 if Localization.current_locale().begins_with("zh") else 1] if compact else task.title
-	var font_size: int = 14 if compact else maxi(16,roundi(18*magnification))
+	var title: String = task.title
+	var separator: int = title.find("·")
+	if separator >= 0:
+		var prefix: String = title.left(separator).strip_edges()
+		if prefix in ["序章", "Prologue"] or prefix.begins_with("Chapter ") or (prefix.begins_with("第") and prefix.ends_with("章")):
+			title = title.substr(separator+1).strip_edges()
+	var font_size: int = 18 if compact else maxi(18,roundi(20*magnification))
 	var inset: float = maxf(7,12*magnification)
 	var width: float = rect.size.x-2*inset
+	if task.completed or not task.unlocked or str(task.get("progress_source","")) == "session": width -= maxf(22,28*magnification)
 	var font: Font = get_theme_default_font()
-	# Preserve the identifying words instead of truncating a repeated chapter prefix.
-	if font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x>width:
-		title=names[0 if Localization.current_locale().begins_with("zh") else 1]
 	title=_fit_text(title,font,font_size,width)
 	var baseline: float = (rect.size.y-font.get_height(font_size))*0.5+font.get_ascent(font_size) if compact else 31*magnification
 	return {"rect":rect,"title":title,"font_size":font_size,"width":width,
@@ -219,6 +222,7 @@ func _draw_screen_text() -> void:
 		var width: float=rect.size.x*magnification-20
 		var title_position: Vector2 = ((rect.position+Vector2(50,10))*magnification+pan).round()
 		if title_position.y >= font_size and title_position.y <= size.y:
+			Emblem.draw_region(self,region,title_position+Vector2(-22,-font_size*0.35),22,_color(region))
 			draw_string(font,title_position,_fit_text(title,font,font_size,width),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,_color(region))
 	for task: Dictionary in rows:
 		var layout: Dictionary=node_text_layout(task)
@@ -240,7 +244,7 @@ func _draw_screen_text() -> void:
 		if not relation_label.is_empty(): caption = relation_label + " · " + caption
 		if str(task.get("evidence_status","")) == "unavailable": caption = "成果待确认" if Localization.current_locale().begins_with("zh") else "Work unconfirmed"
 		elif str(task.get("progress_source","")) == "session": caption = "仅本次会话" if Localization.current_locale().begins_with("zh") else "Session only"
-		var caption_size: int=maxi(13,roundi(15*magnification))
+		var caption_size: int=maxi(17,roundi(17*magnification))
 		var rect: Rect2=layout.rect
 		var at: Vector2=Vector2(layout.position.x,rect.position.y+62*magnification).round()
 		draw_string(font,at,_fit_text(caption,font,caption_size,layout.width),HORIZONTAL_ALIGNMENT_LEFT,-1,caption_size,color)
@@ -275,6 +279,8 @@ func _gui_input(event: InputEvent) -> void:
 		for task: Dictionary in rows:
 			if Rect2(positions[task.key],NODE_SIZE).has_point(world):
 				tooltip_text=task.title
+				if str(task.get("progress_source","")) == "session":
+					tooltip_text += "\n时钟：可选临时探索；离开后不保留。" if Localization.current_locale().begins_with("zh") else "\nClock: optional temporary exploration; not retained after leaving."
 				var record_note: String = record_detail(task)
 				if not record_note.is_empty(): tooltip_text += "\n" + record_note
 				next_hover=task.key; break
@@ -392,7 +398,7 @@ func _report_exposure() -> void:
 			PlaytestData.record_map_action(&"viewport_exposure",task.key,{"zoom":magnification,"eligible":task.unlocked})
 
 
-func _color(region: int) -> Color: return COLORS[posmod(region,COLORS.size())]
+func _color(region: int) -> Color: return Emblem.region_accent(region)
 
 
 

@@ -11,6 +11,25 @@ func run() -> void:
 		var scene: Control = load("res://src/campaign/task_tree.tscn").instantiate(); root.add_child(scene)
 		scene.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT); scene.size=Vector2(1280,720)
 		for frame: int in range(4): await process_frame
+		for row: Dictionary in scene.rows:
+			for zoom: float in [0.4, 0.85, 1.6]:
+				scene.canvas.magnification=zoom
+				var title: String=scene.canvas.node_text_layout(row).title
+				check(not title.begins_with("序章") and not title.begins_with("Prologue"),"Tray titles omit the repeated chapter: "+row.key)
+				var original: String=str(row.title).get_slice("·",str(row.title).count("·")).strip_edges()
+				check(original.begins_with(title.trim_suffix("…")),"Tray titles preserve the task wording and ellipsize only at the end: "+row.key)
+			if str(row.get("progress_source",""))=="session":
+				var hover:=InputEventMouseMotion.new()
+				hover.position=scene.canvas.positions[row.key]*scene.canvas.magnification+scene.canvas.pan+Vector2(20,20)
+				scene.canvas._gui_input(hover)
+				check(scene.canvas.tooltip_text.begins_with(row.title) and ("离开后不保留" in scene.canvas.tooltip_text or "not retained after leaving" in scene.canvas.tooltip_text),"Session clock tooltip retains the full title and explains temporary progress: "+locale+" "+row.key)
+		scene.canvas.magnification=0.85
+		scene.canvas.locate(nav.selected)
+		for tab: Button in scene.creation_route.get_children():
+			var font: Font = tab.get_theme_font("font")
+			var frame: StyleBox = tab.get_theme_stylebox("normal")
+			for line: String in tab.text.split("\n"):
+				check(font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,tab.get_theme_font_size("font_size")).x <= tab.size.x-frame.get_content_margin(SIDE_LEFT)-frame.get_content_margin(SIDE_RIGHT)+1,"Full chapter labels fit inside their scrolling tabs: "+locale+" "+line)
 		check(scene.view_buttons.visible,"List return is available without a search term in both languages.")
 		scene.list_button.pressed.emit()
 		check(scene.list_view.visible and not scene.detail_view.visible,"Direct list return works without reselecting a chapter.")

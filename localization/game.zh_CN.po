@@ -7325,3 +7325,14 @@ msgstr "当前已是这份最快方案。"
 
 msgid "chapter2.history.change.program"
 msgstr "源程序"
+
+# --- W9 20261108 ---
+
+msgid "overlap.result.cycles"
+msgstr "周期"
+
+msgid "overlap.result.over"
+msgstr "超出 %d"
+
+msgid "overlap.result.counters"
+msgstr "计算 %d · 搬运 %d · 重叠 %d · 等待 %d   |   输出 %s / %s   |   命中 %d · 未命中 %d · 逐出 %d · 排队 %d"

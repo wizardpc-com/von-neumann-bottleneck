@@ -28,6 +28,12 @@ func _run() -> void:
 		_assert(root.get_node("OverlapChapter").completed().has(id), "Official UI run must award real completed solutions: "+id)
 		for _frame: int in range(5): await process_frame
 		_assert(host.panels.trace.size.y <= host.workspace.size.y, "Timeline must fit the work area after metrics and event rows are populated.")
+		_assert(not host.panels.mission.visible, "Task yields to measured results.")
+		_assert(host.panels.trace.get_parent() != host.workspace, "Results reserve their own band outside the machine canvas.")
+		_assert(not host.panels.trace.get_global_rect().intersects(host.graph.get_global_rect()), "Results must not occlude the machine canvas.")
+		_assert(not host.panels.trace.get_global_rect().intersects(host.dock.get_global_rect()), "Results must keep the bottom actions visible.")
+		host.scrub.value = mini(5,host.scrub.max_value)
+		_assert(host.timeline.selected_cycle == int(host.scrub.value), "Timeline marker shares the machine replay cycle.")
 		host.completion.dismiss()
 		if id == "buffers":
 			var correct_signature: String = host.runs[0].canonical_signature()

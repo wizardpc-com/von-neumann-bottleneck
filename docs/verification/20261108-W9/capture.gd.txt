@@ -1,0 +1,24 @@
+﻿extends SceneTree
+const Catalog = preload("res://src/overlap_chapter/overlap_catalog.gd")
+func _init() -> void: call_deferred("run")
+func run() -> void:
+ root.get_node("GameMode").set_mode(&"test")
+ var args := OS.get_cmdline_user_args()
+ var prefix: String = args[0]
+ var id: String = args[1]
+ if args.size()>2: root.get_node("Localization").set_locale("en")
+ root.size = Vector2i(1280,720)
+ var host = load("res://src/overlap_chapter/overlap_chapter.tscn").instantiate()
+ root.add_child(host)
+ await create_timer(0.5).timeout
+ host._open_level(id)
+ await create_timer(1.0).timeout
+ host.board = Catalog.buffer_board(1)
+ host._render_board(host.graph,host.board,false)
+ host.editor.text = Catalog.serial_program()
+ host._run_official()
+ await create_timer(2.0).timeout
+ root.get_texture().get_image().save_png(prefix+"-during.png")
+ await create_timer(5.0).timeout
+ root.get_texture().get_image().save_png(prefix+"-end.png")
+ quit()

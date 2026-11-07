@@ -7326,3 +7326,14 @@ msgstr "This fastest design is already loaded."
 
 msgid "chapter2.history.change.program"
 msgstr "source program"
+
+# --- W9 20261108 ---
+
+msgid "overlap.result.cycles"
+msgstr "cycles"
+
+msgid "overlap.result.over"
+msgstr "+%d over"
+
+msgid "overlap.result.counters"
+msgstr "Compute %d · Transfer %d · Overlap %d · Wait %d   |   Output %s / %s   |   Hits %d · Misses %d · Evictions %d · Queue %d"

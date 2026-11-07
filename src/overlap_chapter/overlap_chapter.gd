@@ -6,6 +6,10 @@ const PaletteItem = preload("res://src/hardware_foundations/component_palette_it
 const Map = preload("res://src/hardware_foundations/campaign_map_view.gd")
 const Timeline = preload("res://src/overlap_chapter/overlap_timeline.gd")
 const Type = preload("res://src/ui/ui_typography.gd")
+const Palette = preload("res://src/lab/lab_palette.gd")
+var result_counters: Label
+var result_details: Label
+var result_column: VBoxContainer
 const BLUE := Color("7fcbd6")
 const GOLD := Color("f0c674")
 const GREEN := Color("7fd8a4")
@@ -65,6 +69,7 @@ func _ready() -> void:
 	for side: String in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_"+side,14)
 	add_child(margin)
 	var column := VBoxContainer.new()
+	result_column = column
 	margin.add_child(column)
 	var header := HBoxContainer.new()
 	column.add_child(header)
@@ -74,8 +79,8 @@ func _ready() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
 	preload("res://src/ui/workbench_chrome.gd").title(title)
-	_button(header,"map",_show_map)
-	_button(header,"hub",func() -> void:
+	var map_button: Button = _button(header,"map",_show_map)
+	var hub_button: Button = _button(header,"hub",func() -> void:
 		_save_draft()
 		get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
 	core_review_button = Button.new()
@@ -84,13 +89,21 @@ func _ready() -> void:
 	core_review_button.custom_minimum_size.y = 38
 	core_review_button.pressed.connect(_open_core_review)
 	header.add_child(core_review_button)
-	header.add_child(WindowMode.settings_button())
+	var settings_button: Button = WindowMode.settings_button()
+	header.add_child(settings_button)
 	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	goal = Button.new()
 	goal.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	goal.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	goal.pressed.connect(func() -> void: _toggle("mission"))
-	column.add_child(goal)
+	goal.custom_minimum_size.x = 200
+	goal.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	header.add_child(goal)
+	header.move_child(goal,1)
+	preload("res://src/ui/instrument_theme.gd").tool(goal)
+	preload("res://src/ui/workbench_chrome.gd").order_navigation(header,[map_button,hub_button,settings_button])
 	workspace = Control.new()
 	workspace.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(workspace)
@@ -99,7 +112,8 @@ func _ready() -> void:
 	status = Label.new()
 	status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	status.custom_minimum_size.x = 320
+	status.custom_minimum_size.x = 80
+	status.add_theme_font_size_override("font_size",13)
 	dock.add_child(status)
 	dock.add_child(PlaytestMoments.make_workbench_button())
 	for id: String in ["mission","toolbox","program","trace","handbook"]:
@@ -138,7 +152,7 @@ func _process(delta: float) -> void:
 		trace_ambience.advance(scrub.value if is_instance_valid(scrub) else 0.0, playing and not trace_stale and level == "buffers")
 	if is_instance_valid(workspace):
 		for panel: FloatingInstrumentPanel in panels.values():
-			if panel.visible and (panel.size.y > workspace.size.y-16 or panel.position.y+panel.size.y > workspace.size.y-8 or panel.position.x < 8 or panel.position.x+panel.size.x > workspace.size.x-8):
+			if panel.instrument_id != &"trace" and panel.visible and (panel.size.y > workspace.size.y-16 or panel.position.y+panel.size.y > workspace.size.y-8 or panel.position.x < 8 or panel.position.x+panel.size.x > workspace.size.x-8):
 				panel.fit_to_parent()
 	if dirty:
 		save_elapsed += delta
@@ -313,6 +327,10 @@ func _reset_workspace() -> void:
 	previous_runs.clear()
 	measured_board_signature = ""
 	locate_issue_button = null
+	if panels.has("trace"):
+		var old_trace: Control = panels.trace
+		old_trace.get_parent().remove_child(old_trace)
+		old_trace.queue_free()
 	panels.clear()
 	for child: Node in workspace.get_children():
 		workspace.remove_child(child)
@@ -365,7 +383,7 @@ func _frame_board() -> void:
 	var windows: Dictionary = {}
 	for id: String in panels:
 		var panel: FloatingInstrumentPanel = panels[id]
-		if panel.minimized: continue
+		if panel.minimized or id == "trace": continue
 		windows[StringName(id)] = panel
 	var nodes: Array = graph.get_children().filter(func(node: Node) -> bool: return node is GraphNode)
 	preload("res://src/ui/instrument_dock.gd").frame(graph, nodes, windows, 0.6)
@@ -562,7 +580,10 @@ func _changed(render: bool = true) -> void:
 	save_elapsed = 0
 	playing = false
 	status.text = _t("stale")
-	if is_instance_valid(metrics): metrics.text = _t("stale")
+	if is_instance_valid(metrics):
+		metrics.text = _t("stale")
+		result_counters.text = ""
+		result_details.text = ""
 	if render: _render_board(graph,board,false)
 	elif is_instance_valid(graph):
 		for child: Node in graph.get_children():
@@ -762,23 +783,43 @@ func _build_program(source: String) -> void:
 	_button(box,"run",_run_official)
 
 func _build_trace() -> void:
-	var panel: FloatingInstrumentPanel = _panel("trace",_t("trace"),Vector2(270,300),Vector2(950,640))
-	var box: VBoxContainer = _scroll_box(panel)
-	metrics = _label(_t("no_run"),true)
-	box.add_child(metrics)
+	var panel := Instrument.new()
+	panel.custom_minimum_size = Vector2(0,260)
+	panel.setup(&"trace",_t("trace"))
+	result_column.add_child(panel)
+	result_column.move_child(panel,dock.get_index())
+	panels.trace = panel
+	# The fixed result band has no floating-window move or resize affordance.
+	panel.find_child("WindowHeader",true,false).hide()
+	panel.find_child("ResizeGrip",true,false).hide()
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation",6)
+	panel.content_host.add_child(box)
+	var heading := HBoxContainer.new()
+	box.add_child(heading)
+	metrics = _label(_t("no_run"))
+	metrics.add_theme_font_size_override("font_size",18)
+	metrics.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	heading.add_child(metrics)
 	case_select = OptionButton.new()
+	case_select.custom_minimum_size.x = 300
 	case_select.item_selected.connect(_select_run)
-	box.add_child(case_select)
-	locate_issue_button = Button.new()
-	locate_issue_button.name = "OverlapLocateIssue"
-	locate_issue_button.custom_minimum_size.y = 38
-	locate_issue_button.visible = false
-	locate_issue_button.pressed.connect(_locate_recorded_issue)
-	box.add_child(locate_issue_button)
+	heading.add_child(case_select)
+	result_counters = _label("")
+	result_counters.add_theme_font_size_override("font_size",14)
+	box.add_child(result_counters)
+	var body := HBoxContainer.new()
+	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation",18)
+	box.add_child(body)
+	var tracks := VBoxContainer.new()
+	tracks.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tracks.size_flags_stretch_ratio = 1.3
+	body.add_child(tracks)
 	timeline = Timeline.new()
-	box.add_child(timeline)
+	tracks.add_child(timeline)
 	var controls := HBoxContainer.new()
-	box.add_child(controls)
+	tracks.add_child(controls)
 	_button(controls,"play",func() -> void:
 		if trace != null:
 			if scrub.value >= scrub.max_value: scrub.value = 0
@@ -792,12 +833,25 @@ func _build_trace() -> void:
 		timeline.queue_redraw()
 		_show_cycle(int(value)))
 	controls.add_child(scrub)
+	var evidence := VBoxContainer.new()
+	evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_child(evidence)
+	result_details = _label("",true)
+	result_details.add_theme_font_size_override("font_size",13)
+	evidence.add_child(result_details)
+	locate_issue_button = Button.new()
+	locate_issue_button.name = "OverlapLocateIssue"
+	locate_issue_button.visible = false
+	locate_issue_button.pressed.connect(_locate_recorded_issue)
+	evidence.add_child(locate_issue_button)
 	events = ItemList.new()
-	events.custom_minimum_size.y = 140
-	events.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	events.add_theme_font_size_override("font_size",16)
+	events.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	events.add_theme_font_size_override("font_size",14)
 	events.item_selected.connect(func(index: int) -> void: scrub.value = int(events.get_item_metadata(index)))
-	box.add_child(events)
+	evidence.add_child(events)
+	var row_height: float = events.get_theme_font("font").get_height(14) + events.get_theme_constant("v_separation")
+	events.custom_minimum_size.y = ceilf(row_height * 3 + events.get_theme_stylebox("panel").get_minimum_size().y)
+	panel.visibility_changed.connect(func() -> void: call_deferred("_frame_board"))
 
 func _run_official() -> void:
 	if level.is_empty() or is_instance_valid(hint_overlay): return
@@ -853,14 +907,10 @@ func _run_official() -> void:
 					"继续试一试" if Localization.current_locale() != "en" else "Stay and experiment",Localization.text(&"common.level_complete.continue"))
 				completion.emphasise(completion.continue_button)
 		if not newly_completed: preload("res://src/ui/ui_cue.gd").met(self, true)
-		status.text = _t("passed")
-		if level in ["distance","synthesis"]:
-			status.text += " · "+_t("bonus.done" if OverlapChapter.bonus_status(level).complete else "bonus.pending")
-		status.add_theme_color_override("font_color",GREEN)
 	else:
 		preload("res://src/ui/ui_cue.gd").play(self, &"fail")
-		status.text = _t("try_again")
-		status.add_theme_color_override("font_color",GOLD)
+	status.text = _t("edit_help")
+	status.remove_theme_color_override("font_color")
 	core_review_button.visible = OverlapChapter.completed().has("synthesis")
 	_refresh_journey_context()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
@@ -911,7 +961,7 @@ func _select_run(index: int) -> void:
 	_show_cycle(int(scrub.value))
 	var task: Dictionary = Catalog.cases(level)[index]
 	metrics.add_theme_color_override("font_color", GREEN if trace.passed and int(trace.metrics.total_cycles) <= int(task.target) else GOLD)
-	metrics.text = _t("metrics") % [trace.metrics.total_cycles,task.target,trace.metrics.compute_busy,trace.metrics.transfer_busy,trace.metrics.overlap,trace.metrics.wait,trace.result_value,trace.expected_value]
+	metrics.text = ""
 	if not String(trace.metrics.error).is_empty():
 		metrics.text += "\n" + _t("line_error") % [trace.metrics.error_line,_t("error."+String(trace.metrics.error))]
 		if String(trace.metrics.error) == "incomplete":
@@ -924,14 +974,20 @@ func _select_run(index: int) -> void:
 						independent_cycles += event.duration
 				metrics.text += " " + ("独立工作 %d / 要求恰好 %d 周期。" if Localization.current_locale() != "en" else "Independent work: %d / exactly %d cycles required.") % [independent_cycles,int(task.work)]
 	elif not trace.passed: metrics.text += "\n" + ("输出尚未通过核验；先对照实际与预期结果。" if Localization.current_locale() != "en" else "Output was not verified; compare actual and expected results first.")
-	elif int(trace.metrics.total_cycles)>int(task.target): metrics.text += "\n" + _t("too_slow") + (" 超出 %d 周期。" if Localization.current_locale() != "en" else " Over by %d cycles.") % (int(trace.metrics.total_cycles)-int(task.target))
-	else: metrics.text += "\n" + _t("passed")
+	elif int(trace.metrics.total_cycles)>int(task.target): metrics.text += "\n" + ("输出正确" if Localization.current_locale() != "en" else "Output correct")
 	if index < previous_runs.size():
 		var before: SimulationTrace = previous_runs[index]
 		if before.test_name == trace.test_name and before.passed and trace.passed:
 			metrics.text += "\n" + ("同一组输入，对比上次：总周期 %+d · 重叠 %+d · 等待 %+d（负数表示减少）。" if Localization.current_locale() != "en" else "Change from previous run of this case: cycles %+d · overlap %+d · wait %+d (negative means less).") % [int(trace.metrics.total_cycles)-int(before.metrics.total_cycles),int(trace.metrics.overlap)-int(before.metrics.overlap),int(trace.metrics.wait)-int(before.metrics.wait)]
 	if trace_stale: metrics.text = _t("stale")+"\n"+metrics.text
-	metrics.text += "\n" + _t("cache_metrics") % [trace.metrics.hits,trace.metrics.misses,trace.metrics.evictions,trace.metrics.queue_wait]
+	result_details.text = metrics.text.strip_edges()
+	var met: bool = trace.passed and str(trace.metrics.error).is_empty() and int(trace.metrics.total_cycles) <= int(task.target)
+	metrics.text = ("\u2713 " + _t("case_pass") if met else "\u00d7 " + _t("case_fail")) + "   %d / %d " % [trace.metrics.total_cycles,task.target] + _t("result.cycles")
+	if trace.passed and int(trace.metrics.total_cycles) > int(task.target):
+		metrics.text += ("   " + _t("result.over")) % (int(trace.metrics.total_cycles)-int(task.target))
+	metrics.add_theme_color_override("font_color",Palette.GOOD if met else Palette.QUIT)
+	result_counters.text = _t("result.counters") % [trace.metrics.compute_busy,trace.metrics.transfer_busy,trace.metrics.overlap,trace.metrics.wait,str(trace.result_value),str(trace.expected_value),trace.metrics.hits,trace.metrics.misses,trace.metrics.evictions,trace.metrics.queue_wait]
+	if trace_stale: metrics.text = _t("stale")
 	locate_issue_button.visible = not trace.passed or not str(trace.metrics.error).is_empty() or int(trace.metrics.total_cycles)>int(task.target)
 	locate_issue_button.disabled = not _recorded_issue_is_current()
 	locate_issue_button.text = ("定位停止事件与代码行" if Localization.current_locale() != "en" else "Locate stopping event and source line") if not str(trace.metrics.error).is_empty() else ("查看实际等待与搬运" if Localization.current_locale() != "en" else "Inspect measured waits and transfers")
@@ -982,6 +1038,9 @@ func _locate_recorded_issue() -> void:
 	status.text = ("已定位这份运行证据；修改后请重跑，Hint仍按原层级提供。" if Localization.current_locale() != "en" else "Located this run's evidence. Rerun after editing; Hint retains its original levels.")
 
 func _show_cycle(cycle: int) -> void:
+	if is_instance_valid(timeline):
+		timeline.selected_cycle = cycle
+		timeline.queue_redraw()
 	if trace == null or trace_stale or not is_instance_valid(graph): return
 	var evidence: Dictionary = {}
 	for event: SimulationEvent in trace.events:
@@ -1102,8 +1161,16 @@ func _toggle(id: String, force: bool = false, origin: StringName = &"manual") ->
 		return
 	if not panels.has(id): return
 	var panel: FloatingInstrumentPanel = panels[id]
+	if id == "trace":
+		panel.visible = force or not panel.visible
+		if panel.visible:
+			for other: String in ["mission","toolbox","program"]: panels[other].hide()
+			PlaytestData.record_tool_opened(&"chapter_3",StringName(level),&"trace",origin)
+		call_deferred("_frame_board")
+		return
 	panel.visible = force or not panel.should_hide_on_toggle()
 	if panel.visible:
+		if panels.has("trace"): panels.trace.hide()
 		panel.show_instrument()
 		if panel.minimized: panel.set_minimized(false)
 		PlaytestData.record_tool_opened(&"chapter_3",StringName(level),StringName(id),origin)

@@ -7375,3 +7375,24 @@ msgstr "搬运B"
 
 msgid "representation.workbench.cache_order"
 msgstr "恢复后缓存 · 块按旧→新排列"
+# --- W6 20261108 ---
+msgid "schedule.picture.empty"
+msgstr "运行方案，查看实测时序"
+
+msgid "schedule.picture.run"
+msgstr "运行 #%d"
+
+msgid "schedule.picture.baseline"
+msgstr "   /   基准 #%d（细线）"
+
+msgid "schedule.picture.legend"
+msgstr "到达 → 完成 · Q1 为首份请求"
+
+msgid "schedule.picture.cycles"
+msgstr " 周期"
+
+msgid "schedule.picture.reference"
+msgstr "基准："
+
+msgid "schedule.picture.copy"
+msgstr "复制峰值 %d B"

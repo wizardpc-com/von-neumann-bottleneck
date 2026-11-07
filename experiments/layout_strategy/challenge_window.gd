@@ -25,7 +25,6 @@ var storage_label: Label
 var selected_label: Label
 var scope_label: Label
 var close_button: Button
-var settings_button: Button
 var inspect_button: Button
 var restore_button: Button
 var target_code_button: Button
@@ -56,12 +55,20 @@ func tr2(zh: String, en: String) -> String:
 	return en if english else zh
 
 func _ready() -> void:
+	theme = Theme.new()
+	InstrumentTheme.apply_to(theme)
+	theme.default_font_size = 14
+	borderless = true
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	transient = true
 	exclusive = true
-	min_size = Vector2i(720,540)
-	size = Vector2i(820,580)
+	min_size = Vector2i(720,0)
+	size = Vector2i(820,400)
 	close_requested.connect(dismiss)
+	var surface := Panel.new()
+	surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.add_theme_stylebox_override("panel",InstrumentTheme.panel(InstrumentTheme.SURFACE,InstrumentTheme.ACCENT,6))
+	add_child(surface)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge: String in ["left","right","top","bottom"]:
@@ -73,7 +80,6 @@ func _ready() -> void:
 	var header := HBoxContainer.new()
 	column.add_child(header)
 	heading = _label(header,"",19)
-	settings_button = _button(header,"设置","Settings",func() -> void: settings_requested.emit(),"ChallengeSettings")
 	close_button = _button(header,"关闭","Close",dismiss,"ChallengeClose")
 	main_scroll = ScrollContainer.new()
 	main_scroll.name = "ChallengeScroll"
@@ -160,7 +166,7 @@ func _label(parent: Node, text: String, font_size: int) -> Label:
 	control.text = text
 	control.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	control.add_theme_font_size_override("font_size",font_size)
+	control.add_theme_font_size_override("font_size",maxi(13,font_size))
 	parent.add_child(control)
 	return control
 
@@ -169,6 +175,7 @@ func _button(parent: Node, zh: String, en: String, action: Callable, id: String)
 	control.name = id
 	control.custom_minimum_size.y = 34
 	control.text = tr2(zh,en)
+	InstrumentTheme.nav(control)
 	control.pressed.connect(action)
 	parent.add_child(control)
 	_labels.append({"control":control,"zh":zh,"en":en})
@@ -208,6 +215,16 @@ func _render_context() -> void:
 	starter_button.visible = not Code.starter_goal(str(context.get("starter_task",""))).is_empty()
 	accept_button.text = tr2("替换目标","Replace target") if context.get("has_code",false) else tr2("接纳目标","Accept target")
 	_refresh_focus()
+	call_deferred("_fit_content")
+
+func _fit_content() -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not visible: return
+	var content: Control = code_page if code_page.visible else main_page
+	var height: int = ceili(content.get_combined_minimum_size().y + close_button.size.y + 32)
+	size = Vector2i(size.x,mini(height,get_parent().get_viewport_rect().size.y - 48))
+	position = (get_parent().get_viewport_rect().size - Vector2(size)) / 2
 
 func open_import() -> void:
 	_origin = "ImportChallenge"
@@ -239,6 +256,7 @@ func _start_code(text: String, importing: bool) -> void:
 	code_page.show()
 	_render_code()
 	code_edit.grab_focus()
+	call_deferred("_fit_content")
 
 func _code_changed() -> void:
 	if _setting_text or not _importing: return
@@ -312,6 +330,7 @@ func back() -> void:
 	_preview.clear()
 	_refresh_focus()
 	restore_focus(_origin)
+	call_deferred("_fit_content")
 
 func focus_id() -> String:
 	var focused: Control = gui_get_focus_owner()
@@ -325,7 +344,7 @@ func restore_focus(id: String) -> void:
 
 func _refresh_focus() -> void:
 	if not is_instance_valid(back_button): return
-	var choices: Array[Control] = [settings_button,close_button]
+	var choices: Array[Control] = [close_button]
 	if code_page.visible:
 		choices.append_array([code_edit,check_button,accept_button,copy_button,back_button])
 	else:

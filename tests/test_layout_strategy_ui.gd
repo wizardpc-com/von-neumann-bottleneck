@@ -164,6 +164,8 @@ func exercise(locale: String) -> void:
 	check(host.session.draft() == starter and host.session.rows().is_empty(),"Fresh scene starts source-only without injected optimized results "+locale)
 	check(not auto_accept_quit and host.is_in_group("candidate_quit_owners"),"Scene owns OS-close protection "+locale)
 	check(root.min_size == Vector2i(960,640),"Scene offers its declared minimum window "+locale)
+	check(not host.restore_button.visible and not host.baseline_button.visible and not host.explanation_button.visible and host.challenge_button.visible,
+		"Empty lab hides run actions while challenges remain reachable "+locale)
 	check(host.query_group.editable and not host.record_tile.editable,"A single monotone query has no ineffective tile control "+locale)
 	check(host.field_buttons.all(func(button: CheckBox) -> bool: return button.disabled) and host.destination.disabled,
 		"Inactive copy choices are visibly unavailable "+locale)
@@ -172,6 +174,10 @@ func exercise(locale: String) -> void:
 	await click(host.run_button)
 	var original: Dictionary = host.session.selected_entry()
 	var first_id: int = int(original.id)
+	check(host.run_picture.jobs.size() == original.metrics.job_count and host.run_picture.jobs[0].completion == original.metrics.first_request_cycles,
+		"Run picture uses measured request completion "+locale)
+	check(host.run_picture.maximum == original.metrics.total_cycles,
+		"Run picture axis spans measured total cycles "+locale)
 	check(original.correct and original.metrics.first_request_cycles == 307 and original.metrics.total_cycles == 2456,
 		"Actual Run button measures the source-only starter "+locale)
 	await click(host.baseline_button)
@@ -188,8 +194,8 @@ func exercise(locale: String) -> void:
 	var second_id: int = int(measured.id)
 	check(measured.correct and measured.metrics.first_request_cycles == 531 and measured.metrics.total_cycles == 552,
 		"Second Run measures the real first-response versus total-work tradeoff "+locale)
-	check(host.session.comparison().kind == "tradeoff" and host.comparison_label.text.contains("+224") and host.comparison_label.text.contains("-1904"),
-		"Comparison presents signed independent metrics, not a weighted score "+locale)
+	check(host.session.comparison().kind == "tradeoff" and host.comparison_label.text == host.tr2("存在取舍","Tradeoff") and not host.comparison_label.text.contains("224"),
+		"Comparison shows the verdict without repeating table deltas "+locale)
 	await select_history(host,first_id)
 	check(host.session.draft() == grouped and host.session.is_stale(),"Inspecting a row preserves the current draft "+locale)
 	await click(host.restore_button)

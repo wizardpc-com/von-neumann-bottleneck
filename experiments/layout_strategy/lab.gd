@@ -1,5 +1,8 @@
 extends Control
 ## Standalone presenter. The session owns drafts/history; the model owns results.
+const Palette = preload("res://src/lab/lab_palette.gd")
+const Chrome = preload("res://src/ui/workbench_chrome.gd")
+const Typography = preload("res://src/ui/ui_typography.gd")
 const Workspace = preload("res://experiments/layout_strategy/workspace.gd")
 const Goals = preload("res://experiments/layout_strategy/goals.gd")
 const Model = preload("res://experiments/layout_strategy/model.gd")
@@ -9,6 +12,84 @@ const Challenges = preload("res://experiments/layout_strategy/challenges.gd")
 const ChallengeCode = preload("res://experiments/layout_strategy/challenge_code.gd")
 const ChallengeWindow = preload("res://experiments/layout_strategy/challenge_window.gd")
 const Explanation = preload("res://experiments/layout_strategy/explanation.gd")
+
+class RunPicture extends Control:
+	var selected: Dictionary = {}
+	var baseline: Dictionary = {}
+	var jobs: Array = []
+	var reference_jobs: Array = []
+	var maximum: float = 1.0
+	func display(entry: Dictionary, reference: Dictionary, condition: String) -> void:
+		selected = entry
+		baseline = reference
+		var summary: Dictionary = Explanation.summarize(entry,condition)
+		var other: Dictionary = Explanation.summarize(reference,condition)
+		jobs = summary.get("jobs",[]) if summary.get("ok",false) else []
+		reference_jobs = other.get("jobs",[]) if other.get("ok",false) else []
+		maximum = maxf(1.0,maxf(float(entry.get("metrics",{}).get("total_cycles",0)),float(reference.get("metrics",{}).get("total_cycles",0))))
+		custom_minimum_size.y = (96 if _has_copy() else 80)+jobs.size()*18 if not jobs.is_empty() else 48
+		queue_redraw()
+	func _has_copy() -> bool:
+		return int(selected.get("metrics",{}).get("peak_extra_bytes",0)) > 0 or int(baseline.get("metrics",{}).get("peak_extra_bytes",0)) > 0
+	func _x(cycle: float) -> float:
+		return 48+(size.x-116)*cycle/maximum
+	func _text(at: Vector2, value: String, color: Color) -> void:
+		draw_string(get_theme_default_font(),at,value,HORIZONTAL_ALIGNMENT_LEFT,-1,13,color)
+	func _draw() -> void:
+		draw_style_box(InstrumentTheme.panel(Palette.TERM_SCREEN,Palette.TERM_EDGE,4),Rect2(Vector2.ZERO,size))
+		if jobs.is_empty():
+			_text(Vector2(14,28),tr("schedule.picture.empty"),Palette.TERM_MUTED)
+			return
+		var legend: String = tr("schedule.picture.run") % int(selected.id)
+		if not reference_jobs.is_empty(): legend += tr("schedule.picture.baseline") % int(baseline.id)
+		_text(Vector2(12,19),legend,Palette.ACCENT)
+		_text(Vector2(12,37),tr("schedule.picture.legend"),Palette.TERM_MUTED)
+		for index: int in jobs.size():
+			var y: float = 50+index*18
+			_text(Vector2(12,y+4),"Q%d" % (index+1),Palette.TERM_TEXT)
+			draw_line(Vector2(_x(0),y),Vector2(_x(maximum),y),Palette.TERM_EDGE,1)
+			if index < reference_jobs.size():
+				var other: Dictionary = reference_jobs[index]
+				draw_line(Vector2(_x(other.admission),y-4),Vector2(_x(other.completion),y-4),Palette.TERM_MUTED,1)
+			var job: Dictionary = jobs[index]
+			draw_line(Vector2(_x(job.admission),y),Vector2(_x(job.completion),y),Palette.ACCENT,3)
+			draw_circle(Vector2(_x(job.admission),y),3,Palette.TERM_TEXT)
+			draw_circle(Vector2(_x(job.completion),y),4,Palette.GOOD if index == 0 else Palette.ACCENT)
+			if index == 0: _text(Vector2(_x(job.completion)+7,y+4),str(job.completion),Palette.GOOD)
+		var bottom: float = 50+jobs.size()*18
+		_text(Vector2(12,bottom+8),tr("schedule.picture.copy") % int(selected.metrics.peak_extra_bytes),Palette.TERM_MUTED)
+		if _has_copy():
+			bottom += 16
+			_copy(selected,bottom,Palette.ACCENT,3)
+			if not reference_jobs.is_empty(): _copy(baseline,bottom-3,Palette.TERM_MUTED,1)
+		_text(Vector2(_x(0),bottom+24),"0",Palette.TERM_MUTED)
+		var end: String = str(int(maximum))+tr("schedule.picture.cycles")
+		_text(Vector2(size.x-140,bottom+24),end,Palette.TERM_MUTED)
+	func _copy(entry: Dictionary, y: float, color: Color, width: float) -> void:
+		var used: int = 0
+		var previous: float = 0
+		for event: Dictionary in entry.get("events",[]):
+			if event.kind not in ["allocate","release"]: continue
+			var at: float = _x(event.cycle)
+			var before: float = y-used/160.0*10
+			draw_line(Vector2(_x(previous),before),Vector2(at,before),color,width)
+			used = int(event.details.bytes) if event.kind == "allocate" else 0
+			draw_line(Vector2(at,before),Vector2(at,y-used/160.0*10),color,width)
+			previous = event.cycle
+		var end: float = _x(float(entry.metrics.total_cycles))
+		draw_line(Vector2(_x(previous),y-used/160.0*10),Vector2(end,y-used/160.0*10),color,width)
+	func _get_tooltip(at: Vector2) -> String:
+		var index: int = int((at.y-41)/18)
+		if index < 0 or index >= jobs.size(): return ""
+		var job: Dictionary = jobs[index]
+		var value: String = "Q%d: %d → %d" % [index+1,job.admission,job.completion]
+		if index < reference_jobs.size():
+			var other: Dictionary = reference_jobs[index]
+			value += "\n"+tr("schedule.picture.reference")+"%d → %d" % [other.admission,other.completion]
+		return value
+
+var run_picture: RunPicture
+
 var workspace = Workspace.new()
 var session = workspace.session
 var challenges = Challenges.new()
@@ -138,7 +219,14 @@ func _ready() -> void:
 	add_to_group("candidate_quit_owners")
 	theme = Theme.new()
 	InstrumentTheme.apply_to(theme)
-	theme.default_font_size = 15
+	theme.default_font_size = Typography.CAPTION_SIZE
+	for kind: String in ["Tree","TabBar"]:
+		theme.set_font_size("font_size",kind,14)
+	theme.set_constant("h_separation","Tree",12)
+	theme.set_stylebox("panel","Tree",InstrumentTheme.panel(Palette.TERM_SCREEN))
+	for state: String in ["selected","selected_focus"]:
+		theme.set_stylebox(state,"Tree",InstrumentTheme.panel(Palette.TERM_SCREEN_LIFT,Palette.ACCENT,2))
+	theme.set_stylebox("panel","TabContainer",InstrumentTheme.panel(Palette.TERM_PANEL))
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	english = get_node("/root/Localization").current_locale() == "en"
 	workspace.setup(notebook_path,legacy_notebook_path)
@@ -147,6 +235,7 @@ func _ready() -> void:
 	_build_exit_guard()
 	call_deferred("_set_minimum_window")
 	run_button.call_deferred("grab_focus")
+	resized.connect(_layout_picture)
 
 func _set_minimum_window() -> void:
 	get_window().min_size = Vector2i(960,640)
@@ -156,7 +245,7 @@ func _label(parent: Node, value: String, font_size: int = 15) -> Label:
 	control.text = value
 	control.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	control.add_theme_font_size_override("font_size",font_size)
+	control.add_theme_font_size_override("font_size",maxi(13,font_size))
 	parent.add_child(control)
 	return control
 
@@ -165,6 +254,7 @@ func _button(parent: Node, value: String, action: Callable, id: String) -> Butto
 	control.name = id
 	control.text = value
 	control.custom_minimum_size.y = 34
+	InstrumentTheme.nav(control)
 	control.pressed.connect(action)
 	control.focus_entered.connect(func() -> void: _last_focus = id)
 	parent.add_child(control)
@@ -247,7 +337,9 @@ func _build() -> void:
 	interface.add_child(page)
 	var header := HBoxContainer.new()
 	page.add_child(header)
+	Chrome.frame(header)
 	var title: Label = _label(header,tr2("调度与复制", "Scheduling & copying"),22)
+	Chrome.title(title)
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	undo_button = _button(header,tr2("撤销","Undo"),undo,"Undo")
@@ -260,7 +352,8 @@ func _build() -> void:
 	settings_button.custom_minimum_size = Vector2(64,34)
 	settings_button.focus_entered.connect(func() -> void: _last_focus = str(settings_button.name))
 	header.add_child(settings_button)
-	exit_button = _button(header,tr2("退出","Exit"),request_quit,"Exit")
+	exit_button = _button(header,tr2("退出游戏","Quit game"),request_quit,"Exit")
+	Chrome.quit_style(exit_button)
 	storage_label = _label(page,"",13)
 	storage_label.name = "WorkspaceStatus"
 	var workload_row := HBoxContainer.new()
@@ -330,10 +423,20 @@ func _build() -> void:
 	tabs.add_child(comparison_page)
 	measured_source = _label(comparison_page,"",14)
 	measured_source.name = "MeasuredSource"
+	var picture_scroll := ScrollContainer.new()
+	picture_scroll.name = "RunPictureScroll"
+	picture_scroll.custom_minimum_size.y = 230
+	picture_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	comparison_page.add_child(picture_scroll)
+	run_picture = RunPicture.new()
+	run_picture.name = "RunPicture"
+	run_picture.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	picture_scroll.add_child(run_picture)
 	history_table = _table(comparison_page,[
 		tr2("运行","Run"),tr2("Q1周期","Q1 cycles"),tr2("总周期","Total"),
 		"RAM B",tr2("复制 B","Copy B"),tr2("限制","Goal")],"History")
 	history_table.item_selected.connect(_history_selected)
+	history_table.draw.connect(_draw_baseline_chip)
 	measured_plan = _label(comparison_page,"",13)
 	measured_plan.name = "MeasuredPlan"
 	measured_plan.custom_minimum_size.y = 36
@@ -342,10 +445,9 @@ func _build() -> void:
 	restore_button = _button(actions,tr2("恢复此方案","Restore plan"),restore_selected,"Restore")
 	baseline_button = _button(actions,tr2("设为比较基准","Set comparison"),set_baseline,"SetBaseline")
 	explanation_button = _button(actions,tr2("查看差异","Explain"),open_explanation,"Explain")
-	challenge_button = _button(actions,tr2("挑战…","Challenges…"),open_challenges,"Challenges")
-	comparison_label = _label(comparison_page,"",14)
+	comparison_label = _label(actions,"",14)
 	comparison_label.name = "Comparison"
-	comparison_label.custom_minimum_size.y = 42
+	challenge_button = _button(actions,tr2("挑战…","Challenges…"),open_challenges,"Challenges")
 	challenge_summary = _label(comparison_page,"",13)
 	challenge_summary.name = "ActiveChallenge"
 	evidence_page = VBoxContainer.new()
@@ -843,11 +945,29 @@ func _metric(metrics: Dictionary, key: String) -> String:
 	var value: int = int(metrics.get(key,-1))
 	return "—" if value < 0 else str(value)
 
+func _draw_baseline_chip() -> void:
+	var tree_root: TreeItem = history_table.get_root()
+	if tree_root == null: return
+	for item: TreeItem in tree_root.get_children():
+		if int(item.get_metadata(0)) != session.baseline_id(): continue
+		var cell: Rect2 = history_table.get_item_area_rect(item,0)
+		var label: String = tr2("基准","baseline")
+		var font: Font = history_table.get_theme_default_font()
+		var width: float = font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,13).x+12
+		var chip := Rect2(cell.position+Vector2(34,4),Vector2(width,cell.size.y-8))
+		history_table.draw_style_box(InstrumentTheme.panel(Palette.TERM_PANEL,Palette.TERM_EDGE,4),chip)
+		history_table.draw_string(font,chip.position+Vector2(6,(chip.size.y+font.get_ascent(13)-font.get_descent(13))/2),label,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Palette.ACCENT)
+
 func _refresh_history(rebuild_rows: bool = true) -> void:
 	_syncing = true
 	history_table.set_column_title(5,tr2("总计名次","Total rank") if session.goal().objective == "cycles" else tr2("RAM名次","RAM rank"))
 	var selected: Dictionary = session.selected_entry()
 	var selected_id: int = int(selected.get("id",-1))
+	history_table.visible = not selected.is_empty()
+	for control: Control in [restore_button,baseline_button,explanation_button,measured_plan]:
+		control.visible = not selected.is_empty()
+	run_picture.display(selected,session.baseline_entry(),Model.condition_id(session.task()))
+	_layout_picture()
 	if rebuild_rows:
 		history_table.clear()
 		var tree_root: TreeItem = history_table.create_item()
@@ -855,13 +975,23 @@ func _refresh_history(rebuild_rows: bool = true) -> void:
 			var item: TreeItem = history_table.create_item(tree_root)
 			var metrics: Dictionary = row.metrics
 			item.set_metadata(0,int(row.id))
-			item.set_text(0,("#%d *" if int(row.id) == session.baseline_id() else "#%d") % int(row.id))
+			item.set_text(0,"#%d" % int(row.id))
 			item.set_text(1,_metric(metrics,"first_request_cycles"))
 			item.set_text(2,_metric(metrics,"total_cycles"))
 			item.set_text(3,str(int(metrics.ram_read_bytes)+int(metrics.ram_write_bytes)))
 			item.set_text(4,str(int(metrics.peak_extra_bytes)))
 			item.set_text(5,_rank_text(row))
+			_style_numbers(item)
 			for column: int in 6: item.set_tooltip_text(column,_plan_text(row.plan))
+			var base: Dictionary = session.baseline_entry()
+			if row.correct and not base.is_empty() and row.condition_id == base.condition_id:
+				var keys: Array[String] = ["first_request_cycles","total_cycles","traffic","peak_extra_bytes"]
+				for column: int in range(1,5):
+					var key: String = keys[column-1]
+					var difference: int = (int(metrics.ram_read_bytes)+int(metrics.ram_write_bytes)-int(base.metrics.ram_read_bytes)-int(base.metrics.ram_write_bytes)) if key == "traffic" else int(metrics[key])-int(base.metrics[key])
+					if difference != 0:
+						item.set_text(column,item.get_text(column)+" (%+d)" % difference)
+						item.set_custom_color(column,Palette.GOOD if difference < 0 else Palette.QUIT)
 			item.set_tooltip_text(5,_goal_text()+"\n"+tr2("名次仅比较本次运行；相同目标值并列。","Ranks compare recent runs only; equal objective values tie."))
 			if int(row.id) == selected_id: item.select(0)
 	_syncing = false
@@ -887,6 +1017,14 @@ func _refresh_history(rebuild_rows: bool = true) -> void:
 	if selected_id != _shown_entry:
 		_shown_entry = selected_id
 		_refresh_events()
+
+func _layout_picture() -> void:
+	if not is_instance_valid(run_picture): return
+	run_picture.get_parent().custom_minimum_size.y = 48 if run_picture.jobs.is_empty() else clampf((size.y-640)*1.75+90,90,230)
+
+func _style_numbers(item: TreeItem) -> void:
+	for column: int in range(1,5): item.set_text_alignment(column,HORIZONTAL_ALIGNMENT_RIGHT)
+	item.set_text_alignment(5,HORIZONTAL_ALIGNMENT_CENTER)
 
 func _rank_text(row: Dictionary) -> String:
 	if row.get("eligible",false): return "#"+str(row.rank)
@@ -931,6 +1069,7 @@ func _refresh_notebook(rebuild_rows: bool = true) -> void:
 			item.set_text(3,str(int(row.metrics.ram_read_bytes)+int(row.metrics.ram_write_bytes)))
 			item.set_text(4,str(int(row.metrics.peak_extra_bytes)))
 			item.set_text(5,_rank_text(row))
+			_style_numbers(item)
 			item.set_tooltip_text(5,tr2("本机从配方复测；相同目标值并列。","Locally remeasured from the recipe; equal objective values tie."))
 			if row.name == selected_name: item.select(0)
 	_syncing = false
@@ -1050,23 +1189,23 @@ func _signed(value: int) -> String:
 
 func _refresh_comparison() -> void:
 	var comparison: Dictionary = session.comparison()
+	comparison_label.visible = not comparison.is_empty()
 	if comparison.is_empty():
-		comparison_label.text = tr2("选择一次正确运行作为比较基准。Q1始终指第一份提交的请求。","Choose a correct run as the comparison. Q1 always means the first submitted request.")
+		comparison_label.text = ""
 		return
 	var verdicts: Dictionary = {
 		"better":tr2("各项不劣","No metric worse"),"worse":tr2("各项不优","No metric better"),
 		"tied":tr2("四项相同","All four equal"),"tradeoff":tr2("存在取舍","Tradeoff"),
 	}
-	comparison_label.text = tr2("对比 #%d：%s\nQ1 %s周期 · 总计 %s周期 · RAM %s B · 复制 %s B","vs #%d: %s\nQ1 %s cycles · total %s cycles · RAM %s B · copy %s B") % [
-		session.baseline_id(),verdicts[comparison.kind],_signed(int(comparison.first)),_signed(int(comparison.cycles)),
-		_signed(int(comparison.traffic)),_signed(int(comparison.peak))]
+	comparison_label.text = verdicts[comparison.kind]
+	comparison_label.tooltip_text = ""
 	var selected_id: int = int(session.selected_entry().get("id",-1))
 	for row: Dictionary in session.ranked_rows():
 		if row.eligible: continue
 		if int(row.id) == selected_id:
-			comparison_label.text += tr2("\n所选运行不满足当前限制。","\nThe selected run is outside the current goal.")
+			comparison_label.text += tr2(" · 所选不满足限制"," · selected outside goal")
 		elif int(row.id) == session.baseline_id():
-			comparison_label.text += tr2("\n比较基准不满足当前限制。","\nThe comparison baseline is outside the current goal.")
+			comparison_label.text += tr2(" · 基准不满足限制"," · baseline outside goal")
 
 func _challenge_storage_text(target: Dictionary) -> String:
 	if challenges.storage_status == "read_only":
@@ -1167,6 +1306,17 @@ func open_challenges() -> void:
 		challenge_window.english = english
 		challenge_window.theme = theme
 		add_child(challenge_window)
+		challenge_window.hide()
+		var scrim_layer := CanvasLayer.new()
+		scrim_layer.layer = 80
+		add_child(scrim_layer)
+		var scrim := ColorRect.new()
+		scrim.name = "ChallengeScrim"
+		scrim.color = Color(0.03,0.05,0.07,0.88)
+		scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		scrim_layer.add_child(scrim)
+		scrim.hide()
+		challenge_window.visibility_changed.connect(func() -> void: scrim.visible = challenge_window.visible,CONNECT_DEFERRED)
 		challenge_window.share_requested.connect(_share_challenge)
 		challenge_window.preview_requested.connect(_preview_challenge)
 		challenge_window.accept_requested.connect(_accept_challenge)
@@ -1182,7 +1332,8 @@ func open_challenges() -> void:
 	challenge_window.translate(english)
 	_refresh_challenge()
 	challenge_window.back()
-	challenge_window.popup_centered(Vector2i(820,580))
+	challenge_window.popup_centered(Vector2i(820,400))
+	challenge_window.call_deferred("_fit_content")
 	challenge_window.call_deferred("restore_focus","ImportChallenge")
 
 func _challenge_context_valid() -> bool:

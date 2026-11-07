@@ -7376,3 +7376,24 @@ msgstr "traffic B"
 
 msgid "representation.workbench.cache_order"
 msgstr "Cache · oldest → newest"
+# --- W6 20261108 ---
+msgid "schedule.picture.empty"
+msgstr "Run plan to measure"
+
+msgid "schedule.picture.run"
+msgstr "Run #%d"
+
+msgid "schedule.picture.baseline"
+msgstr "   /   baseline #%d (thin)"
+
+msgid "schedule.picture.legend"
+msgstr "Arrival → completion · Q1 = first request"
+
+msgid "schedule.picture.cycles"
+msgstr " cycles"
+
+msgid "schedule.picture.reference"
+msgstr "Baseline: "
+
+msgid "schedule.picture.copy"
+msgstr "Copy peak %d B"

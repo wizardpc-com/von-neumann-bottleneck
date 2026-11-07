@@ -209,7 +209,8 @@ func structures_loop(locale: String) -> void:
 	for control: Control in [window.code_edit,window.code_message,window.accept_button,window.back_button]:
 		check(window.get_visible_rect().grow(1).encloses(control.get_global_rect()),
 			"New starter minimum popup fits "+str(control.name)+" "+locale)
-	await structure_frame(locale+"-phased-starter-720",Vector2i(720,540),window)
+	check(window.size.y <= 540,"Content-sized starter stays within the minimum popup height "+locale)
+	await structure_frame(locale+"-phased-starter-720",Vector2i(720,window.size.y),window)
 	await popup_activate(window,window.back_button)
 	await popup_activate(window,window.close_button)
 	var split_state: Dictionary = task_state(host)

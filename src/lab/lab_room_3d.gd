@@ -681,7 +681,7 @@ func _refresh_board(stations: Array[Dictionary], completed: int, total: int, eng
 		(row.name as Label).add_theme_color_override("font_color", color)
 		(row.count as Label).text = "%d/%d" % [int(state.done), int(state.total)]
 		if int(state.get("temporary", 0)) > 0 and int(state.total) == 0:
-			(row.count as Label).text = ("临时探索 %d 项" if not english else "%d temporary") % int(state.temporary)
+			(row.count as Label).text = ("%d 项" if not english else "%d items") % int(state.temporary)
 		(row.count as Label).add_theme_color_override("font_color", color.darkened(0.15) if status != "locked" else Color("4f5e69"))
 	_board_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 

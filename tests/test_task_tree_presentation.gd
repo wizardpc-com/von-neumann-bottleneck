@@ -11,6 +11,10 @@ func run() -> void:
 		var scene: Control = load("res://src/campaign/task_tree.tscn").instantiate(); root.add_child(scene)
 		scene.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT); scene.size=Vector2(1280,720)
 		for frame: int in range(4): await process_frame
+		check(scene.view_buttons.visible,"List return is available without a search term in both languages.")
+		scene.list_button.pressed.emit()
+		check(scene.list_view.visible and not scene.detail_view.visible,"Direct list return works without reselecting a chapter.")
+		scene.detail_button.pressed.emit()
 		# The Continue target is framed inside its chapter: fully visible, and a
 		# first task does not leave half the view empty left of the route.
 		var target := Rect2(scene.canvas.positions[nav.selected]*scene.canvas.magnification+scene.canvas.pan,scene.canvas.NODE_SIZE*scene.canvas.magnification)

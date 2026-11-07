@@ -65,9 +65,7 @@ func run() -> void:
 	mode.set_mode(&"game")
 	var reduced: bool = bool(ProjectSettings.get_setting("game/reduced_motion",false))
 	ProjectSettings.set_setting("game/reduced_motion",true)
-	var pulse_before: float = canvas.pulse_time
-	canvas._process(1.0)
-	check(canvas.pulse_time == pulse_before,"Reduced motion keeps the continuation emphasis static")
+	check(not canvas.is_processing(),"Continuation emphasis is static without per-frame redraw, including reduced motion")
 	ProjectSettings.set_setting("game/reduced_motion",reduced)
 	canvas.records.clear()
 	check(canvas.record_caption(completion).is_empty(),"Missing records never invent a metric")

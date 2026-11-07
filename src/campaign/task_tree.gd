@@ -70,7 +70,8 @@ func _ready() -> void:
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	header.add_child(title)
 	header.add_child(PlaytestMoments.make_button())
-	header.add_child(WindowMode.settings_button())
+	var settings := WindowMode.settings_button()
+	header.add_child(settings)
 	search = LineEdit.new()
 	search.placeholder_text = _t("search")
 	search.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -86,6 +87,7 @@ func _ready() -> void:
 	_button(header,"tree.overview",func() -> void: canvas.overview())
 	var navigation := HFlowContainer.new(); navigation.name = "JourneyRegionNavigation"
 	navigation.add_theme_constant_override("h_separation",12); navigation.add_theme_constant_override("v_separation",6); column.add_child(navigation)
+	navigation.hide()
 	var section_label := Label.new(); section_label.text = "章节" if Localization.current_locale() != "en" else "Chapter"
 	section_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER; navigation.add_child(section_label)
 	region_choice = OptionButton.new(); region_choice.name = "JourneyRegionChoice"
@@ -103,6 +105,13 @@ func _ready() -> void:
 	journal.text = "成长档案" if Localization.current_locale() != "en" else "Journal"
 	journal.custom_minimum_size.y = 42; navigation.add_child(journal)
 	journal.pressed.connect(_open_journey_journal)
+	journal.reparent(header)
+	header.move_child(home,header.get_child_count()-1)
+	header.move_child(settings,header.get_child_count()-1)
+	for control: Node in header.get_children():
+		if control is Button or control is LineEdit:
+			(control as Control).add_theme_font_size_override("font_size",16)
+	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	creation_route = HBoxContainer.new(); creation_route.name = "CreationRouteShortcuts"
 	creation_route.add_theme_constant_override("separation",6)
 	var route_scroll := ScrollContainer.new()
@@ -126,7 +135,6 @@ func _ready() -> void:
 	var side := VBoxContainer.new(); side.add_theme_constant_override("separation",14)
 	detail_panel.add_child(side)
 	view_buttons = HBoxContainer.new(); view_buttons.add_theme_constant_override("separation",8); side.add_child(view_buttons)
-	view_buttons.hide()
 	list_button=Button.new(); list_button.name="JourneyTaskListButton"; list_button.text="章节任务" if Localization.current_locale() != "en" else "Chapter tasks"
 	list_button.custom_minimum_size.y=42; list_button.size_flags_horizontal=Control.SIZE_EXPAND_FILL; list_button.toggle_mode=true
 	list_button.pressed.connect(_show_list); view_buttons.add_child(list_button)
@@ -439,7 +447,7 @@ func _task_link(container: Node,task: Dictionary,prefix: String = "") -> void:
 
 func _show_list() -> void:
 	detail_panel.show()
-	view_buttons.visible = not search.text.strip_edges().is_empty()
+	view_buttons.show()
 	_refresh_task_list()
 	list_view.show()
 	detail_view.hide()
@@ -447,7 +455,7 @@ func _show_list() -> void:
 	detail_button.button_pressed=false
 
 func _show_detail() -> void:
-	view_buttons.visible = not search.text.strip_edges().is_empty()
+	view_buttons.show()
 	list_view.hide()
 	detail_view.show()
 	list_button.button_pressed=false

@@ -28,12 +28,12 @@ var region_by_key: Dictionary = {}
 var edge_geometry_cache: Dictionary = {}
 var dash_geometry_cache: Dictionary = {}
 var resume_key: String = ""
-var pulse_time: float = 0.0
 var records: Dictionary = {}
 var record_kinds: Dictionary = {}
 var dash_cache_zoom: float = -1.0
 
 func _ready() -> void:
+	set_process(false)
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	mouse_exited.connect(func() -> void: _set_hover(""))
@@ -63,11 +63,6 @@ func configure(tasks: Array[Dictionary]) -> void:
 	for message: String in layout.errors: push_error(message)
 	queue_redraw()
 
-func _process(delta: float) -> void:
-	if bool(ProjectSettings.get_setting("game/reduced_motion",false)): return
-	pulse_time += delta
-	if magnification >= 0.34: queue_redraw()
-
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color(0.025,0.055,0.085,0.68))
 	if rows.is_empty(): return
@@ -81,7 +76,6 @@ func _draw() -> void:
 		var tray_style: StyleBoxFlat = InstrumentTheme.surface(Color("0c1925"),Color(_color(region),0.16),18)
 		tray_style.shadow_size=24
 		draw_style_box(tray_style,tray)
-		draw_line(tray.position+Vector2(24,16),tray.position+Vector2(24,66),Color(_color(region),0.65),3,true)
 	for task: Dictionary in rows:
 		for dep: String in task.dependencies: _draw_edge(task,dep,false)
 		for dep: String in task.get("recommended_from",[]):
@@ -116,7 +110,7 @@ func _draw() -> void:
 			draw_arc(rect.position+Vector2(NODE_SIZE.x-18,18),8,0,TAU,20,color,2,true)
 			draw_line(rect.position+Vector2(NODE_SIZE.x-18,12),rect.position+Vector2(NODE_SIZE.x-18,18),color,2,true)
 		if task.key == resume_key:
-			var alpha: float = 0.5 if bool(ProjectSettings.get_setting("game/reduced_motion",false)) else 0.45+0.15*sin(pulse_time*2.0)
+			var alpha: float = 0.5
 			var ring := StyleBoxFlat.new()
 			ring.draw_center=false;ring.border_color=Color("f0c674",alpha)
 			ring.set_border_width_all(2);ring.set_corner_radius_all(13)
@@ -223,7 +217,9 @@ func _draw_screen_text() -> void:
 		if title==String(key): title="Chapter "+str(region)
 		var font_size: int=maxi(16,roundi(30*magnification))
 		var width: float=rect.size.x*magnification-20
-		draw_string(font,((rect.position+Vector2(50,10))*magnification+pan).round(),_fit_text(title,font,font_size,width),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,_color(region))
+		var title_position: Vector2 = ((rect.position+Vector2(50,10))*magnification+pan).round()
+		if title_position.y >= font_size and title_position.y <= size.y:
+			draw_string(font,title_position,_fit_text(title,font,font_size,width),HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,_color(region))
 	for task: Dictionary in rows:
 		var layout: Dictionary=node_text_layout(task)
 		if layout.is_empty(): continue
@@ -244,7 +240,7 @@ func _draw_screen_text() -> void:
 		if not relation_label.is_empty(): caption = relation_label + " · " + caption
 		if str(task.get("evidence_status","")) == "unavailable": caption = "成果待确认" if Localization.current_locale().begins_with("zh") else "Work unconfirmed"
 		elif str(task.get("progress_source","")) == "session": caption = "仅本次会话" if Localization.current_locale().begins_with("zh") else "Session only"
-		var caption_size: int=maxi(12,roundi(15*magnification))
+		var caption_size: int=maxi(13,roundi(15*magnification))
 		var rect: Rect2=layout.rect
 		var at: Vector2=Vector2(layout.position.x,rect.position.y+62*magnification).round()
 		draw_string(font,at,_fit_text(caption,font,caption_size,layout.width),HORIZONTAL_ALIGNMENT_LEFT,-1,caption_size,color)

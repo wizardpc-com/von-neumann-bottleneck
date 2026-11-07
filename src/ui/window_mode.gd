@@ -22,6 +22,7 @@ var _has_windowed_rect: bool = false
 
 
 func _ready() -> void:
+	_configure_scale_study()
 	var settings := ConfigFile.new()
 	if settings.load("user://presentation.cfg")==OK:
 		ProjectSettings.set_setting("game/reduced_motion",bool(settings.get_value("display","reduced_motion",false)))
@@ -332,3 +333,27 @@ func _restore_window_geometry() -> void:
 
 func _exit_tree() -> void:
 	_save_window_geometry()
+
+# Private comparison policy for A7; A preserves the shipping scale.
+const SCALE_STUDY_OPTION: String = "A"
+
+func _configure_scale_study() -> void:
+	if SCALE_STUDY_OPTION == "C":
+		get_window().content_scale_size = Vector2i(1280, 720)
+	elif SCALE_STUDY_OPTION == "B":
+		get_tree().node_added.connect(func(node: Node) -> void:
+			if node is Control: _scale_study_fonts.call_deferred(node))
+		get_window().size_changed.connect(func() -> void: _scale_study_fonts.call_deferred(get_tree().root))
+		_scale_study_fonts.call_deferred(get_tree().root)
+
+func _scale_study_fonts(node: Variant) -> void:
+	if not is_instance_valid(node): return
+	if node is Control:
+		var control := node as Control
+		var ratio: float = minf(float(get_window().size.x) / 1600.0, float(get_window().size.y) / 900.0)
+		var multiplier: float = maxf(1.0, 1.0 / maxf(ratio, 0.01))
+		for key: String in ["font_size", "normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size", "mono_font_size"]:
+			var metadata: String = "a7_original_" + key
+			if not control.has_meta(metadata): control.set_meta(metadata, control.get_theme_font_size(key))
+			control.add_theme_font_size_override(key, ceili(float(control.get_meta(metadata)) * multiplier))
+	for child: Node in node.get_children(): _scale_study_fonts(child)

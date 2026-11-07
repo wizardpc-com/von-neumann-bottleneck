@@ -417,11 +417,39 @@ func _refresh_achievement_cards() -> void:
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		card.add_theme_stylebox_override("panel",InstrumentTheme.surface(PANEL,Color("365463"),8))
 		cards.add_child(card)
-		var label := Label.new()
-		label.text = "%s\n%d / %d" % [data.title,data.done,data.total]
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.add_theme_font_size_override("font_size",18)
-		card.add_child(label)
+		var plaque := VBoxContainer.new(); plaque.add_theme_constant_override("separation", 8)
+		card.add_child(plaque)
+		var line := HBoxContainer.new(); plaque.add_child(line)
+		var medal := Control.new(); medal.custom_minimum_size = Vector2(42, 42)
+		medal.add_theme_color_override("font_color", ACCENT)
+		line.add_child(medal)
+		var fraction: float = float(data.done) / maxf(1.0, float(data.total))
+		medal.draw.connect(func() -> void:
+			var ink := medal.get_theme_color("font_color")
+			var center := Vector2(21, 21)
+			medal.draw_arc(center, 15, 0, TAU, 48, Color(ink, 0.23), 2.0, true)
+			if fraction > 0.0:
+				medal.draw_arc(center, 15, -PI * 0.5, -PI * 0.5 + TAU * fraction, 48, ink, 3.0, true)
+			if fraction >= 1.0:
+				medal.draw_circle(center, 11, ink)
+				medal.draw_line(center + Vector2(-5, 0), center + Vector2(-1, 4), Color("f8fafb"), 2.0, true)
+				medal.draw_line(center + Vector2(-1, 4), center + Vector2(6, -5), Color("f8fafb"), 2.0, true))
+		var heading: String = str(data.title)
+		# Core translations include an ordinal; candidate titles do not.
+		if heading.length() > 3 and heading.left(2).is_valid_int() and heading[2] == " ": heading = heading.substr(3)
+		var title := Label.new(); title.text = "%02d  %s" % [region + 1, heading]
+		title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		title.add_theme_font_size_override("font_size",16)
+		title.size_flags_horizontal = Control.SIZE_EXPAND_FILL; line.add_child(title)
+		var count := Label.new(); count.text = "%d / %d" % [data.done, data.total]
+		count.add_theme_font_size_override("font_size",24)
+		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT; line.add_child(count)
+		var progress := ProgressBar.new(); progress.show_percentage = false
+		progress.custom_minimum_size.y = 4; progress.max_value = data.total; progress.value = data.done
+		var track := StyleBoxFlat.new(); track.bg_color = Color("33434e")
+		var fill := StyleBoxFlat.new(); fill.bg_color = ACCENT
+		progress.add_theme_stylebox_override("background",track); progress.add_theme_stylebox_override("fill",fill)
+		plaque.add_child(progress)
 
 
 func journey_region_title(row: Dictionary) -> String:
@@ -636,7 +664,21 @@ func _build_options_menu() -> void:
 	panel.docked_column_width = 1120.0
 	var tabs := TabContainer.new(); tabs.name = "SettingsCategories"
 	tabs.size_flags_vertical = Control.SIZE_FILL
-	tabs.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	var tab_panel := InstrumentTheme.panel(Color("16222b"), ACCENT, 0)
+	tab_panel.content_margin_top = 14
+	tabs.add_theme_stylebox_override("panel", tab_panel)
+	for state: String in ["tab_selected", "tab_unselected", "tab_hovered"]:
+		var tab := StyleBoxFlat.new()
+		tab.bg_color = Color("16222b") if state == "tab_selected" else Color("08111a")
+		tab.border_color = ACCENT if state == "tab_selected" else Color("33434e")
+		tab.set_border_width_all(1)
+		tab.border_width_bottom = 0 if state == "tab_selected" else 1
+		if state == "tab_selected": tab.expand_margin_bottom = 1
+		tab.corner_radius_top_left = 6; tab.corner_radius_top_right = 6
+		tab.content_margin_left = 22; tab.content_margin_right = 22
+		tab.content_margin_top = 10; tab.content_margin_bottom = 10
+		tabs.add_theme_stylebox_override(state, tab)
+	tabs.add_theme_constant_override("side_margin", 0)
 	tabs.tab_changed.connect(func(_index: int) -> void: _fit_settings_panel.call_deferred())
 	tabs.use_hidden_tabs_for_min_size = false
 	column.add_child(tabs)
@@ -799,7 +841,8 @@ func _settings_card(parent: Node, key: String) -> VBoxContainer:
 	const Palette = preload("res://src/lab/lab_palette.gd")
 	var card := PanelContainer.new(); card.name = "SettingsCard_" + key.get_slice(".", 1)
 	var box: StyleBoxFlat = InstrumentTheme.panel(Palette.TERM_SCREEN_LIFT, Palette.TERM_EDGE, 10)
-	box.content_margin_left = 16; box.content_margin_right = 16; box.content_margin_top = 12; box.content_margin_bottom = 14
+	box.content_margin_left = 20; box.content_margin_right = 20; box.content_margin_top = 12; box.content_margin_bottom = 14
+	box.border_width_left = 3
 	card.add_theme_stylebox_override("panel", box)
 	parent.add_child(card)
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 10)
@@ -822,6 +865,7 @@ func _settings_card(parent: Node, key: String) -> VBoxContainer:
 ## A label on the left, its control on the right.
 func _settings_row(parent: Node, key: String, control: Control) -> void:
 	var row := HBoxContainer.new(); row.add_theme_constant_override("separation", 14)
+	row.custom_minimum_size.y = 44
 	var label := Label.new(); label.text = Localization.text(StringName(key))
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -873,7 +917,7 @@ func _fit_settings_panel() -> void:
 	var tabs: TabContainer = options_overlay.find_child("SettingsCategories",true,false)
 	if tabs != null and tabs.get_current_tab_control() != null:
 		var page: Control = tabs.get_current_tab_control().get_child(0)
-		tabs.custom_minimum_size.y = minf(page.get_combined_minimum_size().y + tabs.get_tab_bar().size.y, maxf(100, panel.size.y - 160))
+		tabs.custom_minimum_size.y = minf(page.get_combined_minimum_size().y + tabs.get_tab_bar().size.y, maxf(100, panel.size.y - 184))
 
 func _reload_settings_locale(locale: String = "", reset_defaults: bool = false, return_to_settings: bool = true) -> void:
 	if WindowMode.reload_localized_scene(settings_only, return_to_settings, locale, reset_defaults): return

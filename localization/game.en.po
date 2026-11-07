@@ -7413,3 +7413,6 @@ msgstr "Earn prerequisites; keep your own work."
 
 msgid "terminal.card.first_line"
 msgstr "Connect the first line"
+# --- A3 20261108b ---
+msgid "a3.works.empty"
+msgstr "Works saved at the creation workbench appear here."

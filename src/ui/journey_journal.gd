@@ -33,7 +33,7 @@ var work_selector: OptionButton
 var work_view_button: Button
 var work_note: Label
 var work_focus: Window
-var saved_work_preview: SavedContentPreview
+var work_frames: HBoxContainer
 
 
 func _ready() -> void:
@@ -81,27 +81,41 @@ func _build() -> void:
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(content)
 	var navigation := VBoxContainer.new()
-	navigation.custom_minimum_size.x = 330
+	navigation.custom_minimum_size.x = 350
 	content.add_child(navigation)
 	region_selector = OptionButton.new()
 	region_selector.name = "JournalRegion"
+	region_selector.custom_minimum_size.y = 42
 	region_selector.fit_to_longest_item = false
 	region_selector.item_selected.connect(func(_index: int) -> void: _refresh_tasks())
 	navigation.add_child(region_selector)
 	task_tree = Tree.new()
 	task_tree.name = "JournalTasks"
 	task_tree.hide_root = true
-	task_tree.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	task_tree.add_theme_constant_override("v_separation", 10)
+	for state: String in ["selected", "selected_focus"]:
+		var selection := StyleBoxFlat.new(); selection.bg_color = Color("63c8cf", 0.55)
+		selection.border_color = Color("63c8cf"); selection.border_width_left = 4
+		task_tree.add_theme_stylebox_override(state, selection)
+	task_tree.add_theme_color_override("font_selected_color", Color("e2ebef"))
+	var tree_space := Control.new(); tree_space.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	navigation.add_child(tree_space)
+	tree_space.resized.connect(_fit_task_rows)
+	task_tree.theme_changed.connect(func() -> void: _fit_task_rows.call_deferred())
 	task_tree.item_selected.connect(func() -> void:
 		var item: TreeItem = task_tree.get_selected()
 		if item != null: show_task(str(item.get_metadata(0))))
-	navigation.add_child(task_tree)
+	tree_space.add_child(task_tree)
+	var record_frame := PanelContainer.new()
+	record_frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	record_frame.add_theme_stylebox_override("panel", preload("res://src/ui/instrument_theme.gd").surface(Color("16222b"), Color("33434e"), 4))
+	content.add_child(record_frame)
 	var scroll := ScrollContainer.new()
 	scroll.name = "JournalDetailScroll"
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.follow_focus = true
-	content.add_child(scroll)
+	record_frame.add_child(scroll)
 	detail = RichTextLabel.new()
 	detail.name = "JournalRecord"
 	detail.bbcode_enabled = false
@@ -110,20 +124,25 @@ func _build() -> void:
 	detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail.add_theme_font_size_override("normal_font_size", 16)
 	scroll.add_child(detail)
+	var work_frame := PanelContainer.new()
+	work_frame.add_theme_stylebox_override("panel", preload("res://src/ui/instrument_theme.gd").surface(Color("16222b"), Color("33434e"), 4))
+	column.add_child(work_frame)
 	var work_row := HBoxContainer.new()
 	work_row.add_theme_constant_override("separation", 12)
-	column.add_child(work_row)
-	saved_work_preview=preload("res://src/ui/saved_content_preview.gd").new()
-	saved_work_preview.name="JournalWorkPreview"
-	saved_work_preview.custom_minimum_size=Vector2(160,70)
-	saved_work_preview.hide()
-	work_row.add_child(saved_work_preview)
+	work_frame.add_child(work_row)
+	var gallery := ScrollContainer.new(); gallery.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	gallery.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	work_row.add_child(gallery)
+	work_frames = HBoxContainer.new(); work_frames.add_theme_constant_override("separation", 12)
+	gallery.add_child(work_frames)
+	# The selector keeps snapshot identity; the visible frames select those same entries.
 	work_selector = OptionButton.new()
 	work_selector.name = "JournalSavedWorks"
 	work_selector.fit_to_longest_item = false
 	work_selector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	work_selector.item_selected.connect(func(_index: int) -> void: _refresh_work_note())
 	work_row.add_child(work_selector)
+	work_selector.hide()
 	work_view_button = _button(work_row, "JournalViewWork", _open_work)
 	work_note = _label(column, 14)
 	work_note.name = "JournalWorkScope"
@@ -136,7 +155,7 @@ func _build() -> void:
 	enter_button.pressed.connect(_enter_selected, CONNECT_DEFERRED)
 	help_button = _button(actions, "JournalHelp", _open_help)
 	reflection_button = _button(actions, "JournalReflection", _open_reflection)
-	var focus_order: Array[Control] = [region_selector, task_tree, work_selector, work_view_button, enter_button, help_button, reflection_button, close_button]
+	var focus_order: Array[Control] = [region_selector, task_tree, work_view_button, enter_button, help_button, reflection_button, close_button]
 	for index: int in range(focus_order.size()):
 		focus_order[index].focus_next = focus_order[index].get_path_to(focus_order[(index + 1) % focus_order.size()])
 		focus_order[index].focus_previous = focus_order[index].get_path_to(focus_order[(index - 1 + focus_order.size()) % focus_order.size()])
@@ -223,11 +242,13 @@ func _refresh_tasks() -> void:
 	for row: Dictionary in rows:
 		if region >= 0 and int(row.region) != region: continue
 		var item := task_tree.create_item(parent)
+		item.set_custom_minimum_height(34)
 		var mark: String = "✓ " if earned(row) else "○ "
 		item.set_text(0, mark + str(row.title))
 		item.set_metadata(0, str(row.key))
 		item.set_tooltip_text(0, source_note(row))
 		if selected == null or str(row.key) == selected_key: selected = item
+	_fit_task_rows.call_deferred()
 	if selected != null:
 		selected.select(0)
 		show_task(str(selected.get_metadata(0)))
@@ -235,6 +256,19 @@ func _refresh_tasks() -> void:
 		selected_key = ""
 		detail.text = _copy("当前区域没有可确认的任务记录。", "No confirmed task records in this region.")
 		enter_button.disabled = true
+
+
+func _fit_task_rows() -> void:
+	if task_tree == null or task_tree.get_parent() == null: return
+	var space := task_tree.get_parent() as Control
+	var panel: StyleBox = task_tree.get_theme_stylebox("panel")
+	var margins: float = panel.get_minimum_size().y
+	var row_height: float = 34.0 + task_tree.get_theme_constant("v_separation")
+	var first: TreeItem = task_tree.get_root().get_first_child() if task_tree.get_root() != null else null
+	if first != null and first.get_next() != null:
+		var step: float = task_tree.get_item_area_rect(first.get_next()).position.y - task_tree.get_item_area_rect(first).position.y
+		if step > 0: row_height = step
+	task_tree.size = Vector2(space.size.x, maxf(row_height, floorf((space.size.y - margins) / row_height) * row_height) + margins)
 
 
 func show_task(key: String) -> void:
@@ -378,22 +412,51 @@ func _refresh_works(selected_id: String = "") -> void:
 	work_view_button.text = _copy("查看原快照", "View saved snapshot")
 	if work_selector.disabled:
 		work_selector.add_item(_copy("没有可查看的已保存作品", "No saved work is available"))
+	for child: Node in work_frames.get_children():
+		work_frames.remove_child(child); child.queue_free()
+	var works: Array = _saved_works()
+	for index: int in (3 if works.is_empty() else works.size()):
+		var frame := Button.new(); frame.custom_minimum_size = Vector2(176, 100)
+		frame.clip_text = true; frame.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		frame.disabled = works.is_empty()
+		var box := preload("res://src/ui/instrument_theme.gd").surface(Color("111a21"), Color("33434e"), 2)
+		box.set_border_width_all(2)
+		for state: String in ["normal", "disabled"]: frame.add_theme_stylebox_override(state, box)
+		work_frames.add_child(frame)
+		if works.is_empty(): continue
+		var work: Dictionary = works[index]
+		frame.tooltip_text = str(work.get("name", _copy("未命名作品", "Untitled work")))
+		var caption := Label.new(); caption.text = frame.tooltip_text
+		caption.position = Vector2(8, 76); caption.size = Vector2(160, 22)
+		caption.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		caption.add_theme_font_size_override("font_size", 13)
+		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		frame.add_child(caption)
+		var preview := preload("res://src/ui/saved_content_preview.gd").new()
+		frame.add_child(preview); preview.position = Vector2(8, 6)
+		preview.english = _english(); preview.configure_work(work, not recovery)
+		frame.pressed.connect(func() -> void:
+			work_selector.select(index)
+			_refresh_work_note())
+	var targets: Array[Control] = [task_tree]
+	if not works.is_empty():
+		for frame: Node in work_frames.get_children(): targets.append(frame as Control)
+	targets.append(work_view_button)
+	for index: int in targets.size() - 1:
+		targets[index].focus_next = targets[index].get_path_to(targets[index + 1])
+		targets[index + 1].focus_previous = targets[index + 1].get_path_to(targets[index])
 	_refresh_work_note()
 
 
 func _refresh_work_note() -> void:
-	if saved_work_preview != null:
-		saved_work_preview.clear_content()
-		saved_work_preview.hide()
-		saved_work_preview.english=Localization.current_locale()=="en"
-		if not work_view_button.disabled and work_selector.selected>=0:
-			var selected_work: String=str(work_selector.get_item_metadata(work_selector.selected))
-			for work: Dictionary in _saved_works():
-				if str(work.get("id",""))==selected_work:
-					saved_work_preview.visible=saved_work_preview.configure_work(work,bool(saved_work_state.get("ok",false)))
-					break
+	for index: int in work_frames.get_child_count():
+		var frame := work_frames.get_child(index) as Button
+		var selected: bool = not work_selector.disabled and index == work_selector.selected
+		var box := frame.get_theme_stylebox("normal").duplicate() as StyleBoxFlat
+		box.border_color = (task_tree.get_theme_stylebox("selected") as StyleBoxFlat).border_color if selected else (frame.get_theme_stylebox("disabled") as StyleBoxFlat).border_color
+		frame.add_theme_stylebox_override("normal", box)
 	if work_view_button.disabled:
-		work_note.text = ""
+		work_note.text = Localization.text(&"a3.works.empty")
 	elif not saved_work_state.get("ok", false):
 		work_note.text = _copy("只读恢复快照 · 原支持证据不可确认；不授予完成，也没有生成回放证据。", "Read-only recovery snapshot · support evidence is unconfirmed; no completion or generation replay is supplied.")
 	else:

@@ -301,7 +301,8 @@ func _feedback_card(handle: String) -> PanelContainer:
 	surface.bg_color = Color("10212d")
 	surface.border_color = Color("294453")
 	surface.set_border_width_all(1)
-	surface.set_corner_radius_all(12)
+	surface.set_corner_radius_all(4)
+	if handle == "FeedbackFormCard": surface.border_width_top = 3
 	for side: String in ["left","right","top","bottom"]: surface.set("content_margin_"+side,14.0)
 	card.add_theme_stylebox_override("panel",surface)
 	return card
@@ -319,7 +320,9 @@ func _feedback_icon(handle: String, pixels: int) -> TextureRect:
 func _fit_feedback_layout() -> void:
 	if panel.has_meta("terminal_page") and panel.get_theme_stylebox("panel").get_content_margin(SIDE_TOP) != 0:
 		var page := StyleBoxFlat.new()
-		page.bg_color = Color("08111a")
+		# Layout may settle after the room skin has already been applied.
+		var room_skin = preload("res://src/lab/room_page_skin.gd")
+		page.bg_color = room_skin.ground("feedback") if panel.has_meta(room_skin.META) else Color("08111a")
 		panel.add_theme_stylebox_override("panel",page)
 	content_scroll.custom_minimum_size.y = minf(feedback_layout.get_combined_minimum_size().y, maxf(100,panel.get_viewport().get_visible_rect().size.y-220))
 	var wide: bool = panel.get_viewport().get_visible_rect().size.x >= 1008.0

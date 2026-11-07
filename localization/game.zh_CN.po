@@ -7412,3 +7412,6 @@ msgstr "按前置推进，保留自己的成果。"
 
 msgid "terminal.card.first_line"
 msgstr "接通第一条线路"
+# --- A3 20261108b ---
+msgid "a3.works.empty"
+msgstr "在创造工作台保存的作品会陈列在这里。"

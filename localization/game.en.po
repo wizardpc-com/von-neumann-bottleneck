@@ -7347,3 +7347,12 @@ msgstr "Locate evidence"
 
 msgid "w1.layout.scratch"
 msgstr "Scratch"
+# --- W4 20261108 ---
+msgid "请求时间线"
+msgstr "Request timeline"
+
+msgid "关闭猜测  %d 周期    →    本轮  %d 周期"
+msgstr "Off  %d cycles    →    This run  %d cycles"
+
+msgid "差值 %+d 周期"
+msgstr "Delta %+d cycles"

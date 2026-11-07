@@ -32,6 +32,7 @@ func run() -> void:
 		root.add_child(scene); await process_frame; await process_frame
 		check(scene.english == english,"Prediction follows the shared current language")
 		check(control(scene,"CandidateHome") != null,"Candidate journey offers Home")
+		check(control(scene,"Laboratory") != null and control(scene,"Quit") == null,"Journey header offers map and laboratory; OS close retains the quit guard")
 		check(not auto_accept_quit and scene.is_in_group("candidate_quit_owners"),"Prediction owns OS-close handling so campaign quit cannot preempt its guard")
 		scene.request_hub()
 		check(scene.departed == 1 and scene.departed_home and scene.get_node_or_null("LeavePredictionDialog") == null,"Empty exploration returns Home without a discard prompt")
@@ -58,10 +59,10 @@ func run() -> void:
 		cancel(scene)
 		check(scene.public_observation() == observed_before and scene.departed == 0,"Cancel OS close preserves measured history and current prefix")
 		for index: int in signatures.size(): check(scene.history[index].trace.canonical_signature() == signatures[index],"Departure dialogs never change recorded Trace")
-		control(scene,"Quit").pressed.emit(); guard.hide(); guard.confirmed.emit()
+		scene.request_quit(); guard.hide(); guard.confirmed.emit()
 		check(scene.departed == 1 and not scene.departed_home,"Confirmed discard uses quit destination")
 		scene.departed = 0; control(scene,"CandidateHome").pressed.emit()
-		check(guard.ok_button_text.contains("Home" if english else "首页"),"Reused guard updates its destination after a quit attempt")
+		check(guard.ok_button_text.contains("map" if english else "地图"),"Reused guard updates its map destination after a quit attempt")
 		guard.hide(); guard.confirmed.emit()
 		check(scene.departed == 1 and scene.departed_home,"Confirmed Home departure follows the chosen destination")
 		scene.queue_free(); await process_frame; await process_frame

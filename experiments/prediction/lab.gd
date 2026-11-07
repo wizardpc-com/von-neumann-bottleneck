@@ -10,6 +10,7 @@ var english: bool = false
 var candidate_journey: bool = false
 var previous_auto_quit: bool = true
 var leave_to_hub: bool = false
+var leave_destination: String = ""
 var task: int = 0
 var policy: Dictionary = Model.default_policy()
 var history: Array[Dictionary] = []
@@ -32,8 +33,10 @@ var journey_context
 var recorded_source: Label
 var request_strip: HBoxContainer
 var timeline_summary: Label
+var timeline_delta: Label
 var step_button: Button
 const Typography = preload("res://src/ui/ui_typography.gd")
+const Palette = preload("res://src/lab/lab_palette.gd")
 const TEXT := Color("e2ebef")
 const MUTED := Color("8fa3ad")
 
@@ -110,7 +113,6 @@ func _build_theme() -> void:
 	for control_type: String in ["Label","Button","OptionButton","Tree","ItemList","PopupMenu"]:
 		skin.set_color("font_color",control_type,TEXT)
 	skin.set_color("default_color","RichTextLabel",TEXT)
-	skin.set_font_size("normal_font_size","RichTextLabel",Typography.CAPTION_SIZE)
 	skin.set_stylebox("panel","Tree",InstrumentTheme.panel(Color("0b1722")))
 	skin.set_stylebox("selected","Tree",InstrumentTheme.panel(Color("193a4c"),Color("7fcbd6"),3))
 	skin.set_stylebox("selected_focus","Tree",InstrumentTheme.panel(Color("193a4c"),Color("7fcbd6"),3))
@@ -158,15 +160,19 @@ func build() -> void:
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	if preload("res://src/campaign/journey_naming.gd").chapter_for("prediction/regular") != "": title.text = preload("res://src/campaign/journey_naming.gd").chapter_for("prediction/regular")
 	top.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
-	if candidate_journey: button(text2("旅程地图","Journey map") if get_node("/root/TaskNavigation").from_tree else text2("实验室","Laboratory"),"CandidateHome",top,request_hub)
+	if candidate_journey:
+		button(text2("旅程地图","Journey map"),"CandidateHome",top,func() -> void: request_destination("tree"))
+		button(text2("实验室","Laboratory"),"Laboratory",top,func() -> void: request_destination("lab"))
 	top.add_child(get_node("/root/WindowMode").settings_button())
-	button(text2("退出游戏","Quit"),"Quit",top,request_quit)
+	if not candidate_journey:
+		preload("res://src/ui/workbench_chrome.gd").quit_style(button(text2("退出游戏","Quit"),"Quit",top,request_quit))
 	preload("res://src/ui/workbench_chrome.gd").frame(top)
 	var boundary: Label = label(text2("可选临时探索 · 规则、历史与结果离开后不保留", "Optional temporary exploration · rules, history and results are discarded on leaving"),page,14)
 	boundary.name = "TemporaryBoundary"; boundary.add_theme_color_override("font_color",MUTED)
 	var nav := HBoxContainer.new(); page.add_child(nav)
 	nav.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
 	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, top, "prediction", preload("res://src/campaign/second_act_tasks.gd").IDS["prediction"][task])
+	InstrumentTheme.nav(terminology_handbook.entry_button)
 	top.move_child(terminology_handbook.entry_button,1)
 	for i: int in 3:
 		var stage_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("prediction", i))
@@ -176,18 +182,25 @@ func build() -> void:
 	purpose.name = "TaskPurpose"
 	var timeline: VBoxContainer = _workbench_panel(page,"PredictionTimelinePanel")
 	(timeline.get_parent() as Control).size_flags_vertical = Control.SIZE_FILL
-	timeline_summary = label("",timeline,16); timeline_summary.name = "TimelineSummary"
+	var timeline_heading := HBoxContainer.new(); timeline.add_child(timeline_heading)
+	timeline_summary = label("",timeline_heading,18); timeline_summary.name = "TimelineSummary"
+	timeline_summary.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	timeline_summary.autowrap_mode = TextServer.AUTOWRAP_OFF
+	timeline_delta = label("",timeline_heading,18); timeline_delta.name = "TimelineDelta"
+	timeline_delta.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	timeline_delta.autowrap_mode = TextServer.AUTOWRAP_OFF
 	var strip_scroll := ScrollContainer.new(); strip_scroll.name = "RequestTimeline"
-	strip_scroll.custom_minimum_size.y = 124; strip_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	strip_scroll.custom_minimum_size.y = 100; strip_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	strip_scroll.focus_mode = Control.FOCUS_ALL; timeline.add_child(strip_scroll)
 	request_strip = HBoxContainer.new(); request_strip.add_theme_constant_override("separation",6); strip_scroll.add_child(request_strip)
 	var body := HBoxContainer.new(); body.name = "PredictionWorkspace"
 	body.add_theme_constant_override("separation",16); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; page.add_child(body)
 	var editor: VBoxContainer = _workbench_panel(body,"PredictionRulesPanel")
-	(editor.get_parent() as Control).custom_minimum_size.x = 390
+	(editor.get_parent() as Control).custom_minimum_size.x = 320
 	(editor.get_parent() as Control).size_flags_horizontal = Control.SIZE_FILL
-	(editor.get_parent() as Control).size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	(editor.get_parent() as Control).size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var left_tabs := TabContainer.new(); left_tabs.name = "PredictionRuleTabs"; left_tabs.all_tabs_in_front = false; left_tabs.use_hidden_tabs_for_min_size = false; editor.add_child(left_tabs)
+	left_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var rules: VBoxContainer = _tab_page(left_tabs,text2("构造规则","Build a rule"))
 	var instruction: Label = label(first_experiment_short_text(),rules,16)
 	instruction.name = "FirstOperation"; instruction.tooltip_text = first_experiment_text()
@@ -199,6 +212,8 @@ func build() -> void:
 	cooldown = choice(text2("错猜后暂停请求数","Pause after mismatch"),"Cooldown",["0","2"],0 if int(policy.cooldown)==0 else 1,controls)
 	var draft_note: Label = label(text2("改变规则会清空当前观察前缀；本次已完成记录仍保留。", "Rule edits clear this prefix; completed records remain."),rules,14)
 	draft_note.name = "DraftBoundary"; draft_note.add_theme_color_override("font_color",MUTED)
+	draft_note.hide()
+	controls.tooltip_text = draft_note.text
 	var specification: VBoxContainer = _tab_page(left_tabs,text2("任务与机器","Task and machine"))
 	button("中文 / EN","Language",specification,toggle_language)
 	var specification_scroll := ScrollContainer.new(); specification_scroll.name = "SpecificationScroll"
@@ -209,19 +224,19 @@ func build() -> void:
 	journey_context = preload("res://src/ui/journey_context_card.gd").new(); specification_body.add_child(journey_context)
 	specification_body.move_child(journey_context, 0)
 	_refresh_journey_context()
-	label(text2("最近步长需要至少2个历史点；双步长至少3个。重复次数检验尾部差值模式。倍数改变猜测距离；错猜暂停抑制接下来的猜测。", "Last stride needs2 history points; two-stride needs3. Repetitions check the trailing delta pattern. Multiplier changes guessed distance; mismatch pause suppresses subsequent guesses."),specification_body,14)
-	label(text2("简化模型：2槽×4B自动LRU。每请求4周期+搬运2周期；查找1周期；每次真实消费后计算8周期。单总线不可抢占，预测与计算重叠；错误在途请求会阻塞回退。尾部请求必须完成。", "Model costs: automatic LRU,2 slots ×4B. Each request costs4+2 transfer cycles; lookup1; compute8 after each demand. One non-preemptive bus overlaps prediction with compute. Wrong in-flight work blocks fallback; final work must drain."),specification_body,14)
-	var actions := HBoxContainer.new(); actions.name = "PredictionRunActions"; editor.add_child(actions)
+	label(text2("最近步长需要至少2个历史点；双步长至少3个。重复次数检验尾部差值模式。倍数改变猜测距离；错猜暂停抑制接下来的猜测。", "Last stride needs 2 history points; two-stride needs 3. Repetitions check the trailing delta pattern. Multiplier changes guessed distance; mismatch pause suppresses subsequent guesses."),specification_body,14)
+	label(text2("简化模型：2槽×4B自动LRU。每请求4周期+搬运2周期；查找1周期；每次真实消费后计算8周期。单总线不可抢占，预测与计算重叠；错误在途请求会阻塞回退。尾部请求必须完成。", "Model costs: automatic LRU, 2 slots ×4 B. Each request costs 4+2 transfer cycles; lookup 1; compute 8 after each demand. One non-preemptive bus overlaps prediction with compute. Wrong in-flight work blocks fallback; final work must drain."),specification_body,14)
+	var actions := HBoxContainer.new(); actions.name = "PredictionRunActions"; timeline.add_child(actions)
 	step_button = button(text2("揭示下一请求","Reveal next demand"),"Step",actions,step_current)
 	InstrumentTheme.primary(step_button); step_button.add_theme_color_override("font_focus_color",Color("071823"))
 	button(text2("运行到结束","Run to end"),"Run",actions,run_current)
 	button(text2("新一轮","New run"),"Restart",actions,restart)
+	for action: Node in actions.get_children():
+		if action != step_button: InstrumentTheme.nav(action as Button)
 	button(text2("提示","Hint"),"Hint1",top,func() -> void: status.text = hint_text())
 	top.move_child(find_child("Hint1",true,false),2)
-	status = _bounded_label(editor,"Status",100)
+	status = _bounded_label(rules,"Status",100)
 	var evidence: VBoxContainer = _workbench_panel(body,"PredictionEvidencePanel")
-	var evidence_title: Label = label(text2("观察与实测记录","Observation and measured records"),evidence,18)
-	evidence_title.add_theme_font_override("font",Typography.HEADING_FONT)
 	recorded_source = _bounded_label(evidence,"RecordedSource",40)
 	observed = _bounded_label(evidence,"ObservedHistory",24)
 	var right_tabs := TabContainer.new(); right_tabs.name = "PredictionEvidenceTabs"; right_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; right_tabs.all_tabs_in_front = false; right_tabs.use_hidden_tabs_for_min_size = false; evidence.add_child(right_tabs)
@@ -239,7 +254,6 @@ func build() -> void:
 		var row: TreeItem = events.get_selected()
 		if row != null: details.text = event_text(row.get_metadata(0)))
 	var recordings: VBoxContainer = _tab_page(right_tabs,text2("本次历史","Session history"))
-	label(text2("选中一条完整记录，回看当时规则与真实结果。编辑草稿不会改写它。", "Select a completed record to revisit its rule and measured result. Draft edits never rewrite it."),recordings,14)
 	history_list = ItemList.new(); history_list.name = "History"; history_list.custom_minimum_size.y = 64
 	history_list.size_flags_vertical = Control.SIZE_EXPAND_FILL; recordings.add_child(history_list); history_list.item_selected.connect(select_run)
 	refresh_history(); refresh()
@@ -257,6 +271,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func request_hub() -> void:
 	if not candidate_journey: return
+	request_destination("tree" if get_node("/root/TaskNavigation").from_tree else "lab")
+
+func request_destination(destination: String) -> void:
+	leave_destination = destination
 	leave_to_hub = true
 	request_leave()
 
@@ -280,12 +298,15 @@ func request_leave() -> void:
 func update_leave_dialog(dialog: ConfirmationDialog) -> void:
 	dialog.title = text2("离开这次临时探索？", "Leave this temporary exploration?")
 	dialog.dialog_text = text2("预测规则、已揭示请求与完成记录只保留在本窗口。离开后会丢失；表示和服务的已保存方案不受影响。", "Prediction rules, revealed demands and completed runs exist only in this window. Leaving discards them; saved Representation and Service plans are unaffected.")
-	var destination: String = text2("任务地图", "task map") if get_node("/root/TaskNavigation").from_tree else text2("首页", "Home")
+	var destination: String = text2("任务地图", "task map") if leave_destination == "tree" else text2("实验室", "Laboratory")
 	dialog.ok_button_text = text2("不保留，返回"+destination if leave_to_hub else "不保留，退出", "Discard and return "+destination if leave_to_hub else "Discard and quit")
 	dialog.cancel_button_text = text2("继续探索", "Keep exploring")
 
 func finish_leave() -> void:
-	if leave_to_hub and get_node("/root/TaskNavigation").return_to_tree(): return
+	if leave_to_hub and leave_destination == "tree":
+		if not get_node("/root/TaskNavigation").return_to_tree():
+			get_node("/root/TaskNavigation").open_tree()
+		return
 	if leave_to_hub: get_tree().call_deferred("change_scene_to_file","res://src/ui/prototype_hub.tscn")
 	else: get_tree().quit()
 
@@ -306,16 +327,16 @@ func first_experiment_text() -> String:
 	text2("先选会猜测的规则跑完一轮，再只改错猜后暂停。猜错后少搬一些，会更快吗？", "Finish a run with prediction enabled, then change only Pause after mismatch. Can moving less after an error save time?"),
 	text2("先用最近步长观察交替热点，再只换双步长循环。每次揭示前，试着猜下一处。", "Observe the alternating hotspots with Last stride, then change only to Two-stride cycle. Guess the next address before revealing it.")][task]
 
-## One line for the rules panel; the full question stays in the tooltip and the empty timeline.
+## The full question remains available in the instruction tooltip.
 func first_experiment_short_text() -> String:
 	return [text2("先关闭猜测跑完，再只换最近步长。", "Run Off to the end, then change only to Last stride."),
 	text2("先用会猜的规则跑完，再只改错猜后暂停。", "Finish a predicting run, then change only Pause after mismatch."),
 	text2("先用最近步长观察，再只换双步长循环。", "Observe with Last stride, then change only to Two-stride cycle.")][task]
 
 func mission_text() -> String:
-	return [text2("实验1：先记录关闭猜测的基线，再构造一个总周期更低且确实消费了预测数据的方案。逐步揭示历史，再比较等待与流量。","Investigation1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic."),
-	text2("实验2：相同机器，流会改变。记录一个比关闭猜测更慢且有浪费/污染的规则，再修改为非关闭规则，找到不慢于基线的方案。关闭猜测不算这份安全修订。失败也是证据。","Investigation2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise to a non-Off rule no slower than baseline. Off does not count as this safe revision. Failure is evidence."),
-	text2("实验3：两个热点交替。比较至少两种不同规则，找到一份比基线更慢且有浪费/污染的记录，以及一份不慢于基线的非关闭规则记录。关闭猜测不算这份安全修订。观察有限缓存里发生了什么。","Investigation3: two alternating hotspots. Compare at least two different rules: one slower than baseline with waste/pollution, and one non-Off rule no slower than baseline. Off does not count as this safe revision. Inspect the finite cache.")][task]
+	return [text2("实验1：先记录关闭猜测的基线，再构造一个总周期更低且确实消费了预测数据的方案。逐步揭示历史，再比较等待与流量。","Investigation 1: record an Off baseline, then construct a faster rule whose predicted data is actually consumed. Reveal history and compare waiting with traffic."),
+	text2("实验2：相同机器，流会改变。记录一个比关闭猜测更慢且有浪费/污染的规则，再修改为非关闭规则，找到不慢于基线的方案。关闭猜测不算这份安全修订。失败也是证据。","Investigation 2: same machine, changing stream. Record a rule slower than Off with waste/pollution, then revise to a non-Off rule no slower than baseline. Off does not count as this safe revision. Failure is evidence."),
+	text2("实验3：两个热点交替。比较至少两种不同规则，找到一份比基线更慢且有浪费/污染的记录，以及一份不慢于基线的非关闭规则记录。关闭猜测不算这份安全修订。观察有限缓存里发生了什么。","Investigation 3: two alternating hotspots. Compare at least two different rules: one slower than baseline with waste/pollution, and one non-Off rule no slower than baseline. Off does not count as this safe revision. Inspect the finite cache.")][task]
 
 func hint_text() -> String:
 	return text2("只比较已观察的地址差值。先留一份关闭猜测记录；在Trace中核对预测发出时的历史、下一次真实请求、在途等待、驱逐与未被使用的搬运。一次变动一个规则条件。","Compare only observed address differences. Keep an Off receipt; inspect the prediction's history, next actual demand, in-flight wait, evictions and unused traffic. Change one rule condition at a time.")
@@ -361,7 +382,7 @@ func _record() -> void:
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 
 func policy_caption(recipe: Dictionary) -> String:
-	if english: return "%s/%d/×%d/pause%d" % [recipe.rule,recipe.confidence,recipe.lookahead,recipe.cooldown]
+	if english: return "%s/%d/×%d/pause %d" % [recipe.rule,recipe.confidence,recipe.lookahead,recipe.cooldown]
 	var name: String = {"off":"关闭猜测","stride":"最近步长","two_stride":"双步长循环"}.get(str(recipe.rule),str(recipe.rule))
 	return "%s · 重复%d次 · 提前×%d · 错猜暂停%d" % [name,recipe.confidence,recipe.lookahead,recipe.cooldown]
 
@@ -431,13 +452,13 @@ func recorded_comparison_text() -> String:
 		var m: Dictionary = current.trace.metrics
 		var before: Dictionary = prior.trace.metrics
 		var changed: String = text2("规则未变", "Same rule settings") if changes.is_empty() else " · ".join(changes)
-		var caption: String = text2("对比 #%d→#%d：%s\n较旧记录：周期%+d · 搬运%+dB · 浪费%+dB · 污染未命中%+d", "Compare #%d→#%d: %s\nCurrent minus prior: cycles%+d · traffic%+dB · waste%+dB · pollution misses%+d") % [index+1,selected_run+1,changed,int(m.total_cycles)-int(before.total_cycles),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.wasted_prediction_bytes)-int(before.wasted_prediction_bytes),int(m.pollution_misses)-int(before.pollution_misses)]
+		var caption: String = text2("对比 #%d→#%d：%s\n较旧记录：周期%+d · 搬运%+dB · 浪费%+dB · 污染未命中%+d", "Compare #%d→#%d: %s\nCurrent minus prior: cycles %+d · traffic %+d B · waste %+d B · pollution misses %+d") % [index+1,selected_run+1,changed,int(m.total_cycles)-int(before.total_cycles),int(m.traffic_bytes)-int(before.traffic_bytes),int(m.wasted_prediction_bytes)-int(before.wasted_prediction_bytes),int(m.pollution_misses)-int(before.pollution_misses)]
 		if changes.size() > 1: caption += text2("\n同时改了多项；再只改一项，分清原因。", "\nSeveral settings changed; vary one next to separate their effects.")
 		return caption
 	return text2("这是本任务首份记录；只改一项再跑，查看前后差值。", "First recording for this task. Change one setting and rerun to see measured differences.")
 
 func event_text(event: Event) -> String:
-	return "%s · t%d +%d · address%d\n%s" % [event.kind,event.cycle,event.duration,event.address,JSON.stringify(event.details,"  ")]
+	return "%s · t%d +%d · address %d\n%s" % [event.kind,event.cycle,event.duration,event.address,JSON.stringify(event.details,"  ")]
 
 func evidence_source() -> Dictionary:
 	if active_trace == null: return {}
@@ -454,7 +475,7 @@ func source_caption() -> String:
 	var relation: String = text2("与当前任务及草稿一致", "matches current task and draft") if matches else text2("与当前任务或草稿不同", "differs from current task or draft")
 	if selected_run < 0:
 		return text2("正在逐步观察：%s · %s；总成本尚未揭示。", "Observing a prefix: %s · %s; final costs remain hidden.") % [names[int(source.task)],rule_text]
-	return text2("记录#%d · %s · %s · %s", "Record#%d · %s · %s · %s") % [selected_run+1,names[int(source.task)],rule_text,relation]
+	return text2("记录#%d · %s · %s · %s", "Record #%d · %s · %s · %s") % [selected_run+1,names[int(source.task)],rule_text,relation]
 
 func decision_reason(reason: String) -> String:
 	match reason:
@@ -480,7 +501,7 @@ func refresh() -> void:
 		observed.text = text2("已观察请求：%s\n下一地址：未知", "Observed demands: %s\nNext address: unknown") % str(addresses)
 		if revealed > 0:
 			var d: Dictionary = active_trace.metrics.decisions[revealed-1]
-			observed.text += text2("\n历史%s → 猜测%s · %s", "\nHistory%s → guess%s · %s") % [str(d.history),str(d.guess) if int(d.guess)>=0 else text2("无","none"),decision_reason(str(d.reason))]
+			observed.text += text2("\n历史%s → 猜测%s · %s", "\nHistory %s → guess %s · %s") % [str(d.history),str(d.guess) if int(d.guess)>=0 else text2("无","none"),decision_reason(str(d.reason))]
 		var finished: bool = revealed == active_trace.metrics.accesses.size()
 		for event: Event in active_trace.events:
 			if int(event.details.step)>revealed and not finished: continue
@@ -489,11 +510,11 @@ func refresh() -> void:
 		if finished:
 			var m: Dictionary = active_trace.metrics
 			observed.text = observed.text.replace(text2("下一地址：未知","Next address: unknown"),text2("本轮结束","Run ended"))
-			result.text = text2("总%d = 查找%d + 计算%d + 阻塞%d + 尾部%d\n基线%d周期/%dB · 实际%dB；预测有用%dB/浪费%dB\n回退%d · 排队%d · 在途匹配等待%d · 污染未命中%d\n输出%s", "Total%d = lookup%d + compute%d + blocking%d + drain%d\nBaseline%d cycles/%dB · actual%dB; useful%dB/wasted%dB predictions\nFallback%d · queue%d · matching in-flight wait%d · pollution misses%d\nOutputs%s") % [m.total_cycles,m.lookup_cycles,m.compute_cycles,m.blocking_cycles,m.drain_cycles,m.baseline_cycles,m.baseline_traffic_bytes,m.traffic_bytes,m.useful_prediction_bytes,m.wasted_prediction_bytes,m.fallback_cycles,m.queue_wait_cycles,m.inflight_wait_cycles,m.pollution_misses,str(m.outputs)]
+			result.text = text2("总%d = 查找%d + 计算%d + 阻塞%d + 尾部%d\n基线%d周期/%dB · 实际%dB；预测有用%dB/浪费%dB\n回退%d · 排队%d · 在途匹配等待%d · 污染未命中%d\n输出%s", "Total %d = lookup %d + compute %d + blocking %d + drain %d\nBaseline %d cycles / %d B · actual %d B; useful %d B / wasted %d B predictions\nFallback %d · queue %d · matching in-flight wait %d · pollution misses %d\nOutputs %s") % [m.total_cycles,m.lookup_cycles,m.compute_cycles,m.blocking_cycles,m.drain_cycles,m.baseline_cycles,m.baseline_traffic_bytes,m.traffic_bytes,m.useful_prediction_bytes,m.wasted_prediction_bytes,m.fallback_cycles,m.queue_wait_cycles,m.inflight_wait_cycles,m.pollution_misses,str(m.outputs)]
 			var difference: int = int(m.total_cycles)-int(m.baseline_cycles)
 			var comparison: String = text2("与关闭猜测用时相同。", "Same time as prediction Off.")
-			if difference > 0: comparison = text2("比关闭猜测慢%d周期。", "%d cycles slower than prediction Off.") % difference
-			elif difference < 0: comparison = text2("比关闭猜测快%d周期。", "%d cycles faster than prediction Off.") % -difference
+			if difference > 0: comparison = text2("比关闭猜测慢%d周期。", "%d cycle slower than prediction Off." if difference == 1 else "%d cycles slower than prediction Off.") % difference
+			elif difference < 0: comparison = text2("比关闭猜测快%d周期。", "%d cycle faster than prediction Off." if difference == -1 else "%d cycles faster than prediction Off.") % -difference
 			result.text = comparison+"\n"+result.text+"\n\n"+recorded_comparison_text()
 	observed.text = decision_reason(str(active_trace.metrics.decisions[revealed-1].reason)) if active_trace != null and revealed > 0 else ""
 	observed.get_parent().visible = active_policy.get("rule",policy.rule) != "off"
@@ -527,30 +548,39 @@ func _playtest_exit() -> void:
 
 func refresh_request_strip() -> void:
 	timeline_summary.text = text2("请求时间线 · 关闭猜测", "Request timeline · prediction Off") if active_policy.get("rule",policy.rule) == "off" else text2("请求时间线 · 仅显示已揭示请求", "Request timeline · revealed demands only")
-	if active_trace == null and revealed == 0: timeline_summary.text = first_experiment_text()
+	if active_trace == null and revealed == 0: timeline_summary.text = text2("请求时间线", "Request timeline")
+	(request_strip.get_parent() as ScrollContainer).custom_minimum_size.y = 100 if active_policy.get("rule",policy.rule) == "off" else 120
+	timeline_delta.text = ""
 	if active_trace != null and revealed == active_trace.metrics.accesses.size():
 		var m: Dictionary = active_trace.metrics
-		timeline_summary.text = text2("关闭猜测 %d 周期 / %d B → 本轮 %d 周期 / %d B", "Off %d cycles / %d B → this run %d cycles / %d B") % [m.baseline_cycles,m.baseline_traffic_bytes,m.total_cycles,m.traffic_bytes]
+		timeline_summary.text = text2("关闭猜测  %d 周期    →    本轮  %d 周期", "Off  %d cycles    →    This run  %d cycles") % [m.baseline_cycles,m.total_cycles]
+		var delta: int = int(m.total_cycles)-int(m.baseline_cycles)
+		timeline_delta.text = text2("差值 %+d 周期", "Delta %+d cycles") % delta
+		timeline_delta.add_theme_color_override("font_color",Palette.GOOD if delta < 0 else Palette.QUIT if delta > 0 else Palette.TERM_MUTED)
 	for child: Node in request_strip.get_children():
 		request_strip.remove_child(child)
 		child.queue_free()
-	for index: int in revealed + 1:
+	# Only stream length is used for placeholders; future addresses and costs stay hidden.
+	var count: int = Catalog.scenario(task).addresses.size() if active_trace == null else active_trace.metrics.accesses.size()
+	for index: int in count:
 		var card := PanelContainer.new()
-		card.custom_minimum_size.x = 112 if active_policy.get("rule","off") == "off" else 160
+		card.custom_minimum_size.x = 112 if active_policy.get("rule",policy.rule) == "off" else 160
 		card.add_theme_stylebox_override("panel",InstrumentTheme.surface(Color("101e2b"),Color("365463"),8))
 		request_strip.add_child(card)
 		var column := VBoxContainer.new(); column.add_theme_constant_override("separation",2); card.add_child(column)
-		if index == revealed:
-			label(text2("未知", "Unknown"),column,20)
-			break
+		if index >= revealed:
+			label("#%02d" % (index+1),column,13).add_theme_color_override("font_color",MUTED)
+			label("—",column,22)
+			label(text2("未知", "Unknown"),column,14).add_theme_color_override("font_color",MUTED)
+			continue
 		var access: Dictionary = active_trace.metrics.accesses[index]
 		var decision: Dictionary = active_trace.metrics.decisions[index]
 		label(str(access.address),column,22)
 		var path: String = text2("命中", "Hit") if access.hit else text2("未命中", "Miss")
 		if access.path == "inflight": path = text2("在途等待", "In-flight wait")
 		var path_label: Label = label(path,column,14)
-		path_label.add_theme_color_override("font_color",Color("7fcbd6") if access.hit else Color("ffc879"))
-		label(text2("取数 %d 周期", "Fetch %d cycles") % (int(access.ready)-int(access.arrived)),column,14)
+		path_label.add_theme_color_override("font_color",Palette.GOOD if access.hit else Palette.SIGNAL_ON)
+		label(text2("取数 %d 周期", "Fetch %d cycle" if int(access.ready)-int(access.arrived) == 1 else "Fetch %d cycles") % (int(access.ready)-int(access.arrived)),column,14)
 		if active_policy.get("rule","off") != "off":
 			if int(decision.guess) >= 0:
 				var verdict: String = text2("待揭晓", "Pending")
@@ -567,7 +597,14 @@ func refresh_request_strip() -> void:
 				item.autowrap_mode = TextServer.AUTOWRAP_OFF
 				item.clip_text = true
 				item.tooltip_text = item.text
-	if active_trace != null and revealed == active_trace.metrics.accesses.size():
-		request_strip.get_child(request_strip.get_child_count()-1).hide()
+	call_deferred("_follow_request")
+
+func _follow_request() -> void:
+	# Cards need their final positions before ScrollContainer can reveal them.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(request_strip): return
 	var scroll := request_strip.get_parent() as ScrollContainer
-	scroll.set_deferred("scroll_horizontal",int(request_strip.get_combined_minimum_size().x))
+	if revealed > 0 and revealed < request_strip.get_child_count():
+		scroll.ensure_control_visible(request_strip.get_child(revealed - 1) as Control)
+	else: scroll.scroll_horizontal = 0

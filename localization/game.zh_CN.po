@@ -7346,3 +7346,12 @@ msgstr "定位证据"
 
 msgid "w1.layout.scratch"
 msgstr "临时"
+# --- W4 20261108 ---
+msgid "请求时间线"
+msgstr "请求时间线"
+
+msgid "关闭猜测  %d 周期    →    本轮  %d 周期"
+msgstr "关闭猜测  %d 周期    →    本轮  %d 周期"
+
+msgid "差值 %+d 周期"
+msgstr "差值 %+d 周期"

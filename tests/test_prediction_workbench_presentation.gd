@@ -101,7 +101,16 @@ func run() -> void:
 		check((control(scene,"Events").get_theme_stylebox("panel") as StyleBoxFlat).bg_color == Color("0b1722"),"Trace tree uses the instrument palette")
 		check(control(scene,"TemporaryBoundary").get("text").contains("不保留") if locale == "zh_CN" else control(scene,"TemporaryBoundary").get("text").contains("discarded"),"Temporary lifetime is stated on the workbench")
 		check(scene.get("history").is_empty() and scene.get("active_trace") == null,"Opening the presentation creates no measured evidence")
-		check(control(scene,"RequestTimeline") != null and scene.get("request_strip").get_child_count() == 1,"Idle timeline contains only the unknown next request")
+		check(control(scene,"RequestTimeline") != null and scene.get("request_strip").get_child_count() == 10,"Idle timeline shows the public stream length as unknown placeholders")
+		check((control(scene,"TimelineDelta") as Label).text.is_empty(),"Idle placeholders disclose no final cost delta")
+		for index: int in range(1,4):
+			var previous: Control = control(scene,["Rule","Confidence","Lookahead","Cooldown"][index-1])
+			var current: Control = control(scene,["Rule","Confidence","Lookahead","Cooldown"][index])
+			check(not previous.get_global_rect().intersects(current.get_global_rect()),"Policy controls do not overlap")
+		var handbook_button: Button = scene.get("terminology_handbook").entry_button
+		check((handbook_button.get_theme_stylebox("normal") as StyleBoxFlat).bg_color == ((control(scene,"Hint1") as Button).get_theme_stylebox("normal") as StyleBoxFlat).bg_color,"Handbook uses the same ghost navigation as Hint")
+		check(control(scene,"PredictionRulesPanel").size.x <= 320,"Rules leave the result most of the workspace width")
+		check(control(scene,"PredictionRunActions").get_global_rect().position.y - control(scene,"RequestTimeline").get_global_rect().position.y < 130,"Idle timeline keeps actions close to cards")
 		bounds(scene); await capture("prediction-"+locale+"-initial")
 		(control(scene,"Hint1") as Button).pressed.emit(); await settle()
 		check((control(scene,"Status") as Label).text == scene.call("hint_text"),"Requested clue is retained in full")
@@ -109,7 +118,7 @@ func run() -> void:
 		scene.call("step_current"); await settle()
 		var observation: Dictionary = scene.call("public_observation")
 		check(observation.observed_addresses == [0] and observation.revealed_decisions.size() == 1 and observation.completed_runs.is_empty(),"Step exposes only the observed prefix, not a completed record")
-		check(scene.get("request_strip").get_child_count() == 2,"Timeline advances one actual request and retains the unknown next cell")
+		check(scene.get("request_strip").get_child_count() == 10,"Revealing one request preserves the remaining unknown placeholders")
 		check(not (control(scene,"Result") as Label).text.contains("150"),"A prefix does not disclose the final baseline cost")
 		var prefix_signature: String = scene.get("active_trace").canonical_signature()
 		scene.call("change_task",scene.get("task")); await settle()
@@ -117,11 +126,16 @@ func run() -> void:
 		check((control(scene,"Task0") as Button).disabled,"Current investigation has no destructive duplicate selection")
 		bounds(scene); await capture("prediction-"+locale+"-step")
 		scene.call("run_current"); await settle()
+		check((control(scene,"RequestTimeline") as ScrollContainer).scroll_horizontal == 0,"Completed run returns to the first request")
 		check(scene.get("history").size() == 1 and int(scene.get("history")[0].trace.metrics.total_cycles) == 150,"Completed default run displays the actual known baseline")
+		if locale == "en":
+			check((control(scene,"Result") as Label).text.contains("Total 150 = lookup 10") and (control(scene,"Result") as Label).text.contains("Baseline 150 cycles / 40 B"),"English cost labels separate words, numbers and units")
+			check((control(scene,"RecordedSource") as Label).text.begins_with("Record #1"),"English record label separates the number")
 		var record_signature: String = scene.get("history")[0].trace.canonical_signature()
 		var recorded_policy: Dictionary = scene.get("history")[0].policy.duplicate(true)
 		check((control(scene,"RequestTimeline") as Control).size.x > 1100,"Timeline spans the workbench")
 		check((control(scene,"TimelineSummary") as Label).text.contains("150"),"Band comparison uses the completed baseline result")
+		check((control(scene,"TimelineDelta") as Label).text.contains("+0"),"Off comparison shows the actual zero-cycle delta")
 		check(scene.get("request_strip").get_child(0).get_child(0).get_child_count() == 3,"Off cards omit inactive guess fields")
 		bounds(scene); await capture("prediction-"+locale+"-completed")
 		var evidence_tabs := control(scene,"PredictionEvidenceTabs") as TabContainer
@@ -135,6 +149,13 @@ func run() -> void:
 		(control(scene,"Rule") as OptionButton).select(1); scene.call("edit_policy"); await settle()
 		check(scene.get("active_trace") == null and scene.get("revealed") == 0 and scene.get("history").size() == 1,"Draft editing resets the current prefix and retains measured history")
 		check(scene.get("history")[0].trace.canonical_signature() == record_signature and scene.get("history")[0].policy == recorded_policy,"Draft editing cannot rewrite the recorded policy or trace")
+		for index: int in 9: scene.call("step_current")
+		await settle()
+		var next_card: Control = scene.get("request_strip").get_child(8) as Control
+		check(control(scene,"RequestTimeline").get_global_rect().encloses(next_card.get_global_rect()),"Rapid reveals scroll the latest revealed card into view after layout")
+		if locale == "en":
+			var card_text: String = scene.get("request_strip").get_child(8).get_child(0).get_child(2).text
+			check(card_text == "Fetch 1 cycle","A one-cycle fetch uses the singular form")
 		scene.call("select_run",0); await settle()
 		check((control(scene,"RecordedSource") as Label).text.contains("不同") if locale == "zh_CN" else (control(scene,"RecordedSource") as Label).text.contains("differs"),"Older record is explicitly distinguished from the current draft")
 		scene.call("request_hub"); await settle()

@@ -65,18 +65,18 @@ func _init() -> void:
 	# Invisible until it has measured its text (no full-height first frame).
 	card.modulate.a = 0.0
 	var box := StyleBoxFlat.new()
-	box.bg_color = Palette.with_alpha(Palette.TERM_SCREEN, 0.95)
+	box.bg_color = Palette.with_alpha(Palette.TERM_PANEL, 0.97)
 	box.border_color = Palette.ACCENT_DEEP; box.set_border_width_all(1); box.border_width_left = 3
-	box.set_corner_radius_all(10)
+	box.set_corner_radius_all(8)
 	box.shadow_color = Color(0, 0, 0, 0.3); box.shadow_size = 10; box.shadow_offset = Vector2(0, 3)
-	box.content_margin_left = 16; box.content_margin_right = 16; box.content_margin_top = 9; box.content_margin_bottom = 11
+	box.content_margin_left = 16; box.content_margin_right = 16; box.content_margin_top = 3; box.content_margin_bottom = 3
 	card.add_theme_stylebox_override("panel", box)
 	add_child(card)
 	var column := VBoxContainer.new(); column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	column.add_theme_constant_override("separation", 4); card.add_child(column)
 	body = Typewriter.new(); body.name = "YiOpeningText"
 	body.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	body.font_size = 16; body.font_color = Palette.TERM_TEXT; body.line_spacing = 4.0
+	body.font_size = 20; body.font_color = Palette.TERM_TEXT; body.line_spacing = 4.0
 	column.add_child(body)
 
 
@@ -103,7 +103,10 @@ func _mission_showing(passage: String) -> Control:
 
 func _place() -> void:
 	var viewport: Vector2 = get_viewport().get_visible_rect().size
-	var width: float = clampf(viewport.x * 0.42, 420.0, 620.0)
+	var text_font: Font = body.font if body.font != null else body.get_theme_font("font", "Label")
+	var width: float = minf(viewport.x - 32.0, maxf(420.0, text_font.get_string_size(body.text, HORIZONTAL_ALIGNMENT_LEFT, -1, body.font_size).x + 64.0))
+	body.size.x = width - 32.0
+	body.update_minimum_size()
 	card.custom_minimum_size.x = width
 	card.size = Vector2(width, 0)
 	card.reset_size()
@@ -112,7 +115,30 @@ func _place() -> void:
 	for node: Node in get_tree().get_nodes_in_group(NAV_GROUP):
 		if node is Control and (node as Control).is_visible_in_tree():
 			top = maxf(top, (node as Control).get_global_rect().end.y + 10.0)
-	card.position = Vector2((viewport.x - width) * 0.5, minf(top, viewport.y - card.size.y - 72.0))
+	# Prefer the free right side of the instruction row; preserve panel titles too.
+	var candidate := Rect2(Vector2(viewport.x - width - 16.0, top), card.size)
+	var buttons: Array[Node] = get_tree().root.find_children("*", "BaseButton", true, false)
+	buttons.append_array(get_tree().root.find_children("*", "Label", true, false))
+	for attempt: int in buttons.size() + 1:
+		var next_top: float = candidate.position.y
+		for node: Node in buttons:
+			var button := node as Control
+			if not button.is_visible_in_tree(): continue
+			var occupied: Rect2 = button.get_global_rect()
+			if button is Label and not button.text.contains("\n"):
+				var ink_width: float = minf(occupied.size.x, button.get_theme_font("font").get_string_size(button.text, HORIZONTAL_ALIGNMENT_LEFT, -1, button.get_theme_font_size("font_size")).x)
+				if button.horizontal_alignment == HORIZONTAL_ALIGNMENT_CENTER:
+					occupied.position.x += (occupied.size.x - ink_width) * 0.5
+				elif button.horizontal_alignment == HORIZONTAL_ALIGNMENT_RIGHT:
+					occupied.position.x += occupied.size.x - ink_width
+				occupied.size.x = ink_width
+			if candidate.intersects(occupied.grow(10.0)):
+				next_top = maxf(next_top, occupied.end.y + 10.0)
+		if is_equal_approx(next_top, candidate.position.y): break
+		candidate.position.y = next_top
+	card.position = candidate.position
+	# If a dense screen has no safe space, leave its controls unobscured.
+	card.visible = candidate.end.y <= viewport.y - 16.0
 
 
 func _process(delta: float) -> void:

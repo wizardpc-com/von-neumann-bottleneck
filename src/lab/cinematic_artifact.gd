@@ -56,7 +56,8 @@ static func _surface() -> StyleBoxFlat:
 	style.bg_color = palette.TERM_PANEL
 	style.border_color = palette.ACCENT_DEEP
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(18)
+	style.set_corner_radius_all(8)
+	style.border_width_top = 3
 	style.content_margin_left = 28
 	style.content_margin_right = 28
 	style.content_margin_top = 24
@@ -70,6 +71,7 @@ static func _present(host: Node, title: String, parts: Array, evidence: Array[Di
 	card.theme = Theme.new()
 	preload("res://src/ui/instrument_theme.gd").apply_to(card.theme)
 	card.z_index = 2000
+	preload("res://src/ui/guide_stage.gd").mark_blocker(card)
 	host.add_child(card)
 	card.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var backdrop := ColorRect.new()
@@ -89,7 +91,7 @@ static func _present(host: Node, title: String, parts: Array, evidence: Array[Di
 	panel.add_child(column)
 	_label(column, title, 28)
 	column.add_child(HSeparator.new())
-	var row := HBoxContainer.new()
+	var row: BoxContainer = VBoxContainer.new() if parts.is_empty() else HBoxContainer.new()
 	row.name = "ArtifactTiles"
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override("separation", 12)
@@ -111,20 +113,28 @@ static func _present(host: Node, title: String, parts: Array, evidence: Array[Di
 	var localization: Node = host.get_node("/root/Localization")
 	for result: Dictionary in evidence:
 		var tile := PanelContainer.new()
-		tile.custom_minimum_size = Vector2(184, 224)
+		tile.custom_minimum_size = Vector2(984, 0)
 		var style := _surface()
-		style.content_margin_left = 10; style.content_margin_right = 10
+		style.bg_color = preload("res://src/lab/lab_palette.gd").TERM_SCREEN
+		style.border_color = preload("res://src/lab/lab_palette.gd").TERM_EDGE
+		style.border_width_top = 1
+		style.content_margin_left = 16; style.content_margin_right = 16
+		style.content_margin_top = 10; style.content_margin_bottom = 10
 		tile.add_theme_stylebox_override("panel", style)
 		row.add_child(tile)
+		var content := HBoxContainer.new()
+		tile.add_child(content)
+		var task := _label(content, localization.text(&"b2.artifact.task") % (int(result.task) + 1), 22)
+		task.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		task.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var values := VBoxContainer.new()
 		values.add_theme_constant_override("separation", 8)
-		tile.add_child(values)
-		_label(values, localization.text(&"b2.artifact.task") % (int(result.task) + 1), 22)
+		content.add_child(values)
 		for index: int in result.metrics.size():
 			var metrics: Dictionary = result.metrics[index]
-			_label(values, localization.text(&"b2.artifact.order") % (index + 1), 18)
-			_label(values, "%d B" % metrics.stored_bytes, 24)
-			_label(values, localization.text(&"b2.artifact.cycles") % metrics.total_cycles, 20)
+			var order := _label(values, "%s · %d B · %s" % [localization.text(&"b2.artifact.order") % (index + 1), metrics.stored_bytes, localization.text(&"b2.artifact.cycles") % metrics.total_cycles], 20)
+			order.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+
 	if not note.is_empty():
 		var boundary := _label(column, note, 18)
 		boundary.name = "ArtifactBoundary"
@@ -134,6 +144,7 @@ static func _present(host: Node, title: String, parts: Array, evidence: Array[Di
 	dismiss.add_theme_font_size_override("font_size", 20)
 	dismiss.custom_minimum_size = Vector2(240,48)
 	dismiss.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	preload("res://src/ui/instrument_theme.gd").primary(dismiss)
 	column.add_child(dismiss)
 	dismiss.pressed.connect(func() -> void: card.dismissed.emit())
 	dismiss.grab_focus()

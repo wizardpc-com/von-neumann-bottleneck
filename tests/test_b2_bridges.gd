@@ -112,8 +112,9 @@ func verify_representation() -> void:
 		var body: String = dialog.find_child("ArtifactBoundary",true,false).text
 		check(body.contains("Temporary") or body.contains("临时"), "Temporary results retain save boundary")
 		var panel: Control = dialog.find_child("ArtifactPanel",true,false)
+		check(preload("res://src/ui/guide_stage.gd").blocked(self), "Artifact quiets underlying opening and guide")
 		check(root.get_visible_rect().encloses(panel.get_global_rect()), "Artifact panel fits the 720p viewport")
-		var tiles: HBoxContainer = dialog.find_child("ArtifactTiles",true,false)
+		var tiles: BoxContainer = dialog.find_child("ArtifactTiles",true,false)
 		check(tiles.get_child_count() == 5, "All five accepted tasks have a tile")
 		var evidence: Array[Dictionary] = region.representation_review_evidence()
 		for i: int in 5:

@@ -28,9 +28,9 @@ func _ready() -> void:
 	z_index = 130
 	custom_minimum_size.x = 360
 	_floating_box = StyleBoxFlat.new()
-	_floating_box.bg_color = Palette.with_alpha(Palette.TERM_SCREEN, 0.97)
+	_floating_box.bg_color = Palette.with_alpha(Palette.TERM_PANEL, 0.97)
 	_floating_box.border_color = Palette.ACCENT_DEEP; _floating_box.set_border_width_all(1); _floating_box.border_width_left = 3
-	_floating_box.set_corner_radius_all(10)
+	_floating_box.set_corner_radius_all(8)
 	_floating_box.shadow_color = Color(0, 0, 0, 0.3); _floating_box.shadow_size = 10; _floating_box.shadow_offset = Vector2(0, 3)
 	_floating_box.content_margin_left = 16; _floating_box.content_margin_right = 12; _floating_box.content_margin_top = 10; _floating_box.content_margin_bottom = 12
 	add_theme_stylebox_override("panel", _floating_box)
@@ -44,7 +44,7 @@ func _ready() -> void:
 	close_button.pressed.connect(close)
 	header.add_child(close_button)
 	body = Typewriter.new(); body.name = "YiHelpText"
-	body.font_size = 16; body.font_color = Palette.TERM_TEXT; body.line_spacing = 4.0
+	body.font_size = 20; body.font_color = Palette.TERM_TEXT; body.line_spacing = 4.0
 	layout_box.add_child(body)
 	options_row = HBoxContainer.new(); options_row.name = "YiHelpOptions"
 	options_row.add_theme_constant_override("separation", 8)
@@ -90,7 +90,7 @@ func say_and_close(passage: String, seconds: float = 1.6) -> void:
 	if _close_tween != null: _close_tween.kill()
 	_close_tween = create_tween()
 	_close_tween.tween_interval(seconds)
-	_close_tween.tween_property(self, "modulate:a", 0.0, 0.3)
+	_close_tween.tween_property(self, "modulate:a", 0.0, 0.0 if bool(ProjectSettings.get_setting("game/reduced_motion", false)) else 0.3)
 	_close_tween.tween_callback(close)
 
 
@@ -110,8 +110,9 @@ func _set_options(options: Array) -> void:
 		button.name = "YiHelp_" + str(option.id)
 		button.text = str(option.en if english else option.zh)
 		button.focus_mode = Control.FOCUS_ALL
-		button.add_theme_font_size_override("font_size", 14)
-		button.custom_minimum_size.y = 32
+		button.add_theme_font_size_override("font_size", 18)
+		button.custom_minimum_size.y = 36
+		preload("res://src/ui/instrument_theme.gd").nav(button)
 		var id: StringName = StringName(str(option.id))
 		button.pressed.connect(func() -> void: option_selected.emit(id))
 		options_row.add_child(button)

@@ -105,8 +105,10 @@ func _build_interface() -> void:
 	panel = PanelContainer.new()
 	panel.name = "LevelCompletionPanel"
 	panel.custom_minimum_size = Vector2(660.0, 430.0)
-	var surface_box: StyleBoxFlat = _stylebox(SURFACE, Palette.ACCENT_DEEP, 18, 1)
-	surface_box.shadow_color = Color(0, 0, 0, 0.4); surface_box.shadow_size = 26; surface_box.shadow_offset = Vector2(0, 8)
+	var surface_box: StyleBoxFlat = _stylebox(SURFACE, Palette.TERM_EDGE, 8, 1)
+	surface_box.border_width_top = 3
+	surface_box.border_color = Palette.ACCENT_DEEP
+	surface_box.shadow_color = Color(0, 0, 0, 0.3); surface_box.shadow_size = 10; surface_box.shadow_offset = Vector2(0, 3)
 	panel.add_theme_stylebox_override("panel", surface_box)
 	center.add_child(panel)
 
@@ -126,14 +128,14 @@ func _build_interface() -> void:
 	column.add_child(emblem)
 	chapter_label = Label.new()
 	chapter_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	chapter_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	chapter_label.add_theme_font_size_override("font_size", 17)
 	chapter_label.add_theme_color_override("font_color", PURPLE)
 	column.add_child(chapter_label)
 
 	title_label = Label.new()
 	title_label.text = Localization.text(&"common.level_complete.title")
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	title_label.add_theme_font_size_override("font_size", 18)
 	title_label.add_theme_color_override("font_color", GOOD)
 	column.add_child(title_label)
 
@@ -150,7 +152,7 @@ func _build_interface() -> void:
 
 	var learned := Label.new()
 	learned.text = Localization.text(&"common.level_complete.learned")
-	learned.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	learned.add_theme_font_size_override("font_size", 17)
 	learned.add_theme_color_override("font_color", Palette.TERM_MUTED)
 	column.add_child(learned)
 
@@ -158,16 +160,16 @@ func _build_interface() -> void:
 	summary_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	summary_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	summary_label.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	summary_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	summary_label.add_theme_font_size_override("font_size", 20)
 	summary_label.add_theme_color_override("font_color", TEXT)
 	column.add_child(summary_label)
 	yi_response_label = Typewriter.new()
 	yi_response_label.name = "YiCompletionResponse"
-	yi_response_label.font_size = UiTypographyType.BODY_SIZE
+	yi_response_label.font_size = 20
 	yi_response_label.font_color = Color("bfe3e6")
 	yi_response_label.skip_scope = self
 	var yi_card := PanelContainer.new(); yi_card.name = "YiCompletionCard"
-	var yi_box: StyleBoxFlat = _stylebox(Palette.TERM_SCREEN, Palette.ACCENT_DEEP, 10, 0)
+	var yi_box: StyleBoxFlat = _stylebox(Palette.TERM_SCREEN, Palette.ACCENT_DEEP, 8, 0)
 	yi_box.border_width_left = 3
 	yi_box.content_margin_left = 16; yi_box.content_margin_right = 16; yi_box.content_margin_top = 10; yi_box.content_margin_bottom = 10
 	yi_card.add_theme_stylebox_override("panel", yi_box)
@@ -183,7 +185,7 @@ func _build_interface() -> void:
 	next_capability_label.custom_minimum_size.y = 44.0
 	next_capability_label.add_theme_color_override("font_color", Palette.TERM_MUTED)
 	next_capability_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	next_capability_label.add_theme_font_size_override("font_size", UiTypographyType.BODY_SIZE)
+	next_capability_label.add_theme_font_size_override("font_size", 18)
 	var next_margin := MarginContainer.new()
 	next_margin.add_theme_constant_override("margin_left", 16)
 	next_margin.add_theme_constant_override("margin_right", 16)
@@ -262,7 +264,7 @@ func _build_interface() -> void:
 	feedback_entry_button.flat = true
 	feedback_entry_button.text = ("反馈 · F8" if Localization.current_locale() != "en" else "Feedback · F8")
 	feedback_entry_button.focus_mode = Control.FOCUS_ALL
-	feedback_entry_button.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
+	feedback_entry_button.add_theme_font_size_override("font_size", 17)
 	feedback_entry_button.add_theme_color_override("font_color", Palette.TERM_MUTED)
 	feedback_entry_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(feedback_entry_button)

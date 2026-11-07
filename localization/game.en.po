@@ -7337,3 +7337,13 @@ msgstr "+%d over"
 
 msgid "overlap.result.counters"
 msgstr "Compute %d · Transfer %d · Overlap %d · Wait %d   |   Output %s / %s   |   Hits %d · Misses %d · Evictions %d · Queue %d"
+# --- W1 20261108 ---
+
+msgid "w1.layout.details"
+msgstr "Details / output"
+
+msgid "w1.layout.locate"
+msgstr "Locate evidence"
+
+msgid "w1.layout.scratch"
+msgstr "Scratch"

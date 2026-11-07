@@ -7336,3 +7336,13 @@ msgstr "超出 %d"
 
 msgid "overlap.result.counters"
 msgstr "计算 %d · 搬运 %d · 重叠 %d · 等待 %d   |   输出 %s / %s   |   命中 %d · 未命中 %d · 逐出 %d · 排队 %d"
+# --- W1 20261108 ---
+
+msgid "w1.layout.details"
+msgstr "详情与输出"
+
+msgid "w1.layout.locate"
+msgstr "定位证据"
+
+msgid "w1.layout.scratch"
+msgstr "临时"

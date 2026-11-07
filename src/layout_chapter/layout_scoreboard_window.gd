@@ -10,6 +10,8 @@ signal clear_challenge_requested
 signal share_target_requested
 signal dismissed
 
+const InstrumentStyle = preload("res://src/ui/instrument_theme.gd")
+const Palette = preload("res://src/lab/lab_palette.gd")
 const Board = preload("res://src/layout_chapter/layout_scoreboard.gd")
 var level_id: String = ""
 var candidates: Array[Dictionary] = []
@@ -51,6 +53,10 @@ var _preview_code: String = ""
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	borderless = true
+	var skin := Theme.new(); skin.default_font_size = 18; InstrumentStyle.apply_to(skin); theme = skin
+	var surface := Panel.new(); surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	surface.add_theme_stylebox_override("panel",InstrumentStyle.panel(Palette.TERM_PANEL,Palette.ACCENT)); add_child(surface)
 	title = _l("我的方案榜", "My design rankings")
 	min_size = Vector2i(760,420)
 	size = Vector2i(1040,560)
@@ -114,7 +120,7 @@ func _ready() -> void:
 	table.hide_root = true
 	table.select_mode = Tree.SELECT_ROW
 	table.column_titles_visible = true
-	table.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	table.size_flags_vertical = Control.SIZE_FILL
 	table.custom_minimum_size.y = 70
 	var titles: Array[String] = [_l("名次","Rank"),_l("方案","Design"),_l("周期","Cycles"),_l("RAM / B","RAM / B"),_l("临时 / B","Scratch / B"),_l("资格","Status")]
 	var widths: Array[int] = [46,170,84,92,92,150]
@@ -122,16 +128,19 @@ func _ready() -> void:
 		table.set_column_title(index,titles[index])
 		table.set_column_expand(index,index == 1)
 		table.set_column_custom_minimum_width(index,widths[index])
+	table.add_theme_stylebox_override("selected",InstrumentStyle.panel(Color(Palette.ACCENT,0.18),Palette.ACCENT))
+	table.add_theme_stylebox_override("selected_focus",InstrumentStyle.panel(Color(Palette.ACCENT,0.18),Palette.ACCENT))
 	table_page.add_child(table)
 	table.item_selected.connect(_selection_changed)
 	detail = _label(table_page,"")
 	detail.name = "ScoreDetail"
-	var actions := HFlowContainer.new()
+	var actions := HBoxContainer.new()
 	table_page.add_child(actions)
 	restore_button = _button(actions,_l("载入改进", "Continue improving"),_restore)
 	restore_button.name = "ScoreRestore"
 	challenge_button = _button(actions,_l("设为目标", "Set target"),_challenge)
 	challenge_button.name = "ScoreChallenge"
+	var spacer := Control.new(); spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL; actions.add_child(spacer)
 	share_button = _button(actions,_l("分享挑战码", "Share code"),_share)
 	share_button.name = "ScoreShare"
 	import_button = _button(actions,_l("导入挑战码", "Import code"),_open_import)
@@ -141,6 +150,7 @@ func _ready() -> void:
 	_build_code_page(column)
 	set_target_state(target_state)
 	refresh(candidates)
+	size_changed.connect(func() -> void: _fit_table.call_deferred())
 
 func _build_code_page(parent: Control) -> void:
 	code_page = VBoxContainer.new()
@@ -205,8 +215,16 @@ func set_target_state(value: Dictionary) -> void:
 	_refresh_focus_loop()
 	if state == "none" and table_page.visible and previous_focus in [target_code_button,clear_target_button]:
 		import_button.grab_focus()
+	_fit_table.call_deferred()
+
+func _fit_table() -> void:
+	var header: Control = close_button.get_parent()
+	var overhead: float = table_page.get_combined_minimum_size().y - table.custom_minimum_size.y + header.get_combined_minimum_size().y + 32
+	# Keep actions visible at the minimum window size, using table scrolling as needed.
+	table.custom_minimum_size.y = minf(40 * clampi(rows.size(),5,8) + 40,maxf(70,size.y-overhead))
 
 func _render_rows() -> void:
+	_fit_table.call_deferred()
 	table.clear()
 	var tree_root: TreeItem = table.create_item()
 	var selected: TreeItem
@@ -221,7 +239,12 @@ func _render_rows() -> void:
 			item.set_text_alignment(pair[0],HORIZONTAL_ALIGNMENT_RIGHT)
 		item.set_text(5,_l("达标","Target met") if row.eligible else _l("未达标","Target unmet") if row.correct else _l("未完成","Incomplete"))
 		item.set_tooltip_text(5,_l("全部订单输出正确且达标","All cases correct and within targets") if row.eligible else _l("输出正确，尚未满足全部任务要求","Correct output; some task targets remain unmet") if row.correct else _l("尚未正确完成全部订单","Not all cases completed correctly"))
-		item.set_custom_color(5,Color("7fd8a4") if row.eligible else Color("f0c674"))
+		item.set_custom_color(5,Palette.GOOD if row.eligible else Palette.QUIT)
+		item.set_custom_bg_color(5,Color(Palette.GOOD if row.eligible else Palette.QUIT,0.12))
+		item.set_custom_minimum_height(40)
+		if row.id in ["current","challenge"]:
+			item.set_custom_color(1,Palette.ACCENT if row.id == "current" else Palette.SIGNAL_ON)
+			item.set_custom_bg_color(1,Color(Palette.ACCENT if row.id == "current" else Palette.SIGNAL_ON,0.08))
 		if str(row.id) == selected_id: selected = item
 	if selected == null and not rows.is_empty(): selected = tree_root.get_first_child()
 	if selected != null: selected.select(0)

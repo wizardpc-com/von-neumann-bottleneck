@@ -1,0 +1,133 @@
+{
+  "receipt": ".godot\\verification\\20261107T164532Z-63a75dbf\\results.json",
+  "runs": [
+    {
+      "suite": "test_layout_scoreboard_ui",
+      "command": [
+        "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+        "--path",
+        "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\verification\\20261107T164532Z-63a75dbf\\project",
+        "--script",
+        "res://tests/test_layout_scoreboard_ui.gd",
+        "--",
+        "--layout-score-capture",
+        "--layout-challenge-capture"
+      ],
+      "APPDATA": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\w1-data\\round2-gpu-test_layout_scoreboard_ui-abc9b44f\\roaming",
+      "log": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\round2-test_layout_scoreboard_ui.txt",
+      "returncode": 0
+    },
+    {
+      "suite": "test_layout_challenge_window",
+      "command": [
+        "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+        "--path",
+        "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\verification\\20261107T164532Z-63a75dbf\\project",
+        "--script",
+        "res://tests/test_layout_challenge_window.gd",
+        "--",
+        "--layout-score-capture",
+        "--layout-challenge-capture"
+      ],
+      "APPDATA": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\w1-data\\round2-gpu-test_layout_challenge_window-a1cf2d8d\\roaming",
+      "log": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\round2-test_layout_challenge_window.txt",
+      "returncode": 0
+    },
+    {
+      "suite": "test_layout_challenge_controller",
+      "command": [
+        "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+        "--path",
+        "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\verification\\20261107T164532Z-63a75dbf\\project",
+        "--script",
+        "res://tests/test_layout_challenge_controller.gd",
+        "--",
+        "--layout-score-capture",
+        "--layout-challenge-capture"
+      ],
+      "APPDATA": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\w1-data\\round2-gpu-test_layout_challenge_controller-a7d38e1a\\roaming",
+      "log": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\round2-test_layout_challenge_controller.txt",
+      "returncode": 0
+    },
+    {
+      "route": "fields",
+      "locale": "zh_CN",
+      "command": [
+        "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+        "--path",
+        "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1",
+        "--",
+        "--test-mode",
+        "--locale=zh_CN",
+        "--dev-enter=chapter_4/fields@2",
+        "--dev-click=1210,65@10",
+        "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\docs\\verification\\20261108-W1\\round2-zh_CN-fields-run.png@12",
+        "--dev-click=1100,65@13",
+        "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\docs\\verification\\20261108-W1\\round2-zh_CN-rankings.png@15",
+        "--dev-quit=16"
+      ],
+      "APPDATA": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\w1-data\\round2-zh_CN-fields-e097b6be\\roaming",
+      "log": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\round2-capture-zh_CN-fields.txt",
+      "returncode": 0
+    },
+    {
+      "route": "relocation",
+      "locale": "zh_CN",
+      "command": [
+        "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+        "--path",
+        "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1",
+        "--",
+        "--test-mode",
+        "--locale=zh_CN",
+        "--dev-enter=chapter_4/relocation@2",
+        "--dev-click=1210,65@10",
+        "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\docs\\verification\\20261108-W1\\round2-zh_CN-relocation-run.png@12",
+        "--dev-quit=13"
+      ],
+      "APPDATA": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\w1-data\\round2-zh_CN-relocation-afad3ce6\\roaming",
+      "log": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\round2-capture-zh_CN-relocation.txt",
+      "returncode": 0
+    },
+    {
+      "route": "fields",
+      "locale": "en",
+      "command": [
+        "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+        "--path",
+        "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1",
+        "--",
+        "--test-mode",
+        "--locale=en",
+        "--dev-enter=chapter_4/fields@2",
+        "--dev-click=1210,65@10",
+        "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\docs\\verification\\20261108-W1\\round2-en-fields-run.png@12",
+        "--dev-click=1100,65@13",
+        "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\docs\\verification\\20261108-W1\\round2-en-rankings.png@15",
+        "--dev-quit=16"
+      ],
+      "APPDATA": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\w1-data\\round2-en-fields-cfa6dc2b\\roaming",
+      "log": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\round2-capture-en-fields.txt",
+      "returncode": 0
+    },
+    {
+      "route": "relocation",
+      "locale": "en",
+      "command": [
+        "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+        "--path",
+        "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1",
+        "--",
+        "--test-mode",
+        "--locale=en",
+        "--dev-enter=chapter_4/relocation@2",
+        "--dev-click=1210,65@10",
+        "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\docs\\verification\\20261108-W1\\round2-en-relocation-run.png@12",
+        "--dev-quit=13"
+      ],
+      "APPDATA": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\w1-data\\round2-en-relocation-0f595fa5\\roaming",
+      "log": "E:\\VNB\\temp\\claude-visual-20261108\\wt\\w1\\.godot\\round2-capture-en-relocation.txt",
+      "returncode": 0
+    }
+  ]
+}

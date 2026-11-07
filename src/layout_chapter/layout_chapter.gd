@@ -2,7 +2,9 @@ extends Control
 const C = preload("res://src/layout_chapter/layout_catalog.gd")
 const R = preload("res://src/layout_chapter/layout_recipe.gd")
 const S = preload("res://src/layout_chapter/layout_simulator.gd")
-const Instrument = preload("res://src/ui/floating_instrument_panel.gd")
+const InstrumentStyle = preload("res://src/ui/instrument_theme.gd")
+const Palette = preload("res://src/lab/lab_palette.gd")
+var view_buttons: Dictionary = {}
 const Memory = preload("res://src/layout_chapter/layout_memory_view.gd")
 const Chip = preload("res://src/layout_chapter/layout_field_chip.gd")
 const Scoreboard = preload("res://src/layout_chapter/layout_scoreboard.gd")
@@ -85,18 +87,23 @@ func _ready() -> void:
 	header.add_child(PlaytestMoments.make_workbench_button())
 	header.add_child(WindowMode.settings_button())
 	preload("res://src/ui/workbench_chrome.gd").frame(header)
-	var dock := HFlowContainer.new()
+	var dock := HBoxContainer.new()
 	root.add_child(dock)
-	for entry: Array in [["tools","布局工具","Layout tools"],["mission","任务","Mission"],["memory","内存","Memory"],["trace","运行记录","Trace"],["manual","图解规则","Illustrated rules"]]:
-		_button(dock,_l(entry[1],entry[2]),_toggle.bind(entry[0]))
-	# The one action that measures the layout is the row's primary.
-	preload("res://src/ui/instrument_theme.gd").primary(_button(dock,_l("运行全部订单","Run all cases"),_run_all))
+	for entry: Array in [["tools","布局工具","Layout tools"],["mission","任务","Mission"],["trace","运行记录","Trace"]]:
+		var tab: Button = _button(dock,_l(entry[1],entry[2]),_toggle.bind(entry[0]))
+		tab.toggle_mode = true
+		view_buttons[entry[0]] = tab
+	dock.add_child(VSeparator.new())
 	_button(dock,_l("撤销","Undo"),_undo.bind(false))
 	_button(dock,_l("重做","Redo"),_undo.bind(true))
+	var spacer := Control.new(); spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL; dock.add_child(spacer)
+	_button(dock,_l("图解规则","Illustrated rules"),_toggle.bind("manual"))
 	_button(dock,_l("提示","Hint"),_hint_request)
 	score_button = _button(dock,_l("我的方案榜","My design rankings"),_open_scoreboard)
 	score_button.name = "LayoutScoreboard"
-	preload("res://src/ui/instrument_theme.gd").tool_row(dock)
+	dock.add_child(VSeparator.new())
+	InstrumentStyle.primary(_button(dock,_l("运行全部订单","Run all cases"),_run_all))
+	InstrumentStyle.tool_row(dock)
 	dock.add_to_group(&"workbench_nav")
 	status = _label(_l("拖动字段组合布局；运行后查看真实地址与搬运记录。","Group fields, run, and inspect real addresses and transfers."))
 	root.add_child(status)
@@ -153,24 +160,25 @@ func _open(id: String) -> void:
 	_refresh_memory()
 	panels.trace.hide(); panels.manual.hide(); panels.mission.hide()
 	panels.memory.show()
+	workspace.resized.connect(_layout_stage)
 	call_deferred("_layout_stage")
 	workspace.move_child(panels.mission,-1)
 	core_review_button.visible = LayoutChapter.completed().has("mixed")
 	_load_personal_challenge()
 
 func _layout_stage() -> void:
-	for frame: int in 3: await get_tree().process_frame
 	if not is_instance_valid(workspace): return
 	var area: Vector2 = workspace.size
-	var side_width: float = 460.0 if panels.trace.visible else 310.0
-	var right: bool = panels.trace.visible
+	var side_width: float = 560.0 if panels.trace.visible else 400.0
 	for id: String in ["tools","mission","trace"]:
-		var panel: FloatingInstrumentPanel = panels[id]
-		if not panel.visible: continue
-		panel.position = Vector2(area.x-side_width-8 if right else 8.0,8)
+		var panel: PanelContainer = panels[id]
+		panel.position = Vector2(8,8)
 		panel.size = Vector2(side_width,area.y-16)
-	panels.memory.position = Vector2(8 if right else side_width+20,8)
+		view_buttons[id].set_pressed_no_signal(panel.visible)
+	panels.memory.position = Vector2(side_width+20,8)
 	panels.memory.size = Vector2(area.x-side_width-28,area.y-16)
+	panels.manual.position = Vector2(48,16)
+	panels.manual.size = Vector2(area.x-96,area.y-32)
 
 func _current() -> Dictionary:
 	return design.orders[["A","B"][case_index]] if level == "relocation" else design
@@ -295,6 +303,7 @@ func _changed(rebuild: bool = true, record: bool = true) -> void:
 	stale=true
 	for child: Node in results.get_children():
 		if child is Button and str(child.name).begins_with("LayoutLocateIssue"): child.disabled = true
+	for button: Node in results.find_children("LayoutLocateIssue*","Button",true,false): button.disabled = true
 	LayoutChapter.store_draft(level,design)
 	status.text=_l("布局已改变 · 请重新运行；旧结果不会作为当前成绩。","Design changed · run again; previous results are stale.")
 	if record: PlaytestData.record_action(&"chapter_4",StringName(level),&"layout_edit",{"recipe_digest":S.design_signature(_current()),"strategy":str(_current().strategy),"batch":int(_current().batch),"group_count":_current().recipe.groups.size(),"block":int(_current().recipe.get("block",0)),"copy_field_count":_current().copy_fields.size()})
@@ -318,7 +327,8 @@ func _refresh_memory() -> void:
 
 func _begin_arranging() -> void:
 	panels.mission.hide()
-	panels.memory.show_instrument()
+	panels.memory.show()
+	_toggle("tools",true)
 
 func _build_mission() -> void:
 	var box: VBoxContainer = _box(_panel("mission",Localization.text(&"layout.mission.window_title"),Vector2(405,10),Vector2(780,590)))
@@ -387,6 +397,8 @@ func _run_all() -> void:
 		optional_summary.name = "LayoutOptionalGoals"
 		results.add_child(optional_summary)
 	var improved: bool = false
+	var regressed: bool = false
+	var comparison_count: int = 0
 	var case_rows: Array[Dictionary] = []
 	var baseline: Dictionary = C.evaluate(level,C.starter_design())
 	var best: Dictionary = C.evaluate(level,LayoutChapter.completed()[level]) if LayoutChapter.completed().has(level) else {}
@@ -394,12 +406,13 @@ func _run_all() -> void:
 		var run: LayoutRun = runs[i]
 		var m: Dictionary = run.metrics
 		var traffic: int = int(m.ram_read_bytes)+int(m.ram_write_bytes)
+		if not run.passed: regressed = true
 		var task: Dictionary = C.cases(level)[i]
-		var caption: String = _l("订单 ","Case ")+run.test_name+" · "+(_l("达标","Target met") if m.target_met else _l("输出正确","Correct output") if run.passed else Localization.text(&"s5.layout.incomplete"))
-		caption += " · RAM %d" % traffic + (" / %d B" % int(task.target_bytes) if int(task.target_bytes)>0 else " B")
+		var caption: String = _l("订单 ","Case ")+run.test_name+" · "+(_l("达标","Target met") if m.target_met else _l("未达标","Target unmet"))
 		var headline: Label = _label(caption,true)
 		headline.name = "LayoutCaseHeadline"+str(i)
-		headline.add_theme_color_override("font_color",Color("7fd8a4") if m.target_met else Color("f0c674"))
+		headline.add_theme_stylebox_override("normal",InstrumentStyle.panel(Color(Palette.GOOD if m.target_met else Palette.QUIT,0.08),Color.TRANSPARENT,4))
+		headline.add_theme_color_override("font_color",Palette.GOOD if m.target_met else Palette.QUIT)
 		results.add_child(headline)
 		caption = Localization.text(&"s5.layout.cycles_peak",[m.total_cycles,m.peak_extra_bytes])
 		var details: String = _l("周期：准备 %d + 查询 %d + 输出 %d = %d","Cycles: prepare %d + query %d + output %d = %d") % [m.prepare_cycles,m.query_cycles,m.output_cycles,m.total_cycles]
@@ -408,35 +421,52 @@ func _run_all() -> void:
 		var initial: Dictionary = baseline.runs[i].metrics
 		details += "\n"+_l("初始：%d 周期 · RAM %d B","Initial: %d cycles · RAM %d B") % [int(initial.total_cycles),int(initial.ram_read_bytes)+int(initial.ram_write_bytes)]
 		if not best.is_empty(): details += " · "+_l("我的已达标最佳 %d","My passing best: %d") % int(best.runs[i].metrics.total_cycles)
-		var comparisons: Array[Label] = []
 		var prior: LayoutRun = comparable_runs.get(run.test_name)
 		if run.passed and _case_evidence_matches(run,C.cases(level)[i]):
 			if prior != null and prior.passed and prior.case_signature == run.case_signature and prior.model_version == run.model_version:
 				var before: Dictionary = prior.metrics
+				comparison_count += 1
+				regressed = regressed or not _comparison_not_worse(before,m)
+				improved = improved or int(m.peak_extra_bytes) < int(before.peak_extra_bytes)
 				details += "\n"+_l("比上次完整运行：周期%+d · RAM%+d B · 临时峰值%+d B","Since last complete run: cycles%+d · RAM%+d B · peak scratch%+d B") % [int(m.total_cycles)-int(before.total_cycles),traffic-int(before.ram_read_bytes)-int(before.ram_write_bytes),int(m.peak_extra_bytes)-int(before.peak_extra_bytes)]
 				caption += "\n"+Localization.text(&"s5.layout.previous")
-				for entry: Array in [["RAM",int(before.ram_read_bytes)+int(before.ram_write_bytes),traffic," B"],[_l("周期","cycles"),int(before.total_cycles),int(m.total_cycles),""]]:
-					var comparison: Label = _label("%s %d → %d%s" % entry,true)
-					comparison.add_theme_color_override("font_color",Color("7fd8a4") if entry[2]<entry[1] else Color("f0c674") if entry[2]>entry[1] else Color("dceaf3"))
-					if entry[2] < entry[1]: improved = true
-					comparisons.append(comparison)
+				improved = improved or traffic < int(before.ram_read_bytes)+int(before.ram_write_bytes) or int(m.total_cycles) < int(before.total_cycles)
 			# An incomplete attempt must not replace the last complete comparison.
 			comparable_runs[run.test_name] = run
 		var metrics_label: Label = _label(caption.replace(" B", "\u00a0B"),true)
 		metrics_label.name = "LayoutCaseMetrics"+str(i)
+		metrics_label.visible = prior != null
+		metrics_label.add_theme_font_size_override("font_size",17)
 		results.add_child(metrics_label)
-		for comparison: Label in comparisons: results.add_child(comparison)
+		var meters := HBoxContainer.new(); results.add_child(meters)
+		for metric: Array in [[_l("周期","Cycles"),int(m.total_cycles),int(task.target_cycles)], ["RAM",traffic,int(task.target_bytes)], [Localization.text(&"w1.layout.scratch"),int(m.peak_extra_bytes),int(task.scratch_limit)]]:
+			var cell := VBoxContainer.new(); cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL; meters.add_child(cell)
+			var value: Label = _label(("%s %d / %d" % metric) if metric[2] > 0 else ("%s %d" % [metric[0],metric[1]])); value.add_theme_font_size_override("font_size",17); cell.add_child(value)
+			var bar := ProgressBar.new(); bar.show_percentage = false; bar.custom_minimum_size.y = 5
+			bar.max_value = maxi(1,maxi(metric[1],metric[2])); bar.value = metric[1]
+			var track := StyleBoxFlat.new(); track.bg_color = Palette.TERM_SCREEN
+			bar.add_theme_stylebox_override("background",track)
+			var fill := StyleBoxFlat.new(); fill.bg_color = Palette.QUIT if metric[2]>0 and metric[1]>metric[2] else Palette.ACCENT
+			bar.add_theme_stylebox_override("fill",fill); cell.add_child(bar)
+		if not m.target_met:
+			var reason: Label = _label(_case_gap_summary(run,task))
+			reason.add_theme_font_size_override("font_size",17)
+			reason.tooltip_text = reason.text; reason.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			results.add_child(reason)
+		var actions := HBoxContainer.new(); results.add_child(actions)
 		var outputs := _label(_l("实际输出：","Actual: ")+str(run.output_values)+"\n"+_l("预期输出：","Expected: ")+str(run.expected_values)+"\n"+details,true)
 		outputs.hide(); results.add_child(outputs)
-		_button(results,Localization.text(&"s5.layout.details"),func() -> void: outputs.visible=not outputs.visible)
+		_button(actions,Localization.text(&"w1.layout.details"),func() -> void: outputs.visible=not outputs.visible)
 		case_rows.append({"name":run.test_name,"passed":run.passed,"correct":run.passed,"target_met":m.target_met,"result_class":"target_met" if m.target_met else "correct_but_target_unmet" if run.passed else "space_limit" if m.error=="space_limit" else "runtime_error","metrics":m.duplicate(true)})
-		_button(results,_l("查看订单 ","Inspect case ")+run.test_name,_select_trace.bind(i))
+		_button(actions,_l("查看订单 ","Inspect case ")+run.test_name,_select_trace.bind(i))
 		if not m.target_met:
-			var locate: Button = _button(results,_l("定位这单的未达标证据","Locate this case's unmet condition"),_locate_case_issue.bind(i))
+			var locate: Button = _button(actions,Localization.text(&"w1.layout.locate"),_locate_case_issue.bind(i))
 			locate.name = "LayoutLocateIssue"+str(i)
 			locate.disabled = not _case_evidence_matches(run,C.cases(level)[i])
+		results.add_child(HSeparator.new())
 	_option(results,[_l("全部步骤","All steps"),_l("数据搬运","Transfers"),_l("批次边界与尾批","Batch boundaries and tail"),_l("结果输出","Outputs")],trace_filter,func(i: int) -> void: trace_filter=i; _select_trace(case_index))
-	trace_list = ItemList.new(); trace_list.custom_minimum_size=Vector2(420,260); results.add_child(trace_list)
+	trace_list = ItemList.new(); trace_list.custom_minimum_size=Vector2(0,180); results.add_child(trace_list)
+	trace_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	trace_list.item_selected.connect(_trace_selected)
 	var all_correct: bool = true
 	for run: LayoutRun in runs: all_correct=all_correct and run.passed
@@ -460,7 +490,7 @@ func _run_all() -> void:
 			if not GameMode.is_test_mode(): completion.present(StringName(level),C.title(level),C.goal(level),_l("第四章","Chapter 4"),&"chapter_4")
 			# Completion never changes the design or automatically starts another task.
 			_button(results,_l("已完成 · 返回任务树选择下一站","Completed · choose the next task"),_leave)
-	if improved: preload("res://src/ui/ui_cue.gd").play(self, &"improve")
+	if improved and not regressed and comparison_count == runs.size(): preload("res://src/ui/ui_cue.gd").play(self, &"improve")
 	elif report.passed: preload("res://src/ui/ui_cue.gd").play(self, &"met")
 	else: preload("res://src/ui/ui_cue.gd").play(self, &"fail")
 	core_review_button.visible = LayoutChapter.completed().has("mixed")
@@ -489,8 +519,22 @@ func _run_all() -> void:
 	_refresh_journey_context()
 	if is_instance_valid(journey_context): journey_context.measurement_recorded()
 
+func _comparison_not_worse(before: Dictionary, current: Dictionary) -> bool:
+	if bool(before.target_met) and not bool(current.target_met): return false
+	return int(current.total_cycles) <= int(before.total_cycles) and int(current.peak_extra_bytes) <= int(before.peak_extra_bytes) and int(current.ram_read_bytes)+int(current.ram_write_bytes) <= int(before.ram_read_bytes)+int(before.ram_write_bytes)
+
 func _case_evidence_matches(run: LayoutRun, task: Dictionary) -> bool:
 	return run.case_signature == JSON.stringify(task).sha256_text() and run.model_version == S.MODEL_VERSION
+
+func _case_gap_summary(run: LayoutRun, task: Dictionary) -> String:
+	var m: Dictionary = run.metrics
+	if not run.passed or not _case_evidence_matches(run,task):
+		return _case_contract_feedback(run,task).split("\n")[0]
+	for entry: Array in [["target_cycles",int(m.total_cycles),_l("总周期","Total cycles"),""],["target_bytes",int(m.ram_read_bytes)+int(m.ram_write_bytes),"RAM"," B"]]:
+		var limit: int = int(task[entry[0]])
+		if limit > 0 and int(entry[1]) > limit:
+			return _l("%s 超出 %d%s","%s over by %d%s") % [entry[2],int(entry[1])-limit,entry[3]]
+	return ""
 
 func _case_contract_feedback(run: LayoutRun, task: Dictionary) -> String:
 	if not _case_evidence_matches(run,task): return _l("这份记录与当前订单不匹配；请重新运行。","This record does not match this case; rerun before diagnosing it.")
@@ -697,29 +741,40 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if focus is LineEdit or focus is TextEdit: return
 	if event.is_command_or_control_pressed() and event.keycode == KEY_Z: _undo(event.shift_pressed); get_viewport().set_input_as_handled()
 	elif event.ctrl_pressed and event.keycode == KEY_Y: _undo(true); get_viewport().set_input_as_handled()
-func _panel(id: String, caption: String, at: Vector2, dimensions: Vector2) -> FloatingInstrumentPanel:
-	var panel := Instrument.new(); panel.custom_minimum_size=Vector2(280,190); panel.setup(StringName(id),caption)
-	panel.position=at; panel.size=dimensions; workspace.add_child(panel); panels[id]=panel
-	panel.close_requested.connect(func(_id: StringName) -> void: panel.hide())
-	panel.focus_requested.connect(func(_id: StringName) -> void: workspace.move_child(panel,-1))
-	call_deferred("_settle",panel,dimensions)
+func _panel(id: String, caption: String, at: Vector2, dimensions: Vector2) -> PanelContainer:
+	var panel := PanelContainer.new()
+	panel.position = at; panel.size = dimensions
+	panel.add_theme_stylebox_override("panel",InstrumentStyle.panel(Palette.TERM_PANEL,Palette.TERM_EDGE))
+	workspace.add_child(panel); panels[id] = panel
+	var column := VBoxContainer.new(); column.add_theme_constant_override("separation",8); panel.add_child(column)
+	var header := HBoxContainer.new(); column.add_child(header)
+	var heading: Label = _label(caption); heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL; header.add_child(heading)
+	if id == "manual": _button(header,_l("关闭","Close"),panel.hide)
+	var host := MarginContainer.new(); host.size_flags_vertical = Control.SIZE_EXPAND_FILL; column.add_child(host)
+	panel.set_meta("content_host",host); panel.set_meta("id",id)
 	return panel
-func _settle(panel: FloatingInstrumentPanel, dimensions: Vector2) -> void:
-	await get_tree().process_frame; await get_tree().process_frame
-	if is_instance_valid(panel): panel.size=dimensions; panel.fit_to_parent()
-func _toggle(id: String, force: bool = false) -> void:
+
+func _toggle(id: String, _force: bool = false) -> void:
 	if not panels.has(id): return
-	panels[id].visible = force or not panels[id].should_hide_on_toggle()
-	if panels[id].visible and id in ["tools","mission","trace"]:
-		for other: String in ["tools","mission","trace"]:
-			if other != id: panels[other].hide()
-	if panels[id].visible: panels[id].show_instrument()
-	if panels[id].visible and panels[id].minimized: panels[id].set_minimized(false)
-	if panels[id].visible: workspace.move_child(panels[id],-1); panels[id].fit_to_parent(); PlaytestData.record_tool_opened(&"chapter_4",StringName(level),StringName(id))
-	call_deferred("_layout_stage")
-func _box(panel: FloatingInstrumentPanel) -> VBoxContainer:
-	var scroll := ScrollContainer.new(); scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_AUTO if panel.instrument_id in [&"memory", &"manual"] else ScrollContainer.SCROLL_MODE_DISABLED; panel.content_host.add_child(scroll)
-	var box := VBoxContainer.new(); box.size_flags_horizontal=Control.SIZE_EXPAND_FILL; box.add_theme_constant_override("separation",12); scroll.add_child(box); return box
+	if id == "manual": panels[id].visible = not panels[id].visible
+	else:
+		panels[id].show()
+		if id in ["tools","mission","trace"]:
+			for other: String in ["tools","mission","trace"]:
+				panels[other].visible = other == id
+	if panels[id].visible:
+		workspace.move_child(panels[id],-1)
+		PlaytestData.record_tool_opened(&"chapter_4",StringName(level),StringName(id))
+	_layout_stage()
+
+func _box(panel: PanelContainer) -> VBoxContainer:
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO if panel.get_meta("id") in ["memory","manual"] else ScrollContainer.SCROLL_MODE_DISABLED
+	panel.get_meta("content_host").add_child(scroll)
+	var box := VBoxContainer.new(); box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation",8); scroll.add_child(box)
+	return box
 func _label(text: String, wrap: bool = false) -> Label:
 	var label := Label.new(); label.text=text; label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART if wrap else TextServer.AUTOWRAP_OFF; return label
 func _button(parent: Node, text: String, action: Callable) -> Button:
@@ -766,10 +821,17 @@ func _open_scoreboard() -> void:
 		score_window.clear_challenge_requested.connect(_clear_personal_challenge)
 		score_window.share_target_requested.connect(_share_personal_challenge)
 		score_window.dismissed.connect(func() -> void: score_button.grab_focus())
+		var scrim := ColorRect.new()
+		scrim.name = "LayoutScoreScrim"
+		scrim.color = LevelCompletionOverlay.BACKDROP
+		scrim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		scrim.z_index = 1999
+		add_child(scrim)
 		add_child(score_window)
+		score_window.visibility_changed.connect(func() -> void: scrim.visible = score_window.visible)
 	_update_challenge_controls()
 	score_window.refresh(_score_candidates())
-	score_window.popup_centered(Vector2i(mini(1040,int(size.x)-40),mini(560,int(size.y)-60)))
+	score_window.popup_centered(Vector2i(mini(1040,int(size.x)-40),mini(500,int(size.y)-60)))
 	score_window.close_button.grab_focus()
 
 func _restore_scored_design(value: Dictionary) -> void:

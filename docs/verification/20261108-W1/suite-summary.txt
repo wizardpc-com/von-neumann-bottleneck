@@ -1,0 +1,31 @@
+import: PASS
+user_directory: PASS
+test_layout_challenge_code: PASS
+  PASS: layout challenge code 288 checks
+test_layout_challenge_controller: PASS
+  PASS: portable challenge controller 66 checks, 0 failures
+test_layout_challenge_store: PASS
+  PASS: layout challenge store 166 checks
+test_layout_challenge_window: PASS
+  PASS: layout challenge window 106 checks, 0 failures
+test_layout_navigation: PASS
+  PASS: layout unified map return, selected tree route, persisted Continue and unavailable navigation
+test_layout_preview_selection: PASS
+  PASS: layout preview selection 16 checks
+test_layout_recipe_sources: PASS
+  PASS: layout recipe sources 13 checks
+test_layout_scoreboard: PASS
+  PASS: layout scoreboard 37 checks
+test_layout_scoreboard_ui: PASS
+  PASS: layout rankings UI 44 checks, 0 failures
+test_layout_simulation: PASS
+  PASS: layout mapping, real flow, copy costs, bounds, tails and determinism
+test_layout_trace_storage: PASS
+  PASS: layout trace storage 54 checks
+test_layout_ui: PASS
+  PASS: layout six hosts, gates, targets, undo and independent hints
+test_target_evidence_guidance: PASS
+  PASS: target evidence guidance 108 checks
+GPU test_layout_scoreboard_ui: PASS: layout rankings UI 47 checks, 0 failures
+GPU test_layout_challenge_window: PASS: layout challenge window 120 checks, 0 failures
+GPU test_layout_challenge_controller: PASS: portable challenge controller 82 checks, 0 failures

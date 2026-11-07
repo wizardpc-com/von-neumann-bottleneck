@@ -17,6 +17,19 @@ func run() -> void:
 		check(host.panels.memory.visible and not host.panels.mission.visible,"entry exposes the address stage "+id)
 		check(not host.panels.tools.get_rect().intersects(host.panels.memory.get_rect()),"tools leave address stage unobscured "+id)
 		if id == "fields":
+			var previous: Dictionary = {"target_met":true,"total_cycles":100,"peak_extra_bytes":8,"ram_read_bytes":64,"ram_write_bytes":16}
+			var changed: Dictionary = previous.duplicate()
+			changed.total_cycles = 90
+			check(host._comparison_not_worse(previous,changed),"strict gain with no regression permits improvement")
+			changed.peak_extra_bytes = 9
+			check(not host._comparison_not_worse(previous,changed),"faster with higher scratch is neutral")
+			changed = previous.duplicate(); changed.target_met = false
+			check(not host._comparison_not_worse(previous,changed),"formal regression prevents improvement")
+			changed = previous.duplicate(); changed.ram_write_bytes = 17
+			check(not host._comparison_not_worse(previous,changed),"RAM regression prevents improvement")
+			check(not host.panels.tools.has_node("WindowHeader"),"docked tool surface exposes no false window controls")
+			host._toggle("tools")
+			check(host.panels.tools.visible,"active side tab stays selected on repeated activation")
 			var localization: Node = root.get_node("Localization")
 			var original_locale: String = localization.current_locale()
 			for locale: String in ["zh_CN", "en"]:
@@ -31,7 +44,7 @@ func run() -> void:
 			localization.set_locale(original_locale)
 			host._run_all()
 			var first_metrics: Label = host.results.get_node("LayoutCaseHeadline0")
-			check(first_metrics.text.contains("RAM") and not first_metrics.text.contains("比上次") and not first_metrics.text.contains("Since last"),"first measured baseline shows traffic without inventing an earlier run")
+			check(not first_metrics.text.contains("RAM") and not first_metrics.text.contains("比上次") and not first_metrics.text.contains("Since last"),"case headline keeps order and status without repeating traffic")
 		host.design = C.reference_solution(id)
 		host._changed()
 		await process_frame

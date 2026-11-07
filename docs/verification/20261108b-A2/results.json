@@ -1,0 +1,86 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/user_directory"
+    },
+    {
+      "name": "test_hub_first_screen",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_hub_first_screen.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/test_hub_first_screen"
+    },
+    {
+      "name": "test_lab_journey",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_journey.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/test_lab_journey"
+    },
+    {
+      "name": "test_lab_terminal_confirmation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_confirmation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/test_lab_terminal_confirmation"
+    },
+    {
+      "name": "test_lab_terminal_modes",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_modes.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/test_lab_terminal_modes"
+    },
+    {
+      "name": "test_lab_terminal_pages",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_pages.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/test_lab_terminal_pages"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_terminal_presentation_polish",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_presentation_polish.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/test_terminal_presentation_polish"
+    },
+    {
+      "name": "test_terminal_task_titles",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_terminal_task_titles.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261107T184233Z-683f7324/test_terminal_task_titles"
+    }
+  ]
+}

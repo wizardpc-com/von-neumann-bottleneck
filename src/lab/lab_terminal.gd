@@ -6,6 +6,8 @@ signal action(id: String)
 
 const Palette = preload("res://src/lab/lab_palette.gd")
 const Typewriter = preload("res://src/ui/yi_typewriter.gd")
+const LabState = preload("res://src/lab/lab_state.gd")
+const Emblem = preload("res://src/ui/chapter_emblem.gd")
 const Naming = preload("res://src/campaign/journey_naming.gd")
 
 var english: bool = false
@@ -25,6 +27,9 @@ var test_mode_button: Button
 var mode_note: Label
 var secondary: HFlowContainer
 var archive_button: Button
+var journey_strip: HBoxContainer
+var chapter_segments: Array[PanelContainer] = []
+var journey_count: Label
 var progress_label: Label
 var cursor: Label
 var header_label: Label
@@ -47,6 +52,7 @@ var _reply: Dictionary = {}
 var _reveal_choices: Callable
 
 func _ready() -> void:
+	custom_minimum_size.y = 640
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	theme = Theme.new()
@@ -100,18 +106,19 @@ func _build() -> void:
 	title_bar.add_theme_stylebox_override("panel", title_style)
 	awake_view.add_child(title_bar)
 	var header := HBoxContainer.new(); title_bar.add_child(header)
-	header_label = _label(header, "", 13, Palette.TERM_MUTED); header_label.name = "TerminalHeader"
+	header_label = _label(header, "", 17, Palette.ACCENT); header_label.name = "TerminalHeader"
 	header_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	progress_label = _label(header, "", 13, Palette.TERM_MUTED)
+	progress_label = _label(header, "", 16, Palette.TERM_MUTED)
 	progress_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	progress_label.hide()
 	progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	dialogue_skip = _button(header, "", "dialogue_skip", false)
 	dialogue_skip.name = "DialogueSkip"
-	dialogue_skip.add_theme_font_size_override("font_size", 12)
+	dialogue_skip.add_theme_font_size_override("font_size", 16)
 	dialogue_skip.hide()
 	language_button = _button(header, "EN", "language", false); language_button.name = "TerminalLanguage"
-	language_button.custom_minimum_size = Vector2(44, 24); language_button.add_theme_font_size_override("font_size", 12)
+	language_button.custom_minimum_size = Vector2(44, 24); language_button.add_theme_font_size_override("font_size", 16)
 	var rule := ColorRect.new(); rule.color = Palette.with_alpha(Palette.TERM_EDGE, 0.9); rule.custom_minimum_size.y = 1
 	awake_view.add_child(rule)
 	# In a conversation, the player's chosen reply is echoed above Yi's answer.
@@ -135,28 +142,60 @@ func _build() -> void:
 	mode_picker.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	mode_picker.add_theme_constant_override("separation", 6)
 	actions.add_child(mode_picker)
-	var mode_buttons := HBoxContainer.new(); mode_buttons.add_theme_constant_override("separation", 6)
+	var mode_buttons := HBoxContainer.new(); mode_buttons.add_theme_constant_override("separation", 0)
 	mode_picker.add_child(mode_buttons)
 	var mode_group := ButtonGroup.new()
 	game_mode_button = _button(mode_buttons, "", "mode_game", false); game_mode_button.name = "TerminalGameMode"
 	test_mode_button = _button(mode_buttons, "", "mode_test", false); test_mode_button.name = "TerminalTestMode"
 	for button: Button in [game_mode_button, test_mode_button]:
 		button.toggle_mode = true; button.button_group = mode_group
-		button.custom_minimum_size.y = 34
+		button.custom_minimum_size.y = 40
+		_style_segment(button)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.add_theme_font_size_override("font_size", 16)
-	mode_note = _label(mode_picker, "", 13, Palette.TERM_MUTED); mode_note.name = "TerminalModeNote"
+	mode_note = _label(mode_picker, "", 16, Palette.TERM_MUTED); mode_note.name = "TerminalModeNote"
 	get_node("/root/GameMode").mode_changed.connect(_sync_mode_choice)
 	var rest := Control.new(); rest.name = "TerminalRest"; rest.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	rest.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	awake_view.add_child(rest)
+	journey_strip = HBoxContainer.new(); journey_strip.name = "TerminalJourneyProgress"
+	journey_strip.add_theme_constant_override("separation", 8)
+	awake_view.add_child(journey_strip)
+	var symbols := [&"hardware", &"system", &"locality", &"overlap", &"layout", &"representation", &"service", &"address", &"compression", &"content", &"creation"]
+	for index: int in LabState.STATIONS.size():
+		var segment := PanelContainer.new(); segment.name = "Chapter" + str(index)
+		segment.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		journey_strip.add_child(segment); chapter_segments.append(segment)
+		var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 4)
+		column.mouse_filter = Control.MOUSE_FILTER_IGNORE; segment.add_child(column)
+		var ordinal := _label(column, "", 13, Palette.TERM_MUTED); ordinal.name = "Ordinal"
+		ordinal.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		ordinal.autowrap_mode = TextServer.AUTOWRAP_OFF
+		var artwork := Control.new(); artwork.custom_minimum_size = Vector2(54, 32)
+		artwork.mouse_filter = Control.MOUSE_FILTER_IGNORE; column.add_child(artwork)
+		var emblem := Emblem.new(); emblem.chapter = symbols[index]
+		artwork.add_child(emblem); emblem.size = Vector2(260, 108); emblem.scale = Vector2.ONE * 0.28
+		artwork.resized.connect(func() -> void: emblem.position.x = (artwork.size.x - 72.8) * 0.5)
+		var bar := ProgressBar.new(); bar.name = "Progress"
+		bar.custom_minimum_size.y = 6; bar.show_percentage = false
+		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bar.add_theme_stylebox_override("background", InstrumentTheme.panel(Palette.TERM_PANEL, Palette.TERM_EDGE, 0))
+		bar.add_theme_stylebox_override("fill", InstrumentTheme.panel(Palette.ACCENT_DEEP, Palette.ACCENT_DEEP, 0))
+		column.add_child(bar)
+	journey_count = _label(journey_strip, "", 24, Palette.ACCENT)
+	journey_count.custom_minimum_size.x = 108
+	journey_count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	journey_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	journey_count.autowrap_mode = TextServer.AUTOWRAP_OFF
+	var lower_breath := Control.new(); lower_breath.custom_minimum_size.y = 6
+	lower_breath.mouse_filter = Control.MOUSE_FILTER_IGNORE; awake_view.add_child(lower_breath)
 	var footer_rule := ColorRect.new(); footer_rule.name = "TerminalFooterRule"
 	footer_rule.color = Palette.with_alpha(Palette.TERM_EDGE, 0.6); footer_rule.custom_minimum_size.y = 1
 	footer_rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	awake_view.add_child(footer_rule)
 	secondary = HFlowContainer.new(); secondary.add_theme_constant_override("h_separation", 4); secondary.add_theme_constant_override("v_separation", 2)
 	awake_view.add_child(secondary)
-	var labels: Array = [["旅程地图", "Journey map", "journey"], ["档案", "Archive", "archive"], ["手册", "Handbook", "handbook"], ["设置", "Settings", "settings"], ["作品", "Works", "works"], ["成就", "Achievements", "achievements"], ["反馈", "Feedback", "feedback"], ["返回房间 · Esc", "Back to room · Esc", "look"], ["退出游戏", "Quit", "quit"]]
+	var labels: Array = [["旅程地图", "Journey map", "journey"], ["档案", "Archive", "archive"], ["手册", "Handbook", "handbook"], ["作品", "Works", "works"], ["成就", "Achievements", "achievements"], ["设置", "Settings", "settings"], ["反馈", "Feedback", "feedback"], ["返回房间 · Esc", "Back to room · Esc", "look"], ["退出游戏", "Quit", "quit"]]
 	for entry: Array in labels:
 		var button := _button(secondary, "", str(entry[2]), false)
 		button.name = "Terminal" + str(entry[2]).capitalize()
@@ -165,7 +204,18 @@ func _build() -> void:
 		button.custom_minimum_size.y = 32
 		button.add_theme_font_size_override("font_size", 14)
 		_style_link(button, Palette.QUIT if str(entry[2]) == "quit" else Palette.TERM_MUTED)
+		if str(entry[2]) in ["settings", "look"]:
+			for style: String in ["normal", "hover", "pressed", "focus"]:
+				var box := button.get_theme_stylebox(style).duplicate() as StyleBoxFlat
+				box.content_margin_left = 28
+				button.add_theme_stylebox_override(style, box)
 		if str(entry[2]) == "archive": archive_button = button
+	# Preserve the established Tab sequence despite the visual navigation grouping.
+	var focus_ids := ["Journey", "Archive", "Handbook", "Settings", "Works", "Achievements", "Feedback", "Look", "Quit"]
+	for index: int in range(focus_ids.size() - 1):
+		var before: Control = secondary.get_node("Terminal" + focus_ids[index])
+		var after: Control = secondary.get_node("Terminal" + focus_ids[index + 1])
+		before.focus_next = before.get_path_to(after); after.focus_previous = after.get_path_to(before)
 	choices = HBoxContainer.new(); choices.name = "DialogueChoices"
 	choices.add_theme_constant_override("separation", 8)
 	choices.hide(); awake_view.add_child(choices)
@@ -178,7 +228,7 @@ func play_dialogue(beats: Array, beat: int = 0, reply: Dictionary = {}) -> void:
 	_dialogue = beats
 	_beat = beat
 	_reply = reply
-	primary.hide(); mode_picker.hide(); secondary.hide(); choices.show()
+	primary.hide(); mode_picker.hide(); secondary.hide(); journey_strip.hide(); choices.show()
 	dialogue_skip.text = "返回" if not english else "Back"
 	dialogue_skip.tooltip_text = "跳过本段，回到终端" if not english else "Skip this conversation and return to the terminal"
 	dialogue_skip.show()
@@ -273,7 +323,7 @@ func _end_dialogue() -> void:
 	echo.hide(); choices.hide(); dialogue_skip.hide()
 	message.skip_scope = self
 	_set_choices([])
-	primary.show(); mode_picker.show(); secondary.show()
+	primary.show(); mode_picker.show(); secondary.show(); journey_strip.show()
 	response = {}
 	_compose()
 	_focus_primary()
@@ -347,14 +397,16 @@ func _compose() -> void:
 func _compose_text() -> void:
 	var zh: bool = not english
 	_sync_mode_choice()
-	mode_note.text = "游戏：按前置推进，保留自己的成果。\n测试：各关可进入，临时元件与进度隔离。" if zh else "Game: follow prerequisites and keep your own work.\nTest: visit any task with separate, temporary components and progress."
 	game_mode_button.tooltip_text = "适合首次游玩：亲手完成前置，逐步构建与保存自己的成果。" if zh else "For a first playthrough: earn prerequisites, build and save your own work."
 	test_mode_button.tooltip_text = "适合快速试玩：直接查看各章节，使用临时参考元件；测试成果不会成为游戏模式的通关记录。" if zh else "For a quick preview: visit any chapter with temporary reference components. Test results do not become Game-mode achievements."
 	sleep_hint.text = "壹 · 学习程序 · 待机\n点击屏幕，或按 Enter" if zh else "Yi · learning program · standby\nClick the screen or press Enter"
 	header_label.text = "壹 · 学习程序" if zh else "Yi · learning program"
 	language_button.text = "EN" if zh else "中文"
 	progress_label.text = ("%d / %d" % [int(state.get("completed", 0)), int(state.get("total", 0))]) if int(state.get("total", 0)) > 0 else ""
+	journey_count.text = progress_label.text
+	_sync_chapter_strip()
 	progress_label.tooltip_text = ("临时探索 %d 项不计入完成数。" if zh else "%d temporary tasks are excluded from completion.") % int(state.get("temporary", 0)) if int(state.get("temporary", 0)) > 0 else ""
+	journey_count.tooltip_text = progress_label.tooltip_text
 	for button: Node in secondary.get_children():
 		(button as Button).text = str(button.get_meta("en" if english else "zh"))
 	set_fragment_count(int(state.get("fragments", 0)), int(state.get("fragments_unread", 0)))
@@ -388,8 +440,34 @@ func _compose_text() -> void:
 		return
 	_passage = ("欢迎回来。\n下一项是「%s」。" if zh else "Welcome back.\nNext up: \"%s\".") % Naming.plain_title(next_title)
 
+func _sync_chapter_strip() -> void:
+	var rows: Array[Dictionary] = LabState.tasks()
+	var stations: Array[Dictionary] = LabState.station_progress(rows)
+	var navigation: Node = get_node_or_null("/root/TaskNavigation")
+	var next_key: String = str(state.get("next_key", navigation.next_task_key() if navigation != null else ""))
+	var current_region: int = -1
+	for row: Dictionary in rows:
+		if str(row.key) == next_key: current_region = int(row.region)
+	for index: int in chapter_segments.size():
+		var segment: PanelContainer = chapter_segments[index]
+		var counts: Dictionary = stations[index]
+		var current: bool = index == current_region
+		segment.set_meta("current", current)
+		var box := InstrumentTheme.panel(Palette.TERM_SCREEN_LIFT if current else Palette.TERM_SCREEN, Palette.ACCENT if current else Palette.TERM_EDGE, 3)
+		box.content_margin_left = 3; box.content_margin_right = 3
+		box.content_margin_top = 5; box.content_margin_bottom = 5
+		segment.add_theme_stylebox_override("panel", box)
+		var column: VBoxContainer = segment.get_child(0)
+		var ordinal: Label = column.get_node("Ordinal")
+		ordinal.text = ("Prologue" if english else "序章") if index == 0 else str(index)
+		ordinal.add_theme_color_override("font_color", Palette.ACCENT if current else Palette.TERM_MUTED)
+		segment.tooltip_text = "%s · %s · %d / %d" % [Naming.chapter_ordinal(index), str(counts.en if english else counts.zh), int(counts.done), int(counts.total)]
+		var bar: ProgressBar = column.get_node("Progress")
+		bar.max_value = maxi(1, int(counts.total)); bar.value = int(counts.done)
+
 func _sync_mode_choice(_mode: StringName = &"") -> void:
 	var testing: bool = get_node("/root/GameMode").is_test_mode()
+	mode_note.text = ("各关可进入，进度隔离。" if not english else "Explore any task; progress stays separate.") if testing else ("按前置推进，保留自己的成果。" if not english else "Earn prerequisites; keep your own work.")
 	game_mode_button.set_pressed_no_signal(not testing)
 	test_mode_button.set_pressed_no_signal(testing)
 	game_mode_button.text = ("✓ " if not testing else "") + ("游戏模式" if not english else "Game mode")
@@ -486,6 +564,8 @@ func _sync_task_card() -> void:
 		kicker.text = text.substr(0, split).strip_edges()
 		title.text = text.substr(split + (1 if text[split] == "
 " else 3)).strip_edges()
+	if english and bool(state.get("new_player", true)):
+		title.text = tr("terminal.card.first_line")
 	kicker.visible = not kicker.text.is_empty()
 
 ## Everything else reads as quiet text; it lifts only under the pointer or focus.
@@ -543,3 +623,12 @@ func _button(parent: Node, text: String, id: String, strong: bool) -> Button:
 		else: action.emit(id))
 	parent.add_child(node)
 	return node
+
+func _style_segment(node: Button) -> void:
+	for key: String in ["normal", "hover", "pressed", "hover_pressed"]:
+		var selected: bool = key in ["pressed", "hover_pressed"]
+		var box := InstrumentTheme.panel(Palette.TERM_SCREEN_LIFT if selected else Palette.TERM_SCREEN, Palette.ACCENT_DEEP if selected else Palette.TERM_EDGE, 0)
+		box.content_margin_left = 14; box.content_margin_right = 14
+		node.add_theme_stylebox_override(key, box)
+	node.add_theme_color_override("font_pressed_color", Palette.ACCENT)
+	node.add_theme_color_override("font_hover_pressed_color", Palette.ACCENT)

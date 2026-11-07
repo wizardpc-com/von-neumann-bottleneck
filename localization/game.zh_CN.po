@@ -7402,3 +7402,13 @@ msgstr "草稿 · %d组 / %d状态槽 · 拖动排序"
 
 msgid "已选%d组 · Ctrl多选连续组可合并"
 msgstr "已选%d组 · Ctrl多选连续组可合并"
+
+# --- A2 20261108b ---
+msgid "Explore any task; progress stays separate."
+msgstr "各关可进入，进度隔离。"
+
+msgid "Earn prerequisites; keep your own work."
+msgstr "按前置推进，保留自己的成果。"
+
+msgid "terminal.card.first_line"
+msgstr "接通第一条线路"

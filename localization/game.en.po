@@ -7403,3 +7403,13 @@ msgstr "Draft · %d groups / %d slots · drag to reorder"
 
 msgid "已选%d组 · Ctrl多选连续组可合并"
 msgstr "%d selected · Ctrl-select adjacent groups to join"
+
+# --- A2 20261108b ---
+msgid "Explore any task; progress stays separate."
+msgstr "Explore any task; progress stays separate."
+
+msgid "Earn prerequisites; keep your own work."
+msgstr "Earn prerequisites; keep your own work."
+
+msgid "terminal.card.first_line"
+msgstr "Connect the first line"

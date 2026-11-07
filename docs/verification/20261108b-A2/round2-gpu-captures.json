@@ -1,0 +1,86 @@
+[
+  {
+    "run": "r2-gpu-test_lab_terminal_modes",
+    "command": [
+      "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+      "--path",
+      "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\.godot\\verification\\20261107T184233Z-683f7324\\project",
+      "--script",
+      "res://tests/test_lab_terminal_modes.gd"
+    ],
+    "exit": 0
+  },
+  {
+    "run": "r2-gpu-test_lab_terminal_pages",
+    "command": [
+      "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+      "--path",
+      "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\.godot\\verification\\20261107T184233Z-683f7324\\project",
+      "--script",
+      "res://tests/test_lab_terminal_pages.gd"
+    ],
+    "exit": 0
+  },
+  {
+    "run": "r2-capture-zh_CN-test",
+    "command": [
+      "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+      "--path",
+      "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\.godot\\verification\\20261107T184233Z-683f7324\\project",
+      "--",
+      "--test-mode",
+      "--locale=zh_CN",
+      "--dev-key=Enter@3",
+      "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\docs\\verification\\20261108b-A2\\after-awake-zh-test.png@13",
+      "--dev-quit=14"
+    ],
+    "exit": 0
+  },
+  {
+    "run": "r2-capture-zh_CN-game",
+    "command": [
+      "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+      "--path",
+      "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\.godot\\verification\\20261107T184233Z-683f7324\\project",
+      "--",
+      "--test-mode",
+      "--locale=zh_CN",
+      "--dev-key=Enter@3",
+      "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\docs\\verification\\20261108b-A2\\after-awake-zh-game.png@13",
+      "--dev-quit=14",
+      "--dev-click=850,265@11"
+    ],
+    "exit": 0
+  },
+  {
+    "run": "r2-capture-en-test",
+    "command": [
+      "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+      "--path",
+      "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\.godot\\verification\\20261107T184233Z-683f7324\\project",
+      "--",
+      "--test-mode",
+      "--locale=en",
+      "--dev-key=Enter@3",
+      "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\docs\\verification\\20261108b-A2\\after-awake-en-test.png@13",
+      "--dev-quit=14"
+    ],
+    "exit": 0
+  },
+  {
+    "run": "r2-capture-en-game",
+    "command": [
+      "E:/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe",
+      "--path",
+      "E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\.godot\\verification\\20261107T184233Z-683f7324\\project",
+      "--",
+      "--test-mode",
+      "--locale=en",
+      "--dev-key=Enter@3",
+      "--dev-shot=E:\\VNB\\temp\\claude-visual-20261108\\wt\\a2\\docs\\verification\\20261108b-A2\\after-awake-en-game.png@13",
+      "--dev-quit=14",
+      "--dev-click=850,265@11"
+    ],
+    "exit": 0
+  }
+]

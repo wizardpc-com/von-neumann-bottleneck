@@ -52,6 +52,32 @@ func run() -> void:
 			await capture("%s-%dx%d-test" % [locale,dimensions.x,dimensions.y])
 			mode.set_mode(mode.MODE_GAME); await settle()
 			check(terminal.game_mode_button.button_pressed, "An external mode change updates terminal selection")
+			check(not terminal.mode_note.text.contains("\n"), "Only the selected mode has one explanation")
+			check(terminal.journey_count.text == "%d / %d" % [int(terminal.state.completed), int(terminal.state.total)], "Total uses supplied authoritative counts")
+			var stations: Array[Dictionary] = preload("res://src/lab/lab_state.gd").station_progress(preload("res://src/lab/lab_state.gd").tasks())
+			check(terminal.chapter_segments.size() == 11, "All chapters appear in journey order")
+			for index: int in 11:
+				var segment: PanelContainer = terminal.chapter_segments[index]
+				var bar: ProgressBar = segment.get_child(0).get_node("Progress")
+				check(bar.value == int(stations[index].done) and bar.max_value == maxi(1, int(stations[index].total)), "Chapter fill matches the real board source")
+				check(bounds.encloses(segment.get_global_rect()), "Chapter fits terminal")
+			check(terminal.chapter_segments[0].get_meta("current"), "Fresh progress highlights the prologue")
+			check(terminal.primary.get_node("CardLines/CardTitle").text == ("Connect the first line" if locale == "en" else "接通第一条线路"), "Begin title uses card-specific capitalization")
+			check(bounds.encloses(terminal.journey_strip.get_global_rect()), "The progress strip fits the terminal")
+			for link: Control in terminal.secondary.get_children():
+				check(bounds.encloses(link.get_global_rect()), "Every footer link fits: " + link.name)
+			var original_state: Dictionary = terminal.state.duplicate(true)
+			var fixture: Dictionary = original_state.duplicate(true)
+			fixture.completed = 7; fixture.total = 57
+			terminal.configure(fixture); await settle()
+			check(terminal.journey_count.text == "7 / 57", "A presentation fixture renders partial progress exactly")
+			for task: Dictionary in preload("res://src/lab/lab_state.gd").tasks():
+				if int(task.region) == 4:
+					fixture.next_key = str(task.key)
+					break
+			terminal.configure(fixture); await settle()
+			check(terminal.chapter_segments[4].get_meta("current") and not terminal.chapter_segments[0].get_meta("current"), "Highlight follows the actual next task region")
+			terminal.configure(original_state); await settle()
 			terminal.test_mode_button.pressed.emit(); terminal.game_mode_button.pressed.emit(); await settle()
 			check(not mode.is_test_mode() and save.game_player_content.canonical_signature() == signature, "Returning to Game preserves genuine player results")
 			terminal.play_dialogue([{"zh":"对话", "en":"Conversation", "replies":[]}]); await settle()

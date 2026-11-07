@@ -16,6 +16,7 @@ var writer_lease: RefCounted
 var recovery_state: Dictionary = {}
 var support_plans: Dictionary = {}
 var candidate_journey: bool = false
+var leave_to_laboratory: bool = false
 var leave_to_hub: bool = false
 var leave_to_journey: bool = false
 var persistent_session: bool = false
@@ -30,6 +31,7 @@ var designs: Array[Dictionary] = []
 var design_shelf: VBoxContainer
 var undo_stack: Array[Dictionary] = []
 var redo_stack: Array[Dictionary] = []
+var presentation_scale: float = 1.0
 var english: bool = false
 var terminology_handbook: Control
 var task: int = 0
@@ -44,6 +46,9 @@ var selected_group: int = 0
 var selected_history: int = -1
 var active_trace: Trace
 var group_list: ItemList
+var measured_history_header: Control
+var replay_controls: Control
+var investigation_controls: Control
 var history_list: ItemList
 var split_at: SpinBox
 var move_to: SpinBox
@@ -68,6 +73,7 @@ var status: Label
 var draft_source: Label
 var group_selection: Label
 var bill_button: Button
+var target_values: Label
 var measured_verdict: Label
 var next_button: Button
 var evidence_tabs: TabContainer
@@ -117,6 +123,9 @@ static func display_number(value: float) -> String:
 	return String.num(-magnitude if value < 0.0 else magnitude,5).trim_suffix(".0")+"e"+str(exponent)
 func _ready() -> void:
 	theme = Theme.new(); InstrumentTheme.apply_to(theme)
+	presentation_scale = 1.25 if get_viewport_rect().size.x >= 1500 else 1.0
+	theme.default_font_size = roundi(14 * presentation_scale)
+	for kind: String in ["Button", "ItemList", "TabBar", "LineEdit", "Tree"]: theme.set_font_size("font_size",kind,roundi(14 * presentation_scale))
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var localization: Node = get_node_or_null("/root/Localization")
 	if localization != null: english = str(localization.call("current_locale")) == "en"
@@ -146,10 +155,10 @@ func _ready() -> void:
 
 func label(text: String, parent: Node, size: int = 15) -> Label:
 	var node := Label.new(); node.text = text; node.autowrap_mode = TextServer.AUTOWRAP_OFF if parent is HBoxContainer else TextServer.AUTOWRAP_WORD_SMART
-	node.add_theme_font_size_override("font_size", maxi(size, 13)); parent.add_child(node); return node
+	node.add_theme_font_size_override("font_size", ceili(maxi(size, 13) * presentation_scale)); parent.add_child(node); return node
 func button(text: String, parent: Node, action: Callable, id: String = "") -> Button:
 	var node := Button.new(); node.text = text; node.name = id if not id.is_empty() else "Action"
-	node.custom_minimum_size.y = 32; node.pressed.connect(action); parent.add_child(node); return node
+	node.custom_minimum_size.y = 32; node.pressed.connect(action); parent.add_child(node); InstrumentTheme.nav(node); return node
 
 func set_action_disabled(action: BaseButton, unavailable: bool) -> void:
 	var was_focused: bool = action.has_focus()
@@ -203,42 +212,53 @@ func build() -> void:
 	add_child(margin); var page := VBoxContainer.new(); page.add_theme_constant_override("separation", 6); margin.add_child(page)
 	var header := HBoxContainer.new(); page.add_child(header)
 	var title := label(tr2("服务方案 · 谁先得到下一次结果？", "Service plan · Who gets the next result?"), header, 22); title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.clip_text = true; title.custom_minimum_size.x = 120
 	preload("res://src/ui/workbench_chrome.gd").title(title)
 	if preload("res://src/campaign/journey_naming.gd").chapter_for("service/move_state") != "": title.text = preload("res://src/campaign/journey_naming.gd").chapter_for("service/move_state")
 	language_button = button("中文 / EN", header, toggle_language, "Language")
 	language_button.hide()
 	header.add_child(get_node("/root/PlaytestMoments").make_workbench_button())
 	button(tr2("服务回顾", "Service review"),header,show_closure,"ServiceClosure")
-	if candidate_journey: button(tr2("旅程地图", "Journey map") if get_node("/root/TaskNavigation").from_tree else tr2("实验室", "Laboratory"),header,request_hub,"CandidateHome")
+	if candidate_journey:
+		button(tr2("旅程地图", "Journey map"),header,request_hub.bind(true),"CandidateHome")
+		button(tr2("实验室", "Laboratory"),header,func() -> void:
+			leave_to_hub = true; leave_to_journey = false; leave_to_laboratory = true
+			request_leave(),"Laboratory")
 	header.add_child(get_node("/root/WindowMode").settings_button())
 	preload("res://src/ui/workbench_chrome.gd").frame(header)
 	var stages := HFlowContainer.new(); page.add_child(stages)
 	stages.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
-	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, stages, "service", preload("res://src/campaign/second_act_tasks.gd").IDS["service"][task])
+	var references := HFlowContainer.new(); page.add_child(references)
+	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, references, "service", preload("res://src/campaign/second_act_tasks.gd").IDS["service"][task])
+	InstrumentTheme.nav(terminology_handbook.entry_button)
 	for index: int in 3:
 		var stage_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("service", index))
 		var node: Button = button(stage_label if not stage_label.is_empty() else tr2("任务%d" % (index + 1), "Task%d" % (index + 1)), stages, func() -> void: change_task(index), "Task%d" % (index + 1))
+		node.toggle_mode = true; node.button_pressed = index == task
 		set_action_disabled(node,not _task_available(index)); task_buttons.append(node)
 	hint_button = button(tr2("看一个线索", "A clue"), stages, func() -> void:
 		hint_open = not hint_open
 		if hint_open: get_node("/root/PlaytestData").record_hint(&"service",_playtest_id(),1)
 		refresh_mission(), "Hint1")
-	button(tr2("服务入门", "Service introduction"), stages, show_briefing, "ServiceIntroduction")
-	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), stages, show_public_data, "PublicData")
-	button(tr2("完整规格", "Full specification"),stages,show_specification,"ServiceSpecification")
-	button(tr2("追加委托", "Follow-ups"),stages,func() -> void: start_commission(maxi(commission_mode,0)),"ServiceCommissions")
+	button(tr2("服务入门", "Service introduction"), references, show_briefing, "ServiceIntroduction")
+	data_button = button(tr2("公开数据 / 成本", "Public data / costs"), references, show_public_data, "PublicData")
+	button(tr2("完整规格", "Full specification"),references,show_specification,"ServiceSpecification")
+	button(tr2("追加委托", "Follow-ups"),references,func() -> void: start_commission(maxi(commission_mode,0)),"ServiceCommissions")
 	var mission_reading := ScrollContainer.new(); mission_reading.name = "MissionReading"
-	mission_reading.custom_minimum_size.y = 30
+	mission_reading.custom_minimum_size.y = 44
 	mission_reading.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	page.add_child(mission_reading)
 	var task_card := VBoxContainer.new(); task_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL; mission_reading.add_child(task_card)
 	mission = label("", task_card, 14); mission.size_flags_horizontal = Control.SIZE_EXPAND_FILL; refresh_mission()
 	status = label(tr2("构造组和顺序，选择逐流表示，再测量。实验进度只在内存。", "Construct groups/order and per-stream storage, then measure. Lab progress is session-only."), page, 14)
-	status.max_lines_visible = 1
+	status.max_lines_visible = 1; status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	var body := HBoxContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.add_theme_constant_override("separation", 14); page.add_child(body)
-	var editor := VBoxContainer.new(); editor.custom_minimum_size.x = 430; body.add_child(editor)
+	var editor_column := VBoxContainer.new(); editor_column.custom_minimum_size.x = 520; body.add_child(editor_column)
+	var editor_scroll := ScrollContainer.new(); editor_scroll.name = "EditorScroll"; editor_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	editor_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; editor_scroll.follow_focus = true; editor_column.add_child(editor_scroll)
+	var editor := VBoxContainer.new(); editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL; editor_scroll.add_child(editor)
 	draft_source = label("",editor,14); draft_source.name = "DraftSource"
-	group_list = preload("res://experiments/service_plan/group_list.gd").new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_FILL; group_list.max_columns = 4; group_list.fixed_column_width = 100; group_list.custom_minimum_size.y = 140; editor.add_child(group_list)
+	group_list = preload("res://experiments/service_plan/group_list.gd").new(); group_list.name = "Groups"; group_list.size_flags_vertical = Control.SIZE_FILL; group_list.max_columns = 4; group_list.fixed_column_width = 122; group_list.custom_minimum_size.y = 140; editor.add_child(group_list)
 	group_list.select_mode = ItemList.SELECT_MULTI
 	group_list.tooltip_text = tr2("四格依次代表A/B/C/D；亮格表示组内包含该流。可拖动整组，运行核验同流保序。", "Four marks represent A/B/C/D; lit marks show streams present. Drag whole groups; Run validates stream order.")
 	group_list.group_moved.connect(func(source: int, target: int) -> void:
@@ -278,20 +298,24 @@ func build() -> void:
 	for stream: int in 4:
 		var format: Button = button("", formats, func() -> void:
 			var current: int = Model.REPRESENTATIONS.find(plan.representations[stream]); edit(Model.represent(plan, stream, Model.REPRESENTATIONS[(current + 1) % 4]), selected_group), "Format" + char(65 + stream))
+		format.toggle_mode = true
 		format.size_flags_horizontal = Control.SIZE_EXPAND_FILL; format_buttons.append(format)
-	var actions := HBoxContainer.new(); editor.add_child(actions)
+	var actions := HFlowContainer.new(); editor_column.add_child(actions)
 	undo_button = button(tr2("撤销", "Undo"), actions, undo, "Undo")
 	redo_button = button(tr2("重做", "Redo"), actions, redo, "Redo")
 	run_button = button(tr2("运行并记录", "Run and record"), actions, run_current, "Run")
 	InstrumentTheme.primary(run_button,Color("7fcbd6"))
 	if persistent_session:
 		var save := button(tr2("保存本次探索", "Save exploration"),actions,save_session,"SaveSession")
-		set_action_disabled(save,save_blocked); InstrumentTheme.primary(save,Color("62dca7"))
+		set_action_disabled(save,save_blocked); InstrumentTheme.tool(save)
 		add_recovery_controls(editor)
-	button(tr2("退出游戏", "Quit"),actions,request_quit,"Quit")
-	status.reparent(editor)
+	var quit_action := button(tr2("退出游戏", "Quit"),header,request_quit,"Quit")
+	quit_action.visible = not candidate_journey
+	preload("res://src/ui/workbench_chrome.gd").quit_style(quit_action)
+	status.reparent(editor_column)
 	var evidence := VBoxContainer.new(); evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL; body.add_child(evidence)
-	var history_header := HBoxContainer.new(); evidence.add_child(history_header)
+	var history_header := HFlowContainer.new(); evidence.add_child(history_header)
+	measured_history_header = history_header
 	label(tr2("实测历史 · 不随草稿改变", "Measured history · independent of drafts"), history_header).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	restore_button = button(tr2("恢复为草稿", "Restore draft"), history_header, restore_history, "Restore")
 	button(tr2("精度依据", "Quality evidence"),history_header,show_quality_evidence,"QualityEvidence")
@@ -309,7 +333,7 @@ func build() -> void:
 	measured_verdict = label("",overview,14); measured_verdict.name = "MeasuredVerdict"
 	next_button = button("",overview,continue_service,"ServiceNext")
 	var overview_scroll := ScrollContainer.new(); overview_scroll.name = "OverviewEvidenceScroll"
-	overview_scroll.custom_minimum_size.y = 80; overview_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	overview_scroll.custom_minimum_size.y = 40; overview_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	overview_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; overview_scroll.follow_focus = true
 	overview.add_child(overview_scroll)
 	var overview_evidence := VBoxContainer.new(); overview_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -325,15 +349,16 @@ func build() -> void:
 	journey_context.verify_label.reparent(journey_context.details)
 	journey_context.tooltip_text = mission_text()
 	journey_context.toggle.custom_minimum_size.y = 30
-	var card_actions := HBoxContainer.new(); page.add_child(card_actions); page.move_child(card_actions,3)
+	var card_actions := HBoxContainer.new(); page.add_child(card_actions); page.move_child(card_actions,4)
 	journey_context.toggle.reparent(card_actions)
 	hint_button.reparent(card_actions)
 	card_actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	journey_context.toggle.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	journey_context.toggle.toggled.connect(func(open: bool) -> void: mission_reading.custom_minimum_size.y = 150 if open else 30)
+	journey_context.toggle.toggled.connect(func(open: bool) -> void: mission_reading.custom_minimum_size.y = 150 if open else 44)
 	summary = label(tr2("四条流不断更新历史、请求下一次结果。安排组与驻留，再运行自己的草稿。", "Four streams update history and request their next result. Arrange groups and residency, then run your draft."), measured_evidence, 14)
-	summary.reparent(overview); overview.move_child(summary,1)
+	measured_source.reparent(measured_evidence); measured_evidence.move_child(measured_source,0)
 	var investigation := HBoxContainer.new(); measured_evidence.add_child(investigation)
+	investigation_controls = investigation
 	bill_button = button(tr2("完整实测账单", "Measured bill"),investigation,show_measured_bill,"MeasuredBill")
 	button(tr2("查看该时刻历史", "History at this moment"),investigation,show_response_history,"ShowStateJourney")
 	var comparison_panel := VBoxContainer.new(); comparison_panel.name = "Comparison"; evidence_tabs.add_child(comparison_panel)
@@ -351,11 +376,13 @@ func build() -> void:
 	clear_pin_button = button(tr2("清除对照", "Clear comparison"),compare_row,func() -> void: comparison_baseline.clear(); refresh_comparison(),"ClearComparison")
 	comparison_detail = label("",comparison_panel,14)
 	comparison_chart = preload("res://experiments/service_plan/comparison_chart.gd").new(); comparison_chart.name = "ComparisonChart"; comparison_panel.add_child(comparison_chart)
-	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"; response_chart.custom_minimum_size.y = 224
+	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"; response_chart.custom_minimum_size.y = 220 * presentation_scale
 	evidence.add_child(response_chart); evidence.move_child(response_chart,0)
-	measured_verdict.reparent(evidence); evidence.move_child(measured_verdict,0)
-	next_button.reparent(evidence); evidence.move_child(next_button,1); response_chart.configure([],0 if task == 0 else 320,english)
-	var replay_row := HBoxContainer.new(); evidence.add_child(replay_row); evidence.move_child(replay_row,3)
+	var target_card := PanelContainer.new(); target_card.name = "TaskTargets"; evidence.add_child(target_card); evidence.move_child(target_card,0)
+	target_values = label("",target_card,14)
+	measured_verdict.reparent(evidence); evidence.move_child(measured_verdict,1)
+	next_button.reparent(evidence); evidence.move_child(next_button,2); response_chart.configure([],0 if task == 0 else 320,english)
+	var replay_row := HBoxContainer.new(); replay_controls = replay_row; evidence.add_child(replay_row); evidence.move_child(replay_row,4)
 	response_play = button(tr2("回放首响应顺序", "Replay first responses"),replay_row,func() -> void:
 		response_chart.toggle_play(),"ResponsePlay")
 	button(tr2("更多证据", "More evidence"),replay_row,func() -> void: evidence_tabs.tabs_visible = not evidence_tabs.tabs_visible,"ToggleEvidenceTabs")
@@ -364,8 +391,10 @@ func build() -> void:
 		response_chart.step_response(),"ResponseStep")
 	set_action_disabled(response_play,true); set_action_disabled(response_step,true)
 	evidence_tabs.tab_changed.connect(func(index: int) -> void:
-		response_chart.visible = index == 0
-		replay_row.visible = index == 0
+		refresh_targets()
+		evidence_tabs.visible = index != 0 or selected_history >= 0
+		response_chart.visible = index == 0 and selected_history >= 0 and not response_chart.frames.is_empty()
+		replay_row.visible = index == 0 and selected_history >= 0
 		if index != 0: evidence_tabs.tabs_visible = true)
 	response_chart.playback_changed.connect(func(value: bool) -> void: response_play.text = tr2("暂停回放", "Pause replay") if value else tr2("回放首响应顺序", "Replay first responses"))
 	event_source = label("",event_panel,13)
@@ -395,7 +424,7 @@ func refresh_mission() -> void:
 	mission.text = mission_overview_text() + ("\n" + hint_text() if hint_open else "")
 	_refresh_journey_context()
 func refresh_groups() -> void:
-	draft_source.text = tr2("当前草稿 · %d组 / %d状态槽；从上到下执行（可拖动）", "Current draft · %d groups / %d slots; execute top to bottom (drag to move)") % [plan.groups.size(),plan.slots]
+	draft_source.text = tr2("草稿 · %d组 / %d状态槽 · 拖动排序", "Draft · %d groups / %d slots · drag to reorder") % [plan.groups.size(),plan.slots]
 	group_list.clear()
 	for index: int in plan.groups.size():
 		var tokens: PackedStringArray = []
@@ -404,7 +433,9 @@ func refresh_groups() -> void:
 	selected_group = clampi(selected_group, 0, plan.groups.size() - 1); group_list.select(selected_group); group_list.ensure_current_is_visible()
 	refresh_measured_source()
 	move_to.max_value = plan.groups.size()
-	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
+	for stream: int in 4:
+		format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
+		format_buttons[stream].set_pressed_no_signal(plan.representations[stream] != Model.REPRESENTATIONS[0])
 func refresh_actions() -> void:
 	_refresh_journey_context()
 	refresh_design_shelf()
@@ -444,13 +475,7 @@ func refresh_group_selection() -> void:
 	var consecutive: bool = consecutive_selected_groups()
 	merge_button.text = tr2("合并选中%d组", "Join %d selected") % selected.size() if multiple else tr2("合并下一组", "Join next")
 	set_action_disabled(merge_button,not consecutive if multiple else selected.is_empty() or selected_group >= plan.groups.size()-1)
-	group_selection.text = tr2("已选%d组 · 按住Ctrl逐组选中", "%d selected · Ctrl-click groups") % selected.size()
-	if multiple and not consecutive:
-		group_selection.text += tr2("；仅连续组可合并。", "; select consecutive groups to join.")
-	elif multiple:
-		group_selection.text += tr2("；合并保留原顺序，可撤销。", "; joining preserves order and can be undone.")
-	else:
-		group_selection.text += tr2("；连续多选可一次合并。", "; join consecutive selections at once.")
+	group_selection.text = tr2("已选%d组 · Ctrl多选连续组可合并", "%d selected · Ctrl-select adjacent groups to join") % selected.size()
 	for action: Button in [up_button,down_button,move_button]:
 		if multiple or selected.is_empty(): set_action_disabled(action,true)
 	if not multiple: set_action_disabled(move_button,selected.is_empty())
@@ -474,8 +499,44 @@ func refresh_split_action() -> void:
 	split_at.editable = group_size > 1
 	set_action_disabled(split_button,group_list.get_selected_items().size() != 1 or group_size < 2 or int(split_at.value) >= group_size)
 
+func refresh_targets() -> void:
+	if target_values == null: return
+	var m: Dictionary = history[selected_history].metrics if selected_history >= 0 and selected_history < history.size() else {}
+	var valid: bool = not m.is_empty() and str(m.get("error","invalid")).is_empty()
+	var rows: Array[String] = [tr2("任务目标 · 实测 / 上限", "Targets · measured / limit")]
+	var budgets: Array[Dictionary] = [{"name":tr2("总周期", "Total cycles"),"key":"total_cycles","limit":1420}]
+	if task != 1: budgets.append({"name":tr2("状态读写", "State traffic"),"key":"traffic","limit":600 if task == 0 else 320,"unit":" B"})
+	if task == 0: budgets.append({"name":tr2("峰值", "Peak"),"key":"peak_bytes","limit":350,"unit":" B"})
+	else:
+		for stream: int in 4: budgets.append({"name":char(65+stream)+tr2(" 首响应", " first response"),"key":"first","stream":stream,"limit":320})
+	var values: Array[String] = []
+	for budget: Dictionary in budgets:
+		var actual: int = 0
+		if valid:
+			if budget.key == "traffic": actual = int(m.state_read_bytes)+int(m.state_write_bytes)
+			elif budget.key == "first": actual = int(m.first_stream_cycles[budget.stream])
+			else: actual = int(m[budget.key])
+		values.append(("✓ " if actual <= budget.limit else "! ") if valid else "○ ")
+		values[-1] += budget.name+"  "+(str(actual) if valid else "—")+" / ≤ "+str(budget.limit)+str(budget.get("unit",""))
+		if valid and actual > budget.limit:
+			values[-1] += tr2(" · 超出 %d", " · over by %d") % (actual-budget.limit)
+	rows.append("   ·   ".join(values.slice(0,3)))
+	if values.size() > 3: rows.append("   ·   ".join(values.slice(3)))
+	target_values.text = "\n".join(rows)
+	target_values.get_parent().visible = commission_mode < 0 and evidence_tabs.current_tab == 0
+
 func refresh_verdict() -> void:
+	refresh_targets()
 	if measured_verdict == null: return
+	var has_record: bool = selected_history >= 0 and selected_history < history.size()
+	response_chart.visible = has_record and not response_chart.frames.is_empty() and evidence_tabs.current_tab == 0
+	replay_controls.visible = has_record and evidence_tabs.current_tab == 0
+	measured_history_header.visible = not history.is_empty()
+	history_list.visible = not history.is_empty()
+	investigation_controls.visible = has_record
+	measured_source.visible = has_record
+	summary.visible = has_record
+	evidence_tabs.visible = has_record or evidence_tabs.current_tab != 0
 	var earned: bool = support_plans.has(task)
 	if selected_history < 0 or selected_history >= history.size():
 		measured_verdict.text = tr2("尚无实测判定；先运行当前草稿。", "No measured verdict; run your current draft first.")
@@ -484,14 +545,14 @@ func refresh_verdict() -> void:
 		var met: bool = Commissions.accepted(m,commission_mode) if commission_mode >= 0 else Model.accepted(m,task)
 		var verdict: String = tr2("限制成立", "Limits met") if met else tr2("未达标", "Limits unmet")
 		if not str(m.error).is_empty(): verdict = tr2("未执行", "Not executed")
-		measured_verdict.text = tr2("记录%d · ", "Record%d · ") % (selected_history+1)+verdict
+		measured_verdict.text = tr2("记录%d · ", "Record %d · ") % (selected_history+1)+verdict
 		if commission_mode < 0:
 			measured_verdict.text += " · "+(tr2("任务%d达标方案已保留", "Task%d successful plan retained") % (task+1) if earned else tr2("尚无任务%d达标方案", "No Task%d successful plan retained") % (task+1))
 		measured_verdict.tooltip_text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
 	if selected_history >= 0 and selected_history < history.size():
 		var measured: Dictionary = history[selected_history].metrics
-		measured_verdict.text += "\n" + (Commissions.feedback(measured,commission_mode,english) if commission_mode >= 0 else measured_feedback(measured,int(history[selected_history].get("task",task))))
-		measured_verdict.add_theme_color_override("font_color",Color("62dca7") if Model.accepted(measured,task) else Color("f2ba70"))
+		if commission_mode >= 0: measured_verdict.text += "\n" + Commissions.feedback(measured,commission_mode,english)
+		measured_verdict.add_theme_color_override("font_color",preload("res://src/lab/lab_palette.gd").GOOD if Model.accepted(measured,task) else preload("res://src/lab/lab_palette.gd").SIGNAL_ON)
 	var next_unavailable: bool = true
 	next_button.tooltip_text = tr2("下一步依据已保留的达标方案；只查看旧记录不会获得当前合同。请在当前任务运行达标方案。", "Next follows retained successful plans. Viewing an old record does not earn the current contract; run a qualifying plan in this task.")
 	if commission_mode >= 0:
@@ -501,6 +562,7 @@ func refresh_verdict() -> void:
 		next_unavailable = not earned or task+1 > unlocked
 	else:
 		next_button.text = tr2("回看服务成果", "Review service work"); next_unavailable = not has_service_closure()
+	next_button.visible = not next_unavailable
 	set_action_disabled(next_button,next_unavailable)
 	for action: Button in [run_button,next_button]:
 		for state: String in ["normal","hover","pressed"]: action.remove_theme_stylebox_override(state)
@@ -510,8 +572,9 @@ func refresh_verdict() -> void:
 			tr2("已保留少搬状态的方案。下一任务还要让四条流及时得到首次回应。", "A lower-traffic plan is retained. Next, all four streams need timely first responses."),
 			tr2("已保留及时回应的方案。下一任务要用同一方案兼顾搬运与精度。", "A timely-response plan is retained. Next, one plan must also balance traffic and accuracy."),
 			tr2("三份合同均有达标方案；回看你安排的服务。", "All three contracts have successful plans; review the service you arranged.")]
-		measured_verdict.text += "\n"+bridge[task]
-		InstrumentTheme.primary(next_button,Color("62dca7"))
+		measured_verdict.tooltip_text += "\n"+bridge[task]
+		InstrumentTheme.nav(next_button)
+		InstrumentTheme.primary(run_button)
 	else:
 		InstrumentTheme.primary(run_button,Color("7fcbd6"))
 
@@ -634,7 +697,7 @@ func measured_feedback(metrics: Dictionary, contract: int) -> String:
 			if int(metrics.first_stream_cycles[stream]) == int(metrics.all_streams_first_cycle): latest_streams.append(char(65+stream))
 		budgets.append({"name":tr2("最晚首响应周期", "Latest first response")+" ("+"/".join(latest_streams)+")","actual":int(metrics.all_streams_first_cycle),"limit":320})
 	for budget: Dictionary in budgets:
-		if budget.actual > budget.limit: failures.append(tr2("%s %d / 上限%d，超出%d", "%s %d / limit%d, over by%d") % [budget.name,budget.actual,budget.limit,budget.actual-budget.limit])
+		if budget.actual > budget.limit: failures.append(tr2("%s %d / 上限%d，超出%d", "%s %d / limit %d, over by %d") % [budget.name,budget.actual,budget.limit,budget.actual-budget.limit])
 	var witness: Dictionary = QualityEvidence.build(metrics)
 	var tolerance: float = 0.02 if contract == 2 else 0.000000001
 	for key: String in ["max_error","max_state_error"]:
@@ -649,12 +712,12 @@ func select_run(index: int) -> void:
 	if index != selected_history: selected_event_index = -1
 	selected_history = index; var record: Dictionary = history[index]; var m: Dictionary = record.metrics
 	refresh_measured_source(); measured_source.tooltip_text = measured_source.text; refresh_comparison()
-	status.text = Commissions.feedback(m,commission_mode,english) if commission_mode >= 0 else measured_feedback(m,task)
+	status.text = invalid_feedback(m) if not str(m.error).is_empty() else tr2("已选择实测记录；编辑草稿后需重新运行。", "Measurement selected; run again after editing the draft.")
 	response_chart.configure(m.first_stream_cycles if str(m.error).is_empty() else [],0 if task == 0 else 320,english)
 	response_chart.configure_record(record,selected_history+1)
 	set_action_disabled(response_step,response_chart.first_responses.is_empty())
 	set_action_disabled(response_play,response_step.disabled or bool(ProjectSettings.get_setting("game/reduced_motion",false)))
-	summary.text = tr2("总%d周期 · 状态读写%dB · 峰值%dB\n分数误差%s · 最终状态误差%s", "Total%d cycles · state traffic%dB · peak%dB\nScore error%s · final-state error%s") % [m.total_cycles,m.state_read_bytes+m.state_write_bytes,m.peak_bytes,display_number(m.max_error),display_number(m.max_state_error)]
+	summary.text = tr2("分数误差%s · 最终状态误差%s", "Score error %s · final-state error %s") % [display_number(m.max_error),display_number(m.max_state_error)]
 	if not str(m.error).is_empty(): summary.text = invalid_feedback(m)+"\n"+tr2("没有性能或精度结果：该方案在执行前被拒绝。修改草稿后重新运行；历史记录保留。", "No performance or quality result: this plan was rejected before execution. Edit and rerun; history is retained.")
 	tree.clear(); var root_item: TreeItem = tree.create_item()
 	for event: Dictionary in record.events:
@@ -820,7 +883,7 @@ func measured_bill_text(record: Dictionary) -> String:
 
 func show_measured_bill() -> void:
 	if selected_history < 0 or selected_history >= history.size(): return
-	show_detail_dialog("MeasuredBillReview",tr2("记录%d · 完整实测账单", "Record%d · Measured bill") % (selected_history+1),measured_source.text+"\n\n"+measured_bill_text(history[selected_history]))
+	show_detail_dialog("MeasuredBillReview",tr2("记录%d · 完整实测账单", "Record %d · Measured bill") % (selected_history+1),measured_source.text+"\n\n"+measured_bill_text(history[selected_history]))
 
 func show_detail_dialog(id: String, title_text: String, text: String) -> void:
 	var existing := get_node_or_null(id) as AcceptDialog
@@ -913,6 +976,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func request_hub(review_journey: bool = false) -> void:
 	leave_to_hub = true
+	leave_to_laboratory = false
 	leave_to_journey = review_journey
 	if review_journey:
 		var review := get_node_or_null("ServiceReview") as AcceptDialog
@@ -925,7 +989,10 @@ func request_quit() -> void:
 	request_leave()
 
 func finish_leave() -> void:
-	if leave_to_hub and not leave_to_journey and get_node("/root/TaskNavigation").return_to_tree(): return
+	if leave_to_hub and leave_to_journey:
+		get_node("/root/TaskNavigation").call_deferred("open_tree")
+		return
+	if leave_to_hub and not leave_to_journey and not leave_to_laboratory and get_node("/root/TaskNavigation").return_to_tree(): return
 	if leave_to_hub:
 		# Leave embedded Window callbacks before replacing their owning scene.
 		call_deferred("_finish_hub_leave",leave_to_journey)
@@ -1129,6 +1196,7 @@ func build_commissions() -> void:
 	commission_ack = button(tr2("交付这份实测方案", "Hand over this measured plan"),panel,acknowledge_commission,"CommissionAcknowledge")
 	button(tr2("取回选中记录为草稿", "Restore selected record as draft"),panel,restore_history,"CommissionRestore")
 	evidence_tabs.tab_changed.connect(func(index: int) -> void:
+		refresh_targets()
 		if index == 4 and commission_mode < 0: start_commission(commission_choice.selected))
 	refresh_commission()
 
@@ -1155,7 +1223,7 @@ func refresh_commission() -> void:
 		set_action_disabled(commission_ack,true)
 		commission_result.text = tr2("尚无实测记录；先运行自己的方案。", "No measurement yet. Run your own plan first."); return
 	var m: Dictionary = history[selected_history].metrics
-	var lines: Array[String] = [tr2("记录%d · 以此记录的方案验收，未运行草稿不算。", "Record%d · Check this record's plan; unrun drafts do not count.") % (selected_history+1),Commissions.feedback(m,id,english)]
+	var lines: Array[String] = [tr2("记录%d · 以此记录的方案验收，未运行草稿不算。", "Record %d · Check this record's plan; unrun drafts do not count.") % (selected_history+1),Commissions.feedback(m,id,english)]
 	if str(m.error).is_empty():
 		lines.append(tr2("%d槽 · %d周期 · A/B/C/D首响应%s\n最终档案%dB（含目录与最终写回）· 累计状态读写%dB\n分数误差%s · 最终状态误差%s", "%d slots · %d cycles · A/B/C/D first%s\nFinal archive%dB (including directory and final flush) · cumulative state traffic%dB\nScore error%s · final-state error%s") % [m.plan.slots,m.total_cycles,str(m.first_stream_cycles),m.final_backing_bytes,m.state_read_bytes+m.state_write_bytes,display_number(m.max_error),display_number(m.max_state_error)])
 	if m.plan != plan: lines.append(tr2("当前草稿与记录不同；交付的是记录中的方案。", "Current draft differs; handoff uses the recorded plan."))

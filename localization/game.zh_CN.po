@@ -7396,3 +7396,9 @@ msgstr "基准："
 
 msgid "schedule.picture.copy"
 msgstr "复制峰值 %d B"
+# --- W3 20261108 ---
+msgid "草稿 · %d组 / %d状态槽 · 拖动排序"
+msgstr "草稿 · %d组 / %d状态槽 · 拖动排序"
+
+msgid "已选%d组 · Ctrl多选连续组可合并"
+msgstr "已选%d组 · Ctrl多选连续组可合并"

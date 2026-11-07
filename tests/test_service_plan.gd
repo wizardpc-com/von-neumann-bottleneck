@@ -188,7 +188,7 @@ func run() -> void:
 	lab.evidence_tabs.current_tab = 0
 	check(lab.history[0].metrics.first_stream_cycles == measured_firsts,"Playback never changes recorded metrics")
 	lab.select_run(0)
-	check(lab.status.text.contains("784") and lab.status.text.contains("2568"),"Baseline failure reports exact cycle and state-traffic excess")
+	check(lab.target_values.text.contains("784") and lab.target_values.text.contains("2568"),"Baseline failure reports exact cycle and state-traffic excess")
 	check(lab.measured_feedback(M.run(resident).metrics,0).contains("108"),"Cache residency reports its actual peak budget excess")
 	check(lab.measured_feedback(M.run(all8).metrics,1).contains("误差"),"Exact-quality failure remains visible for quantized storage")
 	check(lab.measured_feedback(M.run(lossless).metrics,2).contains("约束成立"),"Final-contract feedback makes no nonexistent next-task promise")
@@ -228,7 +228,11 @@ func run() -> void:
 			lab.evidence_tabs.current_tab = tab; await process_frame; await process_frame
 			var nodes: Array = [lab.measured_source,lab.summary,lab.response_chart,lab.response_play,lab.response_step] if tab == 0 else ([lab.event_source,lab.event_raw_button,lab.tree,lab.detail] if tab == 1 else ([lab.public_detail] if tab == 2 else [lab.pin_button,lab.comparison_detail,lab.comparison_chart]))
 			for node: Control in nodes:
-				check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Each active evidence tab fits minimum viewport with hints")
+				# Record summaries scroll with the history; their reading viewport must fit.
+				var bounds: Rect2 = node.get_global_rect()
+				if node == lab.summary or node == lab.measured_source:
+					bounds = lab.find_child("OverviewEvidenceScroll",true,false).get_global_rect()
+				check(node.is_visible_in_tree() and bounds.end.x <= 1280 and bounds.end.y <= 720,"Each active evidence tab fits minimum viewport with hints: %s %s" % [node.name,bounds])
 	lab.evidence_tabs.current_tab = 0; lab.show_public_data()
 	check(lab.evidence_tabs.current_tab == 2 and lab.public_detail.text.contains("Stream A"),"Public-data action opens visible actual data instead of hidden event detail")
 	check(lab.public_detail.text.contains("×8"),"Repeated public values are compact without hiding full arrays")

@@ -7397,3 +7397,9 @@ msgstr "Baseline: "
 
 msgid "schedule.picture.copy"
 msgstr "Copy peak %d B"
+# --- W3 20261108 ---
+msgid "草稿 · %d组 / %d状态槽 · 拖动排序"
+msgstr "Draft · %d groups / %d slots · drag to reorder"
+
+msgid "已选%d组 · Ctrl多选连续组可合并"
+msgstr "%d selected · Ctrl-select adjacent groups to join"

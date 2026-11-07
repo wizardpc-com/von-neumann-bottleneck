@@ -28,7 +28,7 @@ func text_label(text: String, parent: Node) -> Label:
 	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	node.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	node.add_theme_font_size_override("font_size",13)
+	node.add_theme_font_size_override("font_size",17 if get_viewport_rect().size.x >= 1500 else 13)
 	parent.add_child(node)
 	return node
 

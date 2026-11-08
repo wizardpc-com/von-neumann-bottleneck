@@ -1,0 +1,40 @@
+{
+  "headless_results": ".godot/verification/20261107T190209Z-18100acd/results.json",
+  "final_rendered": [
+    {
+      "log": ".godot/b3-temp/gpu-test_layout_ui.log",
+      "pass": [
+        "PASS: layout six hosts, gates, targets, undo and independent hints"
+      ],
+      "errors": []
+    },
+    {
+      "log": ".godot/b3-temp/final-gpu-test_layout_scoreboard_ui.log",
+      "pass": [
+        "PASS: layout rankings UI 47 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "log": ".godot/b3-temp/final-gpu-test_layout_challenge_window.log",
+      "pass": [
+        "PASS: layout challenge window 120 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "log": ".godot/b3-temp/final-gpu-test_layout_challenge_controller.log",
+      "pass": [
+        "PASS: portable challenge controller 82 checks, 0 failures"
+      ],
+      "errors": []
+    },
+    {
+      "log": ".godot/b3-temp/gpu-test_representation_workbench_presentation.log",
+      "pass": [
+        "PASS: test_representation_workbench_presentation 2329 checks, 0 failures"
+      ],
+      "errors": []
+    }
+  ]
+}

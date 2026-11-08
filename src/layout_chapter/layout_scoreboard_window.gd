@@ -55,6 +55,16 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	borderless = true
 	var skin := Theme.new(); skin.default_font_size = 18; InstrumentStyle.apply_to(skin); theme = skin
+	skin.set_stylebox("panel", "Tree", InstrumentStyle.panel(Palette.TERM_SCREEN_LIFT, Palette.TERM_EDGE))
+	for state: String in ["selected", "selected_focus", "hovered"]:
+		skin.set_stylebox(state, "Tree", InstrumentStyle.panel(Color(Palette.ACCENT, 0.15), Palette.ACCENT, 3))
+	for state: String in ["title_button_normal", "title_button_hover", "title_button_pressed"]:
+		skin.set_stylebox(state, "Tree", InstrumentStyle.panel(Palette.TERM_PANEL, Palette.TERM_EDGE, 3))
+	skin.set_color("font_color", "Tree", Palette.TERM_TEXT)
+	skin.set_color("font_selected_color", "Tree", Palette.TERM_TEXT)
+	skin.set_color("title_button_color", "Tree", Palette.TERM_MUTED)
+	skin.set_constant("v_separation", "Tree", 6)
+
 	var surface := Panel.new(); surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	surface.add_theme_stylebox_override("panel",InstrumentStyle.panel(Palette.TERM_PANEL,Palette.ACCENT)); add_child(surface)
 	title = _l("我的方案榜", "My design rankings")
@@ -78,6 +88,7 @@ func _ready() -> void:
 		"Remeasured on opening. Choose an objective and keep different tradeoffs. Use Run all cases to complete the task.")
 	close_button = _button(header,_l("关闭", "Close"),dismiss)
 	close_button.name = "ScoreClose"
+	InstrumentStyle.nav(close_button)
 	table_page = VBoxContainer.new()
 	table_page.name = "ScoreTablePage"
 	table_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -475,6 +486,7 @@ func _label(parent: Node, value: String) -> Label:
 
 func _button(parent: Node, caption: String, action: Callable) -> Button:
 	var button := Button.new()
+	InstrumentStyle.secondary(button)
 	button.text = caption
 	button.custom_minimum_size.y = 32
 	button.pressed.connect(action)

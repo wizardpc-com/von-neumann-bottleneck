@@ -79,8 +79,8 @@ func _ready() -> void:
 	title.add_theme_font_size_override("font_size", 16)
 	title.add_theme_color_override("font_color", Color("e2ebef"))
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_button(header,_l("旅程地图","Journey map"),_leave)
-	_button(header,_l("实验室","Laboratory"),_leave_to_lab)
+	InstrumentStyle.nav(_button(header,_l("旅程地图","Journey map"),_leave))
+	InstrumentStyle.nav(_button(header,_l("实验室","Laboratory"),_leave_to_lab))
 	core_review_button = _button(header,_l("回看路径成果","Review this path"),_open_core_review)
 	core_review_button.name = "LayoutCoreReview"
 	core_review_button.hide()
@@ -91,14 +91,15 @@ func _ready() -> void:
 	root.add_child(dock)
 	for entry: Array in [["tools","布局工具","Layout tools"],["mission","任务","Mission"],["trace","运行记录","Trace"]]:
 		var tab: Button = _button(dock,_l(entry[1],entry[2]),_toggle.bind(entry[0]))
+		InstrumentStyle.tool(tab)
 		tab.toggle_mode = true
 		view_buttons[entry[0]] = tab
 	dock.add_child(VSeparator.new())
-	_button(dock,_l("撤销","Undo"),_undo.bind(false))
-	_button(dock,_l("重做","Redo"),_undo.bind(true))
+	InstrumentStyle.tool(_button(dock,_l("撤销","Undo"),_undo.bind(false)))
+	InstrumentStyle.tool(_button(dock,_l("重做","Redo"),_undo.bind(true)))
 	var spacer := Control.new(); spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL; dock.add_child(spacer)
-	_button(dock,_l("图解规则","Illustrated rules"),_toggle.bind("manual"))
-	_button(dock,_l("提示","Hint"),_hint_request)
+	InstrumentStyle.nav(_button(dock,_l("图解规则","Illustrated rules"),_toggle.bind("manual")))
+	InstrumentStyle.tool(_button(dock,_l("提示","Hint"),_hint_request))
 	score_button = _button(dock,_l("我的方案榜","My design rankings"),_open_scoreboard)
 	score_button.name = "LayoutScoreboard"
 	dock.add_child(VSeparator.new())
@@ -148,11 +149,20 @@ func _open(id: String) -> void:
 	tools_box = _box(_panel("tools",Localization.text(&"layout.tools.window_title"),Vector2(10,10),Vector2(375,590)))
 	var memory_box: VBoxContainer = _box(_panel("memory",_l("地址视图","Address view"),Vector2(405,10),Vector2(575,600)))
 	var memory_tabs := HBoxContainer.new(); memory_box.add_child(memory_tabs)
-	_button(memory_tabs,_l("源数据","Source"),func() -> void: source_view.show(); copy_view.hide())
-	_button(memory_tabs,_l("临时副本","Scratch copy"),func() -> void:
+	var source_tab := _button(memory_tabs,_l("源数据","Source"),func() -> void: source_view.show(); copy_view.hide())
+	source_tab.toggle_mode = true
+	source_tab.set_pressed_no_signal(true)
+	InstrumentStyle.tool(source_tab)
+	var copy_tab := _button(memory_tabs,_l("临时副本","Scratch copy"),func() -> void:
 		if _current().strategy != "direct": _refresh_memory(); source_view.hide(); copy_view.show())
+	copy_tab.toggle_mode = true
+	InstrumentStyle.tool(copy_tab)
+	source_tab.pressed.connect(func() -> void: source_tab.set_pressed_no_signal(source_view.visible); copy_tab.set_pressed_no_signal(copy_view.visible))
+	copy_tab.pressed.connect(func() -> void: source_tab.set_pressed_no_signal(source_view.visible); copy_tab.set_pressed_no_signal(copy_view.visible))
 	source_view = Memory.new(); memory_box.add_child(source_view)
 	copy_view = Memory.new(); memory_box.add_child(copy_view); copy_view.hide()
+	source_view.visibility_changed.connect(func() -> void: source_tab.set_pressed_no_signal(source_view.visible))
+	copy_view.visibility_changed.connect(func() -> void: copy_tab.set_pressed_no_signal(copy_view.visible))
 	results = _box(_panel("trace",_l("运行与比较","Runs and comparison"),Vector2(1005,10),Vector2(570,610)))
 	_build_mission()
 	_build_manual()
@@ -778,7 +788,7 @@ func _box(panel: PanelContainer) -> VBoxContainer:
 func _label(text: String, wrap: bool = false) -> Label:
 	var label := Label.new(); label.text=text; label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART if wrap else TextServer.AUTOWRAP_OFF; return label
 func _button(parent: Node, text: String, action: Callable) -> Button:
-	var button := Button.new(); button.text=text; button.custom_minimum_size.y=36; button.pressed.connect(action); parent.add_child(button); return button
+	var button := Button.new(); InstrumentStyle.secondary(button); button.text=text; button.custom_minimum_size.y=36; button.pressed.connect(action); parent.add_child(button); return button
 func _option(parent: Node, values: Array, selected: int, action: Callable) -> OptionButton:
 	var option := OptionButton.new(); parent.add_child(option)
 	for value: String in values: option.add_item(value)

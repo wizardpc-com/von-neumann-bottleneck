@@ -1,5 +1,6 @@
 extends Control
 ## Candidate plan editor. Opt-in isolated sessions never affect campaign saves.
+const Palette = preload("res://src/lab/lab_palette.gd")
 const Model = preload("res://experiments/representation_region/model.gd")
 const Catalog = preload("res://experiments/representation_region/catalog.gd")
 const Trace = preload("res://src/simulation/simulation_trace.gd")
@@ -75,6 +76,16 @@ func _ready() -> void:
 	if localization != null: english = localization.current_locale() == "en"
 	theme = Theme.new()
 	InstrumentTheme.apply_to(theme)
+	theme.set_stylebox("panel", "Tree", InstrumentTheme.panel(Palette.TERM_SCREEN_LIFT, Palette.TERM_EDGE))
+	for state: String in ["selected", "selected_focus", "hovered"]:
+		theme.set_stylebox(state, "Tree", InstrumentTheme.panel(Color(Palette.ACCENT, 0.15), Palette.ACCENT, 3))
+	for state: String in ["title_button_normal", "title_button_hover", "title_button_pressed"]:
+		theme.set_stylebox(state, "Tree", InstrumentTheme.panel(Palette.TERM_PANEL, Palette.TERM_EDGE, 3))
+	theme.set_color("font_color", "Tree", Palette.TERM_TEXT)
+	theme.set_color("font_selected_color", "Tree", Palette.TERM_TEXT)
+	theme.set_color("title_button_color", "Tree", Palette.TERM_MUTED)
+	theme.set_constant("v_separation", "Tree", 6)
+
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var packaged_journey: bool = SessionStore.Context.configured_journey()
 	candidate_journey = candidate_journey or packaged_journey
@@ -124,12 +135,17 @@ func _task_label(index: int) -> String:
 func make_label(text: String, parent: Node, size: int = 16) -> Label:
 	var node := Label.new(); node.text = text
 	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	node.add_theme_font_size_override("font_size",maxi(size,13)); parent.add_child(node)
+	node.add_theme_font_size_override("font_size",maxi(size,14)); parent.add_child(node)
 	return node
 
 func make_button(text: String, parent: Node, action: Callable, handle: String) -> Button:
 	var node := Button.new(); node.text = text; node.name = handle
-	InstrumentTheme.nav(node)
+	if handle in ["Split", "Merge", "Raw", "RLE", "Undo", "Redo", "TracePlay", "TraceStep", "ToggleTraceDetails", "ToggleAssetList", "Hint1"] or handle.begins_with("Task"):
+		InstrumentTheme.tool(node)
+	elif handle in ["Run", "SaveSession", "CopyPreviousSupport", "RestoreSupport", "ReusePlan"] or handle.begins_with("Recover") or handle in ["RetryWriter", "ReloadCandidate"]:
+		InstrumentTheme.secondary(node)
+	else:
+		InstrumentTheme.nav(node)
 	node.custom_minimum_size.y = 38; node.pressed.connect(action); parent.add_child(node)
 	return node
 
@@ -175,14 +191,17 @@ func build() -> void:
 		make_button(text2("实验室", "Laboratory"),top,request_laboratory,"Laboratory")
 	top.add_child(get_node("/root/WindowMode").settings_button())
 	preload("res://src/ui/workbench_chrome.gd").frame(top)
-	var nav := HBoxContainer.new(); page.add_child(nav)
+	var nav := HBoxContainer.new(); nav.add_theme_constant_override("separation",8); page.add_child(nav)
 	nav.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
 	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, nav, "representation", preload("res://src/campaign/second_act_tasks.gd").IDS["representation"][task])
+	InstrumentTheme.nav(terminology_handbook.entry_button)
 	for i: int in 5:
 		var task_label: String = preload("res://src/campaign/journey_naming.gd").label_for(preload("res://src/campaign/second_act_tasks.gd").key_for("representation", i))
 		var b := make_button(task_label if not task_label.is_empty() else Catalog.title(i,english),nav,func() -> void: change_task(i),"Task"+str(i))
-		b.add_theme_font_size_override("font_size",13)
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL; task_buttons.append(b)
+		b.add_theme_font_size_override("font_size",14)
+		b.toggle_mode = true
+		b.set_pressed_no_signal(i == task)
+		task_buttons.append(b)
 	var body := HSplitContainer.new(); body.size_flags_vertical = Control.SIZE_EXPAND_FILL; body.name = "WorkspaceSplit"; body.split_offset = 40; page.add_child(body)
 	var editor := VBoxContainer.new(); editor.name = "RepresentationEditor"
 	editor.custom_minimum_size.x = 580; editor.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -288,7 +307,7 @@ func build() -> void:
 		save_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		save_button.tooltip_text = text2("保存各任务草稿、实测对照与收藏；撤销栈仅在本窗口保留。", "Save task drafts, measured comparisons and named designs. Undo stacks remain in this window.")
 		set_action_disabled(save_button,save_blocked)
-		InstrumentTheme.nav(save_button)
+		InstrumentTheme.secondary(save_button)
 		save_button.add_theme_color_override("font_focus_color",Color("071823"))
 		add_recovery_controls(reading)
 	if not candidate_journey:
@@ -483,6 +502,7 @@ func refresh_tasks() -> void:
 	if support_button != null: set_action_disabled(support_button,not support_plans.has(task))
 	for i: int in task_buttons.size():
 		set_action_disabled(task_buttons[i],false)
+		task_buttons[i].set_pressed_no_signal(i == task)
 		task_buttons[i].text = _task_label(i) + (" ✓" if completed[i] else "")
 
 func next_unfinished_task() -> int:

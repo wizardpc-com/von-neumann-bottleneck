@@ -7288,7 +7288,7 @@ msgstr "展开／收起详情与输出"
 
 # --- f1-feel 20261104 ---
 msgid "f1.met_again"
-msgstr "????"
+msgstr "再次达标"
 
 # --- p1-pages 20261104 ---
 msgid "p1.diagnostics"

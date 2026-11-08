@@ -97,4 +97,5 @@ func _draw() -> void:
 	var caption: String = preload("res://experiments/service_plan/event_presenter.gd").title(event,english)
 	caption += " · t%d + %d" % [int(event.cycle),int(event.duration)]
 	draw_string(font,Vector2(4,196),caption,HORIZONTAL_ALIGNMENT_LEFT,view_width-8,13,text_color)
-	draw_string(font,Vector2(4,214),words("外存含目录；本地*表示待写回。", "Backing includes directory; * = awaiting write-back."),HORIZONTAL_ALIGNMENT_LEFT,view_width-8,13,Color("90a7b7"))
+	# The legend reads on hover so the chart fits 1280×720 with hints open.
+	tooltip_text = words("外存含目录；本地*表示待写回。", "Backing includes directory; * = awaiting write-back.")

@@ -38,3 +38,30 @@ python -X utf8 scripts/verify-project.py --godot <Godot_v4.7.1-stable_win64_cons
 ## 未验证
 
 原生键盘／IME、真人新手、高 DPI、导出包、Mac 实机、听感。
+
+## 第二阶段（美术与设计）与第三批（设计系统落到各章）
+
+### 全量 · `407dddb`（A1–A6 集成后）
+
+280 PASS / 5 FAIL。
+
+| 套件 | 原因 | 处理 |
+| --- | --- | --- |
+| `test_game_record_projection`、`test_personal_records`、`test_release_convergence` | A4 删除了地图的 `COLORS` 常量，个人记录页仍引用，脚本解析失败。**真实回归** | 个人记录改用 `chapter_emblem.gd` 的章节色（`ebaf5d1`） |
+| `test_bilingual_typography` | A4 把节点标题最小字号提到 18 px，缩放 0.62 时标题上沿越出卡片 | 基线下限按字体上沿计算（`ebaf5d1`） |
+| `test_completion_service_clarity` | W3（第一阶段集成后才合入、未进首轮全量）隐藏了离开目的地、已得续程主按钮、任务 2 决策说明与滚动分区。**真实回归** | R2 恢复这些行为；只把检查已迁入目标卡的数值改为在目标卡核对（`000d110`） |
+
+另发现并修复：重复通关提示中文自 11-04 起存为 `????`（`11f6000`）。
+
+### 全量 · `000d110`（含第三批 B1–B4 与 R2）
+
+283 PASS / 2 FAIL。
+
+| 套件 | 原因 | 处理 |
+| --- | --- | --- |
+| `test_bilingual_typography` | 英文“Wiring Tutorial”在 18 px 下被截成省略号 | 标题先逐级降到 14 px 下限再截断（`task_tree_canvas.gd`） |
+| `test_service_plan` | 提示打开时第六章概览滚动区在 720p 越界 8 px（W3 第三轮加高了回应图） | 回应图最小高度 220 → 204，图例改为悬停提示 |
+
+修复后定向复跑：`test_bilingual_typography test_service_plan test_completion_service_clarity test_service_player_input test_service_journey_input test_service_learning_ui test_service_state_replay_view test_task_tree_presentation test_tree_relation_focus test_task_tree_layout test_game_record_projection test_personal_records test_release_convergence` → 13/13 PASS（另 import、user_directory 通过）。
+
+各任务自带的 GPU／呈现检查计数见 `20261108b-A*` 与 `20261108c-B*` 目录。B2 报告的第二章额外 GPU 结果矩阵 509/518（9 项失败）低于未改基线的 10 项失败，属既有问题，未在本轮处理。

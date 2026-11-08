@@ -390,7 +390,7 @@ func build() -> void:
 	clear_pin_button = button(tr2("清除对照", "Clear comparison"),compare_row,func() -> void: comparison_baseline.clear(); refresh_comparison(),"ClearComparison")
 	comparison_detail = label("",comparison_panel,14)
 	comparison_chart = preload("res://experiments/service_plan/comparison_chart.gd").new(); comparison_chart.name = "ComparisonChart"; comparison_panel.add_child(comparison_chart)
-	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"; response_chart.custom_minimum_size.y = 220 * presentation_scale
+	response_chart = preload("res://experiments/service_plan/response_journey_view.gd").new(); response_chart.name = "ResponseChart"; response_chart.custom_minimum_size.y = 204 * presentation_scale
 	evidence.add_child(response_chart); evidence.move_child(response_chart,0)
 	var target_card := PanelContainer.new(); target_card.name = "TaskTargets"; evidence.add_child(target_card); evidence.move_child(target_card,0)
 	target_values = label("",target_card,14)

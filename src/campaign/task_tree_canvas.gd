@@ -194,6 +194,8 @@ func node_text_layout(task: Dictionary) -> Dictionary:
 	var width: float = rect.size.x-2*inset
 	if task.completed or not task.unlocked or str(task.get("progress_source","")) == "session": width -= maxf(22,28*magnification)
 	var font: Font = get_theme_default_font()
+	# Prefer the larger title, but step down to the 14 px floor before cutting words.
+	while font_size>14 and font.get_string_size(title,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x>width: font_size-=1
 	title=_fit_text(title,font,font_size,width)
 	var baseline: float = (rect.size.y-font.get_height(font_size))*0.5+font.get_ascent(font_size) if compact else maxf(31*magnification,inset*0.5+font.get_ascent(font_size))
 	return {"rect":rect,"title":title,"font_size":font_size,"width":width,

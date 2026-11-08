@@ -25,7 +25,7 @@ func _ready() -> void:
 	difference.name = "ABFirstDifference"
 	difference.text = words("首次分歧", "First difference")
 	difference.pressed.connect(func() -> void: show_first_difference = true; refresh_view())
-	controls.add_child(difference)
+	controls.add_child(difference); InstrumentTheme.tool(difference)
 	context_input = LineEdit.new()
 	context_input.name = "ABContext"
 	context_input.custom_minimum_size.x = 100
@@ -36,7 +36,7 @@ func _ready() -> void:
 	inspect.name = "ABInspectContext"
 	inspect.text = words("查看规则", "Inspect rules")
 	inspect.pressed.connect(inspect_context_input)
-	controls.add_child(inspect)
+	controls.add_child(inspect); InstrumentTheme.tool(inspect)
 	summary = Label.new()
 	summary.name = "ABSummary"
 	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -57,7 +57,7 @@ func _ready() -> void:
 		action.name = "ABSelectA" if side == 0 else "ABSelectB"
 		var lane: int = 0 if side == 0 else 2
 		action.pressed.connect(_select_side.bind(lane))
-		column.add_child(action)
+		column.add_child(action); InstrumentTheme.nav(action)
 		side_buttons.append(action)
 	refresh_view()
 

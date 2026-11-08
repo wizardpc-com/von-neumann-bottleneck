@@ -150,6 +150,17 @@ func _ready() -> void:
 	add_to_group("candidate_quit_owners")
 	var skin := Theme.new()
 	InstrumentTheme.apply_to(skin)
+	for kind: String in ["TabContainer", "TabBar"]:
+		skin.set_stylebox("tab_selected",kind,InstrumentTheme.panel(Color("1a252e"),InstrumentTheme.ACCENT,6))
+		skin.set_stylebox("tab_unselected",kind,InstrumentTheme.panel(Color("101e2b"),InstrumentTheme.EDGE,6))
+		skin.set_stylebox("tab_hovered",kind,InstrumentTheme.panel(Color("243944"),InstrumentTheme.ACCENT,6))
+		skin.set_color("font_selected_color",kind,Color("e2ebef"))
+		skin.set_color("font_unselected_color",kind,Color("9eafb8"))
+		skin.set_font_size("font_size",kind,14)
+	var tab_surface := InstrumentTheme.panel(Color("101e2b"),InstrumentTheme.EDGE,8)
+	tab_surface.content_margin_left = 4
+	tab_surface.content_margin_right = 4
+	skin.set_stylebox("panel","TabContainer",tab_surface)
 	skin.default_font_size = 14
 	for control: String in ["Label","Button","OptionButton","Tree","ItemList","LineEdit"]:
 		skin.set_color("font_color",control,Color("e2ebef"))
@@ -188,7 +199,12 @@ func button(value: String, handle: String, parent: Node, action: Callable) -> Bu
 	node.text = value
 	node.custom_minimum_size.y = 36
 	node.pressed.connect(action)
-	InstrumentTheme.tool(node)
+	if handle in ["Journey", "Laboratory", "Previous", "Next", "ExpandEvidence", "ReturnToSignal", "MoreTools", "ToCompress", "ToPredict", "ToGenerate", "FocusWork", "ViewKeptWork"]:
+		InstrumentTheme.nav(node)
+	elif handle in ["SaveDraft", "Train", "Transport", "Raw", "CompareTransport", "Generate", "Commit", "Reveal", "Check", "Practice", "FamilyPractice", "FamilyCheck", "KeepWork", "KeepCurrent", "ContinueCreation", "ReplayWork", "ForkWork", "RunCostComparison", "ContinuePrediction", "PredictionUntilMismatch", "KeepCreationA", "KeepCreationB"]:
+		InstrumentTheme.secondary(node)
+	else:
+		InstrumentTheme.tool(node)
 	parent.add_child(node)
 	return node
 
@@ -263,7 +279,7 @@ func build() -> void:
 	var navigation := HBoxContainer.new()
 	navigation.add_to_group(preload("res://src/ui/workbench_chrome.gd").NAV_GROUP)
 	terminology_handbook = preload("res://src/ui/workbench_chrome.gd").add_handbook(self, navigation, "creation", Catalog.IDS[task])
-	InstrumentTheme.tool(terminology_handbook.entry_button)
+	InstrumentTheme.nav(terminology_handbook.entry_button)
 
 	task_choice = OptionButton.new()
 	task_choice.name = "Unit"
@@ -286,7 +302,7 @@ func build() -> void:
 	guide_copy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	guide_copy.add_theme_constant_override("separation",1)
 	guide.add_child(guide_copy)
-	var mission: Label = label(Catalog.workbench_goal(task,english),guide_copy,12)
+	var mission: Label = label(Catalog.workbench_goal(task,english),guide_copy,14)
 	mission.name = "Mission"
 	mission.hide()
 	guide.tooltip_text = mission.text
@@ -322,7 +338,7 @@ func build() -> void:
 	right.add_theme_constant_override("separation",4)
 	var evidence_header := HBoxContainer.new()
 	right.add_child(evidence_header)
-	provenance = label("",evidence_header,12)
+	provenance = label("",evidence_header,13)
 	provenance.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	evidence_toggle = button(text2("展开证据","Expand evidence"),"ReturnToSignal",evidence_header,func() -> void: set_evidence_expanded(false))
 	evidence_toggle.visible = evidence_expanded
@@ -335,7 +351,7 @@ func build() -> void:
 	machine_strip.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	machine_strip.mouse_filter = Control.MOUSE_FILTER_PASS
 	machine_strip.add_theme_color_override("font_color",Color("a9bbc9"))
-	measured_summary = label("",right,12)
+	measured_summary = label("",right,14)
 	measured_summary.name = "LiveMeasurementSummary"
 	saved_work_closure = HFlowContainer.new()
 	saved_work_closure.name = "SavedWorkClosure"
@@ -362,7 +378,7 @@ func build() -> void:
 	button(text2("单步","Step"),"PlaybackStep",playback,step_playback)
 	button("◀","PageBack",playback,func() -> void: browse_page(-1))
 	button("▶","PageForward",playback,func() -> void: browse_page(1))
-	var playback_note: Label = label(text2("只回放已发生输出，暂停不改变模拟。","Playback only; pause never changes simulation."),playback,12)
+	var playback_note: Label = label(text2("只回放已发生输出，暂停不改变模拟。","Playback only; pause never changes simulation."),playback,13)
 	playback_note.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	playback_note.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	button(text2("展开证据","Expand evidence"),"ExpandEvidence",playback,func() -> void: set_evidence_expanded(true))
@@ -372,7 +388,7 @@ func build() -> void:
 	inspection_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	inspection_scroll.focus_mode = Control.FOCUS_ALL
 	signal_area.add_child(inspection_scroll)
-	inspector = label(text2("点选一格查看真实来源。A ● / B ■ / C ▲ / D ◇","Select a cell to trace its source. A ● / B ■ / C ▲ / D ◇"),inspection_scroll,12)
+	inspector = label(text2("点选一格查看真实来源。A ● / B ■ / C ▲ / D ◇","Select a cell to trace its source. A ● / B ■ / C ▲ / D ◇"),inspection_scroll,14)
 	inspector.name = "CellInspector"
 	inspector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var evidence_tabs := TabContainer.new()
@@ -404,7 +420,7 @@ func build() -> void:
 	event_tab.add_child(event_nav)
 	button("◀","EventPrevious",event_nav,func() -> void: event_page = maxi(0,event_page-1); refresh())
 	button("▶","EventNext",event_nav,func() -> void: event_page += 1; refresh())
-	event_caption = label("",event_nav,12)
+	event_caption = label("",event_nav,13)
 	event_caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	events = _tree(event_tab,[text2("阶段 · 操作","Phase · operation"),text2("运算","Ops"),"B",text2("周期","Cycles")])
 	events.name = "Events"
@@ -488,7 +504,7 @@ func _choice(parent: Node, caption: String, handle: String, titles: Array, index
 
 func _build_examples(parent: Node) -> void:
 	if task == 5:
-		label(text2("同族委托：选择稳定规律与例外样例并学习，再练习／检查；材料不会自动换入。", "Family commission: select the stable/exception example and learn, then practise/check. Material is never swapped automatically."),parent,12)
+		label(text2("同族委托：选择稳定规律与例外样例并学习，再练习／检查；材料不会自动换入。", "Family commission: select the stable/exception example and learn, then practise/check. Material is never swapped automatically."),parent,14)
 		var family_actions := HFlowContainer.new()
 		family_actions.name = "FamilyActions"
 		parent.add_child(family_actions)
@@ -497,8 +513,8 @@ func _build_examples(parent: Node) -> void:
 	_choice(parent,text2("记住最近几项","History length"),"Order",[text2("0 · 不看上下文","0 · no context"),"1","2"],int(session.data.draft.order),func(index: int) -> void:
 		session.data.draft.order = index
 		edit_draft())
-	label(text2("选择公开样例，或加入你自己的一段。已揭晓检查不会自动回灌。","Select public examples or add your own passage. Revealed checks never enter training automatically."),parent,12)
-	selected_examples = label("",parent,12)
+	label(text2("选择公开样例，或加入你自己的一段。已揭晓检查不会自动回灌。","Select public examples or add your own passage. Revealed checks never enter training automatically."),parent,14)
+	selected_examples = label("",parent,14)
 	selected_examples.name = "SelectedExamples"
 	examples_list = VBoxContainer.new()
 	parent.add_child(examples_list)
@@ -520,7 +536,7 @@ func _build_examples(parent: Node) -> void:
 			edit_draft())
 		parent.add_child(choice)
 		label(Catalog.symbols(sample),parent,11)
-	label(text2("自己的样例（A B C D，最多96项）","Your example (A B C D; max 96)"),parent,12)
+	label(text2("自己的样例（A B C D，最多96项）","Your example (A B C D; max 96)"),parent,14)
 	var entry := LineEdit.new()
 	entry.name = "CustomExample"
 	entry.placeholder_text = "A B A C A B A D"
@@ -540,14 +556,14 @@ func _build_examples(parent: Node) -> void:
 		session.data.draft.examples = []
 		edit_draft()
 		rebuild_editor_preserving_inputs())
-	label(text2("准备费用来自实际读取、计数更新与模型写入，可在事件页查看。","Preparation pays for actual sample reads, count updates and model writes; inspect Events."),parent,12)
+	label(text2("准备费用来自实际读取、计数更新与模型写入，可在事件页查看。","Preparation pays for actual sample reads, count updates and model writes; inspect Events."),parent,14)
 
 func _build_sample_editor(parent: Node) -> void:
 	var editor := VBoxContainer.new()
 	editor.name = "SampleEditor"
 	parent.add_child(editor)
 	editor.visible = sample_edit_index >= 0
-	label(text2("编辑第 %d 段 · 用空格分隔 A B C D，1–96项", "Edit passage %d · space-separated A B C D, 1–96 cells")%[sample_edit_index+1],editor,12)
+	label(text2("编辑第 %d 段 · 用空格分隔 A B C D，1–96项", "Edit passage %d · space-separated A B C D, 1–96 cells")%[sample_edit_index+1],editor,14)
 	var entry := LineEdit.new()
 	entry.name = "SampleEditText"
 	entry.text = sample_edit_text
@@ -558,7 +574,7 @@ func _build_sample_editor(parent: Node) -> void:
 	editor.add_child(actions)
 	button(text2("替换这一段", "Replace this passage"),"ApplySampleEdit",actions,apply_sample_edit).disabled = not writable
 	button(text2("取消修改", "Cancel edit"),"CancelSampleEdit",actions,cancel_sample_edit)
-	label(text2("只替换当前这一段，不新增样例。主动学习后才更新规则；A与旧作品保留。", "Replace this passage without adding an example. Learn explicitly to update rules; A and saved works stay intact."),editor,12)
+	label(text2("只替换当前这一段，不新增样例。主动学习后才更新规则；A与旧作品保留。", "Replace this passage without adding an example. Learn explicitly to update rules; A and saved works stay intact."),editor,14)
 
 func begin_sample_edit(index: int) -> void:
 	if not writable or index < 0 or index >= session.data.draft.examples.size(): return
@@ -624,8 +640,8 @@ func cancel_sample_edit() -> void:
 func _build_machine(parent: Node) -> void:
 	if task == 2:
 		var conditions = preload("res://experiments/creation/condition_examples.gd")
-		label(conditions.hint(english),parent,12)
-		label(text2("两份配送委托：同一段1536项光纹、同一个已学规则盒。选择路径，在公开期限内无损送达；学习为已备成本，单列。", "Two delivery commissions: one 1536-cell signal and one prepared rule box. Choose a path for exact delivery within its public deadline. Learning is a separate prepared cost."),parent,12)
+		label(conditions.hint(english),parent,14)
+		label(text2("两份配送委托：同一段1536项光纹、同一个已学规则盒。选择路径，在公开期限内无损送达；学习为已备成本，单列。", "Two delivery commissions: one 1536-cell signal and one prepared rule box. Choose a path for exact delivery within its public deadline. Learning is a separate prepared cost."),parent,14)
 		for index: int in 2:
 			button(text2("接受订单 ", "Accept order ")+str(index+1)+" · "+str(Conditions.deadline(index))+text2(" 周期", " cycles"),"Commission"+str(index),parent,func() -> void: begin_commission(index))
 		button(text2("结束订单组", "End order pair"),"EndCommission",parent,func() -> void:
@@ -645,14 +661,14 @@ func _build_machine(parent: Node) -> void:
 		_choice(parent,spec[1],key,values,selected,func(index: int) -> void:
 			session.data.draft.machine[key] = values[index]
 			edit_draft())
-	label(text2("顺序执行：学习 / 编码 / 搬运 / 解码或预测 / 输出。固定请求费用和缓存命中来自同一公开模型。","Sequential execution: learn / encode / move / decode or predict / output. Request overhead and cache hits use the same public model."),parent,12)
+	label(text2("顺序执行：学习 / 编码 / 搬运 / 解码或预测 / 输出。固定请求费用和缓存命中来自同一公开模型。","Sequential execution: learn / encode / move / decode or predict / output. Request overhead and cache hits use the same public model."),parent,14)
 	_choice(parent,text2("压缩端公开原文","Public compression source"),"Source",[text2("规律与四处例外 · 1536项","Pattern + four exceptions · 1536"),text2("近随机 · 1536项","Near-random · 1536"),text2("短片段 · 12项","Short passage · 12")],source_kind,func(index: int) -> void:
 		source_kind = index
 		latest = {}
 		refresh_tracks()
 		refresh_cost_comparison()
 		set_status(text2("原文已改变；旧实测仍按原条件保留。","Source changed; prior measurements retain their original conditions.")))
-	label(text2("这是新三章的有界执行层。旧电路与旧成绩保留，新层周期不与旧模拟排名。","This is the bounded execution layer for these chapters. Original circuits and records remain; cycles are not ranked across different simulators."),parent,12)
+	label(text2("这是新三章的有界执行层。旧电路与旧成绩保留，新层周期不与旧模拟排名。","This is the bounded execution layer for these chapters. Original circuits and records remain; cycles are not ranked across different simulators."),parent,14)
 
 func begin_commission(index: int) -> void:
 	if session.data.model.is_empty():
@@ -718,7 +734,7 @@ func _build_generation(parent: Node) -> void:
 			edit_draft())
 		parent.add_child(spin)
 	_build_creation_comparison(parent)
-	label(text2("输出只回灌上下文，不自动训练。选择意图和作品，不用隐藏审美分数。语言、播放和窗口状态不改变输出。","Output updates context only; it never trains itself. You choose intent and works, without a hidden beauty score. Locale, playback and window state cannot change output."),parent,12)
+	label(text2("输出只回灌上下文，不自动训练。选择意图和作品，不用隐藏审美分数。语言、播放和窗口状态不改变输出。","Output updates context only; it never trains itself. You choose intent and works, without a hidden beauty score. Locale, playback and window state cannot change output."),parent,14)
 
 func _build_works(parent: Node) -> void:
 	works = ItemList.new()
@@ -737,9 +753,9 @@ func _build_works(parent: Node) -> void:
 	name_input.placeholder_text = text2("为这份实际输出命名","Name this actual output")
 	parent.add_child(name_input)
 	button(text2("确认并保存当前作品","Confirm and save this work"),"KeepWork",parent,keep_work).disabled = not writable
-	saved_design_caption = label(saved_design_text(),parent,12)
+	saved_design_caption = label(saved_design_text(),parent,14)
 	saved_design_caption.name = "SavedDesignProvenance"
-	label(text2("快照原样保护。再生核对不覆盖它；分叉创建新草稿，不改旧作品。","Snapshots stay intact. Recipe checks never overwrite them; forking makes a new draft."),parent,12)
+	label(text2("快照原样保护。再生核对不覆盖它；分叉创建新草稿，不改旧作品。","Snapshots stay intact. Recipe checks never overwrite them; forking makes a new draft."),parent,14)
 
 func _build_actions(parent: Node) -> void:
 	commit_button = null
@@ -1802,7 +1818,7 @@ func _build_writer_controls(parent: Node) -> void:
 		button(text2("恢复已停止窗口的权限","Recover stopped writer"),"RecoverWriter",row,func() -> void: confirm_writer(false,stopped))
 	if not recovery_choices.is_empty():
 		button(text2("选择恢复副本","Choose recovery copy"),"RecoverProfile",row,func() -> void: recovery_dialog.popup_centered(Vector2i(620,280)))
-	label(text2("只读探索可保留；重载需确认。","Read-only exploration is retained; reload requires confirmation."),row,12).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label(text2("只读探索可保留；重载需确认。","Read-only exploration is retained; reload requires confirmation."),row,14).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 func confirm_writer(reload_saved: bool, stopped: String = "") -> void:
 	writer_dialog = ConfirmationDialog.new()
@@ -1961,12 +1977,12 @@ func _build_cost_comparison(tabs: TabContainer) -> void:
 		selected_cost_comparison = index
 		refresh_cost_comparison())
 	button(text2("运行对照","Run comparison"),"RunCostComparison",controls,compare_transport)
-	cost_comparison_status = label("",content,12)
+	cost_comparison_status = label("",content,14)
 	cost_comparison_status.name = "CostComparisonStatus"
 	cost_comparison_view = CostLedgerView.new()
 	cost_comparison_view.name = "CostComparisonBars"
 	content.add_child(cost_comparison_view)
-	cost_comparison_details = label("",content,12)
+	cost_comparison_details = label("",content,14)
 	cost_comparison_details.name = "CostComparisonDetails"
 
 func compare_transport() -> void:
@@ -2045,7 +2061,7 @@ func set_evidence_expanded(expanded: bool) -> void:
 	evidence_toggle.tooltip_text = text2("只改变阅读区域；保留已选格、页码、草稿和实测。", "Reading space only; selected cell, page, draft and measurements stay intact.")
 
 func _build_creation_comparison(parent: Node) -> void:
-	label(text2("你想让这段怎样继续？（可选，仅本次会话）", "How do you want it to continue? (optional, this session only)"),parent,12)
+	label(text2("你想让这段怎样继续？（可选，仅本次会话）", "How do you want it to continue? (optional, this session only)"),parent,14)
 	var intent := LineEdit.new()
 	intent.name = "CreationIntent"
 	intent.placeholder_text = text2("例如：让 A 之后更常出现 C", "For example: more C after A")
@@ -2055,16 +2071,16 @@ func _build_creation_comparison(parent: Node) -> void:
 		creation_intent = value
 		_refresh_creation_comparison())
 	parent.add_child(intent)
-	label(text2("目标不控制模型或通关；用真实计数与输出核对。", "Goals do not control the model or completion; check actual counts and output."),parent,12)
+	label(text2("目标不控制模型或通关；用真实计数与输出核对。", "Goals do not control the model or completion; check actual counts and output."),parent,14)
 	label(text2("受控对照 · 先生成，再钉住 A", "Controlled comparison · generate, then pin A"),parent,14)
-	var pin_note: Label = label(text2("钉住 A，固定机器、种子、起始与长度；只改一项后生成 B。", "Pin A; fix machine, seed, initial and length. Change one factor for B."),parent,12)
+	var pin_note: Label = label(text2("钉住 A，固定机器、种子、起始与长度；只改一项后生成 B。", "Pin A; fix machine, seed, initial and length. Change one factor for B."),parent,14)
 	pin_note.tooltip_text = text2("钉住后锁定种子、起始片段和长度，并保持机器。只改一项：增删／替换一段样例、记忆或采样；样例／记忆改后重新学习，再生成 B。A 保持不变；确认保留 A/B 时保存有效设计观察。", "Pinning locks seed, initial passage and length; keep the machine fixed. Change one factor: one added/removed/replaced example, history or sampling. Learn again after examples/history edits, then generate B. A stays fixed; keeping A/B saves its valid design observation.")
-	label(text2("可选配方：ABAD · 记忆2 · 起始AB · 种子17 · 长度64；仅换ACAD后学习并生成B。", "Optional recipe: ABAD, history2, initial AB, seed17, length64. Replace only with ACAD, learn and generate B."),parent,12)
+	label(text2("可选配方：ABAD · 记忆2 · 起始AB · 种子17 · 长度64；仅换ACAD后学习并生成B。", "Optional recipe: ABAD, history2, initial AB, seed17, length64. Replace only with ACAD, learn and generate B."),parent,14)
 	var actions := HFlowContainer.new()
 	parent.add_child(actions)
 	button(text2("钉住当前输出为 A", "Pin current output as A"),"PinCreationA",actions,pin_creation_a)
 	button(text2("结束对照", "End comparison"),"ClearCreationComparison",actions,clear_creation_comparison)
-	creation_caption = label("",parent,12)
+	creation_caption = label("",parent,13)
 	creation_caption.name = "CreationComparisonCaption"
 	var decisions := HFlowContainer.new()
 	parent.add_child(decisions)
@@ -2267,9 +2283,6 @@ func _playtest_run(result: Dictionary) -> void:
 func _playtest_completion() -> void:
 	if session.data.supports.has(String(_playtest_id())):
 		preload("res://src/ui/ui_cue.gd").met(self, cue_completed.has(String(_playtest_id())))
-		var cue := get_node("UiMetCue") as Control
-		# Keep the transient cue in the summary margin, clear of navigation and canvas input.
-		cue.position = provenance.global_position - global_position + Vector2(provenance.size.x-cue.size.x-16, 0)
 		cue_completed = session.data.supports.duplicate(true)
 		get_node("/root/PlaytestData").level_completed(&"creation",_playtest_id())
 	_refresh_journey_context()

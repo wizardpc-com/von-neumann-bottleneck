@@ -123,6 +123,13 @@ static func display_number(value: float) -> String:
 	return String.num(-magnitude if value < 0.0 else magnitude,5).trim_suffix(".0")+"e"+str(exponent)
 func _ready() -> void:
 	theme = Theme.new(); InstrumentTheme.apply_to(theme)
+	for kind: String in ["TabContainer", "TabBar"]:
+		theme.set_stylebox("tab_selected",kind,InstrumentTheme.panel(Color("1a252e"),InstrumentTheme.ACCENT,6))
+		theme.set_stylebox("tab_unselected",kind,InstrumentTheme.panel(Color("101e2b"),InstrumentTheme.EDGE,6))
+		theme.set_stylebox("tab_hovered",kind,InstrumentTheme.panel(Color("243944"),InstrumentTheme.ACCENT,6))
+		theme.set_color("font_selected_color",kind,Color("e2ebef"))
+		theme.set_color("font_unselected_color",kind,Color("9eafb8"))
+	theme.set_stylebox("panel","TabContainer",InstrumentTheme.panel(Color("101e2b"),InstrumentTheme.EDGE,8))
 	presentation_scale = 1.25 if get_viewport_rect().size.x >= 1500 else 1.0
 	theme.default_font_size = roundi(14 * presentation_scale)
 	for kind: String in ["Button", "ItemList", "TabBar", "LineEdit", "Tree"]: theme.set_font_size("font_size",kind,roundi(14 * presentation_scale))
@@ -158,7 +165,14 @@ func label(text: String, parent: Node, size: int = 15) -> Label:
 	node.add_theme_font_size_override("font_size", ceili(maxi(size, 13) * presentation_scale)); parent.add_child(node); return node
 func button(text: String, parent: Node, action: Callable, id: String = "") -> Button:
 	var node := Button.new(); node.text = text; node.name = id if not id.is_empty() else "Action"
-	node.custom_minimum_size.y = 32; node.pressed.connect(action); parent.add_child(node); InstrumentTheme.nav(node); return node
+	node.custom_minimum_size.y = 32; node.pressed.connect(action); parent.add_child(node)
+	if id in ["MoveUp", "MoveDown", "Merge", "Undo", "Redo"] or id.begins_with("Format"):
+		InstrumentTheme.tool(node)
+	elif id in ["MoveTo", "Split", "Restore", "RestoreSupport", "SaveSession", "PinComparison", "ClearComparison", "CommissionAcknowledge", "CommissionRestore"]:
+		InstrumentTheme.secondary(node)
+	else:
+		InstrumentTheme.nav(node)
+	return node
 
 func set_action_disabled(action: BaseButton, unavailable: bool) -> void:
 	var was_focused: bool = action.has_focus()
@@ -307,7 +321,7 @@ func build() -> void:
 	InstrumentTheme.primary(run_button,Color("7fcbd6"))
 	if persistent_session:
 		var save := button(tr2("保存本次探索", "Save exploration"),actions,save_session,"SaveSession")
-		set_action_disabled(save,save_blocked); InstrumentTheme.tool(save)
+		set_action_disabled(save,save_blocked); InstrumentTheme.secondary(save)
 		add_recovery_controls(editor)
 	var quit_action := button(tr2("退出游戏", "Quit"),header,request_quit,"Quit")
 	quit_action.visible = not candidate_journey

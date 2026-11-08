@@ -82,10 +82,10 @@ func _ready() -> void:
 	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	name_label.tooltip_text = name_label.text
 	var feedback := Button.new(); feedback.name="WorkFocusFeedback"
-	feedback.text=words("反馈", "Feedback"); feedback.pressed.connect(func() -> void: request_feedback.emit()); header.add_child(feedback)
+	feedback.text=words("反馈", "Feedback"); feedback.pressed.connect(func() -> void: request_feedback.emit()); header.add_child(feedback); InstrumentTheme.nav(feedback)
 	close_button = Button.new(); close_button.name = "CloseWorkFocus"
 	close_button.text = words("回到工作台","Back to workbench")
-	close_button.pressed.connect(dismiss); header.add_child(close_button)
+	close_button.pressed.connect(dismiss); header.add_child(close_button); InstrumentTheme.nav(close_button)
 	make_label(words("同一份已保存输出 · 播放节奏不是计算耗时 · A ● / B ■ / C ▲ / D ◇", "The saved output · playback tempo is not computation time · A ● / B ■ / C ▲ / D ◇"),content,13)
 	build_controls(content)
 	tabs = TabContainer.new(); tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; tabs.use_hidden_tabs_for_min_size = false
@@ -171,6 +171,7 @@ func add_button(value: String, parent: Node, action: Callable) -> Button:
 	result.text = value
 	result.pressed.connect(action)
 	parent.add_child(result)
+	InstrumentTheme.tool(result)
 	return result
 
 func build_controls(parent: Node) -> void:

@@ -28,7 +28,7 @@ func text_label(text: String, parent: Node) -> Label:
 	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	node.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	node.add_theme_font_size_override("font_size",17 if get_viewport_rect().size.x >= 1500 else 13)
+	node.add_theme_font_size_override("font_size",17 if get_viewport_rect().size.x >= 1500 else 14)
 	parent.add_child(node)
 	return node
 
@@ -41,7 +41,7 @@ func build_controls() -> void:
 	var captions: Array[String] = [words("起点","Start"),words("上一步","Previous"),words("下一步","Next"),words("终点","End")]
 	for index: int in 4:
 		var button := Button.new(); button.name = names[index]; button.text = captions[index]
-		button.custom_minimum_size.y = 32; controls.add_child(button); step_buttons.append(button)
+		button.custom_minimum_size.y = 32; controls.add_child(button); InstrumentTheme.tool(button); step_buttons.append(button)
 		button.pressed.connect(func() -> void:
 			match index:
 				0: select_frame(0,true)

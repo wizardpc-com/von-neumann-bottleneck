@@ -97,7 +97,10 @@ func label(text: String, parent: Node, size: int = 15) -> Label:
 
 func button(text: String, handle: String, parent: Node, action: Callable) -> Button:
 	var item := Button.new(); item.name = handle; item.text = text
-	item.custom_minimum_size.y = 42; item.pressed.connect(action); parent.add_child(item); return item
+	item.custom_minimum_size.y = 42; item.pressed.connect(action); parent.add_child(item)
+	if handle in ["Run", "Restart"]: InstrumentTheme.secondary(item)
+	else: InstrumentTheme.nav(item)
+	return item
 
 func choice(text: String, handle: String, values: Array[String], selected: int, parent: Node) -> OptionButton:
 	var box := VBoxContainer.new(); box.size_flags_horizontal = Control.SIZE_EXPAND_FILL; parent.add_child(box)
@@ -110,6 +113,18 @@ func choice(text: String, handle: String, values: Array[String], selected: int, 
 func _build_theme() -> void:
 	var skin := Theme.new(); skin.default_font_size = Typography.BODY_SIZE
 	InstrumentTheme.apply_to(skin)
+	for kind: String in ["TabContainer", "TabBar"]:
+		skin.set_stylebox("tab_selected",kind,InstrumentTheme.panel(Color("1a252e"),InstrumentTheme.ACCENT,6))
+		skin.set_stylebox("tab_unselected",kind,InstrumentTheme.panel(Color("101e2b"),InstrumentTheme.EDGE,6))
+		skin.set_stylebox("tab_hovered",kind,InstrumentTheme.panel(Color("243944"),InstrumentTheme.ACCENT,6))
+		skin.set_color("font_selected_color",kind,TEXT)
+		skin.set_color("font_unselected_color",kind,Color("9eafb8"))
+		skin.set_font_size("font_size",kind,14)
+	var tab_surface := InstrumentTheme.panel(Color("101e2b"),InstrumentTheme.EDGE,8)
+	# The narrow rule column needs the original reading width for earned progress.
+	tab_surface.content_margin_left = 4
+	tab_surface.content_margin_right = 4
+	skin.set_stylebox("panel","TabContainer",tab_surface)
 	for control_type: String in ["Label","Button","OptionButton","Tree","ItemList","PopupMenu"]:
 		skin.set_color("font_color",control_type,TEXT)
 	skin.set_color("default_color","RichTextLabel",TEXT)
@@ -231,8 +246,6 @@ func build() -> void:
 	InstrumentTheme.primary(step_button); step_button.add_theme_color_override("font_focus_color",Color("071823"))
 	button(text2("运行到结束","Run to end"),"Run",actions,run_current)
 	button(text2("新一轮","New run"),"Restart",actions,restart)
-	for action: Node in actions.get_children():
-		if action != step_button: InstrumentTheme.nav(action as Button)
 	button(text2("提示","Hint"),"Hint1",top,func() -> void: status.text = hint_text())
 	top.move_child(find_child("Hint1",true,false),2)
 	status = _bounded_label(rules,"Status",100)

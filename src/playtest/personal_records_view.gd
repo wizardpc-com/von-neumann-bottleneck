@@ -75,8 +75,7 @@ func _refresh_record_notice() -> void:
 	record_storage_label.tooltip_text=PersonalRecords.last_error
 
 func _region_card(region: Dictionary) -> void:
-	var colors: Array = preload("res://src/campaign/task_tree_canvas.gd").COLORS
-	var accent: Color = colors[posmod(int(region.id),colors.size())]
+	var accent: Color = preload("res://src/ui/chapter_emblem.gd").region_accent(int(region.id))
 	var panel := PanelContainer.new(); panel.name="Region%d" % region.id
 	panel.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	panel.add_theme_stylebox_override("panel",InstrumentTheme.panel(Color("11212d"),Color(accent,0.55),6))

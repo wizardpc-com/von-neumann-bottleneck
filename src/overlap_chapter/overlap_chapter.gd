@@ -113,7 +113,9 @@ func _ready() -> void:
 	status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status.custom_minimum_size.x = 80
-	status.add_theme_font_size_override("font_size",13)
+	status.add_theme_font_size_override("font_size",14)
+	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	status.max_lines_visible = 2
 	dock.add_child(status)
 	dock.add_child(PlaytestMoments.make_workbench_button())
 	for id: String in ["mission","toolbox","program","trace","handbook"]:
@@ -477,7 +479,7 @@ func _render_board(target: CircuitGraphEdit, data: Dictionary, read_only: bool) 
 		for port: int in range(node.get_output_port_count()):
 			if node.get_output_port_type(port)==8: node.set_slot_custom_icon_right(node.get_output_port_slot(port),preload("res://src/ui/signal_notation.gd").bus_port_icon())
 		var note := _label(_t(kind+".note"),true)
-		note.add_theme_font_size_override("font_size",13)
+		note.add_theme_font_size_override("font_size",14)
 		note.custom_minimum_size.x = 180
 		node.add_child(note)
 		var live := _label("")
@@ -772,6 +774,7 @@ func _build_program(source: String) -> void:
 	var state: Dictionary = {"index":0}
 	for direction: int in [-1,1]:
 		var button := Button.new()
+		InstrumentTheme.tool(button)
 		button.text = "←" if direction < 0 else "→"
 		button.custom_minimum_size = Vector2(42,32)
 		button.pressed.connect(func() -> void:
@@ -837,9 +840,10 @@ func _build_trace() -> void:
 	evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	body.add_child(evidence)
 	result_details = _label("",true)
-	result_details.add_theme_font_size_override("font_size",13)
+	result_details.add_theme_font_size_override("font_size",14)
 	evidence.add_child(result_details)
 	locate_issue_button = Button.new()
+	InstrumentTheme.secondary(locate_issue_button)
 	locate_issue_button.name = "OverlapLocateIssue"
 	locate_issue_button.visible = false
 	locate_issue_button.pressed.connect(_locate_recorded_issue)
@@ -1125,6 +1129,7 @@ func _show_hint(tier: int) -> void:
 	_button(footer,"back_to_design",func() -> void: hint_overlay.queue_free(); hint_overlay=null)
 	for previous: int in range(1,hint_level+1):
 		var revisit := Button.new()
+		InstrumentTheme.secondary(revisit)
 		revisit.text = "H"+str(previous)
 		revisit.pressed.connect(func() -> void: _show_hint(previous))
 		footer.add_child(revisit)
@@ -1202,7 +1207,10 @@ func _button(parent: Node, key: String, action: Callable) -> Button:
 	button.custom_minimum_size.y = 42
 	button.pressed.connect(action)
 	parent.add_child(button)
-	if key in ["run","begin"]: preload("res://src/ui/instrument_theme.gd").primary(button)
+	if key == "run": InstrumentTheme.primary(button)
+	elif key in ["map", "hub", "handbook"]: InstrumentTheme.nav(button)
+	elif key in ["learn", "begin", "copy_previous", "hint_next", "back_to_design"]: InstrumentTheme.secondary(button)
+	else: InstrumentTheme.tool(button)
 	return button
 
 func _t(key: String) -> String:

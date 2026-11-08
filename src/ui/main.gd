@@ -366,6 +366,13 @@ func _build_theme() -> void:
 	prototype_theme.set_stylebox("hover", "Button", _stylebox(Color("30435f"), 7, 1, ACCENT))
 	prototype_theme.set_stylebox("pressed", "Button", _stylebox(Color("17283e"), 7, 1, ACCENT))
 	preload("res://src/ui/instrument_theme.gd").apply_to(prototype_theme)
+	prototype_theme.set_stylebox("panel", "Tree", InstrumentTheme.panel(PANEL_DARK))
+	for state: String in ["selected", "selected_focus"]:
+		prototype_theme.set_stylebox(state, "Tree", InstrumentTheme.panel(Color("1f3d47"), InstrumentTheme.ACCENT, 3))
+	prototype_theme.set_color("font_selected_color", "Tree", TEXT)
+	prototype_theme.set_color("guide_color", "Tree", InstrumentTheme.EDGE)
+	for state: String in ["title_button_normal", "title_button_hover", "title_button_pressed"]:
+		prototype_theme.set_stylebox(state, "Tree", InstrumentTheme.panel(PANEL_COLOR))
 	theme = prototype_theme
 
 
@@ -472,8 +479,8 @@ func _build_header() -> Control:
 	status_label.max_lines_visible = 2
 	status_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
 	status_label.add_theme_color_override("font_color", WARNING)
-	row.add_child(status_label)
 	var map_button := Button.new()
+	InstrumentTheme.nav(map_button)
 	map_button.name = "Chapter2MapButton"
 	map_button.text = _t(&"chapter2.map.open")
 	map_button.pressed.connect(_show_chapter_map)
@@ -482,10 +489,12 @@ func _build_header() -> Control:
 	mode_selector.name = "GameModeSelector"
 	mode_selector.show_label = false
 	row.add_child(mode_selector)
+	row.move_child(mode_selector, map_button.get_index())
 	fullscreen_button = FullscreenButtonType.new()
 	row.add_child(fullscreen_button)
 	row.add_child(PlaytestMoments.make_workbench_button())
 	var hub_button := Button.new()
+	InstrumentTheme.nav(hub_button)
 	hub_button.text = _t(&"common.prototype_hub")
 	hub_button.tooltip_text = _t(&"locality.hub.tooltip")
 	hub_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/ui/prototype_hub.tscn"))
@@ -522,6 +531,7 @@ func _build_workbench() -> Control:
 	]:
 		var tool_id := StringName(tool[0])
 		var tool_button := Button.new()
+		InstrumentTheme.tool(tool_button)
 		tool_button.name = "%sToolButton" % String(tool_id).to_pascal_case()
 		tool_button.text = _t(StringName(tool[1]))
 		tool_button.toggle_mode = tool_id != &"test_bench"
@@ -530,6 +540,7 @@ func _build_workbench() -> Control:
 		instrument_open_buttons[tool_id] = tool_button
 		bar_row.add_child(tool_button)
 	var layout_button := Button.new()
+	InstrumentTheme.tool(layout_button)
 	layout_button.text = _t(&"common.auto_layout")
 	layout_button.tooltip_text = _t(&"locality.auto_layout.tooltip")
 	layout_button.pressed.connect(func() -> void: _auto_layout(true))
@@ -631,6 +642,7 @@ func _add_device_node(
 	device_default_states[id] = default_state
 	if not open_instrument.is_empty():
 		var open_button := Button.new()
+		InstrumentTheme.secondary(open_button)
 		open_button.text = _t(&"common.open_named", [title_text])
 		open_button.focus_mode = Control.FOCUS_ALL
 		open_button.pressed.connect(_open_instrument.bind(open_instrument, true))
@@ -750,6 +762,7 @@ func _build_mission_instrument() -> Control:
 	mission_navigation.add_theme_constant_override("separation", 10)
 	footer.add_child(mission_navigation)
 	mission_previous_button = Button.new()
+	InstrumentTheme.secondary(mission_previous_button)
 	mission_previous_button.name = "MissionPreviousButton"
 	mission_previous_button.text = _t(&"hardware.briefing.previous")
 	mission_previous_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
@@ -758,6 +771,7 @@ func _build_mission_instrument() -> Control:
 	mission_page_label.custom_minimum_size.x = 48
 	mission_navigation.add_child(mission_page_label)
 	mission_continue_button = Button.new()
+	InstrumentTheme.secondary(mission_continue_button)
 	mission_continue_button.name = "MissionContinueButton"
 	mission_continue_button.text = _t(&"hardware.briefing.continue")
 	mission_continue_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
@@ -775,6 +789,7 @@ func _build_mission_instrument() -> Control:
 	mission_judgment_box = VBoxContainer.new()
 	panel.add_child(mission_judgment_box)
 	mission_review_button = Button.new()
+	InstrumentTheme.secondary(mission_review_button)
 	mission_review_button.name = "ReviewFindingButton"
 	mission_review_button.text = _t(&"chapter2.review.finding")
 	mission_review_button.visible = false
@@ -784,17 +799,20 @@ func _build_mission_instrument() -> Control:
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_child(spacer)
 	mission_finish_button = Button.new()
+	InstrumentTheme.secondary(mission_finish_button)
 	mission_finish_button.name = "Chapter2FinishButton"
 	mission_finish_button.text = _t(&"chapter2.capstone.finish")
 	mission_finish_button.visible = false
 	mission_finish_button.pressed.connect(_show_capstone_summary)
 	footer.add_child(mission_finish_button)
 	overlap_entry_button = Button.new()
+	InstrumentTheme.nav(overlap_entry_button)
 	overlap_entry_button.text = _t(&"overlap.enter_next")
 	overlap_entry_button.visible = false
 	overlap_entry_button.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://src/overlap_chapter/overlap_chapter.tscn"))
 	footer.add_child(overlap_entry_button)
 	var map_button := Button.new()
+	InstrumentTheme.nav(map_button)
 	map_button.text = _t(&"chapter2.map.return")
 	map_button.pressed.connect(_show_chapter_map)
 	footer.add_child(map_button)
@@ -814,6 +832,7 @@ func _build_blocking_instrument() -> Control:
 	panel.add_child(description)
 	for lines: int in [0, 1, 2, 4]:
 		var card := Button.new()
+		InstrumentTheme.tool(card)
 		card.name = "WorkGroup%dButton" % lines
 		card.custom_minimum_size.y = 66.0
 		card.pressed.connect(_select_block_lines.bind(lines, true))
@@ -869,12 +888,14 @@ func _build_program_instrument() -> Control:
 	var strategy_row := HBoxContainer.new()
 	panel.add_child(strategy_row)
 	column_strategy_button = Button.new()
+	InstrumentTheme.tool(column_strategy_button)
 	column_strategy_button.text = _t(&"program.strategy.column.use")
 	column_strategy_button.tooltip_text = _t(&"program.strategy.column.tooltip")
 	column_strategy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	column_strategy_button.pressed.connect(_load_strategy.bind(ProgramTemplatesType.COLUMN_FIRST, "column-first"))
 	strategy_row.add_child(column_strategy_button)
 	row_strategy_button = Button.new()
+	InstrumentTheme.tool(row_strategy_button)
 	row_strategy_button.text = _t(&"program.strategy.row.use")
 	row_strategy_button.tooltip_text = _t(&"program.strategy.row.tooltip")
 	row_strategy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -886,6 +907,7 @@ func _build_program_instrument() -> Control:
 	program_apply_label.add_theme_color_override("font_color", GOOD)
 	panel.add_child(program_apply_label)
 	apply_program_button = Button.new()
+	InstrumentTheme.secondary(apply_program_button)
 	apply_program_button.text = _t(&"program.apply.button")
 	apply_program_button.tooltip_text = _t(&"program.apply.tooltip")
 	apply_program_button.disabled = true
@@ -940,6 +962,7 @@ func _build_program_instrument() -> Control:
 	program_run_label.add_theme_color_override("font_color", WARNING)
 	panel.add_child(program_run_label)
 	var reset_button := Button.new()
+	InstrumentTheme.tool(reset_button)
 	reset_button.text = _t(&"program.reset.button")
 	reset_button.tooltip_text = _t(&"program.reset.tooltip")
 	reset_button.pressed.connect(_reset_starter_program)
@@ -975,11 +998,13 @@ func _build_test_bench_instrument() -> Control:
 	var run_row := HBoxContainer.new()
 	bench.add_child(run_row)
 	debug_run_button = Button.new()
+	InstrumentTheme.secondary(debug_run_button)
 	debug_run_button.text = _t(&"test_bench.run_debug")
 	debug_run_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	debug_run_button.pressed.connect(_run_simulation.bind("Debug Data"))
 	run_row.add_child(debug_run_button)
 	official_run_button = Button.new()
+	InstrumentTheme.primary(official_run_button)
 	official_run_button.text = _t(&"test_bench.run_official")
 	official_run_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	official_run_button.pressed.connect(_run_simulation.bind("Official Test Set"))
@@ -1002,12 +1027,14 @@ func _build_test_bench_instrument() -> Control:
 	result_budget.hide()
 	panel.add_child(result_budget)
 	result_trace_button = Button.new()
+	InstrumentTheme.secondary(result_trace_button)
 	result_trace_button.name = "CurrentRunTraceButton"
 	result_trace_button.text = _t(&"chapter2.result.inspect_fetch")
 	result_trace_button.hide()
 	result_trace_button.pressed.connect(_inspect_result_trace)
 	panel.add_child(result_trace_button)
 	test_evidence_button = Button.new()
+	InstrumentTheme.secondary(test_evidence_button)
 	test_evidence_button.name = "TestBenchEvidenceButton"
 	test_evidence_button.hide()
 	test_evidence_button.pressed.connect(_review_test_evidence)
@@ -1052,6 +1079,7 @@ func _build_profiler_instrument() -> Control:
 	var best_actions := HFlowContainer.new()
 	panel.add_child(best_actions)
 	restore_best_button = Button.new()
+	InstrumentTheme.secondary(restore_best_button)
 	restore_best_button.name = "RestoreBestDesign"
 	restore_best_button.text = _t(&"chapter2.best.restore")
 	restore_best_button.tooltip_text = _t(&"chapter2.best.scope")
@@ -1059,6 +1087,7 @@ func _build_profiler_instrument() -> Control:
 	restore_best_button.hide()
 	best_actions.add_child(restore_best_button)
 	undo_restore_best_button = Button.new()
+	InstrumentTheme.secondary(undo_restore_best_button)
 	undo_restore_best_button.name = "UndoRestoreBestDesign"
 	undo_restore_best_button.text = _t(&"chapter2.best.undo")
 	undo_restore_best_button.pressed.connect(_undo_restore_best_design)
@@ -1092,6 +1121,7 @@ func _build_profiler_instrument() -> Control:
 	profiler_detail_label.add_theme_color_override("font_color", MUTED)
 	panel.add_child(profiler_detail_label)
 	inspect_event_button = Button.new()
+	InstrumentTheme.secondary(inspect_event_button)
 	inspect_event_button.text = _t(&"profiler.inspect_trace")
 	inspect_event_button.disabled = true
 	inspect_event_button.pressed.connect(_inspect_profiler_event)
@@ -1121,6 +1151,7 @@ func _build_cache_instrument() -> Control:
 	panel.add_child(subtitle)
 	for lines: int in [0, 1, 2, 4]:
 		var card := Button.new()
+		InstrumentTheme.tool(card)
 		card.name = "NearStore%dButton" % lines
 		card.text = _cache_card_text(lines, false)
 		card.custom_minimum_size.y = 92.0
@@ -1135,30 +1166,34 @@ func _build_playback_panel() -> Control:
 	playback_panel = panel
 	var content := VBoxContainer.new()
 	panel.add_child(content)
+	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	status_label.clip_text = false
+	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var controls := HBoxContainer.new()
 	playback_controls = controls
 	content.add_child(controls)
-	var heading := Label.new()
-	heading.text = _t(&"trace.playback.title")
-	heading.add_theme_color_override("font_color", ACCENT)
-	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	controls.add_child(heading)
+	status_label.tooltip_text = status_label.text
+	controls.add_child(status_label)
 	pause_button = Button.new()
+	InstrumentTheme.tool(pause_button)
 	pause_button.text = _t(&"common.pause")
 	pause_button.disabled = true
 	pause_button.pressed.connect(_toggle_pause)
 	controls.add_child(pause_button)
 	step_button = Button.new()
+	InstrumentTheme.tool(step_button)
 	step_button.text = _t(&"common.step")
 	step_button.disabled = true
 	step_button.pressed.connect(_step_trace)
 	controls.add_child(step_button)
 	next_evidence_button = Button.new()
+	InstrumentTheme.secondary(next_evidence_button)
 	next_evidence_button.text = _t(&"trace.playback.next_evidence")
 	next_evidence_button.disabled = true
 	next_evidence_button.pressed.connect(_jump_to_next_evidence)
 	controls.add_child(next_evidence_button)
 	finish_playback_button = Button.new()
+	InstrumentTheme.secondary(finish_playback_button)
 	finish_playback_button.text = _t(&"trace.playback.finish_now")
 	finish_playback_button.disabled = true
 	finish_playback_button.pressed.connect(_finish_playback_early)
@@ -1398,6 +1433,7 @@ func _configure_mission() -> void:
 	for option: Dictionary in current_level.get("judgment_options", []):
 		var option_id := StringName(option.get("id", &""))
 		var button := Button.new()
+		InstrumentTheme.secondary(button)
 		button.name = "Judgment%sButton" % String(option_id).to_pascal_case()
 		button.text = _t(StringName(option.get("text_key", &"")))
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -2893,6 +2929,7 @@ func _add_schedule_evidence(memory: TreeItem) -> void:
 
 func _add_tree_value(parent: TreeItem, label_text: String, value: int) -> TreeItem:
 	var item: TreeItem = profiler_tree.create_item(parent)
+	item.set_text_alignment(1, HORIZONTAL_ALIGNMENT_RIGHT)
 	item.set_text(0, label_text)
 	item.set_text(1, str(value))
 	return item
@@ -3512,6 +3549,7 @@ func _update_trace_progress(event_progress: float) -> void:
 
 func _set_status(message: String, color: Color) -> void:
 	status_label.text = message
+	status_label.tooltip_text = message
 	status_label.add_theme_color_override("font_color", color)
 
 

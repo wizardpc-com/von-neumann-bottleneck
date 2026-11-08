@@ -347,15 +347,15 @@ func build() -> void:
 	measured_verdict = label("",overview,14); measured_verdict.name = "MeasuredVerdict"
 	next_button = button("",overview,continue_service,"ServiceNext")
 	var overview_scroll := ScrollContainer.new(); overview_scroll.name = "OverviewEvidenceScroll"
-	overview_scroll.custom_minimum_size.y = 40; overview_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	overview_scroll.custom_minimum_size.y = 80; overview_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	overview_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; overview_scroll.follow_focus = true
 	overview.add_child(overview_scroll)
 	var overview_evidence := VBoxContainer.new(); overview_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	overview_evidence.add_theme_constant_override("separation", 12)
+	overview_evidence.add_theme_constant_override("separation", 4)
 	overview_scroll.add_child(overview_evidence)
 	journey_context = preload("res://src/ui/journey_context_card.gd").new(); task_card.add_child(journey_context)
 	journey_context.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var measured_evidence := VBoxContainer.new(); measured_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var measured_evidence := VBoxContainer.new(); measured_evidence.add_theme_constant_override("separation", 2); measured_evidence.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	measured_evidence.custom_minimum_size.x = 400; overview_evidence.add_child(measured_evidence); overview_evidence.move_child(measured_evidence,0)
 	_refresh_journey_context()
 	journey_context.live_label.reparent(journey_context.details)
@@ -428,7 +428,7 @@ func build() -> void:
 	design_shelf.restore_requested.connect(restore_design)
 	design_shelf.remove_requested.connect(remove_design)
 	history_header.reparent(overview_evidence); overview_evidence.move_child(history_header,0)
-	history_list.reparent(overview_evidence); overview_evidence.move_child(history_list,1)
+	history_list.reparent(overview_evidence)
 	refresh_event_detail(); refresh_public_data(); refresh_groups(); refresh_history(); refresh_actions(); refresh_comparison()
 	if selected_history >= 0 and selected_history < history.size(): history_list.select(selected_history); select_run(selected_history); history_list.call_deferred("ensure_current_is_visible")
 	evidence_tabs.current_tab = previous_tab if previous_tab != 4 or (commission_mode >= 0 and has_service_closure()) else 0
@@ -587,8 +587,9 @@ func refresh_verdict() -> void:
 			tr2("已保留及时回应的方案。下一任务要用同一方案兼顾搬运与精度。", "A timely-response plan is retained. Next, one plan must also balance traffic and accuracy."),
 			tr2("三份合同均有达标方案；回看你安排的服务。", "All three contracts have successful plans; review the service you arranged.")]
 		measured_verdict.tooltip_text += "\n"+bridge[task]
-		InstrumentTheme.nav(next_button)
-		InstrumentTheme.primary(run_button)
+		var next_decision: Array[String] = [tr2("下一步：及时首响应", "Next: timely first responses"),tr2("下一步：搬运与精度", "Next: traffic and accuracy"),tr2("回看服务成果", "Review service work")]
+		measured_verdict.text += " · "+next_decision[task]
+		InstrumentTheme.primary(next_button)
 	else:
 		InstrumentTheme.primary(run_button,Color("7fcbd6"))
 
@@ -1003,10 +1004,6 @@ func request_quit() -> void:
 	request_leave()
 
 func finish_leave() -> void:
-	if leave_to_hub and leave_to_journey:
-		get_node("/root/TaskNavigation").call_deferred("open_tree")
-		return
-	if leave_to_hub and not leave_to_journey and not leave_to_laboratory and get_node("/root/TaskNavigation").return_to_tree(): return
 	if leave_to_hub:
 		# Leave embedded Window callbacks before replacing their owning scene.
 		call_deferred("_finish_hub_leave",leave_to_journey)
@@ -1015,6 +1012,10 @@ func finish_leave() -> void:
 func _finish_hub_leave(review_journey: bool) -> void:
 	var scene_tree: SceneTree = get_tree()
 	if scene_tree == null: return
+	if candidate_journey and review_journey:
+		get_node("/root/TaskNavigation").open_tree()
+		return
+	if not review_journey and not leave_to_laboratory and get_node("/root/TaskNavigation").return_to_tree(): return
 	NavigationIntent.pending_review = "journey" if review_journey else ""
 	if scene_tree.change_scene_to_file("res://src/ui/prototype_hub.tscn") != OK: NavigationIntent.pending_review = ""
 

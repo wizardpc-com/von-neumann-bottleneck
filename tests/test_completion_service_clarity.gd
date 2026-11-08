@@ -29,9 +29,11 @@ func run() -> void:
 	check(scene.response_chart.playing,"A new valid measurement starts the recorded response replay")
 	scene.select_run(0)
 	var original: String = JSON.stringify(scene.history[0])
-	check(scene.summary.text.contains("2204") and scene.summary.text.contains("3168") and scene.summary.text.contains("266"),"Compact overview retains baseline time traffic and peak evidence")
+	# W3 places measured costs and limits in TaskTargets.
+	check(scene.target_values.text.contains("2204") and scene.target_values.text.contains("3168") and scene.target_values.text.contains("266"),"Compact overview retains baseline time traffic and peak evidence")
 	check(not scene.summary.text.contains("请求") and not scene.summary.text.contains("[89"),"Detailed bill and response array do not repeat on overview")
-	check(scene.status.text.contains("784") and scene.status.text.contains("2568"),"Exact unmet constraints remain visible")
+	# W3 keeps exact overshoot beside the measured values, leaving status for edit hints.
+	check(scene.target_values.text.contains("784") and scene.target_values.text.contains("2568"),"Exact unmet constraints remain visible")
 	var witness: Dictionary = scene.response_chart.witness_snapshot()
 	check(scene.response_chart.playback_cycle == 362 and witness.event.kind == "output" and witness.event.details.stream == 3,"First real run shows the recorded moment of D's latest first response")
 	check(witness.residents[3].present and witness.residents[3].dirty and not witness.residents[0].present,"Overview projects actual resident and dirty history at that response, rather than final state")
@@ -73,7 +75,8 @@ func run() -> void:
 		specification.hide()
 		for id: String in ["DraftSource","MeasuredVerdict","ServiceNext","ServiceSpecification","Run","PublicData","ResponsePlay","ResponseStep"]:
 			var node := scene.find_child(id,true,false) as Control
-			check(node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720,"Primary and detail controls fit bilingual minimum viewport: "+id+" "+str(node.get_global_rect()))
+			# W3 hides unavailable Next; earned Next is checked below.
+			check((not node.visible and scene.next_button.disabled) if id == "ServiceNext" else (node.is_visible_in_tree() and node.get_global_rect().end.x <= 1280 and node.get_global_rect().end.y <= 720),"Primary and detail controls fit bilingual minimum viewport: "+id+" "+str(node.get_global_rect()))
 		var overview_scroll := scene.find_child("OverviewEvidenceScroll",true,false) as ScrollContainer
 		check(overview_scroll.size.y >= 80 and overview_scroll.get_global_rect().end.y <= 720 and scene.summary.is_visible_in_tree() and scene.summary.get_global_rect().end.y <= 720 and not overview_scroll.is_ancestor_of(scene.response_chart) and not overview_scroll.is_ancestor_of(scene.measured_verdict) and not overview_scroll.is_ancestor_of(scene.next_button) and not overview_scroll.is_ancestor_of(scene.response_play) and not overview_scroll.is_ancestor_of(scene.response_step),"Overview evidence scrolls while verdict, continuation, and playback remain outside it")
 		overview_scroll.scroll_vertical = int(scene.bill_button.get_parent().position.y + scene.bill_button.get_parent().get_parent().position.y)
@@ -111,7 +114,7 @@ func run() -> void:
 	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("successful plan retained"),"Protected successful Task1 enables explicit next action")
 	check(scene.next_button.has_theme_stylebox_override("normal") and not scene.run_button.has_theme_stylebox_override("normal"),"Earned continuation becomes the primary action without competing with Run")
 	var next_evidence_scroll := scene.find_child("OverviewEvidenceScroll",true,false) as ScrollContainer
-	check(scene.measured_verdict.get_parent() == scene.next_button.get_parent() and scene.measured_verdict.get_index() < scene.next_button.get_index() and scene.next_button.get_global_rect().position.y >= scene.measured_verdict.get_global_rect().end.y and scene.next_button.get_global_rect().end.y <= next_evidence_scroll.get_global_rect().position.y and scene.next_button.get_global_rect().end.y <= 720,"Next action follows the measured verdict before scrollable evidence")
+	check(scene.measured_verdict.get_parent() == scene.next_button.get_parent() and scene.measured_verdict.get_index() < scene.next_button.get_index() and scene.next_button.get_global_rect().position.y >= scene.measured_verdict.get_global_rect().end.y and scene.next_button.get_global_rect().end.y <= next_evidence_scroll.get_global_rect().position.y and scene.next_button.is_visible_in_tree() and scene.next_button.get_global_rect().end.x <= 1280 and scene.next_button.get_global_rect().end.y <= 720,"Next action follows the measured verdict before scrollable evidence")
 	check(scene.measured_verdict.text.contains("first responses"),"Earned Task1 explains the added decision in Task2")
 	scene.select_run(0)
 	check(not scene.next_button.disabled and scene.measured_verdict.text.contains("Limits unmet"),"Selected failed alternative does not erase earned continuation")
@@ -123,7 +126,8 @@ func run() -> void:
 	check(transfer_metrics.total_cycles <= 1420 and transfer_metrics.all_streams_first_cycle > 320,"Real contract1 support provides a fast overall but late-first-response counterexample")
 	for en: bool in [false,true]:
 		scene.english = en; scene.build(); await process_frame
-		var bridge: String = scene.response_chart.contract_caption()
+		# W3 moves the actual total/response numbers and limits into TaskTargets.
+		var bridge: String = scene.target_values.text+"\n"+scene.response_chart.contract_caption()
 		check(bridge.contains(str(transfer_metrics.total_cycles)) and bridge.contains(str(transfer_metrics.all_streams_first_cycle)) and bridge.contains("320") and bridge.contains("timely" if en else "及时"),"Contract2 explains total completion versus individual response using the same actual record")
 		check(JSON.stringify(scene.history[-1]) == transfer_record and not scene.support_plans.has(1),"Reading the response bridge cannot rerun or earn contract2")
 	var exact: Dictionary = Model.initial_plan(); exact.slots = 4

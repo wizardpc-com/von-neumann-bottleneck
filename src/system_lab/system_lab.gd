@@ -24,6 +24,9 @@ const LinkedMissionTextType = preload("res://src/ui/linked_mission_text.gd")
 const MissionNarrativeCatalogType = preload("res://src/ui/mission_narrative_catalog.gd")
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 
+const InstrumentThemeType = preload("res://src/ui/instrument_theme.gd")
+const Palette = preload("res://src/lab/lab_palette.gd")
+
 const BACKGROUND := Color("08101d")
 const PANEL := Color("1a252e")
 const PANEL_DARK := Color("101725")
@@ -547,7 +550,7 @@ func _build_header() -> Control:
 	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	status_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	status_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	status_label.custom_minimum_size.x = 240.0
+	status_label.custom_minimum_size.x = 160.0
 	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status_label.max_lines_visible = 2
 	status_label.add_theme_font_size_override("font_size", UiTypographyType.CAPTION_SIZE)
@@ -825,6 +828,11 @@ func _add_device_node(id: StringName, kind: StringName, slots: Array[Dictionary]
 	node.resizable = false
 	node.custom_minimum_size = Vector2(230.0, 245.0)
 	graph.add_child(node)
+	for style_name: String in ["panel", "panel_selected", "titlebar", "titlebar_selected"]:
+		var surface_style: StyleBoxFlat = node.get_theme_stylebox(style_name).duplicate()
+		surface_style.bg_color = Palette.TERM_PANEL if style_name.begins_with("titlebar") else Palette.TERM_SCREEN_LIFT
+		surface_style.border_color = Palette.ACCENT if style_name.ends_with("selected") else Palette.TERM_EDGE
+		node.add_theme_stylebox_override(style_name, surface_style)
 	for slot_index: int in range(slots.size()):
 		var slot: Dictionary = slots[slot_index]
 		var row := HBoxContainer.new()
@@ -912,12 +920,14 @@ func _build_mission_instrument() -> Control:
 	mission_navigation.add_theme_constant_override("separation", 10)
 	box.add_child(mission_navigation)
 	mission_previous_button = Button.new()
+	InstrumentThemeType.secondary(mission_previous_button)
 	mission_previous_button.name = "MissionPreviousButton"
 	mission_previous_button.text = _t(&"hardware.briefing.previous")
 	mission_previous_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
 	mission_previous_button.pressed.connect(_change_mission_page.bind(-1))
 	mission_navigation.add_child(mission_previous_button)
 	mission_continue_button = Button.new()
+	InstrumentThemeType.secondary(mission_continue_button)
 	mission_continue_button.name = "MissionContinueButton"
 	mission_continue_button.text = _t(&"hardware.briefing.continue")
 	mission_continue_button.custom_minimum_size.y = UiTypographyType.CONTROL_HEIGHT
@@ -943,6 +953,7 @@ func _build_mission_instrument() -> Control:
 	prediction_selector.item_selected.connect(_on_prediction_selected)
 	prediction_row.add_child(prediction_selector)
 	prediction_lock_button = Button.new()
+	InstrumentThemeType.secondary(prediction_lock_button)
 	prediction_lock_button.name = "PredictionLockButton"
 	prediction_lock_button.text = _t(&"system.prediction.lock")
 	prediction_lock_button.pressed.connect(_lock_prediction)
@@ -964,6 +975,7 @@ func _build_mission_instrument() -> Control:
 	box.add_child(journey_context)
 	box.move_child(journey_context, mission_title_label.get_index() + 1)
 	conclusion_button = Button.new()
+	InstrumentThemeType.secondary(conclusion_button)
 	conclusion_button.name = "ReviewLevelConclusionButton"
 	conclusion_button.text = _t(&"system.mission.review_finding")
 	conclusion_button.pressed.connect(_review_level_conclusion)
@@ -1026,6 +1038,7 @@ func _build_program_instrument() -> Control:
 	var apply_row := HBoxContainer.new()
 	box.add_child(apply_row)
 	apply_program_button = Button.new()
+	InstrumentThemeType.secondary(apply_program_button)
 	apply_program_button.name = "ApplyProgramButton"
 	apply_program_button.text = _t(&"system.program.apply")
 	apply_program_button.pressed.connect(_apply_program)
@@ -1051,6 +1064,7 @@ func _build_test_bench_instrument() -> Control:
 	help.add_theme_color_override("font_color", MUTED)
 	box.add_child(help)
 	reuse_baseline_button = Button.new()
+	InstrumentThemeType.secondary(reuse_baseline_button)
 	reuse_baseline_button.text = _t(&"system.baseline.reuse")
 	reuse_baseline_button.tooltip_text = _t(&"system.baseline.reuse.help")
 	reuse_baseline_button.pressed.connect(_reuse_previous_baseline)
@@ -1063,11 +1077,13 @@ func _build_test_bench_instrument() -> Control:
 	var row := HBoxContainer.new()
 	box.add_child(row)
 	debug_run_button = Button.new()
+	InstrumentThemeType.secondary(debug_run_button)
 	debug_run_button.text = _t(&"system.test_bench.run_one")
 	debug_run_button.pressed.connect(_run_debug_case)
 	debug_run_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(debug_run_button)
 	official_run_button = Button.new()
+	InstrumentThemeType.primary(official_run_button)
 	official_run_button.name = "OfficialRunButton"
 	official_run_button.text = _t(&"system.test_bench.run_official")
 	official_run_button.pressed.connect(_run_official)
@@ -1078,6 +1094,7 @@ func _build_test_bench_instrument() -> Control:
 	test_status_label.add_theme_color_override("font_color", MUTED)
 	box.add_child(test_status_label)
 	test_conclusion_button = Button.new()
+	InstrumentThemeType.secondary(test_conclusion_button)
 	test_conclusion_button.name = "TestBenchConclusionButton"
 	test_conclusion_button.text = _t(&"system.mission.review_finding")
 	test_conclusion_button.pressed.connect(_review_level_conclusion)
@@ -1100,6 +1117,7 @@ func _build_test_bench_instrument() -> Control:
 	diagnosis_selector.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	diagnosis_row.add_child(diagnosis_selector)
 	diagnosis_button = Button.new()
+	InstrumentThemeType.secondary(diagnosis_button)
 	diagnosis_button.text = _t(&"system.diagnosis.confirm")
 	diagnosis_button.pressed.connect(_confirm_diagnosis)
 	diagnosis_row.add_child(diagnosis_button)
@@ -2717,6 +2735,7 @@ func _add_result_row(trace: SystemTrace) -> void:
 		details.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		details.visible = false
 		var expand := Button.new()
+		InstrumentThemeType.tool(expand)
 		expand.text = _t(&"system.test_bench.show_values")
 		expand.toggle_mode = true
 		expand.toggled.connect(func(pressed: bool) -> void: details.visible = pressed)

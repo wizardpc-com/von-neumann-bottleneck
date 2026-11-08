@@ -1865,6 +1865,7 @@ func _show_mission_briefing_page() -> void:
 			operation.text = preload("res://src/hardware_foundations/operation_curriculum.gd").lesson(current_level_id,Localization.current_locale()=="en").get("text","")
 			mission_briefing_panel.add_child(operation)
 	mission_briefing_previous_button = Button.new()
+	InstrumentThemeType.secondary(mission_briefing_previous_button)
 	mission_briefing_previous_button.name = "MissionBriefingPrevious"
 	mission_briefing_previous_button.text = _t(&"hardware.briefing.previous")
 	mission_briefing_previous_button.disabled = mission_briefing_page == 0
@@ -1883,7 +1884,7 @@ func _show_mission_briefing_page() -> void:
 	)
 	mission_briefing_continue_button.add_theme_font_size_override("font_size", UiTypographyType.BUTTON_SIZE)
 	mission_briefing_continue_button.pressed.connect(_advance_mission_briefing)
-	InstrumentThemeType.primary(mission_briefing_continue_button)
+	InstrumentThemeType.secondary(mission_briefing_continue_button)
 	var navigation_center := CenterContainer.new()
 	var navigation_row := HBoxContainer.new()
 	navigation_row.add_theme_constant_override("separation", 12)
@@ -4130,7 +4131,7 @@ func _create_component_state_label(component: LogicComponent) -> Label:
 	state_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	state_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	state_label.custom_minimum_size.y = 24.0
-	state_label.add_theme_font_size_override("font_size", 12)
+	state_label.add_theme_font_size_override("font_size", 14)
 	state_label.add_theme_color_override("font_color", PURPLE)
 	state_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return state_label
@@ -4209,6 +4210,7 @@ func _build_tutorial_side() -> void:
 		tutorial_check_labels[data[0]] = label
 		task_box.add_child(label)
 	tutorial_next_button = Button.new()
+	InstrumentThemeType.secondary(tutorial_next_button)
 	tutorial_next_button.text = _t(&"hardware.tutorial.begin_challenge")
 	tutorial_next_button.disabled = true
 	tutorial_next_button.pressed.connect(_start_challenge)
@@ -4243,7 +4245,7 @@ func _build_half_adder_side() -> void:
 	task_box.add_child(challenge)
 	challenge.set_linked_text(_t(&"hardware.challenge.description"))
 	seal_button = Button.new()
-	InstrumentThemeType.primary(seal_button, GOOD)
+	InstrumentThemeType.secondary(seal_button)
 	seal_button.text = _t(&"hardware.seal.button")
 	seal_button.disabled = true
 	seal_button.tooltip_text = _t(&"hardware.seal.tooltip")
@@ -4254,6 +4256,7 @@ func _build_half_adder_side() -> void:
 	side_box.add_child(_bench_heading(_t(&"hardware.cases.heading"), _t(&"hardware.cases.heading_subtitle")))
 	_build_input_controls()
 	var debug_button := Button.new()
+	InstrumentThemeType.secondary(debug_button)
 	debug_button.text = _t(&"hardware.cases.run_debug")
 	debug_button.pressed.connect(_run_debug)
 	bench_debug_button = debug_button
@@ -4272,7 +4275,7 @@ func _build_half_adder_side() -> void:
 	_build_official_case_rows()
 	var truth_table_note := LinkedMissionTextType.new()
 	truth_table_note.name = "TruthTableDefinition"
-	truth_table_note.add_theme_font_size_override("font_size", 12)
+	truth_table_note.add_theme_font_size_override("font_size", 14)
 	truth_table_note.add_theme_color_override("font_color", MUTED)
 	truth_table_note.term_requested.connect(_open_mission_term)
 	side_box.add_child(truth_table_note)
@@ -4303,6 +4306,7 @@ func _build_sealed_side() -> void:
 	side_box.add_child(_bench_heading(_t(&"hardware.sealed.bench_heading"), _t(&"hardware.sealed.bench_subtitle")))
 	_build_input_controls()
 	var debug_button := Button.new()
+	InstrumentThemeType.secondary(debug_button)
 	debug_button.text = _t(&"hardware.sealed.run_debug")
 	debug_button.pressed.connect(_run_debug)
 	bench_debug_button = debug_button
@@ -7717,12 +7721,13 @@ func _build_prologue_side() -> void:
 	ownership_note.add_theme_color_override("font_color", MUTED)
 	task_box.add_child(ownership_note)
 	var map_button := Button.new()
+	InstrumentThemeType.nav(map_button)
 	map_button.text = _t(&"hardware.prologue.back_map")
 	map_button.pressed.connect(_open_campaign_map)
 	task_box.add_child(map_button)
 	if not StringName(current_level_definition.get("seal_name", &"")).is_empty():
 		seal_button = Button.new()
-		InstrumentThemeType.primary(seal_button, GOOD)
+		InstrumentThemeType.secondary(seal_button)
 		seal_button.text = _t(&"hardware.prologue.seal")
 		seal_button.disabled = true
 		seal_button.pressed.connect(_seal_prologue_component)
@@ -7734,6 +7739,7 @@ func _build_prologue_side() -> void:
 	_build_prologue_input_controls()
 	_build_construction_investigation()
 	var debug_button := Button.new()
+	InstrumentThemeType.secondary(debug_button)
 	debug_button.text = _t(&"hardware.cases.run_debug")
 	debug_button.pressed.connect(_run_debug)
 	bench_debug_button = debug_button
@@ -7779,6 +7785,7 @@ func _build_cpu_stage_panel() -> void:
 	cpu_stage_label.add_theme_color_override("font_color", ACCENT)
 	task_box.add_child(cpu_stage_label)
 	cpu_stage_button = Button.new()
+	InstrumentThemeType.secondary(cpu_stage_button)
 	cpu_stage_button.name = "CpuStageContinue"
 	cpu_stage_button.pressed.connect(_validate_cpu_stage)
 	task_box.add_child(cpu_stage_button)
@@ -7855,7 +7862,7 @@ func _build_storage_monitor() -> void:
 	var explanation := Label.new()
 	explanation.text = _t(&"hardware.storage.monitor.explanation")
 	explanation.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	explanation.add_theme_font_size_override("font_size", 12)
+	explanation.add_theme_font_size_override("font_size", 14)
 	explanation.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(explanation)
 	storage_state_label = Label.new()
@@ -7865,6 +7872,7 @@ func _build_storage_monitor() -> void:
 	storage_state_label.add_theme_color_override("font_color", PURPLE)
 	side_box.add_child(storage_state_label)
 	storage_reset_button = Button.new()
+	InstrumentThemeType.tool(storage_reset_button)
 	storage_reset_button.text = _t(&"hardware.storage.reset")
 	storage_reset_button.tooltip_text = _t(&"hardware.storage.reset.tooltip")
 	storage_reset_button.pressed.connect(_reset_storage_debug_state)
@@ -8032,6 +8040,7 @@ func _build_prologue_case_rows() -> void:
 		var step: Dictionary = current_level_definition["official_steps"][index]
 		if current_level_id == &"alu" and index % 8 == 0:
 			var group := Button.new()
+			InstrumentThemeType.tool(group)
 			group.toggle_mode = true
 			group.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			group.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -8055,7 +8064,7 @@ func _build_prologue_case_rows() -> void:
 				_storage_action_text(step.get("inputs", {}))
 			])
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.add_theme_font_size_override("font_size", 12)
+		label.add_theme_font_size_override("font_size", 14)
 		label.add_theme_color_override("font_color", MUTED)
 		_connect_case_row(label, index)
 		prologue_case_labels.append(label)
@@ -8071,6 +8080,7 @@ func _build_alu_operation_trials() -> void:
 	for operation: int in range(4):
 		var sample: Dictionary = {&"A": 1, &"B": 1 if operation == 2 else 0, &"CIN": 0, &"OP0": operation & 1, &"OP1": (operation >> 1) & 1}
 		var button := Button.new()
+		InstrumentThemeType.tool(button)
 		button.name = "AluTryOperation%d" % operation
 		button.text = ("Try " if english else "试 ") + ["AND", "OR", "ADD", "NOT"][operation]
 		var inputs: String = "A=1 B=%d CIN=0 · OP1 OP0=%d%d" % [int(sample[&"B"]), operation >> 1, operation & 1]
@@ -8298,6 +8308,7 @@ func _build_prologue_complete_side(component_name: StringName = &"") -> void:
 		expanded.add_theme_color_override("font_color", ACCENT)
 		task_box.add_child(expanded)
 	var map_button := Button.new()
+	InstrumentThemeType.nav(map_button)
 	map_button.text = _t(&"hardware.prologue.back_map")
 	map_button.pressed.connect(_open_campaign_map)
 	task_box.add_child(map_button)

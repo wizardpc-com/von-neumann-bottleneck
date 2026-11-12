@@ -2552,7 +2552,10 @@ func _history_changed_items(before: Dictionary, after: Dictionary) -> PackedStri
 		changes.append(_t(&"chapter2.history.change.passes"))
 	if int(before.get("block_lines", 0)) != int(after.get("block_lines", 0)):
 		changes.append(_t(&"chapter2.history.change.work_group"))
-	if String(before.get("test", "")) != String(after.get("test", "")):
+	if (
+		String(before.get("test", "")) != String(after.get("test", ""))
+		or String(before.get("data_signature", "")) != String(after.get("data_signature", ""))
+	):
 		changes.append(_t(&"chapter2.history.change.test_data"))
 	return changes
 

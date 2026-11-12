@@ -4421,6 +4421,7 @@ func _on_connection_request(from_node: StringName, from_port: int, to_node: Stri
 		status_label.text = _t(&"hardware.status.invalid_connection", [Localization.text_from_spec(diagnostic)])
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	_clear_investigation_observations()
 	preload("res://src/ui/ui_cue.gd").play(self, &"connect")
 	graph.connect_node(from_node, from_port, to_node, to_port)
 	graph.set_connection_color_index(from_node, from_port, to_node, to_port, active_wire_color_index)
@@ -4446,6 +4447,7 @@ func _on_disconnection_request(from_node: StringName, from_port: int, to_node: S
 	if _editor_locked():
 		return
 	if current_circuit.disconnect_ports(from_node, from_port, to_node, to_port):
+		_clear_investigation_observations()
 		graph.disconnect_node(from_node, from_port, to_node, to_port)
 		var removed_wire: Dictionary = _wire_data(from_node, from_port, to_node, to_port)
 		_push_history_action({"kind": &"disconnect", "added": [], "removed": [removed_wire]})
@@ -5738,12 +5740,17 @@ func _history_action_changes_topology(action: Dictionary) -> bool:
 
 func _after_history_replay(action: Dictionary, message: String) -> void:
 	if _history_action_changes_topology(action):
+		_clear_investigation_observations()
 		_stop_playback()
 		current_trace = null
 		_mark_trace_stale()
 		if current_phase in [&"half_adder", &"prologue"]:
 			_invalidate_official_evidence(message)
+			if current_level_id == &"cpu":
+				_refresh_cpu_stage()
 		else:
+			if current_phase == &"tutorial":
+				_update_tutorial_goal()
 			status_label.text = message
 			status_label.add_theme_color_override("font_color", ACCENT)
 	else:
@@ -5826,6 +5833,7 @@ func _clear_wires() -> void:
 	if connections.is_empty():
 		status_label.text = _t(&"hardware.status.already_no_wires")
 		return
+	_clear_investigation_observations()
 	var action: Dictionary = {
 		"kind": &"clear_wires",
 		"added": [],
@@ -5868,6 +5876,8 @@ func _clear_wires() -> void:
 		_update_tutorial_checklist()
 	else:
 		_invalidate_official_evidence(_t(&"hardware.status.topology_cleared"))
+		if current_level_id == &"cpu":
+			_refresh_cpu_stage()
 
 
 func _cancel_connection_drag() -> void:
@@ -6515,6 +6525,9 @@ func _topology_changed(message: String, created: bool = true, removed: bool = fa
 
 
 func _mark_trace_stale() -> void:
+	if board_has_explicit_run and is_instance_valid(debug_result_label):
+		debug_result_label.text = _t(&"hardware.prologue.outputs_empty")
+		debug_result_label.add_theme_color_override("font_color", MUTED)
 	trace_caption_label.text = _t(&"hardware.trace.topology_changed" if board_has_explicit_run else &"hardware.trace.empty")
 	diagnostics_label.text = _t(&"hardware.diagnostics.awaiting_run" if board_has_explicit_run else &"hardware.diagnostics.empty")
 	_schedule_live_refresh()

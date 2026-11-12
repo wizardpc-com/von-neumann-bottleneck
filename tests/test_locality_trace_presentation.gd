@@ -82,6 +82,22 @@ func run() -> void:
 	check(not main.run_comparison_label.visible, "A different task cannot reuse the previous task comparison.")
 	main._update_hierarchy(main.current_trace.events.back())
 	check(not main.hierarchy_cache_labels[0].visible, "Direct RAM reads must not invent cache residency.")
+	main._start_level(&"capstone")
+	main._run_simulation("Debug Data")
+	main.playback_running = false
+	var debug_before: Dictionary = main.run_history.back().duplicate(true)
+	main.debug_inputs[0].value += 1
+	check(main.current_trace == null, "Editing Debug data invalidates its previous result.")
+	main._run_simulation("Debug Data")
+	main.playback_running = false
+	var debug_after: Dictionary = main.run_history.back().duplicate(true)
+	var data_change: String = main._t(&"chapter2.history.change.test_data")
+	check(debug_before.data_signature != debug_after.data_signature, "Actual Debug runs retain their different input data signatures.")
+	check(main._history_changed_items(debug_before,debug_after) == PackedStringArray([data_change]), "Different Debug inputs are identified as the single changed condition.")
+	check(main.profiler_history_label.text.contains(main._t(&"chapter2.history.only_change",[data_change])), "Run History explains that the compared Debug data changed.")
+	main._run_simulation("Debug Data")
+	main.playback_running = false
+	check(main._history_changed_items(debug_after,main.run_history.back()).is_empty(), "Repeating identical Debug data does not invent a condition change.")
 	root.get_node("GameMode").set_mode(&"game")
 	main.current_level_id = &"capstone"
 	main.current_level = main.catalog.definition(&"capstone")

@@ -1,0 +1,949 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "base": "329a4840a17b4c2ac4f59157a09aa97ffd0e0dd9",
+  "qa": "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-import.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/import",
+      "log_sha256": "9a886fe56802d026991db4802c126b48d18865d9b11322b1a667bb89073c315d",
+      "group": "initial"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-user_directory.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/user_directory",
+      "log_sha256": "ff44435e87a78a3bfa9698b919aff8a26bfe9b46a9fa025c4eec83ed29990357",
+      "group": "initial"
+    },
+    {
+      "name": "test_chapter_workspaces",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_chapter_workspaces.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_chapter_workspaces",
+      "log_sha256": "6464f81f567595b5d58cd7673ff9ae3f258ecf1fc9fa0e44cf76da3a7772a5bf",
+      "group": "initial"
+    },
+    {
+      "name": "test_layout_challenge_controller",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_layout_challenge_controller.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_layout_challenge_controller",
+      "log_sha256": "a4c06a26a53df073ab2488ff4a2e2928e793606c23f247d95776eb0040c23139",
+      "group": "initial"
+    },
+    {
+      "name": "test_layout_challenge_store",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_layout_challenge_store.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_layout_challenge_store",
+      "log_sha256": "2fb7c0c5c1c4ea5040d542a61046ccb1594a0985e787e2adb63604c4df6072c8",
+      "group": "initial"
+    },
+    {
+      "name": "test_layout_challenge_window",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_layout_challenge_window.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_layout_challenge_window",
+      "log_sha256": "d6dc035fb9b6a714c85c85f6b646ce94594ebf0eae2f0c08d92237508d7e314f",
+      "group": "initial"
+    },
+    {
+      "name": "test_layout_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_layout_navigation.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_layout_navigation",
+      "log_sha256": "8a0e6f6728c9c31e7d34795992609934cbf7f2109c86f5ee757f19c26354b494",
+      "group": "initial"
+    },
+    {
+      "name": "test_layout_scoreboard",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_layout_scoreboard.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_layout_scoreboard",
+      "log_sha256": "3f7831ed9ef5232f6830c30d3de0435c1e407e51a3b1082294214607a59b08aa",
+      "group": "initial"
+    },
+    {
+      "name": "test_layout_scoreboard_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_layout_scoreboard_ui.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_layout_scoreboard_ui",
+      "log_sha256": "baeb1b0a110c915e0c7e6250ad318bf779bd5d06999ea8a8a0622954790884cf",
+      "group": "initial"
+    },
+    {
+      "name": "test_layout_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_layout_simulation.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_layout_simulation",
+      "log_sha256": "2c0a248a94da17c990981491f86fc389d6f44f5668e39a27f961a556922ff8f4",
+      "group": "initial"
+    },
+    {
+      "name": "test_locality_best_restore",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_locality_best_restore.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_locality_best_restore",
+      "log_sha256": "2612be4725465ba25e8d380448aad2cc4e419a52efca178122fb10f04003ff94",
+      "group": "initial"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_locality_chapter_ui.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_locality_chapter_ui",
+      "log_sha256": "831d08d2f1c44694a7785bf3a0f3cbc20c121d8b880d1a613cdc71fd4639b9ba",
+      "group": "initial"
+    },
+    {
+      "name": "test_locality_restored_baseline",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_locality_restored_baseline.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_locality_restored_baseline",
+      "log_sha256": "c3676d14902fe50a30667133a25d232b4f6cf206fff5ba4dff441108d9bb1c74",
+      "group": "initial"
+    },
+    {
+      "name": "test_locality_trace_presentation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_locality_trace_presentation.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_locality_trace_presentation",
+      "log_sha256": "d970f7cef59d7e9778c2588d116e2603971724afc986071730e4a150a0a22051",
+      "group": "initial"
+    },
+    {
+      "name": "test_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/initial-test_simulation.txt.gz",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261112T165455Z-96d902b4/test_simulation",
+      "log_sha256": "678dff2a584c34e93fb36eafaa41b87cde7e5756727e3a5950c3d5b9050352aa",
+      "group": "initial"
+    },
+    {
+      "name": "negative-test_locality_trace_presentation",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_locality_trace_presentation.gd"
+      ],
+      "exit": 1,
+      "passed": false,
+      "expected_failure": true,
+      "errors": [
+        "ERROR: Different Debug inputs are identified as the single changed condition.",
+        "ERROR: Run History explains that the compared Debug data changed.",
+        "FAIL: Locality presentation: 149 checks, 2 failures"
+      ],
+      "log": "logs/focused-negative-test_locality_trace_presentation.txt.gz",
+      "log_sha256": "b861c1f9684a2d59720ce78b514a85a0d39638239dbaecd243eee1ad0f6c82f3",
+      "group": "focused"
+    },
+    {
+      "name": "negative-test_hardware_history_context",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_history_context.gd"
+      ],
+      "exit": 1,
+      "passed": false,
+      "expected_failure": true,
+      "errors": [
+        "ERROR: Undo immediately returns CPU guidance to the incomplete stage",
+        "ERROR: Undoing circuit wiring clears observations bound to the previous topology",
+        "ERROR: Redo cannot resurrect discarded observations",
+        "ERROR: Restored RAM can record fresh simulator evidence",
+        "ERROR: Successful ordinary disconnection clears old observations",
+        "ERROR: Reconnecting RAM allows fresh observations",
+        "ERROR: Successful ordinary connection clears old observations",
+        "ERROR: Undoing the tutorial output wire restores current wiring guidance",
+        "FAIL: hardware history context 8/19 checks"
+      ],
+      "log": "logs/focused-negative-test_hardware_history_context.txt.gz",
+      "log_sha256": "067dd76c74a77a075c7cbf45a60fba0fc67b4998cb4119e381a7751d77c5e014",
+      "group": "focused"
+    },
+    {
+      "name": "test_hardware_history_context",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_history_context.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_hardware_history_context.txt.gz",
+      "log_sha256": "c8372a5bfa7050a31f3dc757a96c8b2470e3588a75d95f8bec2816c349dd6fda",
+      "group": "focused"
+    },
+    {
+      "name": "test_locality_trace_presentation",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_locality_trace_presentation.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_locality_trace_presentation.txt.gz",
+      "log_sha256": "d970f7cef59d7e9778c2588d116e2603971724afc986071730e4a150a0a22051",
+      "group": "focused"
+    },
+    {
+      "name": "test_hardware_foundations_ui",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_foundations_ui.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_hardware_foundations_ui.txt.gz",
+      "log_sha256": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2",
+      "group": "focused"
+    },
+    {
+      "name": "test_hardware_prologue_ui",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_prologue_ui.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_hardware_prologue_ui.txt.gz",
+      "log_sha256": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e",
+      "group": "focused"
+    },
+    {
+      "name": "test_hardware_failure_recovery",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_failure_recovery.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_hardware_failure_recovery.txt.gz",
+      "log_sha256": "08f2f0c84a6fa7b6f5892643eb3abd363eb721a8311daf6857367153daf319e8",
+      "group": "focused"
+    },
+    {
+      "name": "test_hardware_workspace_entry",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_workspace_entry.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_hardware_workspace_entry.txt.gz",
+      "log_sha256": "a42fec7fb49ae8a33b942ff820b23f88781ea9a5abc2e6819f7acbc359ff2f56",
+      "group": "focused"
+    },
+    {
+      "name": "test_hardware_seal_navigation",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_seal_navigation.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_hardware_seal_navigation.txt.gz",
+      "log_sha256": "5265c0946c4cf73fc6518c96923774df894e6e495ed9f34944a607ccaf42aac6",
+      "group": "focused"
+    },
+    {
+      "name": "test_hardware_settings_input",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_settings_input.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_hardware_settings_input.txt.gz",
+      "log_sha256": "81b91e3e70aad49d644a5a7162aba9cb53df3daf76a007fee02d221a9f780f5e",
+      "group": "focused"
+    },
+    {
+      "name": "test_prologue_failure_recovery",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_prologue_failure_recovery.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_prologue_failure_recovery.txt.gz",
+      "log_sha256": "403d2fd01b6524b1a182c1e71bd1d272dcf929c40b97ba9c1eab8330d55b290d",
+      "group": "focused"
+    },
+    {
+      "name": "test_optional_challenges",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_optional_challenges.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_optional_challenges.txt.gz",
+      "log_sha256": "4c7e8f0947f29587ef35dbd14f8e91993854e4998acbe470cbeccb79bcb90980",
+      "group": "focused"
+    },
+    {
+      "name": "test_personal_record_conditions",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_personal_record_conditions.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_personal_record_conditions.txt.gz",
+      "log_sha256": "5b339ecca9479b072ecc38a5a6fd8632aa9c60f1b16f26edb3e17546993649bf",
+      "group": "focused"
+    },
+    {
+      "name": "test_layout_challenge_code",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_layout_challenge_code.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_layout_challenge_code.txt.gz",
+      "log_sha256": "c346f0efd696c53c67096bd59f39929ebd2d7b2a4dbc0f5251be85712a8d2ed4",
+      "group": "focused"
+    },
+    {
+      "name": "test_layout_recipe_sources",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_layout_recipe_sources.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_layout_recipe_sources.txt.gz",
+      "log_sha256": "5b4d0bc136538ff0d1bc80a04e4603491ab4402b7832fde879d62f34bd48a3a8",
+      "group": "focused"
+    },
+    {
+      "name": "test_layout_strategy_challenge_ui",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_layout_strategy_challenge_ui.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_layout_strategy_challenge_ui.txt.gz",
+      "log_sha256": "7019f7b3e8aa11c25ee7fc34632ff03e4327580947cefe5d3f8bce0fb3f139eb",
+      "group": "focused"
+    },
+    {
+      "name": "test_global_save",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_global_save.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_global_save.txt.gz",
+      "log_sha256": "b7cf9a589c21490e8f9aeee25c37b333484a53146f896d02f945351eab53f8b6",
+      "group": "focused"
+    },
+    {
+      "name": "test_localization",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_localization.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-test_localization.txt.gz",
+      "log_sha256": "1335c9219accbc513d566d1a342f2ff1496884a344edcb572fa4cbe0aa3bf95f",
+      "group": "focused"
+    },
+    {
+      "name": "final-negative-history",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_history_context.gd"
+      ],
+      "exit": 1,
+      "passed": false,
+      "expected_failure": true,
+      "errors": [
+        "ERROR: Undo immediately returns CPU guidance to the incomplete stage",
+        "ERROR: Clearing CPU wiring immediately returns guidance to the incomplete stage",
+        "ERROR: Clearing an already empty CPU board leaves topology and history unchanged",
+        "ERROR: Undoing circuit wiring clears observations bound to the previous topology",
+        "ERROR: Redo cannot resurrect discarded observations",
+        "ERROR: Restored RAM can record fresh simulator evidence",
+        "ERROR: Successful ordinary disconnection clears old observations",
+        "ERROR: Reconnecting RAM allows fresh observations",
+        "ERROR: Successful ordinary connection clears old observations",
+        "ERROR: Branched RAM produces real evidence before clearing wires",
+        "ERROR: Clearing all wires removes observations of the previous circuit",
+        "ERROR: Repeated empty clear does not create another history action",
+        "ERROR: Undo restores cleared wiring without resurrecting discarded evidence",
+        "ERROR: Undoing the tutorial output wire restores current wiring guidance",
+        "FAIL: hardware history context 14/26 checks"
+      ],
+      "log": "logs/focused-final-negative-history.txt.gz",
+      "log_sha256": "42edd53947afc41a7af647e5b596481e89a717c0e198ff1194e86ab458965061",
+      "group": "focused"
+    },
+    {
+      "name": "final-test_hardware_history_context",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_history_context.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-final-test_hardware_history_context.txt.gz",
+      "log_sha256": "5be6a8b519bbd81daa97a0ea0d49ff0b2432d9a867829641da7002eea5fdeaf8",
+      "group": "focused"
+    },
+    {
+      "name": "final-test_hardware_foundations_ui",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_foundations_ui.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-final-test_hardware_foundations_ui.txt.gz",
+      "log_sha256": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2",
+      "group": "focused"
+    },
+    {
+      "name": "final-test_hardware_prologue_ui",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_prologue_ui.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-final-test_hardware_prologue_ui.txt.gz",
+      "log_sha256": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e",
+      "group": "focused"
+    },
+    {
+      "name": "hardware-zh",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_hardware_history_context.gd",
+        "--",
+        "--locale=zh_CN",
+        "--history-capture"
+      ],
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Capture has the requested raw dimensions",
+        "ERROR: Capture has the requested raw dimensions",
+        "ERROR: Capture has the requested raw dimensions",
+        "FAIL: hardware history context 3/32 checks"
+      ],
+      "log": "logs/render-hardware-zh.txt.gz",
+      "log_sha256": "1637bdcef567ebd1291b29ad9f8182236993c98bd0a5b18419f209057587030e",
+      "group": "render"
+    },
+    {
+      "name": "hardware-en",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_hardware_history_context.gd",
+        "--",
+        "--locale=en",
+        "--history-capture"
+      ],
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Capture has the requested raw dimensions",
+        "ERROR: Capture has the requested raw dimensions",
+        "ERROR: Capture has the requested raw dimensions",
+        "FAIL: hardware history context 3/32 checks"
+      ],
+      "log": "logs/render-hardware-en.txt.gz",
+      "log_sha256": "1637bdcef567ebd1291b29ad9f8182236993c98bd0a5b18419f209057587030e",
+      "group": "render"
+    },
+    {
+      "name": "locality-en",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_locality_trace_presentation.gd",
+        "--",
+        "--locale=en"
+      ],
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/render-locality-en.txt.gz",
+      "log_sha256": "66aa389283c6c2c53f0d24b29c1d3db0c7d0bb599abfae30e51875482167cd0d",
+      "group": "render"
+    },
+    {
+      "name": "layout-board",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_layout_scoreboard_ui.gd",
+        "--",
+        "--layout-score-capture"
+      ],
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/render-layout-board.txt.gz",
+      "log_sha256": "9f021c087d4814cdabcb5882667b5e5da5e6840cea2176b826b2faea6fa214e7",
+      "group": "render"
+    },
+    {
+      "name": "layout-challenge",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_layout_challenge_controller.gd",
+        "--",
+        "--layout-challenge-capture"
+      ],
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/render-layout-challenge.txt.gz",
+      "log_sha256": "4a323dc7255c0fbb25622ac77339492189df5be3111c7dbd9272581b33dc2399",
+      "group": "render"
+    },
+    {
+      "name": "hardware-zh-final",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_hardware_history_context.gd",
+        "--",
+        "--locale=zh_CN",
+        "--history-capture",
+        "--capture-size=1280x720"
+      ],
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/render-final-hardware-zh-final.txt.gz",
+      "log_sha256": "394ab66233163f2a2bb0d7a180a3426a0f7527f5f5669b97ccf77f51dfdcdb5b",
+      "group": "render-final"
+    },
+    {
+      "name": "hardware-en-final",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_hardware_history_context.gd",
+        "--",
+        "--locale=en",
+        "--history-capture",
+        "--capture-size=1280x720"
+      ],
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/render-final-hardware-en-final.txt.gz",
+      "log_sha256": "394ab66233163f2a2bb0d7a180a3426a0f7527f5f5669b97ccf77f51dfdcdb5b",
+      "group": "render-final"
+    },
+    {
+      "name": "label-negative-history",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_history_context.gd"
+      ],
+      "exit": 1,
+      "passed": false,
+      "expected_failure": true,
+      "errors": [
+        "ERROR: Undo immediately returns CPU guidance to the incomplete stage",
+        "ERROR: Clearing CPU wiring immediately returns guidance to the incomplete stage",
+        "ERROR: Clearing an already empty CPU board leaves topology and history unchanged",
+        "ERROR: Undoing circuit wiring clears observations bound to the previous topology",
+        "ERROR: Topology Undo removes the previous Debug output label",
+        "ERROR: Redo cannot resurrect discarded observations",
+        "ERROR: Restored RAM can record fresh simulator evidence",
+        "ERROR: Successful ordinary disconnection clears old observations",
+        "ERROR: Reconnecting RAM allows fresh observations",
+        "ERROR: Successful ordinary connection clears old observations",
+        "ERROR: Branched RAM produces real evidence before clearing wires",
+        "ERROR: Clearing wires removes the previous green Debug output label",
+        "ERROR: Clearing all wires removes observations of the previous circuit",
+        "ERROR: Repeated empty clear does not create another history action",
+        "ERROR: Undo restores cleared wiring without resurrecting discarded evidence",
+        "ERROR: Undoing the tutorial output wire restores current wiring guidance",
+        "FAIL: hardware history context 16/29 checks"
+      ],
+      "log": "logs/focused-label-negative-history.txt.gz",
+      "group": "focused",
+      "log_sha256": "bc0136e0cb35d46dcecb6cf45146810002083b81b1a1179503addba518c439f1"
+    },
+    {
+      "name": "label-final-test_hardware_history_context",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_history_context.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-label-final-test_hardware_history_context.txt.gz",
+      "group": "focused",
+      "log_sha256": "987ad8fa2d6541f07c49e0d418ca778e308520a7fe47c7b018fa08223ffac064"
+    },
+    {
+      "name": "label-final-test_hardware_foundations_ui",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_foundations_ui.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-label-final-test_hardware_foundations_ui.txt.gz",
+      "group": "focused",
+      "log_sha256": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2"
+    },
+    {
+      "name": "label-final-test_hardware_prologue_ui",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_prologue_ui.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-label-final-test_hardware_prologue_ui.txt.gz",
+      "group": "focused",
+      "log_sha256": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e"
+    },
+    {
+      "name": "label-final-test_hardware_failure_recovery",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_failure_recovery.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-label-final-test_hardware_failure_recovery.txt.gz",
+      "group": "focused",
+      "log_sha256": "08f2f0c84a6fa7b6f5892643eb3abd363eb721a8311daf6857367153daf319e8"
+    },
+    {
+      "name": "label-final-test_hardware_workspace_entry",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_workspace_entry.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-label-final-test_hardware_workspace_entry.txt.gz",
+      "group": "focused",
+      "log_sha256": "a42fec7fb49ae8a33b942ff820b23f88781ea9a5abc2e6819f7acbc359ff2f56"
+    },
+    {
+      "name": "label-final-test_hardware_seal_navigation",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--headless",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--script",
+        "res://tests/test_hardware_seal_navigation.gd"
+      ],
+      "exit": 0,
+      "passed": true,
+      "expected_failure": false,
+      "errors": [],
+      "log": "logs/focused-label-final-test_hardware_seal_navigation.txt.gz",
+      "group": "focused",
+      "log_sha256": "5265c0946c4cf73fc6518c96923774df894e6e495ed9f34944a607ccaf42aac6"
+    },
+    {
+      "name": "hardware-zh-label",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_hardware_history_context.gd",
+        "--",
+        "--locale=zh_CN",
+        "--history-capture",
+        "--capture-size=1280x720"
+      ],
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/render-label-hardware-zh-label.txt.gz",
+      "group": "render-label",
+      "log_sha256": "6ef72bfceb29c5619a9979a88668d88676fdd13f628df4e97bf53a46ef4bc7e2"
+    },
+    {
+      "name": "hardware-en-label",
+      "command": [
+        "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+        "--path",
+        "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+        "--windowed",
+        "--resolution",
+        "1280x720",
+        "--script",
+        "res://tests/test_hardware_history_context.gd",
+        "--",
+        "--locale=en",
+        "--history-capture",
+        "--capture-size=1280x720"
+      ],
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "logs/render-label-hardware-en-label.txt.gz",
+      "group": "render-label",
+      "log_sha256": "6ef72bfceb29c5619a9979a88668d88676fdd13f628df4e97bf53a46ef4bc7e2"
+    }
+  ],
+  "startup": {
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--headless",
+      "--path",
+      "/Users/yrq/Documents/冯诺伊曼瓶颈/.godot/verification/20261112T165455Z-96d902b4/project",
+      "--quit-after",
+      "8"
+    ],
+    "exit": 0,
+    "passed": true,
+    "log": "logs/startup.txt.gz"
+  }
+}

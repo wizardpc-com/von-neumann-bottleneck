@@ -1,0 +1,22 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "separate_processes": true,
+  "checks": [
+    {
+      "name": "legacy-writer",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "name": "migration-reader",
+      "passed": true,
+      "exit": 0
+    },
+    {
+      "name": "stable-reader",
+      "passed": true,
+      "exit": 0
+    }
+  ],
+  "stable_library_sha256": "8e1fc29b6b1db66a36a570a05b685352bd8f809d302ea83f038d9ef2246dcadb"
+}

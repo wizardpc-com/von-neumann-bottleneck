@@ -1,0 +1,80 @@
+[
+  {
+    "file": "frames/challenge-import-en.png",
+    "width": 2389,
+    "height": 1287,
+    "sha256": "05fcbae15e96e0d8fc43087e2b2d22f008bc6c5496ac63b74e2cc4b2f279b95d"
+  },
+  {
+    "file": "frames/challenge-import-zh_CN.png",
+    "width": 2389,
+    "height": 1287,
+    "sha256": "efa3b005b089f23d8fd43d7a3e80b2177a04e4b9d5ee5e9537032b8fdc046a4c"
+  },
+  {
+    "file": "frames/challenge-target-en.png",
+    "width": 2389,
+    "height": 1287,
+    "sha256": "8adb7f36dacb96e20f052326c1bbc018611bee31f3bd3ee4a41854a00124b6f4"
+  },
+  {
+    "file": "frames/challenge-target-zh_CN.png",
+    "width": 2389,
+    "height": 1287,
+    "sha256": "0c5acc26fda25004fbbeb76256206ced4a6286e51165ae49eeb81f809dc9ed6a"
+  },
+  {
+    "file": "frames/en-cpu-clear.png",
+    "width": 1280,
+    "height": 720,
+    "sha256": "02ad31163fb32b582ca2250988164e31f457b4ad5db862398915b3db60ebe7e6"
+  },
+  {
+    "file": "frames/en-ram-clear.png",
+    "width": 1280,
+    "height": 720,
+    "sha256": "536d893a8da2c7df252342e4e5ed662e11dfa952aa7fb6b2ae6dc26a1cd26f02"
+  },
+  {
+    "file": "frames/en-tutorial-undo.png",
+    "width": 1280,
+    "height": 720,
+    "sha256": "5b651ec45f3000b52001109aac00e46b53a10389bff143dac2af27b1b56e71b6"
+  },
+  {
+    "file": "frames/layout-scores-en.png",
+    "width": 1911,
+    "height": 1029,
+    "sha256": "daaa804408eb7c907a5ca7608fe6f1a90d382b67c7a9ca9a75dbc78bff5060ee"
+  },
+  {
+    "file": "frames/layout-scores-mixed-en.png",
+    "width": 1911,
+    "height": 1029,
+    "sha256": "8886c1cbc97b3114be868c83f449af6081bf4bbd742ca3f63b946edbbf16fc62"
+  },
+  {
+    "file": "frames/layout-scores-zh_CN.png",
+    "width": 1911,
+    "height": 1029,
+    "sha256": "efb2de4aaca648e29c796cbf0ab959fdd1068ed004182ed4da91ed060bb5f3a7"
+  },
+  {
+    "file": "frames/zh_CN-cpu-clear.png",
+    "width": 1280,
+    "height": 720,
+    "sha256": "20c746f96194821e62abc214f3355aeaccca68ca243ea77fb7995b44b7c646d1"
+  },
+  {
+    "file": "frames/zh_CN-ram-clear.png",
+    "width": 1280,
+    "height": 720,
+    "sha256": "f6e071588341c926398ff8dd14d6458f9968b341b65f1c8c92be894be0fd1231"
+  },
+  {
+    "file": "frames/zh_CN-tutorial-undo.png",
+    "width": 1280,
+    "height": 720,
+    "sha256": "97e22f3397316e71f38c75e146168cf74e9b1f59d14ece02ca0b8559342bd33c"
+  }
+]

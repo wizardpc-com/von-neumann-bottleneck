@@ -1,3 +1,24 @@
+## Hardware history and Debug-data comparisons — 2026-11-12
+
+Run `test_hardware_history_context` with Hardware foundations/prologue/failure,
+workspace/seal navigation and settings-input suites. Exercise CPU Undo/Redo and
+clear-all, tutorial current guidance without granting action flags, real RAM Debug
+observations, successful versus rejected edits, movement, empty clear and Undo.
+Invalidating a topology clears stale output text but preserves committed storage.
+Use the old runtime as a negative control. The test requires an isolated profile.
+
+Run `test_locality_trace_presentation` alongside Chapter2 progression, best restore,
+restored baseline and deterministic simulation: two actual Debug runs with changed
+data must expose a changed condition; repeated identical values must not invent one.
+Keep the formal Debug-versus-official comparison boundary.
+
+GPU command: `--script res://tests/test_hardware_history_context.gd -- --locale=zh_CN
+--history-capture --capture-size=1280x720` on an imported isolated project (also `en`).
+`--capture-size` is required: normal macOS minimum-window handling otherwise changes
+raw capture dimensions. Inspect real pixels, including the Debug output after clear.
+Use existing Chapter4 scoreboard/challenge controller suites and both restart helpers
+for the broader player-loop check. See [the receipt](../verification/20261112-reliability/README.md).
+
 ## Region cold-client reuse — 2026-11-05
 
 Run `test_representation_region_clients` on both the independently frozen

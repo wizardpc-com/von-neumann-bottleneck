@@ -1,5 +1,7 @@
 # Documentation map
 
+- [现有操作闭环可靠性修复与实际验证（2026-11-12）](verification/20261112-reliability/README.md)
+
 - [第十二轮：冷客户端计算复用、完整Trace兼容与本阶段收尾（2026-11-05）](verification/20261105-region-client-reuse/README.md)
 
 - [第十一轮：Region拒绝结果一致性与完整Trace兼容（2026-11-05）](verification/20261105-region-rejection-evidence/README.md)

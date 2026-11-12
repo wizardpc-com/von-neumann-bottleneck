@@ -1,0 +1,17 @@
+extends SceneTree
+func _init() -> void: call_deferred("run")
+func run() -> void:
+	if not OS.get_user_data_dir().contains("VonNeumannBottleneckChecks/"):
+		quit(1)
+		return
+	root.get_node("GameMode").set_mode(&"test")
+	var host = load("res://src/hardware_foundations/hardware_foundations.tscn").instantiate()
+	root.add_child(host)
+	current_scene = host
+	for i in 8: await process_frame
+	host._start_campaign_level(&"cpu", false)
+	for i in 8: await process_frame
+	for index in [0, 1, 3, 5]:
+		var wire: Dictionary = host.current_level_definition.reference_wires[index]
+		host._on_connection_request(wire["from"], int(wire.get("from_port",0)), wire["to"], int(wire.get("to_port",0)))
+	print("NATIVE_READY stage=",host.cpu_stage_index)

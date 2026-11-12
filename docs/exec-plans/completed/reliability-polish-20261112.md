@@ -48,8 +48,10 @@ Chapter4 rankings47/0 and challenge82/0. Two three-process recovery helpers pass
 Negative controls fail on unchanged runtime; final ordinary startup passes.
 Native CPU keyboard/mouse pass preceded the final output-label correction;
 final label correction is headless/GPU verified. Independent reviews found and
-closed clear-all and old-output omissions. Visual decision document drafted and
-link-checked; separate documentation delivery follows runtime commit/push.
+closed clear-all and old-output omissions. Visual decision document complete and link-checked, with current resource references,
+historical alternatives, explicit rejected designs and unresolved Logo positions.
+Runtime delivery: `ec80549`; documentation follows as a separate main commit.
+This bounded audit is complete; remaining platform/newcomer/art decisions stay open.
 Evidence: [receipt](../../verification/20261112-reliability/README.md).
 Only 4.8GiB disk available at start: reuse this round's QA copy for reruns;
 do not delete old evidence or player data. No claim of complete game acceptance.

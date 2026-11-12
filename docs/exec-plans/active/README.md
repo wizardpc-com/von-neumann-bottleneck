@@ -2,7 +2,9 @@
 
 2026-11-12新指令恢复现有游戏可靠性与展示打磨。当前完成的范围见
 [操作闭环修复](../../verification/20261112-reliability/README.md)；验证后的重要更改
-按授权提交／push main。以下暂停／分支限制均为旧轮次记录，不能覆盖新指令。
+按授权提交／push main。[本轮计划](../completed/reliability-polish-20261112.md)已完成，
+[视觉与Logo清单](../../development/VISUAL_DECISIONS_20261112.md)供团队审阅。
+以下暂停／分支限制均为旧轮次记录，不能覆盖新指令。
 
 
 2026-11-05最新用户指令：完成当前已规划任务，提交／push全部相关更改后收尾，

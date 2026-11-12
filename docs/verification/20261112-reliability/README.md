@@ -96,5 +96,5 @@ Preserve raw frames and validate their size before claiming a capture pass.
 No new Windows/Mac export, online server-recomputed leaderboard, cross-platform,
 full newcomer completion, long-session/audio or final art acceptance. The first
 Debug run's session-baseline semantics remain unchanged: the audit did not find a
-clear contract authorizing a behavior change. Visual/Logo choices are documented
-separately for the owner; no final art direction has been selected.
+clear contract authorizing a behavior change. Visual/Logo choices are in the
+[owner decision list](../../development/VISUAL_DECISIONS_20261112.md); no final art direction has been selected.

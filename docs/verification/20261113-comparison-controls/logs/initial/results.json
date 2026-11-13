@@ -1,0 +1,128 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/user_directory"
+    },
+    {
+      "name": "test_direct_task_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_direct_task_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_direct_task_navigation"
+    },
+    {
+      "name": "test_layout_strategy_challenge_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_strategy_challenge_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_challenge_ui"
+    },
+    {
+      "name": "test_layout_strategy_comparison_controls",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Language rebuild retains pending numeric text and its new control binding",
+        "ERROR: Run explicitly commits retained number and measures once after language rebuild",
+        "ERROR: Direct Language click preserves focused pending input without committing",
+        "ERROR: Run still commits after direct-language preservation",
+        "ERROR: Language rebuild retains pending numeric text and its new control binding",
+        "ERROR: Run explicitly commits retained number and measures once after language rebuild",
+        "ERROR: Direct Language click preserves focused pending input without committing",
+        "ERROR: Run still commits after direct-language preservation",
+        "FAIL: layout comparison controls 129 checks, 8 failures"
+      ],
+      "log": "test_layout_strategy_comparison_controls.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_comparison_controls"
+    },
+    {
+      "name": "test_layout_strategy_explanation_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_strategy_explanation_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_explanation_ui"
+    },
+    {
+      "name": "test_layout_strategy_notebook_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_strategy_notebook_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_notebook_ui"
+    },
+    {
+      "name": "test_layout_strategy_pending_exit",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_strategy_pending_exit.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_pending_exit"
+    },
+    {
+      "name": "test_layout_strategy_session",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_strategy_session.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_session"
+    },
+    {
+      "name": "test_layout_strategy_structures_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_strategy_structures_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_structures_ui"
+    },
+    {
+      "name": "test_layout_strategy_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_strategy_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_ui"
+    },
+    {
+      "name": "test_layout_strategy_workspace",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_strategy_workspace.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_layout_strategy_workspace"
+    },
+    {
+      "name": "test_locality_chapter_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_chapter_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_locality_chapter_ui"
+    },
+    {
+      "name": "test_locality_header_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_locality_header_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T171932Z-af31e4fd/test_locality_header_navigation"
+    }
+  ]
+}

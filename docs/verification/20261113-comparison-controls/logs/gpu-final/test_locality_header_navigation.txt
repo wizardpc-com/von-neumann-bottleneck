@@ -1,0 +1,20 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+PIXEL_STATE stable: {"content_scale_size":"(1280, 720)","display_mode":0,"display_size":"(1280, 720)","image_size":"(1280, 720)","mode":0,"requested":"(1280, 720)","window_size":"(1280, 720)"}
+PIXEL_STATE capture zh_CN-1280: {"content_scale_size":"(1280, 720)","display_mode":0,"display_size":"(1280, 720)","image_size":"(1280, 720)","mode":0,"requested":"(1280, 720)","window_size":"(1280, 720)"}
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/boundaries-1794591159008336000/test_locality_header_navigation/locality-header-zh_CN-1280.png
+PIXEL_STATE stable: {"content_scale_size":"(960, 640)","display_mode":0,"display_size":"(960, 640)","image_size":"(960, 640)","mode":0,"requested":"(960, 640)","window_size":"(960, 640)"}
+PIXEL_STATE capture zh_CN-960: {"content_scale_size":"(960, 640)","display_mode":0,"display_size":"(960, 640)","image_size":"(960, 640)","mode":0,"requested":"(960, 640)","window_size":"(960, 640)"}
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/boundaries-1794591159008336000/test_locality_header_navigation/locality-header-zh_CN-960.png
+PIXEL_STATE stable: {"content_scale_size":"(1600, 900)","display_mode":0,"display_size":"(1600, 900)","image_size":"(1600, 900)","mode":0,"requested":"(1600, 900)","window_size":"(1600, 900)"}
+PIXEL_STATE stable: {"content_scale_size":"(1280, 720)","display_mode":0,"display_size":"(1280, 720)","image_size":"(1280, 720)","mode":0,"requested":"(1280, 720)","window_size":"(1280, 720)"}
+PIXEL_STATE stable: {"content_scale_size":"(1280, 720)","display_mode":0,"display_size":"(1280, 720)","image_size":"(1280, 720)","mode":0,"requested":"(1280, 720)","window_size":"(1280, 720)"}
+PIXEL_STATE capture en-1280: {"content_scale_size":"(1280, 720)","display_mode":0,"display_size":"(1280, 720)","image_size":"(1280, 720)","mode":0,"requested":"(1280, 720)","window_size":"(1280, 720)"}
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/boundaries-1794591159008336000/test_locality_header_navigation/locality-header-en-1280.png
+PIXEL_STATE stable: {"content_scale_size":"(960, 640)","display_mode":0,"display_size":"(960, 640)","image_size":"(960, 640)","mode":0,"requested":"(960, 640)","window_size":"(960, 640)"}
+PIXEL_STATE capture en-960: {"content_scale_size":"(960, 640)","display_mode":0,"display_size":"(960, 640)","image_size":"(960, 640)","mode":0,"requested":"(960, 640)","window_size":"(960, 640)"}
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/boundaries-1794591159008336000/test_locality_header_navigation/locality-header-en-960.png
+PIXEL_STATE stable: {"content_scale_size":"(1600, 900)","display_mode":0,"display_size":"(1600, 900)","image_size":"(1600, 900)","mode":0,"requested":"(1600, 900)","window_size":"(1600, 900)"}
+PIXEL_STATE stable: {"content_scale_size":"(1280, 720)","display_mode":0,"display_size":"(1280, 720)","image_size":"(1280, 720)","mode":0,"requested":"(1280, 720)","window_size":"(1280, 720)"}
+PASS: locality header/navigation 1220 checks, 0 failures

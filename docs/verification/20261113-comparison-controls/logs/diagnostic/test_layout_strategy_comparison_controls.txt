@@ -1,0 +1,51 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Language rebuild retains pending numeric text and its new control binding text=8 value=8.0 name=QueryGroup pending=QueryGroup bound=true draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_comparison_controls.gd:174)
+       [1] controls_exercise (res://tests/test_layout_strategy_comparison_controls.gd:163)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Run explicitly commits retained number and measures once after language rebuild text=8 value=8.0 name=QueryGroup pending=null bound=false draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_comparison_controls.gd:174)
+       [1] controls_exercise (res://tests/test_layout_strategy_comparison_controls.gd:163)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Direct Language click preserves focused pending input without committing text=8 value=8.0 name=QueryGroup pending=QueryGroup bound=true draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_comparison_controls.gd:174)
+       [1] controls_exercise (res://tests/test_layout_strategy_comparison_controls.gd:163)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Run still commits after direct-language preservation text=8 value=8.0 name=QueryGroup pending=null bound=false draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_comparison_controls.gd:174)
+       [1] controls_exercise (res://tests/test_layout_strategy_comparison_controls.gd:163)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Language rebuild retains pending numeric text and its new control binding text=8 value=8.0 name=QueryGroup pending=QueryGroup bound=true draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_comparison_controls.gd:174)
+       [1] controls_exercise (res://tests/test_layout_strategy_comparison_controls.gd:163)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Run explicitly commits retained number and measures once after language rebuild text=8 value=8.0 name=QueryGroup pending=null bound=false draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_comparison_controls.gd:174)
+       [1] controls_exercise (res://tests/test_layout_strategy_comparison_controls.gd:163)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Direct Language click preserves focused pending input without committing text=8 value=8.0 name=QueryGroup pending=QueryGroup bound=true draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_comparison_controls.gd:174)
+       [1] controls_exercise (res://tests/test_layout_strategy_comparison_controls.gd:163)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+ERROR: Run still commits after direct-language preservation text=8 value=8.0 name=QueryGroup pending=null bound=false draft={ "copy_mode": "none", "copy_fields": [0], "recipe": { "groups": [{ "fields": [0, 1, 2, 3], "order": "record" }], "block": 0 }, "query_group": 8, "record_tile": 1 }
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/test_layout_strategy_comparison_controls.gd:174)
+       [1] controls_exercise (res://tests/test_layout_strategy_comparison_controls.gd:163)
+       [2] settle (res://tests/test_layout_strategy_ui.gd:17)
+FAIL: layout comparison controls 139 checks, 8 failures

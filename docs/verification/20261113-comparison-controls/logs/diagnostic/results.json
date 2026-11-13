@@ -1,0 +1,28 @@
+[
+  {
+    "suite": "test_layout_strategy_comparison_controls",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T171932Z-af31e4fd/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_comparison_controls.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794590633089489000/test_layout_strategy_comparison_controls",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Language rebuild retains pending numeric text and its new control binding text=8 value=8.0 name=QueryGroup pending=QueryGroup bound=true draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Run explicitly commits retained number and measures once after language rebuild text=8 value=8.0 name=QueryGroup pending=null bound=false draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Direct Language click preserves focused pending input without committing text=8 value=8.0 name=QueryGroup pending=QueryGroup bound=true draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Run still commits after direct-language preservation text=8 value=8.0 name=QueryGroup pending=null bound=false draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Language rebuild retains pending numeric text and its new control binding text=8 value=8.0 name=QueryGroup pending=QueryGroup bound=true draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Run explicitly commits retained number and measures once after language rebuild text=8 value=8.0 name=QueryGroup pending=null bound=false draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Direct Language click preserves focused pending input without committing text=8 value=8.0 name=QueryGroup pending=QueryGroup bound=true draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "ERROR: Run still commits after direct-language preservation text=8 value=8.0 name=QueryGroup pending=null bound=false draft={ \"copy_mode\": \"none\", \"copy_fields\": [0], \"recipe\": { \"groups\": [{ \"fields\": [0, 1, 2, 3], \"order\": \"record\" }], \"block\": 0 }, \"query_group\": 8, \"record_tile\": 1 }",
+      "FAIL: layout comparison controls 139 checks, 8 failures"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T171932Z-af31e4fd/pending-diagnostic/test_layout_strategy_comparison_controls.txt"
+  }
+]

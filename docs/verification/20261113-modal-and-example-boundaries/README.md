@@ -89,8 +89,11 @@ The new System check sets up scenes/measurements through existing controllers,
 then sends actual viewport keys. Creation typing and selected actions use viewport
 mouse/keys; a test subclass counts departure instead of exiting. The independent
 profile stores remain isolated from ordinary player data.
-Ch2 reference frames expose a partially clipped far-right Laboratory header entry
-at1280px, now queued in the active plan. Creation sample Replace/Cancel may require
+Follow-up correction: the earlier review incorrectly reported a clipped Ch2
+Laboratory entry. Reinspection of these exact stored1280px images shows Laboratory
+and Settings fully visible; only the long task subtitle is intentionally elided.
+Current all-task navigation geometry/input checks confirm the distinction; no Ch2
+runtime fix was needed. Creation sample Replace/Cancel may require
 scrolling after focusing the preserved text. These remain experience limits.
 Full chapter playthroughs, unassisted novice understanding, Windows, exported
 packages, long sessions and audio remain outside this block's verified scope.

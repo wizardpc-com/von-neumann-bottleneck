@@ -29,7 +29,7 @@ No new simulation, tasks, art direction, reward thresholds, save formats or depe
 | Laboratory and journey map | Pending | Pending | Pending | Pending | Unverified |
 | Prologue construction | Pending | Pending | Pending | Pending | Unverified |
 | Ch1 system costs | Partial: prediction setup and modal input isolation | Partial: TEST to Run; current results cleared after applied/topology changes | Historical receipts preserved | Fresh bilingual GPU recall and boundary checks | Unverified |
-| Ch2 locality | Partial: applied program | Partial: covered TEST to Run | Pending | Scripted bilingual recall passed | Unverified |
+| Ch2 locality | Partial: applied program and all-task header navigation | Partial: covered TEST to Run | Partial: Settings/map/task/Laboratory retains unapplied draft | Bilingual recall and all-task navigation GPU passed | Unverified |
 | Ch3 overlap | Partial: complete current command reference | Partial: actual edit and Run | Existing draft regressions | Bilingual six-task expanded reference | Unverified |
 | Ch4 layout | Partial: tools/results iteration | Partial: real Run, inspect and return | Naming, Undo, rankings/challenge regressions | Bilingual six-task flow and final GPU passed | Unverified |
 | Ch5 representation | Partial: valid split input | Pending | Partial: Undo/Redo and task context | Bilingual split input rendered | Unverified |
@@ -38,7 +38,7 @@ No new simulation, tasks, art direction, reward thresholds, save formats or depe
 | Ch8 compression | Pending | Pending | Pending | Pending | Unverified |
 | Ch9 content prediction | Pending | Pending | Pending | Pending | Unverified |
 | Ch10 creation | Pending | Pending | Pending | Pending | Unverified |
-| Optional scheduling lab | Pending | Pending | Pending | Pending | Unverified |
+| Optional scheduling lab | Partial: same-page personal conditions | Partial: ranking refresh without rerun | Partial: numeric text across language/inspection; explicit Run/departure | Bilingual Compare/Notebook and save-conflict GPU passed | Unverified |
 
 Prior passing checks are evidence of their stated paths only, not new acceptance.
 Each row needs a concrete scenario and current evidence. Human comprehension cannot
@@ -92,7 +92,8 @@ only after concrete obstacles are identified. Read relevant code/tests/docs firs
   and viewport resize drive layout; no smaller typography or three-column squeeze.
 - Verified: Overlap displays its existing public reference together in all six
   tasks and both languages, including expanded experiment prompts.
-- Pending: scheduling conditions live apart from the rankings they filter.
+- Implemented: scheduling recent-run rankings now share the same goal controls
+  with Notebook; kept-plan rankings retain their separate population.
 - Second milestone verified: Representation Split follows the selected
   block interior and explains unavailable cases; Service directly chooses encoding
   without intermediate draft edits. New checks160/235 and GPU190/271 passed;
@@ -151,6 +152,25 @@ explicitly open; no claim of absolute minimum cognitive load from expert inspect
   pending text. Final evidence lives in the [boundary receipt](../../verification/20261113-modal-and-example-boundaries/README.md).
   This closes specific defects, not whole-chapter acceptance.
 - Fresh core GPU coverage includes official prologue playback, bilingual Ch1/Ch2
-  recall/Run and Ch4 six-task iteration. In Ch2's1280px reference frames, the far
-  right laboratory header entry is partially outside the viewport; check responsive
-  header geometry next, without altering progression or adding navigation routes.
+  recall/Run and Ch4 six-task iteration. The initial claim of a clipped Ch2 header
+  entry was corrected by reinspection below; do not treat it as a runtime defect.
+
+- Follow-up from clean remote-confirmed `d4213aa`: reinspection of the exact stored
+  Ch2 images contradicts the prior clipping claim. Laboratory and Settings are fully
+  visible; only the long task subtitle uses its intended ellipsis. Correct that
+  observation instead of changing runtime without evidence. Add current navigation
+  geometry/input coverage across tasks, languages and window sizes.
+- Scheduling scope: recent-run comparison currently requires a Notebook round trip
+  to edit personal goals (kept-plan ranking is already alongside its controls).
+  Move the single existing goal-control set above Compare/Notebook, retaining tab
+  identities, separate comparison populations and challenge goals. Reproduce and fix
+  pending numeric text lost on language rebuild after evidence inspection, without
+  implicitly applying it. Models, schemas, persistence and progression stay unchanged.
+
+- Comparison/input block verified:12 distinct suites have passing staged evidence;
+  final new headless145, GPU175/1220/177,18 final raw images. Same final comparison
+  test fails52 assertions on frozen old runtime (129 total versus145 candidate,
+  because the old hidden controls skip a menu branch). Ch2 first GPU capture-driver
+  failure is retained and fixed without changing runtime. Root owns integration,
+  agents released source ownership; full product/native/novice acceptance remains open.
+  [Receipt](../../verification/20261113-comparison-controls/README.md).

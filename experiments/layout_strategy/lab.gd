@@ -106,6 +106,7 @@ var notebook_remove: Button
 var notebook_keep: Button
 var notebook_save: Button
 var notebook_recover: Button
+var goal_controls: VBoxContainer
 var goal_objective: OptionButton
 var first_cap: CheckBox
 var first_limit: SpinBox
@@ -319,11 +320,16 @@ func _build() -> void:
 	status = _label(editor,"",14)
 	status.name = "DraftStatus"
 	status.custom_minimum_size.y = 42
+	var comparison_column := VBoxContainer.new()
+	comparison_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	comparison_column.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.add_child(comparison_column)
+	_build_goal_controls(comparison_column)
 	tabs = TabContainer.new()
 	tabs.name = "Results"
 	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body.add_child(tabs)
+	comparison_column.add_child(tabs)
 	var comparison_page := VBoxContainer.new()
 	comparison_page.name = tr2("比较","Compare")
 	comparison_page.add_theme_constant_override("separation",6)
@@ -394,7 +400,9 @@ func _build() -> void:
 	public_detail = _reader(public_page,"PublicData")
 	_build_notebook()
 	notebook_name.text = previous_name
+	tabs.tab_changed.connect(func(_index: int) -> void: _refresh_goal_visibility())
 	tabs.current_tab = previous_tab
+	_refresh_goal_visibility()
 	_shown_entry = -1
 	refresh()
 
@@ -619,20 +627,19 @@ func _event_entry() -> Dictionary:
 		return _explanation_entries.get(_event_side,{})
 	return session.selected_entry()
 
-func _build_notebook() -> void:
-	var page := VBoxContainer.new()
-	page.name = tr2("方案笔记","Notebook")
-	page.add_theme_constant_override("separation",5)
-	tabs.add_child(page)
+func _build_goal_controls(parent: Node) -> void:
+	goal_controls = VBoxContainer.new()
+	goal_controls.name = "ComparisonGoals"
+	goal_controls.add_theme_constant_override("separation",5)
+	parent.add_child(goal_controls)
 	var top := HBoxContainer.new()
-	page.add_child(top)
+	goal_controls.add_child(top)
 	goal_objective = _choice(top,[tr2("按总周期比较","Compare total cycles"),tr2("按RAM流量比较","Compare RAM bytes")],"GoalObjective")
 	goal_objective.item_selected.connect(func(index: int) -> void:
 		_edit_goal("objective","cycles" if index == 0 else "traffic"))
-	notebook_save = _button(top,tr2("保存工作区","Save workspace"),save_workspace,"SaveWorkspace")
 	var limits := HBoxContainer.new()
 	limits.add_theme_constant_override("separation",6)
-	page.add_child(limits)
+	goal_controls.add_child(limits)
 	first_cap = _cap_toggle(limits,tr2("限制Q1","Limit Q1"),"FirstCap")
 	first_limit = _cap_number(limits,"FirstLimit")
 	first_limit.suffix = tr2("周期","cycles")
@@ -647,6 +654,18 @@ func _build_notebook() -> void:
 		if first_cap.button_pressed: _edit_goal("first_limit",int(value)))
 	copy_limit.value_changed.connect(func(value: float) -> void:
 		if copy_cap.button_pressed: _edit_goal("copy_limit",int(value)))
+
+func _refresh_goal_visibility() -> void:
+	goal_controls.visible = tabs.current_tab in [0,3]
+
+func _build_notebook() -> void:
+	var page := VBoxContainer.new()
+	page.name = tr2("方案笔记","Notebook")
+	page.add_theme_constant_override("separation",5)
+	tabs.add_child(page)
+	var top := HBoxContainer.new()
+	page.add_child(top)
+	notebook_save = _button(top,tr2("保存工作区","Save workspace"),save_workspace,"SaveWorkspace")
 	goal_summary = _label(page,"",13)
 	goal_summary.name = "GoalSummary"
 	notebook_table = _table(page,[
@@ -1433,13 +1452,18 @@ func toggle_language() -> void:
 	reload_localized_scene()
 
 func reload_localized_scene() -> Error:
+	var numeric_state: Dictionary = _capture_pending_numeric()
 	var focus_id: String = _last_focus
+	# Rebuilding must not turn unsubmitted text into an edit on focus loss.
+	_preserve_numeric_for_inspection()
 	english = get_node("/root/Localization").current_locale() == "en"
 	_notice = ""
 	_build()
+	_restore_pending_numeric(numeric_state)
 	if is_instance_valid(challenge_window): challenge_window.translate(english)
 	_translate_exit_guard()
 	call_deferred("_restore_focus",focus_id)
+	call_deferred("_restore_pending_numeric_after_layout",numeric_state,_pending_numeric)
 	return OK
 
 func _restore_focus(id: String) -> void:
@@ -1473,9 +1497,45 @@ func _numeric_editor(focused: Control) -> SpinBox:
 			return control
 	return null
 
+func _capture_pending_numeric() -> Dictionary:
+	var control: SpinBox = _numeric_editor(get_viewport().gui_get_focus_owner())
+	if control == null and is_instance_valid(_pending_numeric) and _pending_numeric.editable:
+		control = _pending_numeric
+	if control == null: return {}
+	var editor: LineEdit = control.get_line_edit()
+	return {"id":str(control.name),"text":editor.text,"caret":editor.caret_column,
+		"selection_start":editor.get_selection_from_column() if editor.has_selection() else -1,
+		"selection_end":editor.get_selection_to_column() if editor.has_selection() else -1}
+
+func _restore_pending_numeric(saved: Dictionary) -> void:
+	if saved.is_empty(): return
+	var control := interface.find_child(str(saved.id),true,false) as SpinBox
+	if control == null or not control.editable: return
+	control.get_line_edit().text = str(saved.text)
+	_pending_numeric = control
+	_restore_pending_numeric_selection(saved)
+
+func _restore_pending_numeric_after_layout(saved: Dictionary, control: SpinBox) -> void:
+	# Visible SpinBoxes format their committed value during deferred layout.
+	# Restore the pending text afterward, only onto this rebuild's live control.
+	if saved.is_empty() or not is_instance_valid(control) or _pending_numeric != control: return
+	if not is_instance_valid(interface) or not interface.is_ancestor_of(control): return
+	control.get_line_edit().text = str(saved.text)
+	_restore_pending_numeric_selection(saved)
+
+func _restore_pending_numeric_selection(saved: Dictionary) -> void:
+	if saved.is_empty() or not is_instance_valid(_pending_numeric): return
+	if str(_pending_numeric.name) != str(saved.id): return
+	var editor: LineEdit = _pending_numeric.get_line_edit()
+	editor.caret_column = int(saved.caret)
+	if int(saved.selection_start) >= 0:
+		editor.select(int(saved.selection_start),int(saved.selection_end))
+	else: editor.deselect()
+
 func _preserve_numeric_for_inspection() -> void:
 	var control: SpinBox = _numeric_editor(get_viewport().gui_get_focus_owner())
 	if control == null: return
+	var saved: Dictionary = _capture_pending_numeric()
 	var typed: String = control.get_line_edit().text
 	var committed: float = control.value
 	var pending: SpinBox = _pending_numeric
@@ -1490,13 +1550,15 @@ func _preserve_numeric_for_inspection() -> void:
 	control.get_line_edit().set_deferred("text",typed)
 	_syncing = was_syncing
 	_pending_numeric = pending
+	call_deferred("_restore_pending_numeric_selection",saved)
 
 func _inspection_hit(position: Vector2) -> bool:
-	for control: Control in [explanation_button,history_table,evidence_page]:
+	for control: Control in [language_button,explanation_button,history_table,evidence_page,public_detail]:
 		if is_instance_valid(control) and control.is_visible_in_tree() and control.get_global_rect().has_point(position):
 			return true
 	var bar: TabBar = tabs.get_tab_bar()
-	return bar.get_tab_rect(1).has_point(bar.get_global_transform().affine_inverse()*position)
+	var local_position: Vector2 = bar.get_global_transform().affine_inverse()*position
+	return bar.get_tab_rect(1).has_point(local_position) or bar.get_tab_rect(2).has_point(local_position)
 
 func _commit_numeric_editor() -> void:
 	var control: SpinBox = _numeric_editor(get_viewport().gui_get_focus_owner())

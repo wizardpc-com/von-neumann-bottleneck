@@ -1,0 +1,38 @@
+[
+  {
+    "suite": "test_locality_header_navigation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T171932Z-af31e4fd/project",
+      "--script",
+      "res://tests/test_locality_header_navigation.gd",
+      "--",
+      "--locality-header-capture",
+      "--layout-notebook-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591159008336000/test_locality_header_navigation",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T171932Z-af31e4fd/final-navigation-notebook-gpu/test_locality_header_navigation.txt"
+  },
+  {
+    "suite": "test_layout_strategy_notebook_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T171932Z-af31e4fd/project",
+      "--script",
+      "res://tests/test_layout_strategy_notebook_ui.gd",
+      "--",
+      "--locality-header-capture",
+      "--layout-notebook-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591185424819000/test_layout_strategy_notebook_ui",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T171932Z-af31e4fd/final-navigation-notebook-gpu/test_layout_strategy_notebook_ui.txt"
+  }
+]

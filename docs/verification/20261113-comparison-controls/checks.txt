@@ -1,0 +1,5 @@
+PASS: local branding assets and native icon contracts
+PASS: 281 changed-document local links
+PASS: 1214 final candidate source/resource/test files match QA
+PASS: baseline and candidate use identical final comparison regression
+PASS: project.godot differs only by isolated profile

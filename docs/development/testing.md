@@ -1,3 +1,22 @@
+## Comparison controls and Chapter2 navigation — 2026-11-13
+
+Run `test_layout_strategy_comparison_controls` alongside scheduling notebook,
+explanation, pending-exit, challenge, structures, UI, session and workspace suites.
+Verify the one existing goal-control set is usable beside recent runs and kept
+plans, but hidden for evidence/public reading. Editing goals must immediately
+update the visible rank table without running simulation, changing the draft or
+changing independent challenge targets. Read-only inspection and language rebuild
+preserve unfinished numeric text/selection; explicit Run still commits once.
+`--layout-strategy-capture` records bilingual Compare/Notebook at1280×720/960×640.
+
+Run `test_locality_header_navigation` with Locality UI and direct navigation.
+It covers every task, both languages,1280→960→1600→1280 windows, long statuses,
+actual pointer hit tests, Settings, map/task return and Laboratory. Raw invalid
+program drafts stay separate from applied source, and Game state stays unchanged.
+`--locality-header-capture` produces four actual1280×720/960×640 frames. The test
+corrects an earlier visual misread; current Chapter2 header runtime needs no fix.
+These are viewport/GPU checks, not native OS or novice acceptance.
+
 ## Modal results and pending examples — 2026-11-13
 
 Run `test_system_modal_result_boundaries` with System UI, Settings input,

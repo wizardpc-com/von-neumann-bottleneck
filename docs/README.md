@@ -1,5 +1,7 @@
 # Documentation map
 
+- [调度条件同屏、数字输入保留与第二章导航复核（2026-11-13）](verification/20261113-comparison-controls/README.md)
+
 - [第一章模态／当前结果与创造样例输入保护（2026-11-13）](verification/20261113-modal-and-example-boundaries/README.md)
 
 - [第三／四／七章指令查阅、迭代与调查上下文收尾（2026-11-13）](verification/20261113-context-and-reference/README.md)

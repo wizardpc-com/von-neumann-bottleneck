@@ -1,0 +1,18 @@
+[
+  {
+    "suite": "test_layout_strategy_comparison_controls",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T171932Z-af31e4fd/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_comparison_controls.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794590945114824000/test_layout_strategy_comparison_controls",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T171932Z-af31e4fd/final-timing/test_layout_strategy_comparison_controls.txt"
+  }
+]

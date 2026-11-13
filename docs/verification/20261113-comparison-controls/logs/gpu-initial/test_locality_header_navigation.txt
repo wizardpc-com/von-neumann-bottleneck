@@ -1,0 +1,19 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: Stable actual pixels at (1280, 720)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_locality_header_navigation.gd:11)
+       [1] resize (res://tests/test_locality_header_navigation.gd:45)
+ERROR: zh_CN-1280: raw dimensions
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_locality_header_navigation.gd:11)
+       [1] capture (res://tests/test_locality_header_navigation.gd:80)
+       [2] settle (res://tests/test_locality_header_navigation.gd:13)
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/boundaries-1794591032814672000/test_locality_header_navigation/locality-header-zh_CN-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/boundaries-1794591032814672000/test_locality_header_navigation/locality-header-zh_CN-960.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/boundaries-1794591032814672000/test_locality_header_navigation/locality-header-en-1280.png
+CAPTURE: /Users/yrq/Library/Application Support/VonNeumannBottleneckChecks/boundaries-1794591032814672000/test_locality_header_navigation/locality-header-en-960.png
+FAIL: locality header/navigation 1221 checks, 2 failures

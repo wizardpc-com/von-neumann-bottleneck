@@ -1,18 +1,25 @@
 # Maintaining the free Alpha
 
 Current truth: [CURRENT_STATE](../CURRENT_STATE.md), [release blockers](../../RELEASE_BLOCKERS.md).
-Keep five areas, 40 tasks and their existing save/verification rules. These recipes
-are deliberately separate: replacing art must not change progression or consent.
+The default journey contains 60 tasks: the original five areas' 40 tasks plus
+Representation 5, Service 3, address Prediction 3 and compression/content
+prediction/creation 9. Preserve their existing save/verification rules. These
+recipes are deliberately separate: replacing art must not change progression or consent.
 
 ## Replace the future logo and icon
 
-1. Put final assets in `assets/branding/`. Edit only `brand.cfg`: `logo_zh`, `logo_en`,
+The configured title-logo slot is used only by the retained `--classic-hub` homepage.
+The default laboratory does not call `BrandIdentity.title_slot()`; displaying a
+logo there needs a separately agreed location and scoped implementation.
+
+1. Put final assets in `assets/branding/`. Configure `brand.cfg`: `logo_zh`, `logo_en`,
    optional `symbol`, required `app_icon`, optional platform-native icon and revision.
 2. Run `python3 scripts/check-branding.py`, then isolated `test_final_convergence`,
    localization and normal Godot import. Missing language logos fall back to that
    language's title; no alternative-language logo is silently substituted.
-3. Inspect Chinese and English at the minimum window size. Logo is contained within
-   360×64 logical pixels and ignores input. Check 16/32/48/64/128/256 icon variants.
+3. Inspect Chinese and English on `--classic-hub` at the minimum window size. Its
+   title logo is contained within 360×64 logical pixels and ignores input.
+   Check 16/32/48/64/128/256 icon variants.
 4. Commit assets and build a new candidate with `build-free-candidate.py`. The builder
    reads that config, checks local assets and records revision in the manifest.
    Inspect EXE/taskbar and app/Dock on actual Windows/Mac; OS icon caching can lag.
@@ -46,9 +53,13 @@ public deployment belong to the owner. No online deployment is part of this upda
 
 ## Adjust one task
 
-Start with the generated [task matrix](task-matrix.md). `TaskNavigation` and the five
-catalogs remain the source of prerequisites and task identity. Update the relevant
-catalog/cases, its existing evaluator, and both localization catalogs. Preserve
+The generated [task matrix](task-matrix.md) covers the core 40 tasks from
+`TaskNavigation` and the five core catalogs. The full journey also uses
+[`second_act_tasks.gd`](../../src/campaign/second_act_tasks.gd) and
+[`creation_tasks.gd`](../../src/campaign/creation_tasks.gd), with their domain
+catalogs and existing evaluators. Follow the relevant source for task identity,
+prerequisites and completion; the matrix does not inventory those 20 added tasks.
+Update the relevant catalog/cases, its existing evaluator, and both localization catalogs. Preserve
 player drafts; replay receipts against current model/source identities instead of
 trusting serialized scores. Change model/case/rules versions when their meaning changes.
 

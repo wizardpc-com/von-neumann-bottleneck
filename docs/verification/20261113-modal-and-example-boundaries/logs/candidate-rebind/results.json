@@ -1,0 +1,50 @@
+[
+  {
+    "suite": "test_creation_pending_example_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_pending_example_input.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794589133492286000/test_creation_pending_example_input",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/headless-rebind/test_creation_pending_example_input.txt"
+  },
+  {
+    "suite": "test_creation_sample_editing",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_sample_editing.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794589162205157000/test_creation_sample_editing",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/headless-rebind/test_creation_sample_editing.txt"
+  },
+  {
+    "suite": "test_creation_draft_undo",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_draft_undo.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794589223680989000/test_creation_draft_undo",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/headless-rebind/test_creation_draft_undo.txt"
+  }
+]

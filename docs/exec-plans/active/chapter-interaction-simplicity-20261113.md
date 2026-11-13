@@ -1,8 +1,9 @@
-# Chapter interaction simplicity — development paused after handoff
+# Chapter interaction simplicity — resumed reliability review
 
-User closure instruction (2026-11-13): finish the existing development and push.
-Finish the current Ch3/Ch4/Ch7 block, then stop opening new work. The broader
-whole-product acceptance goal is not declared achieved; pending rows remain below.
+Latest user instruction (2026-11-13) resumes reliability, interaction and playable
+chapter-loop work, with delegated reviews and commit/push to main after verified
+blocks. The earlier closure is historical. The whole-product acceptance goal
+is active and not declared achieved; pending rows remain below.
 
 ## Objective
 
@@ -27,7 +28,7 @@ No new simulation, tasks, art direction, reward thresholds, save formats or depe
 | --- | --- | --- | --- | --- | --- |
 | Laboratory and journey map | Pending | Pending | Pending | Pending | Unverified |
 | Prologue construction | Pending | Pending | Pending | Pending | Unverified |
-| Ch1 system costs | Partial: prediction setup | Partial: covered TEST to Run | Pending | Scripted bilingual recall passed | Unverified |
+| Ch1 system costs | Partial: prediction setup and modal input isolation | Partial: TEST to Run; current results cleared after applied/topology changes | Historical receipts preserved | Fresh bilingual GPU recall and boundary checks | Unverified |
 | Ch2 locality | Partial: applied program | Partial: covered TEST to Run | Pending | Scripted bilingual recall passed | Unverified |
 | Ch3 overlap | Partial: complete current command reference | Partial: actual edit and Run | Existing draft regressions | Bilingual six-task expanded reference | Unverified |
 | Ch4 layout | Partial: tools/results iteration | Partial: real Run, inspect and return | Naming, Undo, rankings/challenge regressions | Bilingual six-task flow and final GPU passed | Unverified |
@@ -138,3 +139,18 @@ explicitly open; no claim of absolute minimum cognitive load from expert inspect
   two before-images are retained in the [receipt](../../verification/20261113-context-and-reference/README.md).
   This block is verified for commit/push; broader development pauses at the user's
   request, without claiming whole-product/native/novice acceptance.
+
+- Resumed from clean remote-confirmed main `df8c1e6`: three read-only audits cover
+  core chapters, Layout/Creation and visual/navigation consistency. Root retains
+  sole engine/Git ownership. Select concrete reproductions before implementation.
+
+- Resumed boundary block: old runtime reproduces Chapter1 modal shortcut leaks and
+  stale Test/Profiler evidence, plus Creation unadded/reselected text loss. Current
+  guards keep explicit Add/Replace/Apply and historical evidence boundaries. Safe
+  same-index/source reselection rebinds the current collection without committing
+  pending text. Final evidence lives in the [boundary receipt](../../verification/20261113-modal-and-example-boundaries/README.md).
+  This closes specific defects, not whole-chapter acceptance.
+- Fresh core GPU coverage includes official prologue playback, bilingual Ch1/Ch2
+  recall/Run and Ch4 six-task iteration. In Ch2's1280px reference frames, the far
+  right laboratory header entry is partially outside the viewport; check responsive
+  header geometry next, without altering progression or adding navigation routes.

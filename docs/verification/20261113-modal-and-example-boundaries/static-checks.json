@@ -1,0 +1,10 @@
+{
+  "local_links": 268,
+  "missing": [],
+  "artifact_mismatches": [],
+  "source_mismatches": [],
+  "branding": "PASS: local branding assets and native icon contracts",
+  "staged_whitespace_exceptions": [
+    "logs/startup.txt:2: new blank line at EOF (raw engine output retained verbatim)"
+  ]
+}

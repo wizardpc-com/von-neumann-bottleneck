@@ -1,5 +1,7 @@
 # Documentation map
 
+- [第一章模态／当前结果与创造样例输入保护（2026-11-13）](verification/20261113-modal-and-example-boundaries/README.md)
+
 - [第三／四／七章指令查阅、迭代与调查上下文收尾（2026-11-13）](verification/20261113-context-and-reference/README.md)
 
 - [输入边界、命名副本与安全退出修复（2026-11-13）](verification/20261113-input-preservation/README.md)

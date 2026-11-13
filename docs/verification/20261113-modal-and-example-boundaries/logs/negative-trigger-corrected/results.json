@@ -1,0 +1,39 @@
+[
+  {
+    "suite": "test_creation_pending_example_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164139Z-30a64e28/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_pending_example_input.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794588742323637000/test_creation_pending_example_input",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Clean departure protects unadded legal and invalid example text",
+      "ERROR: Clean departure protects unadded legal and invalid example text",
+      "ERROR: Escape after Save draft still protects the unadded text",
+      "ERROR: OS-close route protects pending custom text in read-only state",
+      "ERROR: Reselecting same passage preserves pending text",
+      "ERROR: Cross-passage selection keeps pending text and focuses its original editor",
+      "ERROR: Reselecting same passage preserves pending text",
+      "ERROR: Cross-passage selection keeps pending text and focuses its original editor",
+      "ERROR: Discarding edited passage still protects the unadded example",
+      "ERROR: Explicit text discard leaves unsaved draft open on cancellation",
+      "ERROR: Clean departure protects unadded legal and invalid example text",
+      "ERROR: Clean departure protects unadded legal and invalid example text",
+      "ERROR: Escape after Save draft still protects the unadded text",
+      "ERROR: OS-close route protects pending custom text in read-only state",
+      "ERROR: Reselecting same passage preserves pending text",
+      "ERROR: Cross-passage selection keeps pending text and focuses its original editor",
+      "ERROR: Reselecting same passage preserves pending text",
+      "ERROR: Cross-passage selection keeps pending text and focuses its original editor",
+      "ERROR: Discarding edited passage still protects the unadded example",
+      "ERROR: Explicit text discard leaves unsaved draft open on cancellation"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164139Z-30a64e28/negative-final2/test_creation_pending_example_input.txt"
+  }
+]

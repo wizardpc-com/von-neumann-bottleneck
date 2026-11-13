@@ -1,0 +1,34 @@
+[
+  {
+    "suite": "test_system_modal_result_boundaries",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/project",
+      "--headless",
+      "--script",
+      "res://tests/test_system_modal_result_boundaries.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794588807680723000/test_system_modal_result_boundaries",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/headless-final/test_system_modal_result_boundaries.txt"
+  },
+  {
+    "suite": "test_creation_pending_example_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_pending_example_input.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794588812671540000/test_creation_pending_example_input",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/headless-final/test_creation_pending_example_input.txt"
+  }
+]

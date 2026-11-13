@@ -113,6 +113,7 @@ var recovery_dialog: ConfirmationDialog
 var writer_dialog: ConfirmationDialog
 var leave_dialog: ConfirmationDialog
 var sample_leave_dialog: ConfirmationDialog
+var custom_example_leave_dialog: ConfirmationDialog
 var initial_leave_dialog: ConfirmationDialog
 
 func text2(zh: String, en: String) -> String:
@@ -554,6 +555,19 @@ func _build_sample_editor(parent: Node) -> void:
 
 func begin_sample_edit(index: int) -> void:
 	if not writable or index < 0 or index >= session.data.draft.examples.size(): return
+	var pending: bool = has_pending_sample_text()
+	var bound: bool = session.data.draft.examples == sample_edit_selection and session.data.draft.examples[index] == sample_edit_source
+	if sample_edit_index == index and (pending or bound):
+		# Explicitly reselecting the unchanged source may renew its collection
+		# binding, but never replaces the pending text or authorizes another source.
+		if session.data.draft.examples[index] == sample_edit_source:
+			sample_edit_selection = session.data.draft.examples.duplicate(true)
+		call_deferred("focus_sample_editor")
+		return
+	if pending:
+		set_status(text2("当前段还有未提交的修改。请先替换这一段，或取消修改，再编辑其他段。", "This passage has unsubmitted edits. Replace it or cancel the edit before choosing another passage."))
+		call_deferred("focus_sample_editor")
+		return
 	var editor_state: Dictionary = _capture_editor_state()
 	sample_edit_index = index
 	sample_edit_source = session.data.draft.examples[index].duplicate()
@@ -1720,6 +1734,19 @@ func _build_leave_dialog() -> void:
 		if editor != null: editor.hide()
 		request_saved_draft_leave())
 	add_child(sample_leave_dialog)
+	custom_example_leave_dialog = ConfirmationDialog.new()
+	custom_example_leave_dialog.name = "PendingCustomExampleProtection"
+	custom_example_leave_dialog.title = text2("新样例尚未加入", "Example not yet added")
+	custom_example_leave_dialog.dialog_autowrap = true
+	custom_example_leave_dialog.dialog_text = text2("自己的样例栏中还有文字，尚未加入草稿；保存草稿不会保存它。返回编辑，或明确放弃文字后继续离开。", "Your example contains text that has not been added to the draft. Save draft does not save it. Return to editing, or explicitly discard the text before continuing to leave.")
+	custom_example_leave_dialog.ok_button_text = text2("放弃文字再离开", "Discard text and continue leaving")
+	custom_example_leave_dialog.cancel_button_text = text2("返回编辑", "Return to editing")
+	custom_example_leave_dialog.canceled.connect(func() -> void: call_deferred("focus_custom_example_editor"))
+	custom_example_leave_dialog.confirmed.connect(func() -> void:
+		var entry := find_child("CustomExample",true,false) as LineEdit
+		if entry != null: entry.clear()
+		request_saved_draft_leave())
+	add_child(custom_example_leave_dialog)
 	initial_leave_dialog = ConfirmationDialog.new()
 	initial_leave_dialog.name = "PendingInitialProtection"
 	initial_leave_dialog.title = text2("起始文字尚未提交", "Unsubmitted initial context")
@@ -1759,7 +1786,26 @@ func has_pending_sample_text() -> bool:
 	var parsed: Dictionary = Catalog.parse_symbols(entry.text)
 	return not parsed.ok or parsed.symbols != sample_edit_source
 
+func has_pending_custom_example_text() -> bool:
+	var entry := find_child("CustomExample",true,false) as LineEdit
+	return entry != null and not entry.text.strip_edges().is_empty()
+
+func focus_custom_example_editor() -> void:
+	var tabs := find_child("DraftTabs",true,false) as TabContainer
+	if tabs != null: tabs.current_tab = 0
+	await get_tree().process_frame
+	var entry := find_child("CustomExample",true,false) as LineEdit
+	if entry == null or not entry.is_visible_in_tree(): return
+	var ancestor: Node = entry.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer: ancestor.ensure_control_visible(entry)
+		ancestor = ancestor.get_parent()
+	entry.grab_focus()
+
 func request_saved_draft_leave() -> void:
+	if has_pending_custom_example_text():
+		custom_example_leave_dialog.popup_centered(Vector2i(560,250))
+		return
 	if not valid_initial_input():
 		initial_leave_dialog.popup_centered(Vector2i(560,250))
 		return

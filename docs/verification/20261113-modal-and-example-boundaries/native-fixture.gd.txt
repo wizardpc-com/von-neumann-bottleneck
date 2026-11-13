@@ -1,0 +1,19 @@
+extends SceneTree
+func _init() -> void: call_deferred("run")
+func run() -> void:
+	root.mode = Window.MODE_WINDOWED
+	root.size = Vector2i(1280,720)
+	root.content_scale_size = root.size
+	get_root().get_node("TaskNavigation").pending = ""
+	change_scene_to_file("res://experiments/creation/workbench.tscn")
+	for frame: int in 24: await process_frame
+	var ui: Control = current_scene
+	ui.change_task(0)
+	for frame: int in 12: await process_frame
+	var entry: LineEdit = ui.find_child("CustomExample",true,false)
+	var ancestor: Node = entry.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer: ancestor.ensure_control_visible(entry)
+		ancestor = ancestor.get_parent()
+	entry.grab_focus()
+	print("NATIVE_READY: isolated ordinary Creation scene, custom input focused")

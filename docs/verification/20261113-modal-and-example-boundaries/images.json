@@ -1,0 +1,137 @@
+{
+  "creation-en-custom-example-cancel-focus.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "5651f105404d5b74a1ee2ca72cb1bc7b4654ce17f86e08a572b0d95e3c715a83"
+  },
+  "creation-en-custom-example-protection.png": {
+    "width": 560,
+    "height": 250,
+    "sha256": "a031fabcbcd3d67b7a04272368efe7d8ece6e88536a7f5dd23f9d69c4ea65198"
+  },
+  "creation-en-sample-reselection-preserved.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "096f794f2bc10aac7cdb74911a83e8b609b96f6927ac178ab60dcc1828b66b8f"
+  },
+  "creation-zh_CN-custom-example-cancel-focus.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "5a1c5c4ac432172159c972686aba8b146e9122dfa6c8b76f5adb17e14165a1a6"
+  },
+  "creation-zh_CN-custom-example-protection.png": {
+    "width": 560,
+    "height": 250,
+    "sha256": "e0a672540806c64afc6d680bee544723826d2ffb9f891d5f122840b9168bb81d"
+  },
+  "creation-zh_CN-sample-reselection-preserved.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "2001cfbe8fd2588edf9ef70b6c7fb66a5bee86772c2fd8342ad2c62676e5383d"
+  },
+  "instrument-recall-chapter1-en-covered.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "4253e7e8eae03d3fe6ef95558adb6a844483fe6fbfa934735cd7aeb72d1dc696"
+  },
+  "instrument-recall-chapter1-en-recalled.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "31924542b1c090d6bd2daa3fe47d49d757285f0e12480a40f8accbdb2c6fa03e"
+  },
+  "instrument-recall-chapter1-zh_CN-covered.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "2ce8d6bf051f895bec5a6417ed392552819fc5eb0155d831da2e3ca4cd0bc052"
+  },
+  "instrument-recall-chapter1-zh_CN-recalled.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "ac43c7c72fddd2a2dfb40ecdd75a752e783d1dd47d04422a9b43ec691e771f0d"
+  },
+  "instrument-recall-chapter2-en-covered.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "585e118a5e447d99a9fb8d89feb9d38cfa0506555f116bfbbe03a269af483a62"
+  },
+  "instrument-recall-chapter2-en-recalled.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "6a281a77cf31ac76b68a836a4276858cd4c8ee07aa72fc2b8aa6d8ad72037247"
+  },
+  "instrument-recall-chapter2-zh_CN-covered.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "0cb34d5ea6ff64cf839eab2c41fe057279d698a4c507ee80bcf8e0998c44f11f"
+  },
+  "instrument-recall-chapter2-zh_CN-recalled.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "f68d90aeeef1d15474cfc0a4d482b8c0556b7e68fa327c163df072aec01eaeff"
+  },
+  "layout-iteration-en-fields-edit-results.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "dd42cfab35f8e71d68314a74cfa5f0966f5a88cdc06c31d293cecffb030fa3eb"
+  },
+  "layout-iteration-en-relocation-inspect.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "b0f72090e92e476fcfc2fe9a1e704c4698acef95769963d2f7061d8e59f92133"
+  },
+  "layout-iteration-en-relocation-return.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "7add49b8142e5b5a16bfb8e56ab828588e6ad45600482e59ce8020e752e061dd"
+  },
+  "layout-iteration-zh_CN-fields-edit-results.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "fd0ddbc8313c7a756af06a9809ab17e7f427a2fdfd38fd4f29fad32584b08682"
+  },
+  "layout-iteration-zh_CN-relocation-inspect.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "4fbb561c39a7118e7dd01733a89b58a9da0c117218d4519e4b1afc692c82db99"
+  },
+  "layout-iteration-zh_CN-relocation-return.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "52f477ae33d97d10f0a4ce7a58fd36d88cb6bb3db4332cdd4c1c7667f8535b46"
+  },
+  "official-playback-zh_CN.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "727fb702834eb1c9d6226859182b63385395b8c36114e7cbbc1750c38166246c"
+  },
+  "system-boundary-en-completion.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "aa4ee96ab01194db1266bdeebb1e74bd50534b779f7840f2236b7845b3b3c38f"
+  },
+  "system-boundary-en-handbook.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "e932290a3b79af77266a86bd7afdde97c7219ad2f13689bd8a27a39b74a33868"
+  },
+  "system-boundary-en-invalidated.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "06ca25794cd0c9a66f478be655d043e06dda8419760fee9f5c67aacc069bd5f2"
+  },
+  "system-boundary-zh_CN-completion.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "4a603c5d5b54a6c7b921bb8fd3c599d17903671f99f8486bbc80565baa46039f"
+  },
+  "system-boundary-zh_CN-handbook.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "7d50b5eb5ed54ffa931f8f39b1e16510a2b269ef31ebc5df2f708660e231af60"
+  },
+  "system-boundary-zh_CN-invalidated.png": {
+    "width": 1280,
+    "height": 720,
+    "sha256": "59c5355c82789086a8e1a4a27b6f225e545e00d17f5dfc9245a8933f6499cff3"
+  }
+}

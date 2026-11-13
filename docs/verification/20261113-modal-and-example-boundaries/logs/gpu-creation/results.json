@@ -1,0 +1,20 @@
+[
+  {
+    "suite": "test_creation_pending_example_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/project",
+      "--script",
+      "res://tests/test_creation_pending_example_input.gd",
+      "--",
+      "--recovery-capture",
+      "--capture-size=1280x720"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794589256645522000/test_creation_pending_example_input",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/gpu-creation/test_creation_pending_example_input.txt"
+  }
+]

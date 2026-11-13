@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T164654Z-f3c671e5/project",
+    "--script",
+    "res://verify_native_example.gd"
+  ],
+  "profile": "VonNeumannBottleneckChecks/native-boundary-1794589378375453000",
+  "pid": 46213,
+  "exit": -15
+}

@@ -1,3 +1,25 @@
+## Modal results and pending examples — 2026-11-13
+
+Run `test_system_modal_result_boundaries` with System UI, Settings input,
+trace-source binding, cost evidence, baseline continuity and simulation suites.
+Use actual viewport keys with non-text focus in the handbook and completion
+panel; held pan must stop too. Actual official measurements must disappear from
+current Test/Profiler/playback after Apply or topology Undo/Redo, while historical
+receipts, unapplied draft text, positions and wire colors retain their evidence.
+`--system-boundary-capture` captures both languages on an isolated GPU profile.
+
+Run `test_creation_pending_example_input` with sample editing, draft resume/Undo,
+keyboard focus, save input, laboratory return, pending learning and language navigation.
+Actual Journey clicks protect legal/invalid unadded example text. Escape is tested
+from the Save draft button: the first Escape inside a LineEdit can be consumed by
+that editor. Cancel restores text/focus; explicit discard chains through existing
+sample/Initial/dirty guards. Test same/different sample selection and rebinding an
+unchanged editor after the sample collection changes. Add/Replace remain explicit.
+`--recovery-capture` saves bilingual main and separate real dialog viewports.
+Both new capture drivers require five consecutive actual1280×720 main images;
+dialog captures match the actual Window size. Neither check establishes native or
+novice acceptance. See [the receipt](../verification/20261113-modal-and-example-boundaries/README.md).
+
 ## Reference, iteration and investigation context — 2026-11-13
 
 Run `test_overlap_instruction_reference` with Overlap UI/player-input/simulation.

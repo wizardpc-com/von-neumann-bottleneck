@@ -213,7 +213,7 @@ func _input(event: InputEvent) -> void:
 	if terminology_handbook != null and terminology_handbook.handle_escape(event):
 		get_viewport().set_input_as_handled()
 		return
-	if current_level_id.is_empty():
+	if _system_modal_open() or current_level_id.is_empty():
 		graph_pan_keys.clear()
 		return
 	if _handle_system_graph_pan_key_event(event):
@@ -290,6 +290,12 @@ func _notification(what: int) -> void:
 		graph_pan_keys.clear()
 
 
+func _system_modal_open() -> bool:
+	return is_instance_valid(WindowMode.settings_layer) \
+		or (terminology_handbook != null and terminology_handbook.is_open()) \
+		or (level_completion_overlay != null and level_completion_overlay.visible)
+
+
 func _handle_system_graph_pan_key_event(event: InputEvent) -> bool:
 	if not event is InputEventKey:
 		return false
@@ -359,7 +365,7 @@ func _process(delta: float) -> void:
 
 func _update_graph_keyboard_pan(delta: float) -> void:
 	if current_level_id.is_empty() or graph == null or not graph.is_visible_in_tree() \
-			or is_instance_valid(WindowMode.settings_layer) or _system_keyboard_focus_accepts_text():
+			or _system_modal_open() or _system_keyboard_focus_accepts_text():
 		graph_pan_keys.clear()
 		return
 	var direction := Vector2(
@@ -1720,18 +1726,11 @@ func _on_part_selected(index: int, kind: StringName) -> void:
 		"to": String(selected_part_ids[kind]),
 	})
 	current_topology = _topology_from_graph()
-	latest_receipt = null
-	latest_official_traces.clear()
-	_stop_playback()
+	_invalidate_current_measurement(_t(&"system.status.hardware_changed"))
 	_refresh_device_titles()
 	_refresh_parts_summary()
-	_refresh_profiler()
 	status_label.text = _t(&"system.status.hardware_changed")
 	status_label.add_theme_color_override("font_color", WARNING)
-	_clear_result_rows()
-	test_status_label.text = status_label.text
-	test_status_label.add_theme_color_override("font_color", WARNING)
-	playback_caption.text = status_label.text
 	_refresh_mission_progress()
 	if is_instance_valid(journey_context): journey_context.draft_changed()
 	_refresh_history()
@@ -1914,9 +1913,7 @@ func _apply_system_editor_snapshot(snapshot: Dictionary) -> void:
 func _after_system_editor_mutation(topology_changed: bool) -> void:
 	current_topology = _topology_from_graph()
 	if topology_changed:
-		latest_receipt = null
-		latest_official_traces.clear()
-		_stop_playback()
+		_invalidate_current_measurement()
 		_refresh_mission_progress()
 		if is_instance_valid(journey_context): journey_context.draft_changed()
 		_refresh_history()
@@ -2279,9 +2276,7 @@ func _apply_program() -> void:
 	applied_program_source = editor.text
 	draft_dirty = false
 	_reset_prediction()
-	latest_receipt = null
-	latest_official_traces.clear()
-	_stop_playback()
+	_invalidate_current_measurement()
 	_validate_program_editor()
 	_refresh_program_state()
 	_refresh_comparison_part_lock()
@@ -3184,6 +3179,20 @@ func _finish_playback() -> void:
 	if pending_history_after_playback:
 		pending_history_after_playback = false
 		_open_instrument(&"history")
+
+
+func _invalidate_current_measurement(reason: String = "") -> void:
+	# Historical receipts keep their measured inputs. Only the current machine's
+	# presentation is cleared; un-applied drafts and visual edits do not use this.
+	latest_receipt = null
+	latest_official_traces.clear()
+	_stop_playback()
+	_clear_result_rows()
+	_refresh_profiler()
+	var message: String = _t(&"system.test_bench.not_run") if reason.is_empty() else reason
+	test_status_label.text = message
+	test_status_label.add_theme_color_override("font_color", WARNING)
+	playback_caption.text = message
 
 
 func _stop_playback() -> void:

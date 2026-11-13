@@ -1,0 +1,153 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Clean departure protects unadded legal and invalid example text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:87)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Clean departure protects unadded legal and invalid example text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:87)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Escape after Save draft still protects the unadded text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:98)
+       [2] key (res://tests/test_recovery_game_input.gd:81)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: OS-close route protects pending custom text in read-only state
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:109)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reselecting same passage preserves pending text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:130)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Cross-passage selection keeps pending text and focuses its original editor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:132)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reselecting same passage preserves pending text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:130)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Cross-passage selection keeps pending text and focuses its original editor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:132)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Discarding edited passage still protects the unadded example
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:153)
+       [2] dialog_press (res://tests/test_creation_pending_example_input.gd:25)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit text discard leaves unsaved draft open on cancellation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:159)
+       [2] dialog_press (res://tests/test_creation_pending_example_input.gd:25)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Clean departure protects unadded legal and invalid example text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:87)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Clean departure protects unadded legal and invalid example text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:87)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Escape after Save draft still protects the unadded text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:98)
+       [2] key (res://tests/test_recovery_game_input.gd:81)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: OS-close route protects pending custom text in read-only state
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:109)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reselecting same passage preserves pending text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:130)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Cross-passage selection keeps pending text and focuses its original editor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:132)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reselecting same passage preserves pending text
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:130)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Cross-passage selection keeps pending text and focuses its original editor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:132)
+       [2] action (res://tests/test_creation_pending_example_input.gd:12)
+       [3] press (res://tests/test_recovery_game_input.gd:120)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Discarding edited passage still protects the unadded example
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:153)
+       [2] dialog_press (res://tests/test_creation_pending_example_input.gd:25)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit text discard leaves unsaved draft open on cancellation
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_creation_pending_example_input.gd:159)
+       [2] dialog_press (res://tests/test_creation_pending_example_input.gd:25)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+Recovery GUI checks: 132; failures: 20

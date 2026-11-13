@@ -1,0 +1,339 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: zh_CN-handbook: modal clears held pan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:65)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN-handbook: modal blocks undo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:67)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: zh_CN-handbook: modal blocks board edits
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:71)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: zh_CN-handbook: modal blocks new pan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:72)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: zh_CN-completion: modal clears held pan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:65)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN-completion: modal blocks undo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:67)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: zh_CN-completion: modal blocks board edits
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:71)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: zh_CN-completion: modal blocks new pan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:72)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: zh_CN Apply: obsolete case rows removed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:44)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN Apply: verdict requires another run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:45)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN Apply: old measured graphics hidden
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:46)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN Apply: profiler has no current metrics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:47)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN Apply: playback caption is not stale
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:48)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN disconnect: obsolete case rows removed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:44)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN disconnect: verdict requires another run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:45)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN disconnect: old measured graphics hidden
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:46)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN disconnect: profiler has no current metrics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:47)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN disconnect: playback caption is not stale
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:48)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN undo topology: obsolete case rows removed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:44)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN undo topology: verdict requires another run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:45)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN undo topology: old measured graphics hidden
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:46)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN undo topology: profiler has no current metrics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:47)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN undo topology: playback caption is not stale
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:48)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN redo topology: obsolete case rows removed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:44)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN redo topology: verdict requires another run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:45)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN redo topology: old measured graphics hidden
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:46)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN redo topology: profiler has no current metrics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:47)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: zh_CN redo topology: playback caption is not stale
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:48)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en-handbook: modal clears held pan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:65)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en-handbook: modal blocks undo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:67)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: en-handbook: modal blocks board edits
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:71)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: en-handbook: modal blocks new pan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:72)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: en-completion: modal clears held pan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:65)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en-completion: modal blocks undo
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:67)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: en-completion: modal blocks board edits
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:71)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: en-completion: modal blocks new pan
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] modal (res://tests/test_system_modal_result_boundaries.gd:72)
+       [2] key (res://tests/test_system_modal_result_boundaries.gd:18)
+ERROR: en Apply: obsolete case rows removed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:44)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en Apply: verdict requires another run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:45)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en Apply: old measured graphics hidden
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:46)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en Apply: profiler has no current metrics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:47)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en Apply: playback caption is not stale
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:48)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en disconnect: obsolete case rows removed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:44)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en disconnect: verdict requires another run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:45)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en disconnect: old measured graphics hidden
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:46)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en disconnect: profiler has no current metrics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:47)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en disconnect: playback caption is not stale
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:48)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en undo topology: obsolete case rows removed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:44)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en undo topology: verdict requires another run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:45)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en undo topology: old measured graphics hidden
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:46)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en undo topology: profiler has no current metrics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:47)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en undo topology: playback caption is not stale
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:48)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en redo topology: obsolete case rows removed
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:44)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en redo topology: verdict requires another run
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:45)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en redo topology: old measured graphics hidden
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:46)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en redo topology: profiler has no current metrics
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:47)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+ERROR: en redo topology: playback caption is not stale
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_system_modal_result_boundaries.gd:9)
+       [1] cleared (res://tests/test_system_modal_result_boundaries.gd:48)
+       [2] settle (res://tests/test_system_modal_result_boundaries.gd:11)
+FAIL: system modal/result boundaries 88 checks, 56 failures

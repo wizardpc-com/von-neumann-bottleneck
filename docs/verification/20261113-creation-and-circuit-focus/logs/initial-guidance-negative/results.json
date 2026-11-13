@@ -1,0 +1,35 @@
+[
+  {
+    "suite": "test_creation_continue_guidance",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_continue_guidance.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591846125116000/test_creation_continue_guidance",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: G2 empty-name Keep reveals its focused name within the actual scroll viewport",
+      "ERROR: Continue editing saved work: guide follows current intent; actual=finish_journey",
+      "ERROR: Changed child recipe: guide follows current intent; actual=finish_journey",
+      "ERROR: Explicit Fork: guide follows current intent; actual=finish_journey",
+      "ERROR: Reopened untouched fork: guide follows current intent; actual=finish_journey",
+      "ERROR: Reopening a saved child draft does not replace it with its parent's snapshot",
+      "ERROR: Reopened edited fork: guide follows current intent; actual=finish_journey",
+      "ERROR: Forked recipe: guide follows current intent; actual=finish_journey",
+      "ERROR: G2 empty-name Keep reveals its focused name within the actual scroll viewport",
+      "ERROR: Continue editing saved work: guide follows current intent; actual=finish_journey",
+      "ERROR: Changed child recipe: guide follows current intent; actual=finish_journey",
+      "ERROR: Explicit Fork: guide follows current intent; actual=finish_journey",
+      "ERROR: Reopened untouched fork: guide follows current intent; actual=finish_journey",
+      "ERROR: Reopening a saved child draft does not replace it with its parent's snapshot",
+      "ERROR: Reopened edited fork: guide follows current intent; actual=finish_journey",
+      "ERROR: Forked recipe: guide follows current intent; actual=finish_journey"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/guidance-negative/test_creation_continue_guidance.txt"
+  }
+]

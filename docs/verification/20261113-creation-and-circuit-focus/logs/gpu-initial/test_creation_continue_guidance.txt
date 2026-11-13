@@ -1,0 +1,34 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+OpenGL API 4.1 Metal - 90.5 - Compatibility - Using Device: Apple - Apple M2
+
+ERROR: Five rendered frames confirm 1280x720 capture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] shot (res://tests/test_creation_continue_guidance.gd:40)
+ERROR: Five rendered frames confirm 1280x720 capture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] shot (res://tests/test_creation_continue_guidance.gd:40)
+ERROR: Five rendered frames confirm 1280x720 capture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] shot (res://tests/test_creation_continue_guidance.gd:40)
+ERROR: Five rendered frames confirm 1280x720 capture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] shot (res://tests/test_creation_continue_guidance.gd:40)
+ERROR: Five rendered frames confirm 1280x720 capture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] shot (res://tests/test_creation_continue_guidance.gd:40)
+ERROR: Five rendered frames confirm 1280x720 capture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] shot (res://tests/test_creation_continue_guidance.gd:40)
+FAIL: creation continue guidance 126 checks, 6 failures

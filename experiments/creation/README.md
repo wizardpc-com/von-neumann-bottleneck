@@ -32,6 +32,13 @@ contains actual symbols and a complete model/example/machine/PRNG recipe. Saving
 does not rank beauty. Identical and repetitive works are legal. The work shelf is
 bounded to twelve entries and refuses overflow instead of deleting older work.
 
+After **Edit this work** or **Fork**, the primary guide follows the new draft
+through Generate and Keep. A blank-name Keep reveals and focuses the name field.
+Ordinary saved works reopen as snapshots; identifiable new/changed child drafts
+reopen for generation. The existing format cannot distinguish a repeated fork
+whose parent and complete recipe exactly match an already-kept child; reopening
+that state may show the saved-work entry, where Fork remains available.
+
 ## Controlled creation comparison
 
 Generate an actual work, then **Pin A** (also on G2's action row). Pinning keeps a

@@ -1,0 +1,133 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: G2 empty-name Keep reveals its focused name within the actual scroll viewport
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] exercise (res://tests/test_creation_continue_guidance.gd:91)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Continue editing saved work: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] exercise (res://tests/test_creation_continue_guidance.gd:114)
+       [3] action (res://tests/test_creation_continue_guidance.gd:6)
+       [4] press (res://tests/test_recovery_game_input.gd:120)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Changed child recipe: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] editing_generation (res://tests/test_creation_continue_guidance.gd:19)
+       [3] exercise (res://tests/test_creation_continue_guidance.gd:117)
+       [4] set_length (res://tests/test_creation_continue_guidance.gd:30)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Fork: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] exercise (res://tests/test_creation_continue_guidance.gd:129)
+       [3] action (res://tests/test_creation_continue_guidance.gd:6)
+       [4] press (res://tests/test_recovery_game_input.gd:120)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reopened untouched fork: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] exercise (res://tests/test_creation_continue_guidance.gd:131)
+       [3] reopen_saved_profile (res://tests/test_creation_continue_guidance.gd:60)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reopening a saved child draft does not replace it with its parent's snapshot
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] exercise (res://tests/test_creation_continue_guidance.gd:132)
+       [2] reopen_saved_profile (res://tests/test_creation_continue_guidance.gd:60)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reopened edited fork: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] exercise (res://tests/test_creation_continue_guidance.gd:135)
+       [3] reopen_saved_profile (res://tests/test_creation_continue_guidance.gd:60)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Forked recipe: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] editing_generation (res://tests/test_creation_continue_guidance.gd:19)
+       [3] exercise (res://tests/test_creation_continue_guidance.gd:136)
+       [4] reopen_saved_profile (res://tests/test_creation_continue_guidance.gd:60)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: G2 empty-name Keep reveals its focused name within the actual scroll viewport
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] exercise (res://tests/test_creation_continue_guidance.gd:91)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Continue editing saved work: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] exercise (res://tests/test_creation_continue_guidance.gd:114)
+       [3] action (res://tests/test_creation_continue_guidance.gd:6)
+       [4] press (res://tests/test_recovery_game_input.gd:120)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Changed child recipe: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] editing_generation (res://tests/test_creation_continue_guidance.gd:19)
+       [3] exercise (res://tests/test_creation_continue_guidance.gd:117)
+       [4] set_length (res://tests/test_creation_continue_guidance.gd:30)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Fork: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] exercise (res://tests/test_creation_continue_guidance.gd:129)
+       [3] action (res://tests/test_creation_continue_guidance.gd:6)
+       [4] press (res://tests/test_recovery_game_input.gd:120)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reopened untouched fork: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] exercise (res://tests/test_creation_continue_guidance.gd:131)
+       [3] reopen_saved_profile (res://tests/test_creation_continue_guidance.gd:60)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reopening a saved child draft does not replace it with its parent's snapshot
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] exercise (res://tests/test_creation_continue_guidance.gd:132)
+       [2] reopen_saved_profile (res://tests/test_creation_continue_guidance.gd:60)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Reopened edited fork: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] exercise (res://tests/test_creation_continue_guidance.gd:135)
+       [3] reopen_saved_profile (res://tests/test_creation_continue_guidance.gd:60)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Forked recipe: guide follows current intent; actual=finish_journey
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] check_guide (res://tests/test_creation_continue_guidance.gd:15)
+       [2] editing_generation (res://tests/test_creation_continue_guidance.gd:19)
+       [3] exercise (res://tests/test_creation_continue_guidance.gd:136)
+       [4] reopen_saved_profile (res://tests/test_creation_continue_guidance.gd:60)
+       [5] settle (res://tests/test_recovery_game_input.gd:25)
+FAIL: creation continue guidance 114 checks, 16 failures

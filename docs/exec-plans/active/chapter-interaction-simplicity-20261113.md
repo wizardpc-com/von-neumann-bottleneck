@@ -7,9 +7,13 @@ is active and not declared achieved; pending rows remain below.
 
 ## Objective
 
-Continue optimizing interaction logic and the operation of every chapter so that
-the finished game minimizes avoidable cognitive burden and is simple to operate.
-This is a whole-product goal, not closed by one round of bug fixes or green tests.
+Latest user objective: optimize interaction logic and each chapter until it is
+basically free of problems, minimizing avoidable cognitive burden and making
+operation simple. Completion means current evidence for the essential entry,
+edit, run, feedback, retry, save/return loops of every chapter, with no known
+blocking or misleading issue remaining in those supported flows. This is still
+a whole-game goal, not closed by one local fix. It does not require unlimited
+polish, proof of an absolute cognitive minimum, or a full novice research study.
 Base: main239de25. Commit/push authorization and delegated reviews continue.
 
 ## Working criteria
@@ -27,7 +31,7 @@ No new simulation, tasks, art direction, reward thresholds, save formats or depe
 | Area | Entry/goal/edit | Run/feedback/retry | Keep/leave/resume | Render/native | Novice comprehension |
 | --- | --- | --- | --- | --- | --- |
 | Laboratory and journey map | Pending | Pending | Pending | Pending | Unverified |
-| Prologue construction | Pending | Pending | Pending | Pending | Unverified |
+| Prologue construction | Existing construction/input coverage; CPU Focus reviewed | Actual Debug fixture + title drag; official tests preserved | Board/history/window geometry unchanged | Native old/fixed CPU focus and bilingual GPU | Unverified |
 | Ch1 system costs | Partial: prediction setup and modal input isolation | Partial: TEST to Run; current results cleared after applied/topology changes | Historical receipts preserved | Fresh bilingual GPU recall and boundary checks | Unverified |
 | Ch2 locality | Partial: applied program and all-task header navigation | Partial: covered TEST to Run | Partial: Settings/map/task/Laboratory retains unapplied draft | Bilingual recall and all-task navigation GPU passed | Unverified |
 | Ch3 overlap | Partial: complete current command reference | Partial: actual edit and Run | Existing draft regressions | Bilingual six-task expanded reference | Unverified |
@@ -37,12 +41,14 @@ No new simulation, tasks, art direction, reward thresholds, save formats or depe
 | Ch7 address prediction | Partial: per-investigation temporary context | Partial: exact reveal continuation and historical source | Cached work included in leave guard | Bilingual context/reading final GPU passed | Unverified |
 | Ch8 compression | Pending | Pending | Pending | Pending | Unverified |
 | Ch9 content prediction | Pending | Pending | Pending | Pending | Unverified |
-| Ch10 creation | Pending | Pending | Pending | Pending | Unverified |
+| Ch10 creation | Native Learn/restore/P1 prerequisites and Generate | Continue→edit→Generate→Keep | Native parent/child Keep; targeted saved/fork reopen | Native English Test + bilingual GPU | Unverified |
 | Optional scheduling lab | Partial: same-page personal conditions | Partial: ranking refresh without rerun | Partial: numeric text across language/inspection; explicit Run/departure | Bilingual Compare/Notebook and save-conflict GPU passed | Unverified |
 
 Prior passing checks are evidence of their stated paths only, not new acceptance.
-Each row needs a concrete scenario and current evidence. Human comprehension cannot
-be inferred from test counts; retain that gap until actual unassisted play evidence.
+Each row needs a concrete scenario and current evidence. Human comprehension
+cannot be inferred from test counts. Novice research, broad cross-platform/export,
+long-session and audio acceptance remain separately reported limits; they are not
+automatically blockers to the user’s revised basic-interaction goal.
 
 ## Ownership and steps
 
@@ -59,8 +65,10 @@ only after concrete obstacles are identified. Read relevant code/tests/docs firs
    existing contracts, with before/after action sequence and regression evidence.
 4. Run affected tests and actual rendered input; inspect results and pixels, review
    independently, commit/push each verified block. Keep full goal/coverage open.
-5. Validate full chapter coverage and final-product interaction claims; do not mark
-   the goal complete while rows or necessary player acceptance remain unverified.
+5. Validate essential-loop coverage across every chapter, with representative
+   current rendered/native operation. Close only after known blocking or misleading
+   issues are resolved; report broader research/platform limits without equating
+   them with an unbounded requirement.
 
 ## Progress
 
@@ -174,3 +182,23 @@ explicitly open; no claim of absolute minimum cognitive load from expert inspect
   failure is retained and fixed without changing runtime. Root owns integration,
   agents released source ownership; full product/native/novice acceptance remains open.
   [Receipt](../../verification/20261113-comparison-controls/README.md).
+
+- Next block from clean `dd24ee5`: audit complete creation continuation and circuit
+  framing. Two concrete candidates require old-runtime reproduction before fixes:
+  G3 saved-work guidance may override explicit Edit/Fork intent; CPU Focus treats
+  a bottom minimized title bar as top padding and can center below the canvas.
+  Root owns engine/Git/docs; later reviewer owns Creation host/new guidance test;
+  core reviewer owns hardware host/new focus test. Preserve immutable works,
+  completion authority, graph geometry/topology and window states. G2 blank-name
+  focus visibility is an investigation only. Native retry still reports a locked
+  Mac; user notified, independent checks continue. No style or model decisions.
+
+- Current block verified: native CPU bottom-title Focus old/fixed comparison;
+  native G2→P1 prerequisites→G2 Keep→G3 Continue/edit/child Keep, with normal exits.
+  Final targeted headless196/114 and GPU204/129 checks pass;19 distinct affected
+  suites have staged evidence. Initial screenshot-size failure retained separately.
+  [Receipt](../../verification/20261113-creation-and-circuit-focus/README.md).
+  Remaining minimal scenarios: Ch1 coherent Apply/run/retry/return, Ch2 observation
+  and judgment through implementation, C2/C3 comparison, P2/P3 memory/frozen check.
+  Review existing Ch5/6 shelf/return evidence before adding further runs. Other
+  chapter evidence is reused at its documented scope; no unlimited retest gate.

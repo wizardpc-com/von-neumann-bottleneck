@@ -1,0 +1,14 @@
+{
+  "pid": 69807,
+  "command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--",
+    "--locale=en"
+  ],
+  "profile": "VonNeumannBottleneckChecks/native-basic-1794591993005787000"
+}

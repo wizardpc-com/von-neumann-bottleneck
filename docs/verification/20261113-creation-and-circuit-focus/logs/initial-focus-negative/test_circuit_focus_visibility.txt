@@ -1,0 +1,115 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: zh_CN (1280, 720) bottom Home: focused target center is inside the real graph viewport; target=[P: (551.9149, 668.0), S: (176.1702, 120.0)] view=[P: (15.0, 173.0), S: (1250.0, 481.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:77)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: zh_CN (1280, 720) bottom Home: selected node fits inside the graph
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:79)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: zh_CN (1280, 720) bottom ShiftHome: focused target center is inside the real graph viewport; target=[P: (490.2262, 650.4386), S: (299.5476, 155.1228)] view=[P: (15.0, 173.0), S: (1250.0, 481.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:77)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: zh_CN (1280, 720) bottom ShiftHome: dense CPU retains visible components
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:85)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: zh_CN (960, 640) bottom Home: focused target center is inside the real graph viewport; target=[P: (406.9149, 588.0), S: (176.1702, 120.0)] view=[P: (15.0, 205.0), S: (960.0, 369.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:77)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: zh_CN (960, 640) bottom Home: selected node fits inside the graph
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:79)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: zh_CN (960, 640) bottom ShiftHome: focused target center is inside the real graph viewport; target=[P: (345.2262, 570.4386), S: (299.5475, 155.1228)] view=[P: (15.0, 205.0), S: (960.0, 369.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:77)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: zh_CN (960, 640) bottom ShiftHome: dense CPU retains visible components
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:85)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: en (1280, 720) bottom Home: focused target center is inside the real graph viewport; target=[P: (551.9149, 668.0), S: (176.1702, 120.0)] view=[P: (15.0, 205.0), S: (1250.0, 449.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:77)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: en (1280, 720) bottom Home: selected node fits inside the graph
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:79)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: en (1280, 720) bottom ShiftHome: focused target center is inside the real graph viewport; target=[P: (490.2262, 650.4386), S: (299.5476, 155.1228)] view=[P: (15.0, 205.0), S: (1250.0, 449.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:77)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: en (1280, 720) bottom ShiftHome: dense CPU retains visible components
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:85)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: en (960, 640) bottom Home: focused target center is inside the real graph viewport; target=[P: (406.9149, 617.0), S: (176.1702, 120.0)] view=[P: (15.0, 243.0), S: (960.0, 360.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:77)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: en (960, 640) bottom Home: selected node fits inside the graph
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:79)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: en (960, 640) bottom ShiftHome: focused target center is inside the real graph viewport; target=[P: (345.2262, 599.4386), S: (299.5475, 155.1228)] view=[P: (15.0, 243.0), S: (960.0, 360.0)]
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:77)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+ERROR: en (960, 640) bottom ShiftHome: dense CPU retains visible components
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_circuit_focus_visibility.gd:11)
+       [1] focus_check (res://tests/test_circuit_focus_visibility.gd:85)
+       [2] key_home (res://tests/test_circuit_focus_visibility.gd:20)
+       [3] settle (res://tests/test_circuit_focus_visibility.gd:13)
+FAIL: circuit focus visibility 136 checks, 16 failures

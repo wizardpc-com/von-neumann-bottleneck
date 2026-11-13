@@ -1,0 +1,46 @@
+[
+  {
+    "suite": "test_circuit_focus_visibility",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/project",
+      "--script",
+      "res://tests/test_circuit_focus_visibility.gd",
+      "--",
+      "--circuit-focus-capture",
+      "--recovery-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794594033609194000/test_circuit_focus_visibility",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/final-gpu/test_circuit_focus_visibility.txt"
+  },
+  {
+    "suite": "test_creation_continue_guidance",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/project",
+      "--script",
+      "res://tests/test_creation_continue_guidance.gd",
+      "--",
+      "--circuit-focus-capture",
+      "--recovery-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794594058881123000/test_creation_continue_guidance",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Five rendered frames confirm 1280x720 capture",
+      "ERROR: Five rendered frames confirm 1280x720 capture",
+      "ERROR: Five rendered frames confirm 1280x720 capture",
+      "ERROR: Five rendered frames confirm 1280x720 capture",
+      "ERROR: Five rendered frames confirm 1280x720 capture",
+      "ERROR: Five rendered frames confirm 1280x720 capture",
+      "FAIL: creation continue guidance 126 checks, 6 failures"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/final-gpu/test_creation_continue_guidance.txt"
+  }
+]

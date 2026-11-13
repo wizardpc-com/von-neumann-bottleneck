@@ -1,3 +1,26 @@
+## Circuit framing and creation continuation — 2026-11-13
+
+Run `test_circuit_focus_visibility` with hardware foundations/prologue UI,
+workspace entry, history context and drag Escape suites. Real title minimizing,
+edge dragging and Home/Shift-Home must keep focus inside the graph without
+changing board, evidence, history or window geometry. The fixture wires a CPU
+reference and performs Debug; it is not novice circuit construction.
+`--circuit-focus-capture` saves four bilingual1280×720/960×640 raw frames.
+
+Run `test_creation_continue_guidance` with Creation workbench, choice completion,
+pending learning, navigation/save/profile/draft undo/lab return/work focus and
+future/RAW readonly/evidence identity checks. Keep with a blank name must reveal
+and focus its real scroll field; type directly without helper scrolling. Check
+Continue/Fork→Generate→Keep, protected parent works, ordinary kept reopen and
+untouched/edited child draft reopen. Preparation uses a real learned model and
+actual restore/prediction authorization, with controller calls for setup.
+`--recovery-capture` saves six bilingual1280×720 frames; native window sizing must
+settle for five actual frames. No resizing substitutes for that check.
+
+[The receipt](../verification/20261113-creation-and-circuit-focus/README.md) records
+negative controls, native Mac English Test-mode paths and the unchanged format's
+repeated-identical-fork ambiguity. These scopes do not imply full novice acceptance.
+
 ## Comparison controls and Chapter2 navigation — 2026-11-13
 
 Run `test_layout_strategy_comparison_controls` alongside scheduling notebook,

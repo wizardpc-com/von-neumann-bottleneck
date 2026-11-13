@@ -1,0 +1,10 @@
+{
+  "local_links": 279,
+  "broken_links": [],
+  "raw_text_logs": 51,
+  "script_error_logs": [],
+  "runner_syntax": "passed",
+  "branding": "passed",
+  "authored_diff_whitespace": "passed",
+  "raw_log_whitespace_exception": "logs/native-baseline/session.txt:3 has engine-emitted final blank line, preserved verbatim"
+}

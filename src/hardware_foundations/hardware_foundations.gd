@@ -5119,10 +5119,7 @@ func _focus_circuit(all_components: bool = false) -> void:
 	var view := Rect2(Vector2(42.0, 36.0), graph.size - Vector2(84.0, 72.0))
 	# Reserve the occupied edge, without moving or closing the player's windows.
 	for window: FloatingInstrumentPanel in desktop_windows.values():
-		if window.visible and window.minimized:
-			var top: float = window.position.y + window.size.y + 24.0
-			view.position.y = maxf(view.position.y, top)
-			view.size.y = maxf(120.0, graph.size.y - view.position.y - 36.0)
+		if window.minimized:
 			continue
 		if window.visible and window.position.x < graph.size.x * 0.25:
 			var left: float = window.position.x + window.size.x + 24.0
@@ -5134,6 +5131,30 @@ func _focus_circuit(all_components: bool = false) -> void:
 			var right: float = window.position.x - 24.0
 			if right - view.position.x > 240.0:
 				view.size.x = minf(view.size.x,right-view.position.x)
+	# A minimized title can be dragged to any edge. Keep framing inside the
+	# existing viewport, using the largest clear side instead of always framing
+	# below it (which puts the circuit offscreen for a bottom-edge title).
+	for window: FloatingInstrumentPanel in desktop_windows.values():
+		if not window.visible or not window.minimized:
+			continue
+		var obstruction: Rect2 = window.get_rect().grow(24.0)
+		if not view.intersects(obstruction):
+			continue
+		var clear_sides: Array[Rect2] = [
+			Rect2(view.position, Vector2(view.size.x, obstruction.position.y - view.position.y)),
+			Rect2(Vector2(view.position.x, obstruction.end.y), Vector2(view.size.x, view.end.y - obstruction.end.y)),
+			Rect2(view.position, Vector2(obstruction.position.x - view.position.x, view.size.y)),
+			Rect2(Vector2(obstruction.end.x, view.position.y), Vector2(view.end.x - obstruction.end.x, view.size.y)),
+		]
+		var best_area: float = 0.0
+		var clear_view: Rect2 = view
+		for candidate: Rect2 in clear_sides:
+			if candidate.size.x < 120.0 or candidate.size.y < 120.0:
+				continue
+			if candidate.get_area() > best_area:
+				best_area = candidate.get_area()
+				clear_view = candidate
+		view = clear_view
 	var zoom_cap: float = 1.5 if selected else 1.0
 	if tutorial_coach != null and tutorial_coach.visible:
 		# The guide is docked above the canvas; keep the first circuit large.

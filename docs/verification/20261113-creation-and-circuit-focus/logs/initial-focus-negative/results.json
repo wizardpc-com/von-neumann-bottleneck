@@ -1,0 +1,36 @@
+[
+  {
+    "suite": "test_circuit_focus_visibility",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/project",
+      "--headless",
+      "--script",
+      "res://tests/test_circuit_focus_visibility.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591895429400000/test_circuit_focus_visibility",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: zh_CN (1280, 720) bottom Home: focused target center is inside the real graph viewport; target=[P: (551.9149, 668.0), S: (176.1702, 120.0)] view=[P: (15.0, 173.0), S: (1250.0, 481.0)]",
+      "ERROR: zh_CN (1280, 720) bottom Home: selected node fits inside the graph",
+      "ERROR: zh_CN (1280, 720) bottom ShiftHome: focused target center is inside the real graph viewport; target=[P: (490.2262, 650.4386), S: (299.5476, 155.1228)] view=[P: (15.0, 173.0), S: (1250.0, 481.0)]",
+      "ERROR: zh_CN (1280, 720) bottom ShiftHome: dense CPU retains visible components",
+      "ERROR: zh_CN (960, 640) bottom Home: focused target center is inside the real graph viewport; target=[P: (406.9149, 588.0), S: (176.1702, 120.0)] view=[P: (15.0, 205.0), S: (960.0, 369.0)]",
+      "ERROR: zh_CN (960, 640) bottom Home: selected node fits inside the graph",
+      "ERROR: zh_CN (960, 640) bottom ShiftHome: focused target center is inside the real graph viewport; target=[P: (345.2262, 570.4386), S: (299.5475, 155.1228)] view=[P: (15.0, 205.0), S: (960.0, 369.0)]",
+      "ERROR: zh_CN (960, 640) bottom ShiftHome: dense CPU retains visible components",
+      "ERROR: en (1280, 720) bottom Home: focused target center is inside the real graph viewport; target=[P: (551.9149, 668.0), S: (176.1702, 120.0)] view=[P: (15.0, 205.0), S: (1250.0, 449.0)]",
+      "ERROR: en (1280, 720) bottom Home: selected node fits inside the graph",
+      "ERROR: en (1280, 720) bottom ShiftHome: focused target center is inside the real graph viewport; target=[P: (490.2262, 650.4386), S: (299.5476, 155.1228)] view=[P: (15.0, 205.0), S: (1250.0, 449.0)]",
+      "ERROR: en (1280, 720) bottom ShiftHome: dense CPU retains visible components",
+      "ERROR: en (960, 640) bottom Home: focused target center is inside the real graph viewport; target=[P: (406.9149, 617.0), S: (176.1702, 120.0)] view=[P: (15.0, 243.0), S: (960.0, 360.0)]",
+      "ERROR: en (960, 640) bottom Home: selected node fits inside the graph",
+      "ERROR: en (960, 640) bottom ShiftHome: focused target center is inside the real graph viewport; target=[P: (345.2262, 599.4386), S: (299.5475, 155.1228)] view=[P: (15.0, 243.0), S: (960.0, 360.0)]",
+      "ERROR: en (960, 640) bottom ShiftHome: dense CPU retains visible components",
+      "FAIL: circuit focus visibility 136 checks, 16 failures"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/focus-negative/test_circuit_focus_visibility.txt"
+  }
+]

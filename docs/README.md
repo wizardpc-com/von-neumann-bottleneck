@@ -1,5 +1,7 @@
 # Documentation map
 
+- [电路聚焦、继续创作与原生保存操作验证（2026-11-13）](verification/20261113-creation-and-circuit-focus/README.md)
+
 - [调度条件同屏、数字输入保留与第二章导航复核（2026-11-13）](verification/20261113-comparison-controls/README.md)
 
 - [第一章模态／当前结果与创造样例输入保护（2026-11-13）](verification/20261113-modal-and-example-boundaries/README.md)

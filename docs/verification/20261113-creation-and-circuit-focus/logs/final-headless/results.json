@@ -1,0 +1,82 @@
+[
+  {
+    "suite": "test_circuit_focus_visibility",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/project",
+      "--headless",
+      "--script",
+      "res://tests/test_circuit_focus_visibility.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794593874766797000/test_circuit_focus_visibility",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/final-headless/test_circuit_focus_visibility.txt"
+  },
+  {
+    "suite": "test_creation_continue_guidance",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_continue_guidance.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794593884909136000/test_creation_continue_guidance",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/final-headless/test_creation_continue_guidance.txt"
+  },
+  {
+    "suite": "test_creation_future_workbench",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_future_workbench.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794593895716826000/test_creation_future_workbench",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/final-headless/test_creation_future_workbench.txt"
+  },
+  {
+    "suite": "test_creation_raw_readonly",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_raw_readonly.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794593902038870000/test_creation_raw_readonly",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/final-headless/test_creation_raw_readonly.txt"
+  },
+  {
+    "suite": "test_creation_evidence_identity",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_evidence_identity.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794593903185930000/test_creation_evidence_identity",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/final-headless/test_creation_evidence_identity.txt"
+  }
+]

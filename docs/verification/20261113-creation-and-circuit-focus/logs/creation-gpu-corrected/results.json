@@ -1,0 +1,19 @@
+[
+  {
+    "suite": "test_creation_continue_guidance",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/project",
+      "--script",
+      "res://tests/test_creation_continue_guidance.gd",
+      "--",
+      "--recovery-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794594182364474000/test_creation_continue_guidance",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T175149Z-73394026/creation-gpu-corrected/test_creation_continue_guidance.txt"
+  }
+]

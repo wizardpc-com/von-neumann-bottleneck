@@ -140,7 +140,7 @@ func _ready() -> void:
 		var requested: int = navigation.take_pending("creation")
 		if requested >= 0: task = clampi(requested,0,8)
 		navigation.remember_candidate_visit("creation",task)
-	if writable and task == 8 and not session.data.works.is_empty():
+	if writable and task == 8 and not session.data.works.is_empty() and not _active_creation_draft():
 		status_text = opening_guidance(2)
 	elif writable and not session.data.model.is_empty():
 		status_text = opening_guidance(3)
@@ -222,7 +222,7 @@ func scroll_column(parent: Node) -> VBoxContainer:
 
 func build() -> void:
 	playing = false
-	if task == 8 and not suppress_snapshot_fallback and latest.is_empty() and not session.data.works.is_empty():
+	if task == 8 and not _active_creation_draft() and latest.is_empty() and not session.data.works.is_empty():
 		var saved: Dictionary = session.data.works[-1]
 		latest = {"kind":"snapshot","output":saved.output.duplicate(),"work":saved.duplicate(true)}
 	for child: Node in get_children():
@@ -850,7 +850,7 @@ func next_step() -> Dictionary:
 			return _step("当前输出尚未保存；先返回创作单元命名保留，再学习新样例或记忆。", "This output is unsaved; return to creation to name and keep it before learning changed examples or history.", "返回创作保留输出", "Return to creation", "g2")
 		if session.data.draft.examples.is_empty(): return _step("当前没有样例；先选择至少一段公开或自己的样例。", "No example is selected; choose at least one public or custom passage.", "查看样例", "See examples", "examples")
 		return _step("样例或记忆已改，尚未学习；已学规则与旧实测保留。", "Examples or history changed; learn to apply them. Earlier rules and measurements remain.", "学习样例", "Learn examples", "train")
-	if task == 8 and (not can_keep_visible_work() or visible_generation_saved()) and not journey_closing_work().is_empty():
+	if task == 8 and not _active_creation_draft() and (not can_keep_visible_work() or visible_generation_saved()) and not journey_closing_work().is_empty():
 		return _step("作品已保存，无需再次生成。查看作品，并播放尚未看过的结尾。", "Your work is saved; no new generation is needed. View it and play the ending if not already seen.", "查看作品与结尾", "View work and ending", "finish_journey")
 	if model.is_empty():
 		if session.data.draft.examples.is_empty(): return _step("当前没有样例；先选择至少一段公开或自己的样例。", "No example is selected; choose at least one public or custom passage.", "查看样例", "See examples", "examples")
@@ -895,10 +895,27 @@ func next_step() -> Dictionary:
 		return _step("这份输出与配方已保存；可回看、再生或分叉。", "This output and recipe are saved; view, replay or fork them.", "查看作品", "View works", "works")
 	var learning_note: String = text2(" 样例或记忆修改只在下次学习后影响新生成。", " Pending example/history edits affect later generation only after Learn.") if pending_learning else ""
 	if task == 8 and can_keep_visible_work(): return _step("当前新输出还未保存；命名后确认留下。旧作品保持不变。"+learning_note, "This new output is not saved yet; name and keep it. Earlier works remain intact."+learning_note, "确认保存作品", "Keep this work", "keep")
-	if task == 8 and session.data.supports.has("G3_keep"): return _step("已保存的是历史作品；当前视图不会自动成为新作品。可查看或分叉旧作品。", "Earlier works are saved; the current view is not automatically a new saved work. View or fork an earlier work.", "查看作品", "View works", "works")
+	if task == 8 and not _active_creation_draft() and session.data.supports.has("G3_keep"): return _step("已保存的是历史作品；当前视图不会自动成为新作品。可查看或分叉旧作品。", "Earlier works are saved; the current view is not automatically a new saved work. View or fork an earlier work.", "查看作品", "View works", "works")
 	if not can_keep_visible_work(): return _step("回灌已连接；下一步用当前配方生成可保存的实际输出。", "Feedback is connected; generate a real output from the current recipe.", "生成光纹", "Generate signal", "generate")
 	if task == 6: return _step("G1 已生成实际输出；继续选择是否修改并留下作品。", "G1 generated real output; continue to choose, revise and keep a work.", "下一单元", "Next unit", "next")
 	return _step("已有可保存的实际输出；命名后确认留下，或继续设计对照。"+learning_note, "A real output is ready; name and keep it, or continue your design comparison."+learning_note, "确认保存作品", "Keep this work", "keep")
+
+func _active_creation_draft() -> bool:
+	if session.data.mode != "generate" or latest.get("kind","") in ["snapshot","replay"] or visible_generation_saved(): return false
+	if suppress_snapshot_fallback: return true
+	# Reopening can identify a changed recipe or a newly forked parent from the
+	# existing save fields. An identical already-kept recipe needs no new flag.
+	for work: Dictionary in session.data.works:
+		if str(work.get("parent","")) != str(session.data.parent_work): continue
+		var recipe: Dictionary = work.get("recipe",{})
+		if recipe.get("model",{}) != session.data.model: continue
+		var matches: bool = true
+		for field: String in ["machine","initial","length","seed","sampler"]:
+			if recipe.get(field) != session.data.draft.get(field):
+				matches = false
+				break
+		if matches: return false
+	return true
 
 func visible_generation_saved() -> bool:
 	if latest.get("kind","") != "generation": return false
@@ -1156,7 +1173,8 @@ func keep_work() -> void:
 			var tabs := find_child("EvidenceTabs",true,false) as TabContainer
 			if tabs != null: tabs.current_tab = 3
 		set_status(text2("为这段输出填一个名称，再点保存。","Give this output a name, then save it."))
-		name_input.grab_focus()
+		if task == 8: name_input.grab_focus()
+		else: call_deferred("focus_work_name")
 		return
 	var receipt: Dictionary = {}
 	if not pinned_creation.is_empty() and not compared_creation.is_empty():
@@ -1176,6 +1194,15 @@ func keep_work() -> void:
 	works.select(session.data.works.size()-1)
 	if task == 8 and preload("res://experiments/candidate_session/context.gd").full_journey():
 		call_deferred("_present_ending_cinematic")
+
+func focus_work_name() -> void:
+	await get_tree().process_frame
+	if not is_instance_valid(name_input) or not name_input.is_visible_in_tree(): return
+	var ancestor: Node = name_input.get_parent()
+	while ancestor != null:
+		if ancestor is ScrollContainer: ancestor.ensure_control_visible(name_input)
+		ancestor = ancestor.get_parent()
+	name_input.grab_focus()
 
 func journey_closing_work() -> Dictionary:
 	if not preload("res://experiments/candidate_session/context.gd").full_journey(): return {}

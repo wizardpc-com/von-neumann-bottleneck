@@ -1,0 +1,82 @@
+[
+  {
+    "suite": "test_hardware_foundations_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_foundations_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591784739384000/test_hardware_foundations_ui",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/core-baseline/test_hardware_foundations_ui.txt"
+  },
+  {
+    "suite": "test_hardware_prologue_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_prologue_ui.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591789761837000/test_hardware_prologue_ui",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/core-baseline/test_hardware_prologue_ui.txt"
+  },
+  {
+    "suite": "test_hardware_workspace_entry",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_workspace_entry.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591794065573000/test_hardware_workspace_entry",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/core-baseline/test_hardware_workspace_entry.txt"
+  },
+  {
+    "suite": "test_hardware_history_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_history_context.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591796373741000/test_hardware_history_context",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/core-baseline/test_hardware_history_context.txt"
+  },
+  {
+    "suite": "test_hardware_drag_escape",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_drag_escape.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794591798371895000/test_hardware_drag_escape",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T174105Z-5d8c7863/core-baseline/test_hardware_drag_escape.txt"
+  }
+]

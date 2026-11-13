@@ -1,0 +1,178 @@
+{
+  "images/representation-split-captures/en-block-limit.png": {
+    "sha256": "e78a9a697e8869540f3020ae97c0df8f6ac9f959d8600f5f434cf792b3a308a1",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/representation-split-captures/en-legal-range.png": {
+    "sha256": "ebff1277acf9c0d5cfab148a9f729d580400cc7ffa2f6f0c5f0692eb3971efd5",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/representation-split-captures/en-single-byte.png": {
+    "sha256": "f120296e61e658683c2835e9d5106bc9f4616696db701dc19583b96b7eb03d73",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/representation-split-captures/zh_CN-block-limit.png": {
+    "sha256": "51d881320e24d3881d2c90d620cc9500b6a9891a855e6cfeff98299bf8a5aa66",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/representation-split-captures/zh_CN-legal-range.png": {
+    "sha256": "322e14e49913f32a6814fb1c070d75a2222fd7ed4a98bbe61cf30cb45e5e1d66",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/representation-split-captures/zh_CN-single-byte.png": {
+    "sha256": "75c0fb612ca24d8eea75730a1d514b326a9a5e89f06e4681afce923ebe5efa07",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/instrument-recall/chapter1-en-covered.png": {
+    "sha256": "4253e7e8eae03d3fe6ef95558adb6a844483fe6fbfa934735cd7aeb72d1dc696",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/instrument-recall/chapter1-en-recalled.png": {
+    "sha256": "31924542b1c090d6bd2daa3fe47d49d757285f0e12480a40f8accbdb2c6fa03e",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/instrument-recall/chapter1-zh_CN-covered.png": {
+    "sha256": "54e4fdeabc996436427539714a004157c8524e607b31a02424bab6440d31f2a8",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/instrument-recall/chapter1-zh_CN-recalled.png": {
+    "sha256": "6210fef94b12cea4ec6ca2705198f4c35c8b942989f4c68cc6fe00e94e6236c9",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/instrument-recall/chapter2-en-covered.png": {
+    "sha256": "585e118a5e447d99a9fb8d89feb9d38cfa0506555f116bfbbe03a269af483a62",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/instrument-recall/chapter2-en-recalled.png": {
+    "sha256": "6a281a77cf31ac76b68a836a4276858cd4c8ee07aa72fc2b8aa6d8ad72037247",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/instrument-recall/chapter2-zh_CN-covered.png": {
+    "sha256": "a9210a79a5166403a3d5d106325f6c26f3e9f7b33f4d935b3c63db2f0360146e",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/instrument-recall/chapter2-zh_CN-recalled.png": {
+    "sha256": "f68d90aeeef1d15474cfc0a4d482b8c0556b7e68fa327c163df072aec01eaeff",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/service/en-saved-menu.png": {
+    "sha256": "4ad7e1720042dd596c3477de7294d9c51551a3fd28fb4cead5d28c3732ce32c7",
+    "pixels": [
+      125,
+      128
+    ],
+    "kind": "PopupMenu viewport"
+  },
+  "images/service/en-saved.png": {
+    "sha256": "1158ac1a009cf559ab21a164512c44b953ccb6d9193aa633fed6849a4cdd9b80",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/service/en-temporary-menu.png": {
+    "sha256": "4ad7e1720042dd596c3477de7294d9c51551a3fd28fb4cead5d28c3732ce32c7",
+    "pixels": [
+      125,
+      128
+    ],
+    "kind": "PopupMenu viewport"
+  },
+  "images/service/en-temporary.png": {
+    "sha256": "21481808f46a920ee2669b57f120878fb700bfe867a5ce68680c2445c2d8f5a3",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/service/zh_CN-saved-menu.png": {
+    "sha256": "bb7bd8e5ffa70a937c161a8e2c74b15bc24e75530e2ffe54d7d790b45e34ccdc",
+    "pixels": [
+      125,
+      128
+    ],
+    "kind": "PopupMenu viewport"
+  },
+  "images/service/zh_CN-saved.png": {
+    "sha256": "d73bfe956e6b4c82af229452a2115a4a47134b556161037705c786395c46153a",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  },
+  "images/service/zh_CN-temporary-menu.png": {
+    "sha256": "bb7bd8e5ffa70a937c161a8e2c74b15bc24e75530e2ffe54d7d790b45e34ccdc",
+    "pixels": [
+      125,
+      128
+    ],
+    "kind": "PopupMenu viewport"
+  },
+  "images/service/zh_CN-temporary.png": {
+    "sha256": "10ec2f8c4e7caa8b50b2088b3274048b8cc76dea8692a7bc11b4408f28eb059a",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "full viewport"
+  }
+}

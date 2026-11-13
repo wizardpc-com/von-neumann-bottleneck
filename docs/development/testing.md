@@ -1,3 +1,33 @@
+## Split constraints, encoding menus and covered instruments — 2026-11-13
+
+Run `test_representation_split_input` with Region player-input, presentation,
+edit-context and session suites, plus `test_candidate_disabled_focus`. Verify that
+range changes never split automatically, multi-digit input is preserved until
+Enter/focus loss, and typing40 then clicking Split without Enter creates exactly
+one edit at40. Retain Tab/Enter, Undo/Redo, task/language context, single-byte and
+eight-block reasons. `--representation-split-capture` records bilingual controls.
+
+Run `test_service_encoding_choice` with Service player-input, plan, session,
+undo-context, design-shelf, split-action and journey-input suites. Test actual mouse
+opening and row selection, keyboard selection/reselection, Space/Enter opening,
+Escape cancellation, same-value Redo preservation and language/multiselect context.
+The menu must open on release near the bottom edge: opening on press can let that
+same release select the newly overlapping first row. Use actual popup geometry;
+keyboard focus is not an oracle for mouse hover. `--service-encoding-capture`
+saves root frames and the separate real PopupMenu viewport, without compositing.
+
+`test_chapter_instrument_recall` uses real viewport clicks in Ch1/Ch2 and both
+locales: create legal overlapping tool rectangles, recall Test Bench once, preserve
+geometry/state, close it on the next unobscured toggle, and actually Run. Ch2's
+third toolbar tool is Program; Notebook has no separate toolbar entry. Require all
+four loops to finish, not merely an emitted PASS after script errors.
+Use `--instrument-recall-capture` for covered/recalled pairs.
+
+All GPU commands additionally require `--capture-size=1280x720` and an isolated
+profile. Check actual stable rendered pixels after native window transitions.
+These scripted inputs do not replace OS-native or newcomer acceptance. See the
+[complete evidence](../verification/20261113-selection-controls/README.md).
+
 ## Official playback, pending names and learning guidance - 2026-11-13
 
 Run `test_hardware_official_playback_controls` with Hardware failure/history,

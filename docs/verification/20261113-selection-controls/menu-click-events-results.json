@@ -1,0 +1,18 @@
+[
+  {
+    "suite": "test_service_menu_probe",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T122605Z-3c7141c0/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_menu_probe.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 3.7823705420000002,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/menu-click-events/test_service_menu_probe"
+  }
+]

@@ -1,14 +1,7 @@
-extends SceneTree
+extends "res://experiments/candidate_input.gd"
 const Lab = preload("res://experiments/service_plan/lab.gd")
 const Model = preload("res://experiments/service_plan/model.gd")
 const Store = preload("res://experiments/service_plan/session_store.gd")
-var checks: int = 0
-var failures: int = 0
-
-func _init() -> void: call_deferred("run")
-func check(ok: bool, message: String) -> void:
-	checks += 1
-	if not ok: failures += 1; push_error(message)
 func select_group(scene: Lab, index: int) -> void:
 	scene.group_list.select(index); scene.group_list.multi_selected.emit(index,true)
 func select_groups(scene: Lab, indices: Array[int]) -> void:
@@ -30,7 +23,7 @@ func check_feedback(scene: Lab, english: bool, persistent: bool, context: String
 	else:
 		check(not scene.session_dirty and scene.status.text.contains("Temporary session" if english else "临时会话") and not scene.status.text.contains("save before" if english else "请保存"),context+": temporary feedback does not promise a Save operation")
 
-func run() -> void:
+func _run() -> void:
 	preload("res://src/lab/lab_features.gd").core_journey = true # verifies candidate opt-in semantics
 	root.size = Vector2i(1280,720); root.content_scale_size = Vector2i(1280,720)
 	var original_path: String = Store.PATH
@@ -108,7 +101,8 @@ func run() -> void:
 			scene.unlocked = 1; scene.change_task(1)
 			scene.redo_button.pressed.emit()
 			check(scene.task == 1 and scene.plan == initial and selection_is(scene,0),context+": rebuilding for a new contract preserves shared draft Redo without undoing the contract switch")
-			scene.undo_button.pressed.emit(); scene.format_buttons[0].pressed.emit()
+			scene.undo_button.pressed.emit()
+			await choose(scene.format_buttons[0],Model.REPRESENTATIONS.find("rle64"))
 			check(scene.redo_stack.is_empty() and scene.redo_button.disabled and selection_is(scene,18),context+": a new edit after Undo replaces the abandoned Redo branch")
 			check(scene.history.size() == 1 and JSON.stringify(scene.history[0]) == recording and scene.support_plans.is_empty(),context+": draft Undo, Redo and restore never mutate history or grant supports")
 			check(Model.validate(scene.plan).is_empty(),context+": editor snapshots preserve valid request coverage and stream order")
@@ -126,5 +120,5 @@ func run() -> void:
 				reopened.queue_free(); await process_frame; await process_frame
 			remove_fixture()
 	Store.PATH = original_path
-	print("PASS: test_service_undo_context " if failures == 0 else "FAIL: test_service_undo_context ",checks," checks, ",failures," failures")
-	quit(1 if failures > 0 else 0)
+	print("PASS: test_service_undo_context " if failures.is_empty() else "FAIL: test_service_undo_context ",observations.size()," checks, ",failures.size()," failures")
+	quit(0 if failures.is_empty() else 1)

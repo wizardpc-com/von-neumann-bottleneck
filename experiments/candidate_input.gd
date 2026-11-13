@@ -114,7 +114,6 @@ func build_service(proposal: Dictionary) -> void:
 			await item_row(ui.group_list,i); await press(ui.merge_button)
 	await number(ui.slots,int(proposal.slots))
 	for stream: int in proposal.representations.size():
-		for attempt: int in 4:
-			if ui.public_observation().draft.representations[stream] == proposal.representations[stream]: break
-			await press(ui.format_buttons[stream])
+		var formats: Array = ui.public_observation().formats
+		await choose(ui.format_buttons[stream],formats.find(proposal.representations[stream]))
 	check(ui.public_observation().draft == proposal,"Visible edits produce the proposed service plan")

@@ -49,7 +49,7 @@ var split_at: SpinBox
 var move_to: SpinBox
 var move_button: Button
 var slots: SpinBox
-var format_buttons: Array[Button] = []
+var format_buttons: Array[OptionButton] = []
 var task_buttons: Array[Button] = []
 var run_button: Button
 var language_button: Button
@@ -272,12 +272,22 @@ func build() -> void:
 	slots = SpinBox.new(); slots.name = "Slots"; slots.min_value = 1; slots.max_value = 4; slots.value = plan.slots; capacity.add_child(slots)
 	slots.value_changed.connect(func(value: float) -> void:
 		var next: Dictionary = plan.duplicate(true); next.slots = int(value); edit(next, selected_group))
-	var format_guide: Label = label(tr2("点击切换 · 64位无损，8位近似；RLE未必更省", "Click to cycle · 64: exact; 8: approximate; RLE may grow"), editor, 13)
+	var format_guide: Label = label(tr2("选择逐流表示 · 64位无损，8位近似；RLE未必更省", "Choose per stream · 64: exact; 8: approximate; RLE may grow"), editor, 13)
 	format_guide.name = "FormatGuide"
 	var formats := HBoxContainer.new(); editor.add_child(formats)
 	for stream: int in 4:
-		var format: Button = button("", formats, func() -> void:
-			var current: int = Model.REPRESENTATIONS.find(plan.representations[stream]); edit(Model.represent(plan, stream, Model.REPRESENTATIONS[(current + 1) % 4]), selected_group), "Format" + char(65 + stream))
+		var format := OptionButton.new()
+		format.name = "Format" + char(65 + stream)
+		# At the bottom edge the popup can overlap its opener. Open on release
+		# so that the same click cannot also select the item underneath it.
+		format.action_mode = BaseButton.ACTION_MODE_BUTTON_RELEASE
+		format.custom_minimum_size.y = 32
+		for representation: String in Model.REPRESENTATIONS:
+			format.add_item(char(65 + stream) + ": " + representation.to_upper())
+		format.select(Model.REPRESENTATIONS.find(plan.representations[stream]))
+		format.item_selected.connect(func(index: int) -> void:
+			edit(Model.represent(plan, stream, Model.REPRESENTATIONS[index]), selected_group))
+		formats.add_child(format)
 		format.size_flags_horizontal = Control.SIZE_EXPAND_FILL; format_buttons.append(format)
 	var actions := HBoxContainer.new(); editor.add_child(actions)
 	undo_button = button(tr2("撤销", "Undo"), actions, undo, "Undo")
@@ -404,7 +414,7 @@ func refresh_groups() -> void:
 	selected_group = clampi(selected_group, 0, plan.groups.size() - 1); group_list.select(selected_group); group_list.ensure_current_is_visible()
 	refresh_measured_source()
 	move_to.max_value = plan.groups.size()
-	for stream: int in 4: format_buttons[stream].text = char(65 + stream) + ": " + str(plan.representations[stream]).to_upper()
+	for stream: int in 4: format_buttons[stream].select(Model.REPRESENTATIONS.find(plan.representations[stream]))
 func refresh_actions() -> void:
 	_refresh_journey_context()
 	refresh_design_shelf()
@@ -525,11 +535,14 @@ func reload_localized_scene() -> Error:
 	# Settings must keep this live session and its writer lease, not reload from disk.
 	var previous_move: float = move_to.value if is_instance_valid(move_to) else 1
 	var previous_split: float = split_at.value if is_instance_valid(split_at) else 1
+	var previous_groups: PackedInt32Array = group_list.get_selected_items() if is_instance_valid(group_list) else PackedInt32Array()
 	var localization: Node = get_node_or_null("/root/Localization")
 	if localization != null: english = localization.current_locale() == "en"
 	build()
 	move_to.value = previous_move
 	split_at.value = previous_split
+	restore_group_selection(previous_groups)
+	refresh_actions()
 	return OK
 
 func continue_service() -> void:
@@ -841,7 +854,7 @@ func public_observation() -> Dictionary:
 	for record: Dictionary in history:
 		var m: Dictionary = record.metrics
 		observations.append({"task": record.task, "plan": m.plan.duplicate(true), "metrics": m.duplicate(true), "trace": record.events.duplicate(true)})
-	return {"mission": mission_text(), "hint1": hint_text(), "public_data": public_data, "weights": Model.WEIGHTS.duplicate(), "task": task, "unlocked": unlocked, "draft": plan.duplicate(true), "selected_group": selected_group, "formats": Model.REPRESENTATIONS.duplicate(), "streams": [{"name": "A", "coordinates": "repeated"}, {"name": "B", "coordinates": "repeated"}, {"name": "C", "coordinates": "varied"}, {"name": "D", "coordinates": "varied"}], "rules": {"stream_steps": 6, "all_ready": 0, "link_bytes_per_cycle": 4, "setup_cycles": 4, "decoded_context_bytes": 64, "scratch_bytes": 512, "compute_ops": 24}, "measured": observations, "actions": ["select_group", "merge", "split", "move_up", "move_down", "move_to", "set_slots", "cycle_format", "undo", "redo", "run", "restore", "task", "hint", "data"]}
+	return {"mission": mission_text(), "hint1": hint_text(), "public_data": public_data, "weights": Model.WEIGHTS.duplicate(), "task": task, "unlocked": unlocked, "draft": plan.duplicate(true), "selected_group": selected_group, "formats": Model.REPRESENTATIONS.duplicate(), "streams": [{"name": "A", "coordinates": "repeated"}, {"name": "B", "coordinates": "repeated"}, {"name": "C", "coordinates": "varied"}, {"name": "D", "coordinates": "varied"}], "rules": {"stream_steps": 6, "all_ready": 0, "link_bytes_per_cycle": 4, "setup_cycles": 4, "decoded_context_bytes": 64, "scratch_bytes": 512, "compute_ops": 24}, "measured": observations, "actions": ["select_group", "merge", "split", "move_up", "move_down", "move_to", "set_slots", "set_format", "undo", "redo", "run", "restore", "task", "hint", "data"]}
 
 func _task_available(index: int) -> bool:
 	return index >= 0 and index <= 2 and (index <= unlocked or get_node("/root/GameMode").is_test_mode() or get_node("/root/TaskNavigation").offline_tester_enabled())

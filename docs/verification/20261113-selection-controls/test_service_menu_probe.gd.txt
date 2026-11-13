@@ -1,0 +1,41 @@
+extends "res://tests/test_service_encoding_choice.gd"
+func _run() -> void:
+ root.get_node("TaskNavigation").pending = ""
+ root.get_node("GameMode").set_mode(&"test")
+ root.size = Vector2i(1280,720); root.content_scale_size = Vector2i(1280,720)
+ ui = Lab.new(); root.add_child(ui); current_scene=ui
+ await settle(12)
+ await settle_window("probe")
+ var control: OptionButton = format_choice(0)
+ if "--minimal" in OS.get_cmdline_user_args():
+  var original_rect: Rect2 = control.get_global_rect()
+  ui.hide()
+  control=OptionButton.new();root.add_child(control)
+  for title: String in ["RAW64","RLE64","RAW8","RLE8"]: control.add_item(title)
+  control.position=original_rect.position;control.size=original_rect.size
+  await settle()
+ var popup: PopupMenu = control.get_popup()
+ popup.prefer_native_menu=false
+ popup.about_to_popup.connect(func(): print("ABOUT TO POPUP"))
+ popup.popup_hide.connect(func(): print("POPUP HIDE pos=",popup.position," size=",popup.size))
+ popup.id_pressed.connect(func(index: int): print("ITEM ",index))
+ if "--release-mode" in OS.get_cmdline_user_args(): control.action_mode=BaseButton.ACTION_MODE_BUTTON_RELEASE
+ control.pressed.connect(func(): print("BUTTON PRESSED"))
+ control.button_down.connect(func(): print("BUTTON DOWN"))
+ control.button_up.connect(func(): print("BUTTON UP"))
+ print("RECT ",control.get_global_rect()," disabled=",control.disabled," action_mode=",control.action_mode," root=",root.size)
+ await point(control.get_global_rect().get_center())
+ var hover: Control=root.gui_get_hovered_control()
+ print("HOVER ",hover.get_path() if hover != null else "NONE")
+ await press(control)
+ print("AFTER CLICK popup=",popup.visible," selected=",control.selected," button=",control.button_pressed)
+ if DisplayServer.get_name() != "headless":
+  RenderingServer.force_draw(false)
+  root.get_texture().get_image().save_png("res://.godot/menu-probe.png")
+ await create_timer(1.0).timeout
+ print("AFTER WAIT popup=",popup.visible)
+ control.grab_focus()
+ await key(KEY_SPACE)
+ print("AFTER SPACE popup=",popup.visible)
+ print("PASS: menu probe observation complete")
+ quit()

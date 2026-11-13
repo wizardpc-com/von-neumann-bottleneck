@@ -33,7 +33,7 @@ func service() -> void:
 	check(ui.history.size() == 1 and str(ui.active_trace.metrics.error).is_empty(),"Own visible slot edit produces a measured run")
 	var record: Dictionary = ui.history[0].duplicate(true)
 	await inspect_state()
-	await press(handle("FormatA"))
+	await choose(handle("FormatA") as OptionButton,ui.public_observation().formats.find("rle64"))
 	check(ui.state_source.text.contains("草稿") or ui.state_source.text.contains("Draft"),"Unrun draft is distinguished from replay measurement")
 	check(ui.history[0] == record,"Replay and draft editing leave actual historical result untouched")
 	await capture("state-source-draft")

@@ -1,0 +1,66 @@
+[
+  {
+    "suite": "test_service_plan",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_plan.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 7.052437041999999,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/baseline-service/test_service_plan"
+  },
+  {
+    "suite": "test_service_undo_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_undo_context.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 10.671291624999999,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/baseline-service/test_service_undo_context"
+  },
+  {
+    "suite": "test_service_player_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_player_input.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.287459875,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/baseline-service/test_service_player_input"
+  },
+  {
+    "suite": "test_service_session",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_session.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.419464667,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/baseline-service/test_service_session"
+  }
+]

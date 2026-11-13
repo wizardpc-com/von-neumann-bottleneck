@@ -1,0 +1,26 @@
+[
+  {
+    "suite": "test_service_encoding_choice",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T122605Z-3c7141c0/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_service_encoding_choice.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--service-encoding-capture"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: zh_CN-temporary: selector capture retains actual 1280x720 pixels",
+      "FAIL: service encoding choice 267 checks, 1 failures"
+    ],
+    "seconds": 57.138969958000004,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/gpu-service-final/test_service_encoding_choice"
+  }
+]

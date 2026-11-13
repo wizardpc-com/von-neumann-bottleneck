@@ -1,0 +1,31 @@
+extends "res://tests/test_service_encoding_choice.gd"
+func _run() -> void:
+ root.get_node("TaskNavigation").pending = ""
+ root.get_node("GameMode").set_mode(&"test")
+ root.size=Vector2i(1280,720);root.content_scale_size=Vector2i(1280,720)
+ ui=Lab.new();root.add_child(ui);current_scene=ui;await settle(12)
+ await settle_window("mouse")
+ var choice: OptionButton=format_choice(0)
+ var popup: PopupMenu=choice.get_popup();popup.prefer_native_menu=false
+ await press(choice)
+ check(popup.visible,"Mouse opens encoding menu")
+ if not popup.visible:quit(1);return
+ popup.grab_focus();await create_timer(0.2).timeout
+ # Four equal-height, unwrapped menu rows; click the center of the last row.
+ var target:=Vector2(popup.size.x*0.5,popup.size.y*0.875)+Vector2(popup.position)
+
+ print("MOUSE embedded=",popup.is_embedded()," id=",popup.get_window_id()," target=",target," popup=",popup.position," size=",popup.size)
+ if target.y>=0:
+  var motion:=InputEventMouseMotion.new();motion.position=target
+  root.push_input(motion,true);await process_frame
+  for down: bool in [true,false]:
+   var event:=InputEventMouseButton.new()
+   event.window_id=popup.get_window_id();event.position=target
+   event.global_position=target
+   event.button_index=MOUSE_BUTTON_LEFT;event.pressed=down;event.button_mask=1 if down else 0
+   root.push_input(event,true);await process_frame
+  await settle()
+ check(not popup.visible and ui.plan.representations[0]=="rle8" and ui.undo_stack.size()==1,"Mouse row click chooses RLE8 exactly once")
+ print("MOUSE FINAL ",ui.plan.representations," undo=",ui.undo_stack.size())
+ print("PASS: service mouse probe" if failures.is_empty() else "FAIL: service mouse probe")
+ quit(0 if failures.is_empty() else 1)

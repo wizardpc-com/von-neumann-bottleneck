@@ -38,6 +38,7 @@ var task_buttons: Array[Button] = []
 var blocks: Tree
 var split_at: SpinBox
 var split_button: Button
+var split_range: Label
 var merge_button: Button
 var raw_button: Button
 var rle_button: Button
@@ -111,6 +112,7 @@ func reload_localized_scene() -> Error:
 	if localization != null: english = localization.current_locale() == "en"
 	build()
 	split_at.value = previous_split
+	refresh_actions()
 	return OK
 
 func text2(zh: String, en: String) -> String: return en if english else zh
@@ -262,7 +264,9 @@ func build() -> void:
 	split_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	split_label.custom_minimum_size.x = 80
 	split_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	split_at = SpinBox.new(); split_at.name = "SplitAt"; split_at.min_value = 1; split_at.max_value = 63; split_at.value = 16; split_at.update_on_text_changed = true; split_at.custom_minimum_size.x = 85; edit.add_child(split_at)
+	split_at = SpinBox.new(); split_at.name = "SplitAt"; split_at.min_value = 1; split_at.max_value = 63; split_at.value = 16; split_at.update_on_text_changed = false; split_at.custom_minimum_size.x = 85; edit.add_child(split_at)
+	split_range = make_label("",edit,14); split_range.name = "SplitRange"
+	split_range.autowrap_mode = TextServer.AUTOWRAP_OFF
 	split_at.value_changed.connect(func(_v: float) -> void: refresh_actions())
 	split_button = make_button(text2("分割","Split"),edit,func() -> void: edit_plan(Model.split(plan,selected_block,int(split_at.value))),"Split")
 	merge_button = make_button(text2("合并右块","Merge right"),edit,func() -> void: edit_plan(Model.merge(plan,selected_block)),"Merge")
@@ -541,7 +545,28 @@ func refresh_actions() -> void:
 	refresh_recorded_plan_label()
 	refresh_design_shelf()
 	var block: Dictionary = plan[selected_block]
-	set_action_disabled(split_button,plan.size() >= Model.MAX_BLOCKS or int(split_at.value) <= int(block.start) or int(split_at.value) >= int(block.end))
+	var first: int = int(block.start) + 1
+	var last: int = int(block.end) - 1
+	var can_split: bool = first <= last and plan.size() < Model.MAX_BLOCKS
+	# Selection changes constrain the pending input only, never the draft itself.
+	var previous: float = split_at.value
+	split_at.set_block_signals(true)
+	# Expand before narrowing so the old range cannot clamp a still-legal value.
+	split_at.min_value = 1; split_at.max_value = 63
+	if first <= last:
+		split_at.min_value = first; split_at.max_value = last
+		split_at.value = clampf(previous,first,last)
+	split_at.set_block_signals(false)
+	split_at.editable = can_split
+	if plan.size() >= Model.MAX_BLOCKS:
+		split_range.text = text2("已达8块", "8-block limit")
+	elif first > last:
+		split_range.text = text2("仅1字节", "Only 1 byte")
+	else:
+		split_range.text = "%d–%d" % [first,last]
+	split_range.tooltip_text = text2("切点必须在选中块内部；最多8块。", "Choose an address inside the selected block; at most 8 blocks.")
+	split_at.tooltip_text = split_range.text + " · " + split_range.tooltip_text
+	set_action_disabled(split_button,not can_split)
 	set_action_disabled(merge_button,selected_block + 1 >= plan.size())
 	set_action_disabled(raw_button,block.codec == "raw"); set_action_disabled(rle_button,block.codec == "rle")
 	set_action_disabled(undo_button,undo_stack.is_empty()); set_action_disabled(redo_button,redo_stack.is_empty())

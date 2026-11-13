@@ -1,0 +1,450 @@
+[
+  {
+    "log": "candidate-initial/test_candidate_disabled_focus.txt",
+    "lines": 30,
+    "summaries": [
+      "ERROR: Right block starts with its left-edge boundary unavailable",
+      "ERROR: Viewport typing boundary16 keeps right-block Split unavailable",
+      "ERROR: First typed digit2 remains outside the selected right block",
+      "ERROR: Viewport typing2 then4 enables valid boundary24 before leaving the field",
+      "FAIL: [\"Right block starts with its left-edge boundary unavailable\", \"Viewport typing boundary16 keeps right-block Split unavailable\", \"First typed digit2 remains outside the selected right block\", \"Viewport typing2 then4 enables valid boundary24 before leaving the field\"]"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_service_plan.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: service plan (7268)"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_representation_workbench_presentation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_representation_workbench_presentation 9303 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_service_journey_input.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: service journey input"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_service_player_input.txt",
+    "lines": 128,
+    "summaries": [
+      "ERROR: Visible choice menu opened",
+      "ERROR: Visible selector accepts choice 2",
+      "ERROR: One explicit choice selects RAW8 for stream A only.",
+      "ERROR: Quantized computation runs but fails the original exact-quality contract.",
+      "ERROR: Visible quality feedback names the offending stream and exact tolerance.",
+      "ERROR: Restoring earned support changes the draft, not the failed recorded measurement.",
+      "ERROR: Visible choice menu opened",
+      "ERROR: Visible selector accepts choice 1",
+      "ERROR: Visible choice menu opened",
+      "ERROR: Visible selector accepts choice 1",
+      "ERROR: The player changes each selected stream's representation independently.",
+      "ERROR: The real run returns the expected elapsed time and state traffic.",
+      "ERROR: The first-response view consumes the four measured response times.",
+      "ERROR: The unchanged current contract determines this measurement's acceptance.",
+      "ERROR: Only the two actually earned contracts are retained; the unplayed first contract prevents chapter closure.",
+      "ERROR: Only actually measured task supports become persistent journey evidence."
+    ]
+  },
+  {
+    "log": "candidate-initial/test_representation_edit_context.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_representation_edit_context 39 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_representation_session.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_representation_session 47 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_service_design_shelf.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_service_design_shelf 48 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/import.txt",
+    "lines": 683,
+    "summaries": []
+  },
+  {
+    "log": "candidate-initial/test_service_split_actions.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: Service split actions: 30 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_completion_service_clarity.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_completion_service_clarity 101 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/user_directory.txt",
+    "lines": 3,
+    "summaries": []
+  },
+  {
+    "log": "candidate-initial/test_candidate_language_navigation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_candidate_language_navigation 83 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_chapter_instrument_recall.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: chapter instrument recall 98 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_representation_player_input.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: representation preparation player input"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_service_encoding_choice.txt",
+    "lines": 223,
+    "summaries": [
+      "ERROR: Visible selector accepts choice 3",
+      "ERROR: zh_CN-temporary: selecting RLE8 directly is exactly one edit",
+      "ERROR: zh_CN-temporary: one Undo restores RAW64 and synchronizes the selector",
+      "ERROR: The current encoding can be inspected in its real menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: zh_CN-temporary: Redo restores the actual selected encoding",
+      "ERROR: Visible selector accepts choice 2",
+      "ERROR: zh_CN-temporary: a second stream changes independently with one additional edit",
+      "ERROR: zh_CN-temporary: language rebuild displays both current encodings without applying another edit",
+      "ERROR: Visible selector accepts choice 3",
+      "ERROR: zh_CN-saved: selecting RLE8 directly is exactly one edit",
+      "ERROR: zh_CN-saved: one Undo restores RAW64 and synchronizes the selector",
+      "ERROR: The current encoding can be inspected in its real menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: zh_CN-saved: Redo restores the actual selected encoding",
+      "ERROR: Visible selector accepts choice 2",
+      "ERROR: zh_CN-saved: a second stream changes independently with one additional edit",
+      "ERROR: zh_CN-saved: language rebuild displays both current encodings without applying another edit",
+      "ERROR: Visible selector accepts choice 3",
+      "ERROR: en-temporary: selecting RLE8 directly is exactly one edit",
+      "ERROR: en-temporary: one Undo restores RAW64 and synchronizes the selector",
+      "ERROR: The current encoding can be inspected in its real menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: en-temporary: Redo restores the actual selected encoding",
+      "ERROR: Visible selector accepts choice 2",
+      "ERROR: en-temporary: a second stream changes independently with one additional edit",
+      "ERROR: en-temporary: language rebuild displays both current encodings without applying another edit",
+      "ERROR: Visible selector accepts choice 3",
+      "ERROR: en-saved: selecting RLE8 directly is exactly one edit",
+      "ERROR: en-saved: one Undo restores RAW64 and synchronizes the selector",
+      "ERROR: The current encoding can be inspected in its real menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: en-saved: Redo restores the actual selected encoding",
+      "ERROR: Visible selector accepts choice 2",
+      "ERROR: en-saved: a second stream changes independently with one additional edit",
+      "ERROR: en-saved: language rebuild displays both current encodings without applying another edit",
+      "FAIL: service encoding choice 223 checks, 36 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_service_undo_context.txt",
+    "lines": 47,
+    "summaries": [
+      "ERROR: Visible selector accepts choice 1",
+      "ERROR: zh temporary: a new edit after Undo replaces the abandoned Redo branch",
+      "ERROR: Visible selector accepts choice 1",
+      "ERROR: zh persistent: a new edit after Undo replaces the abandoned Redo branch",
+      "ERROR: Visible selector accepts choice 1",
+      "ERROR: en temporary: a new edit after Undo replaces the abandoned Redo branch",
+      "ERROR: Visible selector accepts choice 1",
+      "ERROR: en persistent: a new edit after Undo replaces the abandoned Redo branch",
+      "FAIL: test_service_undo_context 144 checks, 8 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_representation_split_input.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: representation split input"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_service_session.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_service_session 63 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/baseline-recall/test_chapter_instrument_recall.txt",
+    "lines": 15,
+    "summaries": [
+      "SCRIPT ERROR: Invalid access to property or key 'notebook' on a base object of type 'Dictionary[StringName, Button]'.",
+      "SCRIPT ERROR: Invalid access to property or key 'notebook' on a base object of type 'Dictionary[StringName, Button]'.",
+      "PASS: chapter instrument recall 55 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/baseline-recall-fixed/test_chapter_instrument_recall.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: chapter instrument recall 98 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/baseline-recall-fixed/test_service_encoding_choice.txt",
+    "lines": 99,
+    "summaries": [
+      "ERROR: zh_CN-temporary: each stream has a direct encoding selector",
+      "ERROR: zh_CN-temporary: each stream has a direct encoding selector",
+      "ERROR: zh_CN-temporary: each stream has a direct encoding selector",
+      "ERROR: zh_CN-temporary: each stream has a direct encoding selector",
+      "ERROR: zh_CN-saved: each stream has a direct encoding selector",
+      "ERROR: zh_CN-saved: each stream has a direct encoding selector",
+      "ERROR: zh_CN-saved: each stream has a direct encoding selector",
+      "ERROR: zh_CN-saved: each stream has a direct encoding selector",
+      "ERROR: en-temporary: each stream has a direct encoding selector",
+      "ERROR: en-temporary: each stream has a direct encoding selector",
+      "ERROR: en-temporary: each stream has a direct encoding selector",
+      "ERROR: en-temporary: each stream has a direct encoding selector",
+      "ERROR: en-saved: each stream has a direct encoding selector",
+      "ERROR: en-saved: each stream has a direct encoding selector",
+      "ERROR: en-saved: each stream has a direct encoding selector",
+      "ERROR: en-saved: each stream has a direct encoding selector",
+      "FAIL: service encoding choice 17 checks, 16 failures"
+    ]
+  },
+  {
+    "log": "supplement/baseline-service/test_service_plan.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: service plan (7268)"
+    ]
+  },
+  {
+    "log": "supplement/baseline-service/test_service_player_input.txt",
+    "lines": 9,
+    "summaries": [
+      "PASS: service player input"
+    ]
+  },
+  {
+    "log": "supplement/baseline-service/test_service_session.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_service_session 63 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/baseline-service/test_service_undo_context.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_service_undo_context 124 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-click-and-focus/test_candidate_disabled_focus.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: candidate disabled focus 111 checks"
+    ]
+  },
+  {
+    "log": "supplement/final-click-and-focus/test_service_encoding_choice.txt",
+    "lines": 39,
+    "summaries": [
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "FAIL: service encoding choice 207 checks, 4 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-click-and-focus/test_service_player_input.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: service player input"
+    ]
+  },
+  {
+    "log": "supplement/final-click-and-focus/test_service_undo_context.txt",
+    "lines": 7,
+    "summaries": [
+      "PASS: test_service_undo_context 136 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-service-complete/test_service_encoding_choice.txt",
+    "lines": 7,
+    "summaries": [
+      "PASS: service encoding choice 235 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-service-focus/test_service_encoding_choice.txt",
+    "lines": 11,
+    "summaries": [
+      "PASS: service encoding choice 235 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-service-focus/test_service_mouse_probe.txt",
+    "lines": 15,
+    "summaries": [
+      "ERROR: Actual pointer hover finds the fourth menu row",
+      "MOUSE target=(-1.0, -1.0) popup=(12, 592) size=(125, 128) focused=-1",
+      "ERROR: Mouse row click chooses RLE8 exactly once",
+      "MOUSE FINAL [\"raw64\", \"raw64\", \"raw64\", \"raw64\"] undo=0",
+      "FAIL: service mouse probe"
+    ]
+  },
+  {
+    "log": "supplement/final-service-menu/test_service_encoding_choice.txt",
+    "lines": 39,
+    "summaries": [
+      "ERROR: The current encoding has real menu focus before Enter",
+      "ERROR: The current encoding has real menu focus before Enter",
+      "ERROR: The current encoding has real menu focus before Enter",
+      "ERROR: The current encoding has real menu focus before Enter",
+      "FAIL: service encoding choice 231 checks, 4 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-service-mouse/test_service_mouse_probe.txt",
+    "lines": 15,
+    "summaries": [
+      "ERROR: Actual pointer hover finds the fourth menu row",
+      "MOUSE embedded=true id=0 target=(-1.0, -1.0) popup=(12, 592) size=(125, 128) focused=-1",
+      "ERROR: Mouse row click chooses RLE8 exactly once",
+      "MOUSE FINAL [\"raw64\", \"raw64\", \"raw64\", \"raw64\"] undo=0",
+      "FAIL: service mouse probe"
+    ]
+  },
+  {
+    "log": "supplement/final-service-mouse-direct/test_service_mouse_probe.txt",
+    "lines": 5,
+    "summaries": [
+      "MOUSE embedded=true id=0 target=(74.5, 704.0) popup=(12, 592) size=(125, 128)",
+      "MOUSE FINAL [\"rle8\", \"raw64\", \"raw64\", \"raw64\"] undo=1",
+      "PASS: service mouse probe"
+    ]
+  },
+  {
+    "log": "supplement/final-service-mouse-popup/test_service_mouse_probe.txt",
+    "lines": 11,
+    "summaries": [
+      "MOUSE embedded=true id=0 target=(62.5, 112.0) popup=(12, 592) size=(125, 128)",
+      "ERROR: Mouse row click chooses RLE8 exactly once",
+      "MOUSE FINAL [\"raw64\", \"raw64\", \"raw64\", \"raw64\"] undo=0",
+      "FAIL: service mouse probe"
+    ]
+  },
+  {
+    "log": "supplement/final-service-mouse-viewport/test_service_mouse_probe.txt",
+    "lines": 15,
+    "summaries": [
+      "ERROR: Actual pointer hover finds the fourth menu row",
+      "MOUSE embedded=true id=0 target=(-1.0, -1.0) popup=(12, 592) size=(125, 128) focused=-1",
+      "ERROR: Mouse row click chooses RLE8 exactly once",
+      "MOUSE FINAL [\"raw64\", \"raw64\", \"raw64\", \"raw64\"] undo=0",
+      "FAIL: service mouse probe"
+    ]
+  },
+  {
+    "log": "supplement/gpu-menu-probe/test_service_menu_probe.txt",
+    "lines": 18,
+    "summaries": [
+      "PASS: menu probe observation complete"
+    ]
+  },
+  {
+    "log": "supplement/gpu-recall/test_chapter_instrument_recall.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: chapter instrument recall 114 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-region-split/test_representation_split_input.txt",
+    "lines": 5,
+    "summaries": [
+      "PASS: representation split input"
+    ]
+  },
+  {
+    "log": "supplement/gpu-service-complete/test_service_encoding_choice.txt",
+    "lines": 8,
+    "summaries": [
+      "PASS: service encoding choice 271 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-service-final/test_service_encoding_choice.txt",
+    "lines": 18,
+    "summaries": [
+      "ERROR: zh_CN-temporary: selector capture retains actual 1280x720 pixels",
+      "FAIL: service encoding choice 267 checks, 1 failures"
+    ]
+  },
+  {
+    "log": "supplement/menu-click-events/test_service_menu_probe.txt",
+    "lines": 18,
+    "summaries": [
+      "PASS: menu probe observation complete"
+    ]
+  },
+  {
+    "log": "supplement/menu-click-minimal/test_service_menu_probe.txt",
+    "lines": 18,
+    "summaries": [
+      "PASS: menu probe observation complete"
+    ]
+  },
+  {
+    "log": "supplement/menu-click-release/test_service_menu_probe.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: menu probe observation complete"
+    ]
+  },
+  {
+    "log": "supplement/menu-probe-headless/test_service_menu_probe.txt",
+    "lines": 17,
+    "summaries": [
+      "PASS: menu probe observation complete"
+    ]
+  },
+  {
+    "log": "supplement/negative-region-split/test_representation_split_input.txt",
+    "lines": 49,
+    "summaries": [
+      "ERROR: Split has a visible local range/reason control",
+      "OLD SPLIT left: value=16.0 disabled=true plan=[{ \"start\": 0, \"end\": 16, \"codec\": \"raw\" }, { \"start\": 16, \"end\": 64, \"codec\": \"raw\" }]",
+      "ERROR: After splitting, pending address is inside selected left block",
+      "OLD SPLIT right: value=16.0 disabled=true",
+      "ERROR: Selecting right block makes a valid pending split available",
+      "ERROR: Split has a visible local range/reason control",
+      "OLD SPLIT left: value=16.0 disabled=true plan=[{ \"start\": 0, \"end\": 16, \"codec\": \"raw\" }, { \"start\": 16, \"end\": 64, \"codec\": \"raw\" }]",
+      "ERROR: After splitting, pending address is inside selected left block",
+      "OLD SPLIT right: value=16.0 disabled=true",
+      "ERROR: Selecting right block makes a valid pending split available"
+    ]
+  }
+]

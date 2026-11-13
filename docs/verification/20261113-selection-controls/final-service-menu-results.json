@@ -1,0 +1,24 @@
+[
+  {
+    "suite": "test_service_encoding_choice",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T122605Z-3c7141c0/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_encoding_choice.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: The current encoding has real menu focus before Enter",
+      "ERROR: The current encoding has real menu focus before Enter",
+      "ERROR: The current encoding has real menu focus before Enter",
+      "ERROR: The current encoding has real menu focus before Enter",
+      "FAIL: service encoding choice 231 checks, 4 failures"
+    ],
+    "seconds": 23.387339334,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/final-service-menu/test_service_encoding_choice"
+  }
+]

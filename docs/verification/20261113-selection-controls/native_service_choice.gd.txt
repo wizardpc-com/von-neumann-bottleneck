@@ -1,0 +1,22 @@
+extends "res://tests/test_service_encoding_choice.gd"
+func _run() -> void:
+ root.get_node("TaskNavigation").pending = ""
+ root.get_node("GameMode").set_mode(&"test")
+ root.size = Vector2i(1280,720); root.content_scale_size = Vector2i(1280,720)
+ ui = Lab.new(); root.add_child(ui); current_scene=ui
+ await settle(12)
+ await settle_window("probe")
+ var control: OptionButton = format_choice(0)
+ var popup: PopupMenu = control.get_popup()
+ print("NATIVE preference=",popup.prefer_native_menu)
+ popup.about_to_popup.connect(func(): print("ABOUT TO POPUP"))
+ popup.popup_hide.connect(func(): print("POPUP HIDE"))
+ control.pressed.connect(func(): print("BUTTON PRESSED"))
+ control.button_down.connect(func(): print("BUTTON DOWN"))
+ control.button_up.connect(func(): print("BUTTON UP"))
+ print("RECT ",control.get_global_rect()," disabled=",control.disabled," action_mode=",control.action_mode," root=",root.size)
+ popup.id_pressed.connect(func(index: int): print("NATIVE CHOICE ",index," plan=",ui.plan.representations))
+ print("READY native menu rect=",control.get_global_rect())
+ await create_timer(180.0).timeout
+ print("NATIVE FINAL plan=",ui.plan.representations)
+ quit()

@@ -1,0 +1,52 @@
+[
+  {
+    "suite": "test_chapter_instrument_recall",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_chapter_instrument_recall.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 6.253198416999999,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/baseline-recall-fixed/test_chapter_instrument_recall"
+  },
+  {
+    "suite": "test_service_encoding_choice",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_encoding_choice.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: zh_CN-temporary: each stream has a direct encoding selector",
+      "ERROR: zh_CN-temporary: each stream has a direct encoding selector",
+      "ERROR: zh_CN-temporary: each stream has a direct encoding selector",
+      "ERROR: zh_CN-temporary: each stream has a direct encoding selector",
+      "ERROR: zh_CN-saved: each stream has a direct encoding selector",
+      "ERROR: zh_CN-saved: each stream has a direct encoding selector",
+      "ERROR: zh_CN-saved: each stream has a direct encoding selector",
+      "ERROR: zh_CN-saved: each stream has a direct encoding selector",
+      "ERROR: en-temporary: each stream has a direct encoding selector",
+      "ERROR: en-temporary: each stream has a direct encoding selector",
+      "ERROR: en-temporary: each stream has a direct encoding selector",
+      "ERROR: en-temporary: each stream has a direct encoding selector",
+      "ERROR: en-saved: each stream has a direct encoding selector",
+      "ERROR: en-saved: each stream has a direct encoding selector",
+      "ERROR: en-saved: each stream has a direct encoding selector",
+      "ERROR: en-saved: each stream has a direct encoding selector",
+      "FAIL: service encoding choice 17 checks, 16 failures"
+    ],
+    "seconds": 5.677237542,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/baseline-recall-fixed/test_service_encoding_choice"
+  }
+]

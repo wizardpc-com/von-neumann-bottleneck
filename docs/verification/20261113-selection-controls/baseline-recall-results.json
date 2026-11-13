@@ -1,0 +1,21 @@
+[
+  {
+    "suite": "test_chapter_instrument_recall",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_chapter_instrument_recall.gd"
+    ],
+    "exit": 0,
+    "passed": false,
+    "errors": [
+      "SCRIPT ERROR: Invalid access to property or key 'notebook' on a base object of type 'Dictionary[StringName, Button]'.",
+      "SCRIPT ERROR: Invalid access to property or key 'notebook' on a base object of type 'Dictionary[StringName, Button]'."
+    ],
+    "seconds": 5.378399,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/baseline-recall/test_chapter_instrument_recall"
+  }
+]

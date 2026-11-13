@@ -1,0 +1,72 @@
+[
+  {
+    "suite": "test_candidate_disabled_focus",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T122605Z-3c7141c0/project",
+      "--headless",
+      "--script",
+      "res://tests/test_candidate_disabled_focus.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 15.426583,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/final-click-and-focus/test_candidate_disabled_focus"
+  },
+  {
+    "suite": "test_service_encoding_choice",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T122605Z-3c7141c0/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_encoding_choice.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "ERROR: Reselecting the current encoding closes its menu",
+      "FAIL: service encoding choice 207 checks, 4 failures"
+    ],
+    "seconds": 29.453114667,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/final-click-and-focus/test_service_encoding_choice"
+  },
+  {
+    "suite": "test_service_player_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T122605Z-3c7141c0/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_player_input.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 6.858713625,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/final-click-and-focus/test_service_player_input"
+  },
+  {
+    "suite": "test_service_undo_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T122605Z-3c7141c0/project",
+      "--headless",
+      "--script",
+      "res://tests/test_service_undo_context.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 15.568959042000003,
+    "profile": "VonNeumannBottleneckChecks/interaction-round2-20261113/final-click-and-focus/test_service_undo_context"
+  }
+]

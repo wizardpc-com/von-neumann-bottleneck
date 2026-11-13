@@ -23,12 +23,12 @@ No new simulation, tasks, art direction, reward thresholds, save formats or depe
 | --- | --- | --- | --- | --- | --- |
 | Laboratory and journey map | Pending | Pending | Pending | Pending | Unverified |
 | Prologue construction | Pending | Pending | Pending | Pending | Unverified |
-| Ch1 system costs | Pending | Pending | Pending | Pending | Unverified |
-| Ch2 locality | Pending | Pending | Pending | Pending | Unverified |
+| Ch1 system costs | Partial: prediction setup | Partial: covered TEST to Run | Pending | Scripted bilingual recall passed | Unverified |
+| Ch2 locality | Partial: applied program | Partial: covered TEST to Run | Pending | Scripted bilingual recall passed | Unverified |
 | Ch3 overlap | Pending | Pending | Pending | Pending | Unverified |
 | Ch4 layout | Pending | Pending | Pending | Pending | Unverified |
-| Ch5 representation | Pending | Pending | Pending | Pending | Unverified |
-| Ch6 service | Pending | Pending | Pending | Pending | Unverified |
+| Ch5 representation | Partial: valid split input | Pending | Partial: Undo/Redo and task context | Bilingual split input rendered | Unverified |
+| Ch6 service | Partial: direct encoding/multiselect | Partial: measured edit/retry | Partial: explicit save/Undo/language context | Scripted bilingual menus passed | Unverified |
 | Ch7 address prediction | Pending | Pending | Pending | Pending | Unverified |
 | Ch8 compression | Pending | Pending | Pending | Pending | Unverified |
 | Ch9 content prediction | Pending | Pending | Pending | Pending | Unverified |
@@ -78,17 +78,23 @@ only after concrete obstacles are identified. Read relevant code/tests/docs firs
   A/B inspection; clear only on explicit successful save or task change.
 - Implemented, milestone verification: Creation pending learning inputs must not look applied; guide
   explicit Learn while preserving old measurements and unsaved generated work.
-- Pending rendered evidence: Ch1/Ch2 automatic third instrument can obscure earlier
-  actions; Run is inside Test Bench. Both hosts already recall covered tools in one
-  click; verify actual viewport TEST-to-Run before proposing a production change.
-  Keep explicit Apply and Run as distinct actions.
+- Verified existing behavior: Ch1/Ch2 covered instruments return with one toolbar
+  click, preserve legal user geometry and draft/history, and deliver the next real
+  Run click. Bilingual viewport98/headless and114/GPU checks passed; no runtime fix
+  needed. This does not resolve every discovery/space tradeoff. Keep Apply explicit.
 - Pending: Layout editing/results switch loses editing visibility each iteration;
   three columns cannot fit existing readable minimums at1280. Do not shrink text.
 - Pending: Overlap syntax reference exposes one command at a time, adding lookup steps.
 - Pending: scheduling conditions live apart from the rankings they filter.
-- Pending: Representation Split defaults do not follow selected block validity;
-  Service encoding buttons cycle through intermediate choices; Prediction changing
-  investigations clears partial observation without explicit loss feedback.
+- Second milestone verified: Representation Split follows the selected
+  block interior and explains unavailable cases; Service directly chooses encoding
+  without intermediate draft edits. New checks160/235 and GPU190/271 passed;
+  17 distinct selected suites have passing evidence and22 final images were inspected.
+  [Receipt](../../verification/20261113-selection-controls/README.md).
+  Initial popup-on-press failure was corrected before delivery; native OS input
+  remains unverified, and no full-product acceptance is implied.
+- Pending: Prediction changing investigations clears partial observation without
+  explicit loss feedback.
 - Current baseline: historical prediction-record and service-undo failures do NOT
   reproduce (28 and124 checks pass). Do not treat old failures as current defects.
 

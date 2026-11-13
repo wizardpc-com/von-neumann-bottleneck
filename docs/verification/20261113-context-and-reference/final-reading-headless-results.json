@@ -1,0 +1,118 @@
+[
+  {
+    "suite": "test_prediction_evidence_space",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_evidence_space.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 18.59639625,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-reading-headless/test_prediction_evidence_space"
+  },
+  {
+    "suite": "test_prediction_investigation_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_investigation_context.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 39.035263333,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-reading-headless/test_prediction_investigation_context"
+  },
+  {
+    "suite": "test_prediction_workbench_presentation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_workbench_presentation.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 736.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+      "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 736.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+      "FAIL: test_prediction_workbench_presentation 1225 checks, 2 failures"
+    ],
+    "seconds": 6.226732499999997,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-reading-headless/test_prediction_workbench_presentation"
+  },
+  {
+    "suite": "test_prediction_player_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_player_input.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.847619375000001,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-reading-headless/test_prediction_player_input"
+  },
+  {
+    "suite": "test_candidate_language_navigation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_candidate_language_navigation.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 15.048823624999997,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-reading-headless/test_candidate_language_navigation"
+  },
+  {
+    "suite": "test_prediction_navigation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_navigation.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.744411666000005,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-reading-headless/test_prediction_navigation"
+  },
+  {
+    "suite": "test_prediction_record_source",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_record_source.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.8476317920000014,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-reading-headless/test_prediction_record_source"
+  }
+]

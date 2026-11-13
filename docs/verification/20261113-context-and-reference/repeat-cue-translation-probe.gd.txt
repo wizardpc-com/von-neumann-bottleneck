@@ -1,0 +1,42 @@
+extends SceneTree
+func _init() -> void: call_deferred("run")
+func run() -> void:
+ if not OS.get_user_data_dir().contains("VonNeumannBottleneckChecks"): quit(2); return
+ root.get_node("GameMode").set_mode(&"test")
+ var failures: int = 0
+ for locale: String in ["zh_CN","en"]:
+  root.get_node("Localization").set_locale(locale)
+  root.get_node("TaskNavigation").pending = "chapter_4/fields"
+  var host: Control = load("res://src/layout_chapter/layout_chapter.tscn").instantiate()
+  root.add_child(host)
+  var stable: int = 0
+  for attempt: int in 60:
+   root.mode = Window.MODE_WINDOWED;root.size=Vector2i(1280,720);root.content_scale_size=Vector2i(1280,720)
+   DisplayServer.window_set_size(Vector2i(1280,720))
+   await create_timer(0.1).timeout;RenderingServer.force_draw(false)
+   stable=stable+1 if root.get_texture().get_image().get_size()==Vector2i(1280,720) else 0
+   if stable>=5:break
+  await create_timer(6.0).timeout
+  stable = 0
+  for attempt: int in 60:
+   root.mode = Window.MODE_WINDOWED;root.size=Vector2i(1280,720);root.content_scale_size=Vector2i(1280,720)
+   DisplayServer.window_set_size(Vector2i(1280,720))
+   await create_timer(0.1).timeout;RenderingServer.force_draw(false)
+   stable=stable+1 if root.get_texture().get_image().get_size()==Vector2i(1280,720) else 0
+   if stable>=5:break
+  preload("res://src/ui/ui_cue.gd").met(host,true)
+  await create_timer(0.2).timeout
+  var actual: String = host.get_node("UiMetCue").get_child(0).text
+  var expected: String = "再次达标" if locale=="zh_CN" else "Target met again"
+  print("CUE ",locale," ",actual)
+  if stable<5 or actual!=expected: failures+=1;push_error("Cue wording or viewport differs")
+  RenderingServer.force_draw(false)
+  var image: Image = root.get_texture().get_image()
+  if image.get_size()!=Vector2i(1280,720):failures+=1;push_error("Actual cue image size differs")
+  DirAccess.make_dir_recursive_absolute("res://.godot/repeat-cue")
+  if image.save_png("res://.godot/repeat-cue/"+locale+".png")!=OK:failures+=1
+  await create_timer(2.0).timeout
+  host.queue_free()
+  for frame: int in 10: await process_frame
+ print("PASS: bilingual repeat cue rendered" if failures==0 else "FAIL: repeat cue")
+ quit(0 if failures==0 else 1)

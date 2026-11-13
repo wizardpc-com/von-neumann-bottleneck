@@ -43,6 +43,9 @@ var challenge_mode: StringName = &""
 var challenge_entry: Dictionary = {}
 var challenge_state: String = "none"
 var challenge_storage_message: String = ""
+var inspecting_evidence: bool = false
+var return_to_editing: Button
+var result_context: Label
 
 func _ready() -> void:
 	add_to_group("workspace_owners")
@@ -88,9 +91,12 @@ func _ready() -> void:
 	var dock := HFlowContainer.new()
 	root.add_child(dock)
 	for entry: Array in [["tools","布局工具","Layout tools"],["mission","任务","Mission"],["memory","内存","Memory"],["trace","运行记录","Trace"],["manual","图解规则","Illustrated rules"]]:
-		_button(dock,_l(entry[1],entry[2]),_toggle.bind(entry[0]))
+		var tool_button: Button = _button(dock,_l(entry[1],entry[2]),_toggle.bind(entry[0]))
+		tool_button.name = "LayoutTool_"+str(entry[0])
 	# The one action that measures the layout is the row's primary.
-	preload("res://src/ui/instrument_theme.gd").primary(_button(dock,_l("运行全部订单","Run all cases"),_run_all))
+	var run_button: Button = _button(dock,_l("运行全部订单","Run all cases"),_run_all)
+	run_button.name = "LayoutRunAll"
+	preload("res://src/ui/instrument_theme.gd").primary(run_button)
 	_button(dock,_l("撤销","Undo"),_undo.bind(false))
 	_button(dock,_l("重做","Redo"),_undo.bind(true))
 	_button(dock,_l("提示","Hint"),_hint_request)
@@ -102,6 +108,7 @@ func _ready() -> void:
 	root.add_child(status)
 	workspace = Control.new()
 	workspace.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	workspace.resized.connect(func() -> void: call_deferred("_layout_stage"))
 	root.add_child(workspace)
 	confirmation = ConfirmationDialog.new()
 	confirmation.title=_l("查看下一层提示","Reveal next hint")
@@ -148,6 +155,19 @@ func _open(id: String) -> void:
 	source_view = Memory.new(); memory_box.add_child(source_view)
 	copy_view = Memory.new(); memory_box.add_child(copy_view); copy_view.hide()
 	results = _box(_panel("trace",_l("运行与比较","Runs and comparison"),Vector2(1005,10),Vector2(570,610)))
+	var result_scroll: ScrollContainer = results.get_parent()
+	panels.trace.content_host.remove_child(result_scroll)
+	var result_column := VBoxContainer.new()
+	panels.trace.content_host.add_child(result_column)
+	return_to_editing = _button(result_column,_l("继续调整","Continue adjusting"),_show_editing)
+	return_to_editing.name = "LayoutContinueAdjusting"
+	return_to_editing.hide()
+	result_context = _label(_l("历史运行 · 草稿已改变，请重新运行。","Previous run · draft changed; run again."),true)
+	result_context.name = "LayoutPreviousRun"
+	result_column.add_child(result_context)
+	result_context.hide()
+	result_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	result_column.add_child(result_scroll)
 	_build_mission()
 	_build_manual()
 	_rebuild_tools()
@@ -161,17 +181,70 @@ func _open(id: String) -> void:
 
 func _layout_stage() -> void:
 	for frame: int in 3: await get_tree().process_frame
-	if not is_instance_valid(workspace): return
+	if not is_instance_valid(workspace) or not panels.has("trace"): return
 	var area: Vector2 = workspace.size
-	var side_width: float = 460.0 if panels.trace.visible else 310.0
-	var right: bool = panels.trace.visible
-	for id: String in ["tools","mission","trace"]:
-		var panel: FloatingInstrumentPanel = panels[id]
-		if not panel.visible: continue
-		panel.position = Vector2(area.x-side_width-8 if right else 8.0,8)
-		panel.size = Vector2(side_width,area.y-16)
-	panels.memory.position = Vector2(8 if right else side_width+20,8)
-	panels.memory.size = Vector2(area.x-side_width-28,area.y-16)
+	var visible_panels: Array[String] = []
+	for id: String in ["tools","memory","trace","mission"]:
+		if panels[id].visible: visible_panels.append(id)
+	if visible_panels.size() == 1:
+		panels[visible_panels[0]].position = Vector2(8,8)
+		panels[visible_panels[0]].size = area-Vector2(16,16)
+		return
+	var inspect: bool = inspecting_evidence and panels.trace.visible
+	var left: String = "memory" if inspect else "mission" if panels.mission.visible else "tools"
+	var right: String = "trace" if panels.trace.visible else "memory"
+	var right_min: float = maxf(460.0,panels[right].get_combined_minimum_size().x)
+	var left_width: float = area.x-right_min-28.0 if inspect else 310.0
+	left_width = maxf(left_width,panels[left].get_combined_minimum_size().x)
+	panels[left].position = Vector2(8,8)
+	panels[left].size = Vector2(left_width,area.y-16)
+	left_width = panels[left].size.x
+	panels[right].position = Vector2(left_width+20,8)
+	panels[right].size = Vector2(area.x-left_width-28,area.y-16)
+
+func _show_editing(preview: bool = false) -> void:
+	inspecting_evidence = false
+	panels.mission.hide()
+	panels.tools.show_instrument()
+	panels.trace.visible = not preview and not runs.is_empty()
+	panels.memory.visible = not panels.trace.visible
+	panels["trace" if panels.trace.visible else "memory"].show_instrument()
+	if panels.memory.visible: _refresh_memory()
+	if is_instance_valid(return_to_editing): return_to_editing.hide()
+	call_deferred("_layout_stage")
+
+func _show_evidence(restore_selection: bool = true) -> void:
+	if runs.is_empty():
+		_show_editing(true)
+		return
+	inspecting_evidence = true
+	panels.tools.hide(); panels.mission.hide()
+	# Editing/preview may have replaced the address map with the unmeasured draft.
+	# Inspection always returns to the selected event's recorded physical addresses.
+	if restore_selection and is_instance_valid(trace_list):
+		var selected: PackedInt32Array = trace_list.get_selected_items()
+		if not selected.is_empty(): _trace_selected(selected[0],false)
+		else: _select_trace(case_index)
+	panels.memory.show_instrument(); panels.trace.show_instrument()
+	if is_instance_valid(return_to_editing): return_to_editing.show()
+	call_deferred("_layout_stage")
+
+func _inspect_case(index: int) -> void:
+	_select_trace(index)
+	_show_evidence()
+
+func _close_workspace_panel(id: String) -> void:
+	if id == "tools":
+		if not runs.is_empty(): _show_evidence()
+		else:
+			panels.tools.hide(); panels.memory.show_instrument()
+	elif id == "memory":
+		_show_editing()
+		if runs.is_empty(): panels.memory.hide()
+	elif id in ["trace","mission"]:
+		_show_editing(id == "trace")
+	else: panels[id].hide()
+	call_deferred("_layout_stage")
 
 func _current() -> Dictionary:
 	return design.orders[["A","B"][case_index]] if level == "relocation" else design
@@ -310,6 +383,7 @@ func _undo(redo: bool) -> void:
 func _changed(rebuild: bool = true, record: bool = true) -> void:
 	if is_instance_valid(journey_context): journey_context.draft_changed()
 	stale=true
+	if is_instance_valid(result_context): result_context.show()
 	for child: Node in results.get_children():
 		if child is Button and str(child.name).begins_with("LayoutLocateIssue"): child.disabled = true
 	LayoutChapter.store_draft(level,design)
@@ -342,8 +416,7 @@ func _refresh_memory() -> void:
 		copy_view.show()
 
 func _begin_arranging() -> void:
-	panels.mission.hide()
-	panels.memory.show_instrument()
+	_show_editing(true)
 
 func _build_mission() -> void:
 	var box: VBoxContainer = _box(_panel("mission",Localization.text(&"layout.mission.window_title"),Vector2(405,10),Vector2(780,590)))
@@ -406,6 +479,8 @@ func _run_all() -> void:
 	var report: Dictionary = C.evaluate(level,design)
 	runs = report.runs; stale=false
 	for child: Node in results.get_children(): child.free()
+	return_to_editing.hide()
+	result_context.hide()
 	var optional_summary: Label
 	if level == "mixed":
 		optional_summary = _label("",true)
@@ -455,7 +530,8 @@ func _run_all() -> void:
 		outputs.hide(); results.add_child(outputs)
 		_button(results,Localization.text(&"s5.layout.details"),func() -> void: outputs.visible=not outputs.visible)
 		case_rows.append({"name":run.test_name,"passed":run.passed,"correct":run.passed,"target_met":m.target_met,"result_class":"target_met" if m.target_met else "correct_but_target_unmet" if run.passed else "space_limit" if m.error=="space_limit" else "runtime_error","metrics":m.duplicate(true)})
-		_button(results,_l("查看订单 ","Inspect case ")+run.test_name,_select_trace.bind(i))
+		var inspect_button: Button = _button(results,_l("查看订单 ","Inspect case ")+run.test_name,_inspect_case.bind(i))
+		inspect_button.name = "LayoutInspectCase"+str(i)
 		if not m.target_met:
 			var locate: Button = _button(results,_l("定位这单的未达标证据","Locate this case's unmet condition"),_locate_case_issue.bind(i))
 			locate.name = "LayoutLocateIssue"+str(i)
@@ -466,10 +542,8 @@ func _run_all() -> void:
 	var all_correct: bool = true
 	for run: LayoutRun in runs: all_correct=all_correct and run.passed
 	PlaytestData.record_official_run(&"chapter_4",StringName(level),report.passed,{"strategy":str(design.get("strategy","direct")),"case_count":runs.size(),"cases":case_rows,"correct":all_correct,"target_met":report.passed,"result_class":"target_met" if report.passed else "correct_but_target_unmet" if all_correct else "runtime_error","cycles":LayoutChapter.cost(report),"model_version":S.MODEL_VERSION,"case_set_version":("layout-v1:"+level+JSON.stringify(C.cases(level))).sha256_text(),"recipe_digest":_measured_recipe_digest()})
-	panels.tools.hide(); panels.mission.hide()
-	panels.memory.show()
 	_select_trace(case_index)
-	_toggle("trace",true)
+	_show_editing()
 	status.text=_l("全部订单达标 · 可以继续探索另一份方案。","All cases passed · try another design.") if report.passed else _l("查看结果：输出、时间与空间分别核对，再修改布局。","Inspect output, time and space separately, then adjust the layout.")
 	_show_challenge_result()
 	if report.passed:
@@ -552,8 +626,7 @@ func _locate_case_issue(index: int) -> void:
 	if row < 0 and not trace_indices.is_empty(): row = 0
 	if row >= 0:
 		trace_list.select(row); _trace_selected(row); trace_list.ensure_current_is_visible()
-	_toggle("memory",true)
-	_toggle("trace",true)
+	_show_evidence()
 	trace_list.grab_focus()
 	status.text = _l("订单 %s：已定位原事件；合同差额仍在本单结果中。","Case %s: recorded event selected; contract gaps remain in this case's results.") % run.test_name
 
@@ -594,13 +667,14 @@ func _select_trace(index: int) -> void:
 		trace_list.add_item("%d · %s · %s · %s · %d B" % [event.cycle,phase,action,address,int(event.details.get("bytes",0))])
 	if not trace_indices.is_empty():
 		trace_list.select(0)
-		_trace_selected(0)
+		_trace_selected(0,false)
 	PlaytestData.record_trace_action(&"chapter_4",StringName(level),&"case_selected")
-func _trace_selected(index: int) -> void:
+func _trace_selected(index: int, inspect: bool = true) -> void:
 	if case_index < 0 or case_index >= runs.size() or index < 0 or index >= trace_indices.size(): return
 	var run: LayoutRun = runs[case_index]
 	var event_index: int = trace_indices[index]
 	if event_index < 0 or event_index >= run.events.size(): return
+	if inspect: _show_evidence(false)
 	var event: SimulationEvent = run.events[event_index]
 	var history: String = _l(" · 历史结果", " · previous run") if stale else ""
 	source_view.configure(run.source_map,C.cases(level)[case_index].records,_l("此轮实际源地址", "Source addresses in this run")+history)
@@ -725,7 +799,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _panel(id: String, caption: String, at: Vector2, dimensions: Vector2) -> FloatingInstrumentPanel:
 	var panel := Instrument.new(); panel.custom_minimum_size=Vector2(280,190); panel.setup(StringName(id),caption)
 	panel.position=at; panel.size=dimensions; workspace.add_child(panel); panels[id]=panel
-	panel.close_requested.connect(func(_id: StringName) -> void: panel.hide())
+	panel.close_requested.connect(func(_id: StringName) -> void: _close_workspace_panel(id))
 	panel.focus_requested.connect(func(_id: StringName) -> void: workspace.move_child(panel,-1))
 	call_deferred("_settle",panel,dimensions)
 	return panel
@@ -734,7 +808,25 @@ func _settle(panel: FloatingInstrumentPanel, dimensions: Vector2) -> void:
 	if is_instance_valid(panel): panel.size=dimensions; panel.fit_to_parent()
 func _toggle(id: String, force: bool = false) -> void:
 	if not panels.has(id): return
+	if id == "tools":
+		_show_editing()
+		return
+	if id == "trace":
+		_show_editing(panels.trace.should_hide_on_toggle() and not force)
+		return
+	if id == "memory":
+		if panels.memory.should_hide_on_toggle() and not force: _show_editing()
+		elif runs.is_empty(): _show_editing(true)
+		else:
+			_show_evidence()
+		return
+	if id == "mission" and panels.mission.should_hide_on_toggle() and not force:
+		_show_editing()
+		return
 	panels[id].visible = force or not panels[id].should_hide_on_toggle()
+	if id == "mission" and panels[id].visible:
+		inspecting_evidence = false
+		panels.memory.show(); _refresh_memory()
 	if panels[id].visible and id in ["tools","mission","trace"]:
 		for other: String in ["tools","mission","trace"]:
 			if other != id: panels[other].hide()

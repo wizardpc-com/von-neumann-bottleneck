@@ -1,4 +1,8 @@
-# Chapter interaction simplicity — active goal
+# Chapter interaction simplicity — development paused after handoff
+
+User closure instruction (2026-11-13): finish the existing development and push.
+Finish the current Ch3/Ch4/Ch7 block, then stop opening new work. The broader
+whole-product acceptance goal is not declared achieved; pending rows remain below.
 
 ## Objective
 
@@ -25,11 +29,11 @@ No new simulation, tasks, art direction, reward thresholds, save formats or depe
 | Prologue construction | Pending | Pending | Pending | Pending | Unverified |
 | Ch1 system costs | Partial: prediction setup | Partial: covered TEST to Run | Pending | Scripted bilingual recall passed | Unverified |
 | Ch2 locality | Partial: applied program | Partial: covered TEST to Run | Pending | Scripted bilingual recall passed | Unverified |
-| Ch3 overlap | Pending | Pending | Pending | Pending | Unverified |
-| Ch4 layout | Pending | Pending | Pending | Pending | Unverified |
+| Ch3 overlap | Partial: complete current command reference | Partial: actual edit and Run | Existing draft regressions | Bilingual six-task expanded reference | Unverified |
+| Ch4 layout | Partial: tools/results iteration | Partial: real Run, inspect and return | Naming, Undo, rankings/challenge regressions | Bilingual six-task flow and final GPU passed | Unverified |
 | Ch5 representation | Partial: valid split input | Pending | Partial: Undo/Redo and task context | Bilingual split input rendered | Unverified |
 | Ch6 service | Partial: direct encoding/multiselect | Partial: measured edit/retry | Partial: explicit save/Undo/language context | Scripted bilingual menus passed | Unverified |
-| Ch7 address prediction | Pending | Pending | Pending | Pending | Unverified |
+| Ch7 address prediction | Partial: per-investigation temporary context | Partial: exact reveal continuation and historical source | Cached work included in leave guard | Bilingual context/reading final GPU passed | Unverified |
 | Ch8 compression | Pending | Pending | Pending | Pending | Unverified |
 | Ch9 content prediction | Pending | Pending | Pending | Pending | Unverified |
 | Ch10 creation | Pending | Pending | Pending | Pending | Unverified |
@@ -82,9 +86,11 @@ only after concrete obstacles are identified. Read relevant code/tests/docs firs
   click, preserve legal user geometry and draft/history, and deliver the next real
   Run click. Bilingual viewport98/headless and114/GPU checks passed; no runtime fix
   needed. This does not resolve every discovery/space tradeoff. Keep Apply explicit.
-- Pending: Layout editing/results switch loses editing visibility each iteration;
-  three columns cannot fit existing readable minimums at1280. Do not shrink text.
-- Pending: Overlap syntax reference exposes one command at a time, adding lookup steps.
+- Implemented: Layout retains tools/results in two columns, with explicit address
+  inspection, fixed return and truthful historical maps. Localized minimum widths
+  and viewport resize drive layout; no smaller typography or three-column squeeze.
+- Verified: Overlap displays its existing public reference together in all six
+  tasks and both languages, including expanded experiment prompts.
 - Pending: scheduling conditions live apart from the rankings they filter.
 - Second milestone verified: Representation Split follows the selected
   block interior and explains unavailable cases; Service directly chooses encoding
@@ -93,8 +99,9 @@ only after concrete obstacles are identified. Read relevant code/tests/docs firs
   [Receipt](../../verification/20261113-selection-controls/README.md).
   Initial popup-on-press failure was corrected before delivery; native OS input
   remains unverified, and no full-product acceptance is implied.
-- Pending: Prediction changing investigations clears partial observation without
-  explicit loss feedback.
+- Implemented: Prediction keeps per-investigation temporary context and guards
+  inactive work on departure; explicit edits/reset still invalidate the prefix.
+  Actual pixel review also repaired event/specification reading space.
 - Current baseline: historical prediction-record and service-undo failures do NOT
   reproduce (28 and124 checks pass). Do not treat old failures as current defects.
 
@@ -109,3 +116,25 @@ Assume an unfamiliar player who uses ordinary mouse/keyboard controls, without
 knowledge of Godot or project internals. Preserve authored educational challenges;
 reduce interface work around them. Platform/export and novice acceptance remain
 explicitly open; no claim of absolute minimum cognitive load from expert inspection.
+
+- Third milestone in progress from clean remote-confirmed e6586b3: preserve temporary
+  per-investigation Prediction context, show the existing Overlap reference together,
+  and retain Layout tools alongside results with explicit address inspection. Root
+  owns engine/Git; three agents have disjoint host/new-test ownership. Simulation,
+  saved formats, authored commands and completion authority remain unchanged.
+  Verification and full chapter/native/novice acceptance are still pending.
+
+- Third-milestone pixel review found an existing Prediction layout obstruction:
+  at1280x720 its event table exposes only part of a row and Task/machine scroll
+  gets no usable height. Extend this same interaction block to give both real
+  reading space, retaining existing text, font sizes and observation authority.
+  State tests alone were insufficient; rerun context and presentation checks.
+
+- Closure:21 distinct selected suites have passing evidence. Final new headless
+  counts605/1563/507/390; existing Prediction presentation1225. GPU655/1593/537/416,
+  with32 main-flow raw bilingual images independently inspected. A final one-line
+  Chinese repeated-success translation repair has2 additional passing existing
+  suites and2 dedicated rendered cue frames; main-flow images precede that text fix. Initial failures and
+  two before-images are retained in the [receipt](../../verification/20261113-context-and-reference/README.md).
+  This block is verified for commit/push; broader development pauses at the user's
+  request, without claiming whole-product/native/novice acceptance.

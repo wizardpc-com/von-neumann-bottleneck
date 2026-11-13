@@ -1,0 +1,249 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/user_directory"
+    },
+    {
+      "name": "test_candidate_language_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_candidate_language_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_candidate_language_navigation"
+    },
+    {
+      "name": "test_layout_challenge_controller",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+        "ERROR: 13 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+      ],
+      "log": "test_layout_challenge_controller.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_challenge_controller"
+    },
+    {
+      "name": "test_layout_editing_continuity",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+        "ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+      ],
+      "log": "test_layout_editing_continuity.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_editing_continuity"
+    },
+    {
+      "name": "test_layout_iteration_flow",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: relocationen return: readable columns inside workspace without overlap",
+        "ERROR: relocationen toolbar return: readable columns inside workspace without overlap",
+        "ERROR: relocationen close evidence: readable columns inside workspace without overlap",
+        "ERROR: relocationen close results: readable columns inside workspace without overlap",
+        "ERROR: relocationen restore minimized editor: readable columns inside workspace without overlap",
+        "ERROR: batchesen entry: readable columns inside workspace without overlap",
+        "ERROR: batchesen recall preview: readable columns inside workspace without overlap",
+        "ERROR: batchesen run: readable columns inside workspace without overlap",
+        "ERROR: batchesen edit: readable columns inside workspace without overlap",
+        "ERROR: batchesen rerun: readable columns inside workspace without overlap",
+        "ERROR: batchesen return: readable columns inside workspace without overlap",
+        "ERROR: batchesen toolbar return: readable columns inside workspace without overlap",
+        "ERROR: batchesen close evidence: readable columns inside workspace without overlap",
+        "ERROR: batchesen close results: readable columns inside workspace without overlap",
+        "ERROR: batchesen restore minimized editor: readable columns inside workspace without overlap",
+        "ERROR: mixeden entry: readable columns inside workspace without overlap",
+        "ERROR: mixeden recall preview: readable columns inside workspace without overlap",
+        "ERROR: mixeden run: readable columns inside workspace without overlap",
+        "ERROR: mixeden edit: readable columns inside workspace without overlap",
+        "ERROR: mixeden rerun: readable columns inside workspace without overlap",
+        "ERROR: mixeden return: readable columns inside workspace without overlap",
+        "ERROR: mixeden toolbar return: readable columns inside workspace without overlap",
+        "ERROR: mixeden close evidence: readable columns inside workspace without overlap",
+        "ERROR: mixeden close results: readable columns inside workspace without overlap",
+        "ERROR: mixeden restore minimized editor: readable columns inside workspace without overlap",
+        "FAIL: layout iteration flow 1177 checks, 25 failures",
+        "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+        "ERROR: 13 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+      ],
+      "log": "test_layout_iteration_flow.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_iteration_flow"
+    },
+    {
+      "name": "test_layout_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_navigation"
+    },
+    {
+      "name": "test_layout_preview_selection",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+        "ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 59 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+      ],
+      "log": "test_layout_preview_selection.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_preview_selection"
+    },
+    {
+      "name": "test_layout_recipe_sources",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+        "ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+      ],
+      "log": "test_layout_recipe_sources.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_recipe_sources"
+    },
+    {
+      "name": "test_layout_scoreboard_ui",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+        "ERROR: 7 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+      ],
+      "log": "test_layout_scoreboard_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_scoreboard_ui"
+    },
+    {
+      "name": "test_layout_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_layout_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_simulation"
+    },
+    {
+      "name": "test_layout_ui",
+      "exit": 0,
+      "passed": false,
+      "errors": [
+        "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+        "ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+        "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+        "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+      ],
+      "log": "test_layout_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_layout_ui"
+    },
+    {
+      "name": "test_overlap_instruction_reference",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: zh_CN-arrival: reading the reference preserves program, board and caret",
+        "ERROR: zh_CN-buffers: reading the reference preserves program, board and caret",
+        "ERROR: zh_CN-backpressure: reading the reference preserves program, board and caret",
+        "ERROR: zh_CN-prefetch: reading the reference preserves program, board and caret",
+        "ERROR: zh_CN-distance: reading the reference preserves program, board and caret",
+        "ERROR: zh_CN-synthesis: reading the reference preserves program, board and caret",
+        "FAIL: overlap instruction reference 389 checks, 6 failures"
+      ],
+      "log": "test_overlap_instruction_reference.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_overlap_instruction_reference"
+    },
+    {
+      "name": "test_overlap_player_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_overlap_player_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_overlap_player_input"
+    },
+    {
+      "name": "test_overlap_simulation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_overlap_simulation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_overlap_simulation"
+    },
+    {
+      "name": "test_overlap_ui",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_overlap_ui.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_overlap_ui"
+    },
+    {
+      "name": "test_prediction_investigation_context",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Viewport keyboard selects a revealed event",
+        "ERROR: Returning restores only the previously visible selected event",
+        "ERROR: Viewport keyboard selects a revealed event",
+        "ERROR: Returning restores only the previously visible selected event",
+        "FAIL: prediction investigation context 503 checks, 4 failures"
+      ],
+      "log": "test_prediction_investigation_context.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_prediction_investigation_context"
+    },
+    {
+      "name": "test_prediction_navigation",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_navigation.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_prediction_navigation"
+    },
+    {
+      "name": "test_prediction_player_input",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_player_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_prediction_player_input"
+    },
+    {
+      "name": "test_prediction_record_source",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_record_source.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_prediction_record_source"
+    },
+    {
+      "name": "test_prediction_slice",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_slice.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T130501Z-30f01b2a/test_prediction_slice"
+    }
+  ]
+}

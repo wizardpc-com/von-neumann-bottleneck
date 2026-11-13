@@ -739,25 +739,10 @@ func _build_program(source: String) -> void:
 	editor.text_changed.connect(func() -> void:
 		if not draft_loading: _changed(false))
 	box.add_child(editor)
-	var commands: PackedStringArray = _t("commands."+("arrival" if level=="arrival" else "cache" if level in ["prefetch","distance"] else "both" if level=="synthesis" else "buffer")).split("\n")
-	var help := _label(commands[0],true)
+	var help := _label(_t("commands."+("arrival" if level=="arrival" else "cache" if level in ["prefetch","distance"] else "both" if level=="synthesis" else "buffer")),true)
+	help.name = "OverlapInstructionReference"
 	help.add_theme_font_size_override("font_size",14)
-	var navigation := HBoxContainer.new()
-	box.add_child(navigation)
-	var page := Label.new()
-	page.text = _t("command_card") % [1,commands.size()]
-	page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	navigation.add_child(page)
-	var state: Dictionary = {"index":0}
-	for direction: int in [-1,1]:
-		var button := Button.new()
-		button.text = "←" if direction < 0 else "→"
-		button.custom_minimum_size = Vector2(42,32)
-		button.pressed.connect(func() -> void:
-			state.index = posmod(int(state.index)+direction,commands.size())
-			help.text = commands[state.index]
-			page.text = _t("command_card") % [int(state.index)+1,commands.size()])
-		navigation.add_child(button)
+	help.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(help)
 	_button(box,"run",_run_official)
 

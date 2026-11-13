@@ -17,6 +17,8 @@ var active_trace: Trace
 var active_policy: Dictionary = {}
 var revealed: int = 0
 var selected_run: int = -1
+# Inactive investigations retain their temporary context only in this window.
+var investigation_contexts: Dictionary = {}
 var rule: OptionButton
 var confidence: OptionButton
 var lookahead: OptionButton
@@ -60,23 +62,24 @@ func toggle_language() -> void:
 	if localization != null: localization.set_locale("en" if english else "zh_CN")
 	reload_localized_scene()
 
-func reload_localized_scene() -> Error:
-	# Temporary exploration has no saved copy to reload after a language change.
+func capture_view_context() -> Dictionary:
 	var selected_event: Event
 	if is_instance_valid(events):
 		var selected_row: TreeItem = events.get_selected()
 		if selected_row != null: selected_event = selected_row.get_metadata(0) as Event
-	var previous_tabs: Dictionary = {}
+	var tabs_state: Dictionary = {}
 	for handle: String in ["PredictionRuleTabs", "PredictionEvidenceTabs"]:
 		var tabs := find_child(handle, true, false) as TabContainer
-		if tabs != null: previous_tabs[handle] = tabs.current_tab
-	var localization := get_node_or_null("/root/Localization")
-	if localization != null: english = localization.current_locale() == "en"
-	build()
-	for handle: String in previous_tabs:
+		if tabs != null: tabs_state[handle] = tabs.current_tab
+	return {"tabs":tabs_state,"event":selected_event}
+
+func restore_view_context(view: Dictionary) -> void:
+	var tabs_state: Dictionary = view.get("tabs",{})
+	for handle: String in tabs_state:
 		var tabs := find_child(handle, true, false) as TabContainer
-		if tabs != null: tabs.current_tab = clampi(int(previous_tabs[handle]), 0, tabs.get_tab_count() - 1)
-	# Only restore an event still exposed by refresh's revealed-prefix filter.
+		if tabs != null: tabs.current_tab = clampi(int(tabs_state[handle]), 0, tabs.get_tab_count() - 1)
+	# Restore only an event still exposed by refresh's revealed-prefix filter.
+	var selected_event: Event = view.get("event") as Event
 	if selected_event != null and events.get_root() != null:
 		for row: TreeItem in events.get_root().get_children():
 			if row.get_metadata(0) == selected_event:
@@ -84,6 +87,14 @@ func reload_localized_scene() -> Error:
 				details.text = event_text(selected_event)
 				events.scroll_to_item(row, true)
 				break
+
+func reload_localized_scene() -> Error:
+	# Temporary exploration has no saved copy to reload after a language change.
+	var view: Dictionary = capture_view_context()
+	var localization := get_node_or_null("/root/Localization")
+	if localization != null: english = localization.current_locale() == "en"
+	build()
+	restore_view_context(view)
 	return OK
 
 func text2(zh: String, en: String) -> String: return en if english else zh
@@ -176,7 +187,11 @@ func build() -> void:
 	purpose.name = "TaskPurpose"
 	var timeline: VBoxContainer = _workbench_panel(page,"PredictionTimelinePanel")
 	(timeline.get_parent() as Control).size_flags_vertical = Control.SIZE_FILL
-	timeline_summary = label("",timeline,16); timeline_summary.name = "TimelineSummary"
+	var timeline_heading := HBoxContainer.new(); timeline.add_child(timeline_heading)
+	timeline_summary = label("",timeline_heading,16); timeline_summary.name = "TimelineSummary"
+	timeline_summary.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	observed = _bounded_label(timeline_heading,"ObservedHistory",24)
+	(observed.get_parent() as Control).custom_minimum_size.x = 340
 	var strip_scroll := ScrollContainer.new(); strip_scroll.name = "RequestTimeline"
 	strip_scroll.custom_minimum_size.y = 124; strip_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	strip_scroll.focus_mode = Control.FOCUS_ALL; timeline.add_child(strip_scroll)
@@ -186,8 +201,7 @@ func build() -> void:
 	var editor: VBoxContainer = _workbench_panel(body,"PredictionRulesPanel")
 	(editor.get_parent() as Control).custom_minimum_size.x = 390
 	(editor.get_parent() as Control).size_flags_horizontal = Control.SIZE_FILL
-	(editor.get_parent() as Control).size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	var left_tabs := TabContainer.new(); left_tabs.name = "PredictionRuleTabs"; left_tabs.all_tabs_in_front = false; left_tabs.use_hidden_tabs_for_min_size = false; editor.add_child(left_tabs)
+	var left_tabs := TabContainer.new(); left_tabs.name = "PredictionRuleTabs"; left_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; left_tabs.all_tabs_in_front = false; left_tabs.use_hidden_tabs_for_min_size = false; editor.add_child(left_tabs)
 	var rules: VBoxContainer = _tab_page(left_tabs,text2("构造规则","Build a rule"))
 	var instruction: Label = label(first_experiment_short_text(),rules,16)
 	instruction.name = "FirstOperation"; instruction.tooltip_text = first_experiment_text()
@@ -200,7 +214,7 @@ func build() -> void:
 	var draft_note: Label = label(text2("改变规则会清空当前观察前缀；本次已完成记录仍保留。", "Rule edits clear this prefix; completed records remain."),rules,14)
 	draft_note.name = "DraftBoundary"; draft_note.add_theme_color_override("font_color",MUTED)
 	var specification: VBoxContainer = _tab_page(left_tabs,text2("任务与机器","Task and machine"))
-	button("中文 / EN","Language",specification,toggle_language)
+	button("中文 / EN","Language",top,toggle_language)
 	var specification_scroll := ScrollContainer.new(); specification_scroll.name = "SpecificationScroll"
 	specification_scroll.focus_mode = Control.FOCUS_ALL
 	specification_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL; specification_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED; specification.add_child(specification_scroll)
@@ -218,23 +232,25 @@ func build() -> void:
 	button(text2("新一轮","New run"),"Restart",actions,restart)
 	button(text2("提示","Hint"),"Hint1",top,func() -> void: status.text = hint_text())
 	top.move_child(find_child("Hint1",true,false),2)
-	status = _bounded_label(editor,"Status",100)
+	status = _bounded_label(editor,"Status",80)
 	var evidence: VBoxContainer = _workbench_panel(body,"PredictionEvidencePanel")
 	var evidence_title: Label = label(text2("观察与实测记录","Observation and measured records"),evidence,18)
 	evidence_title.add_theme_font_override("font",Typography.HEADING_FONT)
 	recorded_source = _bounded_label(evidence,"RecordedSource",40)
-	observed = _bounded_label(evidence,"ObservedHistory",24)
 	var right_tabs := TabContainer.new(); right_tabs.name = "PredictionEvidenceTabs"; right_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL; right_tabs.all_tabs_in_front = false; right_tabs.use_hidden_tabs_for_min_size = false; evidence.add_child(right_tabs)
 	var outcome: VBoxContainer = _tab_page(right_tabs,text2("结果","Result"))
 	result = _bounded_label(outcome,"Result",80,true)
 	result.mouse_filter = Control.MOUSE_FILTER_PASS
 	result.tooltip_text = text2("基线：同一请求流，关闭猜测。\n浪费：预测搬来却未使用的数据。\n污染未命中：本轮未命中，而基线命中的次数。", "Baseline: same stream, prediction Off.\nWasted: predicted bytes unused before eviction or run end.\nPollution misses: this run missed where Off hit.")
 	var trace_page: VBoxContainer = _tab_page(right_tabs,text2("事件详情","Event details"))
+	var event_reading := HSplitContainer.new(); event_reading.name = "PredictionEventReading"
+	event_reading.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_page.add_child(event_reading)
 	events = Tree.new(); events.name = "Events"; events.columns = 3; events.hide_root = true; events.column_titles_visible = true
-	events.custom_minimum_size.y = 60; events.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_page.add_child(events)
+	events.custom_minimum_size = Vector2(330,120); events.size_flags_horizontal = Control.SIZE_EXPAND_FILL; events.size_flags_vertical = Control.SIZE_EXPAND_FILL; event_reading.add_child(events)
 	for i: int in 3: events.set_column_title(i,[text2("起点","Start"),text2("时长","Duration"),text2("证据事件","Evidence event")][i])
-	details = RichTextLabel.new(); details.name = "TraceDetails"; details.custom_minimum_size.y = 60
-	details.size_flags_vertical = Control.SIZE_EXPAND_FILL; trace_page.add_child(details)
+	details = RichTextLabel.new(); details.name = "TraceDetails"; details.custom_minimum_size = Vector2(260,120)
+	details.scroll_active = true
+	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL; details.size_flags_vertical = Control.SIZE_EXPAND_FILL; event_reading.add_child(details)
 	events.item_selected.connect(func() -> void:
 		var row: TreeItem = events.get_selected()
 		if row != null: details.text = event_text(row.get_metadata(0)))
@@ -245,7 +261,10 @@ func build() -> void:
 	refresh_history(); refresh()
 
 func has_session_work() -> bool:
-	return not history.is_empty() or active_trace != null or policy != Model.default_policy()
+	if not history.is_empty() or active_trace != null or policy != Model.default_policy(): return true
+	for context: Dictionary in investigation_contexts.values():
+		if context.active_trace != null or context.policy != Model.default_policy(): return true
+	return false
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if is_instance_valid(terminology_handbook) and terminology_handbook.is_open():
@@ -327,8 +346,19 @@ func edit_policy() -> void:
 func change_task(index: int) -> void:
 	if index < 0 or index >= 3: return
 	if index == task and is_instance_valid(rule): return
+	if is_instance_valid(rule):
+		investigation_contexts[task] = {"policy":policy.duplicate(true),"active_policy":active_policy.duplicate(true),"active_trace":active_trace,"revealed":revealed,"selected_run":selected_run,"view":capture_view_context()}
+	var context: Dictionary = investigation_contexts.get(index,{})
+	investigation_contexts.erase(index)
 	get_node("/root/TaskNavigation").remember_candidate_visit("prediction",index)
-	task = index; active_trace = null; revealed = 0; selected_run = -1; build()
+	task = index
+	# A first visit still carries the current rule, but no observations or receipt.
+	policy = context.get("policy",policy).duplicate(true)
+	active_policy = context.get("active_policy",{}).duplicate(true)
+	active_trace = context.get("active_trace") as Trace
+	revealed = int(context.get("revealed",0)); selected_run = int(context.get("selected_run",-1))
+	build()
+	restore_view_context(context.get("view",{}))
 	_playtest_start()
 
 func restart() -> void:
@@ -499,6 +529,8 @@ func refresh() -> void:
 	observed.get_parent().visible = active_policy.get("rule",policy.rule) != "off"
 	refresh_request_strip()
 	status.text = progress_text()
+	# Reserve the extra line only when earned feedback actually includes it.
+	status.get_parent().custom_minimum_size.y = maxf(80.0,25.0*status.text.split("\n").size())
 
 func public_observation() -> Dictionary:
 	var observed_addresses: Array[int] = []; var decisions: Array[Dictionary] = []; var measured: Array[Dictionary] = []

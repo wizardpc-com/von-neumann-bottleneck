@@ -1,0 +1,34 @@
+[
+  {
+    "suite": "test_localization",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_localization.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.33206375,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/translation-checks/test_localization"
+  },
+  {
+    "suite": "test_f1_cues",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_f1_cues.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.1244851249999996,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/translation-checks/test_f1_cues"
+  }
+]

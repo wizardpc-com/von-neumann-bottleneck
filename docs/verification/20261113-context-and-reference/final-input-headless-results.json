@@ -1,0 +1,56 @@
+[
+  {
+    "suite": "test_prediction_investigation_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_investigation_context.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Actual row click selects the first revealed event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "ERROR: Actual row click selects the first revealed event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "FAIL: prediction investigation context 507 checks, 6 failures"
+    ],
+    "seconds": 36.604010542,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-input-headless/test_prediction_investigation_context"
+  },
+  {
+    "suite": "test_layout_iteration_flow",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_iteration_flow.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Keyboard focus reaches the visible new-group action",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldszh_CN stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldszh_CN stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "ERROR: Keyboard focus reaches the visible new-group action",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldsen stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldsen stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "FAIL: layout iteration flow 1513 checks, 12 failures"
+    ],
+    "seconds": 54.256348333000005,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/final-input-headless/test_layout_iteration_flow"
+  }
+]

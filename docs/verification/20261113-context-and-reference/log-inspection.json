@@ -1,0 +1,627 @@
+[
+  {
+    "log": "candidate-initial/test_layout_navigation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout unified map return, selected tree route, persisted Continue and unavailable navigation"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_prediction_investigation_context.txt",
+    "lines": 49,
+    "summaries": [
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "FAIL: prediction investigation context 503 checks, 4 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_prediction_player_input.txt",
+    "lines": 10,
+    "summaries": [
+      "PASS: prediction player input"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_ui.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: layout six hosts, gates, targets, undo and independent hints",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+      "ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+      "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+      "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+    ]
+  },
+  {
+    "log": "candidate-initial/test_overlap_instruction_reference.txt",
+    "lines": 39,
+    "summaries": [
+      "ERROR: zh_CN-arrival: reading the reference preserves program, board and caret",
+      "ERROR: zh_CN-buffers: reading the reference preserves program, board and caret",
+      "ERROR: zh_CN-backpressure: reading the reference preserves program, board and caret",
+      "ERROR: zh_CN-prefetch: reading the reference preserves program, board and caret",
+      "ERROR: zh_CN-distance: reading the reference preserves program, board and caret",
+      "ERROR: zh_CN-synthesis: reading the reference preserves program, board and caret",
+      "FAIL: overlap instruction reference 389 checks, 6 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_iteration_flow.txt",
+    "lines": 162,
+    "summaries": [
+      "ERROR: relocationen return: readable columns inside workspace without overlap",
+      "ERROR: relocationen toolbar return: readable columns inside workspace without overlap",
+      "ERROR: relocationen close evidence: readable columns inside workspace without overlap",
+      "ERROR: relocationen close results: readable columns inside workspace without overlap",
+      "ERROR: relocationen restore minimized editor: readable columns inside workspace without overlap",
+      "ERROR: batchesen entry: readable columns inside workspace without overlap",
+      "ERROR: batchesen recall preview: readable columns inside workspace without overlap",
+      "ERROR: batchesen run: readable columns inside workspace without overlap",
+      "ERROR: batchesen edit: readable columns inside workspace without overlap",
+      "ERROR: batchesen rerun: readable columns inside workspace without overlap",
+      "ERROR: batchesen return: readable columns inside workspace without overlap",
+      "ERROR: batchesen toolbar return: readable columns inside workspace without overlap",
+      "ERROR: batchesen close evidence: readable columns inside workspace without overlap",
+      "ERROR: batchesen close results: readable columns inside workspace without overlap",
+      "ERROR: batchesen restore minimized editor: readable columns inside workspace without overlap",
+      "ERROR: mixeden entry: readable columns inside workspace without overlap",
+      "ERROR: mixeden recall preview: readable columns inside workspace without overlap",
+      "ERROR: mixeden run: readable columns inside workspace without overlap",
+      "ERROR: mixeden edit: readable columns inside workspace without overlap",
+      "ERROR: mixeden rerun: readable columns inside workspace without overlap",
+      "ERROR: mixeden return: readable columns inside workspace without overlap",
+      "ERROR: mixeden toolbar return: readable columns inside workspace without overlap",
+      "ERROR: mixeden close evidence: readable columns inside workspace without overlap",
+      "ERROR: mixeden close results: readable columns inside workspace without overlap",
+      "ERROR: mixeden restore minimized editor: readable columns inside workspace without overlap",
+      "FAIL: layout iteration flow 1177 checks, 25 failures",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+      "ERROR: 13 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+      "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+      "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_recipe_sources.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: layout recipe sources 13 checks",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+      "ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+      "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+      "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+    ]
+  },
+  {
+    "log": "candidate-initial/import.txt",
+    "lines": 686,
+    "summaries": []
+  },
+  {
+    "log": "candidate-initial/test_overlap_player_input.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: overlap player input"
+    ]
+  },
+  {
+    "log": "candidate-initial/user_directory.txt",
+    "lines": 3,
+    "summaries": []
+  },
+  {
+    "log": "candidate-initial/test_overlap_simulation.txt",
+    "lines": 11,
+    "summaries": [
+      "PASS: deterministic overlap, backpressure, prefetch limits and alternative synthesis"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_prediction_navigation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_prediction_navigation 31 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_candidate_language_navigation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_candidate_language_navigation 83 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_prediction_record_source.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: prediction record source 28 checks"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_overlap_ui.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: Chapter 3 topology, hints, timeline, editable completion and revalidated persistence"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_prediction_slice.txt",
+    "lines": 15,
+    "summaries": [
+      "PASS: prediction slice 5591 checks"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_simulation.txt",
+    "lines": 81,
+    "summaries": [
+      "PASS: layout mapping, real flow, copy costs, bounds, tails and determinism"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_challenge_controller.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: portable challenge controller 66 checks, 0 failures",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+      "ERROR: 13 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+      "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+      "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_editing_continuity.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: layout editing continuity 50 checks, 0 failures",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+      "ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+      "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+      "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_preview_selection.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: layout preview selection 16 checks",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+      "ERROR: 6 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+      "ERROR: 59 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+      "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_scoreboard_ui.txt",
+    "lines": 12,
+    "summaries": [
+      "PASS: layout rankings UI 44 checks, 0 failures",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details).",
+      "ERROR: 7 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.",
+      "ERROR: 64 RID allocations of type 'PN18TextServerAdvanced22ShapedTextDataAdvancedE' were leaked at exit.",
+      "ERROR: 3 RID allocations of type 'PN18TextServerAdvanced12FontAdvancedE' were leaked at exit."
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_layout_challenge_controller.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: portable challenge controller 66 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_layout_editing_continuity.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout editing continuity 50 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_layout_iteration_flow.txt",
+    "lines": 63,
+    "summaries": [
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldszh_CN stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldszh_CN stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldsen stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldsen stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "FAIL: layout iteration flow 1511 checks, 10 failures"
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_layout_preview_selection.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout preview selection 16 checks"
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_layout_recipe_sources.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout recipe sources 13 checks"
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_layout_scoreboard_ui.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout rankings UI 44 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_layout_ui.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout six hosts, gates, targets, undo and independent hints"
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_overlap_instruction_reference.txt",
+    "lines": 15,
+    "summaries": [
+      "PASS: overlap instruction reference 605 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/corrected-headless/test_prediction_investigation_context.txt",
+    "lines": 77,
+    "summaries": [
+      "ERROR: First revealed row has a clickable point inside the actual Tree and viewport",
+      "ERROR: Actual row click selects the first revealed event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "ERROR: First revealed row has a clickable point inside the actual Tree and viewport",
+      "ERROR: Actual row click selects the first revealed event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "FAIL: prediction investigation context 507 checks, 8 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-import/import.txt",
+    "lines": 27,
+    "summaries": []
+  },
+  {
+    "log": "supplement/final-input-headless/test_layout_iteration_flow.txt",
+    "lines": 75,
+    "summaries": [
+      "ERROR: Keyboard focus reaches the visible new-group action",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldszh_CN stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldszh_CN stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "ERROR: Keyboard focus reaches the visible new-group action",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldsen stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldsen stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "FAIL: layout iteration flow 1513 checks, 12 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-input-headless/test_prediction_investigation_context.txt",
+    "lines": 71,
+    "summaries": [
+      "ERROR: Actual row click selects the first revealed event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "ERROR: Actual row click selects the first revealed event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "FAIL: prediction investigation context 507 checks, 6 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-progress-headless/test_prediction_evidence_space.txt",
+    "lines": 5,
+    "summaries": [
+      "PASS: prediction evidence space 390 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-progress-headless/test_prediction_workbench_presentation.txt",
+    "lines": 45,
+    "summaries": [
+      "ERROR: zh_CN Investigation3 earned: every progress line is visible: [P: (28.0, 624.0), S: (360.0, 97.0)] in [P: (28.0, 624.0), S: (366.0, 80.0)]",
+      "ERROR: zh_CN Investigation3 earned: full progress text fits without clipping",
+      "ERROR: zh_CN Investigation3 earned: progress needs no scrolling",
+      "ERROR: en Investigation3 earned: every progress line is visible: [P: (28.0, 624.0), S: (385.0, 97.0)] in [P: (28.0, 624.0), S: (391.0, 80.0)]",
+      "ERROR: en Investigation3 earned: full progress text fits without clipping",
+      "ERROR: en Investigation3 earned: progress needs no scrolling",
+      "FAIL: test_prediction_workbench_presentation 1225 checks, 6 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-reading-headless/test_candidate_language_navigation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_candidate_language_navigation 83 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-reading-headless/test_prediction_evidence_space.txt",
+    "lines": 5,
+    "summaries": [
+      "PASS: prediction evidence space 390 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-reading-headless/test_prediction_investigation_context.txt",
+    "lines": 23,
+    "summaries": [
+      "PASS: prediction investigation context 507 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-reading-headless/test_prediction_navigation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_prediction_navigation 31 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-reading-headless/test_prediction_player_input.txt",
+    "lines": 10,
+    "summaries": [
+      "PASS: prediction player input"
+    ]
+  },
+  {
+    "log": "supplement/final-reading-headless/test_prediction_record_source.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: prediction record source 28 checks"
+    ]
+  },
+  {
+    "log": "supplement/final-reading-headless/test_prediction_workbench_presentation.txt",
+    "lines": 17,
+    "summaries": [
+      "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 736.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+      "ERROR: Workbench surface fills the logical viewport: [P: (0.0, 0.0), S: (1280.0, 736.0)] in [P: (0.0, 0.0), S: (1280.0, 720.0)]",
+      "FAIL: test_prediction_workbench_presentation 1225 checks, 2 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-accepted/test_layout_iteration_flow.txt",
+    "lines": 18,
+    "summaries": [
+      "SCRIPT ERROR: Cannot call method 'get_window_id' on a previously freed instance.",
+      "SCRIPT ERROR: Cannot call method 'get_window_id' on a previously freed instance.",
+      "ERROR: fieldszh_CN entry: readable columns inside workspace without overlap [bounds=[P: (0.0, 0.0), S: (1252.0, 565.0)] tools=[P: (8.0, 8.0), S: (310.0, 632.0)] min=(280.0, 190.0) combined=(280.0, 190.0) memory=[P: (330.0, 8.0), S: (914.0, 632.0)] min=(280.0, 190.0) combined=(280.0, 190.0)]",
+      "FAIL: layout iteration flow 1593 checks, 1 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-accepted/test_prediction_evidence_space.txt",
+    "lines": 6,
+    "summaries": [
+      "PASS: prediction evidence space 416 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-accepted/test_prediction_investigation_context.txt",
+    "lines": 24,
+    "summaries": [
+      "PASS: prediction investigation context 537 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-final/test_layout_iteration_flow.txt",
+    "lines": 76,
+    "summaries": [
+      "ERROR: Keyboard focus reaches the visible legal grouping action",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldszh_CN stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldszh_CN stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "ERROR: Keyboard focus reaches the visible legal grouping action",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldsen stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldsen stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "FAIL: layout iteration flow 1581 checks, 12 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-final/test_overlap_instruction_reference.txt",
+    "lines": 16,
+    "summaries": [
+      "PASS: overlap instruction reference 655 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-final/test_prediction_investigation_context.txt",
+    "lines": 24,
+    "summaries": [
+      "PASS: prediction investigation context 537 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-layout-final/test_layout_iteration_flow.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: layout iteration flow 1593 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-layout-resize/test_layout_iteration_flow.txt",
+    "lines": 11,
+    "summaries": [
+      "SCRIPT ERROR: Cannot call method 'get_window_id' on a previously freed instance.",
+      "SCRIPT ERROR: Cannot call method 'get_window_id' on a previously freed instance."
+    ]
+  },
+  {
+    "log": "supplement/gpu-translation/test_repeat_cue_translation.txt",
+    "lines": 6,
+    "summaries": [
+      "PASS: bilingual repeat cue rendered"
+    ]
+  },
+  {
+    "log": "supplement/gpu-translation-final/test_repeat_cue_translation.txt",
+    "lines": 6,
+    "summaries": [
+      "PASS: bilingual repeat cue rendered"
+    ]
+  },
+  {
+    "log": "supplement/gpu-translation-sized/test_repeat_cue_translation.txt",
+    "lines": 6,
+    "summaries": [
+      "PASS: bilingual repeat cue rendered"
+    ]
+  },
+  {
+    "log": "supplement/old-baseline/test_interaction_context_baseline.txt",
+    "lines": 7,
+    "summaries": [
+      "BASELINE Layout keeps tools beside measured results false",
+      "BASELINE Overlap full existing public reference simultaneously present false",
+      "BASELINE Prediction returns to four already revealed requests false",
+      "BASELINE Navigation never creates a completion record true",
+      "EXPECTED BASELINE FAILURES: 3 / 3"
+    ]
+  },
+  {
+    "log": "supplement/progress-final/test_prediction_workbench_presentation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_prediction_workbench_presentation 1225 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_interaction_context_baseline.txt",
+    "lines": 8,
+    "summaries": [
+      "BASELINE Layout keeps tools beside measured results true",
+      "BASELINE Overlap full existing public reference simultaneously present true",
+      "BASELINE Prediction returns to four already revealed requests true",
+      "BASELINE Navigation never creates a completion record true",
+      "EXPECTED BASELINE FAILURES: 0 / 3",
+      "PASS: current source satisfies all three previous interaction obstacles"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_layout_challenge_controller.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: portable challenge controller 66 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_layout_editing_continuity.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout editing continuity 50 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_layout_iteration_flow.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout iteration flow 1563 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_layout_preview_selection.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout preview selection 16 checks"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_layout_recipe_sources.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout recipe sources 13 checks"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_layout_scoreboard_ui.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout rankings UI 44 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_layout_ui.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout six hosts, gates, targets, undo and independent hints"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_prediction_evidence_space.txt",
+    "lines": 143,
+    "summaries": [
+      "ERROR: zh_CN-task0: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: zh_CN-task0: actual wheel input makes the task specification readable",
+      "ERROR: zh_CN-task0: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: zh_CN-task1: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: zh_CN-task1: actual wheel input makes the task specification readable",
+      "ERROR: zh_CN-task1: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: zh_CN-task2: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: zh_CN-task2: actual wheel input makes the task specification readable",
+      "ERROR: zh_CN-task2: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: en-task0: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: en-task0: actual wheel input makes the task specification readable",
+      "ERROR: en-task0: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: en-task1: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: en-task1: actual wheel input makes the task specification readable",
+      "ERROR: en-task1: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: en-task2: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: en-task2: actual wheel input makes the task specification readable",
+      "ERROR: en-task2: actual machine-cost text has complete visible lines after scrolling",
+      "FAIL: prediction evidence space 390 checks, 18 failures"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_prediction_investigation_context.txt",
+    "lines": 23,
+    "summaries": [
+      "PASS: prediction investigation context 507 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/reading-headless/test_prediction_workbench_presentation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_prediction_workbench_presentation 1225 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/translation-checks/test_f1_cues.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: F1 presentation 5 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/translation-checks/test_localization.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: Chinese default, English catalog, key coverage, and locale-independent simulation tests passed"
+    ]
+  },
+  {
+    "log": "supplement/translation-import/import.txt",
+    "lines": 21,
+    "summaries": []
+  }
+]

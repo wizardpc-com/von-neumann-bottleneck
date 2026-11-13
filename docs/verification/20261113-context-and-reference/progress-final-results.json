@@ -1,0 +1,18 @@
+[
+  {
+    "suite": "test_prediction_workbench_presentation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_workbench_presentation.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 6.119945417,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/progress-final/test_prediction_workbench_presentation"
+  }
+]

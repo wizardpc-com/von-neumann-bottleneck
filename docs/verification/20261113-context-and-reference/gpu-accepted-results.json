@@ -1,0 +1,76 @@
+[
+  {
+    "suite": "test_layout_iteration_flow",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_layout_iteration_flow.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-iteration-capture",
+      "--prediction-context-capture",
+      "--prediction-evidence-capture"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "SCRIPT ERROR: Cannot call method 'get_window_id' on a previously freed instance.",
+      "SCRIPT ERROR: Cannot call method 'get_window_id' on a previously freed instance.",
+      "ERROR: fieldszh_CN entry: readable columns inside workspace without overlap [bounds=[P: (0.0, 0.0), S: (1252.0, 565.0)] tools=[P: (8.0, 8.0), S: (310.0, 632.0)] min=(280.0, 190.0) combined=(280.0, 190.0) memory=[P: (330.0, 8.0), S: (914.0, 632.0)] min=(280.0, 190.0) combined=(280.0, 190.0)]",
+      "FAIL: layout iteration flow 1593 checks, 1 failures"
+    ],
+    "seconds": 174.843017875,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/gpu-accepted/test_layout_iteration_flow"
+  },
+  {
+    "suite": "test_prediction_investigation_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_prediction_investigation_context.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-iteration-capture",
+      "--prediction-context-capture",
+      "--prediction-evidence-capture"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 71.543301208,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/gpu-accepted/test_prediction_investigation_context"
+  },
+  {
+    "suite": "test_prediction_evidence_space",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_prediction_evidence_space.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--layout-iteration-capture",
+      "--prediction-context-capture",
+      "--prediction-evidence-capture"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 77.13770654199999,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/gpu-accepted/test_prediction_evidence_space"
+  }
+]

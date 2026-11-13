@@ -1,0 +1,85 @@
+[
+  {
+    "suite": "test_prediction_investigation_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_prediction_investigation_context.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--prediction-context-capture",
+      "--layout-iteration-capture",
+      "--overlap-reference-capture"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 70.6255365,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/gpu-final/test_prediction_investigation_context"
+  },
+  {
+    "suite": "test_layout_iteration_flow",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_layout_iteration_flow.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--prediction-context-capture",
+      "--layout-iteration-capture",
+      "--overlap-reference-capture"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Keyboard focus reaches the visible legal grouping action",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldszh_CN stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldszh_CN stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "ERROR: Keyboard focus reaches the visible legal grouping action",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldsen stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldsen stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "FAIL: layout iteration flow 1581 checks, 12 failures"
+    ],
+    "seconds": 176.505863125,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/gpu-final/test_layout_iteration_flow"
+  },
+  {
+    "suite": "test_overlap_instruction_reference",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_overlap_instruction_reference.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--prediction-context-capture",
+      "--layout-iteration-capture",
+      "--overlap-reference-capture"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 113.105251291,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/gpu-final/test_overlap_instruction_reference"
+  }
+]

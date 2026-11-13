@@ -82,6 +82,17 @@ completed measured receipts, and evidence-goal status. No active hidden Trace or
 catalog is returned. Completed runs contain full measured metrics because those
 demands have already been observed. Policy edits restart partial evidence but never
 mutate completed receipts. Task switching is unrestricted; goals do not hide streams.
+Within the current window, returning to an investigation restores its rule, exact
+revealed prefix, selected completed receipt and evidence view. First visits still
+carry the current rule without observations. Switching never runs simulation or
+records a result; editing the rule or starting a new round explicitly resets that
+investigation's partial evidence. Leaving discards all investigation contexts, and
+the leave guard includes work in inactive investigations. No new saved format is
+introduced.
+At1280x720, event rows and scrollable details share a horizontal split; Task/machine
+receives the available left-tab height. The existing language action is in the
+header and the short observed-rule reason sits beside the request timeline title,
+leaving space for complete event rows without reducing typography.
 
 Objectives judge actual comparisons, not specific policies: regular flow needs an
 Off receipt and a faster useful prediction; other tasks need a slower wasted/

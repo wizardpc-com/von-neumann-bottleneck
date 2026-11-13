@@ -18,6 +18,18 @@ Arithmetic costs 1 cycle per consumed query value; writing a logical result to t
 
 Runs use `SimulationTrace`/`SimulationEvent`, with a layout-specific result carrying ordered outputs and mappings. Events bind logical identity, physical address, cache line, stage and actual bytes. Recipe and strategy signatures bind model and cases; window locations, playback, names and map coordinates are excluded. Restore replays accepted designs; draft/named schemes remain available even when evidence no longer qualifies. New state uses a versioned optional global-save field and never rewrites old-domain progress.
 
+## Editing and inspection
+
+The workbench uses two columns at the standard window size. Before running, tools
+sit beside the address preview; after running, tools remain beside the measured
+results so another edit does not require reopening the tool. Explicit case/address
+inspection replaces the tools with the address view; returning to editing retains
+the selected case, filter, pending name and result. Return and stale-result status
+stay outside the result scroll, so inspecting a lower case does not hide them.
+Edits keep old results visibly
+stale until another real Run. View changes never run, save a named copy or award
+completion. The detailed Trace remains authoritative evidence of the measured run.
+
 ## Personal comparisons and challenges
 
 `layout_scoreboard.gd` is a pure read-only evaluator. It accepts candidate recipes

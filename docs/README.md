@@ -1,5 +1,7 @@
 # Documentation map
 
+- [第三／四／七章指令查阅、迭代与调查上下文收尾（2026-11-13）](verification/20261113-context-and-reference/README.md)
+
 - [输入边界、命名副本与安全退出修复（2026-11-13）](verification/20261113-input-preservation/README.md)
 
 - [Claude新旧视觉方案与Logo待审清单（2026-11-12）](development/VISUAL_DECISIONS_20261112.md)

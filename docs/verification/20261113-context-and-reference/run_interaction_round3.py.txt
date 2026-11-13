@@ -1,0 +1,36 @@
+import subprocess,json,sys,re,time
+from pathlib import Path
+root=Path(__file__).resolve().parents[2]
+qa=Path(sys.argv[1]).resolve()
+label=sys.argv[2]
+gpu=label.startswith("gpu")
+out=root/".godot"/"interaction-round3-20261113"/label
+out.mkdir(parents=True,exist_ok=True)
+settings=(qa/"project.godot").read_text()
+results=[]
+args=sys.argv[3:]
+split=args.index("--") if "--" in args else len(args)
+suites=args[:split]
+extra=args[split+1:]
+for suite in suites:
+ profile="VonNeumannBottleneckChecks/interaction-round3-20261113/"+label+"/"+suite
+ text=re.sub(r'config/custom_user_dir_name=.*', 'config/custom_user_dir_name='+json.dumps(profile),settings)
+ (qa/"project.godot").write_text(text)
+ cmd=["/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot","--path",str(qa)]
+ cmd+= ["--windowed","--resolution","1280x720"] if gpu else ["--headless"]
+ cmd += ["--script","res://tests/"+suite+".gd"]
+ if gpu: cmd += ["--","--capture-size=1280x720"]+extra
+ elif extra: cmd += ["--"]+extra
+ start=time.monotonic()
+ with (out/(suite+".txt")).open("wb") as log:
+  p=subprocess.Popen(cmd,stdout=log,stderr=subprocess.STDOUT)
+  try: code=p.wait(timeout=300 if gpu else 180)
+  except subprocess.TimeoutExpired:
+   p.terminate(); code=p.wait(timeout=10)
+ data=(out/(suite+".txt")).read_text()
+ bad=[l for l in data.splitlines() if ("ERROR:" in l or l.startswith("FAIL:")) and "root certificate store" not in l]
+ results.append(dict(suite=suite,command=cmd,exit=code,passed=code==0 and not bad and "PASS:" in data,errors=bad,seconds=time.monotonic()-start,profile=profile))
+ (out/"results.json").write_text(json.dumps(results,indent=2))
+ print(suite,code,"PASS" if results[-1]["passed"] else "FAIL",flush=True)
+
+sys.exit(0 if results and all(item["passed"] for item in results) else 1)

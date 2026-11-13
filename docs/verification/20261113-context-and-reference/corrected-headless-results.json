@@ -1,0 +1,168 @@
+[
+  {
+    "suite": "test_prediction_investigation_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_investigation_context.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: First revealed row has a clickable point inside the actual Tree and viewport",
+      "ERROR: Actual row click selects the first revealed event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "ERROR: First revealed row has a clickable point inside the actual Tree and viewport",
+      "ERROR: Actual row click selects the first revealed event",
+      "ERROR: Viewport keyboard selects a revealed event",
+      "ERROR: Returning restores only the previously visible selected event",
+      "FAIL: prediction investigation context 507 checks, 8 failures"
+    ],
+    "seconds": 36.654822209,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_prediction_investigation_context"
+  },
+  {
+    "suite": "test_overlap_instruction_reference",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_overlap_instruction_reference.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 12.022392000000004,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_overlap_instruction_reference"
+  },
+  {
+    "suite": "test_layout_iteration_flow",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_iteration_flow.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldszh_CN stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldszh_CN stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "ERROR: Actual selector choice edits the field grouping",
+      "ERROR: Editing retains explicitly historical measured results",
+      "ERROR: fieldsen stale close editor: visible map explicitly identifies historical evidence",
+      "ERROR: fieldsen stale preview to evidence: visible map explicitly identifies historical evidence",
+      "ERROR: Returning to historical map never remeasures",
+      "FAIL: layout iteration flow 1511 checks, 10 failures"
+    ],
+    "seconds": 53.84332179100001,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_layout_iteration_flow"
+  },
+  {
+    "suite": "test_layout_challenge_controller",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_challenge_controller.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 8.110869625000007,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_layout_challenge_controller"
+  },
+  {
+    "suite": "test_layout_editing_continuity",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_editing_continuity.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.7676625,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_layout_editing_continuity"
+  },
+  {
+    "suite": "test_layout_preview_selection",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_preview_selection.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.401802915999994,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_layout_preview_selection"
+  },
+  {
+    "suite": "test_layout_recipe_sources",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_recipe_sources.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.446059500000004,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_layout_recipe_sources"
+  },
+  {
+    "suite": "test_layout_scoreboard_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_scoreboard_ui.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.3318586250000095,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_layout_scoreboard_ui"
+  },
+  {
+    "suite": "test_layout_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_ui.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.9688329589999967,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/corrected-headless/test_layout_ui"
+  }
+]

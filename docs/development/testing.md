@@ -1,3 +1,27 @@
+## Reference, iteration and investigation context — 2026-11-13
+
+Run `test_overlap_instruction_reference` with Overlap UI/player-input/simulation.
+Check six tasks in both languages, actual edits/Run and expanded experiment notes;
+reference text must equal the existing published commands, with14/19px typography.
+`--overlap-reference-capture` emits12 raw1280x720 frames.
+
+Run `test_layout_iteration_flow` with Layout UI/preview/recipe-source, editing
+continuity, navigation, scoreboard and challenge-controller suites. Require tools
+beside results, actual menu edit and Run, exact full Trace parity, historical map
+binding after stale preview/close, fixed visible Continue, localized minimum widths
+and close/minimized toolbar recovery. `--layout-iteration-capture` emits6 frames.
+
+Run `test_prediction_investigation_context` and `test_prediction_evidence_space`
+with Prediction slice/source/navigation/player-input/presentation and shared language
+navigation. Verify exact observed prefixes, no future metrics, independent rules,
+no resurrection after explicit reset/edit, immutable foreign-history sources and
+inactive-only departure guards. The reading suite uses actual row selection and
+wheel scrolling; presentation must cover both initial and four-line earned states.
+GPU flags: `--prediction-context-capture` and `--prediction-evidence-capture`.
+All captures require actual stable1280x720 pixels and an isolated profile.
+These checks do not establish native or novice acceptance. See
+[the complete receipt](../verification/20261113-context-and-reference/README.md).
+
 ## Split constraints, encoding menus and covered instruments — 2026-11-13
 
 Run `test_representation_split_input` with Region player-input, presentation,

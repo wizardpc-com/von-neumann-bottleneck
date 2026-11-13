@@ -1,0 +1,38 @@
+extends SceneTree
+var failed: int = 0
+func _init() -> void: call_deferred("run")
+func verify(ok: bool, label: String) -> void:
+ print("BASELINE ",label," ",ok)
+ if not ok: failed += 1
+func settle() -> void:
+ for frame: int in 10: await process_frame
+func run() -> void:
+ if not OS.get_user_data_dir().contains("VonNeumannBottleneckChecks"): quit(2); return
+ root.get_node("GameMode").set_mode(&"test")
+ root.get_node("Localization").set_locale("en")
+ root.get_node("TaskNavigation").pending = "chapter_4/fields"
+ var layout: Control = load("res://src/layout_chapter/layout_chapter.tscn").instantiate()
+ root.add_child(layout); await settle()
+ layout._run_all(); await settle()
+ verify(layout.panels.tools.visible and layout.panels.trace.visible,"Layout keeps tools beside measured results")
+ layout.queue_free(); await settle()
+ var overlap: Control = load("res://src/overlap_chapter/overlap_chapter.tscn").instantiate()
+ root.add_child(overlap); await settle(); overlap._open_level("arrival",false); await settle()
+ overlap._toggle("program",true); await settle()
+ var full: String = root.get_node("Localization").text(&"overlap.commands.arrival")
+ var found: bool = false
+ for label: Node in overlap.panels.program.find_children("*","Label",true,false):
+  if label.text == full: found = true
+ verify(found,"Overlap full existing public reference simultaneously present")
+ overlap.queue_free(); await settle()
+ var prediction: Control = load("res://experiments/prediction/lab.gd").new()
+ root.add_child(prediction); await settle()
+ for step: int in 4: prediction.step_current()
+ var original: RefCounted = prediction.active_trace
+ prediction.change_task(1); prediction.step_current(); prediction.step_current(); prediction.change_task(0)
+ verify(prediction.revealed == 4 and prediction.active_trace == original,"Prediction returns to four already revealed requests")
+ verify(prediction.history.is_empty(),"Navigation never creates a completion record")
+ prediction.queue_free(); await settle()
+ print("EXPECTED BASELINE FAILURES: ",failed," / 3")
+ if failed == 0: print("PASS: current source satisfies all three previous interaction obstacles")
+ quit(1 if failed else 0)

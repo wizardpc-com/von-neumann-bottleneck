@@ -1,0 +1,290 @@
+{
+  "images/layout/en-fields-edit-results.png": {
+    "sha256": "dd42cfab35f8e71d68314a74cfa5f0966f5a88cdc06c31d293cecffb030fa3eb",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/layout/en-relocation-inspect.png": {
+    "sha256": "b0f72090e92e476fcfc2fe9a1e704c4698acef95769963d2f7061d8e59f92133",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/layout/en-relocation-return.png": {
+    "sha256": "7add49b8142e5b5a16bfb8e56ab828588e6ad45600482e59ce8020e752e061dd",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/layout/zh_CN-fields-edit-results.png": {
+    "sha256": "ee5d88ae5d0b3a3d76433b8fc6517028fabf26c1570d98d15965a595dd54bbdb",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/layout/zh_CN-relocation-inspect.png": {
+    "sha256": "426e166c1e76ba2af4542417812843900c5a689e8d4986c9b5867e3e74768bab",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/layout/zh_CN-relocation-return.png": {
+    "sha256": "52f477ae33d97d10f0a4ce7a58fd36d88cb6bb3db4332cdd4c1c7667f8535b46",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-arrival.png": {
+    "sha256": "d96e173fb14a754d37620824f7356528a839d2db4702b7b1c8c6d88d9d300878",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-backpressure.png": {
+    "sha256": "50dbbed09dc689cc5383005ceecda5f846f928190e9fcef1f39701bb6a13b21e",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-buffers.png": {
+    "sha256": "ba8771f3b12e934581ded714593ad71b23637f84e95a9e36251951fc4c8e9705",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-distance.png": {
+    "sha256": "b08ec364ed6986ff0c44990b4159e7aab4e3f163a3507deac7c11db1aa64a1b1",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-first-prefix.png": {
+    "sha256": "18a81f474d58571ecf177c90977d244729d1eb4f9125e5f8b24593bedd8d7d27",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-foreign-record.png": {
+    "sha256": "7a7720ec56d9f5b8141b389be647b33dd2ab5d344763ae6ab64fb470637128ac",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-prefetch.png": {
+    "sha256": "8aefbdf7467210e3ba1151b598a1454dc8381062591d7c985ed1380c6a280eed",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-returned-prefix.png": {
+    "sha256": "443627a8b2ba26d9187580fd8c8c72372f47e4e3af0943966c45c96e6ad66f9a",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-second-prefix.png": {
+    "sha256": "6795538dde63d100abf79b1376318e671a2f8cd8adca3ede1b74b8a767973f21",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-synthesis.png": {
+    "sha256": "6e3e08059bc0dc26477091c80426011542c0d3dec9ad643d6c386bd5ad438bbb",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-task0.png": {
+    "sha256": "b7eef01b55dee40e0e827259458040cdfe4b5cb0b159e30dedf1df0ba7dce125",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-task1.png": {
+    "sha256": "ade67bf65d088167b1bd8265be51e379b9fa12f01d78bea5b4abca1f80d68100",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/en-task2.png": {
+    "sha256": "c53d412f24dce1ae977a671ad2c6f630a9a9dcbf77907b4fc77164ce0924db12",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-arrival.png": {
+    "sha256": "cd9bd0ef61bbd6442ad5155768ed46959fb47c94aba4ff2dfca65cffd2509881",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-backpressure.png": {
+    "sha256": "c83d3b195e3bbc26934760b01683071afdd806d8fb4c1f48f8f4ed1540ad0bd9",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-buffers.png": {
+    "sha256": "276a57c64bfa403abb5edb412db34111f0d66d46fcb6afe0150583d557b45916",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-distance.png": {
+    "sha256": "f29f8ac4eda5decfb7bb2bd11621d98130d771c8ddc30197bbba41aa531877f0",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-first-prefix.png": {
+    "sha256": "6895e445eecd9ad494240db516efede78d90ce113838820ab569610dab09cd41",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-foreign-record.png": {
+    "sha256": "ef94c6b571f1af0ada15db45c5e0354d7fb230a1066e1471d5dcc3522bc8b169",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-prefetch.png": {
+    "sha256": "9b16d1bc1784442cd4e0e0bb50a86f7a2853afec5a07a36149bd95021a943749",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-returned-prefix.png": {
+    "sha256": "c91468a8a3dd3594b7d81360be07f93895f8c9e44e368ca504e277840a5e970a",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-second-prefix.png": {
+    "sha256": "fb1af090ef460e91914f5eaa217b38c2154f367d07c40637d047191e20315987",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-synthesis.png": {
+    "sha256": "f8f9abc80c2132582ec3c61676b36a6e35abaa018a33911b8f0e20161839e5c8",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-task0.png": {
+    "sha256": "46cae31e2ebbb0a840332f51c4c62f01359da7fa6ce118f6ea738615265b9ccb",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-task1.png": {
+    "sha256": "76b0fa84a394c4d63e7af3c23795cb4898ee220274cff5133706c294bad2f6b4",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/input/zh_CN-task2.png": {
+    "sha256": "1868db34fc416d1d250e4dc29ce72ce5c2464cb56802fe6acc9ca2fbefb2f4de",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/repeat-cue/en.png": {
+    "sha256": "69ad00950469db2cd4f6430832619aad0fa296ce521d5e8bc9cedc5252fc43c3",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/repeat-cue/zh_CN.png": {
+    "sha256": "7a22ae907be0d8e1b9e9bc0683b84d46ccb6882647e466dce9029d069717d343",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "final viewport"
+  },
+  "images/before/zh_CN-returned-prefix.png": {
+    "sha256": "d652c0063093b809a8a1f36308739daba1fbf87975780257e0888ca2a09c4ec5",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "earlier review, not final"
+  },
+  "images/before/zh_CN-relocation-inspect.png": {
+    "sha256": "15ba2b8274159e1df6397429801e44b00aadf30591fc1b4fa280eb138942abd1",
+    "pixels": [
+      1280,
+      720
+    ],
+    "kind": "earlier review, not final"
+  }
+}

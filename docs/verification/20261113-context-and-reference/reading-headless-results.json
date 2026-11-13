@@ -1,0 +1,198 @@
+[
+  {
+    "suite": "test_prediction_evidence_space",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_evidence_space.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: zh_CN-task0: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: zh_CN-task0: actual wheel input makes the task specification readable",
+      "ERROR: zh_CN-task0: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: zh_CN-task1: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: zh_CN-task1: actual wheel input makes the task specification readable",
+      "ERROR: zh_CN-task1: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: zh_CN-task2: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: zh_CN-task2: actual wheel input makes the task specification readable",
+      "ERROR: zh_CN-task2: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: en-task0: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: en-task0: actual wheel input makes the task specification readable",
+      "ERROR: en-task0: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: en-task1: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: en-task1: actual wheel input makes the task specification readable",
+      "ERROR: en-task1: actual machine-cost text has complete visible lines after scrolling",
+      "ERROR: en-task2: at least three complete revealed event rows fit below the Tree header",
+      "ERROR: en-task2: actual wheel input makes the task specification readable",
+      "ERROR: en-task2: actual machine-cost text has complete visible lines after scrolling",
+      "FAIL: prediction evidence space 390 checks, 18 failures"
+    ],
+    "seconds": 15.928601542000001,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_prediction_evidence_space"
+  },
+  {
+    "suite": "test_prediction_investigation_context",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_investigation_context.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 36.664878,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_prediction_investigation_context"
+  },
+  {
+    "suite": "test_prediction_workbench_presentation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_prediction_workbench_presentation.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 6.1124038340000055,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_prediction_workbench_presentation"
+  },
+  {
+    "suite": "test_layout_iteration_flow",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_iteration_flow.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 57.831782625,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_layout_iteration_flow"
+  },
+  {
+    "suite": "test_layout_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_ui.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.9692302089999885,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_layout_ui"
+  },
+  {
+    "suite": "test_layout_challenge_controller",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_challenge_controller.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 8.019455625000006,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_layout_challenge_controller"
+  },
+  {
+    "suite": "test_layout_editing_continuity",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_editing_continuity.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.774675207999991,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_layout_editing_continuity"
+  },
+  {
+    "suite": "test_layout_recipe_sources",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_recipe_sources.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.4511810840000123,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_layout_recipe_sources"
+  },
+  {
+    "suite": "test_layout_preview_selection",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_preview_selection.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 2.2610106250000115,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_layout_preview_selection"
+  },
+  {
+    "suite": "test_layout_scoreboard_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_scoreboard_ui.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.292454875000004,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_layout_scoreboard_ui"
+  },
+  {
+    "suite": "test_interaction_context_baseline",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T130501Z-30f01b2a/project",
+      "--headless",
+      "--script",
+      "res://tests/test_interaction_context_baseline.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 3.3862312500000087,
+    "profile": "VonNeumannBottleneckChecks/interaction-round3-20261113/reading-headless/test_interaction_context_baseline"
+  }
+]

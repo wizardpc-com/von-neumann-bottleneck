@@ -80,6 +80,9 @@ blank construction, deletion, undo/redo, direct/branched connections, program te
 independent gated hints, and diagrams remain player-controlled. H1 gives direction,
 H2 partial structure, H3 the complete reference after explicit spoiler confirmation.
 Hint viewing never changes the player board or earns completion.
+The Program window presents the current task's existing public command reference
+together beside editing, without per-command paging. It does not add commands,
+examples or answers; program text and explicit Run retain their existing authority.
 
 ## Persistence
 

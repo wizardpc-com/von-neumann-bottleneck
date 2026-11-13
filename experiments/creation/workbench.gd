@@ -829,9 +829,15 @@ func next_step() -> Dictionary:
 	if not writable:
 		if not session.data.works.is_empty(): return _step("此档只读；已保存作品仍可回看，原文件不会改写。", "This profile is read-only; saved works remain viewable and the file is untouched.", "查看作品", "View works", "works")
 		return _step("此档只读；可查看已有证据，不能从这里改动草稿。", "This profile is read-only; inspect existing evidence without changing the draft.", "查看证据", "View evidence", "evidence")
+	var model: Dictionary = session.data.model
+	var pending_learning: bool = not model.is_empty() and (model.get("examples",[]) != session.data.draft.examples or int(model.get("order",-1)) != int(session.data.draft.order))
+	if task < 6 and pending_learning:
+		if latest.get("kind","") == "generation" and not session.generated.is_empty() and latest.get("output",[]) == session.generated.get("output",[]) and latest.get("recipe",{}) == session.generated.get("recipe",{}) and not visible_generation_saved():
+			return _step("当前输出尚未保存；先返回创作单元命名保留，再学习新样例或记忆。", "This output is unsaved; return to creation to name and keep it before learning changed examples or history.", "返回创作保留输出", "Return to creation", "g2")
+		if session.data.draft.examples.is_empty(): return _step("当前没有样例；先选择至少一段公开或自己的样例。", "No example is selected; choose at least one public or custom passage.", "查看样例", "See examples", "examples")
+		return _step("样例或记忆已改，尚未学习；已学规则与旧实测保留。", "Examples or history changed; learn to apply them. Earlier rules and measurements remain.", "学习样例", "Learn examples", "train")
 	if task == 8 and (not can_keep_visible_work() or visible_generation_saved()) and not journey_closing_work().is_empty():
 		return _step("作品已保存，无需再次生成。查看作品，并播放尚未看过的结尾。", "Your work is saved; no new generation is needed. View it and play the ending if not already seen.", "查看作品与结尾", "View work and ending", "finish_journey")
-	var model: Dictionary = session.data.model
 	if model.is_empty():
 		if session.data.draft.examples.is_empty(): return _step("当前没有样例；先选择至少一段公开或自己的样例。", "No example is selected; choose at least one public or custom passage.", "查看样例", "See examples", "examples")
 		return _step("当前：已选样例；下一步先学习规则。", "Now: examples are selected; learn their rules first.", "学习样例", "Learn examples", "train")
@@ -873,11 +879,12 @@ func next_step() -> Dictionary:
 	if task >= 7 and visible_generation_saved():
 		if task == 7: return _step("这份输出与配方已保存；前往作品单元回看或分叉。", "This output and recipe are saved; continue to view or fork the work.", "下一单元", "Next unit", "next")
 		return _step("这份输出与配方已保存；可回看、再生或分叉。", "This output and recipe are saved; view, replay or fork them.", "查看作品", "View works", "works")
-	if task == 8 and can_keep_visible_work(): return _step("当前新输出还未保存；命名后确认留下。旧作品保持不变。", "This new output is not saved yet; name and keep it. Earlier works remain intact.", "确认保存作品", "Keep this work", "keep")
+	var learning_note: String = text2(" 样例或记忆修改只在下次学习后影响新生成。", " Pending example/history edits affect later generation only after Learn.") if pending_learning else ""
+	if task == 8 and can_keep_visible_work(): return _step("当前新输出还未保存；命名后确认留下。旧作品保持不变。"+learning_note, "This new output is not saved yet; name and keep it. Earlier works remain intact."+learning_note, "确认保存作品", "Keep this work", "keep")
 	if task == 8 and session.data.supports.has("G3_keep"): return _step("已保存的是历史作品；当前视图不会自动成为新作品。可查看或分叉旧作品。", "Earlier works are saved; the current view is not automatically a new saved work. View or fork an earlier work.", "查看作品", "View works", "works")
 	if not can_keep_visible_work(): return _step("回灌已连接；下一步用当前配方生成可保存的实际输出。", "Feedback is connected; generate a real output from the current recipe.", "生成光纹", "Generate signal", "generate")
 	if task == 6: return _step("G1 已生成实际输出；继续选择是否修改并留下作品。", "G1 generated real output; continue to choose, revise and keep a work.", "下一单元", "Next unit", "next")
-	return _step("已有可保存的实际输出；命名后确认留下，或继续设计对照。", "A real output is ready; name and keep it, or continue your design comparison.", "确认保存作品", "Keep this work", "keep")
+	return _step("已有可保存的实际输出；命名后确认留下，或继续设计对照。"+learning_note, "A real output is ready; name and keep it, or continue your design comparison."+learning_note, "确认保存作品", "Keep this work", "keep")
 
 func visible_generation_saved() -> bool:
 	if latest.get("kind","") != "generation": return false
@@ -905,6 +912,7 @@ func advance_step() -> void:
 		"finish_journey": finish_saved_journey()
 		"c1": change_task(0)
 		"p1": change_task(3)
+		"g2": change_task(7)
 		"next": change_task(mini(8,task+1))
 		"examples","machine":
 			var tabs := find_child("DraftTabs",true,false) as TabContainer

@@ -1503,6 +1503,9 @@ msgstr "并行波次 %d / %d · tick %d · %s"
 msgid "hardware.trace.process"
 msgstr "处理 %s → %s"
 
+msgid "hardware.trace.finish_official"
+msgstr "查看全部结果"
+
 msgid "hardware.trace.pause"
 msgstr "暂停追踪"
 

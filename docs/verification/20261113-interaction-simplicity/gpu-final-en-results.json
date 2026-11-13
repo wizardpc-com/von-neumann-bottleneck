@@ -1,0 +1,24 @@
+[
+  {
+    "suite": "test_hardware_official_playback_controls",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_hardware_official_playback_controls.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--locale=en",
+      "--official-playback-capture"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 11.008720833,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/gpu-final-en/test_hardware_official_playback_controls"
+  }
+]

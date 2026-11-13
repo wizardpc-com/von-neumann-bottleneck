@@ -125,6 +125,7 @@ func _ready() -> void:
 
 func _open(id: String) -> void:
 	if not C.unlocked(id,LayoutChapter.completed(),LayoutChapter.chapter_unlocked(),GameMode.is_test_mode() or TaskNavigation.offline_tester_enabled()): _leave(); return
+	if is_instance_valid(scheme_name): scheme_name.clear()
 	level = id
 	comparable_runs.clear()
 	# Chapter cards bypass TaskNavigation.enter(); remember the task actually opened.
@@ -176,6 +177,11 @@ func _current() -> Dictionary:
 	return design.orders[["A","B"][case_index]] if level == "relocation" else design
 
 func _rebuild_tools() -> void:
+	var pending_name: String = scheme_name.text if is_instance_valid(scheme_name) else ""
+	var name_focused: bool = is_instance_valid(scheme_name) and scheme_name.has_focus()
+	var name_caret: int = scheme_name.caret_column if name_focused else 0
+	var name_selection_start: int = scheme_name.get_selection_from_column() if name_focused and scheme_name.has_selection() else -1
+	var name_selection_end: int = scheme_name.get_selection_to_column() if name_selection_start >= 0 else -1
 	building = true
 	for child: Node in tools_box.get_children():
 		tools_box.remove_child(child)
@@ -233,6 +239,9 @@ func _rebuild_tools() -> void:
 	_option(block_row,[_l("全部","All"),"1","2","4","8","16"],maxi(0,blocks.find(int(current.recipe.block))),func(i: int) -> void: _remember(); _current().recipe.block=blocks[i]; _changed())
 	var names_row := HBoxContainer.new(); tools_box.add_child(names_row)
 	scheme_name = LineEdit.new(); scheme_name.placeholder_text=_l("为自己的方案命名","Name your design"); scheme_name.max_length=40; scheme_name.size_flags_horizontal=Control.SIZE_EXPAND_FILL; names_row.add_child(scheme_name)
+	scheme_name.text = pending_name
+	if name_focused:
+		_restore_scheme_name_focus.call_deferred(scheme_name,name_caret,name_selection_start,name_selection_end)
 	_button(names_row,_l("保存","Save"),_save_named)
 	names = OptionButton.new(); names.add_item(_l("选择已保存方案","Choose a saved design")); tools_box.add_child(names)
 	for key: String in LayoutChapter.named().get(level,{}): names.add_item(key)
@@ -252,6 +261,14 @@ func _rebuild_tools() -> void:
 			_remember(); _current().recipe=previous_recipe.duplicate(true); _changed())
 		copy_previous.name = "LayoutCopyPrevious"
 	building = false
+
+func _restore_scheme_name_focus(editor: LineEdit, caret: int, selection_start: int, selection_end: int) -> void:
+	# A later rebuild or another user action may already own focus.
+	if not is_instance_valid(editor) or editor != scheme_name or not editor.is_visible_in_tree(): return
+	if get_viewport().gui_get_focus_owner() != null: return
+	editor.grab_focus()
+	editor.caret_column = caret
+	if selection_start >= 0: editor.select(selection_start,selection_end)
 
 func _move_group(field: int, target: int) -> void:
 	_remember()
@@ -307,6 +324,7 @@ func _save_named() -> void:
 		status.text = _l("请使用一个新的方案名，已有副本会保留。","Choose a new design name; existing copies are kept.")
 		return
 	if LayoutChapter.save_named(level,title,design):
+		scheme_name.clear()
 		status.text=_l("方案已保存；以后修改不会覆盖这个副本。","Design saved; later edits won't overwrite this copy.")
 		preload("res://src/ui/ui_cue.gd").play(self, &"save")
 		_rebuild_tools()

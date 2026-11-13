@@ -1,0 +1,62 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T114438Z-f4956e98/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T114438Z-f4956e98/user_directory"
+    },
+    {
+      "name": "test_lab_terminal_modes",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_modes.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T114438Z-f4956e98/test_lab_terminal_modes"
+    },
+    {
+      "name": "test_lab_terminal_routing",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_lab_terminal_routing.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T114438Z-f4956e98/test_lab_terminal_routing"
+    },
+    {
+      "name": "test_prediction_record_source",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_prediction_record_source.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T114438Z-f4956e98/test_prediction_record_source"
+    },
+    {
+      "name": "test_service_undo_context",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_service_undo_context.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T114438Z-f4956e98/test_service_undo_context"
+    },
+    {
+      "name": "test_task_tree_completed_detail",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test_task_tree_completed_detail.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T114438Z-f4956e98/test_task_tree_completed_detail"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+[
+  {
+    "suite": "test_hardware_official_playback_controls",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_hardware_official_playback_controls.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--locale=zh_CN",
+      "--official-playback-capture",
+      "--pending-learning-capture"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Official playback capture retains 1280x720 pixels",
+      "FAIL: hardware official playback controls 536 checks, 1 failures"
+    ],
+    "seconds": 11.405959958,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/gpu-zh/test_hardware_official_playback_controls"
+  },
+  {
+    "suite": "test_layout_editing_continuity",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_layout_editing_continuity.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--locale=zh_CN",
+      "--official-playback-capture",
+      "--pending-learning-capture"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 9.209323165999999,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/gpu-zh/test_layout_editing_continuity"
+  },
+  {
+    "suite": "test_creation_pending_learning_guidance",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_creation_pending_learning_guidance.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--locale=zh_CN",
+      "--official-playback-capture",
+      "--pending-learning-capture"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: zh_CN examples: actual pending capture is 1280x720",
+      "ERROR: zh_CN examples-keep: actual pending capture is 1280x720",
+      "ERROR: zh_CN history: actual pending capture is 1280x720",
+      "ERROR: zh_CN history-keep: actual pending capture is 1280x720",
+      "ERROR: en examples: actual pending capture is 1280x720",
+      "ERROR: en examples-keep: actual pending capture is 1280x720",
+      "ERROR: en history: actual pending capture is 1280x720",
+      "ERROR: en history-keep: actual pending capture is 1280x720",
+      "FAIL: creation pending learning guidance 172 checks, 8 failures"
+    ],
+    "seconds": 41.364315167,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/gpu-zh/test_creation_pending_learning_guidance"
+  }
+]

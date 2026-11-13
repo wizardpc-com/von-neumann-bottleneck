@@ -1,0 +1,72 @@
+extends SceneTree
+## Actual keyboard input must match the advertised Step button during a test.
+
+var failures: Array[String] = []
+var checks: int = 0
+
+func _init() -> void: call_deferred("run")
+
+func check(ok: bool, message: String) -> void:
+	checks += 1
+	if not ok: failures.append(message)
+
+func settle(frames: int = 5) -> void:
+	for frame: int in frames: await process_frame
+
+func key(code: Key) -> void:
+	for pressed: bool in [true, false]:
+		var event := InputEventKey.new()
+		event.keycode = code
+		event.physical_keycode = code
+		event.pressed = pressed
+		root.push_input(event, true)
+		await process_frame
+
+func run() -> void:
+	if not OS.get_user_data_dir().contains("VonNeumannBottleneckChecks"):
+		push_error("Use an isolated verification profile.")
+		quit(2)
+		return
+	root.size = Vector2i(1280, 720)
+	root.get_node("GameMode").set_mode(&"test")
+	var bench: Control = load("res://src/hardware_foundations/hardware_foundations.tscn").instantiate()
+	root.add_child(bench)
+	current_scene = bench
+	await settle()
+	bench._start_campaign_level(&"ram", false)
+	await settle(8)
+	for wire: Dictionary in bench.current_level_definition.reference_wires:
+		bench._on_connection_request(wire["from"], int(wire.get("from_port", 0)),
+			wire["to"], int(wire.get("to_port", 0)))
+	bench._run_official()
+	bench.playback_running = false
+	# Freeze only the presentation clock: viewport input and deferred callbacks
+	# still run, so a single F5 is the sole cause of any step in this assertion.
+	bench.set_process(false)
+	check(bench.official_sequence_active and bench.playback_batches.size() > 2,
+		"Real RAM official case has multiple presentation batches")
+	check(not bench.trace_step_button.disabled and bench.trace_step_button.text.contains("F5"),
+		"Official test advertises an enabled F5 Step action")
+	bench.graph.grab_focus()
+	await settle(2)
+	var before: int = bench.playback_index
+	var case_before: int = bench.official_sequence_index
+	var history_before: int = bench.wire_history.size()
+	await key(KEY_F5)
+	check(bench.playback_index == before + 1 and not bench.playback_running,
+		"Viewport F5 advances exactly one paused official playback batch")
+	check(bench.official_sequence_active and bench.official_sequence_index == case_before,
+		"F5 preserves the ongoing official case rather than skipping its result")
+	check(bench.wire_history.size() == history_before and not bench.official_passed and bench.seal_button.disabled,
+		"Stepping changes no topology or sealing eligibility")
+	var button_before: int = bench.playback_index
+	bench.trace_step_button.pressed.emit()
+	check(bench.playback_index == button_before + 1,
+		"Existing Step button advances the same official playback")
+	bench._cancel_official_sequence()
+	bench._stop_playback()
+	bench.queue_free()
+	await settle()
+	for issue: String in failures: push_error(issue)
+	print(("PASS: " if failures.is_empty() else "FAIL: ") + "hardware official playback controls %d checks, %d failures" % [checks, failures.size()])
+	quit(0 if failures.is_empty() else 1)

@@ -1,3 +1,31 @@
+## Official playback, pending names and learning guidance - 2026-11-13
+
+Run `test_hardware_official_playback_controls` with Hardware failure/history,
+prologue, settings, modal and seal-navigation suites. It sends actual viewport F5,
+checks modifier/text/modal isolation, and compares all rendered case rows, complete
+reports, state and ALU outcomes between normal per-case completion and explicit
+Show all results. Include passing/failing HalfAdder, RAM and ALU, cancellation and
+same-frame restart; simulation and sealing authority must remain unchanged.
+
+Run `test_layout_editing_continuity` with Layout UI, named-preservation, challenge
+and recipe-source suites. Pending names, caret and selection survive rebuilds;
+other controls retain focus. Edits, Undo/Redo, Run and A/B inspection cannot save
+the name implicitly; explicit successful save and task changes clear it.
+
+Run `test_creation_pending_learning_guidance` with CPG connection, draft-resume,
+keyboard, future-workbench, workbench and ending suites. Compare draft learning
+inputs against frozen rules, protect old evidence and still-valid unsaved outputs,
+then exercise explicit Learn, return to G2, Keep and saved-work closure. Editing
+that already invalidates a generation must not resurrect it.
+
+GPU flags on an imported isolated QA project: `--capture-size=1280x720
+--official-playback-capture --locale=zh_CN` (also `en`) for Hardware;
+`--capture-size=1280x720 --pending-learning-capture` for both Creation locales.
+Fixtures wait for stable actual native window pixels and natural opening expiry,
+never resize captured images or suppress the narrative layer. Inspect full logs
+and pixels. See [the milestone receipt](../verification/20261113-interaction-simplicity/README.md).
+These checks do not close the whole-chapter interaction goal or native acceptance.
+
 ## Naming overlays, preserved designs and pending exit input — 2026-11-13
 
 Run `test_hardware_workbench_modal_input` with Hardware settings/history/workspace

@@ -1503,6 +1503,9 @@ msgstr "PARALLEL WAVE %d / %d  ·  tick %d  ·  %s"
 msgid "hardware.trace.process"
 msgstr "PROCESS %s → %s"
 
+msgid "hardware.trace.finish_official"
+msgstr "Show all results"
+
 msgid "hardware.trace.pause"
 msgstr "Pause Trace"
 

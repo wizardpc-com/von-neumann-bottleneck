@@ -1,0 +1,28 @@
+[
+  {
+    "suite": "test_creation_pending_learning_guidance",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T114438Z-f4956e98/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_pending_learning_guidance.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: zh_CN examples: changed learning inputs guide explicit Learn before continuing",
+      "ERROR: zh_CN examples: visible primary action names Learn",
+      "ERROR: zh_CN history: changed learning inputs guide explicit Learn before continuing",
+      "ERROR: zh_CN history: visible primary action names Learn",
+      "ERROR: en examples: changed learning inputs guide explicit Learn before continuing",
+      "ERROR: en examples: visible primary action names Learn",
+      "ERROR: en history: changed learning inputs guide explicit Learn before continuing",
+      "ERROR: en history: visible primary action names Learn",
+      "FAIL: creation pending learning guidance 36 checks, 8 failures"
+    ],
+    "seconds": 12.4847885,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/negative-creation-learning/test_creation_pending_learning_guidance"
+  }
+]

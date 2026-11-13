@@ -1,0 +1,21 @@
+[
+  {
+    "suite": "test_hardware_official_playback_controls",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T114438Z-f4956e98/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_official_playback_controls.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Viewport F5 advances exactly one paused official playback batch",
+      "FAIL: hardware official playback controls 6 checks, 1 failures"
+    ],
+    "seconds": 2.863194333,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/negative-hardware-f5/test_hardware_official_playback_controls"
+  }
+]

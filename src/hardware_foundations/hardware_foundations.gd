@@ -163,6 +163,7 @@ var official_case_labels: Array[Label] = []
 var official_button: Button
 var pause_button: Button
 var trace_step_button: Button
+var finish_official_button: Button
 var clock_period_control: SpinBox
 var component_menu_button: MenuButton
 var wire_color_menu_button: MenuButton
@@ -265,6 +266,8 @@ var active_connections: Array[Dictionary] = []
 var active_component: StringName = &""
 var active_connection: Dictionary = {}
 var official_sequence_active: bool = false
+var official_finish_requested: bool = false
+var official_sequence_generation: int = 0
 var official_sequence_kind: StringName = &""
 var official_sequence_index: int = 0
 var official_sequence_circuit: LogicCircuit
@@ -2367,6 +2370,13 @@ func _build_toolbar() -> Control:
 	trace_step_button.text = _t(&"common.step") + " · F5"
 	trace_step_button.pressed.connect(_step_playback)
 	playback_row.add_child(trace_step_button)
+	finish_official_button = Button.new()
+	finish_official_button.name = "FinishOfficialPlaybackButton"
+	finish_official_button.text = _t(&"hardware.trace.finish_official")
+	finish_official_button.disabled = true
+	finish_official_button.hide()
+	finish_official_button.pressed.connect(_finish_official_playback)
+	playback_row.add_child(finish_official_button)
 	var playback_frequency := HBoxContainer.new()
 	playback_row.add_child(playback_frequency)
 	var clock_period_label := Label.new()
@@ -2980,6 +2990,9 @@ func _refresh_hint_controls() -> void:
 		pause_button.disabled = hint_mode
 	if trace_step_button != null:
 		trace_step_button.disabled = hint_mode
+	if finish_official_button != null:
+		finish_official_button.disabled = hint_mode or not official_sequence_active or official_finish_requested
+		finish_official_button.visible = official_sequence_active and not hint_mode
 	if clock_period_control != null:
 		clock_period_control.editable = not hint_mode
 	for window_id: StringName in desktop_window_buttons:
@@ -4996,13 +5009,21 @@ func _focus_graph_for_keyboard() -> void:
 
 func _handle_editor_shortcut(event: InputEvent) -> bool:
 	if (
-		_editor_locked()
-		or not event is InputEventKey
+		not event is InputEventKey
 		or not (event as InputEventKey).pressed
 	):
 		return false
 	var key_event := event as InputEventKey
 	if _keyboard_focus_accepts_text():
+		return false
+	# Official tests lock editing, but their advertised playback Step remains
+	# available. The host's modal guard and text focus still own their input.
+	if official_sequence_active and not hint_mode and not official_finish_requested \
+			and key_event.keycode == KEY_F5 and not key_event.echo \
+			and not key_event.ctrl_pressed and not key_event.meta_pressed and not key_event.alt_pressed and not key_event.shift_pressed:
+		_step_playback()
+		return true
+	if _editor_locked():
 		return false
 	# Mac's physical Delete key is Backspace. Text fields retain normal editing.
 	if key_event.keycode == KEY_BACKSPACE and not key_event.echo and not key_event.ctrl_pressed and not key_event.meta_pressed and not key_event.alt_pressed:
@@ -6692,6 +6713,8 @@ func _begin_official_sequence(kind: StringName, circuit: LogicCircuit) -> void:
 	official_report.clear()
 	prologue_report.clear()
 	official_sequence_active = true
+	finish_official_button.disabled = false
+	finish_official_button.show()
 	official_sequence_kind = kind
 	official_sequence_index = 0
 	official_sequence_circuit = circuit.duplicate_circuit()
@@ -6729,6 +6752,18 @@ func _start_next_official_case() -> void:
 		_start_half_adder_official_case()
 	else:
 		_start_prologue_official_case()
+	# Keep the original simulation and deferred case-completion path; only the
+	# presentation wait is omitted after an explicit request for all results.
+	if official_sequence_active and official_finish_requested:
+		_finish_playback()
+
+
+func _finish_official_playback() -> void:
+	if not official_sequence_active or official_finish_requested or hint_mode:
+		return
+	official_finish_requested = true
+	finish_official_button.disabled = true
+	_finish_playback()
 
 
 func _start_half_adder_official_case() -> void:
@@ -6810,10 +6845,12 @@ func _queue_official_case_completion() -> void:
 	if not official_sequence_active or official_sequence_completion_queued:
 		return
 	official_sequence_completion_queued = true
-	call_deferred("_complete_official_case")
+	call_deferred("_complete_official_case", official_sequence_generation)
 
 
-func _complete_official_case() -> void:
+func _complete_official_case(generation: int) -> void:
+	if generation != official_sequence_generation:
+		return
 	official_sequence_completion_queued = false
 	if not official_sequence_active or official_sequence_pending_result.is_empty():
 		return
@@ -7011,7 +7048,12 @@ func _mark_output_mismatch(id: StringName, actual: Variant, expected: Variant) -
 
 
 func _cancel_official_sequence() -> void:
+	official_sequence_generation += 1
 	official_sequence_active = false
+	official_finish_requested = false
+	if is_instance_valid(finish_official_button):
+		finish_official_button.disabled = true
+		finish_official_button.hide()
 	official_sequence_kind = &""
 	official_sequence_index = 0
 	official_sequence_circuit = null

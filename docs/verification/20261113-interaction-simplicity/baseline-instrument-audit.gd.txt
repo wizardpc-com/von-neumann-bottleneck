@@ -1,0 +1,48 @@
+extends SceneTree
+var output: String
+var geometry: Array[Dictionary] = []
+var failed: bool = false
+func _init() -> void: call_deferred("run")
+func settle() -> void:
+ for frame in 12: await process_frame
+func capture(label: String, host: Control) -> void:
+ for attempt in 40:
+  root.mode = Window.MODE_WINDOWED
+  root.size = Vector2i(1280,720)
+  await create_timer(0.05).timeout
+  await RenderingServer.frame_post_draw
+  if root.get_texture().get_image().get_size() == Vector2i(1280,720): break
+ await settle()
+ await RenderingServer.frame_post_draw
+ var img := root.get_texture().get_image()
+ if img.get_size() != Vector2i(1280,720):
+  failed=true; push_error("Actual capture size: "+str(img.get_size())); return
+ if img.save_png(output.path_join(label+".png")) != OK:
+  failed=true; push_error("Capture save failed"); return
+ var rects: Dictionary = {}
+ for id in host.instrument_windows:
+  var panel: Control = host.instrument_windows[id]
+  if panel.visible: rects[str(id)] = {"rect":str(panel.get_global_rect()),"z":panel.z_index}
+ geometry.append({"frame":label,"panels":rects,"run_rect":str(host.official_run_button.get_global_rect())})
+func run() -> void:
+ if DisplayServer.get_name() == "headless" or not OS.get_user_data_dir().contains("VonNeumannBottleneckChecks"): quit(2); return
+ output = ProjectSettings.globalize_path("res://.godot/interaction-audit")
+ DirAccess.make_dir_recursive_absolute(output)
+ root.size=Vector2i(1280,720); root.content_scale_size=Vector2i(1280,720)
+ root.get_node("GameMode").set_mode(&"test")
+ for locale: String in ["zh_CN","en"]:
+  root.get_node("Localization").set_locale(locale)
+  var host: Control = load("res://src/system_lab/system_lab.tscn").instantiate()
+  root.add_child(host); current_scene=host
+  await settle()
+  host._start_level(&"cpu_speed")
+  host._open_instrument(&"test_bench")
+  await capture(locale+"-test-bench",host)
+  host._open_instrument(&"profiler")
+  host._open_instrument(&"history")
+  await capture(locale+"-three-tools",host)
+  host.queue_free(); current_scene=null; await settle()
+ var f := FileAccess.open(output.path_join("geometry.json"),FileAccess.WRITE)
+ f.store_string(JSON.stringify(geometry,"  ")); f.close()
+ print(("FAIL: " if failed else "PASS: ")+"controller-opened instrument audit frames "+output)
+ quit(1 if failed else 0)

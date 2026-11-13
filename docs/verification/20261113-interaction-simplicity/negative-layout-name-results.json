@@ -1,0 +1,38 @@
+[
+  {
+    "suite": "test_layout_editing_continuity",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T114438Z-f4956e98/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_editing_continuity.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Field edit preserves pending name fieldszh_CN",
+      "ERROR: Undo preserves pending name fieldszh_CN",
+      "ERROR: Redo preserves pending name fieldszh_CN",
+      "ERROR: Field edit preserves pending name relocationzh_CN",
+      "ERROR: Undo preserves pending name relocationzh_CN",
+      "ERROR: Redo preserves pending name relocationzh_CN",
+      "ERROR: Run preserves pending name relocationzh_CN",
+      "ERROR: Inspecting other order preserves pending name zh_CN",
+      "ERROR: Switching editable order preserves pending name zh_CN",
+      "ERROR: Field edit preserves pending name fieldsen",
+      "ERROR: Undo preserves pending name fieldsen",
+      "ERROR: Redo preserves pending name fieldsen",
+      "ERROR: Field edit preserves pending name relocationen",
+      "ERROR: Undo preserves pending name relocationen",
+      "ERROR: Redo preserves pending name relocationen",
+      "ERROR: Run preserves pending name relocationen",
+      "ERROR: Inspecting other order preserves pending name en",
+      "ERROR: Switching editable order preserves pending name en",
+      "FAIL: layout editing continuity 42 checks, 18 failures"
+    ],
+    "seconds": 4.358766833,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/negative-layout-name/test_layout_editing_continuity"
+  }
+]

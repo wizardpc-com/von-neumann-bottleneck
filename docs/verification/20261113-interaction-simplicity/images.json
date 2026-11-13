@@ -1,0 +1,79 @@
+{
+  "images/official-playback/en.png": {
+    "sha256": "d2c0c40f6c6089ec74ea033fc449e8c4f766f63c1401d70a45235433562e290e",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/official-playback/zh_CN.png": {
+    "sha256": "c4d50f327e6ec57a05bd40ddf9e2fc3c40e08b7cc8dafb646fe4d786857b14e1",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/pending-learning-captures/pending-en-examples-keep.png": {
+    "sha256": "01333a1160c3f991708a8e7a95b2190276edfa96c3970a49339f3a171ab2a381",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/pending-learning-captures/pending-en-examples.png": {
+    "sha256": "241a74c37b4a78195972a10e10b98f63ba1e9156db9beba1409ef8c1ef69ef84",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/pending-learning-captures/pending-en-history-keep.png": {
+    "sha256": "0f2110e6b734ebc644a5461d8cc80b7d230264032ebed86357fd42ada4e1e590",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/pending-learning-captures/pending-en-history.png": {
+    "sha256": "a532c0395d466e62e7c97959e13be222ad2b2d1a94af3073a921a4cf2822926e",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/pending-learning-captures/pending-zh_CN-examples-keep.png": {
+    "sha256": "4141a80c553b01ef421b28fb5c0bc317bc70571614881cb7e6205e9143dde297",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/pending-learning-captures/pending-zh_CN-examples.png": {
+    "sha256": "b3ca9877bc1099360dd0dd607682d65e060ba14d7d9a1dbf73bbb2c07b5d2c08",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/pending-learning-captures/pending-zh_CN-history-keep.png": {
+    "sha256": "c744bc07673ca842ffeef0f1f1358c5c6e125a8d56946e3582a2acb46f3a0b61",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/pending-learning-captures/pending-zh_CN-history.png": {
+    "sha256": "a69cdd980264360487dcda088e3a540a1a03a181ef950f8f8f0370daa7d15d72",
+    "pixels": [
+      1280,
+      720
+    ]
+  },
+  "images/baseline-en-three-tools.png": {
+    "sha256": "e131f551f272867fec984c259b838c695f5d727c104968631429199763c0a4b2",
+    "pixels": [
+      1280,
+      720
+    ]
+  }
+}

@@ -1,0 +1,69 @@
+extends SceneTree
+## Guidance observes draft/model differences; only explicit Learn changes rules.
+const Workbench = preload("res://experiments/creation/workbench.gd")
+const Model = preload("res://experiments/creation/model.gd")
+var checks: int = 0
+var failures: int = 0
+
+func _init() -> void: call_deferred("run")
+func check(ok: bool, message: String) -> void:
+	checks += 1
+	if not ok: failures += 1; push_error(message)
+func settle() -> void:
+	for frame: int in 6: await process_frame
+
+func change_learning_input(scene: Control, field: String, changed: bool) -> void:
+	if field == "examples":
+		var example := scene.find_child("Example2",true,false) as CheckBox
+		example.button_pressed = changed
+	else:
+		var order := scene.find_child("Order",true,false) as OptionButton
+		order.select(2 if changed else 1)
+		order.item_selected.emit(order.selected)
+
+func run() -> void:
+	if not "VonNeumannBottleneckChecks" in OS.get_user_data_dir():
+		push_error("Requires an isolated verification profile"); quit(2); return
+	root.size = Vector2i(1280,720)
+	root.content_scale_size = Vector2i(1280,720)
+	root.get_node("TaskNavigation").pending = ""
+	for locale: String in ["zh_CN","en"]:
+		root.get_node("Localization").set_locale(locale)
+		for field: String in ["examples","history"]:
+			var scene := Workbench.new()
+			root.add_child(scene); await settle()
+			var path: String = "user://creation-pending-learning/"+Crypto.new().generate_random_bytes(8).hex_encode()+".json"
+			var opened: Dictionary = scene.session.open(path)
+			scene.writable = bool(opened.get("writable",false))
+			scene.change_task(0); await settle()
+			var context: String = locale+" "+field
+			check(scene.writable,context+": isolated draft is writable")
+			scene.train_model(); scene.transport("predictive"); await settle()
+			check(scene.latest.get("lossless",false) and scene.next_step().action == "next",context+": actual learned model restored a packet")
+			var old_model: Dictionary = scene.session.data.model.duplicate(true)
+			var old_trace: Dictionary = scene.latest.duplicate(true)
+			var old_supports: Dictionary = scene.session.data.supports.duplicate(true)
+			var old_permission: String = scene.session._transport_model
+			change_learning_input(scene,field,true); await settle()
+			var before_guidance: String = JSON.stringify(scene.session.data)
+			var step: Dictionary = scene.next_step()
+			check(step.action == "train",context+": changed learning inputs guide explicit Learn before continuing")
+			check(scene.next_step_button.text == ("学习样例" if locale == "zh_CN" else "Learn examples"),context+": visible primary action names Learn")
+			check(JSON.stringify(scene.session.data) == before_guidance,context+": reading guidance does not mutate the draft or award progress")
+			check(scene.session.data.model == old_model and scene.latest == old_trace,context+": edits and guidance preserve frozen model and measured Trace")
+			check(scene.session.data.supports == old_supports and scene.session._transport_model == old_permission,context+": existing evidence stays owned by the old rules")
+			change_learning_input(scene,field,false); await settle()
+			check(scene.next_step().action == "next",context+": restoring matching inputs removes pending-learning guidance without relearning")
+			scene.session.data.draft.machine.cpu_ops_per_cycle += 1
+			scene.edit_draft()
+			check(scene.next_step().action == "next",context+": a machine-only edit does not ask to relearn")
+			change_learning_input(scene,field,true); await settle()
+			if scene.next_step().action == "train":
+				scene.next_step_button.pressed.emit(); await settle()
+				check(Model.identity(scene.session.data.model) != Model.identity(old_model),context+": explicit primary Learn learns the changed examples or history")
+				check(scene.session.data.model.examples == scene.session.data.draft.examples and int(scene.session.data.model.order) == int(scene.session.data.draft.order),context+": new frozen rules match the current learning inputs")
+				check(scene.next_step().action == "transport" and scene.session._transport_model.is_empty(),context+": new rules need their own restoration evidence")
+				check(scene.session.data.supports == old_supports,context+": learning alone grants no additional completion")
+			scene.queue_free(); await settle()
+	print(("PASS: " if failures == 0 else "FAIL: ")+"creation pending learning guidance %d checks, %d failures" % [checks,failures])
+	quit(0 if failures == 0 else 1)

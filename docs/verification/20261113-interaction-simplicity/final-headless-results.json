@@ -1,0 +1,50 @@
+[
+  {
+    "suite": "test_hardware_official_playback_controls",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_official_playback_controls.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 7.096536458,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-headless/test_hardware_official_playback_controls"
+  },
+  {
+    "suite": "test_creation_pending_learning_guidance",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_pending_learning_guidance.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 33.418912292,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-headless/test_creation_pending_learning_guidance"
+  },
+  {
+    "suite": "test_layout_editing_continuity",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_editing_continuity.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.729847667000001,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-headless/test_layout_editing_continuity"
+  }
+]

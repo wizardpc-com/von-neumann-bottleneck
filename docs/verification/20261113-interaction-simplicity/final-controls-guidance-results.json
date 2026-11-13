@@ -1,0 +1,171 @@
+[
+  {
+    "suite": "test_hardware_official_playback_controls",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_official_playback_controls.gd"
+    ],
+    "exit": 0,
+    "passed": false,
+    "errors": [
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance."
+    ],
+    "seconds": 7.04473325,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_hardware_official_playback_controls"
+  },
+  {
+    "suite": "test_hardware_prologue_ui",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_prologue_ui.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 7.145723458000001,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_hardware_prologue_ui"
+  },
+  {
+    "suite": "test_hardware_settings_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_settings_input.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 3.5027544169999985,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_hardware_settings_input"
+  },
+  {
+    "suite": "test_hardware_seal_navigation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_seal_navigation.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.972700749999998,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_hardware_seal_navigation"
+  },
+  {
+    "suite": "test_creation_pending_learning_guidance",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_pending_learning_guidance.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 33.63229625,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_creation_pending_learning_guidance"
+  },
+  {
+    "suite": "test_creation_workbench",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_workbench.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 17.715923417000006,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_creation_workbench"
+  },
+  {
+    "suite": "test_creation_draft_resume_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_draft_resume_input.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 5.840062082999992,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_creation_draft_resume_input"
+  },
+  {
+    "suite": "test_creation_future_workbench",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_future_workbench.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 9.012089750000001,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_creation_future_workbench"
+  },
+  {
+    "suite": "test_ending_cinematic",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T115407Z-03a544bc/project",
+      "--headless",
+      "--script",
+      "res://tests/test_ending_cinematic.gd"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 12.562104250000004,
+    "profile": "VonNeumannBottleneckChecks/simplicity-20261113/final-controls-guidance/test_ending_cinematic"
+  }
+]

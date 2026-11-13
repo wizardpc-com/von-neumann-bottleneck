@@ -1,0 +1,465 @@
+[
+  {
+    "log": "candidate-initial/test_hardware_official_playback_controls.txt",
+    "lines": 194,
+    "summaries": [
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'.",
+      "SCRIPT ERROR: Invalid access to property or key 'error_specs' on a base object of type 'RefCounted (DigitalValue)'."
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_ui.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout six hosts, gates, targets, undo and independent hints"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_creation_pending_learning_guidance.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: creation pending learning guidance 100 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_creation_keyboard_focus.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: creation keyboard focus 23 checks"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_hardware_failure_recovery.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: hardware failure recovery 142 checks / 0 failures (zh_CN, headless callbacks)"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_hardware_prologue_ui.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: two-branch prologue progression, player-owned sealing, word wrappers, CPU construction, and LOAD/STORE UI tests passed"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_recipe_sources.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout recipe sources 13 checks"
+    ]
+  },
+  {
+    "log": "candidate-initial/import.txt",
+    "lines": 680,
+    "summaries": []
+  },
+  {
+    "log": "candidate-initial/test_hardware_workbench_modal_input.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: hardware workbench modal input 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_cpg_connection_fragment.txt",
+    "lines": 15,
+    "summaries": [
+      "PASS: CPG connection fragment 508 checks"
+    ]
+  },
+  {
+    "log": "candidate-initial/user_directory.txt",
+    "lines": 3,
+    "summaries": []
+  },
+  {
+    "log": "candidate-initial/test_layout_named_preservation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: named layout preservation"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_creation_draft_resume_input.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: recovery ordinary Game input"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_creation_future_workbench.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: creation future workbench 79 checks"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_hardware_seal_navigation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_hardware_seal_navigation 29 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_challenge_controller.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: portable challenge controller 66 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_layout_editing_continuity.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout editing continuity 50 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_creation_workbench.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: creation workbench checks=385"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_ending_cinematic.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: ending cinematic 26 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_hardware_settings_input.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: hardware settings input 0 failures"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_localization.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: Chinese default, English catalog, key coverage, and locale-independent simulation tests passed"
+    ]
+  },
+  {
+    "log": "candidate-initial/test_hardware_history_context.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: hardware history context 29 checks"
+    ]
+  },
+  {
+    "log": "baseline/test_task_tree_completed_detail.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_task_tree_completed_detail 369 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "baseline/import.txt",
+    "lines": 677,
+    "summaries": []
+  },
+  {
+    "log": "baseline/user_directory.txt",
+    "lines": 3,
+    "summaries": []
+  },
+  {
+    "log": "baseline/test_lab_terminal_modes.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: terminal modes 97 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "baseline/test_prediction_record_source.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: prediction record source 28 checks"
+    ]
+  },
+  {
+    "log": "baseline/test_lab_terminal_routing.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: lab terminal routing 39 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "baseline/test_service_undo_context.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_service_undo_context 124 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/baseline-instruments-retry.txt",
+    "lines": 8,
+    "summaries": [
+      "ERROR: Actual capture size: (2940, 1846)",
+      "FAIL: controller-opened instrument audit frames /Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T114438Z-f4956e98/project/.godot/interaction-audit"
+    ]
+  },
+  {
+    "log": "supplement/baseline-instruments.txt",
+    "lines": 20,
+    "summaries": [
+      "SCRIPT ERROR: Assertion failed.",
+      "SCRIPT ERROR: Assertion failed.",
+      "SCRIPT ERROR: Assertion failed.",
+      "SCRIPT ERROR: Assertion failed.",
+      "PASS: controller-opened instrument audit frames /Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T114438Z-f4956e98/project/.godot/interaction-audit"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_creation_draft_resume_input.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: recovery ordinary Game input"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_creation_future_workbench.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: creation future workbench 79 checks"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_creation_pending_learning_guidance.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: creation pending learning guidance 124 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_creation_workbench.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: creation workbench checks=385"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_ending_cinematic.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: ending cinematic 26 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_hardware_official_playback_controls.txt",
+    "lines": 171,
+    "summaries": [
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "SCRIPT ERROR: Trying to assign invalid previously freed instance.",
+      "PASS: hardware official playback controls 531 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_hardware_prologue_ui.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: two-branch prologue progression, player-owned sealing, word wrappers, CPU construction, and LOAD/STORE UI tests passed"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_hardware_seal_navigation.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: test_hardware_seal_navigation 29 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-controls-guidance/test_hardware_settings_input.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: hardware settings input 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-hardware-rows/test_hardware_official_playback_controls.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: hardware official playback controls 531 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-headless/test_creation_pending_learning_guidance.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: creation pending learning guidance 124 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-headless/test_hardware_official_playback_controls.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: hardware official playback controls 531 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/final-headless/test_layout_editing_continuity.txt",
+    "lines": 3,
+    "summaries": [
+      "PASS: layout editing continuity 50 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-final-en/test_hardware_official_playback_controls.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: hardware official playback controls 536 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-final-guidance/test_creation_pending_learning_guidance.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: creation pending learning guidance 180 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-final-zh/test_creation_pending_learning_guidance.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: creation pending learning guidance 172 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-final-zh/test_hardware_official_playback_controls.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: hardware official playback controls 536 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-zh/test_creation_pending_learning_guidance.txt",
+    "lines": 44,
+    "summaries": [
+      "ERROR: zh_CN examples: actual pending capture is 1280x720",
+      "ERROR: zh_CN examples-keep: actual pending capture is 1280x720",
+      "ERROR: zh_CN history: actual pending capture is 1280x720",
+      "ERROR: zh_CN history-keep: actual pending capture is 1280x720",
+      "ERROR: en examples: actual pending capture is 1280x720",
+      "ERROR: en examples-keep: actual pending capture is 1280x720",
+      "ERROR: en history: actual pending capture is 1280x720",
+      "ERROR: en history-keep: actual pending capture is 1280x720",
+      "FAIL: creation pending learning guidance 172 checks, 8 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-zh/test_hardware_official_playback_controls.txt",
+    "lines": 9,
+    "summaries": [
+      "ERROR: Official playback capture retains 1280x720 pixels",
+      "FAIL: hardware official playback controls 536 checks, 1 failures"
+    ]
+  },
+  {
+    "log": "supplement/gpu-zh/test_layout_editing_continuity.txt",
+    "lines": 4,
+    "summaries": [
+      "PASS: layout editing continuity 50 checks, 0 failures"
+    ]
+  },
+  {
+    "log": "supplement/interaction_audit_initial.gd.txt",
+    "lines": 39,
+    "summaries": []
+  },
+  {
+    "log": "supplement/negative-creation-learning/test_creation_pending_learning_guidance.txt",
+    "lines": 51,
+    "summaries": [
+      "ERROR: zh_CN examples: changed learning inputs guide explicit Learn before continuing",
+      "ERROR: zh_CN examples: visible primary action names Learn",
+      "ERROR: zh_CN history: changed learning inputs guide explicit Learn before continuing",
+      "ERROR: zh_CN history: visible primary action names Learn",
+      "ERROR: en examples: changed learning inputs guide explicit Learn before continuing",
+      "ERROR: en examples: visible primary action names Learn",
+      "ERROR: en history: changed learning inputs guide explicit Learn before continuing",
+      "ERROR: en history: visible primary action names Learn",
+      "FAIL: creation pending learning guidance 36 checks, 8 failures"
+    ]
+  },
+  {
+    "log": "supplement/negative-hardware-f5/test_hardware_official_playback_controls.txt",
+    "lines": 8,
+    "summaries": [
+      "ERROR: Viewport F5 advances exactly one paused official playback batch",
+      "FAIL: hardware official playback controls 6 checks, 1 failures"
+    ]
+  },
+  {
+    "log": "supplement/negative-layout-name/test_layout_editing_continuity.txt",
+    "lines": 111,
+    "summaries": [
+      "ERROR: Field edit preserves pending name fieldszh_CN",
+      "ERROR: Undo preserves pending name fieldszh_CN",
+      "ERROR: Redo preserves pending name fieldszh_CN",
+      "ERROR: Field edit preserves pending name relocationzh_CN",
+      "ERROR: Undo preserves pending name relocationzh_CN",
+      "ERROR: Redo preserves pending name relocationzh_CN",
+      "ERROR: Run preserves pending name relocationzh_CN",
+      "ERROR: Inspecting other order preserves pending name zh_CN",
+      "ERROR: Switching editable order preserves pending name zh_CN",
+      "ERROR: Field edit preserves pending name fieldsen",
+      "ERROR: Undo preserves pending name fieldsen",
+      "ERROR: Redo preserves pending name fieldsen",
+      "ERROR: Field edit preserves pending name relocationen",
+      "ERROR: Undo preserves pending name relocationen",
+      "ERROR: Redo preserves pending name relocationen",
+      "ERROR: Run preserves pending name relocationen",
+      "ERROR: Inspecting other order preserves pending name en",
+      "ERROR: Switching editable order preserves pending name en",
+      "FAIL: layout editing continuity 42 checks, 18 failures"
+    ]
+  }
+]

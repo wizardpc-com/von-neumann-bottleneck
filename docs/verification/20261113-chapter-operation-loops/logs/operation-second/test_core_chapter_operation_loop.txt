@@ -1,0 +1,58 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Explicit Run is enabled
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:34)
+       [2] tool (res://tests/test_core_chapter_operation_loop.gd:11)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Run produces an actual trace
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:36)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Wrong computation yields a real failed receipt
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] chapter_one (res://tests/test_core_chapter_operation_loop.gd:70)
+       [2] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:37)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Failure remains inspectable in Profiler
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] chapter_one (res://tests/test_core_chapter_operation_loop.gd:71)
+       [2] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:37)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Run is enabled
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:34)
+       [2] tool (res://tests/test_core_chapter_operation_loop.gd:11)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Run produces an actual trace
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:36)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Correcting and rerunning passes actual cases
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] chapter_one (res://tests/test_core_chapter_operation_loop.gd:75)
+       [2] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:37)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: All four continuous input loops reach their end
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_core_chapter_operation_loop.gd:162)
+       [2] chapter_one (res://tests/test_core_chapter_operation_loop.gd:91)
+       [3] clear_host (res://tests/test_core_chapter_operation_loop.gd:52)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+Core chapter operation checks: 43; failures: 8

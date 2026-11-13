@@ -85,4 +85,4 @@ The full chapter matrix, long sessions, audio, Windows and exported-package play
 remain unverified. Existing long Mission text/code comments still require ordinary
 scrolling. No new export or release was produced. Further development is paused
 following the user's closure instruction; pending scope remains in the
-[whole-chapter plan](../../exec-plans/active/chapter-interaction-simplicity-20261113.md).
+[whole-chapter plan](../../exec-plans/completed/chapter-interaction-simplicity-20261113.md).

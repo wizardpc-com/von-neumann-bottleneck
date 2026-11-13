@@ -1,0 +1,11 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+MENU: NamedDesigns focus=0 want=0
+MENU: NamedDesigns focus=0 want=0
+MENU: NamedDesigns focus=0 want=0
+MENU: NamedDesigns focus=0 want=0
+MENU: NamedDesigns focus=0 want=0
+MENU: NamedDesigns focus=0 want=0
+MENU: NamedDesigns focus=0 want=0
+MENU: NamedDesigns focus=0 want=0
+PASS: candidate shelf return 314 checks, 0 failures

@@ -1,0 +1,82 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Invalid access to property or key 'row' on a base object of type 'Dictionary'.
+          at: exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+          GDScript backtrace (most recent call first):
+              [0] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+              [1] click (res://tests/test_layout_iteration_flow.gd:87)
+              [2] click_at (res://tests/test_layout_iteration_flow.gd:95)
+              [3] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Ranking control receives actual pointer: ScoreRows
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Ranking control receives actual pointer: ScoreChallenge
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Pin target releases modal back to editor
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Same real all-case measurement is explicitly a tie
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Tie never claims a beaten target
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Actual field grouping selector opens
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Actual recipe edit marks results historical and preserves the pinned target
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Actual all-case Run supplies ranking row challenge
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+ERROR: Both language ranking operation loops reach the end
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_layout_scoreboard_operation_loop.gd:100)
+       [1] exercise_score (res://tests/test_layout_scoreboard_operation_loop.gd:82)
+       [2] click (res://tests/test_layout_iteration_flow.gd:87)
+       [3] click_at (res://tests/test_layout_iteration_flow.gd:95)
+       [4] settle (res://tests/test_layout_iteration_flow.gd:11)
+FAIL: layout scoreboard operation loop 27 checks, 9 failures

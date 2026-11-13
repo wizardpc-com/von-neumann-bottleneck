@@ -1,0 +1,32 @@
+[
+  {
+    "suite": "test_core_chapter_operation_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/project",
+      "--headless",
+      "--script",
+      "res://tests/test_core_chapter_operation_loop.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794595162620511000/test_core_chapter_operation_loop",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Viewport typing preserves the exact intended source",
+      "ERROR: Apply adopts exactly the typed experiment",
+      "ERROR: Explicit Run is enabled",
+      "ERROR: Explicit Run produces an actual trace",
+      "ERROR: Wrong computation yields a real failed receipt",
+      "ERROR: Failure remains inspectable in Profiler",
+      "ERROR: Viewport typing preserves the exact intended source",
+      "ERROR: Explicit Run is enabled",
+      "ERROR: Explicit Run produces an actual trace",
+      "ERROR: Correcting and rerunning passes actual cases",
+      "ERROR: Viewport typing preserves the exact intended source",
+      "ERROR: Map roundtrip restores draft and applied source separately",
+      "ERROR: All four continuous input loops reach their end"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/core-first/test_core_chapter_operation_loop.txt"
+  }
+]

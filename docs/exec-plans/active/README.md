@@ -1,6 +1,8 @@
 # Execution queue
 
-当前活跃目标：[全章节交互简化](chapter-interaction-simplicity-20261113.md)。逐章核验目标、编辑、运行、反馈、保存和离开，减少认知与操作负担；局部修复完成不等于此目标完成。
+2026-11-13：[全章节基本交互计划](../completed/chapter-interaction-simplicity-20261113.md)已完成。
+代表操作链、任务差异回归与已知限制见[验收矩阵](../../development/BASIC_INTERACTION_ACCEPTANCE_20261113.md)；
+不自动追加功能或最终美术决定。下文各轮当时的目标状态保留作历史记录。
 
 2026-11-12新指令恢复现有游戏可靠性与展示打磨。当前完成的范围见
 [操作闭环修复](../../verification/20261112-reliability/README.md)；验证后的重要更改

@@ -1,0 +1,40 @@
+[
+  {
+    "suite": "test_candidate_shelf_return_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/project",
+      "--script",
+      "res://tests/test_candidate_shelf_return_loop.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--recovery-capture",
+      "--core-operation-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794596004774376000/test_candidate_shelf_return_loop",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/gpu-corrected/test_candidate_shelf_return_loop.txt"
+  },
+  {
+    "suite": "test_core_chapter_operation_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/project",
+      "--script",
+      "res://tests/test_core_chapter_operation_loop.gd",
+      "--",
+      "--capture-size=1280x720",
+      "--recovery-capture",
+      "--core-operation-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794596102466230000/test_core_chapter_operation_loop",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/gpu-corrected/test_core_chapter_operation_loop.txt"
+  }
+]

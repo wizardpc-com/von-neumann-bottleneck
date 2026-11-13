@@ -97,5 +97,5 @@ runtime fix was needed. Creation sample Replace/Cancel may require
 scrolling after focusing the preserved text. These remain experience limits.
 Full chapter playthroughs, unassisted novice understanding, Windows, exported
 packages, long sessions and audio remain outside this block's verified scope.
-No export or release is produced; the [whole-chapter plan](../../exec-plans/active/chapter-interaction-simplicity-20261113.md)
+No export or release is produced; the [whole-chapter plan](../../exec-plans/completed/chapter-interaction-simplicity-20261113.md)
 remains active.

@@ -1,0 +1,68 @@
+[
+  {
+    "suite": "test_candidate_shelf_return_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/project",
+      "--script",
+      "res://tests/test_candidate_shelf_return_loop.gd",
+      "--",
+      "--recovery-capture",
+      "--creation-loop-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794595698273327000/test_candidate_shelf_return_loop",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Raw shelf-return frame remains 1280x720",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Raw shelf-return frame remains 1280x720",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Raw shelf-return frame remains 1280x720",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Raw shelf-return frame remains 1280x720",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Raw shelf-return frame remains 1280x720",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Raw shelf-return frame remains 1280x720",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Raw shelf-return frame remains 1280x720",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Actual 1280x720 pixels stabilize before input",
+      "ERROR: Raw shelf-return frame remains 1280x720",
+      "FAIL: candidate shelf return 350 checks, 28 failures"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/gpu-first/test_candidate_shelf_return_loop.txt"
+  },
+  {
+    "suite": "test_creation_comparison_check_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/project",
+      "--script",
+      "res://tests/test_creation_comparison_check_loop.gd",
+      "--",
+      "--recovery-capture",
+      "--creation-loop-capture"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794595917258493000/test_creation_comparison_check_loop",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/gpu-first/test_creation_comparison_check_loop.txt"
+  }
+]

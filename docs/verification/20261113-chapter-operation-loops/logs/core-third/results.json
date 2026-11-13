@@ -1,0 +1,21 @@
+[
+  {
+    "suite": "test_core_chapter_operation_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/project",
+      "--headless",
+      "--script",
+      "res://tests/test_core_chapter_operation_loop.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794595587989234000/test_core_chapter_operation_loop",
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Default scale CPU control receives actual pointer: FullscreenButton",
+      "ERROR: Default scale CPU control receives actual pointer: FullscreenButton"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/core-third/test_core_chapter_operation_loop.txt"
+  }
+]

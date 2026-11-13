@@ -1,9 +1,10 @@
 # Chapter interaction simplicity — resumed reliability review
 
-Latest user instruction (2026-11-13) resumes reliability, interaction and playable
-chapter-loop work, with delegated reviews and commit/push to main after verified
-blocks. The earlier closure is historical. The whole-product acceptance goal
-is active and not declared achieved; pending rows remain below.
+Completed 2026-11-13 within the basic-operation acceptance scope below. All
+remaining concrete operation gaps were verified; no runtime change was necessary
+in the final block. The [acceptance matrix](../../development/BASIC_INTERACTION_ACCEPTANCE_20261113.md)
+and [final receipt](../../verification/20261113-chapter-operation-loops/README.md)
+record coverage and limitations. Earlier progress entries are historical.
 
 ## Objective
 
@@ -14,7 +15,7 @@ edit, run, feedback, retry, save/return loops of every chapter, with no known
 blocking or misleading issue remaining in those supported flows. This is still
 a whole-game goal, not closed by one local fix. It does not require unlimited
 polish, proof of an absolute cognitive minimum, or a full novice research study.
-Base: main239de25. Commit/push authorization and delegated reviews continue.
+Original base: main239de25. Commit/push authorization and delegated reviews continue.
 
 ## Working criteria
 
@@ -28,27 +29,30 @@ No new simulation, tasks, art direction, reward thresholds, save formats or depe
 
 ## Coverage and evidence gates
 
-| Area | Entry/goal/edit | Run/feedback/retry | Keep/leave/resume | Render/native | Novice comprehension |
-| --- | --- | --- | --- | --- | --- |
-| Laboratory and journey map | Pending | Pending | Pending | Pending | Unverified |
-| Prologue construction | Existing construction/input coverage; CPU Focus reviewed | Actual Debug fixture + title drag; official tests preserved | Board/history/window geometry unchanged | Native old/fixed CPU focus and bilingual GPU | Unverified |
-| Ch1 system costs | Partial: prediction setup and modal input isolation | Partial: TEST to Run; current results cleared after applied/topology changes | Historical receipts preserved | Fresh bilingual GPU recall and boundary checks | Unverified |
-| Ch2 locality | Partial: applied program and all-task header navigation | Partial: covered TEST to Run | Partial: Settings/map/task/Laboratory retains unapplied draft | Bilingual recall and all-task navigation GPU passed | Unverified |
-| Ch3 overlap | Partial: complete current command reference | Partial: actual edit and Run | Existing draft regressions | Bilingual six-task expanded reference | Unverified |
-| Ch4 layout | Partial: tools/results iteration | Partial: real Run, inspect and return | Naming, Undo, rankings/challenge regressions | Bilingual six-task flow and final GPU passed | Unverified |
-| Ch5 representation | Partial: valid split input | Pending | Partial: Undo/Redo and task context | Bilingual split input rendered | Unverified |
-| Ch6 service | Partial: direct encoding/multiselect | Partial: measured edit/retry | Partial: explicit save/Undo/language context | Scripted bilingual menus passed | Unverified |
-| Ch7 address prediction | Partial: per-investigation temporary context | Partial: exact reveal continuation and historical source | Cached work included in leave guard | Bilingual context/reading final GPU passed | Unverified |
-| Ch8 compression | Pending | Pending | Pending | Pending | Unverified |
-| Ch9 content prediction | Pending | Pending | Pending | Pending | Unverified |
-| Ch10 creation | Native Learn/restore/P1 prerequisites and Generate | Continue→edit→Generate→Keep | Native parent/child Keep; targeted saved/fork reopen | Native English Test + bilingual GPU | Unverified |
-| Optional scheduling lab | Partial: same-page personal conditions | Partial: ranking refresh without rerun | Partial: numeric text across language/inspection; explicit Run/departure | Bilingual Compare/Notebook and save-conflict GPU passed | Unverified |
+The final [chapter matrix](../../development/BASIC_INTERACTION_ACCEPTANCE_20261113.md)
+replaces the earlier partial/pending grid. Entry/edit/run/feedback/retry/return
+has representative input evidence for laboratory/map and Chapters1–10, plus the
+optional scheduling lab. Per-task regression supplements those representative
+chains. Final gaps closed: Ch1 Apply/retry/draft return; Ch2 observation→judgment→
+implementation; Ch5/6 collection restore/save/map and laboratory return; C2/C3
+comparison; P2/P3 memory and frozen check; formal Ch4 ranking/target/tie/edit.
 
-Prior passing checks are evidence of their stated paths only, not new acceptance.
-Each row needs a concrete scenario and current evidence. Human comprehension
-cannot be inferred from test counts. Novice research, broad cross-platform/export,
-long-session and audio acceptance remain separately reported limits; they are not
-automatically blockers to the user’s revised basic-interaction goal.
+Novice comprehension, complete ordinary Game unlocking, Windows/export, long
+sessions and audio remain unverified. They are separately reported limits rather
+than automatic blockers to this basic-interaction goal. Repeated identical fork
+intent still has its documented existing-format ambiguity; protected works and
+explicit Fork remain available. No schema change is inferred from this limitation.
+
+## Final outcome
+
+Runtime repairs from the preceding verified blocks are committed through d5542e9.
+The final verification-only block passes12 distinct staged suites; new final
+headless counts262/314/348/74 and GPU274/366/382/80. All23 final raw images were
+independently reviewed. Earlier native Mac naming/Undo/Focus/creation paths remain
+scoped evidence. Selected121 reused subsystem files hash-match prior receipts.
+The visual/Logo inventory is current and remains a team decision, not an art approval.
+
+## Historical execution record
 
 ## Ownership and steps
 
@@ -202,3 +206,9 @@ explicitly open; no claim of absolute minimum cognitive load from expert inspect
   and judgment through implementation, C2/C3 comparison, P2/P3 memory/frozen check.
   Review existing Ch5/6 shelf/return evidence before adding further runs. Other
   chapter evidence is reused at its documented scope; no unlimited retest gate.
+
+- Next verification block from clean `d5542e9`: root serializes Godot/Git;
+  core/later agents own only new continuous-operation tests for Ch1/2 and C2/3/P2/3.
+  Existing behavior is inspected first; runtime changes require a reproduced
+  obstacle. Review Ch5/6 shelf/return evidence and visual decision inventory in
+  parallel. Existing representative coverage is retained with its stated limits.

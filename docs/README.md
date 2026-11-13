@@ -1,5 +1,8 @@
 # Documentation map
 
+- [全章节基本操作验收矩阵（2026-11-13）](development/BASIC_INTERACTION_ACCEPTANCE_20261113.md)
+- [最后连续操作链与排行挑战验证](verification/20261113-chapter-operation-loops/README.md)
+
 - [电路聚焦、继续创作与原生保存操作验证（2026-11-13）](verification/20261113-creation-and-circuit-focus/README.md)
 
 - [调度条件同屏、数字输入保留与第二章导航复核（2026-11-13）](verification/20261113-comparison-controls/README.md)

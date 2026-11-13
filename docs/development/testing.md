@@ -1,3 +1,21 @@
+## Continuous chapter operation loops — 2026-11-13
+
+Run `test_core_chapter_operation_loop`, `test_candidate_shelf_return_loop`,
+`test_creation_comparison_check_loop` and `test_layout_scoreboard_operation_loop`
+for representative Ch1/2, Ch5/6 return, C2/C3/P2/P3, and formal Ch4 ranking input.
+Each requires isolated Test data; measurements must be earned through actual Run,
+not injected records. Final loop counts guard against early coroutine exit.
+Embedded ranking windows receive parent-viewport coordinates; native windows use
+their own window id. Do not bypass hover or target identity assertions.
+
+GPU runs require `--capture-size=1280x720` plus `--recovery-capture` for shelf and
+Creation, `--core-operation-capture` for Ch1/2/CPU, or
+`--layout-score-operation-capture` for Ch4. Stabilize actual pixels before input,
+never resize saved images; shelf capture uses actual wheel scrolling and verifies
+saved-name/Copy bounds. The CPU probe separately preserves1600×900 design scaling.
+[Final receipt](../verification/20261113-chapter-operation-loops/README.md) explains
+fixtures, inherited reveal helpers, driver failures and all evidence boundaries.
+
 ## Circuit framing and creation continuation — 2026-11-13
 
 Run `test_circuit_focus_visibility` with hardware foundations/prologue UI,

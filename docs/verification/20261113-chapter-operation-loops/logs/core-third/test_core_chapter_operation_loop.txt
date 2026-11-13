@@ -1,0 +1,17 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+CPU_DEFAULT_SCALE {"actual":"(1280, 720)","design":"(1600, 900)","logical":"[P: (0.0, 0.0), S: (1600.0, 900.0)]","minimum":"(64, 64)","requested":"(1280, 720)"}
+ERROR: Default scale CPU control receives actual pointer: FullscreenButton
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] default_scale_cpu (res://tests/test_core_chapter_operation_loop.gd:191)
+       [2] point (res://tests/test_recovery_game_input.gd:34)
+CPU_DEFAULT_SCALE {"actual":"(960, 640)","design":"(1600, 900)","logical":"[P: (0.0, 0.0), S: (1600.0, 1066.0)]","minimum":"(64, 64)","requested":"(960, 640)"}
+ERROR: Default scale CPU control receives actual pointer: FullscreenButton
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] default_scale_cpu (res://tests/test_core_chapter_operation_loop.gd:191)
+       [2] point (res://tests/test_recovery_game_input.gd:34)
+Core chapter operation checks: 256; failures: 2

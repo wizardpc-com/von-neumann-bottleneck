@@ -1,0 +1,18 @@
+[
+  {
+    "suite": "test_creation_comparison_check_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/project",
+      "--headless",
+      "--script",
+      "res://tests/test_creation_comparison_check_loop.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794595264438556000/test_creation_comparison_check_loop",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T183618Z-076f3457/creation-first/test_creation_comparison_check_loop.txt"
+  }
+]

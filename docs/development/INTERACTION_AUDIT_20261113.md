@@ -1,9 +1,13 @@
 # 全章节操作审计 · 2026-11-13（恢复推进）
 
-目标是让玩家把注意力放在题目本身，减少寻找按钮、重复输入、无谓等待和
-记住隐藏状态的负担。下表是当前源码的操作地图，不是全章节体验已验收。
-核对基线 main239de25；本轮改动和后续证据由
-[活跃计划](../exec-plans/active/chapter-interaction-simplicity-20261113.md)持续记录。
+当前结论见[基本操作验收矩阵](BASIC_INTERACTION_ACCEPTANCE_20261113.md)：最后补足的
+Ch1/2、Ch5/6、C2/C3/P2/P3及正式Ch4排行连续链已通过，23张最终图已复审。
+各章代表操作路径无剩余已知阻塞或误导；新人、完整Game通关、发布包和其它平台
+仍按矩阵列为未验范围。最终[证据](../verification/20261113-chapter-operation-loops/README.md)
+与[完成计划](../exec-plans/completed/chapter-interaction-simplicity-20261113.md)可供复核。
+
+以下保留从main239de25开始的发现与各阶段状态；其中“待验”“下一步”指当时，
+后续结果以上述矩阵为准，不再构成当前活动清单。
 
 ## 现有操作链与尚未完成的核验
 

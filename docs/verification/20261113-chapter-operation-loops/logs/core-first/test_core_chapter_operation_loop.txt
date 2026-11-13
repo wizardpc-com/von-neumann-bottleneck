@@ -1,0 +1,89 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Viewport typing preserves the exact intended source
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] program (res://tests/test_core_chapter_operation_loop.gd:26)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Apply adopts exactly the typed experiment
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] chapter_one (res://tests/test_core_chapter_operation_loop.gd:64)
+       [2] press (res://tests/test_recovery_game_input.gd:120)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Run is enabled
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:30)
+       [2] tool (res://tests/test_core_chapter_operation_loop.gd:11)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Run produces an actual trace
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:32)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Wrong computation yields a real failed receipt
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] chapter_one (res://tests/test_core_chapter_operation_loop.gd:66)
+       [2] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:33)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Failure remains inspectable in Profiler
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] chapter_one (res://tests/test_core_chapter_operation_loop.gd:67)
+       [2] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:33)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Viewport typing preserves the exact intended source
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] program (res://tests/test_core_chapter_operation_loop.gd:26)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Run is enabled
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:30)
+       [2] tool (res://tests/test_core_chapter_operation_loop.gd:11)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Explicit Run produces an actual trace
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:32)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Correcting and rerunning passes actual cases
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] chapter_one (res://tests/test_core_chapter_operation_loop.gd:71)
+       [2] run_and_finish (res://tests/test_core_chapter_operation_loop.gd:33)
+       [3] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Viewport typing preserves the exact intended source
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] program (res://tests/test_core_chapter_operation_loop.gd:26)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: Map roundtrip restores draft and applied source separately
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] chapter_one (res://tests/test_core_chapter_operation_loop.gd:85)
+       [2] settle (res://tests/test_recovery_game_input.gd:25)
+ERROR: All four continuous input loops reach their end
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_recovery_game_input.gd:21)
+       [1] _run (res://tests/test_core_chapter_operation_loop.gd:158)
+       [2] chapter_one (res://tests/test_core_chapter_operation_loop.gd:87)
+       [3] clear_host (res://tests/test_core_chapter_operation_loop.gd:48)
+       [4] settle (res://tests/test_recovery_game_input.gd:25)
+Core chapter operation checks: 37; failures: 13

@@ -1,7 +1,7 @@
 # Selection controls and instrument recall — 2026-11-13
 
 Base: `main` `fb5497d3f93aa45e9af07030a5b562f3d5564256`.
-This continues the [whole-chapter interaction goal](../../exec-plans/active/chapter-interaction-simplicity-20261113.md),
+This continues the [whole-chapter interaction goal](../../exec-plans/completed/chapter-interaction-simplicity-20261113.md),
 which remains active. No new package or final art direction is included.
 
 ## Delivered behavior

@@ -1,0 +1,18 @@
+[
+  {
+    "suite": "test_layout_scoreboard_operation_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T185651Z-17c313c7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_scoreboard_operation_loop.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794596764482797000/test_layout_scoreboard_operation_loop",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T185651Z-17c313c7/scoreboard-second/test_layout_scoreboard_operation_loop.txt"
+  }
+]

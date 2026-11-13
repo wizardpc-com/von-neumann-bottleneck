@@ -2,7 +2,7 @@
 
 Base: `main` `239de25be911d44dc0daddf63e698b60e0bbc61b`.
 This is an incremental source improvement. The
-[whole-chapter goal](../../exec-plans/active/chapter-interaction-simplicity-20261113.md)
+[whole-chapter goal](../../exec-plans/completed/chapter-interaction-simplicity-20261113.md)
 remains active; it is not whole-product or novice acceptance.
 
 ## Behavior

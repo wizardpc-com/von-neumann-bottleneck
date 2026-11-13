@@ -1,0 +1,30 @@
+[
+  {
+    "suite": "test_layout_scoreboard_operation_loop",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T185651Z-17c313c7/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_scoreboard_operation_loop.gd"
+    ],
+    "profile": "VonNeumannBottleneckChecks/boundaries-1794596425806859000/test_layout_scoreboard_operation_loop",
+    "exit": -2,
+    "passed": false,
+    "errors": [
+      "SCRIPT ERROR: Invalid access to property or key 'row' on a base object of type 'Dictionary'.",
+      "ERROR: Ranking control receives actual pointer: ScoreRows",
+      "ERROR: Ranking control receives actual pointer: ScoreChallenge",
+      "ERROR: Pin target releases modal back to editor",
+      "ERROR: Same real all-case measurement is explicitly a tie",
+      "ERROR: Tie never claims a beaten target",
+      "ERROR: Actual field grouping selector opens",
+      "ERROR: Actual recipe edit marks results historical and preserves the pinned target",
+      "ERROR: Actual all-case Run supplies ranking row challenge",
+      "ERROR: Both language ranking operation loops reach the end",
+      "FAIL: layout scoreboard operation loop 27 checks, 9 failures"
+    ],
+    "log": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T185651Z-17c313c7/scoreboard-first/test_layout_scoreboard_operation_loop.txt"
+  }
+]

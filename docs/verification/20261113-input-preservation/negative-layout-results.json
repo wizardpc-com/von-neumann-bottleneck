@@ -1,0 +1,50 @@
+[
+  {
+    "suite": "test_layout_named_preservation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112100Z-8aefb51d/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_named_preservation.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Different recipe cannot replace an existing named copy",
+      "ERROR: Rejected overwrite preserves exact original",
+      "ERROR: Ordinary save preserves named copy zh_CN",
+      "ERROR: Conflict explains choosing a new name zh_CN",
+      "ERROR: Rejected save retains typed name zh_CN",
+      "ERROR: Ordinary save preserves named copy en",
+      "ERROR: Conflict explains choosing a new name en",
+      "ERROR: Rejected save retains typed name en",
+      "FAIL: named layout preservation"
+    ],
+    "seconds": 2.426104875,
+    "profile": "VonNeumannBottleneckChecks/followup-20261113/negative-layout/test_layout_named_preservation"
+  },
+  {
+    "suite": "test_layout_strategy_pending_exit",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112100Z-8aefb51d/project",
+      "--headless",
+      "--script",
+      "res://tests/test_layout_strategy_pending_exit.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: OS close guards fresh pending numeric work zh_CN",
+      "ERROR: Close commits visible input before loss decision zh_CN",
+      "ERROR: OS close guards fresh pending numeric work en",
+      "ERROR: Close commits visible input before loss decision en",
+      "FAIL: pending numeric exit 12 checks, 4 failures"
+    ],
+    "seconds": 4.021812875,
+    "profile": "VonNeumannBottleneckChecks/followup-20261113/negative-layout/test_layout_strategy_pending_exit"
+  }
+]

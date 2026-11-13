@@ -1,0 +1,22 @@
+[
+  {
+    "suite": "test_hardware_drag_escape",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112100Z-8aefb51d/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_drag_escape.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Escape ends the nearest drag without navigating to the map",
+      "ERROR: Escape ends the active body drag",
+      "FAIL: hardware drag Escape 2 failures"
+    ],
+    "seconds": 3.0058100420000002,
+    "profile": "VonNeumannBottleneckChecks/followup-20261113/negative-drag/test_hardware_drag_escape"
+  }
+]

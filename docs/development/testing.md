@@ -1,3 +1,28 @@
+## Naming overlays, preserved designs and pending exit input — 2026-11-13
+
+Run `test_hardware_workbench_modal_input` with Hardware settings/history/workspace
+and sealing suites. It opens New/Duplicate through menu callbacks, sends viewport
+Ctrl/Meta shortcuts with non-text dialog focus, cancels with Escape, then explicitly
+focuses the graph to check restored Undo/Redo. Enter still submits the name.
+`test_hardware_drag_escape` presses and moves an actual component, sends Escape
+while held, then verifies no navigation or continued movement, exactly one
+undoable move, and ordinary map navigation on a later Escape.
+
+Run `test_layout_named_preservation` with Layout UI/navigation/scoreboard and global
+save tests. Different recipes must not replace a named copy; identical normalized
+retries still request persistence, including Game/Test isolation. Ordinary tools
+must explain rejection while retaining the entered name and editable draft.
+
+Run `test_layout_strategy_pending_exit` with notebook/challenge UI and workspace
+suites. A fresh workspace receives actual unsubmitted numeric text, then an OS-close
+notification; the existing editor commit must happen before the loss decision.
+Cancel restores focus; Save and exit must persist the visible value without running
+simulation. Its overridden quit callback counts departures instead of closing QA.
+
+Run the new suites against the old runtime as negative controls and with a renderer
+in the imported isolated QA project. These are controller/viewport checks, separate
+from native OS input and exported-package acceptance.
+
 ## Hardware history and Debug-data comparisons — 2026-11-12
 
 Run `test_hardware_history_context` with Hardware foundations/prologue/failure,

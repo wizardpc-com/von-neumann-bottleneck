@@ -453,6 +453,7 @@ func _input(event: InputEvent) -> void:
 	# not recolor, select or mutate the board beneath Settings, completion or Handbook.
 	if (terminology_handbook != null and terminology_handbook.is_open()) \
 			or (level_completion_overlay != null and level_completion_overlay.visible) \
+			or (workbench_name_dialog != null and workbench_name_dialog.visible) \
 			or is_instance_valid(WindowMode.settings_layer):
 		graph_pan_keys.clear()
 		return
@@ -549,6 +550,7 @@ func _handle_back_navigation(event: InputEvent) -> bool:
 func _has_active_graph_gesture() -> bool:
 	return graph != null and (
 		not armed_component_template_key.is_empty()
+		or not body_drag_component_id.is_empty()
 		or builtin_connection_drag_active
 		or graph.selection_dragging
 		or not graph.branch_candidate.is_empty()
@@ -5881,6 +5883,7 @@ func _clear_wires() -> void:
 
 
 func _cancel_connection_drag() -> void:
+	_finish_component_body_drag(false)
 	var placement_was_armed: bool = not armed_component_template_key.is_empty()
 	if graph != null:
 		if builtin_connection_drag_active:

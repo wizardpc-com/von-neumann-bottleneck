@@ -1619,6 +1619,9 @@ func _translate_exit_guard() -> void:
 
 func request_quit() -> void:
 	if not _owns_quit: return
+	# SpinBox text can still be pending in an otherwise pristine workspace.
+	# Submit it before deciding whether there is work to guard or save.
+	_commit_numeric_editor()
 	if not session.has_work() and not workspace.is_dirty() and not challenges.is_dirty():
 		_finish_quit()
 		return

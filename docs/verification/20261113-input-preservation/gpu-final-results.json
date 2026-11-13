@@ -1,0 +1,82 @@
+[
+  {
+    "suite": "test_hardware_drag_escape",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112322Z-18f406a3/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_hardware_drag_escape.gd",
+      "--",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 4.743884834,
+    "profile": "VonNeumannBottleneckChecks/followup-20261113/gpu-final/test_hardware_drag_escape"
+  },
+  {
+    "suite": "test_hardware_workbench_modal_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112322Z-18f406a3/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_hardware_workbench_modal_input.gd",
+      "--",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 6.209840916999999,
+    "profile": "VonNeumannBottleneckChecks/followup-20261113/gpu-final/test_hardware_workbench_modal_input"
+  },
+  {
+    "suite": "test_layout_named_preservation",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112322Z-18f406a3/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_layout_named_preservation.gd",
+      "--",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 3.6643628340000003,
+    "profile": "VonNeumannBottleneckChecks/followup-20261113/gpu-final/test_layout_named_preservation"
+  },
+  {
+    "suite": "test_layout_strategy_pending_exit",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112322Z-18f406a3/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_layout_strategy_pending_exit.gd",
+      "--",
+      "--capture-size=1280x720"
+    ],
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "seconds": 7.609226583000002,
+    "profile": "VonNeumannBottleneckChecks/followup-20261113/gpu-final/test_layout_strategy_pending_exit"
+  }
+]

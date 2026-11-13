@@ -1,0 +1,38 @@
+{
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "platform": "darwin",
+  "results": [
+    {
+      "name": "import",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "import.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T112100Z-8aefb51d/import"
+    },
+    {
+      "name": "user_directory",
+      "exit": 0,
+      "passed": true,
+      "errors": [],
+      "log": "user_directory.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T112100Z-8aefb51d/user_directory"
+    },
+    {
+      "name": "test_hardware_workbench_modal_input",
+      "exit": 1,
+      "passed": false,
+      "errors": [
+        "ERROR: Naming dialog blocks board Undo",
+        "ERROR: Naming dialog blocks palette and Debug shortcuts",
+        "ERROR: Naming dialog blocks board deletion",
+        "ERROR: Naming dialog blocks board Undo",
+        "ERROR: Naming dialog blocks palette and Debug shortcuts",
+        "ERROR: Naming dialog blocks board deletion",
+        "FAIL: hardware workbench modal input 6 failures"
+      ],
+      "log": "test_hardware_workbench_modal_input.txt",
+      "custom_user_dir": "VonNeumannBottleneckChecks/20261113T112100Z-8aefb51d/test_hardware_workbench_modal_input"
+    }
+  ]
+}

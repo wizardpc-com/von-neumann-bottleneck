@@ -1,0 +1,18 @@
+{
+  "base": "3a8e6059207d7af7f473b572f203a76e2c7b3b49",
+  "negative_production_files_bound": 556,
+  "candidate_files_bound": 1215,
+  "native_exit": 0,
+  "final_import_exit": 0,
+  "branding": "PASS",
+  "native_command": [
+    "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+    "--path",
+    "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112322Z-18f406a3/project",
+    "--windowed",
+    "--resolution",
+    "1280x720",
+    "--script",
+    "res://native_followup.gd"
+  ]
+}

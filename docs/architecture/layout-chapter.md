@@ -42,7 +42,9 @@ current Game/Test accessors. Existing named saves provide persistence without a
 schema change. A failed Game write releases the window before showing the existing
 save-recovery dialog and retains the in-memory recipe.
 Same-name, identical normalized recipes may retry persistence; a different recipe
-cannot overwrite a named copy through the ranking window. Only a fresh fully
+cannot overwrite a named copy through either ordinary tools or the ranking window;
+the shared state rejects replacement and ordinary tools retain the rejected name
+and current draft. Only a fresh fully
 qualified run strictly improving the chosen metric beats a target; equal
 measurements are ties. This offline board makes no online verification claim.
 

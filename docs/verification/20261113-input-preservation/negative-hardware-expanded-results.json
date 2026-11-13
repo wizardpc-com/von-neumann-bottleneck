@@ -1,0 +1,42 @@
+[
+  {
+    "suite": "test_hardware_workbench_modal_input",
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261113T112100Z-8aefb51d/project",
+      "--headless",
+      "--script",
+      "res://tests/test_hardware_workbench_modal_input.gd"
+    ],
+    "exit": 1,
+    "passed": false,
+    "errors": [
+      "ERROR: Naming dialog blocks Ctrl/Meta board Undo",
+      "ERROR: Naming dialog blocks Ctrl/Meta board Undo",
+      "ERROR: Naming dialog blocks palette and Debug shortcuts",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog blocks held camera keys and Home",
+      "ERROR: Naming dialog blocks board deletion",
+      "ERROR: Naming dialog blocks Ctrl/Meta board Undo",
+      "ERROR: Naming dialog blocks Ctrl/Meta board Undo",
+      "ERROR: Naming dialog blocks palette and Debug shortcuts",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog retains focus while board navigation/help shortcuts are pressed",
+      "ERROR: Naming dialog blocks held camera keys and Home",
+      "ERROR: Naming dialog blocks board deletion",
+      "FAIL: hardware workbench modal input 22 failures"
+    ],
+    "seconds": 3.777838541,
+    "profile": "VonNeumannBottleneckChecks/followup-20261113/negative-hardware-expanded/test_hardware_workbench_modal_input"
+  }
+]

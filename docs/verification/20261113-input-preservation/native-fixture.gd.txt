@@ -1,0 +1,27 @@
+extends SceneTree
+var bench: Control
+var previous: String = ""
+func _init() -> void: call_deferred("start")
+func start() -> void:
+ if not "VonNeumannBottleneckChecks" in OS.get_user_data_dir(): quit(2); return
+ preload("res://src/lab/lab_features.gd").classic = true
+ bench = load("res://src/hardware_foundations/hardware_foundations.tscn").instantiate()
+ root.add_child(bench); current_scene = bench
+ for frame in 10: await process_frame
+ bench._show_tutorial(false)
+ for frame in 20: await process_frame
+ var component: GraphNode = bench.component_nodes[&"NOT_1"]
+ bench._on_begin_node_move()
+ component.position_offset += Vector2(40,20)
+ bench._on_end_node_move()
+ bench._set_selected_ids([&"NOT_1"] as Array[StringName])
+ bench._show_new_workbench_dialog(false,true)
+ bench.workbench_create_button.grab_focus()
+ process_frame.connect(observe)
+ print("NATIVE_READY")
+func observe() -> void:
+ if not is_instance_valid(bench): return
+ var node = bench.component_nodes.get(&"NOT_1")
+ var snapshot := JSON.stringify({"dialog":bench.workbench_name_dialog.visible,"phase":str(bench.current_phase),"name":bench.active_workbench_name,"position":str(node.position_offset) if is_instance_valid(node) else "absent","undo":bench.wire_history.size(),"redo":bench.redo_history.size(),"color":bench.active_wire_color_index,"debug":bench.debug_result_label.text})
+ if snapshot != previous:
+  print("NATIVE_STATE ",snapshot); previous=snapshot

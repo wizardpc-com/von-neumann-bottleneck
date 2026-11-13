@@ -301,10 +301,17 @@ func _changed(rebuild: bool = true, record: bool = true) -> void:
 	_refresh_memory()
 	if rebuild: call_deferred("_rebuild_tools")
 func _save_named() -> void:
-	if LayoutChapter.save_named(level,scheme_name.text.strip_edges(),design):
+	var title: String = scheme_name.text.strip_edges()
+	var saved: Dictionary = LayoutChapter.named().get(level,{})
+	if saved.has(title) and LayoutChapter.normalize(saved[title]) != LayoutChapter.normalize(design):
+		status.text = _l("请使用一个新的方案名，已有副本会保留。","Choose a new design name; existing copies are kept.")
+		return
+	if LayoutChapter.save_named(level,title,design):
 		status.text=_l("方案已保存；以后修改不会覆盖这个副本。","Design saved; later edits won't overwrite this copy.")
 		preload("res://src/ui/ui_cue.gd").play(self, &"save")
 		_rebuild_tools()
+	else:
+		status.text = _l("未能保存：检查名称与方案数量（最多 24 个）。","Could not save: check the name and design limit (24).")
 func _refresh_memory() -> void:
 	source_view.show()
 	var task: Dictionary = C.cases(level)[case_index]

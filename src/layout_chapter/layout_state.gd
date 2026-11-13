@@ -26,9 +26,13 @@ func store_draft(id: String, design: Dictionary) -> bool:
 	return true
 func save_named(id: String, title: String, design: Dictionary) -> bool:
 	if title.strip_edges().is_empty() or title.length()>40 or not valid(id,design): return false
+	var normalized: Dictionary = normalize(design)
+	var saved: Dictionary = named().get(id,{})
+	# Named copies are immutable. An identical retry still requests persistence.
+	if saved.has(title) and normalize(saved[title]) != normalized: return false
 	if not named().has(id): named()[id] = {}
 	if named()[id].size()>=24 and not named()[id].has(title): return false
-	named()[id][title] = normalize(design)
+	named()[id][title] = normalized
 	_changed()
 	return true
 func record_pass(id: String, design: Dictionary) -> bool:

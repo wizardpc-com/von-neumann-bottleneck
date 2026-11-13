@@ -1,0 +1,202 @@
+{
+  "logs/initial-negative/import.txt.gz": {
+    "sha256": "a25270c4986d97c181fa39cec1a6900aae18669bf5eac4a6488260483a79b8bb",
+    "bytes": 41425,
+    "original": ".godot/verification/20261113T112100Z-8aefb51d/import.txt"
+  },
+  "logs/initial-negative/user_directory.txt.gz": {
+    "sha256": "676916b8a5d9573dd153c736076d12e9ca9f87c12c5be4356fa9dc379726bf71",
+    "bytes": 205,
+    "original": ".godot/verification/20261113T112100Z-8aefb51d/user_directory.txt"
+  },
+  "logs/initial-negative/test_hardware_workbench_modal_input.txt.gz": {
+    "sha256": "465010b3e6d8e1257a3aafc66ca8f1e6b58bc00ba98e0e19fcee6f6e50a276e8",
+    "bytes": 2317,
+    "original": ".godot/verification/20261113T112100Z-8aefb51d/test_hardware_workbench_modal_input.txt"
+  },
+  "logs/candidate/import.txt.gz": {
+    "sha256": "a25270c4986d97c181fa39cec1a6900aae18669bf5eac4a6488260483a79b8bb",
+    "bytes": 41425,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/import.txt"
+  },
+  "logs/candidate/user_directory.txt.gz": {
+    "sha256": "32254692a91f8c6f8ddaee5771e206525e45b53c1ac2791bfdc2969411529f0e",
+    "bytes": 205,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/user_directory.txt"
+  },
+  "logs/candidate/test_global_save.txt.gz": {
+    "sha256": "b7cf9a589c21490e8f9aeee25c37b333484a53146f896d02f945351eab53f8b6",
+    "bytes": 193,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_global_save.txt"
+  },
+  "logs/candidate/test_hardware_history_context.txt.gz": {
+    "sha256": "987ad8fa2d6541f07c49e0d418ca778e308520a7fe47c7b018fa08223ffac064",
+    "bytes": 114,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_hardware_history_context.txt"
+  },
+  "logs/candidate/test_hardware_prologue_ui.txt.gz": {
+    "sha256": "940c13e4808595011ffba77e8cd2b6be721f1630ff37f84d5bbc0ff92af5c07e",
+    "bytes": 198,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_hardware_prologue_ui.txt"
+  },
+  "logs/candidate/test_hardware_seal_navigation.txt.gz": {
+    "sha256": "5265c0946c4cf73fc6518c96923774df894e6e495ed9f34944a607ccaf42aac6",
+    "bytes": 131,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_hardware_seal_navigation.txt"
+  },
+  "logs/candidate/test_hardware_settings_input.txt.gz": {
+    "sha256": "81b91e3e70aad49d644a5a7162aba9cb53df3daf76a007fee02d221a9f780f5e",
+    "bytes": 114,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_hardware_settings_input.txt"
+  },
+  "logs/candidate/test_hardware_workbench_modal_input.txt.gz": {
+    "sha256": "09c9e11dc2aa2be7fc1215c1dbef7105f3079730ccaedca4aa7d6ced933b48cd",
+    "bytes": 121,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_hardware_workbench_modal_input.txt"
+  },
+  "logs/candidate/test_hardware_workspace_entry.txt.gz": {
+    "sha256": "a42fec7fb49ae8a33b942ff820b23f88781ea9a5abc2e6819f7acbc359ff2f56",
+    "bytes": 108,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_hardware_workspace_entry.txt"
+  },
+  "logs/candidate/test_layout_challenge_controller.txt.gz": {
+    "sha256": "a4c06a26a53df073ab2488ff4a2e2928e793606c23f247d95776eb0040c23139",
+    "bytes": 131,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_challenge_controller.txt"
+  },
+  "logs/candidate/test_layout_named_preservation.txt.gz": {
+    "sha256": "b98a6473592b608709a4f939fea44fff593223a444c8dc19080a4067d31e3861",
+    "bytes": 105,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_named_preservation.txt"
+  },
+  "logs/candidate/test_layout_navigation.txt.gz": {
+    "sha256": "8a0e6f6728c9c31e7d34795992609934cbf7f2109c86f5ee757f19c26354b494",
+    "bytes": 173,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_navigation.txt"
+  },
+  "logs/candidate/test_layout_scoreboard_ui.txt.gz": {
+    "sha256": "baeb1b0a110c915e0c7e6250ad318bf779bd5d06999ea8a8a0622954790884cf",
+    "bytes": 120,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_scoreboard_ui.txt"
+  },
+  "logs/candidate/test_layout_strategy_challenge_store.txt.gz": {
+    "sha256": "a4650f8381785c7faf3f156e746a25bc8c22ab9f2af8c2a335db798bf930b026",
+    "bytes": 134,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_strategy_challenge_store.txt"
+  },
+  "logs/candidate/test_layout_strategy_challenge_ui.txt.gz": {
+    "sha256": "7019f7b3e8aa11c25ee7fc34632ff03e4327580947cefe5d3f8bce0fb3f139eb",
+    "bytes": 1134,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_strategy_challenge_ui.txt"
+  },
+  "logs/candidate/test_layout_strategy_notebook_ui.txt.gz": {
+    "sha256": "cf98c76ec07ead3246b3dccbb11da709db610dcf05381c78fa10483e095f1276",
+    "bytes": 130,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_strategy_notebook_ui.txt"
+  },
+  "logs/candidate/test_layout_strategy_pending_exit.txt.gz": {
+    "sha256": "03fed4f46c0da1080e1578110271be87ddb40997de77b55c3b763e9cdf4012f6",
+    "bytes": 122,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_strategy_pending_exit.txt"
+  },
+  "logs/candidate/test_layout_strategy_workspace.txt.gz": {
+    "sha256": "5491bdbd4027e3b062f547b8f50cc2c8ae1d45fb37466eda11fabb1314f069f4",
+    "bytes": 127,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_strategy_workspace.txt"
+  },
+  "logs/candidate/test_layout_ui.txt.gz": {
+    "sha256": "fdfb659a8eac4538f00ffa3275a81402d4068fb321f7aa9ae8f710c6d55ec842",
+    "bytes": 140,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_layout_ui.txt"
+  },
+  "logs/candidate/test_locality_chapter_ui.txt.gz": {
+    "sha256": "831d08d2f1c44694a7785bf3a0f3cbc20c121d8b880d1a613cdc71fd4639b9ba",
+    "bytes": 292,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_locality_chapter_ui.txt"
+  },
+  "logs/candidate/test_locality_trace_presentation.txt.gz": {
+    "sha256": "d970f7cef59d7e9778c2588d116e2603971724afc986071730e4a150a0a22051",
+    "bytes": 125,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_locality_trace_presentation.txt"
+  },
+  "logs/candidate/test_localization.txt.gz": {
+    "sha256": "1335c9219accbc513d566d1a342f2ff1496884a344edcb572fa4cbe0aa3bf95f",
+    "bytes": 174,
+    "original": ".godot/verification/20261113T112322Z-18f406a3/test_localization.txt"
+  },
+  "logs/negative-layout/test_layout_named_preservation.txt.gz": {
+    "sha256": "c446cb20dd63b87440e486da60040544b4cb5aeeddb807bed36b77851686e5c0",
+    "bytes": 2419,
+    "original": ".godot/followup-20261113/negative-layout/test_layout_named_preservation.txt"
+  },
+  "logs/negative-layout/test_layout_strategy_pending_exit.txt.gz": {
+    "sha256": "4239d80a2f6c82d0ffe7656a6a1519fdc795818b3e00887a0a239319e8080e5e",
+    "bytes": 1304,
+    "original": ".godot/followup-20261113/negative-layout/test_layout_strategy_pending_exit.txt"
+  },
+  "logs/negative-hardware-expanded/test_hardware_workbench_modal_input.txt.gz": {
+    "sha256": "6ff7e672fe8bebfddc678a625bb6d7a52e42ec40cab4c55cc55cfe4b6edb27dc",
+    "bytes": 8684,
+    "original": ".godot/followup-20261113/negative-hardware-expanded/test_hardware_workbench_modal_input.txt"
+  },
+  "logs/negative-drag/test_hardware_drag_escape.txt.gz": {
+    "sha256": "6f984ced80091ad33db87799cb63ea2e638c86ca5f3acca4a31fd9b63754992b",
+    "bytes": 679,
+    "original": ".godot/followup-20261113/negative-drag/test_hardware_drag_escape.txt"
+  },
+  "logs/final-hardware/test_hardware_drag_escape.txt.gz": {
+    "sha256": "096f6f770b45be94785b41e50867eae3062b49cea18023fcdb2317095ec0d6b2",
+    "bytes": 111,
+    "original": ".godot/followup-20261113/final-hardware/test_hardware_drag_escape.txt"
+  },
+  "logs/final-hardware/test_hardware_foundations_ui.txt.gz": {
+    "sha256": "2cb69efb3a2c6a38a09d52199f11a0ff865de62d041a6c4eb9d9d763b000d4a2",
+    "bytes": 186,
+    "original": ".godot/followup-20261113/final-hardware/test_hardware_foundations_ui.txt"
+  },
+  "logs/final-hardware/test_hardware_workbench_modal_input.txt.gz": {
+    "sha256": "09c9e11dc2aa2be7fc1215c1dbef7105f3079730ccaedca4aa7d6ced933b48cd",
+    "bytes": 121,
+    "original": ".godot/followup-20261113/final-hardware/test_hardware_workbench_modal_input.txt"
+  },
+  "logs/final-hardware/test_hardware_history_context.txt.gz": {
+    "sha256": "987ad8fa2d6541f07c49e0d418ca778e308520a7fe47c7b018fa08223ffac064",
+    "bytes": 114,
+    "original": ".godot/followup-20261113/final-hardware/test_hardware_history_context.txt"
+  },
+  "logs/final-hardware/test_hardware_settings_input.txt.gz": {
+    "sha256": "81b91e3e70aad49d644a5a7162aba9cb53df3daf76a007fee02d221a9f780f5e",
+    "bytes": 114,
+    "original": ".godot/followup-20261113/final-hardware/test_hardware_settings_input.txt"
+  },
+  "logs/gpu-final/test_hardware_drag_escape.txt.gz": {
+    "sha256": "d0a58830eb6f6c25d55c0ade4681e5f7746db3ab4e0d36840c3f5ed882caadff",
+    "bytes": 188,
+    "original": ".godot/followup-20261113/gpu-final/test_hardware_drag_escape.txt"
+  },
+  "logs/gpu-final/test_hardware_workbench_modal_input.txt.gz": {
+    "sha256": "79eb44b2837e972fe40a6cb989de0069d7abc50442390e6b8732ebe22e0568b2",
+    "bytes": 198,
+    "original": ".godot/followup-20261113/gpu-final/test_hardware_workbench_modal_input.txt"
+  },
+  "logs/gpu-final/test_layout_named_preservation.txt.gz": {
+    "sha256": "35ce8c144ceb77622a56393a29595d987ce9349d21ec95293ccf82efd847b05d",
+    "bytes": 182,
+    "original": ".godot/followup-20261113/gpu-final/test_layout_named_preservation.txt"
+  },
+  "logs/gpu-final/test_layout_strategy_pending_exit.txt.gz": {
+    "sha256": "1a10951658aa24efeb451ae3bffeed2dfe5a9f68d6b7991ce4b797f35ec6a616",
+    "bytes": 199,
+    "original": ".godot/followup-20261113/gpu-final/test_layout_strategy_pending_exit.txt"
+  },
+  "logs/native-hardware.txt.gz": {
+    "sha256": "148e368fa4e1bf3ca76e8a097bdc277d722ac5cb17596e63e2b3e2b706939517",
+    "bytes": 754,
+    "original": ".godot/followup-20261113/native-hardware.txt"
+  },
+  "logs/final-import.txt.gz": {
+    "sha256": "8b097c4dfb76b85340a38dc7946562077f9e9d63900da67857a96e8df79135e1",
+    "bytes": 1481,
+    "original": ".godot/followup-20261113/final-import.txt"
+  }
+}

@@ -181,7 +181,11 @@ func run() -> void:
 					var action := hub.find_child(id,true,false) as BaseButton
 					check(action == null or not action.is_visible_in_tree(),context+": secondary action is outside homepage: "+id)
 				var work_title := hub.find_child("HubWorkTitle",true,false) as Label
-				check(work_title != null and work_title.text == localization.text(&"game.title"),context+": actual work title anchors the opening")
+				var wordmark := hub.find_child("BrandWordmark",true,false) as TextureRect
+				if wordmark != null:
+					check(wordmark.is_visible_in_tree() and wordmark.texture == preload("res://src/ui/brand_identity.gd").wordmark_texture(localization.current_locale()),context+": configured same-language wordmark anchors the opening")
+				else:
+					check(work_title != null and work_title.text == localization.text(&"game.title"),context+": fallback work title anchors the opening")
 				var theme_title := hub.find_child("HubThemeTitle",true,false) as Label
 				check(theme_title != null and theme_title.text == "A Thought Within the World",context+": stable theme is present")
 				var target := hub.find_child("HubResumeTitle",true,false) as Label

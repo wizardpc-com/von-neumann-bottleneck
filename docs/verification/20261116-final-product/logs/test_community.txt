@@ -1,0 +1,53 @@
+test_contract (__main__.CommunityTests) ... ok
+test_creation_content_versions (__main__.CommunityTests) ... ok
+test_current_and_prior_privacy_notices (__main__.CommunityTests) ... ok
+test_idle_serve_forever_cleans_expired_events (__main__.CommunityTests) ... ok
+test_oversized_trickle_has_total_deadline (__main__.CommunityTests) ... FAIL
+test_retention (__main__.CommunityTests) ... ok
+test_summary_and_board (__main__.CommunityTests) ... ok
+test_valid_length_trickle_cannot_hold_receiver (__main__.CommunityTests) ... FAIL
+test_z_journey_versions_and_atomic_rejection (__main__.CommunityTests) ... ok
+test_contract (test_receiver.ReceiverTests) ... ok
+test_current_and_prior_privacy_notices (test_receiver.ReceiverTests) ... ok
+test_idle_serve_forever_cleans_expired_events (test_receiver.ReceiverTests) ... ok
+test_oversized_trickle_has_total_deadline (test_receiver.ReceiverTests) ... FAIL
+test_retention (test_receiver.ReceiverTests) ... ok
+test_valid_length_trickle_cannot_hold_receiver (test_receiver.ReceiverTests) ... FAIL
+test_z_journey_versions_and_atomic_rejection (test_receiver.ReceiverTests) ... ok
+
+======================================================================
+FAIL: test_oversized_trickle_has_total_deadline (__main__.CommunityTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/yrq/Documents/冯诺伊曼瓶颈/server/test_receiver.py", line 66, in test_oversized_trickle_has_total_deadline
+    self.assertIn(b' 400 ',status)
+AssertionError: b' 400 ' not found in b''
+
+======================================================================
+FAIL: test_valid_length_trickle_cannot_hold_receiver (__main__.CommunityTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/yrq/Documents/冯诺伊曼瓶颈/server/test_receiver.py", line 88, in test_valid_length_trickle_cannot_hold_receiver
+    self.assertIn(b' 400 ',status)
+AssertionError: b' 400 ' not found in b''
+
+======================================================================
+FAIL: test_oversized_trickle_has_total_deadline (test_receiver.ReceiverTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/yrq/Documents/冯诺伊曼瓶颈/server/test_receiver.py", line 66, in test_oversized_trickle_has_total_deadline
+    self.assertIn(b' 400 ',status)
+AssertionError: b' 400 ' not found in b''
+
+======================================================================
+FAIL: test_valid_length_trickle_cannot_hold_receiver (test_receiver.ReceiverTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/yrq/Documents/冯诺伊曼瓶颈/server/test_receiver.py", line 88, in test_valid_length_trickle_cannot_hold_receiver
+    self.assertIn(b' 400 ',status)
+AssertionError: b' 400 ' not found in b''
+
+----------------------------------------------------------------------
+Ran 16 tests in 12.552s
+
+FAILED (failures=4)

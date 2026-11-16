@@ -7,6 +7,8 @@ signal action(id: String)
 const Palette = preload("res://src/lab/lab_palette.gd")
 const Typewriter = preload("res://src/ui/yi_typewriter.gd")
 const Naming = preload("res://src/campaign/journey_naming.gd")
+const Brand = preload("res://src/ui/brand_identity.gd")
+const BuildIdentity = preload("res://src/game/build_identity.gd")
 
 var english: bool = false
 var response: Dictionary = {}
@@ -30,6 +32,8 @@ var cursor: Label
 var header_label: Label
 var language_button: Button
 var sleep_hint: Label
+var brand_wordmark: TextureRect
+var edition_label: Label
 var _time: float = 0.0
 ## Leaving the game is asked on this screen (Quit or Esc in the laboratory).
 var quit_view: VBoxContainer
@@ -100,6 +104,12 @@ func _build() -> void:
 	title_bar.add_theme_stylebox_override("panel", title_style)
 	awake_view.add_child(title_bar)
 	var header := HBoxContainer.new(); title_bar.add_child(header)
+	brand_wordmark = TextureRect.new(); brand_wordmark.name = "TerminalBrand"
+	brand_wordmark.custom_minimum_size = Vector2(180, 28)
+	brand_wordmark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	brand_wordmark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	brand_wordmark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	header.add_child(brand_wordmark)
 	header_label = _label(header, "", 13, Palette.TERM_MUTED); header_label.name = "TerminalHeader"
 	header_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header_label.autowrap_mode = TextServer.AUTOWRAP_OFF
@@ -114,6 +124,10 @@ func _build() -> void:
 	language_button.custom_minimum_size = Vector2(44, 24); language_button.add_theme_font_size_override("font_size", 12)
 	var rule := ColorRect.new(); rule.color = Palette.with_alpha(Palette.TERM_EDGE, 0.9); rule.custom_minimum_size.y = 1
 	awake_view.add_child(rule)
+	edition_label = _label(awake_view, BuildIdentity.caption(), 12, Palette.TERM_MUTED)
+	edition_label.name = "EditionIdentity"
+	edition_label.tooltip_text = BuildIdentity.description()
+	edition_label.visible = get_node("/root/GameMode").edition_locked()
 	# In a conversation, the player's chosen reply is echoed above Yi's answer.
 	echo = _label(awake_view, "", 14, Palette.TERM_MUTED); echo.name = "PlayerReply"
 	echo.hide()
@@ -157,6 +171,8 @@ func _build() -> void:
 	secondary = HFlowContainer.new(); secondary.add_theme_constant_override("h_separation", 4); secondary.add_theme_constant_override("v_separation", 2)
 	awake_view.add_child(secondary)
 	var labels: Array = [["旅程地图", "Journey map", "journey"], ["档案", "Archive", "archive"], ["手册", "Handbook", "handbook"], ["设置", "Settings", "settings"], ["作品", "Works", "works"], ["成就", "Achievements", "achievements"], ["反馈", "Feedback", "feedback"], ["返回房间 · Esc", "Back to room · Esc", "look"], ["退出游戏", "Quit", "quit"]]
+	if get_node("/root/GameMode").edition_locked():
+		labels.insert(7, ["调度实验", "Scheduling lab", "scheduling"])
 	for entry: Array in labels:
 		var button := _button(secondary, "", str(entry[2]), false)
 		button.name = "Terminal" + str(entry[2]).capitalize()
@@ -346,6 +362,9 @@ func _compose() -> void:
 
 func _compose_text() -> void:
 	var zh: bool = not english
+	brand_wordmark.custom_minimum_size = Vector2(180 if zh else 300, 36)
+	brand_wordmark.texture = Brand.texture(str(Brand.settings().get("logo_zh" if zh else "logo_en", "")))
+	brand_wordmark.visible = brand_wordmark.texture != null
 	_sync_mode_choice()
 	mode_note.text = "游戏：按前置推进，保留自己的成果。\n测试：各关可进入，临时元件与进度隔离。" if zh else "Game: follow prerequisites and keep your own work.\nTest: visit any task with separate, temporary components and progress."
 	game_mode_button.tooltip_text = "适合首次游玩：亲手完成前置，逐步构建与保存自己的成果。" if zh else "For a first playthrough: earn prerequisites, build and save your own work."
@@ -390,6 +409,7 @@ func _compose_text() -> void:
 
 func _sync_mode_choice(_mode: StringName = &"") -> void:
 	var testing: bool = get_node("/root/GameMode").is_test_mode()
+	mode_picker.visible = not get_node("/root/GameMode").edition_locked() and not in_dialogue()
 	game_mode_button.set_pressed_no_signal(not testing)
 	test_mode_button.set_pressed_no_signal(testing)
 	game_mode_button.text = ("✓ " if not testing else "") + ("游戏模式" if not english else "Game mode")

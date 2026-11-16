@@ -671,7 +671,7 @@ func _build_options_menu() -> void:
 	var body: VBoxContainer = bodies[0]
 	var section: VBoxContainer = null
 	section = _settings_card(body,"settings.interface")
-	if not settings_only:
+	if not settings_only and not GameMode.edition_locked():
 		var settings_mode := GameModeSelectorType.new()
 		settings_mode.name = "SettingsGameMode"
 		settings_mode.show_label = false
@@ -734,8 +734,11 @@ func _build_options_menu() -> void:
 	_settings_label(section,"settings.privacy_hint")
 	section.add_child(PlaytestMoments.make_button())
 	section = _settings_card(bodies[2],"settings.support")
-	var build := Label.new(); build.text=str(ProjectSettings.get_setting("application/config/version",""))
-	build.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; section.add_child(build)
+	var build := Label.new(); build.name = "EditionBuildIdentity"
+	build.text = preload("res://src/game/build_identity.gd").caption()
+	build.tooltip_text = preload("res://src/game/build_identity.gd").description()
+	build.add_theme_font_size_override("font_size", 13)
+	section.get_child(0).add_child(build)
 	options_export_button=_options_button(Localization.text(&"playtest.export.button")); options_export_button.name="OptionsExportPlaytestButton"
 	options_export_button.pressed.connect(_export_playtest_data); section.add_child(options_export_button)
 	var diagnostics := _options_button(Localization.text(&"settings.diagnostics")); diagnostics.name="ExportDiagnostics"

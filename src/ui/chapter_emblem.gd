@@ -1,6 +1,8 @@
 class_name ChapterEmblem
 extends Control
 
+# Journey accents share the palette's pastel range; identity never encodes status.
+const REGION_COLORS := [Color("91d5ad"), Color("e4c57e"), Color("86d2dd"), Color("b9c1ed"), Color("e6b5ce"), Color("adc5ed"), Color("87d6c2"), Color("d0cc8e"), Color("d8bde4"), Color("a4d0de"), Color("dac294")]
 var chapter: StringName = &"hardware"
 var accent := Color("7fcbd6")
 
@@ -10,6 +12,9 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	resized.connect(queue_redraw)
 
+
+static func region_accent(region: int) -> Color:
+	return REGION_COLORS[posmod(region, REGION_COLORS.size())]
 
 func _draw() -> void:
 	# Keep the complete artwork inside narrow cards rather than joining a neighbor's

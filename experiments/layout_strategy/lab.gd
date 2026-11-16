@@ -9,6 +9,7 @@ const Challenges = preload("res://experiments/layout_strategy/challenges.gd")
 const ChallengeCode = preload("res://experiments/layout_strategy/challenge_code.gd")
 const ChallengeWindow = preload("res://experiments/layout_strategy/challenge_window.gd")
 const Explanation = preload("res://experiments/layout_strategy/explanation.gd")
+const CandidateContext = preload("res://experiments/candidate_session/context.gd")
 var workspace = Workspace.new()
 var session = workspace.session
 var challenges = Challenges.new()
@@ -19,6 +20,7 @@ var legacy_challenge_path: String = ""
 var english: bool = false
 var _syncing: bool = false
 var _owns_quit: bool = false
+var _return_to_home: bool = false
 var _previous_auto_quit: bool = true
 var _previous_minimum: Vector2i
 var _last_focus: String = "Run"
@@ -124,12 +126,23 @@ var exit_target_retry: Button
 static func isolated_profile(path: String) -> bool:
 	return path.replace("\\","/").contains("/VonNeumannBottleneckChecks/")
 
+static func edition_profile(path: String, edition: String, primary: String, profile: String) -> bool:
+	if edition not in ["game", "test"] or primary != "representation": return false
+	var expected: String = "EditionGame" if edition == "game" else "EditionTest"
+	return profile == expected and CandidateContext.configured_journey_for(true, primary, profile, path)
+
+func product_profile() -> bool:
+	var mode: Node = get_node_or_null("/root/GameMode")
+	return mode != null and edition_profile(OS.get_user_data_dir(), mode.edition(),
+		str(ProjectSettings.get_setting("candidate/primary_domain", "")),
+		str(ProjectSettings.get_setting("candidate/profile", "")))
+
 func tr2(zh: String, en: String) -> String:
 	return en if english else zh
 
 func _ready() -> void:
-	if not isolated_profile(OS.get_user_data_dir()):
-		push_error("Layout scheduling lab requires scripts/run-experiment.py and an isolated QA profile.")
+	if not isolated_profile(OS.get_user_data_dir()) and not product_profile():
+		push_error("Layout scheduling lab requires an isolated QA profile or its bound product Edition profile.")
 		get_tree().quit(1)
 		return
 	_previous_auto_quit = get_tree().auto_accept_quit
@@ -261,7 +274,7 @@ func _build() -> void:
 	settings_button.custom_minimum_size = Vector2(64,34)
 	settings_button.focus_entered.connect(func() -> void: _last_focus = str(settings_button.name))
 	header.add_child(settings_button)
-	exit_button = _button(header,tr2("退出","Exit"),request_quit,"Exit")
+	exit_button = _button(header,tr2("实验室","Laboratory") if product_profile() else tr2("退出","Exit"),request_exit,"Exit")
 	storage_label = _label(page,"",13)
 	storage_label.name = "WorkspaceStatus"
 	var workload_row := HBoxContainer.new()
@@ -1588,7 +1601,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		return
 	if event.keycode == KEY_ESCAPE:
-		request_quit()
+		request_exit()
 		get_viewport().set_input_as_handled()
 		return
 	var focused: Control = get_viewport().gui_get_focus_owner()
@@ -1644,7 +1657,7 @@ func _translate_exit_guard() -> void:
 	var target_dirty: bool = challenges.is_dirty()
 	exit_save.visible = _guard_action == "exit" and (dirty or not saved)
 	exit_save.focus_mode = Control.FOCUS_ALL if exit_save.visible else Control.FOCUS_NONE
-	exit_save.text = tr2("保存笔记","Save notebook") if target_dirty else tr2("保存并退出","Save and exit")
+	exit_save.text = tr2("保存笔记","Save notebook") if target_dirty else (tr2("保存并返回","Save and return") if _return_to_home else tr2("保存并退出","Save and exit"))
 	exit_target_retry.visible = _guard_action == "exit" and target_dirty and challenges.storage_status != "read_only"
 	exit_target_retry.focus_mode = Control.FOCUS_ALL if exit_target_retry.visible else Control.FOCUS_NONE
 	exit_target_retry.text = tr2("保存挑战副本","Save target copy") if challenges.copy_pending and challenges.storage_status == "ready" else tr2("重试挑战保存","Retry target save")
@@ -1671,6 +1684,9 @@ func _translate_exit_guard() -> void:
 				exit_question.text += "\n"+_challenge_storage_text(challenges.target(session.task_id))
 		exit_cancel.text = tr2("继续探索","Keep exploring")
 		exit_confirm.text = tr2("丢弃并退出","Discard and exit") if dirty or target_dirty else tr2("退出","Exit")
+	if _guard_action == "exit" and _return_to_home:
+		exit_question.text = exit_question.text.replace("退出", "返回实验室").replace("Leaving", "Returning to the laboratory").replace("leaving", "returning to the laboratory")
+		exit_confirm.text = tr2("丢弃并返回", "Discard and return") if dirty or target_dirty else tr2("返回实验室", "Return to laboratory")
 	var controls: Array[Control] = [exit_cancel]
 	if exit_save.visible: controls.append(exit_save)
 	controls.append(exit_confirm)
@@ -1679,7 +1695,15 @@ func _translate_exit_guard() -> void:
 		controls[index].focus_next = controls[index].get_path_to(controls[(index+1)%controls.size()])
 		controls[index].focus_previous = controls[index].get_path_to(controls[(index+controls.size()-1)%controls.size()])
 
+func request_exit() -> void:
+	_return_to_home = product_profile()
+	_request_departure()
+
 func request_quit() -> void:
+	_return_to_home = false
+	_request_departure()
+
+func _request_departure() -> void:
 	if not _owns_quit: return
 	# SpinBox text can still be pending in an otherwise pristine workspace.
 	# Submit it before deciding whether there is work to guard or save.
@@ -1687,7 +1711,9 @@ func request_quit() -> void:
 	if not session.has_work() and not workspace.is_dirty() and not challenges.is_dirty():
 		_finish_quit()
 		return
-	if exit_overlay.visible: return
+	if exit_overlay.visible:
+		if _guard_action == "exit": _translate_exit_guard()
+		return
 	_guard_action = "exit"
 	_show_guard()
 
@@ -1707,6 +1733,7 @@ func _show_guard() -> void:
 	exit_cancel.grab_focus()
 
 func cancel_quit() -> void:
+	_return_to_home = false
 	exit_overlay.hide()
 	var target: Control = _exit_focus.get_ref() as Control if _exit_focus != null else null
 	if target != null and target.is_visible_in_tree(): target.grab_focus()
@@ -1743,6 +1770,16 @@ func save_and_exit() -> void:
 		exit_save.grab_focus()
 
 func _finish_quit() -> void:
+	if _return_to_home:
+		_return_to_laboratory()
+	else:
+		_quit_application()
+
+func _return_to_laboratory() -> void:
+	# The departure may originate inside Button.pressed; release it before removal.
+	get_tree().call_deferred("change_scene_to_file", "res://src/ui/prototype_hub.tscn")
+
+func _quit_application() -> void:
 	get_tree().quit()
 
 func _notification(what: int) -> void:

@@ -14,6 +14,14 @@ static func texture(path: String) -> Texture2D:
 	var resource: Resource=load(path)
 	return resource as Texture2D
 
+## Configured artwork is light-on-transparent for the default dark terminal.
+## Keep callers independent of filenames so a future logo replacement is data-only.
+static func symbol_texture() -> Texture2D:
+	return texture(str(settings().get("symbol", "")))
+
+static func wordmark_texture(locale: String) -> Texture2D:
+	return texture(str(settings().get("logo_zh" if locale.begins_with("zh") else "logo_en", "")))
+
 static func title_slot(locale: String, title: Label, values: Dictionary = {}) -> Control:
 	if values.is_empty(): values=settings()
 	var logo: Texture2D=texture(str(values.get("logo_zh" if locale.begins_with("zh") else "logo_en","")))
@@ -30,6 +38,7 @@ static func title_slot(locale: String, title: Label, values: Dictionary = {}) ->
 		row.add_child(mark)
 	if logo!=null and logo.get_width()>0 and logo.get_height()>0:
 		var view := TextureRect.new()
+		view.name = "BrandWordmark"
 		view.texture=logo; view.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
 		view.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		view.custom_minimum_size=Vector2(360,64)

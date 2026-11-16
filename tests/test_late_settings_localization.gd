@@ -154,7 +154,7 @@ func prepare_work(scene: Node, kind: String, review_record: bool) -> String:
 			(scene.find_child("DraftTabs",true,false) as TabContainer).current_tab = 2
 			(scene.find_child("ExpandEvidence",true,false) as Button).pressed.emit()
 			(scene.find_child("EvidenceTabs",true,false) as TabContainer).current_tab = 1
-			check(scene.has_pending_sample_text() and not scene.valid_initial_input(),"Creation fixture contains both protected invalid inputs")
+			check(scene.has_pending_sample_text() and scene.has_pending_custom_example_text() and not scene.valid_initial_input(),"Creation fixture contains protected sample, new-example and invalid initial inputs")
 			return scene.session.path
 	return ""
 
@@ -204,7 +204,8 @@ func discard_and_return(scene: Node, kind: String, prefix: String) -> void:
 		"representation": guards.assign(["UnsavedSessionDialog"])
 		"service": guards.assign(["UnsavedServiceDialog"])
 		"prediction": guards.assign(["LeavePredictionDialog"])
-		"creation": guards.assign(["PendingSampleProtection","PendingInitialProtection","LeaveProtection"])
+		# Discard each actual pending editor before the saved-draft decision.
+		"creation": guards.assign(["PendingSampleProtection","PendingCustomExampleProtection","PendingInitialProtection","LeaveProtection"])
 	for handle: String in guards:
 		if not is_instance_valid(scene):
 			check(false,prefix+"Departure waits for the existing protection: "+handle)
@@ -213,7 +214,7 @@ func discard_and_return(scene: Node, kind: String, prefix: String) -> void:
 		check(dialog != null and dialog.visible,prefix+"Departure waits for the existing protection: "+handle)
 		if dialog == null or not dialog.visible: return
 		dialog.hide()
-		if handle in ["PendingSampleProtection","PendingInitialProtection","LeavePredictionDialog"]:
+		if handle in ["PendingSampleProtection","PendingCustomExampleProtection","PendingInitialProtection","LeavePredictionDialog"]:
 			dialog.confirmed.emit()
 		else:
 			dialog.custom_action.emit(&"discard")

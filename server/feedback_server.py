@@ -9,6 +9,7 @@ import math
 import os
 from pathlib import Path
 import re
+import socket
 import sqlite3
 import time
 from storage import migrate, SCHEMA_VERSION
@@ -129,6 +130,7 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(raw)
     def body(self):
+        # Python 3.9 socket.timeout is distinct from built-in TimeoutError.
         length=int(self.headers.get('Content-Length','0'))
         if length<=0: raise ValueError('body_size')
         if length>MAX_BODY:
@@ -141,7 +143,7 @@ class Handler(BaseHTTPRequestHandler):
                     while remaining and (wait:=deadline-time.monotonic())>0:
                         self.connection.settimeout(min(original_timeout or wait,wait))
                         try: chunk=self.rfile.read1(min(8192,remaining))
-                        except TimeoutError: break
+                        except (TimeoutError,socket.timeout): break
                         if not chunk: break
                         remaining-=len(chunk)
                 finally: self.connection.settimeout(original_timeout)
@@ -162,7 +164,7 @@ class Handler(BaseHTTPRequestHandler):
                 raw.extend(chunk)
                 remaining-=len(chunk)
             if time.monotonic()>deadline: raise TimeoutError()
-        except TimeoutError:
+        except (TimeoutError,socket.timeout):
             self.close_connection=True
             raise
         finally: self.connection.settimeout(original_timeout)
@@ -247,7 +249,7 @@ class Handler(BaseHTTPRequestHandler):
                 db.execute('INSERT OR IGNORE INTO clients VALUES (?,?)',(client,digest))
                 db.executemany('INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?)',prepared)
             self.send(200,{'ack':[r['event_id'] for r in records]})
-        except (ValueError,TypeError,KeyError,RecursionError,TimeoutError) as error:
+        except (ValueError,TypeError,KeyError,RecursionError,TimeoutError,socket.timeout) as error:
             # Only fixed validation codes are observable. Never echo parser text/body.
             reason=str(error) if type(error) is ValueError and re.fullmatch(r'[a-z_]{1,48}',str(error)) else 'invalid_request'
             self.server.rejections[reason]=self.server.rejections.get(reason,0)+1
@@ -269,7 +271,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.server.db.execute('DELETE FROM events WHERE client_id=?',(client,))
                 self.server.db.execute('DELETE FROM clients WHERE id=?',(client,))
             self.send(200,{'deleted':True})
-        except (ValueError,TypeError,TimeoutError): self.send(400,{'error':'invalid_request'})
+        except (ValueError,TypeError,TimeoutError,socket.timeout): self.send(400,{'error':'invalid_request'})
         except sqlite3.Error: self.send(503,{'error':'storage_unavailable'})
 
 

@@ -5,7 +5,6 @@ const SURFACE := Color("1a252e")
 const EDGE := Color("3a4b56")
 const ACCENT := Color("8fd3dc")
 
-
 static func primary(button: Button, accent: Color = ACCENT) -> void:
 	button.add_theme_stylebox_override("normal", panel(accent, accent))
 	button.add_theme_stylebox_override("hover", panel(accent.lightened(0.16), Color.WHITE))
@@ -22,7 +21,7 @@ static func primary(button: Button, accent: Color = ACCENT) -> void:
 
 ## Tool-row button: no box at rest, a soft fill on hover, an accent tint while
 ## pressed or toggled on. Rows of tools read as one quiet instrument strip
-## instead of a wall of outlined boxes. Input geometry is unchanged.
+## instead of a wall of outlined boxes.
 static func tool(button: Button) -> void:
 	var rest := StyleBoxFlat.new(); rest.bg_color = Color(1, 1, 1, 0.0); rest.set_corner_radius_all(7)
 	_tool_margins(rest)
@@ -30,8 +29,8 @@ static func tool(button: Button) -> void:
 	var on: StyleBoxFlat = rest.duplicate(); on.bg_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.15)
 	on.border_width_bottom = 2; on.border_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.8)
 	var on_hover: StyleBoxFlat = on.duplicate(); on_hover.bg_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.22)
-	var focus := StyleBoxFlat.new(); focus.draw_center = false; focus.set_border_width_all(1)
-	focus.border_color = Color(ACCENT.r, ACCENT.g, ACCENT.b, 0.7); focus.set_corner_radius_all(7)
+	var focus := StyleBoxFlat.new(); focus.draw_center = false; focus.set_border_width_all(2)
+	focus.border_color = ACCENT; focus.set_corner_radius_all(7)
 	var disabled: StyleBoxFlat = rest.duplicate()
 	button.add_theme_stylebox_override("normal", rest)
 	button.add_theme_stylebox_override("hover", hover)
@@ -43,7 +42,8 @@ static func tool(button: Button) -> void:
 	button.add_theme_color_override("font_hover_color", Color("f0f6f8"))
 	for state: String in ["font_pressed_color", "font_hover_pressed_color"]:
 		button.add_theme_color_override(state, ACCENT.lightened(0.1))
-	button.add_theme_color_override("font_disabled_color", Color("62737c"))
+	button.add_theme_color_override("font_focus_color", Color("f0f6f8"))
+	button.add_theme_color_override("font_disabled_color", Color("9eafb8"))
 
 
 ## Navigation button on the light top line: a ghost outline, quieter than tools
@@ -62,10 +62,16 @@ static func nav(button: Button) -> void:
 	button.add_theme_stylebox_override("pressed", pressed)
 	button.add_theme_stylebox_override("hover_pressed", pressed)
 	button.add_theme_stylebox_override("focus", focus)
-	button.add_theme_stylebox_override("disabled", rest.duplicate())
+	var disabled: StyleBoxFlat = rest.duplicate()
+	disabled.bg_color = Color("1b252c")
+	disabled.border_color = Color("27363f")
+	button.add_theme_stylebox_override("disabled", disabled)
 	button.add_theme_color_override("font_color", Color("d5e1e6"))
 	button.add_theme_color_override("font_hover_color", Color("f0f6f8"))
-	button.add_theme_color_override("font_disabled_color", Color("62737c"))
+	button.add_theme_color_override("font_pressed_color", ACCENT.lightened(0.1))
+	button.add_theme_color_override("font_hover_pressed_color", ACCENT.lightened(0.1))
+	button.add_theme_color_override("font_focus_color", Color("f0f6f8"))
+	button.add_theme_color_override("font_disabled_color", Color("9eafb8"))
 
 
 ## Styles every plain button in a tool row (including ones the scene adds

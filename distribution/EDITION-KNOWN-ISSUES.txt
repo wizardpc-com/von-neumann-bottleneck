@@ -1,0 +1,15 @@
+已知问题与验证边界 / Known issues and verification boundaries
+@EDITION@ · @VERSION@ · Profile @PROFILE@
+
+- macOS 为 ad-hoc 签名，未使用 Developer ID 签名或 Apple 公证；另一台 Mac 的下载首启可能被 Gatekeeper 拦截。仅对确认来源的包按系统安全提示处理。Windows 未进行 Authenticode 签名，可能显示发行者提示。
+  macOS is ad-hoc signed, without Developer ID or Apple notarization. Gatekeeper may block first launch on another Mac. Follow system security prompts only after verifying the package source. Windows is not Authenticode signed and may show an unknown-publisher prompt.
+- 具体原生平台、显示尺寸与操作验证以本次交付验收记录为准；构建、哈希和自动化输入不等于 Windows 原生、新电脑首启、全 60 项真人通关或长时间使用验收。
+  Consult this delivery's acceptance record for exact native-platform/display/input coverage. Builds, hashes and automated input do not establish native Windows, another machine's first launch, a human sixty-task playthrough or long-session acceptance.
+- 同父同配方重复 Fork 的旧格式持久状态可能在重开后显示已有作品入口；显式 Fork 可继续，已有作品受保护。本版本没有改写存档格式。
+  Reopening repeated forks with the same parent and recipe can show the existing-work entry because the retained format cannot distinguish that intent. Explicit Fork remains available; existing works stay protected. This release does not change the save format.
+- Test Edition 开放任务入口，测试成果不转为 Game 完成；既有临时 Test 状态不承诺跨重启持久。需要保留的作品／配方请使用对应的显式保存入口并确认成功提示。
+  Test Edition opens task entrances without granting Game completion. Existing temporary Test state is not promised to persist across restarts. Use explicit save/keep actions for supported works/recipes and check the success response.
+- 排行和挑战在本地按既有规则重新计算；不是已认证的在线排行服务。没有联网依赖，也没有配置在线反馈接收端。
+  Rankings and challenges remeasure locally under the existing rules. They are not an authenticated online leaderboard. No network is required and no feedback receiver is configured.
+- 新人理解、主观美术／听感、混合 DPI 与所有 GPU／音频设备表现仍需实际使用反馈。CG 可跳过，设置可调整音量与减少动效。
+  Newcomer comprehension, subjective art/audio, mixed DPI and every GPU/audio device still require real use feedback. Cinematics can be skipped; volume and reduced motion are available in settings.

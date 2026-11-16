@@ -1,0 +1,21 @@
+[
+  {
+    "name": "test_final_product_presentation",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "command": [
+      "/Users/yrq/Applications/Godot-4.7.1.app/Contents/MacOS/Godot",
+      "--path",
+      "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/verification/20261116T093554Z-c091f96c/project",
+      "--windowed",
+      "--resolution",
+      "1280x720",
+      "--script",
+      "res://tests/test_final_product_presentation.gd",
+      "--",
+      "--capture-size=1280x720"
+    ],
+    "profile": "VonNeumannBottleneckChecks/final-gpu-room-corrected-c091f96c/test_final_product_presentation"
+  }
+]

@@ -1,0 +1,1 @@
+PASS: invalid drafts/applied sources/empty wiring survive writer + two fresh reader processes; no completion granted

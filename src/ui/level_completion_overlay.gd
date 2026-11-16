@@ -105,8 +105,8 @@ func _build_interface() -> void:
 	panel = PanelContainer.new()
 	panel.name = "LevelCompletionPanel"
 	panel.custom_minimum_size = Vector2(660.0, 430.0)
-	var surface_box: StyleBoxFlat = _stylebox(SURFACE, Palette.ACCENT_DEEP, 18, 1)
-	surface_box.shadow_color = Color(0, 0, 0, 0.4); surface_box.shadow_size = 26; surface_box.shadow_offset = Vector2(0, 8)
+	var surface_box: StyleBoxFlat = _stylebox(SURFACE, Palette.ACCENT_DEEP, 8, 1)
+	surface_box.shadow_color = Color(0, 0, 0, 0.4); surface_box.shadow_size = 10; surface_box.shadow_offset = Vector2(0, 3)
 	panel.add_theme_stylebox_override("panel", surface_box)
 	center.add_child(panel)
 

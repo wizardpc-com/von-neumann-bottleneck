@@ -3,18 +3,18 @@ extends RefCounted
 ## self-lit terminal inside it. See 美术风格约束 v0.1 §3–4. The room is warm and
 ## physical (daylight, matte surfaces, soft shadows); the terminal is cool and
 ## emissive. Only screens in the room borrow the terminal tokens.
-## Swap values here first when the art team delivers final colours.
+## Unified default selected 2026-11-16; update these tokens when replacing artwork.
 
 # Laboratory (outer space): warm off-white, pale stone grey, soft sky blue.
-const LAB_CEILING := Color("e4e3de")
-const LAB_WALL_TOP := Color("f6f4ef")
-const LAB_WALL := Color("ebe8e1")
-const LAB_SIDE := Color("dfdcd4")
-const LAB_SIDE_DEEP := Color("d3d0c8")
-const LAB_FLOOR_NEAR := Color("c9c7c0")
-const LAB_FLOOR_FAR := Color("dddad2")
-const LAB_TRIM := Color("c5c5bf")
-const LAB_LINE := Color("b0b3af")
+const LAB_CEILING := Color("e8eae7")
+const LAB_WALL_TOP := Color("f5f6f2")
+const LAB_WALL := Color("ecefe9")
+const LAB_SIDE := Color("dfe7e6")
+const LAB_SIDE_DEEP := Color("cdd8d8")
+const LAB_FLOOR_NEAR := Color("c4cdce")
+const LAB_FLOOR_FAR := Color("d9e0df")
+const LAB_TRIM := Color("a8b8bc")
+const LAB_LINE := Color("a0b0b4")
 const LAB_INK := Color("3e4950")
 const LAB_INK_SOFT := Color("737c80")
 const LAB_SKY_TOP := Color("cfe2ea")
@@ -24,8 +24,8 @@ const LAB_WARM := Color("ffe2b0")
 const LAB_PLANT := Color("8fa891")
 # Marker ink on the glass record board.
 const LAB_MARKER := Color("4d6f86")
-const DESK_TOP := Color("ede7dc")
-const DESK_EDGE := Color("d2cabd")
+const DESK_TOP := Color("f0f1eb")
+const DESK_EDGE := Color("dbe2df")
 const DESK_SHADOW := Color(0.25, 0.24, 0.21, 0.16)
 
 # Terminal (inner space): graphite, blue-grey, soft cyan accent.

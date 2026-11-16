@@ -23,6 +23,7 @@ func _ready() -> void:
 	option_button.item_selected.connect(_on_item_selected)
 	add_child(option_button)
 	GameMode.mode_changed.connect(_on_mode_changed)
+	visible = not GameMode.edition_locked()
 
 
 func _on_item_selected(index: int) -> void:

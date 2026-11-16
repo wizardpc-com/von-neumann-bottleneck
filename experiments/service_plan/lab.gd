@@ -128,7 +128,7 @@ func _ready() -> void:
 		if arg == "--candidate-save": persistent_session = true
 		if arg == "--candidate-journey": candidate_journey = true
 	# Offline tester profiles keep their own review records; ordinary Test is temporary.
-	if get_node("/root/GameMode").is_test_mode() and not get_node("/root/TaskNavigation").offline_tester_enabled(): persistent_session = false
+	if get_node("/root/GameMode").is_test_mode() and not get_node("/root/TaskNavigation").offline_tester_enabled() and get_node("/root/GameMode").edition() != "test": persistent_session = false
 	if persistent_session:
 		add_to_group("candidate_quit_owners")
 		previous_auto_quit = get_tree().auto_accept_quit; get_tree().auto_accept_quit = false

@@ -10,10 +10,10 @@ extends PanelContainer
 const UiTypographyType = preload("res://src/ui/ui_typography.gd")
 const Palette = preload("res://src/lab/lab_palette.gd")
 const HEADER_HEIGHT := 36.0
-const RADIUS := 10
-const BODY := Color("141f28")
-const STRIP := Color("19252f")
-const EDGE := Color("2c3c47")
+const RADIUS := 8
+const BODY := Color("15212a")
+const STRIP := Color("1a2832")
+const EDGE := Color("3a4b56")
 const TITLE_ACTIVE := Color("e6f0f3")
 const TITLE_IDLE := Color("a9bac2")
 
@@ -59,10 +59,10 @@ class GlyphButton extends Button:
 ## Two short diagonal strokes in the corner; dragging resizes the window.
 class ResizeGrip extends Control:
 	func _draw() -> void:
-		var color := Color("5d7684") if not is_hovered_now() else Color("8fd3dc")
+		var color := Palette.TERM_MUTED if not is_hovered_now() else Palette.ACCENT
 		var e: Vector2 = size - Vector2(5, 5)
 		for step: float in [4.0, 8.0]:
-			draw_line(e + Vector2(-step, 0), e + Vector2(0, -step), color, 1.4, true)
+			draw_line(e + Vector2(-step, 0), e + Vector2(0, -step), color, 1.0, true)
 
 	var _hover: bool = false
 	func is_hovered_now() -> bool: return _hover
@@ -197,9 +197,9 @@ func _apply_frame() -> void:
 	box.border_color = Palette.with_alpha(Palette.ACCENT, 0.42) if _active else EDGE
 	box.set_border_width_all(1)
 	box.set_corner_radius_all(RADIUS)
-	box.shadow_color = Color(0.0, 0.01, 0.02, 0.42 if _active else 0.3)
-	box.shadow_size = 18 if _active else 12
-	box.shadow_offset = Vector2(0.0, 8.0 if _active else 5.0)
+	box.shadow_color = Color(0.0, 0.01, 0.02, 0.28 if _active else 0.18)
+	box.shadow_size = 8 if _active else 5
+	box.shadow_offset = Vector2(0.0, 3.0 if _active else 2.0)
 	box.anti_aliasing = true
 	for side: int in [SIDE_LEFT, SIDE_RIGHT, SIDE_TOP, SIDE_BOTTOM]: box.set_content_margin(side, 1.0)
 	add_theme_stylebox_override("panel", box)

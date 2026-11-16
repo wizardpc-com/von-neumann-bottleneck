@@ -874,6 +874,9 @@ func _on_terminal_action(id: String) -> void:
 		"mode_game", "mode_test":
 			if not terminal.in_dialogue(): get_node("/root/GameMode").set_mode(&"test" if id == "mode_test" else &"game")
 		"journey": _enter(journey_requested)
+		"scheduling":
+			if get_node("/root/GameMode").edition_locked():
+				get_tree().call_deferred("change_scene_to_file", "res://experiments/layout_strategy/lab.tscn")
 		"archive": open_archive()
 		"settings": settings_requested.emit()
 		"handbook": handbook_requested.emit()

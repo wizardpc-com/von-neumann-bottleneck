@@ -1,0 +1,17 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: zh_CN creation: Next Esc uses the draft guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:134)
+       [2] key (res://tests/test_workbench_escape.gd:34)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+ERROR: en creation: Next Esc uses the draft guard
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_workbench_escape.gd:25)
+       [1] run (res://tests/test_workbench_escape.gd:134)
+       [2] key (res://tests/test_workbench_escape.gd:34)
+       [3] settle (res://tests/test_workbench_escape.gd:27)
+FAIL: workbench Escape 105 checks, 2 failures

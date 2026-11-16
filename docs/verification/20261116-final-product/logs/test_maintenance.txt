@@ -1,0 +1,21 @@
+test_backup_delete_report_and_tombstone_safe_restore (__main__.MaintenanceTests) ... FAIL
+test_backup_name_collision_preserves_existing_bytes (__main__.MaintenanceTests) ... ok
+test_daily_fails_and_preserves_incomplete_managed_backups (__main__.MaintenanceTests) ... ok
+test_rotate_only_managed_pairs_older_than_30_days (__main__.MaintenanceTests) ... ok
+
+======================================================================
+FAIL: test_backup_delete_report_and_tombstone_safe_restore (__main__.MaintenanceTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/yrq/Documents/冯诺伊曼瓶颈/server/test_maintenance.py", line 91, in test_backup_delete_report_and_tombstone_safe_restore
+    self.command(*args)
+  File "/Users/yrq/Documents/冯诺伊曼瓶颈/server/test_maintenance.py", line 31, in command
+    self.assertEqual(result.returncode, 0, result.stderr)
+AssertionError: 1 != 0 : maintenance anomalies; preserve files for private review:
+vnb-feedback-20261116T092202Z-0c4ba82b.sqlite-shm: unexpected managed-prefix file
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.505s
+
+FAILED (failures=1)

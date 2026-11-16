@@ -134,6 +134,22 @@ journey and saved-work data without granting progress. Camera motion and the
 drawn room. See the [integration receipt](docs/verification/20261021-immersive-lab/README.md)
 for route ownership and the outstanding graphical acceptance boundary.
 
+## Product editions
+
+Explicit product exports use `game_edition` / `test_edition` features and
+`game/edition` configuration. GameMode applies this policy before dependent
+autoloads, rejects cross-mode changes and keeps developer captures disabled.
+Source development and legacy candidates retain their explicit mode selector.
+Both editions contain the same sixty tasks and simulation; Test access grants
+no Game achievement. The builder binds distinct stable `EditionGame` / `EditionTest`
+profiles through the existing candidate-context path validator. All user:// data,
+Creation works, feedback and scheduling sidecars follow their edition; Service uses
+its validated sibling directory. No persisted schema or automatic migration changes.
+Product Creation ignores developer path overrides. Optional scheduling admits only
+its strict edition binding or existing QA namespace; its original departure guard
+supports Laboratory return while OS close still exits. See the
+[delivery plan](docs/exec-plans/active/final-dual-edition-20261116.md).
+
 ## Default construction and optimization route
 
 Ordinary and exported builds start in Game and allow explicit Game/Test selection in laboratory Settings. Hardware and Chapters 1/2 retain their existing in-place mode callbacks; other workbenches return home through their departure guards before switching. Generic workbench settings omit the mode control because a live draft must not move between namespaces. Test libraries, workspaces and completions remain separate from earned Game content; exported developer capture permissions stay disabled.

@@ -1,3 +1,18 @@
+## Product closeout · 2026-11-16
+
+The user authorizes final art selection, commit/push main and delivery of four
+same-source Game/Test Windows/macOS archives. Earlier “no public release authority”
+notes below describe their historical tasks, not this delivery authorization.
+The current integration receipt is [here](docs/verification/20261116-final-product/README.md).
+
+Final acceptance must distinguish source/controller tests, actual exported Mac
+execution, Windows PE structure/icon validation and any actual Windows host tests.
+Do not claim human sixty-task completion or other-machine first launch from agent
+replay. Developer ID/notarization and Authenticode are unavailable in this build;
+packages disclose their actual signing state. No online service is required or deployed.
+The existing identical-parent/recipe Fork ambiguity remains documented without a
+silent schema change. No known blocker may be hidden by a “release ready” label.
+
 # Release acceptance gates
 
 Current source and artifact: [CURRENT_STATE](docs/CURRENT_STATE.md).

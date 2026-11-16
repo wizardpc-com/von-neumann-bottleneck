@@ -18,7 +18,7 @@ python3 server/feedback_server.py --port 8765 --database .godot/local-feedback/f
 
 In an **isolated test project only**, set `application/feedback_endpoint="http://127.0.0.1:8765"`. The normal project intentionally omits this setting. In Game open F8 → Optional sharing and data settings. Opt-in automatic sharing and explicitly sending an opinion are separate. Do not add real player logs to tests or Git.
 
-`python3 server/test_receiver.py` checks actual HTTP validation, idempotent IDs including JSON numeric roundtrips, conflicting bodies, bounded batches/text/body, authenticated reporting, deletion scope, retention and SQLite backup restore.
+`python3 server/test_receiver.py` checks actual HTTP validation, idempotent IDs including JSON numeric roundtrips, conflicting bodies, bounded batches/text/body, authenticated reporting, deletion scope, retention and SQLite backup restore. Slow-body deadline checks require an HTTP 400 response, not a silent connection close. The receiver handles both `socket.timeout` and `TimeoutError` for Python 3.9 compatibility; body limits and total deadlines are unchanged.
 
 After importing an isolated verification copy, run:
 

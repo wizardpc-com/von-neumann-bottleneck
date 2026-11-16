@@ -1,0 +1,14 @@
+[
+  {
+    "script": "scripts/test-offline-playtests.py",
+    "exit": 0
+  },
+  {
+    "script": "scripts/test-package-feedback.py",
+    "exit": 0
+  },
+  {
+    "script": "server/test_maintenance.py",
+    "exit": 1
+  }
+]

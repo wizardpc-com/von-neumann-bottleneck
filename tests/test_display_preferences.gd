@@ -20,7 +20,11 @@ func run() -> void:
 		var surface: Control = hub.find_child("HubSurface",true,false)
 		valid = valid and primary.has_focus() and surface.get_global_rect().encloses(primary.get_global_rect())
 		var title := hub.find_child("HubWorkTitle",true,false) as Label
-		valid = valid and title.text == localization.text(&"game.title") and surface.get_global_rect().encloses(title.get_global_rect())
+		var wordmark := hub.find_child("BrandWordmark",true,false) as TextureRect
+		if wordmark != null:
+			valid = valid and wordmark.texture == preload("res://src/ui/brand_identity.gd").wordmark_texture(language) and surface.get_global_rect().encloses(wordmark.get_global_rect())
+		else:
+			valid = valid and title != null and title.text == localization.text(&"game.title") and surface.get_global_rect().encloses(title.get_global_rect())
 		var settings_button := hub.find_child("HubSettings",true,false) as Button
 		settings_button.grab_focus(); settings_button.pressed.emit()
 		for frame: int in range(3): await process_frame

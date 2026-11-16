@@ -1,0 +1,21 @@
+[
+  "src/game/build_identity.gd",
+  "tests/test_layout_strategy_edition.gd",
+  "tests/test_product_editions.gd",
+  "experiments/creation/session.gd",
+  "experiments/layout_strategy/lab.gd",
+  "src/campaign/second_act_tasks.gd",
+  "src/campaign/task_tree_canvas.gd",
+  "src/dev/dev_capture.gd",
+  "src/lab/lab_home.gd",
+  "src/lab/lab_terminal.gd",
+  "src/ui/brand_identity.gd",
+  "src/ui/chapter_emblem.gd",
+  "src/ui/instrument_theme.gd",
+  "src/ui/prototype_hub.gd",
+  "src/ui/support_diagnostics.gd",
+  "tests/test_display_preferences.gd",
+  "tests/test_hub_first_screen.gd",
+  "tests/test_late_settings_localization.gd",
+  "tests/test_workbench_escape.gd"
+]

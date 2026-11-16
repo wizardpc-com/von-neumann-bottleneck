@@ -29,7 +29,7 @@ var rescue_exported: bool = false
 var workspace: BoxContainer
 
 func enabled() -> bool:
-	return bool(ProjectSettings.get_setting("playtest/offline_tester",false))
+	return bool(ProjectSettings.get_setting("playtest/offline_tester",false)) or bool(ProjectSettings.get_setting("playtest/offline_feedback",false))
 
 func _ready() -> void:
 	process_mode=Node.PROCESS_MODE_ALWAYS

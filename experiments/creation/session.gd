@@ -37,6 +37,9 @@ static func default_path() -> String:
 	return "user://creation-candidate/session.json"
 
 static func launch_path(arguments: PackedStringArray = []) -> String:
+	# Distributed editions never accept a developer path into another profile.
+	if OS.has_feature("game_edition") or OS.has_feature("test_edition") or str(ProjectSettings.get_setting("game/edition", "")) in ["game", "test"]:
+		return default_path()
 	var selected_path: String = ""
 	var launch_arguments: PackedStringArray = OS.get_cmdline_user_args() if arguments.is_empty() else arguments
 	for argument: String in launch_arguments:

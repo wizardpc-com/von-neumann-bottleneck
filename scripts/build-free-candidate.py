@@ -86,6 +86,41 @@ def write_zip_entry(package, path, relative):
         with path.open('rb') as source, package.open(entry,'w') as destination:
             shutil.copyfileobj(source,destination)
 
+def edition_identity(edition, version, commit, batch):
+    """One source identity, two fixed access policies and disjoint stable profiles."""
+    if edition not in ('game', 'test') or not re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?', version):
+        raise ValueError('Edition needs game/test and a semantic release version')
+    if not re.fullmatch(r'[0-9a-f]{40}', commit) or not re.fullmatch(r'[A-Za-z0-9-]{1,40}', batch or ''):
+        raise ValueError('Edition needs a full commit SHA and an explicit immutable batch')
+    profile = 'EditionGame' if edition == 'game' else 'EditionTest'
+    return {'edition': edition, 'edition_name': edition.title() + ' Edition',
+            'release_version': version, 'display_version': version[1:],
+            'build_id': 'vnb-' + edition + '-' + version + '-' + batch + '-' + commit[:12],
+            'source_commit': commit, 'test_batch': batch, 'save_profile': profile,
+            'save_directories': ['VonNeumannBottleneckCandidates/' + domain + '/' + profile
+                                 for domain in ('representation', 'service')],
+            'content_version': 'tasks-20261013-journey-v1', 'content_count': 60,
+            'access_policy': 'earned' if edition == 'game' else 'all-task-entrances',
+            'mode_locked': True, 'save_migration': False}
+
+
+def edition_notes(project, identity, details, filename):
+    text = (project / 'distribution' / filename).read_text(encoding='utf-8')
+    replacements = {'@EDITION@': details['edition_name'], '@VERSION@': details['release_version'],
+                    '@PROFILE@': details['save_profile'], '@BATCH@': details['test_batch'],
+                    '@CONTENT_VERSION@': details['content_version'],
+                    '@BINARY_NAME@': 'Von-Neumann-Bottleneck-'+details['edition'].title(),
+                    '@ACCESS_ZH@': ('按正常前置解锁；真实完成后记录成果。' if details['edition'] == 'game'
+                                   else '全部任务入口可访问；进入不等于完成，不授予 Game 成果。'),
+                    '@ACCESS_EN@': ('Normal prerequisites and earned completion.' if details['edition'] == 'game'
+                                   else 'All task entrances are available. Entry is not completion and grants no Game achievements.')}
+    for key, value in replacements.items():
+        text = text.replace(key, value)
+    if re.search(r'@[A-Z_]+@', text):
+        raise ValueError('Unresolved edition note placeholder: ' + filename)
+    return identity + text
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--godot',required=True);p.add_argument('--commit',default='HEAD')
     p.add_argument('--platform',choices=['both','macOS','Windows'],default='both')
@@ -98,9 +133,20 @@ def main():
     p.add_argument('--creation-journey',action='store_true',help='Include the C/P/G candidate in the isolated second-act journey')
     p.add_argument('--public-playtest',action='store_true',help='Prepare the explicit Windows public prerelease; external acceptance remains separate')
     p.add_argument('--offline-tester',action='store_true',help='Isolated Windows teammate build with all sixty task entrances available')
-    p.add_argument('--release-version',default='',help='Approved public prerelease tag')
+    p.add_argument('--release-version',default='',help='Public prerelease tag or edition semantic version, e.g. v0.6.0')
+    p.add_argument('--edition',choices=['game','test'],help='Locked offline Game/Test edition with sixty tasks and its own stable save profile')
     p.add_argument('--privacy-url',default='',help='Published HTTPS privacy notice URL for the public prerelease')
     a=p.parse_args()
+    edition = None
+    if a.edition:
+        if a.public_playtest or a.offline_tester or a.local_feedback_test or a.feedback_endpoint or a.privacy_url:
+            p.error('--edition is an offline product build, incompatible with legacy public/offline tester switches')
+        try: edition = edition_identity(a.edition, a.release_version, a.commit, a.test_batch)
+        except ValueError as error: p.error(str(error))
+        if a.second_act_profile and a.second_act_profile != edition['save_profile']:
+            p.error('Edition profile is fixed: ' + edition['save_profile'])
+        a.second_act_profile = edition['save_profile']
+        a.creation_journey = True
     if a.mac_template and (not a.mac_template.is_file() or a.platform=='Windows'):p.error('--mac-template requires an existing macos.zip and Mac export')
     if a.second_act_profile is not None and (not re.fullmatch(r'[A-Za-z0-9-]{1,40}',a.second_act_profile)):p.error('--second-act-profile requires a safe1–40 character profile')
     if a.creation_journey and not a.second_act_profile:p.error('--creation-journey requires --second-act-profile')
@@ -116,7 +162,7 @@ def main():
         if a.release_version!='v0.5.0-alpha.2' or not a.test_batch or not re.fullmatch(r'[0-9a-f]{40}',a.commit):p.error('public playtest requires v0.5.0-alpha.2, a batch and a full fixed commit SHA')
         if not a.windows_template:p.error('public playtest requires a matching Windows template')
         if not public_https_url(a.feedback_endpoint,api_root=True) or not public_https_url(a.privacy_url):p.error('public playtest requires public HTTPS API-root and privacy-page URLs')
-    elif a.release_version or a.privacy_url:p.error('release version and privacy URL require --public-playtest')
+    elif (a.release_version and not a.edition) or a.privacy_url:p.error('release version and privacy URL require --public-playtest')
     if a.offline_tester:
         if a.platform!='Windows' or a.public_playtest or a.local_feedback_test or a.feedback_endpoint or a.mac_template:
             p.error('offline tester requires Windows only, with no receiver or public mode')
@@ -129,7 +175,7 @@ def main():
     commit=subprocess.check_output(['git','rev-parse',a.commit],cwd=root,text=True,encoding='utf-8').strip()
     engine=subprocess.check_output([a.godot,'--version'],text=True,encoding='utf-8').strip()
     if not engine.startswith('4.7.1.stable.'):p.error('Godot 4.7.1 stable required')
-    stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'-'+commit[:8]
+    stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')+'-'+commit[:8]+('-'+a.edition if a.edition else '')
     work=root/'.godot/candidates'/stamp;project=work/'project';project.mkdir(parents=True)
     archive=subprocess.check_output(['git','archive',commit],cwd=root)
     with tarfile.open(fileobj=io.BytesIO(archive)) as source:
@@ -137,7 +183,7 @@ def main():
             dest=(project/member.name).resolve()
             if not dest.is_relative_to(project.resolve()) or not (member.isfile() or member.isdir()):raise ValueError('Unsupported archive member: '+member.name)
         source.extractall(project)
-    build_id=('playtest-'+a.test_batch+'-' if a.test_batch else 'free-alpha-')+commit[:12]
+    build_id=edition['build_id'] if edition else ('playtest-'+a.test_batch+'-' if a.test_batch else 'free-alpha-')+commit[:12]
     output=root/'build'/build_id
     if output.exists(): raise ValueError('Candidate already exists; never overwrite a frozen identity: '+build_id)
     output.mkdir(parents=True)
@@ -147,9 +193,15 @@ def main():
     original=candidate_scoped_settings((project/'project.godot').read_text(encoding='utf-8'), a.creation_journey)
     original=re.sub(r'config/icon="[^"]*"','config/icon="'+brand['app_icon']+'"',original)
     presets=(project/'export_presets.cfg').read_text(encoding='utf-8')
+    presets=presets.replace('exclude_filter="', 'exclude_filter="assets/branding/brand-review.*,' )
+    if edition:
+        presets=presets.replace('custom_features="free_candidate"', 'custom_features="free_candidate,'+a.edition+'_edition"')
+        presets=re.sub(r'application/bundle_identifier="[^"]*"', 'application/bundle_identifier="com.wizardpc.von-neumann-bottleneck.'+a.edition+'"', presets)
+        presets=re.sub(r'application/short_version="[^"]*"', 'application/short_version="'+edition['display_version'].split('-')[0]+'"', presets)
+
     # Native numeric versions identify the frozen Git content without reusing a date label.
     revision=int(subprocess.check_output(['git','rev-list','--count',commit],cwd=root,text=True,encoding='utf-8'))
-    numeric='0.5.'+str(revision//65536)+'.'+str(revision%65536)
+    numeric=((edition['display_version'].split('-')[0]+'.'+str(revision%65536)) if edition else '0.5.'+str(revision//65536)+'.'+str(revision%65536))
     for key in ['file_version','product_version']:
         presets=re.sub(r'application/'+key+r'="[^"]*"','application/'+key+'="'+numeric+'"',presets)
     mac_version=str(1+revision//10000)+'.'+str((revision//100)%100)+'.'+str(revision%100)
@@ -164,7 +216,12 @@ def main():
     if a.windows_template:
         presets=presets.replace('custom_template/release=""','custom_template/release='+godot_path_literal(a.windows_template),1)
     (project/'export_presets.cfg').write_text(presets,encoding='utf-8')
-    original=re.sub(r'config/version="[^"]*"','config/version="'+build_id+'"',original)
+    original=re.sub(r'config/version="[^"]*"','config/version="'+(edition['display_version'] if edition else build_id)+'"',original)
+    if edition:
+        original=original.replace('[game]', '[game]\nedition='+json.dumps(a.edition), 1)
+        original=original.replace('[application]', '[application]\nconfig/build_id='+json.dumps(build_id)+'\nconfig/edition='+json.dumps(edition['edition_name']), 1)
+        original=re.sub(r'config/name="[^"]*"', 'config/name="Von Neumann Bottleneck — '+edition['edition_name']+'"', original)
+
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))
     if a.public_playtest or a.offline_tester:original=original.replace('[application]','[application]\nfeedback_default_source="external_player"',1)
     if a.public_playtest:original=original.replace('[application]','[application]\nfeedback_privacy_url='+json.dumps(a.privacy_url),1)
@@ -182,8 +239,12 @@ def main():
         original+='\n[candidate]\nprimary_domain="representation"\nprofile='+json.dumps(a.second_act_profile)+'\njourney_enabled=true\n'
         if a.creation_journey:original+='creation_enabled=true\n'
     if a.offline_tester:original+='\n[playtest]\noffline_tester=true\n'
+    if a.edition == 'test':original+='\n[playtest]\noffline_feedback=true\n'
     (project/'project.godot').write_text(original,encoding='utf-8')
-    identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n\n'
+    identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n'
+    if edition:
+        identity+='Edition: '+edition['edition_name']+'\nVersion: '+edition['release_version']+'\nBatch: '+edition['test_batch']+'\nContent: '+edition['content_version']+' (60 tasks)\nSave profile: '+edition['save_profile']+'\n'
+    identity+='\n'
     for document in ['README.md','README.en.md','CHANGELOG.md','distribution/PLAYTEST-README.txt','distribution/CHANGELOG.txt','distribution/KNOWN-ISSUES.txt']:
         path=project/document
         path.write_text(identity+path.read_text(encoding='utf-8').replace('@BUILD_ID@',build_id).replace('@SOURCE_COMMIT@',commit),encoding='utf-8')
@@ -234,6 +295,7 @@ def main():
     (project/'project.godot').write_text(original,encoding='utf-8')
     # Exporters themselves do not start the game. Native QA uses a separate override.
     manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':a.public_playtest,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261013-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
+    if edition:manifest.update(edition)
     if a.public_playtest:manifest.update(release_version=a.release_version,privacy_url=a.privacy_url,feedback_default_source='external_player')
     if a.offline_tester:manifest['offline_tester']=True
     rules=json.loads((project/'server/community_rules.json').read_text(encoding='utf-8'))
@@ -243,7 +305,8 @@ def main():
     if template:manifest['mac_template_sha256']=hashlib.sha256(template.read_bytes()).hexdigest()
     if a.second_act_profile:manifest['candidate_journey']={'primary_domain':'representation','profile':a.second_act_profile,'isolated':True,'production_migration':False}
     if a.creation_journey:manifest['candidate_journey']['creation_enabled']=True
-    platforms=[('macOS','macOS Free Candidate','Von-Neumann-Bottleneck.app'),('Windows','Windows Playtest','Von-Neumann-Bottleneck.exe')]
+    binary_name='Von-Neumann-Bottleneck'+('-'+a.edition.title() if edition else '')
+    platforms=[('macOS','macOS Free Candidate',binary_name+'.app'),('Windows','Windows Playtest',binary_name+'.exe')]
     for platform,preset,binary in platforms:
         if a.platform!='both' and platform!=a.platform:continue
         folder=output/platform;folder.mkdir()
@@ -282,8 +345,13 @@ def main():
             for name in ['offline-playtests.py','report-playtests.py']:
                 shutil.copy2(project/'scripts'/name,tools/name)
             shutil.copy2(project/'distribution/OFFLINE-MAINTAINER.txt',tools/'README.txt')
+        if edition:
+            (folder/'README.txt').write_text(edition_notes(project, identity, edition, 'EDITION-README.txt'), encoding='utf-8')
+            (folder/'KNOWN-ISSUES.txt').write_text(edition_notes(project, identity, edition, 'EDITION-KNOWN-ISSUES.txt'), encoding='utf-8')
+            (folder/'CHANGELOG.txt').write_text(edition_notes(project, identity, edition, 'EDITION-CHANGELOG.txt'), encoding='utf-8')
         files={f.relative_to(folder).as_posix():hashlib.sha256(packaged_bytes(f)).hexdigest() for f in package_files(folder)}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
+        if edition:platform_manifest.update(edition)
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n',encoding='utf-8')
         zip_path=output/('Von-Neumann-Bottleneck-'+platform+'-'+build_id+'.zip')
         if platform=='macOS' and sys.platform=='darwin':subprocess.run(['/usr/bin/ditto','-c','-k','--sequesterRsrc','--keepParent',str(folder),str(zip_path)],check=True)
@@ -292,6 +360,7 @@ def main():
                 for f in package_files(folder):write_zip_entry(z,f,f.relative_to(output))
         with zipfile.ZipFile(zip_path) as z:assert z.testzip() is None
         manifest['platforms'][platform]={'zip':zip_path.name,'bytes':zip_path.stat().st_size,'sha256':hashlib.sha256(zip_path.read_bytes()).hexdigest()}
+    (output/'SHA256SUMS.txt').write_text(''.join(entry['sha256']+'  '+entry['zip']+'\n' for entry in manifest['platforms'].values()),encoding='utf-8')
     (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
     print('Candidates: '+str(output))
 if __name__=='__main__':main()

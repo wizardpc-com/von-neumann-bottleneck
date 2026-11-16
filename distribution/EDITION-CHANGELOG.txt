@@ -1,0 +1,15 @@
+@VERSION@ · @EDITION@
+
+本阶段交付 / This delivery
+- 统一明亮温润的实验室与深色计算终端，接入可替换的 VNB 品牌标志及平台图标。
+  Unified bright laboratory and dark computing terminal, with replaceable VNB branding and native platform icons.
+- 保留 60 项任务、确定性计算、真实判定，以及本轮之前已完成的输入、窗口、草稿与作品保护修复。
+  Preserves sixty tasks, deterministic computation, real verdicts and the existing input/window/draft/work protection fixes.
+- 同一冻结源码分别构建 Game 与 Test，独立稳定 Profile，清楚标注版本与完整来源。
+  Game and Test are built from one frozen source with separate stable profiles and explicit version/source identity.
+- 离线运行、本地反馈导出；保留既有存档格式，不自动迁移历史渠道。
+  Offline play and local feedback export. Existing save formats remain; historical channels are not migrated automatically.
+
+内容 / Content: @CONTENT_VERSION@
+构建批次 / Batch: @BATCH@
+存档 / Profile: @PROFILE@

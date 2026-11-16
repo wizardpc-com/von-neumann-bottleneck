@@ -2,7 +2,8 @@ extends Control
 signal task_selected(key: String)
 const Layout = preload("res://src/campaign/task_tree_layout.gd")
 const NODE_SIZE: Vector2 = Layout.NODE_SIZE
-const COLORS := [Color("7fd8a4"),Color("f0c674"),Color("7fcbd6"),Color("aab6e6"),Color("f4a6cb"),Color("a6b4ff"),Color("75dcc0"),Color("e2c87d")]
+const Emblem = preload("res://src/ui/chapter_emblem.gd")
+const COLORS = Emblem.REGION_COLORS
 var region_rects: Dictionary = {}
 var world_size := Vector2(2500,1900)
 const SHORT_TITLES := {
@@ -78,8 +79,8 @@ func _draw() -> void:
 	# They distinguish chapters without becoming new navigation or progress gates.
 	for region: int in region_rects:
 		var tray: Rect2 = region_rects[region]
-		var tray_style: StyleBoxFlat = InstrumentTheme.surface(Color("0c1925"),Color(_color(region),0.16),18)
-		tray_style.shadow_size=24
+		var tray_style: StyleBoxFlat = InstrumentTheme.surface(Color("101e28"),Color(_color(region),0.24),12)
+		tray_style.shadow_size=0
 		draw_style_box(tray_style,tray)
 		draw_line(tray.position+Vector2(24,16),tray.position+Vector2(24,66),Color(_color(region),0.65),3,true)
 	for task: Dictionary in rows:
@@ -159,11 +160,11 @@ func _draw_edge(task: Dictionary,dep: String,recommended: bool) -> void:
 	var satisfied: bool = false
 	for source: Dictionary in rows:
 		if source.key == dep: satisfied = source.completed; break
-	var color := Color("59736a") if recommended else Color("7fd8a4") if satisfied else Color("61748b")
+	var color := Color("59736a") if recommended else Color("7fd8a4") if satisfied else Color("8a9caa")
 	var focus: String = relation_focus_key()
 	var emphasized: bool = task.key == focus or dep == focus
 	if emphasized: color = Color("f0c674") if task.key == focus else Color("7fcbd6")
-	elif not focus.is_empty(): color.a = 0.25
+	elif not focus.is_empty(): color.a = 0.48
 	var points: PackedVector2Array=edge_points(task,dep)
 	if points.size()<2: return
 	var arrow: float=maxf(8.0,5.0/magnification)
@@ -396,7 +397,7 @@ func _report_exposure() -> void:
 			PlaytestData.record_map_action(&"viewport_exposure",task.key,{"zoom":magnification,"eligible":task.unlocked})
 
 
-func _color(region: int) -> Color: return COLORS[posmod(region,COLORS.size())]
+func _color(region: int) -> Color: return Emblem.region_accent(region)
 
 
 

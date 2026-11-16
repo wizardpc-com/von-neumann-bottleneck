@@ -131,9 +131,10 @@ func run() -> void:
 				await key(KEY_ESCAPE)
 				check(not guard.visible and entry.text == "A B" and not entry.is_editing(), prefix + "First Esc ends text editing without losing text")
 				await key(KEY_ESCAPE)
-				check(guard.visible, prefix + "Next Esc uses the draft guard")
+				check(scene.custom_example_leave_dialog.visible and not guard.visible, prefix + "Next Esc protects the unadded example before the draft")
 				await create_timer(0.3).timeout
 				await key(KEY_ESCAPE)
+				check(not scene.custom_example_leave_dialog.visible and entry.text == "A B" and scene.departures == 0, prefix + "Cancel preserves the unadded example and remains in the task")
 				scene.begin_sample_edit(0); await settle()
 				var sample := scene.find_child("SampleEditText", true, false) as LineEdit
 				sample.text = "invalid"; sample.grab_focus()

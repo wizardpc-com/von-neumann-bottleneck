@@ -1,3 +1,19 @@
+## Product edition and final presentation checks · 2026-11-16
+
+Run `test_product_editions`, `test_final_product_presentation` and
+`test_layout_strategy_edition` with existing mode/terminal/immersive-room,
+Creation session, candidate persistence and scheduling pending-input suites.
+The presentation suite saves raw bilingual 1280×720 / 1600×900 / 1280×800 images
+under the isolated project's `.godot/final-product-previews` when run with a renderer.
+It uses an empty isolated profile, never fabricated player works.
+
+`python3 scripts/test-candidate-packaging.py` covers both editions and legacy build
+modes with a mocked exporter. Actual delivery additionally requires
+`check-edition-delivery.py GAME_DIRECTORY TEST_DIRECTORY`, native resource checks,
+and `verify-mac-candidate.py --app APP` against each unchanged exported Mac binary.
+The malicious developer arguments in that probe must remain inert. Profile/entrance
+checks are distinct from real human completion and native Windows acceptance.
+
 ## Continuous chapter operation loops — 2026-11-13
 
 Run `test_core_chapter_operation_loop`, `test_candidate_shelf_return_loop`,

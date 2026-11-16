@@ -66,7 +66,7 @@ func run() -> void:
 		lab._process_immersive_room(0.0)
 		room._process(0.0)
 		check(not lab.room_hover.visible and lab.room_hover_frame.target.has_area(), "Physical plate keeps brackets without duplicate pill: " + id)
-		check(room._plates[id].modulate == Color("ffe1ab"), "Physical plate brightens for selected object: " + id)
+		check(room._plates[id].modulate == preload("res://src/lab/lab_palette.gd").ACCENT_DEEP.darkened(0.35), "Physical plate brightens for selected object: " + id)
 	for id: String in ["globe", "journey"]:
 		room._set_hover(id)
 		lab._process_immersive_room(0.0)

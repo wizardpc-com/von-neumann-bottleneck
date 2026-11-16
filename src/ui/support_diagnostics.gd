@@ -1,7 +1,8 @@
 extends RefCounted
 ## Explicit local export. No player designs, notes, paths, IDs, tokens or raw logs.
 static func snapshot() -> Dictionary:
-	return {"format":1,"build_id":ProjectSettings.get_setting("application/config/version",""),
+	return {"format":1,"build_id":ProjectSettings.get_setting("application/config/build_id",ProjectSettings.get_setting("application/config/version","")),
+		"release":preload("res://src/game/build_identity.gd").snapshot(),
 		"source_commit":ProjectSettings.get_setting("application/config/build_commit","development"),
 		"engine":Engine.get_version_info().string,"platform":OS.get_name(),
 		"locale":Localization.current_locale(),"frame_limit":WindowMode.frame_limit,

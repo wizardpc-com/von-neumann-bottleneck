@@ -9,6 +9,9 @@ var _elapsed: float = 0.0
 var _quit_at: float = -1.0
 
 func _ready() -> void:
+	if OS.has_feature("free_candidate") or get_node("/root/GameMode").edition_locked():
+		set_process(false)
+		return
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--dev-shot="): _add("shot", arg.trim_prefix("--dev-shot="))

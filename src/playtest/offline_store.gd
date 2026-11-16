@@ -16,10 +16,12 @@ static func now() -> String:
 	return Time.get_datetime_string_from_system(true)+"Z"
 
 static func build_identity() -> Dictionary:
-	return {"version":ProjectSettings.get_setting("application/config/version","development"),
+	var identity: Dictionary = preload("res://src/game/build_identity.gd").snapshot()
+	identity.merge({"version":ProjectSettings.get_setting("application/config/version","development"),
 		"source_commit":ProjectSettings.get_setting("application/config/build_commit","development"),
 		"engine":Engine.get_version_info().string,"platform":OS.get_name(),
-		"offline_tester":ProjectSettings.get_setting("playtest/offline_tester",false)}
+		"offline_tester":ProjectSettings.get_setting("playtest/offline_tester",false)}, true)
+	return identity
 
 func create_case(context: Dictionary, image: Image = null) -> Dictionary:
 	last_error=""

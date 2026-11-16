@@ -11,6 +11,9 @@ var developer_ui_enabled: bool = false
 
 
 func _ready() -> void:
+	if edition_locked():
+		current_mode = MODE_TEST if edition() == "test" else MODE_GAME
+		return
 	if OS.has_feature("free_candidate"): return
 	var arguments: PackedStringArray = OS.get_cmdline_args()
 	arguments.append_array(OS.get_cmdline_user_args())
@@ -23,6 +26,8 @@ func _ready() -> void:
 
 func set_mode(mode: StringName) -> bool:
 	if mode not in MODES:
+		return false
+	if edition_locked() and mode != (MODE_TEST if edition() == "test" else MODE_GAME):
 		return false
 	if current_mode == mode:
 		return true
@@ -51,4 +56,16 @@ func mode_at(index: int) -> StringName:
 
 
 func capture_arguments() -> PackedStringArray:
-	return PackedStringArray() if OS.has_feature("free_candidate") else OS.get_cmdline_user_args()
+	return PackedStringArray() if OS.has_feature("free_candidate") or edition_locked() else OS.get_cmdline_user_args()
+
+
+func edition() -> String:
+	# Build features take precedence over configuration and launch arguments.
+	if OS.has_feature("game_edition"): return "game"
+	if OS.has_feature("test_edition"): return "test"
+	var configured: String = str(ProjectSettings.get_setting("game/edition", ""))
+	return configured if configured in ["game", "test"] else ""
+
+
+func edition_locked() -> bool:
+	return not edition().is_empty()

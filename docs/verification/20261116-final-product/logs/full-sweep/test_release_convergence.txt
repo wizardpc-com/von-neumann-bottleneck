@@ -1,0 +1,14 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot find member "COLORS" in base "res://src/campaign/task_tree_canvas.gd".
+          at: GDScript::reload (res://src/playtest/personal_records_view.gd:78)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_release_convergence.gd:61)
+ERROR: Failed to load script "res://src/playtest/personal_records_view.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/test_release_convergence.gd:61)
+SCRIPT ERROR: Invalid access to property or key 'online' on a base object of type 'Control'.
+          at: run (res://tests/test_release_convergence.gd:63)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/test_release_convergence.gd:63)

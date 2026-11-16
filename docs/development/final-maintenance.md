@@ -1,3 +1,14 @@
+## Current product brand replacement · 2026-11-16
+
+Default laboratory standby glass and awake terminal now read `assets/branding/brand.cfg`
+through BrandIdentity. Replace configured wordmarks/symbol/app icon and optional
+native ICO/ICNS together, update revision and run `scripts/check-branding.py` plus
+final rendered/export checks. The awake wordmark uses a wider English slot; preserve
+its aspect and readable glyph size. The old classic-hub title slot remains a fallback,
+not the only integration point. See [brand specification](BRAND_20261116.md).
+Edition/save identity lives in the builder and GameMode, independently of artwork;
+never rename profiles just to replace the logo.
+
 # Maintaining the free Alpha
 
 Current truth: [CURRENT_STATE](../CURRENT_STATE.md), [release blockers](../../RELEASE_BLOCKERS.md).

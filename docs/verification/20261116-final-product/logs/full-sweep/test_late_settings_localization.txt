@@ -1,0 +1,55 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: creation / zh_CN / language: Departure waits for the existing protection: PendingInitialProtection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_late_settings_localization.gd:19)
+       [1] discard_and_return (res://tests/test_late_settings_localization.gd:213)
+       [2] settle (res://tests/test_late_settings_localization.gd:21)
+ERROR: creation / zh_CN / language: Journey map button actually returns to the task tree, not the laboratory
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_late_settings_localization.gd:19)
+       [1] exercise (res://tests/test_late_settings_localization.gd:277)
+       [2] discard_and_return (res://tests/test_late_settings_localization.gd:214)
+       [3] settle (res://tests/test_late_settings_localization.gd:21)
+ERROR: creation / zh_CN / defaults: Departure waits for the existing protection: PendingInitialProtection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_late_settings_localization.gd:19)
+       [1] discard_and_return (res://tests/test_late_settings_localization.gd:213)
+       [2] settle (res://tests/test_late_settings_localization.gd:21)
+ERROR: creation / zh_CN / defaults: Journey map button actually returns to the task tree, not the laboratory
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_late_settings_localization.gd:19)
+       [1] exercise (res://tests/test_late_settings_localization.gd:277)
+       [2] discard_and_return (res://tests/test_late_settings_localization.gd:214)
+       [3] settle (res://tests/test_late_settings_localization.gd:21)
+ERROR: creation / en / language: Departure waits for the existing protection: PendingInitialProtection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_late_settings_localization.gd:19)
+       [1] discard_and_return (res://tests/test_late_settings_localization.gd:213)
+       [2] settle (res://tests/test_late_settings_localization.gd:21)
+ERROR: creation / en / language: Journey map button actually returns to the task tree, not the laboratory
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_late_settings_localization.gd:19)
+       [1] exercise (res://tests/test_late_settings_localization.gd:277)
+       [2] discard_and_return (res://tests/test_late_settings_localization.gd:214)
+       [3] settle (res://tests/test_late_settings_localization.gd:21)
+ERROR: creation / en / defaults: Departure waits for the existing protection: PendingInitialProtection
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_late_settings_localization.gd:19)
+       [1] discard_and_return (res://tests/test_late_settings_localization.gd:213)
+       [2] settle (res://tests/test_late_settings_localization.gd:21)
+ERROR: creation / en / defaults: Journey map button actually returns to the task tree, not the laboratory
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_late_settings_localization.gd:19)
+       [1] exercise (res://tests/test_late_settings_localization.gd:277)
+       [2] discard_and_return (res://tests/test_late_settings_localization.gd:214)
+       [3] settle (res://tests/test_late_settings_localization.gd:21)
+FAIL: late Settings localization 507 checks, 8 failures

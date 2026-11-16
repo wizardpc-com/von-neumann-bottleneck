@@ -74,6 +74,9 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     archive=io.BytesIO(subprocess.check_output(['git','archive',frozen,*fixture_paths],cwd=root))
     # Keep the engine mocked: this exercises packaging from committed UTF-8 sources.
     with tarfile.open(fileobj=archive,mode='a') as staged:
+        for path in sorted((root/'distribution').glob('EDITION-*.txt')):
+            payload=path.read_bytes();entry=tarfile.TarInfo('distribution/'+path.name)
+            entry.size=len(payload);staged.addfile(entry,io.BytesIO(payload))
         for name in ['lab-home.png','task-map.png','hardware.png','feedback.png']:
             payload=b'\x89PNG\r\n\x1a\n'+name.encode()
             entry=tarfile.TarInfo('docs/verification/20261019-team-closeout/screenshots/'+name)
@@ -96,7 +99,12 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
             (project/'candidate-licenses.txt').write_text('Engine licenses · 许可',encoding='utf-8')
         if '--export-release' in command:
             assert '冯' in (project/'distribution/OFFLINE-PLAYTEST-README.txt').read_text(encoding='utf-8')
-            Path(command[-1]).write_bytes(b'export fixture')
+            target=Path(command[-1])
+            if target.suffix=='.app':
+                executable=target/'Contents/MacOS'/'game'
+                executable.parent.mkdir(parents=True)
+                executable.write_bytes(b'Universal export fixture')
+            else:target.write_bytes(b'export fixture')
         return subprocess.CompletedProcess(command,0,'fixture · 中文日志\n','')
     arguments=['build-free-candidate.py','--godot','mock-godot','--commit',frozen,
         '--platform','Windows','--windows-template',str(template),'--offline-tester',
@@ -114,6 +122,7 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
         assert 'screenshots/'+name in manifest['files_sha256']
     assert '许可' in (packaged/'Windows/ENGINE-LICENSES.txt').read_text(encoding='utf-8')
     assert 'OfflineTeammate-EncodingTest' in (packaged/'Windows/README.txt').read_text(encoding='utf-8')
+    assert (packaged/'Windows/Von-Neumann-Bottleneck.exe').is_file(), 'Legacy candidate binary name stays unchanged'
 
 # Exercise the real committed-source configuration and manifest path with the
 # engine/exporter mocked. This is packaging-contract coverage, not native QA.
@@ -148,6 +157,87 @@ for case, scope_flags, expected_count in [
             assert not full, 'Partial exports must not inherit the source/F5 full-journey override'
         else:
             assert full, 'The current full candidate retains the final cinematic gate'
+
+# Both product editions use exactly the same archived source and task manifest,
+# yet differ in fixed mode/profile, native bundle ID and immutable build identity.
+edition_manifests=[]
+for edition in ['game','test']:
+    with tempfile.TemporaryDirectory(dir=test_root) as temporary:
+        fixture=Path(temporary)/'builder';(fixture/'scripts').mkdir(parents=True)
+        arguments=['build-free-candidate.py','--godot','mock-godot','--commit',frozen,
+                   '--platform','both','--edition',edition,'--release-version','v0.6.0','--test-batch','Dual'+edition.title()]
+        with mock.patch.object(builder,'__file__',str(fixture/'scripts/build-free-candidate.py')), \
+                mock.patch.object(sys,'argv',arguments),mock.patch.object(sys,'platform','fixture'), \
+                mock.patch.object(subprocess,'check_output',side_effect=frozen_output), \
+                mock.patch.object(subprocess,'run',side_effect=engine_run),contextlib.redirect_stdout(io.StringIO()):
+            builder.main()
+        details=builder.edition_identity(edition,'v0.6.0',frozen,'Dual'+edition.title())
+        packaged=fixture/'build'/details['build_id']
+        checked=subprocess.run([sys.executable,str(root/'scripts/check-candidate-identity.py'),str(packaged)],capture_output=True)
+        assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
+        manifest=json.loads((packaged/'manifest.json').read_text())
+        edition_manifests.append(manifest)
+        binary_name='Von-Neumann-Bottleneck-'+edition.title()
+        assert (packaged/'Windows'/(binary_name+'.exe')).is_file()
+        assert (packaged/'macOS'/(binary_name+'.app')).is_dir()
+        assert not (packaged/'Windows/Von-Neumann-Bottleneck.exe').exists()
+        assert not (packaged/'macOS/Von-Neumann-Bottleneck.app').exists()
+        for platform in ['Windows','macOS']:
+            notes=(packaged/platform/'README.txt').read_text(encoding='utf-8')
+            assert binary_name+'.exe' in notes and binary_name+'.app' in notes
+            with zipfile.ZipFile(packaged/manifest['platforms'][platform]['zip']) as package:
+                expected=platform+'/'+binary_name+('.exe' if platform=='Windows' else '.app/Contents/MacOS/game')
+                assert expected in package.namelist(), 'Edition name must survive final ZIP packaging'
+        project=next((fixture/'.godot/candidates').glob('*/project'))
+        config=configparser.ConfigParser(interpolation=None)
+        config.read_string('[root]\n'+(project/'project.godot').read_text(encoding='utf-8'))
+        assert json.loads(config.get('game','edition'))==edition
+        assert config.getboolean('game','full_journey') and config.getboolean('candidate','creation_enabled')
+        assert not config.getboolean('playtest','offline_tester',fallback=False)
+        assert config.getboolean('playtest','offline_feedback',fallback=False)==(edition=='test')
+        assert json.loads(config.get('application','config/version'))=='0.6.0'
+        assert json.loads(config.get('application','config/build_id'))==details['build_id']
+        assert json.loads(config.get('application','config/build_commit'))==frozen
+        assert json.loads(config.get('application','config/custom_user_dir_name'))==details['save_directories'][0]
+        presets=(project/'export_presets.cfg').read_text()
+        assert presets.count('custom_features="free_candidate,'+edition+'_edition"')==2
+        assert 'com.wizardpc.von-neumann-bottleneck.'+edition in presets
+        assert 'application/product_version="0.6.0.' in presets
+        for key,value in [('save_profile','EditionWrong'),('mode_locked',False),('edition_name','Wrong'),
+                          ('source_commit','0'*40),('content_count',59),('feedback_endpoint','https://example.com')]:
+            changed={**manifest,key:value}
+            (packaged/'manifest.json').write_text(json.dumps(changed))
+            assert subprocess.run([sys.executable,str(root/'scripts/check-candidate-identity.py'),str(packaged)],capture_output=True).returncode!=0,key
+        (packaged/'manifest.json').write_text(json.dumps(manifest))
+assert edition_manifests[0]['source_commit']==edition_manifests[1]['source_commit']==frozen
+assert edition_manifests[0]['content_tasks']==edition_manifests[1]['content_tasks']
+assert set(edition_manifests[0]['save_directories']).isdisjoint(edition_manifests[1]['save_directories'])
+
+pair_spec=importlib.util.spec_from_file_location('edition_checker',root/'scripts/check-edition-delivery.py')
+pair_checker=importlib.util.module_from_spec(pair_spec);pair_spec.loader.exec_module(pair_checker)
+with tempfile.TemporaryDirectory(dir=test_root) as temporary:
+    pair_dirs=[Path(temporary)/name for name in ['game','test']]
+    for folder,manifest in zip(pair_dirs,edition_manifests):
+        folder.mkdir();(folder/'manifest.json').write_text(json.dumps(manifest))
+    # Individual archive/hash verification was exercised above. Focus this check
+    # on rejecting mixed commits, models/content, branding, templates and profiles.
+    with mock.patch.object(pair_checker.subprocess,'run',return_value=subprocess.CompletedProcess([],0)):
+        assert pair_checker.verify_pair(*pair_dirs)['passed']
+        for key,value in [('source_commit','0'*40),('content_tasks',['wrong']),('branding',{}),
+                          ('windows_template_sha256','wrong'),('save_directories',edition_manifests[0]['save_directories']),
+                          ('platforms',{'Windows':{}})]:
+            changed={**edition_manifests[1],key:value}
+            (pair_dirs[1]/'manifest.json').write_text(json.dumps(changed))
+            try:pair_checker.verify_pair(*pair_dirs)
+            except ValueError:pass
+            else:raise AssertionError('Mixed delivery accepted: '+key)
+
+for flags in [[],['--release-version','0.6.0'],['--release-version','v0.6.0','--test-batch','X'],
+              ['--release-version','v0.6.0','--test-batch','X','--commit',frozen,'--second-act-profile','CloudPlaytest'],
+              ['--release-version','v0.6.0','--test-batch','X','--commit',frozen,'--offline-tester']]:
+    rejected=subprocess.run([sys.executable,str(root/'scripts/build-free-candidate.py'),'--godot','unused','--edition','game',*flags],capture_output=True)
+    assert rejected.returncode!=0 and b'error:' in rejected.stderr,flags
+
 assert (root/'project.godot').read_bytes()==source_project_before, 'Exports never rewrite the source/F5 defaults'
 
 with tempfile.TemporaryDirectory(dir=test_root) as temporary:
@@ -290,4 +380,4 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     (offline_output/'manifest.json').write_text(json.dumps(offline_manifest))
     checked=subprocess.run(offline_checker,capture_output=True)
     assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
-print('PASS: frozen UTF-8 Windows packaging, screenshot inventory, URL gates, offline/public profiles and README paths, ZIP inventory, hashes and unlisted-file rejection')
+print('PASS: dual-edition same-source/profile/identity contracts; frozen UTF-8 Windows packaging, screenshot inventory, URL gates, offline/public profiles and README paths, ZIP inventory, hashes and unlisted-file rejection')

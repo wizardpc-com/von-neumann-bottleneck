@@ -1,3 +1,34 @@
+## Product Game/Test editions · 2026-11-16
+
+Use the existing builder with one full frozen commit SHA, matching Godot 4.7.1
+engine/templates, and explicit `--edition game` or `--edition test`:
+
+```sh
+python3 scripts/build-free-candidate.py --godot "$GODOT_BIN" --commit "$FROZEN_SHA" --platform both --mac-template "$MAC_TEMPLATE" --windows-template "$WINDOWS_TEMPLATE" --edition game --release-version v0.6.0 --test-batch Final20261116Game
+python3 scripts/build-free-candidate.py --godot "$GODOT_BIN" --commit "$FROZEN_SHA" --platform both --mac-template "$MAC_TEMPLATE" --windows-template "$WINDOWS_TEMPLATE" --edition test --release-version v0.6.0 --test-batch Final20261116Test
+python3 scripts/check-edition-delivery.py "$GAME_BUILD_DIRECTORY" "$TEST_BUILD_DIRECTORY"
+```
+
+Edition flags require full60 content and select stable disjoint `EditionGame` /
+`EditionTest` profiles automatically. They cannot combine with legacy offline tester,
+public endpoint, or custom profile switches. Game remains prerequisite-gated; Test
+uses actual Test mode without fabricating results. Source development retains its
+existing controls. Native numeric file versions also identify the source revision.
+Every platform folder and ZIP contains bilingual instructions, known issues,
+licenses and full build metadata; the build root includes SHA256SUMS.txt. Preserve
+both Representation/Service profile directories when updating or rolling back.
+No save import/migration is automatic. The runtime never accepts developer profile
+or capture arguments in explicit editions. Independent scheduling is an optional
+terminal entry using the same isolated profile and existing save/exit guards.
+
+Run actual `verify-mac-candidate.py --app APP` for both Mac editions and
+`check-native-package.py` against final EXE/app files; inspect actual exported UI,
+then retain receipts with exact source SHA and hashes. These automated checks cannot
+certify Windows-native play, Gatekeeper first launch elsewhere or human comprehension.
+See [current integration receipt](../verification/20261116-final-product/README.md).
+
+Historical candidate modes and their dated acceptance remain below.
+
 # Candidate builds and Windows team handoff
 
 ## Windows mode debugging package — 2026-10-23

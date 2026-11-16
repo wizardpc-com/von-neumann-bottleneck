@@ -1,0 +1,43 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+ERROR: Settings footer fits zh_CN-room
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_settings_feedback_layout.gd:9)
+       [1] inspect_settings (res://tests/test_settings_feedback_layout.gd:49)
+       [2] click_tab (res://tests/test_settings_feedback_layout.gd:39)
+       [3] settle (res://tests/test_settings_feedback_layout.gd:11)
+ERROR: Room settings fit (1920, 900)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_settings_feedback_layout.gd:9)
+       [1] run (res://tests/test_settings_feedback_layout.gd:93)
+       [2] settle (res://tests/test_settings_feedback_layout.gd:11)
+ERROR: Selected category action visible ExportDiagnosticszh_CN-floating
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_settings_feedback_layout.gd:9)
+       [1] inspect_settings (res://tests/test_settings_feedback_layout.gd:52)
+       [2] click_tab (res://tests/test_settings_feedback_layout.gd:39)
+       [3] settle (res://tests/test_settings_feedback_layout.gd:11)
+ERROR: Settings footer fits en-room
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_settings_feedback_layout.gd:9)
+       [1] inspect_settings (res://tests/test_settings_feedback_layout.gd:49)
+       [2] click_tab (res://tests/test_settings_feedback_layout.gd:39)
+       [3] settle (res://tests/test_settings_feedback_layout.gd:11)
+ERROR: Room settings fit (1920, 900)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_settings_feedback_layout.gd:9)
+       [1] run (res://tests/test_settings_feedback_layout.gd:93)
+       [2] settle (res://tests/test_settings_feedback_layout.gd:11)
+ERROR: Selected category action visible ExportDiagnosticsen-floating
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/test_settings_feedback_layout.gd:9)
+       [1] inspect_settings (res://tests/test_settings_feedback_layout.gd:52)
+       [2] click_tab (res://tests/test_settings_feedback_layout.gd:39)
+       [3] settle (res://tests/test_settings_feedback_layout.gd:11)
+FAIL: settings and feedback layout 154 checks, 6 failures

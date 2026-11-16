@@ -3,6 +3,8 @@ extends SubViewportContainer
 signal activated(id: String)
 signal hover_changed(id: String)
 
+const BrandIdentity = preload("res://src/ui/brand_identity.gd")
+const Palette = preload("res://src/lab/lab_palette.gd")
 const LabState = preload("res://src/lab/lab_state.gd")
 const DISPLAY_FONT = preload("res://assets/fonts/interface_regular.tres")
 const WORK_COLORS := [Color("7fcbd6"), Color("f0c674"), Color("aab6e6"), Color("7fd8a4")]
@@ -204,7 +206,7 @@ func _process(delta: float) -> void:
 		_look_current = _look_current.lerp(_look_target, 1.0 - exp(-10.0 * delta))
 	_idle_time = 0.0 if reduced else _idle_time + delta
 	if _desk_light != null:
-		_desk_light.light_energy = 3.2 + (0.0 if reduced else 0.08 * sin(_idle_time * 0.7))
+		_desk_light.light_energy = 0.85
 	for index in range(_chapter_lights.size()):
 		if _chapter_lights[index].emission_enabled:
 			_chapter_lights[index].emission_energy_multiplier = 0.5 if reduced else 0.5 + 0.12 * sin(_idle_time * 0.6 + index * 0.7)
@@ -212,7 +214,7 @@ func _process(delta: float) -> void:
 		_dust.emitting = not reduced
 		_dust.speed_scale = 0.0 if reduced else 1.0
 	for id: String in _plates:
-		(_plates[id] as Label3D).modulate = Color("ffe1ab") if id == _hovered else Color("d5dedb")
+		(_plates[id] as Label3D).modulate = Palette.ACCENT_DEEP.darkened(0.35) if id == _hovered else Palette.LAB_INK
 	var looking: Basis = _neutral_basis * Basis(Vector3.UP, deg_to_rad(_look_current.x)) * Basis(Vector3.RIGHT, deg_to_rad(_look_current.y))
 	var aim: Basis = Transform3D(Basis(), OBSERVATION).looking_at(_focus_point, Vector3.UP).basis
 	# Turn toward the object early, walk toward it, and narrow the view last,
@@ -223,9 +225,9 @@ func _process(delta: float) -> void:
 	camera.fov = base_fov * pow(_focus_fov / base_fov, smoothstep(0.15, 1.0, _zoom))
 	var glow_target: float = 0.0 if _hovered.is_empty() or not _interaction_enabled else 1.0
 	_hover_glow = glow_target if reduced else move_toward(_hover_glow, glow_target, delta * 6.0)
-	# A warm lift that breathes slowly, like the object answering the pointer.
+	# A quiet cool lift links the physical object to the terminal accent.
 	var breathe: float = 1.0 if reduced else 0.82 + 0.18 * sin(Time.get_ticks_msec() * 0.0035)
-	_hover_material.albedo_color = Color(0.16, 0.14, 0.11, _hover_glow * breathe)
+	_hover_material.albedo_color = Color(0.09, 0.14, 0.15, _hover_glow * breathe)
 
 ## Return projected glass bounds in this container's local pixel coordinates.
 func screen_rect() -> Rect2:
@@ -267,7 +269,17 @@ func _setup_screen() -> void:
 	_standby_text = margin
 	var column := VBoxContainer.new(); column.add_theme_constant_override("separation", 10)
 	margin.add_child(column)
-	var top := HBoxContainer.new(); column.add_child(top)
+	var top := HBoxContainer.new(); top.add_theme_constant_override("separation", 14); column.add_child(top)
+	var brand_symbol: Texture2D = BrandIdentity.symbol_texture()
+	if brand_symbol != null:
+		var mark := TextureRect.new(); mark.name = "StandbyBrandSymbol"
+		mark.texture = brand_symbol
+		mark.custom_minimum_size = Vector2(32, 32)
+		mark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		mark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		mark.focus_mode = Control.FOCUS_NONE
+		top.add_child(mark)
 	_standby_header = _glass_label(top, "Yi · learning program" if english else "壹 · 学习程序", 26, Color("7f98a6"))
 	_standby_header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_standby_count = _glass_label(top, "", 26, Color("7f98a6"))
@@ -540,7 +552,13 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 		_chapter_lights[index].albedo_color = Color("8ed8c5") if earned else Color("344a50")
 		_chapter_lights[index].emission_enabled = earned
 	for id: String in _plates:
-		(_plates[id] as Label3D).text = _plate_name(id, english)
+		var plate := _plates[id] as Label3D
+		plate.text = _plate_name(id, english)
+		# Fit the translated inscription to its physical plate, not a global font floor.
+		var small: bool = id in ["handbook", "settings", "feedback"]
+		var width: float = 0.59 if small else 1.80
+		var text_width: float = DISPLAY_FONT.get_string_size(plate.text, HORIZONTAL_ALIGNMENT_LEFT, -1, plate.font_size).x
+		plate.pixel_size = minf(0.0025 if small else 0.005, width / maxf(text_width, 1.0))
 	var count := maxi(0, works_count)
 	var latest: Dictionary = works[-1] if count > 0 and not works.is_empty() and works[-1] is Dictionary else {}
 	var latest_name := str(latest.get("name", ""))
@@ -556,6 +574,7 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 	for index in range(_work_pixels.size()):
 		# Unlit cells read as an empty light-print matrix waiting for a saved work.
 		var pixel := _work_pixels[index]
+		pixel.visible = index < output.size()
 		pixel.modulate = WORK_COLORS[clampi(int(output[index]), 0, WORK_COLORS.size() - 1)] if index < output.size() else Color(0.55, 0.68, 0.76, 0.16)
 	for slot in range(_gallery.size()):
 		var work_index: int = works.size() - 1 - slot
@@ -564,6 +583,7 @@ func update_progress(stations: Array[Dictionary], completed: int, total: int, wo
 			var raw: Variant = works[work_index].get("output", [])
 			if raw is Array: values = raw
 		for cell in range(_gallery[slot].size()):
+			(_gallery[slot][cell] as Label3D).visible = cell < values.size()
 			(_gallery[slot][cell] as Label3D).modulate = WORK_COLORS[clampi(int(values[cell]), 0, 3)] if cell < values.size() else Color(0.55, 0.68, 0.76, 0.16)
 	if _achievement_label != null:
 		_achievement_label.text = ("Completed\n%d / %d" if english else "已完成\n%d / %d") % [maxi(0, completed), maxi(0, total)]
@@ -608,9 +628,9 @@ func _setup_status_displays() -> void:
 			_gallery.append(cells)
 			if slot == 0: _work_pixels = cells
 			for offset in [-1.0, 1.0]:
-				var rail := _box("Works | gallery rail", works_board.to_global(Vector3(left + width * 0.5, top - 0.16 + offset * 0.16, front)), Vector3(width, 0.035, 0.04), Color("a38b66"))
+				var rail := _box("Works | gallery rail", works_board.to_global(Vector3(left + width * 0.5, top - 0.16 + offset * 0.16, front)), Vector3(width, 0.035, 0.04), Palette.LAB_TRIM)
 				rail.scale = works_board.global_basis.get_scale()
-				var stile := _box("Works | gallery stile", works_board.to_global(Vector3(left + width * 0.5 + offset * width * 0.5, top - 0.16, front)), Vector3(0.035, 0.32, 0.04), Color("a38b66"))
+				var stile := _box("Works | gallery stile", works_board.to_global(Vector3(left + width * 0.5 + offset * width * 0.5, top - 0.16, front)), Vector3(0.035, 0.32, 0.04), Palette.LAB_TRIM)
 				stile.scale = works_board.global_basis.get_scale()
 	var achievements := model.find_child("Achievements | ceramic inset", true, false) as MeshInstance3D
 	if achievements != null:
@@ -767,32 +787,32 @@ func _setup_environment() -> void:
 	var environment := Environment.new()
 	var sky_material := ProceduralSkyMaterial.new()
 	# Warm white, continuing the light spilling round the door at the end of the opening film.
-	sky_material.sky_top_color = Color(0.58, 0.58, 0.58)
-	sky_material.sky_horizon_color = Color(0.93, 0.89, 0.82)
-	sky_material.ground_bottom_color = Color(0.26, 0.24, 0.22)
-	sky_material.ground_horizon_color = Color(0.72, 0.67, 0.60)
+	sky_material.sky_top_color = Palette.LAB_SKY_TOP
+	sky_material.sky_horizon_color = Palette.LAB_LIGHT
+	sky_material.ground_bottom_color = Palette.LAB_FLOOR_NEAR.darkened(0.30)
+	sky_material.ground_horizon_color = Palette.LAB_FLOOR_FAR
 	var sky := Sky.new()
 	sky.sky_material = sky_material
 	environment.sky = sky
 	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color(0.15, 0.17, 0.20)
+	environment.background_color = Palette.LAB_WALL
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	environment.ambient_light_energy = 0.12
+	environment.ambient_light_energy = 0.48
 	environment.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	environment.tonemap_exposure = 0.95
 	# Only the ceiling strip and the screens bloom, softly.
 	environment.glow_enabled = true
-	environment.glow_intensity = 0.35
+	environment.glow_intensity = 0.20
 	environment.glow_strength = 0.9
 	environment.glow_hdr_threshold = 0.95
 	environment.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	world_environment.environment = environment
 	viewport.add_child(world_environment)
-	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Color(0.78, 0.86, 1.0), 0.26, 75.0, 19.0, true)
-	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color(0.56, 0.75, 1.0), 0.38, 75.0, 18.0, true)
-	_add_light(Vector3(0, 5.6, 1.5), Vector3(0, 1.4, 2.4), Color(1.0, 0.95, 0.86), 0.12, 48.0, 9.0, false)
-	_add_light(Vector3(-1.2, 6.8, -8.6), Vector3(-1.2, 5.1, -11.7), Color(1.0, 0.90, 0.75), 0.8, 62.0, 10.0, false)
+	_add_light(Vector3(-3.5, 6.0, 4.0), Vector3(0, 1.2, 0), Palette.LAB_LIGHT, 0.60, 75.0, 19.0, true)
+	_add_light(Vector3(4.5, 5.5, 1.0), Vector3(0, 2, -1), Color("e0edf1"), 0.42, 75.0, 18.0, true)
+	_add_light(Vector3(0, 5.6, 1.5), Vector3(0, 1.4, 2.4), Palette.LAB_LIGHT, 0.22, 48.0, 9.0, false)
+	_add_light(Vector3(-1.2, 6.8, -8.6), Vector3(-1.2, 5.1, -11.7), Palette.LAB_LIGHT, 0.55, 62.0, 10.0, false)
 
 func _add_light(position_3d: Vector3, target: Vector3, color: Color, energy: float, angle: float, distance: float, shadows: bool) -> void:
 	var light := SpotLight3D.new()
@@ -865,13 +885,18 @@ func _setup_furnishings() -> void:
 		var title := str(mesh.name)
 		if title.begins_with("Architecture |") or (title.begins_with("Side wall |") and "integrated field" in title):
 			var finish := StandardMaterial3D.new()
-			finish.albedo_color = Color("465c69") if "floor" not in title else Color("414b53")
+			finish.albedo_color = Palette.LAB_WALL
+			if "floor" in title: finish.albedo_color = Palette.LAB_FLOOR_NEAR
+			elif "ceiling" in title: finish.albedo_color = Palette.LAB_CEILING
+			elif "side" in title or "Side wall" in title: finish.albedo_color = Palette.LAB_SIDE
 			finish.roughness = 0.87
 			mesh.material_override = finish
 		if title.begins_with("Workstation |") and "light" not in title.to_lower():
-			var wood := StandardMaterial3D.new()
-			wood.albedo_color = Color("9da3a7"); wood.roughness = 0.88
-			mesh.material_override = wood
+			var ceramic := StandardMaterial3D.new()
+			ceramic.albedo_color = Palette.DESK_TOP if "top" in title else Palette.DESK_EDGE
+			if "rim" in title or "seam" in title: ceramic.albedo_color = Palette.LAB_TRIM
+			ceramic.roughness = 0.82
+			mesh.material_override = ceramic
 		if title.begins_with("Works |") and mesh.visible:
 			var finish := mesh.get_active_material(0).duplicate() as StandardMaterial3D
 			finish.roughness = 0.95; finish.metallic_specular = 0.15
@@ -880,9 +905,9 @@ func _setup_furnishings() -> void:
 			mesh.global_position.y = 4.46 + (mesh.global_position.y - 4.46) * 1.65
 		if title.begins_with("Ceiling continuous"):
 			var diffuser := StandardMaterial3D.new()
-			diffuser.albedo_color = Color("87999d")
-			diffuser.emission_enabled = true; diffuser.emission = Color("8b9eaa")
-			diffuser.emission_energy_multiplier = 0.5
+			diffuser.albedo_color = Palette.LAB_LIGHT
+			diffuser.emission_enabled = true; diffuser.emission = Palette.LAB_LIGHT
+			diffuser.emission_energy_multiplier = 0.7
 			mesh.material_override = diffuser
 		if title.begins_with("Handbook |") or title.begins_with("Settings |") or title.begins_with("Letter |"):
 			mesh.hide()
@@ -905,12 +930,12 @@ func _setup_furnishings() -> void:
 	var indicator := _cylinder("Settings | power indicator",Vector3(3.45,1.663,3.16),0.022,0.014,Color("8ed8c5"))
 	var indicator_material := indicator.material_override as StandardMaterial3D
 	indicator_material.emission_enabled = true; indicator_material.emission = Color("8ed8c5")
-	_rounded("Letter | tray base",Vector3(2.06,1.44,3.02),Vector3(1.18,0.055,0.9),Color("725236"),0.07)
+	_rounded("Letter | tray base",Vector3(2.06,1.44,3.02),Vector3(1.18,0.055,0.9),Palette.LAB_TRIM,0.07)
 	for x in [1.49,2.63]:
-		_rounded("Letter | tray lip",Vector3(x,1.50,3.02),Vector3(0.05,0.12,0.9),Color("987447"),0.02)
-	_box("Letter | envelope",Vector3(2.06,1.485,3.03),Vector3(0.91,0.023,0.62),Color("d8c9a8"))
+		_rounded("Letter | tray lip",Vector3(x,1.50,3.02),Vector3(0.05,0.12,0.9),Palette.DESK_EDGE,0.02)
+	_box("Letter | envelope",Vector3(2.06,1.485,3.03),Vector3(0.91,0.023,0.62),Palette.LAB_LIGHT)
 	for side in [-1.0,1.0]:
-		var fold := _box("Letter | envelope fold",Vector3(2.06+side*0.20,1.499,2.99),Vector3(0.47,0.004,0.012),Color("9c8d71"))
+		var fold := _box("Letter | envelope fold",Vector3(2.06+side*0.20,1.499,2.99),Vector3(0.47,0.004,0.012),Palette.LAB_INK_SOFT)
 		fold.rotation.y = side * -0.5
 	# Passive equipment is outside the journey board's clickable/focus bounds.
 	for x in [-5.65,-4.60]:
@@ -941,26 +966,26 @@ func _setup_furnishings() -> void:
 		var small: bool = id in ["handbook","settings","feedback"]
 		var plate := Label3D.new()
 		plate.font = DISPLAY_FONT; plate.font_size = 64; plate.pixel_size = 0.0025 if small else 0.005
-		plate.outline_size = 0; plate.modulate = Color("d5dedb"); plate.double_sided = true
+		plate.outline_size = 0; plate.modulate = Palette.LAB_INK; plate.double_sided = true
 		plate.text = _plate_name(id,false)
 		model.add_child(plate); plate.global_position = positions[id]
 		if small: plate.rotation_degrees.x = -20
 		if id == "archive": plate.rotation_degrees.y = 90
 		var prefix: String = {"handbook":"Handbook |", "settings":"Settings |", "feedback":"Letter |"}.get(id,"Nameplate |")
-		var backing := _box(prefix + " engraved plate " + id, positions[id],Vector3(0.78 if small else 2.2,0.16 if small else 0.36,0.016),Color("9eabad"))
+		var backing := _box(prefix + " engraved plate " + id, positions[id],Vector3(0.78 if small else 2.2,0.16 if small else 0.36,0.016),Palette.LAB_TRIM)
 		backing.rotation = plate.rotation
-		var face := _box(prefix + " plate face " + id, positions[id] + plate.basis.z * 0.011,Vector3(0.75 if small else 2.16,0.14 if small else 0.32,0.008),Color("344650"))
+		var face := _box(prefix + " plate face " + id, positions[id] + plate.basis.z * 0.011,Vector3(0.75 if small else 2.16,0.14 if small else 0.32,0.008),Palette.LAB_WALL_TOP)
 		face.rotation = plate.rotation
 		(backing.material_override as StandardMaterial3D).metallic = 0.55
 		plate.position += plate.basis.z * 0.02
 		_plates[id] = plate
 	# A shaded metal lamp and an actual shadowed pool, without covering the glass.
 	_cylinder("Lamp | foot",Vector3(-2.48,1.49,2.85),0.25,0.08,Color("303d43"))
-	_cylinder("Lamp | stem",Vector3(-2.48,2.19,2.85),0.035,1.36,Color("af9564"))
-	var shade := _cylinder("Lamp | shade",Vector3(-2.48,2.88,2.85),0.32,0.24,Color("35545a"))
+	_cylinder("Lamp | stem",Vector3(-2.48,2.19,2.85),0.035,1.36,Palette.LAB_TRIM)
+	var shade := _cylinder("Lamp | shade",Vector3(-2.48,2.88,2.85),0.32,0.24,Palette.DESK_EDGE)
 	(shade.mesh as CylinderMesh).top_radius = 0.16
 	_desk_light = SpotLight3D.new()
-	_desk_light.light_color = Color("ffcc87"); _desk_light.light_energy = 3.2
+	_desk_light.light_color = Palette.LAB_LIGHT; _desk_light.light_energy = 0.85
 	_desk_light.spot_range = 7.0; _desk_light.spot_angle = 65.0
 	_desk_light.shadow_enabled = true; _desk_light.light_size = 0.15
 	_desk_light.shadow_bias = 0.5; _desk_light.shadow_normal_bias = 1.0
@@ -968,12 +993,12 @@ func _setup_furnishings() -> void:
 	_desk_light.look_at(Vector3(-1.55,1.4,3.05))
 
 	_dust = GPUParticles3D.new()
-	_dust.amount = 12; _dust.lifetime = 8.0; _dust.preprocess = 8.0
+	_dust.amount = 4; _dust.lifetime = 8.0; _dust.preprocess = 8.0
 	_dust.visibility_aabb = AABB(Vector3(-2,-2,-2),Vector3(4,4,4))
 	var mote := SphereMesh.new(); mote.radius = 0.008; mote.height = 0.016
 	var dust_material := StandardMaterial3D.new()
 	dust_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	dust_material.albedo_color = Color("a48e69")
+	dust_material.albedo_color = Palette.LAB_INK_SOFT
 	mote.material = dust_material; _dust.draw_pass_1 = mote
 	var particles := ParticleProcessMaterial.new()
 	particles.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX

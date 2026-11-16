@@ -1,3 +1,5 @@
+- **2026-11-16 产品收官**：[双版本整合计划](exec-plans/active/final-dual-edition-20261116.md) · [验收与构建证据](verification/20261116-final-product/README.md) · [最终视觉](development/FINAL_VISUAL_20261116.md) · [品牌替换](development/BRAND_20261116.md)。
+
 # Documentation map
 
 - [全章节基本操作验收矩阵（2026-11-13）](development/BASIC_INTERACTION_ACCEPTANCE_20261113.md)

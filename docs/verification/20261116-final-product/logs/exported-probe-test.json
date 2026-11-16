@@ -1,0 +1,42 @@
+{
+  "build_id": "vnb-test-v0.6.0-Final20261116Test-63584487c1af",
+  "source_commit": "63584487c1af190a05d294bb758b7ab3fc610063",
+  "passed": true,
+  "source_app": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/build/vnb-test-v0.6.0-Final20261116Test-63584487c1af/macOS/Von-Neumann-Bottleneck-Test.app",
+  "qa_app": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/package-qa/4ea4960d09fa/Von-Neumann-Bottleneck-Test.app",
+  "user_suffix": "VonNeumannBottleneckChecks/package-4ea4960d09fa/VonNeumannBottleneckCandidates/representation/EditionTest",
+  "binary_and_pack_unchanged": {
+    "Contents/MacOS/Von Neumann Bottleneck \u2014 Test Edition": "ffc3812d30da3ab36e101cbaf6e6576d4c249eeba5968a43ef08dee81a6caa1b",
+    "Contents/Resources/Von Neumann Bottleneck \u2014 Test Edition.pck": "06254ae0daf94f2f9c656c40480634a040d454f22009462b237d73f88d470c18"
+  },
+  "qa_override_only": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/package-qa/4ea4960d09fa/Von-Neumann-Bottleneck-Test.app/Contents/MacOS/override.cfg",
+  "public_release": false,
+  "edition": "test",
+  "checks": {
+    "batch_identity": true,
+    "build_identity": true,
+    "candidate_feature": true,
+    "candidate_journey_tasks": true,
+    "candidate_profile_binding": true,
+    "capture_disabled": true,
+    "creation_export_configuration": true,
+    "creation_profile_locked": true,
+    "creation_resources": true,
+    "developer_helper_inert": true,
+    "edition_access": true,
+    "edition_feature": true,
+    "forty_tasks": true,
+    "isolated": true,
+    "locality_workspace_identity": true,
+    "mode_selection": true,
+    "no_precompleted_tasks": true,
+    "profile_identity": true,
+    "remote_default_off": true,
+    "repeated_workbench_auto_save": true,
+    "scheduling_product_entry": true,
+    "second_act_resources": true,
+    "server_excluded": true,
+    "system_workspace_identity": true,
+    "tests_excluded": true
+  }
+}

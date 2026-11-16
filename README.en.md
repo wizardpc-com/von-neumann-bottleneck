@@ -8,6 +8,8 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Current source: laboratory journey · 60 tasks · Offline feedback · Chinese and English**
 
+**Delivery (2026-11-16): v0.6.0 Game / Test Edition** provides four same-source Windows x86_64 / universal macOS archives, one bright laboratory and dark terminal, replaceable branding and isolated edition saves. [Package identities, SHA-256 and acceptance limits](docs/verification/20261116-final-product/README.md). No new public GitHub Release was created; the links below remain the earlier public playtest.
+
 **Public playtest (2026-10-24):** [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) includes **Windows x86_64 and universal macOS (Intel / Apple Silicon)** packages, the complete sixty-task journey, laboratory, handbook, four cinematics and recent recovery/localization fixes. No Godot installation, account or network is required. Game is the default; Test results remain separate. Windows exported-binary checks passed; Mac structure/hashes were checked, with native Mac acceptance still open. The competition package remains frozen separately. [Build and verification](docs/verification/20261024-desktop-release/README.md).
 
 **[⬇️ Download the Windows / macOS offline playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4)** · [Historical Windows offline build (2026-10-17)](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [Earlier Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)

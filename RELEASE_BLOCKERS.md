@@ -5,8 +5,10 @@ same-source Game/Test Windows/macOS archives. Earlier “no public release autho
 notes below describe their historical tasks, not this delivery authorization.
 The current integration receipt is [here](docs/verification/20261116-final-product/README.md).
 
-Final acceptance must distinguish source/controller tests, actual exported Mac
-execution, Windows PE structure/icon validation and any actual Windows host tests.
+Four v0.6.0 archives are delivered from product source63584487c1af. Source/controller
+checks, both actual exported Mac probes, representative native Mac tutorial/return,
+and four-package architecture/icon/identity/hash checks passed. Native Windows input,
+Intel Mac execution and downloaded first launch on another machine remain open.
 Do not claim human sixty-task completion or other-machine first launch from agent
 replay. Developer ID/notarization and Authenticode are unavailable in this build;
 packages disclose their actual signing state. No online service is required or deployed.

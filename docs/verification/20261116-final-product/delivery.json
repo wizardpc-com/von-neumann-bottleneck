@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "source_commit": "63584487c1af190a05d294bb758b7ab3fc610063",
+  "release_version": "v0.6.0",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "content_version": "tasks-20261013-journey-v1",
+  "content_count": 60,
+  "editions": {
+    "game": {
+      "directory": "/Users/yrq/Documents/冯诺伊曼瓶颈/build/vnb-game-v0.6.0-Final20261116Game-63584487c1af",
+      "build_id": "vnb-game-v0.6.0-Final20261116Game-63584487c1af",
+      "profile": "EditionGame",
+      "archives": {
+        "macOS": {
+          "zip": "Von-Neumann-Bottleneck-macOS-vnb-game-v0.6.0-Final20261116Game-63584487c1af.zip",
+          "bytes": 234397908,
+          "sha256": "a5d67afe4795613fb6efea6bf4788ee4f97e173cd93c5036084b7b1ca61fb017"
+        },
+        "Windows": {
+          "zip": "Von-Neumann-Bottleneck-Windows-vnb-game-v0.6.0-Final20261116Game-63584487c1af.zip",
+          "bytes": 211957497,
+          "sha256": "3b30023774044ca8fd07746ebd949a9eade81713fa395bac36607d361ea7d8c3"
+        }
+      }
+    },
+    "test": {
+      "directory": "/Users/yrq/Documents/冯诺伊曼瓶颈/build/vnb-test-v0.6.0-Final20261116Test-63584487c1af",
+      "build_id": "vnb-test-v0.6.0-Final20261116Test-63584487c1af",
+      "profile": "EditionTest",
+      "archives": {
+        "macOS": {
+          "zip": "Von-Neumann-Bottleneck-macOS-vnb-test-v0.6.0-Final20261116Test-63584487c1af.zip",
+          "bytes": 234397964,
+          "sha256": "3f49622bdd99b685147d2ad3b12fd4f16b5ba6174c7628b18ea84f9cd2f7662c"
+        },
+        "Windows": {
+          "zip": "Von-Neumann-Bottleneck-Windows-vnb-test-v0.6.0-Final20261116Test-63584487c1af.zip",
+          "bytes": 211957552,
+          "sha256": "45d33dfe68625026e410279c166368de0451b0c2bb035935332905b646d4efcf"
+        }
+      }
+    }
+  },
+  "scope": "Source/content/profile identity and all archive hashes; not native platform acceptance"
+}

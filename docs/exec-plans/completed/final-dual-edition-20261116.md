@@ -69,6 +69,11 @@ judgment cannot be inferred from automated checks. Record actual outcomes here.
   eight initial failures. Eight GPU suites and corrected six-room capture pass;
   independent visual review accepts the single final default. Two three-process
   restart workflows pass. Runtime resources match the final QA snapshot.
-- Source ready to freeze; package export/native identity acceptance and main push
-  remain. Existing server maintenance SQLite SHM anomaly is documented separately,
-  unchanged from baseline and excluded from offline product packages.
+- Completed product freeze63584487c1af; four actual Game/Test archives built from
+  that same full SHA. Both exported Mac probes, all native architecture/icon checks,
+  strict archive inventory/hash/pair checks and native Mac tutorial/return pass.
+  Post-freeze changes only correct independent validators and record evidence.
+- The bounded product delivery is complete; main integration/push is the final Git
+  handoff. No GitHub Release is created. Known platform/signing/human/audio limits,
+  one GLES3 shutdown diagnostic, unchanged Fork ambiguity and excluded server SQLite
+  maintenance failure remain explicit in the final receipt, not silently marked fixed.

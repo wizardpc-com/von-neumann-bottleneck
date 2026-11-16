@@ -4,6 +4,13 @@
 
 ## 简体中文
 
+### v0.6.0 · 2026-11-16 · 双版本交付
+
+- 定稿明亮实验室／深色终端，接入可替换的中英文VNB标志及双平台图标。
+- 同一冻结源码提供Game/Test双平台包；完整60项，正常解锁与测试访问分离，存档、作品、反馈独立。
+- 独立调度实验加入可选入口和保存返回保护；修正设置版本信息布局，保留真实计算及既有存档格式。
+- [构建、校验和与实际验收范围](docs/verification/20261116-final-product/README.md)。未创建新的公开Release。
+
 ### 2026-10-20 · 统一风格与故事节点（第三轮，未提交、未发布）
 
 - 所有工作台使用同一种标题栏框与标题样式；第五至七章标题与关卡按钮改为旅程命名（5-1 …）；统一「旅程地图」「实验室」「设置」「退出游戏」；表示与服务改用终端信号场背景。
@@ -147,6 +154,13 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### v0.6.0 · 2026-11-16 · Dual-edition delivery
+
+- Final bright laboratory/dark terminal, replaceable bilingual VNB branding and native app icons.
+- Four same-source Game/Test platform packages; all60 tasks, earned Game gates, separate tester access and isolated saves/works/feedback.
+- Optional scheduling-lab entry with save/return guards; corrected settings identity layout without changing calculation or save formats.
+- [Builds, hashes and actual acceptance scope](docs/verification/20261116-final-product/README.md). No new public Release created.
 
 ### 2026-10-20 · Unified style and story beats (round 3, uncommitted, unpublished)
 

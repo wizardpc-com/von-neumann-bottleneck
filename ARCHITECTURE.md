@@ -148,7 +148,7 @@ its validated sibling directory. No persisted schema or automatic migration chan
 Product Creation ignores developer path overrides. Optional scheduling admits only
 its strict edition binding or existing QA namespace; its original departure guard
 supports Laboratory return while OS close still exits. See the
-[delivery plan](docs/exec-plans/active/final-dual-edition-20261116.md).
+[delivery plan](docs/exec-plans/completed/final-dual-edition-20261116.md).
 
 ## Default construction and optimization route
 

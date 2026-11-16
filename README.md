@@ -8,6 +8,8 @@
 
 **当前源码：实验室旅程 · 60 项任务 · 完全离线反馈 · 中英文界面**
 
+**本轮交付（2026-11-16）：v0.6.0 Game / Test Edition** 已从同一冻结源码生成 Windows x86_64 与 macOS Universal 四包，统一明亮实验室、深色终端及可替换品牌，存档与作品分版隔离。[交付清单、SHA-256与验收边界](docs/verification/20261116-final-product/README.md)。本轮尚未创建新的公开 Release，下方链接仍为历史公开试玩。
+
 **最新公开试玩（2026-10-24）：** [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) 提供 **Windows x86_64 / macOS 通用版（Intel、Apple Silicon）**，完整60项旅程，无需安装Godot、账号或联网。实验室、手册、四段演出与近期恢复/双语界面修复均已包含；默认Game，Test成果隔离。Windows实包定向验证已通过；Mac已完成结构与哈希检查，尚未实机验收。比赛提交包单独冻结。[当前版本与核验](docs/verification/20261024-desktop-release/README.md)。
 
 **[⬇️ 下载 Windows / macOS 离线试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4)** · [历史Windows离线版（2026-10-17）](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [旧版 Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)

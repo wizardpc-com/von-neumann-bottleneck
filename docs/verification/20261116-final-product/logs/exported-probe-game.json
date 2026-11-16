@@ -1,0 +1,42 @@
+{
+  "build_id": "vnb-game-v0.6.0-Final20261116Game-63584487c1af",
+  "source_commit": "63584487c1af190a05d294bb758b7ab3fc610063",
+  "passed": true,
+  "source_app": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/build/vnb-game-v0.6.0-Final20261116Game-63584487c1af/macOS/Von-Neumann-Bottleneck-Game.app",
+  "qa_app": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/package-qa/7946f5b83bfd/Von-Neumann-Bottleneck-Game.app",
+  "user_suffix": "VonNeumannBottleneckChecks/package-7946f5b83bfd/VonNeumannBottleneckCandidates/representation/EditionGame",
+  "binary_and_pack_unchanged": {
+    "Contents/MacOS/Von Neumann Bottleneck \u2014 Game Edition": "50b4932a8a767fc6613082e35cca0814eee490aede99a0d93a19004a31b027a0",
+    "Contents/Resources/Von Neumann Bottleneck \u2014 Game Edition.pck": "94de4d173dfe92b4af67f3bd8dc29ca2a22da33c82246f25c8159de4f15abf10"
+  },
+  "qa_override_only": "/Users/yrq/Documents/\u51af\u8bfa\u4f0a\u66fc\u74f6\u9888/.godot/package-qa/7946f5b83bfd/Von-Neumann-Bottleneck-Game.app/Contents/MacOS/override.cfg",
+  "public_release": false,
+  "edition": "game",
+  "checks": {
+    "batch_identity": true,
+    "build_identity": true,
+    "candidate_feature": true,
+    "candidate_journey_tasks": true,
+    "candidate_profile_binding": true,
+    "capture_disabled": true,
+    "creation_export_configuration": true,
+    "creation_profile_locked": true,
+    "creation_resources": true,
+    "developer_helper_inert": true,
+    "edition_access": true,
+    "edition_feature": true,
+    "forty_tasks": true,
+    "isolated": true,
+    "locality_workspace_identity": true,
+    "mode_selection": true,
+    "no_precompleted_tasks": true,
+    "profile_identity": true,
+    "remote_default_off": true,
+    "repeated_workbench_auto_save": true,
+    "scheduling_product_entry": true,
+    "second_act_resources": true,
+    "server_excluded": true,
+    "system_workspace_identity": true,
+    "tests_excluded": true
+  }
+}

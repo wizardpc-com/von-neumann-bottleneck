@@ -1,0 +1,5 @@
+import: PASS
+licenses: PASS
+export-macOS: PASS
+export-Windows: PASS
+Candidates: /Users/yrq/Documents/冯诺伊曼瓶颈/build/vnb-test-v0.6.0-Final20261116Test-63584487c1af

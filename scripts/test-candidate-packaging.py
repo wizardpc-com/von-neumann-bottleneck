@@ -7,6 +7,7 @@ import io
 import importlib.util
 import json
 import stat
+import struct
 import subprocess
 import sys
 import tarfile
@@ -249,7 +250,8 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
         (folder/name).write_text('Build: '+build_id+'\nSource commit: '+commit+'\n')
     app=folder/'Von-Neumann-Bottleneck.app'/'Contents'/'MacOS'
     app.mkdir(parents=True)
-    (app/'game').write_bytes(b'exported binary')
+    (app/'game — Edition').write_bytes(b'exported binary')
+    (app.parent/'Info.plist').write_bytes(b'plist fixture')
     files={path.relative_to(folder).as_posix():hashlib.sha256(builder.packaged_bytes(path)).hexdigest()
            for path in builder.package_files(folder)}
     (folder/'BUILD-MANIFEST.json').write_text(json.dumps({'build_id':build_id,'source_commit':commit,
@@ -259,7 +261,7 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
         for path in builder.package_files(folder):
             builder.write_zip_entry(package,path,path.relative_to(output))
     with zipfile.ZipFile(archive) as package:
-        binary=package.getinfo('macOS/Von-Neumann-Bottleneck.app/Contents/MacOS/game')
+        binary=package.getinfo('macOS/Von-Neumann-Bottleneck.app/Contents/MacOS/game — Edition')
         assert binary.external_attr >> 16 & stat.S_IXUSR
     manifest={'build_id':build_id,'source_commit':commit,'test_batch':'PackageTest','public_release':False,
         'upload_default':False,'external_ready':False,'engine':'4.7.1.stable.test','platforms':{'macOS':{
@@ -268,6 +270,53 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     checker=[sys.executable,str(root/'scripts/check-candidate-identity.py'),str(output)]
     first=subprocess.run(checker,capture_output=True)
     assert first.returncode==0,(first.stdout+first.stderr).decode(errors='replace')
+    with zipfile.ZipFile(archive) as package:
+        original=[(info.filename,package.read(info),info.external_attr) for info in package.infolist()]
+    class DittoInfo(zipfile.ZipInfo):
+        def _encodeFilenameFlags(self):
+            return getattr(self,'raw_name',self.filename.encode('utf-8')),self.flag_bits & ~0x800
+    binary_name='macOS/Von-Neumann-Bottleneck.app/Contents/MacOS/game — Edition'
+    apple_name='__MACOSX/macOS/Von-Neumann-Bottleneck.app/Contents/MacOS/._game — Edition'
+    apple=struct.pack('>II16sHIII',0x00051607,0x00020000,b'Mac OS X',1,9,38,32)+bytes(32)
+    def check_zip_case(label, extras=(), expected=True, mutate_binary=False):
+        with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as package:
+            for name,data,attrs in original:
+                info=DittoInfo(name);info.external_attr=attrs
+                package.writestr(info,data+b'tampered' if mutate_binary and name==binary_name else data)
+            for name,data,kind in extras:
+                info=zipfile.ZipInfo(name) if kind=='utf8' else DittoInfo(name)
+                if kind=='invalid':info.raw_name=b'macOS/invalid-\x82'
+                package.writestr(info,data)
+        manifest['platforms']['macOS'].update(bytes=archive.stat().st_size,
+            sha256=hashlib.sha256(archive.read_bytes()).hexdigest())
+        (output/'manifest.json').write_text(json.dumps(manifest))
+        result=subprocess.run(checker,capture_output=True)
+        assert (result.returncode==0)==expected,(label,(result.stdout+result.stderr).decode(errors='replace'))
+    check_zip_case('ditto UTF-8 without flag plus valid AppleDouble',[(apple_name,apple,'ditto')])
+    frameworks='macOS/Von-Neumann-Bottleneck.app/Contents/Frameworks/'
+    frameworks_metadata='__MACOSX/macOS/Von-Neumann-Bottleneck.app/Contents/._Frameworks'
+    check_zip_case('standard empty Frameworks',[(frameworks,b'','ditto'),(frameworks_metadata,apple,'ditto')])
+    for label,extras in [
+        ('normalized collision',[(binary_name,b'duplicate','utf8')]),
+        ('invalid UTF-8',[('macOS/invalid',b'x','invalid')]),
+        ('traversal',[('macOS/../escape',b'x','ditto')]),
+        ('backslash',[('macOS/escape\\file',b'x','ditto')]),
+        ('absolute',[('/macOS/escape',b'x','ditto')]),
+        ('outside inventory',[('unlisted.txt',b'x','ditto')]),
+        ('unlisted directory',[('macOS/unlisted/',b'','ditto')]),
+        ('metadata orphan',[(apple_name+'missing',apple,'ditto')]),
+        ('metadata absent Frameworks',[(frameworks_metadata,apple,'ditto')]),
+        ('metadata ordinary file',[('__MACOSX/macOS/extra.txt',apple,'ditto')]),
+        ('metadata truncated',[(apple_name,apple[:30],'ditto')]),
+        ('metadata magic',[(apple_name,b'bad!'+apple[4:],'ditto')]),
+        ('metadata bounds',[(apple_name,apple[:34]+struct.pack('>I',9999)+apple[38:],'ditto')]),
+        ('metadata unknown ID',[(apple_name,apple[:26]+struct.pack('>I',99)+apple[30:],'ditto')]),
+        ('metadata overlapping entries',[(apple_name,struct.pack('>II16sH',0x00051607,0x00020000,b'Mac OS X',2)
+            +struct.pack('>III',2,50,32)+struct.pack('>III',9,50,32)+bytes(32),'ditto')]),
+    ]:
+        check_zip_case(label,extras,expected=False)
+    check_zip_case('changed product hash',expected=False,mutate_binary=True)
+    check_zip_case('restore valid ditto archive')
     with zipfile.ZipFile(archive,'a') as package:
         package.writestr('macOS/extra.txt','unlisted file')
     manifest['platforms']['macOS']['bytes']=archive.stat().st_size

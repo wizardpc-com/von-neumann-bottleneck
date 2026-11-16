@@ -1,8 +1,74 @@
 #!/usr/bin/env python3
 """Read-only consistency checks for a frozen local candidate directory."""
-import argparse,hashlib,ipaddress,json,re,stat,zipfile
+import argparse,hashlib,ipaddress,json,re,stat,struct,zipfile
 from pathlib import Path
 from urllib.parse import urlsplit
+
+
+def archive_index(package, platform):
+    """ditto writes UTF-8 names without bit 11; keep ZipInfo for byte reads."""
+    entries={}
+    for info in package.infolist():
+        assert info.orig_filename==info.filename, 'Truncated ZIP path'
+        name=info.filename
+        if platform=='macOS' and not info.flag_bits & 0x800:
+            name=name.encode('cp437').decode('utf-8',errors='strict')
+        path=name[:-1] if info.is_dir() else name
+        assert path and '\\' not in path and not any(ord(c)<32 for c in path),name
+        assert all(part not in {'','.', '..'} and ':' not in part for part in path.split('/')),name
+        assert path not in entries,'Duplicate normalized ZIP path: '+path
+        entries[path]=info
+    return entries
+
+
+def verify_inventory(package, entries, expected_files, platform):
+    directories={name.rsplit('/',1)[0] for name in expected_files}
+    for directory in list(directories):
+        parts=directory.split('/')
+        directories.update('/'.join(parts[:i]) for i in range(1,len(parts)))
+    # Godot's macOS template includes this empty standard bundle directory.
+    if platform=='macOS':
+        for name in expected_files:
+            if name.endswith('.app/Contents/Info.plist'):
+                frameworks=name.rsplit('/',1)[0]+'/Frameworks'
+                if frameworks in entries and entries[frameworks].is_dir():
+                    directories.add(frameworks)
+    product_files=set()
+    metadata_files=set()
+    for name,info in entries.items():
+        if name.startswith('__MACOSX/') and not info.is_dir():
+            assert platform=='macOS',name
+            relative=name[len('__MACOSX/'):]
+            parent,leaf=relative.rsplit('/',1)
+            assert leaf.startswith('._') and len(leaf)>2,name
+            target=parent+'/'+leaf[2:]
+            assert target in expected_files or target in directories,name
+            data=package.read(info)
+            assert len(data)>=26,name
+            magic,version=struct.unpack_from('>II',data)
+            count=struct.unpack_from('>H',data,24)[0]
+            assert (magic,version)==(0x00051607,0x00020000) and 1<=count<=2,name
+            table_end=26+12*count
+            assert table_end<=len(data),name
+            ids=set();ranges=[]
+            for index in range(count):
+                kind,offset,length=struct.unpack_from('>III',data,26+12*index)
+                assert kind in {2,9} and kind not in ids,name
+                assert table_end<=offset<=len(data) and offset+length<=len(data),name
+                ids.add(kind)
+                if length:ranges.append((offset,offset+length))
+            ranges.sort()
+            assert all(a[1]<=b[0] for a,b in zip(ranges,ranges[1:])),name
+            metadata_files.add(name)
+        elif not info.is_dir():
+            product_files.add(name)
+    assert product_files==expected_files, (product_files-expected_files,expected_files-product_files)
+    metadata_directories=set()
+    for name in metadata_files:
+        parts=name.split('/')
+        metadata_directories.update('/'.join(parts[:i]) for i in range(1,len(parts)))
+    for name,info in entries.items():
+        if info.is_dir():assert name in directories or name in metadata_directories,name
 
 
 def public_https_url(value, api_root=False):
@@ -80,9 +146,8 @@ for platform,entry in manifest['platforms'].items():
     assert hashlib.sha256(archive.read_bytes()).hexdigest()==entry['sha256']
     with zipfile.ZipFile(archive) as package:
         assert package.testzip() is None
-        names=package.namelist()
-        assert len(names)==len(set(names))
-        metadata=json.loads(package.read(platform+'/BUILD-MANIFEST.json'))
+        entries=archive_index(package,platform)
+        metadata=json.loads(package.read(entries[platform+'/BUILD-MANIFEST.json']))
         assert metadata['build_id']==identity and metadata['source_commit']==commit
         assert metadata['engine']==manifest['engine'] and metadata['platform']==platform
         if edition:
@@ -93,16 +158,15 @@ for platform,entry in manifest['platforms'].items():
         assert required <= set(metadata['files_sha256'])
         expected_files={platform+'/'+filename for filename in metadata['files_sha256']}
         expected_files.add(platform+'/BUILD-MANIFEST.json')
-        actual_files={name for name in names if name.startswith(platform+'/') and not name.endswith('/')}
-        assert actual_files==expected_files
+        verify_inventory(package,entries,expected_files,platform)
         if platform=='macOS':
-            executables=[package.getinfo(name) for name in actual_files if '.app/Contents/MacOS/' in name]
+            executables=[entries[name] for name in expected_files if '.app/Contents/MacOS/' in name]
             assert executables and all(info.external_attr >> 16 & stat.S_IXUSR for info in executables)
         for filename,digest in metadata['files_sha256'].items():
             assert filename and not filename.startswith('/') and '..' not in Path(filename).parts
-            assert hashlib.sha256(package.read(platform+'/'+filename)).hexdigest()==digest,filename
+            assert hashlib.sha256(package.read(entries[platform+'/'+filename])).hexdigest()==digest,filename
         for filename in ['README.txt','CHANGELOG.txt','KNOWN-ISSUES.txt']:
-            body=package.read(platform+'/'+filename).decode().replace('\r\n','\n')
+            body=package.read(entries[platform+'/'+filename]).decode().replace('\r\n','\n')
             assert body.startswith('Build: '+identity+'\nSource commit: '+commit+'\n')
             assert '@BUILD_ID@' not in body and '@SOURCE_COMMIT@' not in body
             if edition:

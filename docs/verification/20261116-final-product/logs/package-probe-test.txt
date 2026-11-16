@@ -1,0 +1,1 @@
+PASS: actual Mac release binary, edition/mode policy and capture boundary, 60 journey tasks, repeated workbench auto-save, remote off, excluded development files, isolated user directory. /Users/yrq/Documents/冯诺伊曼瓶颈/.godot/package-qa/4ea4960d09fa

@@ -173,8 +173,12 @@ def check_windows(path, ico, expected_version=None):
         if size in observed or size not in reference or payload != reference[size]:
             raise ValueError('Windows icon %sx%s differs from authored ICO PNG bytes' % size)
         observed[size] = sha256(payload)
-    if set(observed) != set(reference):
-        raise ValueError('Windows primary icon size set differs from reference ICO')
+    # Godot's Windows exporter retains these standard desktop sizes, omitting
+    # optional source entries such as 24 px. Every retained payload above still
+    # has to match the authored ICO byte-for-byte; no resampling is accepted.
+    required_sizes = {(size, size) for size in (16, 32, 48, 64, 128, 256)}
+    if not required_sizes <= set(observed):
+        raise ValueError('Windows primary icon lacks a required standard size')
     versions = [version_info(r['payload']) for r in pe.resources if r['type'] == 16]
     if not versions:
         raise ValueError('Windows EXE lacks a valid version resource')
@@ -183,6 +187,7 @@ def check_windows(path, ico, expected_version=None):
     return {'path': str(path.resolve()), 'architecture': 'x86_64', 'sha256': sha256(pe.data),
             'icon_reference': str(ico.resolve()), 'icon_group': group['id'], 'icon_language': group['language'],
             'icon_pngs': {('%sx%s' % size): digest for size, digest in sorted(observed.items())},
+            'omitted_reference_sizes': ['%sx%s' % size for size in sorted(set(reference) - set(observed))],
             'versions': versions, 'passed': True}
 
 

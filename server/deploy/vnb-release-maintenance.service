@@ -1,0 +1,28 @@
+[Unit]
+Description=VNB release backup and private feedback report
+Requires=vnb-release-receiver.service
+After=vnb-release-receiver.service
+RequiresMountsFor=/srv/ray/apps/vnb/current-release /srv/ray/data/vnb/release /srv/ray/data/vnb/release-reports /srv/ray/backups/vnb-release
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/srv/ray/apps/vnb/current-release/server
+EnvironmentFile=/etc/vnb-feedback-release/maintenance.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStartPre=/usr/bin/timeout 10 /usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/deploy/check-release-feedback.py --local
+ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/deploy/maintain.py daily --database /srv/ray/data/vnb/release/feedback.sqlite --backup-dir /srv/ray/backups/vnb-release --report-dir /srv/ray/data/vnb/release-reports/current --triage /srv/ray/data/vnb/release-reports/triage.sqlite --source-commit ${VNB_SOURCE_COMMIT}
+UMask=0077
+NoNewPrivileges=true
+CapabilityBoundingSet=CAP_DAC_OVERRIDE
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ReadWritePaths=/srv/ray/backups/vnb-release /srv/ray/data/vnb/release-reports
+MemoryMax=512M
+CPUQuota=50%
+TasksMax=32
+TimeoutStartSec=10min
+LogRateLimitIntervalSec=30s
+LogRateLimitBurst=100

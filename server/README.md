@@ -48,7 +48,9 @@ Events older than 30 days are deleted at startup and by the hourly cleanup check
 
 ## Public deployment boundary
 
-No public feedback domain or player endpoint is configured by these local templates. Public operation requires separately verified DNS/TLS, proxy/access and rate limits, current privacy wording, backup access and retention, and load/security review. This bounded single-process receiver is not by itself a claim of public production readiness. Rankings, workshop identity and uploads are outside this scope.
+The opt-in [dedicated release runbook](deploy/RUNBOOK.md#dedicated-tcp-8443-release-cutover) covers the existing VNB TLS edge, isolated rehearsal, clean release storage and private operations. Historical behavior remains the default. Public operation still requires the actual DNS/TLS, access, notice, operations and load checks. Rankings, workshop identity and uploads are outside this scope.
+
+Run the standard-library receiver tests with `python3 -B -m unittest discover -s server -p 'test_*.py' -v`. Set `VNB_TEST_CADDY` to a local Caddy 2.6.2 executable to also exercise the actual TLS proxy, the historical default and the disposable release rehearsal using only loopback and temporary files.
 
 ## Portable community preparation (2026-09-11)
 

@@ -1,0 +1,36 @@
+[Unit]
+Description=VNB dedicated release feedback receiver
+After=network.target
+RequiresMountsFor=/srv/ray/apps/vnb/current-release /srv/ray/data/vnb/release
+
+[Service]
+Type=exec
+User=vnb-feedback-release
+Group=vnb-feedback-release
+WorkingDirectory=/srv/ray/apps/vnb/current-release/server
+LoadCredential=edge.token:/etc/vnb-feedback-release/edge.token
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=VNB_FEEDBACK_ADMIN_TOKEN=
+ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/feedback_server.py --host 127.0.0.1 --port 18082 --database /srv/ray/data/vnb/release/feedback.sqlite --release-admissions /etc/vnb-feedback-release/admissions.json --release-edge-token-file ${CREDENTIALS_DIRECTORY}/edge.token
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+NoNewPrivileges=true
+CapabilityBoundingSet=
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ReadWritePaths=/srv/ray/data/vnb/release
+MemoryMax=512M
+CPUQuota=75%
+TasksMax=64
+LimitNOFILE=512
+LogRateLimitIntervalSec=30s
+LogRateLimitBurst=100
+
+[Install]
+WantedBy=multi-user.target

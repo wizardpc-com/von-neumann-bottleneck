@@ -17,6 +17,14 @@ jobs:
       - run: python scripts/test-package-feedback.py
       - run: python server/test_storage.py
       - run: python server/test_receiver.py
+      - run: python server/test_release_ingress.py
+      - name: Verify the release feedback edge over local TLS
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/vnb-edge"
+          (cd "$RUNNER_TEMP/vnb-edge" && apt-get download caddy && dpkg-deb -x ./caddy_*.deb extracted)
+          VNB_TEST_CADDY="$RUNNER_TEMP/vnb-edge/extracted/usr/bin/caddy" python server/test_release_edge.py
       - run: python server/test_community.py
       - run: python server/test_delivery.py
       - run: python server/test_private_report.py

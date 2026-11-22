@@ -15,6 +15,13 @@
     }
 }
 
+(vnb_feedback_upstream) {
+    reverse_proxy 127.0.0.1:{$VNB_FEEDBACK_UPSTREAM_PORT:18081} {
+        header_up X-VNB-Client-IP {http.request.remote.host}
+        import {$CREDENTIALS_DIRECTORY}/vnb-release-upstream-*.caddy
+    }
+}
+
 https://feedback.yanruiqing.com:8443 {
     bind {$VNB_PUBLIC_BIND}
     tls {$CREDENTIALS_DIRECTORY}/fullchain.pem {$CREDENTIALS_DIRECTORY}/key.pem
@@ -54,13 +61,13 @@ https://feedback.yanruiqing.com:8443 {
         file_server
     }
     handle @health {
-        reverse_proxy 127.0.0.1:18081
+        import vnb_feedback_upstream
     }
     handle @events {
-        reverse_proxy 127.0.0.1:18081
+        import vnb_feedback_upstream
     }
     handle @erase {
-        reverse_proxy 127.0.0.1:18081
+        import vnb_feedback_upstream
     }
     handle {
         respond 404

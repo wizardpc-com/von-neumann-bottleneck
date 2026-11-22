@@ -15,6 +15,7 @@ import time
 from storage import migrate, SCHEMA_VERSION
 from community import RULES, SCORE_NUMBERS, validate_score, validate_task_context, aggregate, leaderboard
 from urllib.parse import urlsplit, parse_qs
+from release_ingress import ReleaseIngress, UNKNOWN_DELETE_CEILING
 
 TEXT = {'kind':64,'phase':80,'target':80,'case_id':80,'tool_id':80,'origin':80,'program_digest':80,'chapter_id':64,'level_id':64,'visit_id':100,'session_id':100,'source':24,'mode':16,
         'build_version':80,'task_version':80,'case_set_version':80,'model_version':80,'event':48,
@@ -85,8 +86,11 @@ def validate_record(record):
 
 
 class Receiver(HTTPServer):
-    def __init__(self,address,database,admin_token):
+    def __init__(self,address,database,admin_token,*,release=None):
+        if release is not None and address[0] != '127.0.0.1':
+            raise ValueError('release receiver requires an IPv4 loopback bind')
         super().__init__(address,Handler)
+        self.release=release
         self.admin_token=admin_token
         self.db=sqlite3.connect(database)
         self.db.execute('PRAGMA journal_mode=WAL')
@@ -180,9 +184,15 @@ class Handler(BaseHTTPRequestHandler):
         return count<RATE_LIMIT
     def do_GET(self):
         if self.path in ('/health','/v1/health'):
+            release=self.server.release
+            if release is not None and self.path=='/v1/health' and release.peer(self.client_address[0],self.headers) is None:
+                return self.send(403,{'error':'trusted_edge_required'})
             try: self.server.db.execute('SELECT COUNT(*) FROM sqlite_master').fetchone()
             except sqlite3.Error: return self.send(503,{'ok':False})
-            return self.send(200,{'ok':True,'api_version':1,'schema_version':SCHEMA_VERSION,'retention_days':RETENTION_DAYS})
+            health={'ok':True,'api_version':1,'schema_version':SCHEMA_VERSION,'retention_days':RETENTION_DAYS}
+            if release is not None: health['ingress']=release.label
+            return self.send(200,health)
+        if self.server.release is not None: return self.send(404,{'error':'not_found'})
         url=urlsplit(self.path)
         if url.path in ('/v1/community/tasks','/v1/leaderboards'):
             if not self.rate_ok(): return self.send(429,{'error':'rate_limit'})
@@ -208,7 +218,13 @@ class Handler(BaseHTTPRequestHandler):
             'rejections_scope':'since_process_start','started_at':self.server.started_at})
     def do_POST(self):
         if self.path != '/v1/events': return self.send(404,{'error':'not_found'})
-        if not self.rate_ok(): return self.send(429,{'error':'rate_limit'})
+        release=self.server.release
+        if release is None:
+            if not self.rate_ok(): return self.send(429,{'error':'rate_limit'})
+        else:
+            peer=release.peer(self.client_address[0],self.headers)
+            if peer is None: return self.send(403,{'error':'trusted_edge_required'})
+            if not release.take('upload',peer): return self.send(429,{'error':'rate_limit'})
         try:
             body=self.body()
             if set(body) != {'client_id','deletion_token','records'}: raise ValueError('envelope')
@@ -218,6 +234,8 @@ class Handler(BaseHTTPRequestHandler):
             records=body['records']
             if not isinstance(records,list) or not 1<=len(records)<=MAX_BATCH: raise ValueError('batch_size')
             records=[validate_record(x) for x in records]
+            if release is not None and (not release.admits_installation(client) or not release.admits(records)):
+                return self.send(403,{'error':'release_provenance'})
             unique={}
             for record in records:
                 prior_record=unique.get(record['event_id'])
@@ -227,13 +245,15 @@ class Handler(BaseHTTPRequestHandler):
             records=list(unique.values())
             self.server.cleanup()
             db=self.server.db
+            if release is not None and db.execute("SELECT 1 FROM tombstones WHERE client_id=?",(client,)).fetchone():
+                return self.send(410,{"error":"identity_deleted"})
             new_count=sum(not db.execute('SELECT 1 FROM events WHERE id=?',(r['event_id'],)).fetchone() for r in records)
             if db.execute('SELECT COUNT(*) FROM events').fetchone()[0]+new_count>MAX_EVENTS:
                 return self.send(503,{'error':'storage_limit'})
             digest=hashlib.sha256(token.encode()).hexdigest()
             prior=db.execute('SELECT deletion_hash FROM clients WHERE id=?',(client,)).fetchone()
             if prior and not hmac.compare_digest(prior[0],digest): return self.send(403,{'error':'client_token'})
-            if db.execute("SELECT 1 FROM tombstones WHERE client_id=?",(client,)).fetchone():
+            if release is None and db.execute("SELECT 1 FROM tombstones WHERE client_id=?",(client,)).fetchone():
                 return self.send(410,{"error":"identity_deleted"})
             score_count=sum(r['kind']=='score' and not db.execute('SELECT 1 FROM events WHERE id=?',(r['event_id'],)).fetchone() for r in records)
             if score_count and db.execute("SELECT COUNT(*) FROM events WHERE client_id=? AND kind='score' AND received>?",(client,int(time.time())-60)).fetchone()[0]+score_count>12:
@@ -257,21 +277,36 @@ class Handler(BaseHTTPRequestHandler):
         except sqlite3.Error: self.send(503,{'error':'storage_unavailable'})
     def do_DELETE(self):
         if self.path != '/v1/data': return self.send(404,{'error':'not_found'})
-        if not self.rate_ok(): return self.send(429,{'error':'rate_limit'})
+        release=self.server.release
+        if release is None:
+            if not self.rate_ok(): return self.send(429,{'error':'rate_limit'})
+        else:
+            peer=release.peer(self.client_address[0],self.headers)
+            if peer is None: return self.send(403,{'error':'trusted_edge_required'})
         try:
             body=self.body();client=body.get('client_id');token=body.get('deletion_token')
             if set(body)!={'client_id','deletion_token'} or not isinstance(client,str) or not isinstance(token,str): raise ValueError()
             if not IDENTIFIER.fullmatch(client) or not re.fullmatch(r'[0-9a-f]{64}',token): raise ValueError()
+            if release is not None and not release.admits_installation(client):
+                return self.send(403,{'error':'release_provenance'})
             row=self.server.db.execute('SELECT deletion_hash FROM clients WHERE id=? UNION SELECT deletion_hash FROM tombstones WHERE client_id=?',(client,client)).fetchone()
-            if row and not hmac.compare_digest(row[0],hashlib.sha256(token.encode()).hexdigest()): return self.send(403,{'error':'client_token'})
-            if not row and self.server.db.execute('SELECT COUNT(*) FROM tombstones').fetchone()[0]>=100000:
+            deletion_hash=hashlib.sha256(token.encode()).hexdigest()
+            authorized=bool(row and hmac.compare_digest(row[0],deletion_hash))
+            if release is not None and not release.take('known_delete' if authorized else 'unknown_delete',peer):
+                return self.send(429,{'error':'rate_limit'})
+            if row and not authorized: return self.send(403,{'error':'client_token'})
+            ceiling=100000 if release is None else UNKNOWN_DELETE_CEILING
+            if not row and self.server.db.execute('SELECT COUNT(*) FROM tombstones').fetchone()[0]>=ceiling:
                 return self.send(503,{'error':'storage_limit'})
             with self.server.db:
-                self.server.db.execute('INSERT OR IGNORE INTO tombstones VALUES (?,?,?)',(client,hashlib.sha256(token.encode()).hexdigest(),int(time.time())))
+                self.server.db.execute('INSERT OR IGNORE INTO tombstones VALUES (?,?,?)',(client,deletion_hash,int(time.time())))
                 self.server.db.execute('DELETE FROM events WHERE client_id=?',(client,))
                 self.server.db.execute('DELETE FROM clients WHERE id=?',(client,))
             self.send(200,{'deleted':True})
-        except (ValueError,TypeError,TimeoutError,socket.timeout): self.send(400,{'error':'invalid_request'})
+        except (ValueError,TypeError,RecursionError,TimeoutError,socket.timeout):
+            if release is not None and not release.take('unknown_delete',peer):
+                return self.send(429,{'error':'rate_limit'})
+            self.send(400,{'error':'invalid_request'})
         except sqlite3.Error: self.send(503,{'error':'storage_unavailable'})
 
 
@@ -280,11 +315,25 @@ def main():
     parser.add_argument('--port',type=int,default=int(os.environ.get('VNB_PORT','8765')))
     parser.add_argument('--host',default=os.environ.get('VNB_BIND','127.0.0.1'))
     parser.add_argument('--database',type=Path,default=os.environ.get('VNB_DATABASE'))
+    parser.add_argument('--release-admissions',type=Path)
+    parser.add_argument('--release-edge-token-file',type=Path)
+    parser.add_argument('--release-rehearsal',action='store_true')
     args=parser.parse_args()
     if args.database is None: parser.error("--database or VNB_DATABASE required")
+    if (args.release_admissions is None) != (args.release_edge_token_file is None):
+        parser.error("release mode requires both admission and edge credential files")
+    if args.release_rehearsal and args.release_admissions is None:
+        parser.error("release rehearsal requires release mode")
+    release=None
+    if args.release_admissions is not None:
+        if args.host != '127.0.0.1': parser.error("release receiver must bind 127.0.0.1")
+        try:
+            release=ReleaseIngress.load(args.release_admissions,args.release_edge_token_file,rehearsal=args.release_rehearsal)
+        except (OSError,ValueError):
+            parser.error("invalid release admission or edge credential file")
     args.database.parent.mkdir(parents=True,exist_ok=True)
     token=os.environ.get('VNB_FEEDBACK_ADMIN_TOKEN','')
-    server=Receiver((args.host,args.port),args.database,token)
+    server=Receiver((args.host,args.port),args.database,token,release=release)
     print(f'Feedback receiver: http://{args.host}:{server.server_port}; private report '+('enabled' if token else 'disabled'),flush=True)
     try: server.serve_forever()
     except KeyboardInterrupt: pass

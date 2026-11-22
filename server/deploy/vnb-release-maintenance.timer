@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily VNB release feedback maintenance
+
+[Timer]
+OnCalendar=*-*-* 04:20:00
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

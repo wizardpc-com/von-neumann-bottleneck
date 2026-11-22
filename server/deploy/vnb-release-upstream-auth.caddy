@@ -1,0 +1,5 @@
+header_up X-VNB-Edge-Token {env.VNB_FEEDBACK_EDGE_TOKEN}
+buffer_requests
+max_buffer_size 131073
+unhealthy_request_count 16
+max_fails 1

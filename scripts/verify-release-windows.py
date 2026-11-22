@@ -640,10 +640,14 @@ def verify_delivery(database, receipt, manifest, *, automatic=False, opinion=Tru
                 or not all(payload.get(key) for key in ('consent_version','privacy_notice_version','consent_timestamp'))):
             raise ValueError('Synthetic loopback record has incorrect attribution, missing consent, or protected work')
     if automatic:
-        report_dir = database.parent/'private-report'
-        subprocess.run([sys.executable,str(ROOT/'server/private_report.py'),'--database',str(database),
-                        '--output',str(report_dir)], check=True, timeout=30)
-        report = read_json(report_dir/'report.json')
+        # The production CLI writes private files using POSIX permissions.
+        # Verify the same report in memory on the Windows runner.
+        sys.path.insert(0,str(ROOT/'server'))
+        try:
+            from private_report import build_report
+            report, _ = build_report(database)
+        finally:
+            sys.path.pop(0)
         opinions = report['received_feedback']
         if (report['deduplicated_events'] != len(rows) or report['quarantined_records']
                 or len(opinions) != int(opinion) or (opinion and

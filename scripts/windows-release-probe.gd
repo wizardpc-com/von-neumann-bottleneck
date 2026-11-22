@@ -157,6 +157,29 @@ func offline_feedback(offline: Node, previous: Dictionary) -> void:
 		check(offline.store.export_bundle(destination) == destination, "The restarted offline store exports a local bundle.")
 
 
+func has_durable_opinion(remote: Node, id: String) -> bool:
+	if id.length() != 64 or remote.queue.size() != 1:
+		return false
+	var state: Variant = JSON.parse_string(FileAccess.get_file_as_string(remote.state_path))
+	if not state is Dictionary or not state.get("queue") is Array or state.queue.size() != 1:
+		return false
+	var pending: Variant = state.queue[0]
+	if not pending is Dictionary or not pending.get("record") is Dictionary:
+		return false
+	return (pending.get("destination") == config.endpoint
+		and pending.record.get("event_id") == id and pending.record.get("kind") == "feedback")
+
+
+func wait_for_feedback(remote: Node, id: String, expected: String) -> String:
+	# The Windows connection may stay in flight until the product HTTP timeout.
+	var deadline: int = Time.get_ticks_msec() + ceili((remote.request.timeout + 3.0) * 1000.0)
+	var state: String = remote.feedback_state(id)
+	while state != expected and not state in ["rejected", "storage_error", "local"] and Time.get_ticks_msec() < deadline:
+		await get_tree().create_timer(0.1).timeout
+		state = remote.feedback_state(id)
+	return state
+
+
 func online_feedback(remote: Node, previous: Dictionary) -> void:
 	print("VNB_WINDOWS_QA: checking unfinished task opinion with loopback fixture")
 	var moments: Node = get_node("/root/PlaytestMoments")
@@ -171,22 +194,25 @@ func online_feedback(remote: Node, previous: Dictionary) -> void:
 		moments.send_opinion.pressed.emit()
 		var id: String = remote.feedback_id(moments.saved_opinion)
 		evidence["feedback_id"] = id
-		for attempt: int in range(60):
-			if remote.feedback_state(id) == "failed_retryable": break
-			await get_tree().create_timer(0.1).timeout
-		check(id.length() == 64 and remote.queue.size() == 1
-			and remote.feedback_state(id) == "failed_retryable",
-			"A refused loopback connection leaves the explicit opinion in the durable queue.")
+		var durable: bool = has_durable_opinion(remote, id)
+		check(durable, "Explicit Send writes exactly one opinion and its loopback destination to the outbox.")
+		if durable:
+			var state: String = await wait_for_feedback(remote, id, "failed_retryable")
+			print("VNB_WINDOWS_QA: offline transport state=%s queue_count=%d" % [state, remote.queue.size()])
+			check(state == "failed_retryable", "An unavailable loopback receiver leaves the opinion retryable.")
+			check(has_durable_opinion(remote, id), "The retryable opinion remains in the persisted outbox.")
+		else:
+			print("VNB_WINDOWS_QA: initial Send state=%s queue_count=%d saved_id_present=%s" %
+				[remote.feedback_state(id), remote.queue.size(), str(id.length() == 64)])
 	else:
 		var id: String = previous.feedback_id
 		evidence["feedback_id"] = id
 		check(remote.feedback_id(moments.saved_opinion) == id and moments.opinion.text == NOTE,
 			"A separate Game process reopened the same unfinished-task opinion.")
 		remote.retry_pending()
-		for attempt: int in range(100):
-			if remote.feedback_state(id) == "sent": break
-			await get_tree().create_timer(0.1).timeout
-		check(remote.feedback_state(id) == "sent" and remote.queue.is_empty() and id in moments.opinion_status.text,
+		var state: String = await wait_for_feedback(remote, id, "sent")
+		print("VNB_WINDOWS_QA: restart transport state=%s queue_count=%d" % [state, remote.queue.size()])
+		check(state == "sent" and remote.queue.is_empty() and id in moments.opinion_status.text,
 			"The loopback receiver acknowledged the same ID after restart.")
 	check(not remote.enabled and not remote.scores_enabled, "Explicit opinion did not enable automatic sharing.")
 	moments.close()

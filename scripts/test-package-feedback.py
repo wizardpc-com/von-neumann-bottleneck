@@ -251,7 +251,7 @@ class WindowsReleaseTests(unittest.TestCase):
 
     def archive(self, role, *, changes=None, extra=None):
         profile='Edition'+role.title()
-        batch=WINDOWS.FINAL_BATCH if self.tag == WINDOWS.FINAL_TAG else 'PlayersRelease1'
+        batch=WINDOWS.FINAL_BATCHES[role] if self.tag == WINDOWS.FINAL_TAG else 'PlayersRelease1'
         build=f'vnb-{role}-release-{self.tag}-{batch}-{self.commit[:12]}'
         name=f'Von-Neumann-Bottleneck-{role.title()}.exe'
         binary=b'MZfixture executable'
@@ -319,10 +319,10 @@ class WindowsReleaseTests(unittest.TestCase):
         for role in ('game','test'):
             path,identity=self.archive(role)
             _,manifest=WINDOWS.unpack(path,self.work/role,role,identity)
-            self.assertEqual(manifest['test_batch'],WINDOWS.FINAL_BATCH)
+            self.assertEqual(manifest['test_batch'],WINDOWS.FINAL_BATCHES[role])
             self.assertEqual(manifest['save_profile'],'Edition'+role.title())
         for index, changes in enumerate((
-            {'test_batch':'OtherBatch'}, {'offline_feedback':False}, {'public_test_feedback':False},
+            {'test_batch':WINDOWS.FINAL_BATCHES['game']}, {'offline_feedback':False}, {'public_test_feedback':False},
             {'public_game_feedback':False}, {'community_feedback_enabled':True},
             {'feedback_endpoint':'https://unexpected.example/v1'}, {'save_migration':True},
         )):
@@ -369,10 +369,10 @@ class WindowsReleaseTests(unittest.TestCase):
                 database=folder/'synthetic.sqlite'
                 receipt={'feedback_id':'a'*64,'automatic_id':'b'*64,'automatic_visit_id':'consented-visit'}
                 manifest={'edition':role,'display_version':WINDOWS.FINAL_TAG[1:],'source_commit':self.commit,
-                          'test_batch':WINDOWS.FINAL_BATCH}
+                          'test_batch':WINDOWS.FINAL_BATCHES[role]}
                 common={'chapter_id':'hardware_foundations','level_id':'tutorial','mode':role,'source':'automated',
                         'source_batch':'HostedWindowsReleaseQA','build_version':manifest['display_version'],
-                        'source_commit':self.commit,'test_batch':WINDOWS.FINAL_BATCH,'session_id':'synthetic',
+                        'source_commit':self.commit,'test_batch':WINDOWS.FINAL_BATCHES[role],'session_id':'synthetic',
                         'consent_version':'sharing-2','privacy_notice_version':'2026-10-17',
                         'consent_timestamp':'2026-11-22T15:00:00Z'}
                 auto=common | {'event':'visit_summary','visit_id':receipt['automatic_visit_id'],'sharing_mode':'basic'}

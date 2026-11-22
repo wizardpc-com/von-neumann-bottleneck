@@ -15,6 +15,7 @@ func _init() -> void: call_deferred("run")
 func run() -> void:
 	check_autostart_and_visit_consent()
 	check_outbox_restart()
+	check_withdrawal_restart()
 	var transport := Transport.new()
 	transport.state_path="user://remote_contract_"+str(Time.get_ticks_usec())+".json"
 	root.add_child(transport)
@@ -84,6 +85,7 @@ func run() -> void:
 	check(store.latest_level_feedback("chapter_4","mixed").visit_id=="","Different task never borrows active visit.")
 	store.end_session(); store.free(); restored.free(); legacy.queue_free(); transport.queue_free()
 	await process_frame
+	check_withdrawal_failure_ui()
 	if failures.is_empty(): print("PASS: optional transport, privacy, consent and feedback revisions")
 	else:
 		for error: String in failures: push_error(error)
@@ -175,11 +177,98 @@ func check_outbox_restart() -> void:
 		check(not blocked.set_enabled(true) and not blocked.set_scores_enabled(true),"Read-only settings decline both consent changes.")
 		blocked.endpoint="" # Keep the retry path offline even if the guard regresses.
 		blocked.retry_pending()
-		check(updates==["storage_error","storage_error","storage_error"] and blocked.feedback_state(id)=="storage_error","Read-only choices and Retry refresh the UI with the storage error.")
+		blocked.delete_uploaded_data()
+		check(updates==["storage_error","storage_error","storage_error","storage_error"] and blocked.feedback_state(id)=="storage_error","Read-only choices and Retry refresh the UI with the storage error.")
 		check(not blocked._save_state() and FileAccess.get_file_as_bytes(path)==before,"Retry and explicit save preserve every original outbox byte.")
 		root.remove_child(blocked)
 		blocked.free()
 		check(FileAccess.get_file_as_bytes(path)==before,"Tree exit preserves the queued opinion, identity and all recoverable bytes.")
+
+func check_withdrawal_restart() -> void:
+	var writer := Transport.new()
+	writer.endpoint = "http://127.0.0.1:1/v1"
+	writer.state_path = "user://withdrawal_"+str(Time.get_ticks_usec())+".json"
+	writer._load_state()
+	var path := writer.state_path
+	var temp := ProjectSettings.globalize_path(path+".tmp")
+	var event := {"session_id":"withdrawal-contract","sequence":1,"payload":{"note":"fixture"}}
+	var id := writer.send_feedback(event)
+	check(not id.is_empty() and writer.set_enabled(true),"Fixture has a durable explicit opinion and active consent.")
+	var previous := FileAccess.get_file_as_bytes(path)
+	var client := writer.client_id
+	var token := writer.deletion_token
+	var updates: Array[String] = []
+	writer.status_changed.connect(func() -> void: updates.append(writer.status))
+	# Blocking the actual atomic writer preserves the old file across the failure.
+	check(DirAccess.make_dir_absolute(temp)==OK,"Create a write obstruction for this disposable outbox.")
+	writer.delete_uploaded_data()
+	writer.flush()
+	check(updates==["storage_error","storage_error"] and not writer.deletion_pending and not writer.deleting,"The UI receives only a storage failure when withdrawal could not be queued.")
+	check(writer.queue.size()==1 and writer.feedback_state(id)=="storage_error" and not writer.enabled and writer.inflight.is_empty(),"Pending count stays truthful and this process suspends uploads.")
+	check(writer.send_feedback(event).is_empty() and not writer.set_enabled(true) and not writer.set_scores_enabled(true),"Unsaved withdrawal blocks Send and every opt-in.")
+	check(FileAccess.get_file_as_bytes(path)==previous,"Failed withdrawal leaves the original saved state byte-for-byte intact.")
+	check(DirAccess.remove_absolute(temp)==OK,"Restore writable storage.")
+	writer.retry_pending()
+	check(writer.deletion_pending and writer.status=="delete_failed" and writer.queue.is_empty(),"Manual retry durably retires the queue before an unavailable receiver.")
+	var pending_bytes := FileAccess.get_file_as_bytes(path)
+	var pending: Dictionary = JSON.parse_string(pending_bytes.get_string_from_utf8())
+	check(pending.deletion_pending and pending.queue.is_empty() and not pending.enabled and not pending.scores_enabled and pending.client_id==client and pending.deletion_token==token,"Only the original deletion identity survives in the durable withdrawal.")
+	writer.free()
+
+	var reader := Transport.new()
+	reader.state_path=path
+	reader.endpoint="http://127.0.0.1:1/v1"
+	reader._load_state()
+	check(reader.deletion_pending and reader.queue.is_empty() and reader.send_feedback(event).is_empty(),"Restart before DELETE acknowledgement cannot deliver the withdrawn opinion.")
+	reader.deleting=true
+	reader._response(HTTPRequest.RESULT_CANT_CONNECT,0,PackedStringArray(),PackedByteArray())
+	check(reader.status=="delete_failed" and reader.deletion_pending and FileAccess.get_file_as_bytes(path)==pending_bytes,"Network failure leaves the durable request retryable.")
+	check(DirAccess.make_dir_absolute(temp)==OK,"Obstruct persistence of the receiver acknowledgement.")
+	reader.deleting=true
+	var confirmed := '{"deleted":true}'.to_utf8_buffer()
+	reader._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),confirmed)
+	check(reader.status=="storage_error" and reader.deletion_pending and not reader.identity_deleted and reader.queue.is_empty(),"An unsaved deletion receipt keeps retrying with the original identity.")
+	reader.free()
+	check(DirAccess.remove_absolute(temp)==OK,"Restore storage for the idempotent completion.")
+	var resumed := Transport.new()
+	resumed.state_path=path
+	resumed.endpoint="http://127.0.0.1:1/v1"
+	resumed._load_state()
+	check(resumed.deletion_pending and resumed.queue.is_empty() and resumed.client_id==client and resumed.deletion_token==token,"Recovery after acknowledgement save failure retries the same DELETE.")
+	resumed.deleting=true
+	resumed._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),confirmed)
+	check(resumed.status=="deleted" and resumed.identity_deleted and not resumed.deletion_pending,"Only a stored receiver confirmation completes withdrawal.")
+	resumed.free()
+	var clean := Transport.new()
+	clean.state_path=path
+	clean.endpoint="http://127.0.0.1:1/v1"
+	clean._load_state()
+	check(clean.identity_deleted and not clean.deletion_pending and clean.queue.is_empty() and clean.feedback_state(id)=="local","Restart after confirmation cannot resurrect the withdrawn opinion.")
+	clean.free()
+
+func check_withdrawal_failure_ui() -> void:
+	# Only exercise the real autoload and dialog in the verifier's disposable profile.
+	if not OS.get_user_data_dir().replace("\\","/").contains("/VonNeumannBottleneckChecks/"): return
+	var remote: Node = root.get_node("RemoteFeedback")
+	var moments: Node = root.get_node("PlaytestMoments")
+	var locale: Node = root.get_node("Localization")
+	remote.state_path = "user://withdrawal_ui_"+str(Time.get_ticks_usec())+".json"
+	remote.endpoint = "http://127.0.0.1:1/v1"
+	remote.request = null
+	var id: String = remote.send_feedback({"session_id":"ui-withdrawal","sequence":1,"payload":{"note":"fixture"}})
+	var temp := ProjectSettings.globalize_path(str(remote.state_path)+".tmp")
+	check(not id.is_empty() and DirAccess.make_dir_absolute(temp)==OK,"Seed a disposable opinion and obstruct the next atomic UI save.")
+	moments.toggle()
+	for button: CheckButton in moments.panel.find_children("*","CheckButton",true,false):
+		if button.get_meta("locale_field",[])==["text","sharing.optional_sharing_and_data_settings"]:
+			button.button_pressed=true
+	var dialog: ConfirmationDialog = moments.panel.find_child("DeleteUploadsConfirm",true,false)
+	dialog.confirmed.emit()
+	var expected: String = locale.text(&"sharing.status.storage_error")+" · 1 "+locale.text(&"sharing.pending")
+	check(moments.remote_status.is_visible_in_tree() and moments.remote_status.text==expected and not remote.deletion_pending,"The confirmation dialog displays the localized save failure and the still-persisted pending count.")
+	moments.close()
+	check(DirAccess.remove_absolute(temp)==OK,"Release the disposable UI write obstruction.")
+	remote.retry_pending()
 
 func check_manual_retry(path: String, id: String) -> void:
 	var probe := OfflineRetryProbe.new()

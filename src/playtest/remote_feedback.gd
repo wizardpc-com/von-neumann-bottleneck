@@ -37,6 +37,7 @@ var request: HTTPRequest
 var inflight: Array[String] = []
 var state_path: String = STATE_PATH
 var _outbox_read_only: bool = false
+var _withdrawal_unsaved: bool = false
 
 func _ready() -> void:
 	endpoint=str(ProjectSettings.get_setting("application/feedback_endpoint",""))
@@ -81,12 +82,12 @@ func set_enabled(value: bool) -> bool:
 	# Compatibility for internal callers: explicit old detailed choice remains detailed.
 	return set_sharing_mode("detailed" if value else "local")
 func set_sharing_mode(value: String) -> bool:
-	if _outbox_read_only:
+	if _outbox_read_only or _withdrawal_unsaved or deletion_pending:
 		status_changed.emit()
 		return false
 	if value not in ["local","basic","detailed"]: return false
-	if value==sharing_mode and consented_endpoint==endpoint and not deletion_pending: return _save_state()
-	if value != "local" and (deletion_pending or not endpoint_allowed()): status="not_configured"; status_changed.emit(); return false
+	if value==sharing_mode and consented_endpoint==endpoint: return _save_state()
+	if value != "local" and not endpoint_allowed(): status="not_configured"; status_changed.emit(); return false
 	if not inflight.is_empty() and request != null: request.cancel_request(); inflight.clear()
 	var retained: Array[Dictionary] = []
 	for item: Dictionary in queue:
@@ -109,10 +110,10 @@ func _consent() -> void:
 	consent_timestamp=Time.get_datetime_string_from_system(true)+"Z"
 	if source_batch.is_empty(): source_batch=str(ProjectSettings.get_setting("application/feedback_source_batch","free-alpha")).left(64)
 func set_scores_enabled(value: bool) -> bool:
-	if _outbox_read_only:
+	if _outbox_read_only or _withdrawal_unsaved or deletion_pending:
 		status_changed.emit()
 		return false
-	if value and (deletion_pending or not community_available()): return false
+	if value and not community_available(): return false
 	scores_enabled=value
 	if value: _consent()
 	else:
@@ -167,8 +168,8 @@ static func minimal_context(event: Dictionary) -> Dictionary:
 		if merged.get(key) is bool: result[key]=merged[key]
 	return result
 func send_feedback(event: Dictionary) -> String:
-	if _outbox_read_only: return ""
-	if deletion_pending or not endpoint_allowed(): status="not_configured"; status_changed.emit(); return ""
+	if _outbox_read_only or _withdrawal_unsaved or deletion_pending: return ""
+	if not endpoint_allowed(): status="not_configured"; status_changed.emit(); return ""
 	_consent() # This individual Send is opinion consent, independent of statistics.
 	var payload: Dictionary = minimal_context(event)
 	_attach_consent(payload)
@@ -223,8 +224,9 @@ func _can_send_item(item: Dictionary) -> bool:
 
 func flush() -> void:
 	if _outbox_read_only: return
-	if deletion_pending and not deleting and request != null:
-		delete_uploaded_data(); return
+	if _withdrawal_unsaved or deletion_pending:
+		_resume_deletion()
+		return
 	if request == null or deleting or not inflight.is_empty() or not endpoint_allowed(): return
 	var records: Array[Dictionary] = []
 	var now: int = int(Time.get_unix_time_from_system())
@@ -243,9 +245,17 @@ func flush() -> void:
 func _response(result: int, code: int, _headers: PackedStringArray, bytes: PackedByteArray) -> void:
 	if deleting:
 		deleting=false
-		var deletion: Variant = JSON.parse_string(bytes.get_string_from_utf8())
-		status="deleted" if result==HTTPRequest.RESULT_SUCCESS and code==200 and deletion is Dictionary and deletion.get("deleted")==true else "delete_failed"
-		if status=="deleted": identity_deleted=true; deletion_pending=false; _save_state()
+		var deletion: Variant = null
+		if result==HTTPRequest.RESULT_SUCCESS and code==200 and not bytes.is_empty():
+			deletion=JSON.parse_string(bytes.get_string_from_utf8())
+		status="deleted" if deletion is Dictionary and deletion.get("deleted")==true else "delete_failed"
+		if status=="deleted":
+			identity_deleted=true
+			deletion_pending=false
+			if not _save_state():
+				# Disk still holds the original identity and durable DELETE.
+				identity_deleted=false
+				deletion_pending=true
 		status_changed.emit(); return
 	if inflight.is_empty(): return
 	if result!=HTTPRequest.RESULT_SUCCESS or code!=200:
@@ -286,7 +296,7 @@ func retry_pending() -> void:
 		status="not_configured"
 		status_changed.emit()
 		return
-	if deletion_pending or deleting:
+	if _withdrawal_unsaved or deletion_pending or deleting:
 		flush()
 		return
 	var resumed_queue: Array[Dictionary] = queue.duplicate()
@@ -315,7 +325,7 @@ func retry_pending() -> void:
 	flush()
 func _save_state() -> bool:
 	if _outbox_read_only: return false
-	var body: String = JSON.stringify({"schema_version":2,"notice_version":NOTICE_VERSION,"sharing_mode":sharing_mode,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"scores_enabled":scores_enabled,"identity_deleted":identity_deleted,"deletion_pending":deletion_pending,"eligible_visits":eligible_visits,"enabled":enabled,"consented_endpoint":consented_endpoint,"client_id":client_id,"deletion_token":deletion_token,"queue":queue,"receipts":receipts,"evicted_records":evicted_records,"rejected_records":rejected_records})
+	var body: String = JSON.stringify({"schema_version":2,"notice_version":NOTICE_VERSION,"sharing_mode":sharing_mode,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"scores_enabled":scores_enabled,"identity_deleted":identity_deleted,"deletion_pending":deletion_pending or _withdrawal_unsaved,"eligible_visits":eligible_visits,"enabled":enabled,"consented_endpoint":consented_endpoint,"client_id":client_id,"deletion_token":deletion_token,"queue":[] if _withdrawal_unsaved else queue,"receipts":{} if _withdrawal_unsaved else receipts,"evicted_records":evicted_records,"rejected_records":rejected_records})
 	var bytes := body.to_utf8_buffer()
 	if bytes.size()>MAX_DISK_BYTES: status="queue_full"; return false
 	var file: FileAccess = FileAccess.open(state_path+".tmp",FileAccess.WRITE)
@@ -327,6 +337,11 @@ func _save_state() -> bool:
 	if not complete: status="storage_error"; return false
 	var err: Error = DirAccess.rename_absolute(ProjectSettings.globalize_path(state_path+".tmp"),ProjectSettings.globalize_path(state_path))
 	if err!=OK: status="storage_error"; return false
+	if _withdrawal_unsaved:
+		queue.clear()
+		receipts.clear()
+		deletion_pending=true
+		_withdrawal_unsaved=false
 	return true
 func _load_state() -> void:
 	if not FileAccess.file_exists(state_path):
@@ -358,7 +373,17 @@ func _load_state() -> void:
 	background_cohort=str(state.get("background_cohort","unspecified"))
 	if background_cohort not in ["unspecified","new_to_circuits","some_experience","experienced"]: background_cohort="unspecified"
 	identity_deleted=bool(state.get("identity_deleted",false))
-	deletion_pending=bool(state.get("deletion_pending",false)) and consented_endpoint==endpoint
+	deletion_pending=bool(state.get("deletion_pending",false))
+	if deletion_pending or identity_deleted:
+		enabled=false
+		scores_enabled=false
+		sharing_mode="local"
+		queue.clear()
+		receipts.clear()
+		eligible_visits.clear()
+		status="delete_failed" if deletion_pending else "deleted"
+		_outbox_read_only=false
+		return
 	if same_consent and state.get("eligible_visits") is Dictionary: eligible_visits=state.eligible_visits
 	if state.get("receipts") is Dictionary and state.receipts.size()<=64: receipts=state.receipts
 	if state.get("queue") is Array and state.queue.size()<=MAX_QUEUE:
@@ -379,17 +404,36 @@ func _load_state() -> void:
 	_outbox_read_only=false
 
 func delete_uploaded_data() -> void:
-	if _outbox_read_only: return
+	if _outbox_read_only:
+		status_changed.emit()
+		return
 	if not endpoint_allowed(): status="not_configured"; status_changed.emit(); return
-	set_enabled(false)
-	scores_enabled=false
-	request.cancel_request(); inflight.clear()
-	# Withdrawal must not allow a queued opinion to recreate the deleted data.
-	queue.clear(); receipts.clear(); deletion_pending=true; consented_endpoint=endpoint; _save_state()
-	deleting=true
-	var error: Error = request.request(api_url("data"),["Content-Type: application/json"],HTTPClient.METHOD_DELETE,JSON.stringify({"client_id":client_id,"deletion_token":deletion_token}))
-	if error!=OK: deleting=false; status="delete_failed"
-	else: status="deleting"
+	if not deletion_pending and not _withdrawal_unsaved:
+		if request != null: request.cancel_request()
+		inflight.clear()
+		enabled=false
+		sharing_mode="local"
+		scores_enabled=false
+		eligible_visits.clear()
+		consented_endpoint=endpoint
+		_withdrawal_unsaved=true
+	_resume_deletion()
+
+func _resume_deletion() -> void:
+	if deleting: return
+	# One atomic replacement retires all queued POSTs and commits the DELETE
+	# identity. An unwritable outbox suspends transmission in this process.
+	if _withdrawal_unsaved and not _save_state():
+		status_changed.emit()
+		return
+	if not endpoint_allowed() or consented_endpoint!=endpoint:
+		status="not_configured"
+	elif request==null:
+		status="delete_failed"
+	else:
+		var error: Error = request.request(api_url("data"),["Content-Type: application/json"],HTTPClient.METHOD_DELETE,JSON.stringify({"client_id":client_id,"deletion_token":deletion_token}))
+		deleting=error==OK
+		status="deleting" if deleting else "delete_failed"
 	status_changed.emit()
 
 func _exit_tree() -> void:
@@ -423,7 +467,7 @@ static func feedback_id(event: Dictionary) -> String:
 
 func feedback_state(id: String) -> String:
 	if id.is_empty(): return "local"
-	if _outbox_read_only: return "storage_error"
+	if _outbox_read_only or _withdrawal_unsaved: return "storage_error"
 	if receipts.has(id): return "sent"
 	if inflight.has(id): return "sending"
 	for item: Dictionary in queue:

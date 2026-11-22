@@ -35,7 +35,7 @@ ASSET_HOSTS = {'release-assets.githubusercontent.com', 'objects.githubuserconten
 ASSET_PATTERN = r'Von-Neumann-Bottleneck-Windows-[A-Za-z0-9.-]+\.zip'
 CAPABILITY_SECRETS = {'game':'VNB_WINDOWS_DRAFT_GAME_URL','test':'VNB_WINDOWS_DRAFT_TEST_URL'}
 FINAL_TAG = 'v0.6.1-playtest.2'
-FINAL_BATCH = 'Players061-Release2'
+FINAL_BATCHES = {'game': 'Players061-Release2', 'test': 'Players061-Release2-Test'}
 BASELINE = {
     'repository': 'wizardpc-com/von-neumann-bottleneck',
     'release_id': '454479788',
@@ -256,7 +256,7 @@ def fetch_baseline(work):
 
 def verify_manifest(manifest, role, tag, commit, asset_name):
     batch = pinned(manifest.get('test_batch',''), r'[A-Za-z0-9-]{1,40}', 'package batch')
-    if tag == FINAL_TAG and batch != FINAL_BATCH:
+    if tag == FINAL_TAG and batch != FINAL_BATCHES[role]:
         raise ValueError('Final package must use the frozen release batch')
     profile = 'Edition' + role.title()
     build = f'vnb-{role}-release-{tag}-{batch}-{commit[:12]}'
@@ -716,7 +716,8 @@ def verify(work):
         prepared[role]=unpack(work/(role+'.zip'),stage/'copy',role,identity)
         if final:
             baseline[role]=unpack(work/f'baseline-{role}.zip',stage/'baseline-package',role,BASELINE)
-    for key in ('engine','test_batch','content_version'):
+    shared_fields = ('engine','content_version') if final else ('engine','test_batch','content_version')
+    for key in shared_fields:
         if prepared['game'][1].get(key) != prepared['test'][1].get(key):
             raise ValueError(f'Game and Test release manifests disagree on {key}')
     for role,(binary,manifest) in prepared.items():

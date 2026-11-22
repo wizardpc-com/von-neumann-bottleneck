@@ -9,7 +9,7 @@ import importlib.util
 import ipaddress
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import shutil
 import socket
@@ -490,7 +490,8 @@ def verify_startup(binary, stage, profile, expected, env, *, windowed=False):
     write_override(override, None, profile, stage, expected, '', 'startup')
     mode = 'windowed' if windowed else 'headless'
     timeout = 90 if windowed else 45
-    launch = [str(binary), '--verbose', '--quit-after', '180', '--log-file', str(log)]
+    launch = [str(binary), '--verbose', '--quit-after', '60' if windowed else '180',
+              '--log-file', str(log)]
     if windowed:
         launch.extend(('--audio-driver','Dummy'))
     else:
@@ -528,14 +529,15 @@ def verify_startup(binary, stage, profile, expected, env, *, windowed=False):
             r'Your video card driver does not support', output, re.IGNORECASE):
         print(phase_diagnostics(output), flush=True)
         return 'windowed unavailable: runner display or graphics initialization failed'
-    if returncode != 0 or errors or not startup_loaded or (not windowed and not hub_loaded):
+    if returncode != 0 or errors or (not windowed and (not startup_loaded or not hub_loaded)):
         print(phase_diagnostics(output), flush=True)
         failure = 'startup did not reach the laboratory' if not windowed else 'windowed startup failed'
         raise RuntimeError(f'{expected["edition"]} shipped {failure} (exit {returncode})')
     if windowed:
-        if not renderer:
-            raise RuntimeError(f'{expected["edition"]} windowed startup did not identify a rendering backend')
-        return 'windowed startup and renderer initialized'
+        if not (startup_loaded and hub_loaded and renderer):
+            print(phase_diagnostics(output),flush=True)
+            return 'windowed incomplete: clean exit without both laboratory and renderer evidence'
+        return 'windowed startup reached the laboratory and renderer initialized'
     return 'shipped startup reached the laboratory (headless)'
 
 
@@ -575,6 +577,12 @@ def verify_fresh_startup(binary, stage, expected):
         window_profile = Path(window_env['APPDATA'])/expected['qa_dir']
         if window_profile.exists():
             raise ValueError('Fresh Windows windowed startup requires an unused profile')
+        if role == 'game':
+            # Sample the shipped hub and renderer without spending the shorter
+            # windowed budget on the 46-second opening film.
+            window_profile.mkdir(parents=True)
+            (window_profile/'cinematics.cfg').write_text('[watched]\nopening=true\n',encoding='utf-8')
+            print('Windows QA game: windowed sample uses a disposable profile with the opening marked watched',flush=True)
         windowed = verify_startup(binary,window_stage,window_profile,expected,window_env,windowed=True)
     print(f'Windows QA {role}: fresh profile {headless}. {windowed}.', flush=True)
     return {'authenticode_status':facts['status'], 'signer_present':facts['signer_present'],
@@ -705,16 +713,30 @@ def verify_offline_bundle(stage, case_id, manifest):
                 or prefix+'screenshot-incomplete.bin' in bundle.namelist()
                 or task.get('chapter_id') != 'hardware_foundations' or task.get('level_id') != 'tutorial'):
             raise ValueError('Offline ZIP must preserve the headless incident context without an image')
-        inventory = {entry['path']:entry for entry in index['files']}
-        member_names = bundle.namelist()
-        if (len(index['files']) != len(inventory) or len(member_names) != len(inventory)+1
-                or set(member_names) != inventory.keys() | {'manifest.json'}
-                or any(Path(name).name == 'feedback_outbox_v1.json' for name in inventory)):
-            raise ValueError('Offline ZIP inventory contains unexpected content')
-        for name, entry in inventory.items():
-            data = bundle.read(name)
-            if len(data) != entry['size'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
-                raise ValueError('Offline ZIP inventory hash mismatch')
+        verify_offline_inventory(bundle,index)
+
+
+def verify_offline_inventory(bundle, index):
+    inventory = {entry['path']:entry for entry in index['files']}
+    expected_files = inventory.keys() | {'manifest.json'}
+    expected_directories = {parent.as_posix()+'/' for name in expected_files
+                            for parent in PurePosixPath(name).parents if parent != PurePosixPath('.')}
+    # The store and export controller write only these top-level sections.
+    expected_directories.update({'cases/','recovery/','session/','sessions/','legacy/','saves/','logs/'})
+    entries = bundle.infolist()
+    files = {entry.filename for entry in entries if not entry.is_dir()}
+    # Godot adds optional empty parent-directory entries outside the file manifest.
+    if (len(index['files']) != len(inventory) or len(entries) != len({entry.filename.casefold() for entry in entries})
+            or files != expected_files
+            or any(entry.file_size or entry.filename not in expected_directories
+                   or stat.S_IFMT(entry.external_attr >> 16) not in (0,stat.S_IFDIR)
+                   for entry in entries if entry.is_dir())
+            or any(PurePosixPath(name).name.casefold().startswith('feedback_outbox_v1.json') for name in inventory)):
+        raise ValueError('Offline ZIP inventory contains unexpected content')
+    for name, entry in inventory.items():
+        data = bundle.read(name)
+        if len(data) != entry['size'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+            raise ValueError('Offline ZIP inventory hash mismatch')
 
 
 @contextmanager

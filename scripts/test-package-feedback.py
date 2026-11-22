@@ -453,14 +453,36 @@ class WindowsReleaseTests(unittest.TestCase):
         index={'format':'vnb-offline-playtest','case_count':1,'files':inventory,
                'build':{'source_commit':self.commit,'version':WINDOWS.FINAL_TAG[1:]}}
 
-        def bundle():
+        def bundle(*extra):
             with zipfile.ZipFile(self.work/'offline-feedback.zip','w') as archive:
+                archive.writestr(prefix,b'')
                 archive.writestr('manifest.json',json.dumps(index))
                 for name,data in files.items():
+                    archive.writestr(name,data)
+                for name,data in extra:
                     archive.writestr(name,data)
 
         bundle()
         WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+        bundle(('legacy/',b''),('saves/',b''))
+        WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+        for name,data in (('unindexed/',b''),('cases/',b'not empty'),(prefix+'unexpected-file',b'')):
+            with self.subTest(name=name):
+                bundle((name,data))
+                with self.assertRaisesRegex(ValueError,'inventory contains unexpected content'):
+                    WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+        with self.assertWarnsRegex(UserWarning,'Duplicate name'):
+            bundle((prefix,b''))
+        with self.assertRaisesRegex(ValueError,'inventory contains unexpected content'):
+            WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+        outbox='legacy/Feedback_Outbox_v1.json.tmp'
+        files[outbox]=b''
+        inventory.append({'path':outbox,'size':0,'sha256':hashlib.sha256(b'').hexdigest()})
+        bundle()
+        with self.assertRaisesRegex(ValueError,'inventory contains unexpected content'):
+            WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+        del files[outbox]
+        inventory.pop()
         files[prefix+'screenshot.png']=b''
         inventory.append({'path':prefix+'screenshot.png','size':0,'sha256':hashlib.sha256(b'').hexdigest()})
         bundle()
@@ -536,7 +558,12 @@ class WindowsReleaseTests(unittest.TestCase):
                 WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True)
             execute.return_value=(0,output,b'',False)
             self.assertEqual(WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True),
-                             'windowed startup and renderer initialized')
+                             'windowed startup reached the laboratory and renderer initialized')
+            launch=execute.call_args.args[0]
+            self.assertEqual(launch[launch.index('--quit-after')+1],'60')
+            execute.return_value=(0,output.split('\nLoading resource: res://src/ui/prototype_hub.tscn')[0],b'',False)
+            self.assertIn('windowed incomplete',
+                          WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True))
 
     def test_draft_binds_annotated_tag_or_exact_uncreated_tag(self):
         draft={'id':17,'draft':True,'tag_name':self.tag,'target_commitish':self.commit}

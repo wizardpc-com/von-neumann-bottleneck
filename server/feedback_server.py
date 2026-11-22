@@ -15,7 +15,7 @@ import time
 from storage import migrate, SCHEMA_VERSION
 from community import RULES, SCORE_NUMBERS, validate_score, validate_task_context, aggregate, leaderboard
 from urllib.parse import urlsplit, parse_qs
-from release_ingress import ReleaseIngress, UNKNOWN_DELETE_CEILING
+from release_ingress import ReleaseIngress, UNKNOWN_DELETE_CEILING, live_can_grow
 
 TEXT = {'kind':64,'phase':80,'target':80,'case_id':80,'tool_id':80,'origin':80,'program_digest':80,'chapter_id':64,'level_id':64,'visit_id':100,'session_id':100,'source':24,'mode':16,
         'build_version':80,'task_version':80,'case_set_version':80,'model_version':80,'event':48,
@@ -91,9 +91,13 @@ class Receiver(HTTPServer):
             raise ValueError('release receiver requires an IPv4 loopback bind')
         super().__init__(address,Handler)
         self.release=release
+        self.database_dir=Path(database).absolute().parent
         self.admin_token=admin_token
         self.db=sqlite3.connect(database)
         self.db.execute('PRAGMA journal_mode=WAL')
+        if release is not None:
+            self.db.execute('PRAGMA journal_size_limit=16777216')
+            self.db.execute('PRAGMA temp_store=MEMORY')
         migrate(self.db)
         self.rates={}
         self.rejections={}
@@ -103,9 +107,15 @@ class Receiver(HTTPServer):
     def cleanup(self):
         now=int(time.time())
         if now-self.last_cleanup<3600: return
-        with self.db:
-            self.db.execute('DELETE FROM events WHERE received < ?',(now-RETENTION_DAYS*86400,))
-            self.db.execute('DELETE FROM clients WHERE id NOT IN (SELECT DISTINCT client_id FROM events)')
+        try:
+            with self.db:
+                self.db.execute('DELETE FROM events WHERE received < ?',(now-RETENTION_DAYS*86400,))
+                self.db.execute('DELETE FROM clients WHERE id NOT IN (SELECT DISTINCT client_id FROM events)')
+        except sqlite3.Error:
+            if self.release is None: raise
+            self.last_cleanup=now-3540
+            print('release_retention_cleanup_failed',flush=True)
+            return
         self.rates={k:v for k,v in self.rates.items() if time.monotonic()-v[0]<60}
         self.last_cleanup=now
     def service_actions(self):
@@ -259,12 +269,19 @@ class Handler(BaseHTTPRequestHandler):
             if score_count and db.execute("SELECT COUNT(*) FROM events WHERE client_id=? AND kind='score' AND received>?",(client,int(time.time())-60)).fetchone()[0]+score_count>12:
                 return self.send(429,{'error':'score_rate_limit'})
             prepared=[]
+            new_bytes=0
             for record in records:
                 encoded=json.dumps(record,sort_keys=True,separators=(',',':'),ensure_ascii=False)
-                record_hash=hashlib.sha256(encoded.encode()).hexdigest()
+                encoded_bytes=encoded.encode()
+                record_hash=hashlib.sha256(encoded_bytes).hexdigest()
                 old=db.execute('SELECT client_id,digest FROM events WHERE id=?',(record['event_id'],)).fetchone()
                 if old and old!=(client,record_hash): return self.send(409,{'error':'id_conflict'})
+                if not old and release is not None:
+                    # Budget row/index overhead and SQLite page slack before the commit.
+                    new_bytes += 2*len(encoded_bytes)+8192
                 prepared.append((record['event_id'],client,int(time.time()),record['kind'],encoded,record_hash))
+            if release is not None and new_bytes and not live_can_grow(db,self.server.database_dir,new_bytes):
+                return self.send(503,{'error':'storage_limit'})
             with db:
                 db.execute('INSERT OR IGNORE INTO clients VALUES (?,?)',(client,digest))
                 db.executemany('INSERT OR IGNORE INTO events VALUES (?,?,?,?,?,?)',prepared)
@@ -297,6 +314,8 @@ class Handler(BaseHTTPRequestHandler):
             if row and not authorized: return self.send(403,{'error':'client_token'})
             ceiling=100000 if release is None else UNKNOWN_DELETE_CEILING
             if not row and self.server.db.execute('SELECT COUNT(*) FROM tombstones').fetchone()[0]>=ceiling:
+                return self.send(503,{'error':'storage_limit'})
+            if release is not None and not row and not live_can_grow(self.server.db,self.server.database_dir,8192):
                 return self.send(503,{'error':'storage_limit'})
             with self.server.db:
                 self.server.db.execute('INSERT OR IGNORE INTO tombstones VALUES (?,?,?)',(client,deletion_hash,int(time.time())))

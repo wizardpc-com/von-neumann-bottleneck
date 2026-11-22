@@ -1,7 +1,10 @@
 [Unit]
 Description=VNB dedicated release feedback receiver
-After=network.target
-RequiresMountsFor=/srv/ray/apps/vnb/current-release /srv/ray/data/vnb/release
+After=network.target srv-ray-vnb_release-live.mount vnb-release-volume@live.service
+BindsTo=srv-ray-vnb_release-live.mount
+Requires=vnb-release-volume@live.service
+RequiresMountsFor=/srv/ray/apps/vnb/current-release
+ConditionPathIsMountPoint=/srv/ray/vnb_release/live
 
 [Service]
 Type=exec
@@ -11,22 +14,30 @@ WorkingDirectory=/srv/ray/apps/vnb/current-release/server
 LoadCredential=edge.token:/etc/vnb-feedback-release/edge.token
 Environment=PYTHONDONTWRITEBYTECODE=1
 Environment=VNB_FEEDBACK_ADMIN_TOKEN=
-ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/feedback_server.py --host 127.0.0.1 --port 18082 --database /srv/ray/data/vnb/release/feedback.sqlite --release-admissions /etc/vnb-feedback-release/admissions.json --release-edge-token-file ${CREDENTIALS_DIRECTORY}/edge.token
+Environment=VNB_RELEASE_HOST_FILESYSTEM=/srv/ray/vnb_release
+ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/feedback_server.py --host 127.0.0.1 --port 18082 --database /srv/ray/vnb_release/live/data/feedback.sqlite --release-admissions /etc/vnb-feedback-release/admissions.json --release-edge-token-file ${CREDENTIALS_DIRECTORY}/edge.token
 Restart=on-failure
 RestartSec=5s
-UMask=0077
+UMask=0027
 NoNewPrivileges=true
 CapabilityBoundingSet=
 ProtectSystem=strict
 ProtectHome=true
-PrivateTmp=true
+InaccessiblePaths=/tmp /var/tmp -/srv/ray/vnb_release/ops
 PrivateDevices=true
 ProtectControlGroups=true
 ProtectKernelModules=true
 ProtectKernelTunables=true
-ReadWritePaths=/srv/ray/data/vnb/release
-MemoryMax=512M
-CPUQuota=75%
+ReadWritePaths=/srv/ray/vnb_release/live/data
+MemoryMax=384M
+MemorySwapMax=0
+CPUQuota=50%
+CPUAccounting=true
+MemoryAccounting=true
+IOAccounting=true
+IOWeight=10
+IOReadBandwidthMax=/dev/vda 8M
+IOWriteBandwidthMax=/dev/vda 4M
 TasksMax=64
 LimitNOFILE=512
 LogRateLimitIntervalSec=30s

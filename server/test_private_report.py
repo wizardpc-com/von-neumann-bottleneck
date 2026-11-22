@@ -116,6 +116,24 @@ class PrivateReportTests(unittest.TestCase):
                 {'unsupported_version','task_version_mismatch','legacy_unknown'})
             self.assertEqual(len(report['moments']),1,'Unknown versions cannot enter supported metrics')
 
+    def test_hostile_stored_receipt_is_rendered_as_text_and_attributes_are_escaped(self):
+        with tempfile.TemporaryDirectory() as folder:
+            db=Path(folder)/'events.sqlite'
+            receipt='receipt"><img src=x onerror="receiptInjected()">'
+            batch='batch" onclick="batchInjected()'
+            note='</pre><script>noteInjected()</script>'
+            self.seed(db, receipt, note=note, test_batch=batch)
+            result, rendered=build_report(db)
+            self.assertEqual(result['received_feedback'][0]['event_id'], receipt)
+            self.assertEqual(result['received_feedback'][0]['note'], note)
+            self.assertIn('receipt&quot;&gt;&lt;img', rendered)
+            self.assertNotIn('<img', rendered)
+            self.assertNotIn('<script>noteInjected()', rendered)
+            self.assertIn('data-batch="batch&quot; onclick=&quot;batchInjected()"', rendered)
+            markup=OpinionMarkup(rendered)
+            self.assertEqual(markup.rows[0]['dataset']['batch'], batch)
+            self.assertFalse(any('Injected' in script for script in markup.scripts))
+
     def test_historical_model_case_mismatch_remains_visible_but_quarantined(self):
         identity=CONTENT_MANIFESTS['tasks-20261010-journey-v1'].get('identities',{}).get('creation/G2_intent',{})
         if not identity: self.skipTest('Authored identity export is not present yet')

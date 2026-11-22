@@ -22,11 +22,15 @@ from deploy import maintain
 from feedback_server import Receiver
 from private_report import update_triage
 from storage import migrate
+from test_release_ingress import python_with_synthetic_capacity
 
 
 class MaintenanceTests(unittest.TestCase):
     def command(self, *args):
-        result = subprocess.run([sys.executable, str(Path(__file__).parent / 'deploy' / 'maintain.py'), *map(str, args)],
+        script = Path(__file__).parent / 'deploy' / 'maintain.py'
+        python = (python_with_synthetic_capacity(script) if '--release-limits' in args
+                  else [sys.executable, str(script)])
+        result = subprocess.run([*python, *map(str, args)],
                                 capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         return json.loads(result.stdout.splitlines()[-1])
@@ -197,6 +201,97 @@ class MaintenanceTests(unittest.TestCase):
             self.assertEqual(damaged.read_bytes(), b'existing snapshot bytes')
             self.assertEqual(damaged.with_suffix('.json').read_bytes(), b'{invalid metadata')
             self.assertEqual(reservation.read_bytes(), b'unfinished reservation')
+
+    def test_release_maintenance_reads_group_private_wal_with_readonly_mode(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            live = root / 'live'; live.mkdir(mode=0o700)
+            database = live / 'feedback.sqlite'
+            reports = root / 'reports'; reports.mkdir(mode=0o700)
+            backups = root / 'backups'
+            mask = os.umask(0o027)
+            try:
+                with closing(sqlite3.connect(database)) as writer:
+                    writer.execute('PRAGMA journal_mode=WAL')
+                    writer.execute('PRAGMA wal_autocheckpoint=0')
+                    self.seed(database)
+                    sidecars = [database, Path(str(database) + '-wal'), Path(str(database) + '-shm')]
+                    for path in sidecars:
+                        self.assertEqual(path.stat().st_uid, os.getuid())
+                        self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o640)
+                        path.chmod(0o440)
+                    live.chmod(0o550)
+                    try:
+                        args = ('daily', '--release-limits', '--database', database, '--backup-dir', backups,
+                                '--report-dir', reports / 'current', '--triage', reports / 'triage.sqlite',
+                                '--source-commit', 'a' * 40)
+                        first = self.command(*args)
+                        second = self.command(*args)
+                        self.assertEqual(first['counts']['events'], 1)
+                        self.assertTrue(second['reused_daily_snapshot'])
+                        self.assertEqual(len(list(backups.glob('*.sqlite'))), 1)
+                        self.assertEqual(len(json.loads((reports / 'current' / 'report.json').read_text())['received_feedback']), 1)
+                    finally:
+                        live.chmod(0o750)
+                        for path in sidecars:
+                            path.chmod(0o640)
+            finally:
+                os.umask(mask)
+
+    def test_release_storage_guard_removes_stale_report_and_rotates_valid_expiry(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            database = root / 'live.sqlite'; self.seed(database)
+            backups = root / 'backups'
+            report = root / 'reports' / 'current'
+            report.mkdir(parents=True)
+            for name in ('report.json', 'report.html'):
+                (report / name).write_text('old report')
+            snapshot, info = maintain.make_backup(database, backups, 'b' * 40)
+            expired = datetime.now(timezone.utc) - timedelta(days=31)
+            expired_name = expired.strftime('vnb-feedback-%Y%m%dT%H%M%SZ-00000001.sqlite')
+            old = backups / expired_name
+            snapshot.rename(old)
+            snapshot.with_suffix('.json').unlink()
+            old.with_suffix('.json').write_text(json.dumps(info | {'snapshot': expired_name,
+                'created_utc': expired.strftime('%Y-%m-%dT%H:%M:%SZ')}))
+            for guard in (mock.patch.object(maintain, 'host_has_reserve', return_value=False),
+                          mock.patch.object(maintain, 'available_bytes', return_value=0)):
+                with guard, self.assertRaisesRegex(ValueError, 'report paused'):
+                    maintain.current_report(database, report, report.parent / 'triage.sqlite', release=True)
+            self.assertEqual(list(report.iterdir()), [])
+            with mock.patch.object(maintain, 'host_has_reserve', return_value=False):
+                with self.assertRaisesRegex(ValueError, 'backup paused'):
+                    maintain.release_backup(database, backups, 'b' * 40)
+            self.assertEqual(list(backups.iterdir()), [])
+
+    def test_release_backup_limits_actual_file_wal_pages_and_staged_snapshot(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            database = root / 'live.sqlite'; self.seed(database)
+            backups = root / 'backups'
+            with closing(sqlite3.connect(database)) as writer:
+                writer.execute('PRAGMA journal_mode=WAL')
+                writer.execute('PRAGMA wal_autocheckpoint=0')
+                baseline = database.stat().st_size
+                with writer:
+                    writer.execute('CREATE TABLE synthetic_padding (data BLOB)')
+                    writer.execute('INSERT INTO synthetic_padding VALUES (zeroblob(65536))')
+                self.assertEqual(database.stat().st_size, baseline, 'Growth is still committed only in WAL')
+                with mock.patch.object(maintain, 'host_has_reserve', return_value=True), \
+                        mock.patch.object(maintain, 'available_bytes', return_value=8 * 1024**3), \
+                        mock.patch.object(maintain, 'RELEASE_BACKUP_LIMIT', baseline):
+                    with self.assertRaisesRegex(ValueError, 'backup paused'):
+                        maintain.release_backup(database, backups, 'b' * 40)
+                    with self.assertRaisesRegex(ValueError, 'snapshot exceeds budget'):
+                        maintain.make_backup(database, backups, 'b' * 40, release=True)
+                    with writer:
+                        writer.execute('DROP TABLE synthetic_padding')
+                    writer.execute('PRAGMA wal_checkpoint(TRUNCATE)')
+                    self.assertGreater(database.stat().st_size, baseline, 'Freelist does not shrink the actual file')
+                    with self.assertRaisesRegex(ValueError, 'backup paused'):
+                        maintain.release_backup(database, backups, 'b' * 40)
+            self.assertEqual(list(backups.iterdir()), [])
 
 
 if __name__ == '__main__': unittest.main(verbosity=2)

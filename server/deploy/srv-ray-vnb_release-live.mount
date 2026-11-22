@@ -1,0 +1,10 @@
+[Unit]
+Description=Fixed-capacity VNB release SQLite volume
+RequiresMountsFor=/srv/ray/vnb_release/images
+
+[Mount]
+What=/srv/ray/vnb_release/images/live.img
+Where=/srv/ray/vnb_release/live
+Type=ext4
+Options=loop,nodev,nosuid,noexec,nodiscard
+TimeoutSec=30s

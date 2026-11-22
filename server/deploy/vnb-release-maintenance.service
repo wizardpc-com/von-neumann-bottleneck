@@ -1,27 +1,44 @@
 [Unit]
 Description=VNB release backup and private feedback report
-Requires=vnb-release-receiver.service
-After=vnb-release-receiver.service
-RequiresMountsFor=/srv/ray/apps/vnb/current-release /srv/ray/data/vnb/release /srv/ray/data/vnb/release-reports /srv/ray/backups/vnb-release
+Requires=vnb-release-receiver.service vnb-release-volume@ops.service
+After=vnb-release-receiver.service srv-ray-vnb_release-ops.mount vnb-release-volume@ops.service
+BindsTo=srv-ray-vnb_release-ops.mount
+RequiresMountsFor=/srv/ray/apps/vnb/current-release
+ConditionPathIsMountPoint=/srv/ray/vnb_release/ops
 
 [Service]
 Type=oneshot
-User=root
+User=vnb-feedback-maint
+Group=vnb-feedback-maint
+SupplementaryGroups=vnb-feedback-read
+AmbientCapabilities=
 WorkingDirectory=/srv/ray/apps/vnb/current-release/server
 EnvironmentFile=/etc/vnb-feedback-release/maintenance.env
 Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=VNB_RELEASE_HOST_FILESYSTEM=/srv/ray/vnb_release
+Environment=TMPDIR=/srv/ray/vnb_release/ops/tmp
+Environment=SQLITE_TMPDIR=/srv/ray/vnb_release/ops/tmp
 ExecStartPre=/usr/bin/timeout 10 /usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/deploy/check-release-feedback.py --local
-ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/deploy/maintain.py daily --database /srv/ray/data/vnb/release/feedback.sqlite --backup-dir /srv/ray/backups/vnb-release --report-dir /srv/ray/data/vnb/release-reports/current --triage /srv/ray/data/vnb/release-reports/triage.sqlite --source-commit ${VNB_SOURCE_COMMIT}
+ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/deploy/maintain.py daily --release-limits --database /srv/ray/vnb_release/live/data/feedback.sqlite --backup-dir /srv/ray/vnb_release/ops/backups --report-dir /srv/ray/vnb_release/ops/reports/current --triage /srv/ray/vnb_release/ops/reports/triage.sqlite --source-commit ${VNB_SOURCE_COMMIT}
 UMask=0077
 NoNewPrivileges=true
-CapabilityBoundingSet=CAP_DAC_OVERRIDE
+CapabilityBoundingSet=
 ProtectSystem=strict
 ProtectHome=true
-PrivateTmp=true
+InaccessiblePaths=/tmp /var/tmp
 PrivateDevices=true
-ReadWritePaths=/srv/ray/backups/vnb-release /srv/ray/data/vnb/release-reports
-MemoryMax=512M
-CPUQuota=50%
+ReadOnlyPaths=/srv/ray/vnb_release/live
+ReadWritePaths=/srv/ray/vnb_release/ops/backups /srv/ray/vnb_release/ops/reports /srv/ray/vnb_release/ops/tmp
+LimitFSIZE=128M
+MemoryMax=384M
+MemorySwapMax=0
+CPUQuota=25%
+CPUAccounting=true
+MemoryAccounting=true
+IOAccounting=true
+IOWeight=10
+IOReadBandwidthMax=/dev/vda 8M
+IOWriteBandwidthMax=/dev/vda 4M
 TasksMax=32
 TimeoutStartSec=10min
 LogRateLimitIntervalSec=30s

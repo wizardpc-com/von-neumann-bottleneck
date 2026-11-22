@@ -1,0 +1,15 @@
+[Unit]
+Description=Preserve fixed VNB release space on the %i loop device
+BindsTo=srv-ray-vnb_release-%i.mount
+After=srv-ray-vnb_release-%i.mount
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh /srv/ray/apps/vnb/current-release/server/deploy/seal-release-volume.sh %i
+NoNewPrivileges=true
+CapabilityBoundingSet=
+ProtectHome=true
+ProtectSystem=strict
+ProtectControlGroups=true
+TimeoutStartSec=10s

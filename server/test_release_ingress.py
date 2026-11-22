@@ -22,11 +22,25 @@ EDGE_FIXTURE = "f" * 64
 CLIENT = "synthetic-client-001"
 
 
+def python_with_synthetic_capacity(script):
+    bootstrap = """import runpy, sys
+from unittest.mock import patch
+sys.path.insert(0, sys.argv.pop(1))
+sys.argv = sys.argv[1:]
+with patch('release_ingress.available_bytes', return_value=8 * 1024**3):
+    runpy.run_path(sys.argv[0], run_name='__main__')
+"""
+    return [sys.executable, "-B", "-c", bootstrap, str(Path(__file__).resolve().parent), str(script)]
+
+
 class ReleaseIngressTests(unittest.TestCase):
     def setUp(self):
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         self.folder = Path(directory.name)
+        space = patch("release_ingress.available_bytes", return_value=8 * 1024**3)
+        space.start()
+        self.addCleanup(space.stop)
 
     @contextmanager
     def receiver(self, path=None, *, legacy=False, rehearsal=False):
@@ -174,6 +188,41 @@ class ReleaseIngressTests(unittest.TestCase):
             self.assertEqual(self.request(rehearsal, "POST", "/v1/events", event)[0], 200)
             self.assertEqual(self.request(rehearsal, "DELETE", "/v1/data", self.identity())[0], 403)
             self.assertEqual(self.request(rehearsal, "DELETE", "/v1/data", self.identity(client))[0], 200)
+
+    def test_storage_reserve_pauses_new_writes_but_preserves_receipts_and_known_delete(self):
+        with patch("release_ingress.available_bytes", return_value=8 * 1024**3) as space, self.receiver() as server:
+            first = self.envelope()
+            receipt = self.request(server, "POST", "/v1/events", first)
+            self.assertEqual(receipt[0], 200)
+            second = self.envelope(client="synthetic-client-002", event="release-test-event-002")
+            for cap in (patch("release_ingress.HOST_FREE_RESERVE", 9 * 1024**3),
+                        patch("release_ingress.LIVE_FREE_RESERVE", 9 * 1024**3),
+                        patch("release_ingress.LIVE_USED_LIMIT", 100),
+                        patch("release_ingress.LIVE_FILE_LIMIT", 100)):
+                with cap:
+                    self.assertEqual(self.request(server, "POST", "/v1/events", second),
+                                     (503, {"error": "storage_limit"}))
+                    self.assertEqual(self.request(server, "POST", "/v1/events", first), receipt)
+            space.return_value = 0
+            self.assertEqual(self.request(server, "DELETE", "/v1/data", self.identity("synthetic-client-002")),
+                             (503, {"error": "storage_limit"}))
+            self.assertEqual(self.request(server, "DELETE", "/v1/data", self.identity()), (200, {"deleted": True}))
+            self.assertEqual(self.request(server, "POST", "/v1/events", first), (410, {"error": "identity_deleted"}))
+            self.assertEqual(server.db.execute("SELECT COUNT(*) FROM tombstones").fetchone(), (1,))
+            self.assertEqual(server.db.execute("SELECT COUNT(*) FROM events").fetchone(), (0,))
+            space.return_value = 8 * 1024**3
+            self.assertEqual(self.request(server, "POST", "/v1/events", second)[0], 200)
+
+    def test_failed_known_delete_keeps_event_and_returns_no_receipt(self):
+        with self.receiver() as server:
+            self.assertEqual(self.request(server, "POST", "/v1/events", self.envelope())[0], 200)
+            with server.db:
+                server.db.execute("""CREATE TRIGGER reject_tombstone BEFORE INSERT ON tombstones BEGIN
+                                     SELECT RAISE(ABORT, 'synthetic write failure'); END""")
+            self.assertEqual(self.request(server, "DELETE", "/v1/data", self.identity()),
+                             (503, {"error": "storage_unavailable"}))
+            self.assertEqual(server.db.execute("SELECT COUNT(*) FROM events").fetchone(), (1,))
+            self.assertEqual(server.db.execute("SELECT COUNT(*) FROM tombstones").fetchone(), (0,))
 
     def test_cli_requires_paired_configuration_before_touching_storage(self):
         script = Path(__file__).with_name("feedback_server.py")

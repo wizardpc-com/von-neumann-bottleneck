@@ -1,4 +1,5 @@
 """Optional real Caddy TLS test. Run with VNB_TEST_CADDY=/path/to/caddy-2.6.2."""
+import configparser
 from contextlib import contextmanager
 import http.client
 import importlib.util
@@ -13,9 +14,10 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest.mock import Mock, patch
 
 from storage import counts
-from test_release_ingress import BUILD
+from test_release_ingress import BUILD, python_with_synthetic_capacity
 
 
 SERVER = Path(__file__).resolve().parent
@@ -34,6 +36,45 @@ def free_port():
     with socket.socket() as listener:
         listener.bind(("127.0.0.1", 0))
         return listener.getsockname()[1]
+
+
+class ReleaseReadinessTests(unittest.TestCase):
+    def test_readiness_reopens_refused_connection(self):
+        check = script("check-release-feedback")
+        refused, ready = Mock(), Mock()
+        with patch.object(check.http.client, "HTTPConnection", side_effect=[refused, ready]), \
+                patch.object(check, "check_read_routes", side_effect=[ConnectionRefusedError(), None]) as route, \
+                patch.object(check.time, "sleep"):
+            check.wait_for_local_receiver(False)
+        self.assertEqual([invocation.args[0] for invocation in route.call_args_list], [refused, ready])
+        refused.close.assert_called_once()
+        ready.close.assert_called_once()
+
+    def test_release_units_isolate_writers_and_target_the_measured_device(self):
+        def load(name):
+            unit = configparser.ConfigParser(interpolation=None, strict=False)
+            self.assertEqual(unit.read(DEPLOY / name), [str(DEPLOY / name)])
+            return unit
+
+        receiver = load("vnb-release-receiver.service")
+        maint = load("vnb-release-maintenance.service")
+        edge = load("vnb-feedback-public-release.conf")
+        self.assertNotEqual(receiver["Service"]["User"], maint["Service"]["User"])
+        self.assertNotEqual(maint["Service"]["User"], "root")
+        self.assertEqual(maint["Service"]["SupplementaryGroups"], "vnb-feedback-read")
+        self.assertEqual(maint["Service"]["CapabilityBoundingSet"], "")
+        self.assertEqual(receiver["Service"]["ReadWritePaths"], "/srv/ray/vnb_release/live/data")
+        self.assertIn("/srv/ray/vnb_release/ops", receiver["Service"]["InaccessiblePaths"])
+        self.assertEqual(maint["Service"]["ReadOnlyPaths"], "/srv/ray/vnb_release/live")
+        self.assertTrue(all(path.startswith("/srv/ray/vnb_release/ops/")
+                            for path in maint["Service"]["ReadWritePaths"].split()))
+        for service, lane in ((receiver, "live"), (maint, "ops")):
+            self.assertIn(f"vnb-release-volume@{lane}.service", service["Unit"]["Requires"].split())
+            self.assertEqual(service["Unit"]["BindsTo"], f"srv-ray-vnb_release-{lane}.mount")
+        for service, limits in ((receiver, ("8M", "4M")), (maint, ("8M", "4M")), (edge, ("1M", "1M"))):
+            self.assertEqual(service["Service"]["IOAccounting"], "true")
+            self.assertEqual(service["Service"]["IOReadBandwidthMax"], "/dev/vda " + limits[0])
+            self.assertEqual(service["Service"]["IOWriteBandwidthMax"], "/dev/vda " + limits[1])
 
 
 @unittest.skipUnless(CADDY, "set VNB_TEST_CADDY to run real loopback TLS checks")
@@ -100,7 +141,7 @@ class ReleaseEdgeTests(unittest.TestCase):
             config.write_text(template.replace(":18081}", f":{historical}" + "}"))
             context = ssl.create_default_context(cafile=str(certs / "fullchain.pem"))
             proxy = [CADDY, "run", "--config", str(config), "--adapter", "caddyfile"]
-            python = [sys.executable, "-B", str(SERVER / "feedback_server.py")]
+            python = python_with_synthetic_capacity(SERVER / "feedback_server.py")
             legacy_db = root / "historical.sqlite"
             rehearsal_db = root / "rehearsal.sqlite"
             production_db = root / "production.sqlite"
@@ -145,7 +186,8 @@ class ReleaseEdgeTests(unittest.TestCase):
                             check.check_read_routes(connection, public=True, rehearsal=False)
                         finally:
                             connection.close()
-                    subprocess.run([sys.executable, "-B", str(DEPLOY / "maintain.py"), "daily",
+                    (root / "reports").mkdir()
+                    subprocess.run([*python_with_synthetic_capacity(DEPLOY / "maintain.py"), "daily", "--release-limits",
                                     "--database", str(production_db), "--backup-dir", str(root / "backups"),
                                     "--report-dir", str(root / "reports" / "current"),
                                     "--triage", str(root / "reports" / "triage.sqlite"),

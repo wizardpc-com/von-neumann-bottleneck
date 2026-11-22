@@ -28,10 +28,10 @@ def migrate(db):
         db.execute('RELEASE SAVEPOINT schema_upgrade')
         raise
 
-def backup(source, destination):
+def backup(source, destination, *, pages=-1):
     if Path(destination).exists(): raise ValueError('destination exists; use a new snapshot name')
     with closing(sqlite3.connect('file:%s?mode=ro' % Path(source).resolve(), uri=True)) as src, closing(sqlite3.connect(destination)) as dst:
-        src.backup(dst)
+        src.backup(dst, pages=pages)
         if dst.execute('PRAGMA integrity_check').fetchone()[0] != 'ok': raise ValueError('integrity check')
     return counts(destination)
 

@@ -2,7 +2,9 @@
 import hmac
 import ipaddress
 import json
+import os
 import re
+import sqlite3
 import time
 
 
@@ -15,6 +17,34 @@ LIMITS = {"upload": (30, 120), "known_delete": (30, 120), "unknown_delete": (4, 
 MAX_PEERS_PER_LANE = 1024
 UNKNOWN_DELETE_CEILING = 10000
 REHEARSAL_PREFIX = "vnb-rehearsal-"
+LIVE_USED_LIMIT = 48 * 1024**2
+LIVE_FILE_LIMIT = 56 * 1024**2
+LIVE_FREE_RESERVE = 256 * 1024**2
+HOST_FREE_RESERVE = 4 * 1024**3
+
+
+def available_bytes(directory):
+    space = os.statvfs(directory)
+    return space.f_bavail * space.f_frsize
+
+
+def host_has_reserve(directory):
+    return available_bytes(os.environ.get("VNB_RELEASE_HOST_FILESYSTEM", directory)) >= HOST_FREE_RESERVE
+
+
+def live_can_grow(db, directory, incoming):
+    try:
+        room = host_has_reserve(directory) and available_bytes(directory) >= LIVE_FREE_RESERVE
+    except OSError as error:
+        raise sqlite3.OperationalError("release volume unavailable") from error
+    if not room:
+        return False
+    page_size = db.execute("PRAGMA page_size").fetchone()[0]
+    file_bytes = db.execute("PRAGMA page_count").fetchone()[0] * page_size
+    reusable_bytes = db.execute("PRAGMA freelist_count").fetchone()[0] * page_size
+    projected_used = file_bytes - reusable_bytes + incoming
+    projected_file = file_bytes + max(0, incoming - reusable_bytes)
+    return projected_used <= LIVE_USED_LIMIT and projected_file <= LIVE_FILE_LIMIT
 
 
 class ReleaseIngress:

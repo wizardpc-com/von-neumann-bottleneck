@@ -79,15 +79,18 @@ def rehearse(connection):
         raise ValueError("deleted installation accepted a replay")
 
 
-def wait_for_local_receiver(connection, rehearsal):
+def wait_for_local_receiver(rehearsal):
     deadline = time.monotonic() + 5
     while True:
+        connection = http.client.HTTPConnection("127.0.0.1", 18082, timeout=5)
         try:
             return check_read_routes(connection, public=False, rehearsal=rehearsal)
         except ConnectionRefusedError:
             if time.monotonic() >= deadline:
                 raise
-            time.sleep(0.2)
+        finally:
+            connection.close()
+        time.sleep(0.2)
 
 
 def main():
@@ -102,21 +105,21 @@ def main():
     if (args.rehearsal and args.public_historical) or (args.synthetic_write and not (args.public and args.rehearsal)):
         parser.error("synthetic writes require --public --rehearsal")
     public = args.public or args.public_historical
-    connection = (http.client.HTTPSConnection(HOSTNAME, 8443, timeout=5, context=ssl.create_default_context())
-                  if public else http.client.HTTPConnection("127.0.0.1", 18082, timeout=5))
     try:
         if public:
-            check_read_routes(connection, public=True, rehearsal=args.rehearsal, historical=args.public_historical)
+            connection = http.client.HTTPSConnection(HOSTNAME, 8443, timeout=5, context=ssl.create_default_context())
+            try:
+                check_read_routes(connection, public=True, rehearsal=args.rehearsal, historical=args.public_historical)
+                if args.synthetic_write:
+                    rehearse(connection)
+            finally:
+                connection.close()
         else:
-            wait_for_local_receiver(connection, args.rehearsal)
-        if args.synthetic_write:
-            rehearse(connection)
+            wait_for_local_receiver(args.rehearsal)
     except (OSError, ValueError, http.client.HTTPException):
         # Never print response bodies, URLs from exceptions, headers or credentials.
         print("VNB feedback validation failed; check the selected lane and scoped unit health.", file=sys.stderr)
         return 1
-    finally:
-        connection.close()
     print("VNB feedback checks passed" + (" including disposable synthetic writes" if args.synthetic_write else ""))
     return 0
 

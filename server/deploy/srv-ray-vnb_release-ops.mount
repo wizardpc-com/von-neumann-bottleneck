@@ -1,0 +1,10 @@
+[Unit]
+Description=Fixed-capacity VNB release backup and report volume
+RequiresMountsFor=/srv/ray/vnb_release/images
+
+[Mount]
+What=/srv/ray/vnb_release/images/ops.img
+Where=/srv/ray/vnb_release/ops
+Type=ext4
+Options=loop,nodev,nosuid,noexec,nodiscard
+TimeoutSec=30s

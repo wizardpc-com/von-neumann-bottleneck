@@ -114,6 +114,199 @@ during bursts. Check latency, 429/5xx, disk/backup growth and deletion with
 representative client traffic before distribution. Shared NAT clients share an
 address budget. Keep public admin, community reads and backup paths closed.
 
+### Resource envelope on the shared VPS
+
+The read-only audit found 34.05 GiB available on the 58.95 GiB ext4 root
+filesystem (`/dev/vda2`), no project quotas, and VNB I/O charged to
+`253:0` (`/dev/vda`). The prior 128 KiB request cap and 120 requests/minute
+global upload budget allow 21.09 GiB/day of request bodies and up to 5.53
+million records/day before other limits. The former 100,000 live-event
+ceiling still allowed roughly 1.30 GiB of canonical payload alone
+(100,000 × 13,922 bytes, a conservative bound from the whitelist). SQLite
+adds rows, indexes, page slack and WAL. At a daily cadence, 30–31 full
+high-water snapshots are roughly 39–40 GiB of payload-sized copies even
+before SQLite overhead. Age-based cleanup reuses pages and does not shrink
+the database file, and known-delete tombstones have no time or row-count
+expiry. Restarts reset request counters. In the old maintenance order a
+failed report or anomalous backup could prevent expiry rotation while new
+snapshots accumulated. Separate directories on the same mount did not
+provide a filesystem limit.
+
+The initial playtest allocates **1 GiB live + 3 GiB operations** up front
+from root and limits the physical capacity independently of traffic.
+Reserve at least **4 GiB available on the backing root** using
+`VNB_RELEASE_HOST_FILESYSTEM=/srv/ray/vnb_release`, the unmounted parent.
+Require at least 9 GiB free before allocating the two images. Allocation
+at the audited free-space sample leaves about 30 GiB, before any old files
+are archived. Exclude both fixed-size images from generic full-file
+backup jobs. Keep the image files root-only and never put them in Caddy's
+state or document root.
+
+| Budget | Behavior |
+| --- | --- |
+| Live SQLite | New records stop before a projected 48 MiB of occupied pages or 56 MiB of total pages, including incoming row/index allowance. Intake also stops below 256 MiB free on the separate 1 GiB live mount or below 4 GiB on root. The estimates leave room below the 64 MiB backup-file limit. The mount is the hard bound. |
+| WAL and deletion | The 1 GiB mount includes the main file, WAL, SHM, freelist and tombstones. The 16 MiB journal-size target applies when SQLite resets the WAL. Long readers and large transactions can temporarily exceed it. Release backup copies 128 pages per step. The live floor leaves room for cleanup, WAL and known-installation deletion. A truly full live volume can still return 503 on deletion. |
+| Backups | At most one full snapshot per UTC day, capped at 64 MiB. Check the main file's actual byte length and the logical page count including committed WAL before copying, then check the finalized staged file's actual length before publishing. The 30-day rotation can retain up to 31 UTC dates (1,984 MiB). Age-expired valid pairs rotate before creation, even with low space or an unrelated anomaly. Anomalous pairs stay private for review. Recent hashes are checked on restore, expired hashes before rotation. |
+| Report and temporary output | Both current files are staged on the 3 GiB operations mount, with no prior current copies held during the build. Each maintenance file is capped at 128 MiB. The two staged reports together can use at most 256 MiB. Allowing 31 full snapshots, one additional 64 MiB staged snapshot and the two reports leaves 768 MiB nominal for ext4, triage, its journals and SQLite temp. New backups and report builds each require 512 MiB free on operations and the 4 GiB host floor. Failed builds leave the former report invalidated. |
+
+At the storage gate, new uploads and unknown-installation deletes return
+`503 storage_limit` without a receipt, row or tombstone. They consume the
+normal request-budget attempt and the client keeps the operation pending.
+Previously committed identical uploads still return their exact receipt;
+known installations can delete, with a successful receipt only after SQLite
+commits the tombstone and removal. Deleted installations continue to receive
+410 on replay. SQLite I/O/full errors return retryable `503 storage_unavailable`
+without claiming success. Separate limiters still return 429 when exhausted.
+To recover, free legitimate capacity on the affected filesystem or provision
+a larger dedicated volume with verified host headroom. Keep the latest
+complete SQLite and all tombstones. If the main file exceeds the backup size
+limit through historical free pages, pause intake and compact a verified
+offline copy on separate bounded scratch storage before switching. Reports
+can hit the service's memory or time limit at high data volumes. Keep the
+maintenance alert active and check the first successful report at real load.
+
+Before approving a larger playtest, scale the two mounts and the matching
+watermarks together. Budget operations for **31 × snapshot cap + one staged
+snapshot + two staged report files + filesystem, triage and temp margin**.
+Keep the operations free-space gate above the largest expected staging
+write and preserve the 4 GiB backing-root floor. For example, a separately
+approved 2 GiB live / 6 GiB operations profile could use 96 MiB occupied,
+112 MiB projected file and 128 MiB actual snapshot caps, 512 MiB live free,
+768 MiB operations free, and 256 MiB/file for maintenance. That profile
+leaves 1,536 MiB nominal after 31 full snapshots, one staged snapshot and
+the two reports. Update the seal's exact expected image sizes and the
+source/unit limits as part of that change. Stop the three VNB release units
+and unmount before resizing images, then verify allocation, filesystem
+size, restore/deletion and effective limits before reopening. No root
+remount, shared quota change or host-wide trim change is required.
+
+Release CPU ceilings are edge 25%, receiver 50% and maintenance 25% of
+one CPU, totaling one of two vCPUs while maintenance runs. Memory maxima are
+128 + 384 + 384 = **896 MiB**, with no cgroup swap. The live audit sampled
+roughly 1.36 GiB available on a 3.64 GiB host. Limits are ceilings, so that
+single sample does not establish headroom for the other workloads. The
+configured historical localhost receiver, proxy and maintenance ceilings
+add 1.75 CPU and 1,408 MiB if they all run. Leave their settings alone
+and check actual concurrent use.
+
+Each release unit explicitly accounts CPU, memory and I/O and applies
+`io.max` through systemd on `/dev/vda`: receiver 8 MB/s read and 4 MB/s
+write, maintenance 8/4, and edge 1/1. The sum is **17 MB/s read and
+9 MB/s write** for attributable block I/O. The two filesystems still share
+the physical device and queue, and loop-backed writeback attribution must
+be verified. Check effective `io.max` for `253:0` and matching `io.stat`
+during a normal receipt and maintenance run after migration. A property
+shown in the unit alone does not prove attribution. If resulting I/O
+escapes the scoped cgroups, use a separately attached VNB block device
+before claiming I/O isolation. The existing system journal and TLS edge
+state remain on root, with bounded unit logging and no access log.
+
+Release maintenance has a separate unprivileged UID and an empty
+capability set. The receiver owns live SQLite; a dedicated read group
+receives read access only to the live DB/WAL/SHM. The receiver cannot
+traverse the private operations mount or overwrite backups. Read-only WAL
+requires both sidecars to be present with group-readable ownership; verify
+the maintenance job with the real running receiver on Linux.
+
+### Prepare the two bounded volumes
+
+Run only after approval, on this host with `/dev/vda` as the measured
+accounting device. This allocates exactly 4,294,967,296 bytes of image
+capacity and must be scheduled as separate
+maintenance work. Do not remount root or change quotas for other users.
+For a first deployment, create `vnb-feedback-release` as below before this
+step. If migrating, keep the existing account and add only the two
+dedicated groups and the new maintenance account.
+
+```sh
+vol=/srv/ray/vnb_release
+test -b /dev/vda
+test ! -e "$vol/images/live.img" && test ! -e "$vol/images/ops.img"
+test "$(df -B1 --output=avail /srv/ray | tail -1)" -ge "$((9 * 1024 * 1024 * 1024))"
+getent group vnb-feedback-read >/dev/null || groupadd --system vnb-feedback-read
+getent group vnb-feedback-maint >/dev/null || groupadd --system vnb-feedback-maint
+id vnb-feedback-maint >/dev/null 2>&1 ||
+  useradd --system --gid vnb-feedback-maint --no-create-home --shell /usr/sbin/nologin vnb-feedback-maint
+install -d -m 0755 "$vol"
+install -d -m 0700 "$vol/images" "$vol/live" "$vol/ops"
+(umask 077; fallocate -l 1G "$vol/images/live.img"; fallocate -l 3G "$vol/images/ops.img")
+for img in "$vol/images/live.img" "$vol/images/ops.img"; do
+  mkfs.ext4 -q -F -m 0 -E nodiscard,lazy_itable_init=0,lazy_journal_init=0 "$img"
+done
+# Confirm the complete backing extents without changing the formatted filesystem.
+fallocate -l 1G "$vol/images/live.img"
+fallocate -l 3G "$vol/images/ops.img"
+for img in "$vol/images/live.img" "$vol/images/ops.img"; do
+  read -r blocks length < <(stat -c '%b %s' "$img")
+  test "$((blocks * 512))" -ge "$length"
+done
+for unit in srv-ray-vnb_release-live.mount srv-ray-vnb_release-ops.mount vnb-release-volume@.service; do
+  install -m 0644 "$code/deploy/$unit" "/etc/systemd/system/$unit"
+done
+systemctl daemon-reload
+systemctl start srv-ray-vnb_release-live.mount srv-ray-vnb_release-ops.mount
+systemctl start vnb-release-volume@live.service vnb-release-volume@ops.service
+findmnt -M "$vol/live"
+findmnt -M "$vol/ops"
+chown root:root "$vol/live"; chmod 0755 "$vol/live"
+chown root:vnb-feedback-maint "$vol/ops"; chmod 0750 "$vol/ops"
+install -d -m 2750 -o vnb-feedback-release -g vnb-feedback-read "$vol/live/data"
+install -d -m 0700 -o vnb-feedback-maint -g vnb-feedback-maint "$vol/ops/backups" "$vol/ops/reports" "$vol/ops/tmp"
+```
+
+An active mount is mandatory for each writer. A narrowly scoped root startup
+oneshot checks the exact loop backing file, stops discard on that VNB loop
+device only and verifies physical image allocation. This prevents periodic
+host trim from reopening holes in the reserved images. The checks run on
+each mount lifecycle. Do not use the bare mount-point directories if a
+mount or its startup check fails. Mounts are pulled in by the release units.
+
+### Migrate an already-active release
+
+Keep the public edge paused during migration, stop the release timer and
+wait for any maintenance job, then stop the receiver. Preserve the old
+files read-only and take a consistent SQLite backup from
+`/srv/ray/data/vnb/release/feedback.sqlite` using `storage.py backup`.
+Prefer a staging destination on the new live volume. Compare old and new
+counts including tombstones and check SQLite integrity. Record the staged
+copy's SHA-256 and verify it after placing the copy at
+`$vol/live/data/feedback.sqlite`, owner
+`vnb-feedback-release:vnb-feedback-read`, mode 0640. Start the new
+receiver without old copied WAL/SHM files. Copy verified existing backup
+pairs and the private triage database into the new operations directories,
+owned by `vnb-feedback-maint`, files 0600. Preserve the old paths only
+for controlled operator rollback and retention. Leave the parent
+`/srv/ray/backups` private.
+
+Install only the new release receiver, maintenance and mount units plus
+the release edge drop-in, and repoint `current-release` to the verified
+source before restarting. After a normal local check and the first
+maintenance job, verify while the receiver is active:
+
+```sh
+stat -c '%U:%G %a %n' "$vol/live/data"/feedback.sqlite*
+sudo -u vnb-feedback-maint -g vnb-feedback-read test -r "$vol/live/data/feedback.sqlite-wal"
+sudo -u vnb-feedback-maint -g vnb-feedback-read test -r "$vol/live/data/feedback.sqlite-shm"
+sudo -u vnb-feedback-maint -g vnb-feedback-read test ! -w "$vol/live/data/feedback.sqlite"
+sudo -u vnb-feedback-release test ! -w "$vol/ops/backups"
+sudo -u vnb-feedback-release test ! -x "$vol/ops"
+for unit in vnb-feedback-public.service vnb-release-receiver.service vnb-release-maintenance.service; do
+  cg=$(systemctl show -P ControlGroup "$unit")
+  test -n "$cg"
+  cat "/sys/fs/cgroup${cg}/io.max" "/sys/fs/cgroup${cg}/io.stat"
+done
+```
+
+Run the cgroup check while the maintenance oneshot is active; its cgroup
+can disappear when the job ends. Confirm `253:0` limits of 1,000,000/1,000,000
+bytes/s for edge and 8,000,000/4,000,000 for each worker. Check a real
+maintenance snapshot digest and mode, and verify protected service state
+from the existing host receipt. Roll back by pausing release and retaining
+the new bounded volumes and newest deletion state while selecting compatible
+code. Do not restore unbounded writable paths or start the old SQLite as an
+alternative writer. The prior version's root maintenance is not a safe
+fallback for the new isolation profile.
+
 ### 1. Stage privately
 
 Preflight: confirm loopback 18082 is free, the existing VNB units are active
@@ -163,8 +356,9 @@ cfg=/etc/vnb-feedback-release
 edge=/etc/vnb-feedback-public
 edge_override=/etc/systemd/system/vnb-feedback-public.service.d/50-release.conf
 rehearsal_override=/run/systemd/system/vnb-release-receiver.service.d/60-rehearsal.conf
-live=/srv/ray/data/vnb/release/feedback.sqlite
-rehearsal=/srv/ray/data/vnb/release-rehearsal-$(basename "$work")
+vol=/srv/ray/vnb_release
+live=$vol/live/data/feedback.sqlite
+rehearsal=$vol/live/rehearsal-$(basename "$work")
 
 test -r "$approved"
 test -f "$frozen/server/deploy/check-release-feedback.py"
@@ -178,10 +372,12 @@ getent group vnb-feedback-release >/dev/null || groupadd --system vnb-feedback-r
 id vnb-feedback-release >/dev/null 2>&1 ||
   useradd --system --gid vnb-feedback-release --no-create-home --shell /usr/sbin/nologin vnb-feedback-release
 install -d -m 0750 -g vnb-feedback-release "$cfg" "$cfg/rehearsal"
-install -d -m 0700 -o vnb-feedback-release -g vnb-feedback-release "$(dirname "$live")" "$rehearsal"
-install -d -m 0700 /srv/ray/data/vnb/release-reports /srv/ray/backups/vnb-release
 ln -s "$frozen" /srv/ray/apps/vnb/current-release
 code=/srv/ray/apps/vnb/current-release/server
+# Run "Prepare the two bounded volumes" now, then resume this block.
+mountpoint -q "$vol/live"
+mountpoint -q "$vol/ops"
+install -d -m 0700 -o vnb-feedback-release -g vnb-feedback-release "$rehearsal"
 install -m 0640 -g vnb-feedback-release "$approved" "$cfg/admissions.json"
 printf 'VNB_SOURCE_COMMIT=%s\n' "$backend_commit" > "$cfg/maintenance.env"
 python3 -B "$code/deploy/prepare-release-edge.py" "$cfg/edge.token"

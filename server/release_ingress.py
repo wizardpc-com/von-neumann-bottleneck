@@ -5,6 +5,7 @@ import json
 import os
 import re
 import sqlite3
+from pathlib import Path
 import time
 
 
@@ -21,6 +22,25 @@ LIVE_USED_LIMIT = 48 * 1024**2
 LIVE_FILE_LIMIT = 56 * 1024**2
 LIVE_FREE_RESERVE = 256 * 1024**2
 HOST_FREE_RESERVE = 4 * 1024**3
+HEARTBEAT = Path("/run/vnb-release-status/heartbeat.json")
+HEARTBEAT_MAX_AGE = 11 * 60
+
+
+def heartbeat(now):
+    stamp = None
+    healthy = False
+    try:
+        with HEARTBEAT.open("rb") as source:
+            raw = source.read(129)
+        value = json.loads(raw)
+        if (len(raw) <= 128 and isinstance(value, dict) and set(value) == {"checked_utc", "ok"}
+                and type(value["checked_utc"]) is int and value["checked_utc"] >= 0
+                and type(value["ok"]) is bool):
+            stamp = value["checked_utc"]
+            healthy = value["ok"] and 0 <= now - stamp <= HEARTBEAT_MAX_AGE
+    except (OSError, ValueError, RecursionError):
+        pass
+    return {"checked_utc": stamp, "ok": healthy}
 
 
 def available_bytes(directory):
@@ -70,7 +90,10 @@ class ReleaseIngress:
             if identity in self.builds:
                 raise ValueError("duplicate release build identity")
             self.builds.add(identity)
-        self.batches = {identity[2] for identity in self.builds}
+        self.batches = {mode: {batch for _, _, batch, edition in self.builds if edition == mode}
+                        for mode in ("game", "test")}
+        if self.batches["game"] & self.batches["test"]:
+            raise ValueError("release Game and Test batches must be distinct")
         self.token = token
         self.window = -1
         self.rates = {}
@@ -89,7 +112,7 @@ class ReleaseIngress:
             payload = record["payload"]
             identity = tuple(payload.get(key) for key in ("build_version", "source_commit", "test_batch", "mode"))
             if (payload.get("source") != "external_player" or identity not in self.builds
-                    or payload.get("source_batch") not in self.batches):
+                    or payload.get("source_batch") not in self.batches[identity[3]]):
                 return False
         return True
 

@@ -118,12 +118,13 @@ def render_opinions(feedback):
             evidence['test_batch']=row['test_batch']
         batch_cell=f'{esc(batch)}<br><small>{esc(row["source"])}</small>'
         cells=(opinion,task,triage,batch_cell,f'<pre>{esc(row["event_id"])}</pre>',evidence_details('Technical details',evidence))
-        rows.append(f'<tr data-source="{esc(row["source"])}" data-batch="{esc(batch)}" data-triage="{esc(status)}">'
+        rows.append(f'<tr data-source="{esc(row["source"])}" data-batch="{esc(batch)}" data-triage="{esc(status)}" data-mode="{esc(row["mode"])}">'
                     + ''.join(f'<td>{cell}</td>' for cell in cells) + '</tr>')
 
     batches={batch:('Unknown batch' if batch=='unknown' else batch) for batch in batches}
     controls=[]
-    for field,label,options in (('batch','Build batch',batches),('triage','Triage status',statuses)):
+    modes={mode: mode.title() for mode in sorted({row['mode'] for row in feedback})}
+    for field,label,options in (('mode','Edition mode',modes),('batch','Build batch',batches),('triage','Triage status',statuses)):
         choices=''.join(f'<option value="{esc(value)}">{esc(options[value])}</option>' for value in sorted(options))
         controls.append(f'<label for="opinion-{field}">{label}</label> '
                         f'<select id="opinion-{field}"><option value="">All</option>{choices}</select> ')
@@ -144,16 +145,18 @@ def render_opinions(feedback):
 {
   const source = document.querySelector("#source");
   const batch = document.querySelector("#opinion-batch");
+  const mode = document.querySelector("#opinion-mode");
   const triage = document.querySelector("#opinion-triage");
   const rows = document.querySelectorAll("#received-opinions tbody tr");
   const count = document.querySelector("#opinion-count");
   function filterOpinions() {
     let shown = 0;
     rows.forEach(row => {
-      const {source: rowSource, batch: rowBatch, triage: rowTriage} = row.dataset;
+      const {source: rowSource, batch: rowBatch, triage: rowTriage, mode: rowMode} = row.dataset;
       const matches = (!source.value || source.value === rowSource)
         && (!batch.value || batch.value === rowBatch)
-        && (!triage.value || triage.value === rowTriage);
+        && (!triage.value || triage.value === rowTriage)
+        && (!mode.value || mode.value === rowMode);
       row.hidden = !matches;
       if (matches) shown++;
     });
@@ -164,7 +167,7 @@ def render_opinions(feedback):
     filterBySource(event);
     filterOpinions();
   };
-  batch.onchange = triage.onchange = filterOpinions;
+  batch.onchange = triage.onchange = mode.onchange = filterOpinions;
   document.querySelector("#opinion-filters").hidden = false;
   filterOpinions();
 }

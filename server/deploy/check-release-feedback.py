@@ -9,6 +9,7 @@ import sys
 import time
 
 HOSTNAME = "feedback.yanruiqing.com"
+HEARTBEAT_MAX_AGE = 11 * 60
 REHEARSAL_BUILD = {
     "build_version": "vnb-rehearsal",
     "source_commit": "0" * 40,
@@ -50,9 +51,25 @@ def check_read_routes(connection, *, public, rehearsal, historical=False):
             player_notice = call(connection, "GET", "/privacy-player.html", 200, public=True)
             if b"Player Feedback Privacy Notice</title>" not in player_notice:
                 raise ValueError("player privacy notice missing")
-        for path in ("/admin/report", "/v1/community/tasks", "/v1/leaderboards", "/v1/events", "/v1/data"):
+        for path in ("/admin/report", "/v1/community/tasks", "/v1/leaderboards", "/v1/events", "/v1/data",
+                     "/internal/release-health"):
             call(connection, "GET", path, 404, public=True)
         call(connection, "HEAD", "/privacy-player.html", 404, public=True)
+
+
+def check_heartbeat(connection):
+    def unique_object(fields):
+        result = dict(fields)
+        if len(result) != len(fields):
+            raise ValueError("duplicate heartbeat fields")
+        return result
+
+    value = json.loads(call(connection, "GET", "/v1/status", 200, public=True),
+                       object_pairs_hook=unique_object)
+    if (not isinstance(value, dict) or set(value) != {"checked_utc", "ok"}
+            or value["ok"] is not True or type(value["checked_utc"]) is not int
+            or not 0 <= int(time.time()) - value["checked_utc"] <= HEARTBEAT_MAX_AGE):
+        raise ValueError("heartbeat unavailable, stale or invalid")
 
 
 def rehearse(connection):
@@ -101,7 +118,10 @@ def main():
     target.add_argument("--public-historical", action="store_true")
     parser.add_argument("--rehearsal", action="store_true")
     parser.add_argument("--synthetic-write", action="store_true")
+    parser.add_argument("--heartbeat", action="store_true", help="require a fresh healthy production heartbeat")
     args = parser.parse_args()
+    if args.heartbeat and (not args.public or args.rehearsal):
+        parser.error("--heartbeat requires production --public")
     if (args.rehearsal and args.public_historical) or (args.synthetic_write and not (args.public and args.rehearsal)):
         parser.error("synthetic writes require --public --rehearsal")
     public = args.public or args.public_historical
@@ -110,6 +130,8 @@ def main():
             connection = http.client.HTTPSConnection(HOSTNAME, 8443, timeout=5, context=ssl.create_default_context())
             try:
                 check_read_routes(connection, public=True, rehearsal=args.rehearsal, historical=args.public_historical)
+                if args.heartbeat:
+                    check_heartbeat(connection)
                 if args.synthetic_write:
                     rehearse(connection)
             finally:

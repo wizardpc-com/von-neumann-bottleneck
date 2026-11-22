@@ -1,0 +1,10 @@
+[Unit]
+Description=Sample the dedicated VNB release health every five minutes
+
+[Timer]
+OnCalendar=*:0/5
+Persistent=true
+Unit=vnb-release-monitor.service
+
+[Install]
+WantedBy=timers.target

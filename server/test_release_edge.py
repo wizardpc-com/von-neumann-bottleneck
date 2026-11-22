@@ -147,7 +147,8 @@ class ReleaseEdgeTests(unittest.TestCase):
             config.write_text(template.replace(":18081}", f":{historical}" + "}"))
             context = ssl.create_default_context(cafile=str(certs / "fullchain.pem"))
             proxy = [CADDY, "run", "--config", str(config), "--adapter", "caddyfile"]
-            python = python_with_synthetic_capacity(SERVER / "feedback_server.py")
+            heartbeat = root / "heartbeat.json"
+            python = python_with_synthetic_capacity(SERVER / "feedback_server.py", heartbeat=heartbeat)
             legacy_db = root / "historical.sqlite"
             rehearsal_db = root / "rehearsal.sqlite"
             production_db = root / "production.sqlite"
@@ -164,6 +165,7 @@ class ReleaseEdgeTests(unittest.TestCase):
                     connection = http.client.HTTPSConnection("127.0.0.1", edge, context=context, timeout=5)
                     try:
                         check.check_read_routes(connection, public=True, rehearsal=False, historical=True)
+                        check.call(connection, "GET", "/v1/status", 404, public=True)
                     finally:
                         connection.close()
                 held_fragment.rename(fragment)
@@ -176,6 +178,7 @@ class ReleaseEdgeTests(unittest.TestCase):
                         connection = http.client.HTTPSConnection("127.0.0.1", edge, context=context, timeout=5)
                         try:
                             check.check_read_routes(connection, public=True, rehearsal=True)
+                            check.call(connection, "GET", "/v1/status", 404, public=True)
                             check.rehearse(connection)
                         finally:
                             connection.close()
@@ -187,9 +190,38 @@ class ReleaseEdgeTests(unittest.TestCase):
                 prepare.prepare(token_path)
                 with self.service(python + ["--port", str(release), "--database", str(production_db), *options], release, env):
                     with self.service(release_proxy, edge, env):
+                        with patch.object(sys, "path", [str(DEPLOY), *sys.path]):
+                            monitor = script("monitor-release")
+                        local_edge = monitor.LocalEdge
+
+                        def bind_test_edge(bind):
+                            client = local_edge(bind)
+                            client.port = edge
+                            return client
+
+                        with patch.object(monitor, "LocalEdge", side_effect=bind_test_edge), \
+                                patch.object(monitor.check, "HOSTNAME", "127.0.0.1"), \
+                                patch.object(monitor.ssl, "create_default_context", return_value=context):
+                            expiry, leaf = monitor.probe_edge("127.0.0.1")
+                        self.assertGreater(expiry, time.time())
+                        self.assertEqual(leaf, ssl.PEM_cert_to_DER_cert((certs / "fullchain.pem").read_text()))
                         connection = http.client.HTTPSConnection("127.0.0.1", edge, context=context, timeout=5)
                         try:
                             check.check_read_routes(connection, public=True, rehearsal=False)
+                            self.assertEqual(json.loads(check.call(connection, "GET", "/v1/status", 503, public=True)),
+                                             {"checked_utc": None, "ok": False})
+                            now = int(time.time())
+                            heartbeat.write_text(json.dumps({"checked_utc": now, "ok": True}))
+                            self.assertEqual(json.loads(check.call(connection, "GET", "/v1/status", 200, public=True)),
+                                             {"checked_utc": now, "ok": True})
+                            check.check_heartbeat(connection)
+                            heartbeat.write_text(json.dumps({"checked_utc": now - 661, "ok": True}))
+                            self.assertEqual(json.loads(check.call(connection, "GET", "/v1/status", 503, public=True)),
+                                             {"checked_utc": now - 661, "ok": False})
+                            for method in ("HEAD", "POST", "DELETE"):
+                                check.call(connection, method, "/v1/status", 404, public=True)
+                            for path in ("/v1/status/", "/v1/status?extra=1"):
+                                check.call(connection, "GET", path, 404, public=True)
                         finally:
                             connection.close()
                     (root / "reports").mkdir()

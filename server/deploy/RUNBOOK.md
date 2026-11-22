@@ -95,8 +95,11 @@ proxy is added, revisit this trust boundary before using forwarded addresses.
 
 The release receiver admits `external_player` records only when the build version,
 full source commit, build batch and Game/Test mode exactly match the approved
-list and the consent batch is approved. Keep still-supported entries across
-upgrades because existing consent may retain its original batch. QA tools,
+list and the consent batch is approved for that same mode. Game and Test must
+use disjoint batch names. Keep still-supported entries across upgrades because
+existing consent may retain its original batch. The shipped offline Test ZIP
+has no receiver and needs no entry. Add Test only for an independently
+approved network-enabled public Test build. QA tools,
 synthetic staging and release rehearsal use separate admissions/storage. These
 client-supplied labels classify records and do not authenticate players. The
 edge overwrites both private headers and uses a root-managed credential shared
@@ -164,6 +167,172 @@ limit through historical free pages, pause intake and compact a verified
 offline copy on separate bounded scratch storage before switching. Reports
 can hit the service's memory or time limit at high data volumes. Keep the
 maintenance alert active and check the first successful report at real load.
+
+### Monitoring and alerting
+
+The dedicated five-minute timer runs as the VNB maintenance UID with read-only
+access to the release data and operations volumes. It checks receiver health and
+intake, verifies the certificate and exact routes on the local 8443 binding
+using the production hostname as TLS SNI, and checks the maintenance timer and
+last job result, backup metadata and report freshness (36 hours), and disk
+reserves. Backup freshness checks the newest managed pair and its size.
+Maintenance verifies new checksums and verifies expired pairs before rotation.
+Restore verifies hashes and replays tombstones. The monitoring job does not
+rehash large snapshots every five minutes.
+The monitor adds a separate ceiling of 10% of one CPU and 64 MiB of RAM.
+
+The release receiver exposes process-lifetime aggregate refusal counters only
+on IPv4 loopback at `/internal/release-health`. Caddy blocks this route. The
+monitor alerts on 30 or more new rate refusals between samples, any new
+storage/refusal/cleanup error, closed intake, or failures of the checks above.
+The journal records fixed incident codes, recovery, and reminders every
+24 hours while an issue persists. The private status file is
+`/var/lib/vnb-release-monitor/status.json`. Both exclude player content, IP
+addresses, request headers, receipt IDs and credentials.
+
+The separate hosted probe should check exact `GET /v1/status` on the VNB
+hostname and port 8443. Run
+`python3 -B server/deploy/check-release-feedback.py --public --heartbeat`
+to check this and the existing TLS routes in one invocation. Its JSON consists of only `checked_utc` (Unix UTC
+seconds or null) and `ok` (boolean). Healthy samples return 200. Missing,
+invalid, failed, future-dated or older-than-660-second samples return 503
+with `ok:false`. Treat missing routes, TLS errors, any non-200, invalid
+schema, stale timestamps or false status as failure after feature rollout.
+The local TLS probe does not query `/v1/status`. Historical and disposable
+rehearsal routes retain 404 for this path. HEAD and query variants are
+outside the contract. Keep reasons, counters and details private.
+
+The operator's hosted GitHub Actions notification subscription is the
+unattended alert path. The VPS sends no mail or third-party webhook.
+Configure and verify the subscription separately, and keep the hosted
+check disabled for this route until the new deployment returns a healthy
+sample. The expected notification delay is the next hosted run, plus the
+local sample interval. Independent hosted TLS/health probes remain useful
+if the VPS and heartbeat are unreachable.
+
+### Update a deployed release to monitoring
+
+After the frozen SHA and GO, stage the complete root-owned tree as in the
+release cutover. Preserve the prior receiver unit, Caddyfile, monitoring
+unit state, source symlink target and admission file with mode 0600 in a
+root-only checkpoint. Keep both existing release volumes and database.
+Pause the release timer and wait for the current maintenance run, then
+stop the dedicated edge and receiver. Use the currently
+active production bind and do not change DNS, firewall or any shared unit.
+
+```sh
+# Run after the checkpoint is saved and before changing current-release.
+systemctl stop vnb-release-maintenance.timer
+while systemctl show --value -p ActiveState vnb-release-maintenance.service | grep -Eq '^(activating|active|deactivating)$'; do
+  sleep 1
+done
+systemctl stop vnb-feedback-public.service vnb-release-receiver.service
+# Point current-release to the approved frozen tree and set maintenance.env.
+code=/srv/ray/apps/vnb/current-release/server
+for unit in vnb-release-receiver.service vnb-release-monitor.service vnb-release-monitor.timer; do
+  install -m 0644 "$code/deploy/$unit" "/etc/systemd/system/$unit"
+done
+install -m 0644 "$code/deploy/vnb-feedback-public.caddy" /etc/vnb-feedback-public/Caddyfile
+systemd-analyze verify /etc/systemd/system/vnb-release-{receiver,monitor}.service \
+  /etc/systemd/system/vnb-release-monitor.timer
+systemctl daemon-reload
+systemctl start vnb-release-receiver.service
+python3 -B "$code/deploy/check-release-feedback.py" --local
+systemctl start vnb-release-maintenance.service
+systemctl start vnb-feedback-public.service
+systemctl start vnb-release-maintenance.timer
+systemctl start vnb-release-monitor.service
+systemctl enable --now vnb-release-monitor.timer
+journalctl -u vnb-release-monitor.service -n 20 --no-pager
+```
+
+Set the approved frozen backend source commit in the existing
+`maintenance.env` before the first maintenance run. Verify the deployed
+receiver's I/O limits, heartbeat from an independent network (200, two
+fields and fresh timestamp), private-path denial, and monitor timer's next
+execution. Rehearse stale/failed heartbeat and recovery only with synthetic
+fixtures or an isolated staging copy. If rollout fails, disable the monitor
+timer, disarm its hosted route check, and restore the checkpointed dedicated
+units, Caddyfile, and source target. Restart the dedicated receiver and
+edge using the same live volume and latest tombstones, then re-enable the
+original release maintenance timer.
+
+### Renew the dedicated 8443 certificate
+
+Read-only host inventory found the existing Let's Encrypt certificate
+expires at 2027-02-20 09:03:06 UTC. The local and hosted checks start
+alerting at 30 days. The verified renewal mechanism is the existing
+VNB-only lego account and DNSPod manual DNS-01. The DNS owner creates and
+removes only the issuance's TXT value at
+`_acme-challenge.feedback.yanruiqing.com`. No scoped unattended DNS
+credential has been approved. Keep the manual challenge and existing
+account state on the VPS. Do not paste the prompt or values into logs,
+chat, Git, or shell recordings.
+
+On the authorized root terminal, once renewal is approved:
+
+```sh
+set +x
+umask 077
+vnb_acme=/srv/ray/apps/vnb/acme-public
+read -rs -p 'Existing ACME account contact: ' vnb_acme_contact
+printf '\n'
+"$vnb_acme/lego" --path "$vnb_acme/state" --email "$vnb_acme_contact" \
+  --dns manual --domains feedback.yanruiqing.com renew --days 30
+unset vnb_acme_contact
+# Wait for DNS owner confirmation and successful issuance before proceeding.
+code=/srv/ray/apps/vnb/current-release/server
+bind=$(sed -n 's/^VNB_PUBLIC_BIND=//p' /etc/vnb-feedback-public/listener.env)
+issued="$vnb_acme/state/certificates/feedback.yanruiqing.com"
+python3 -B "$code/deploy/install-release-certificate.py" "$issued.crt" "$issued.key" --bind "$bind"
+python3 -B "$code/deploy/install-release-certificate.py" "$issued.crt" "$issued.key" --bind "$bind" --install
+```
+
+The first command verifies system trust, hostname, at least 30 days of
+validity and key pairing. The installer also requires the new leaf to
+extend expiry. It stages the pair privately, restarts only the dedicated
+8443 edge and checks the actual served leaf, TLS and release routes. It
+restores and verifies the prior pair on activation failure. A failed
+rollback preserves a private `.recovery-*` pair under the dedicated TLS
+directory. If interrupted mid-rotation, stop the dedicated edge, inspect
+the private staging directory for the prior pair, validate the pair, and
+restore both files before starting only that edge. Then verify hosted
+health and expiry. This procedure leaves shared TLS, listeners and
+firewall rules untouched.
+
+### Deployed release private triage
+
+Fetch a copy from an authorized operator machine into a private local
+directory. Keep the HTML out of web roots, hosted artifacts, and chat.
+
+```sh
+umask 077
+vnb_review=$(mktemp -d "${TMPDIR:-/tmp}/vnb-private-review.XXXXXX")
+ssh -o BatchMode=yes ray-vps 'sudo -n -u vnb-feedback-maint -- /bin/cat /srv/ray/vnb_release/ops/reports/current/report.html' \
+  > "$vnb_review/report.html" && open "$vnb_review/report.html"
+```
+
+Filter by edition mode, build batch, source and triage status. The receipt
+ID identifies the exact accepted opinion. Use Test results as Test evidence
+and classify QA or unsupported task versions separately. To set a status,
+replace only the placeholder receipt and choose an allowed status
+(`needs_review`, `reproduced`, `needs_information`, `fixed`,
+`needs_retest` or `deferred`). The command runs under the release
+maintenance UID with the dedicated read group and acquires the same
+lock as daily maintenance. It writes only the private release triage
+sidecar. Refresh under the normal maintenance unit after the edit:
+
+```sh
+ssh -o BatchMode=yes ray-vps 'sudo -n -u vnb-feedback-maint -g vnb-feedback-read -- /usr/bin/flock -w 15 /srv/ray/vnb_release/ops/backups/.maintenance.lock /usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/private_report.py --database /srv/ray/vnb_release/live/data/feedback.sqlite --triage /srv/ray/vnb_release/ops/reports/triage.sqlite --set-status REPLACE_WITH_RECEIPT_ID needs_retest'
+ssh -o BatchMode=yes ray-vps 'sudo -n systemctl start vnb-release-maintenance.service'
+ssh -o BatchMode=yes ray-vps 'sudo -n -u vnb-feedback-maint -- /bin/cat /srv/ray/vnb_release/ops/reports/current/report.html' \
+  > "$vnb_review/report.html" && open "$vnb_review/report.html"
+```
+
+Only real review work uses production receipt IDs. Use a temporary SQLite
+fixture to verify triage, refresh and deletion behavior. Refresh invalidates
+the previous report before rebuilding and purges triage when its receipt
+is removed. A fetch failure means the local copy may be incomplete.
 
 Before approving a larger playtest, scale the two mounts and the matching
 watermarks together. Budget operations for **31 × snapshot cap + one staged

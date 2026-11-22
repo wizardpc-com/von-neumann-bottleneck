@@ -10,6 +10,7 @@ ConditionPathIsMountPoint=/srv/ray/vnb_release/live
 Type=exec
 User=vnb-feedback-release
 Group=vnb-feedback-release
+SupplementaryGroups=vnb-feedback-read
 WorkingDirectory=/srv/ray/apps/vnb/current-release/server
 LoadCredential=edge.token:/etc/vnb-feedback-release/edge.token
 Environment=PYTHONDONTWRITEBYTECODE=1

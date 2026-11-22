@@ -72,7 +72,7 @@ class PrivateReportTests(unittest.TestCase):
         player={'source':'external_player','source_batch':'different-consent-batch'}
         self.seed(db,'a-new',note='A synthetic player note',test_batch=self.wave_a,**player)
         self.seed(db,'a-fixed',test_batch=self.wave_a,**player)
-        self.seed(db,'b-new',test_batch=self.wave_b,**player)
+        self.seed(db,'b-new',test_batch=self.wave_b,mode='game',**player)
         self.seed(db,'qa-a',test_batch=self.wave_a,source_batch='QA-consent-batch')
         self.seed(db,'a-quarantine',version='unsupported-synthetic-version',test_batch=self.wave_a,**player)
         self.seed(db,'legacy',version='',note='',test_batch='',source='unknown',chapter_id='',level_id='')
@@ -217,7 +217,7 @@ class PrivateReportTests(unittest.TestCase):
         self.assertEqual(result['received_feedback'],[])
         self.assertIn('Showing 0 of 0 opinions.',rendered)
         self.assertEqual(OpinionMarkup(rendered).rows,[])
-        for name in ('batch','triage'):
+        for name in ('batch','triage','mode'):
             self.assertIn(f'<select id="opinion-{name}"><option value="">All</option></select>',rendered)
 
     @unittest.skipUnless(shutil.which('node'),'Local JavaScript runtime unavailable')
@@ -232,7 +232,7 @@ class PrivateReportTests(unittest.TestCase):
 const {readFileSync} = require('node:fs');
 const {runInNewContext} = require('node:vm');
 const {rows, other, scripts, waveA, waveB} = JSON.parse(readFileSync(0, 'utf8'));
-const controls = Object.fromEntries(['source','opinion-batch','opinion-triage','opinion-count','opinion-filters']
+const controls = Object.fromEntries(['source','opinion-batch','opinion-triage','opinion-mode','opinion-count','opinion-filters']
   .map(id => ['#' + id, {value: '', hidden: true}]));
 const document = {
   querySelector: key => controls[key],
@@ -266,6 +266,10 @@ change('opinion-triage', '');
 record();
 change('opinion-batch', '');
 record();
+change('opinion-mode', 'game');
+record();
+change('source', 'automated');
+record();
 console.log(JSON.stringify({snapshots, filtersVisible: !controls['#opinion-filters'].hidden}));
 '''
         execution=subprocess.run(['node','-e',runner],input=json.dumps(fixture),text=True,
@@ -273,12 +277,12 @@ console.log(JSON.stringify({snapshots, filtersVisible: !controls['#opinion-filte
         actual=json.loads(execution.stdout)
         self.assertTrue(actual['filtersVisible'])
         all_rows=sorted(row['event_id'] for row in result['received_feedback'])
-        visible=[all_rows,['a-new','qa-a'],['a-new'],['b-new'],[],['legacy'],all_rows]
+        visible=[all_rows,['a-new','qa-a'],['a-new'],['b-new'],[],['legacy'],all_rows,['b-new'],[]]
         self.assertEqual([state['visible'] for state in actual['snapshots']],visible)
         self.assertEqual([state['count'] for state in actual['snapshots']],
                          [f'Showing {len(rows)} of {len(all_rows)} opinions.' for rows in visible])
         self.assertEqual(actual['snapshots'][3]['otherSources'],['external_player'])
-        self.assertEqual(actual['snapshots'][-1]['otherSources'],['automated','external_player','unknown'])
+        self.assertEqual(actual['snapshots'][-3]['otherSources'],['automated','external_player','unknown'])
 
 
 if __name__=='__main__': unittest.main(verbosity=2)

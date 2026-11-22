@@ -1,0 +1,31 @@
+[Unit]
+Description=Local VNB release health, storage and TLS alerts
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=vnb-feedback-maint
+Group=vnb-feedback-read
+SupplementaryGroups=vnb-feedback-maint
+EnvironmentFile=/etc/vnb-feedback-public/listener.env
+Environment=VNB_RELEASE_HOST_FILESYSTEM=/srv/ray/vnb_release
+StateDirectory=vnb-release-monitor
+StateDirectoryMode=0700
+RuntimeDirectory=vnb-release-status
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=yes
+UMask=0077
+ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/deploy/monitor-release.py
+ProtectSystem=strict
+ProtectHome=true
+NoNewPrivileges=true
+CapabilityBoundingSet=
+PrivateDevices=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=any
+IPAddressAllow=localhost 10.0.0.14/32
+MemoryMax=64M
+CPUQuota=10%
+TasksMax=8
+TimeoutStartSec=65s

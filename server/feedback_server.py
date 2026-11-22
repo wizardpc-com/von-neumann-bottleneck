@@ -15,7 +15,7 @@ import time
 from storage import migrate, SCHEMA_VERSION
 from community import RULES, SCORE_NUMBERS, validate_score, validate_task_context, aggregate, leaderboard
 from urllib.parse import urlsplit, parse_qs
-from release_ingress import ReleaseIngress, UNKNOWN_DELETE_CEILING, live_can_grow
+from release_ingress import ReleaseIngress, UNKNOWN_DELETE_CEILING, heartbeat, live_can_grow
 
 TEXT = {'kind':64,'phase':80,'target':80,'case_id':80,'tool_id':80,'origin':80,'program_digest':80,'chapter_id':64,'level_id':64,'visit_id':100,'session_id':100,'source':24,'mode':16,
         'build_version':80,'task_version':80,'case_set_version':80,'model_version':80,'event':48,
@@ -102,6 +102,8 @@ class Receiver(HTTPServer):
         self.rates={}
         self.rejections={}
         self.started_at=int(time.time())
+        self.monitor_epoch=str(time.time_ns())
+        self.monitor_counts=dict.fromkeys(('rate_limit','storage_limit','storage_unavailable','retention_failed'),0)
         self.last_cleanup=0
         self.cleanup()
     def cleanup(self):
@@ -114,6 +116,7 @@ class Receiver(HTTPServer):
         except sqlite3.Error:
             if self.release is None: raise
             self.last_cleanup=now-3540
+            self.monitor_counts['retention_failed']+=1
             print('release_retention_cleanup_failed',flush=True)
             return
         self.rates={k:v for k,v in self.rates.items() if time.monotonic()-v[0]<60}
@@ -135,6 +138,9 @@ class Handler(BaseHTTPRequestHandler):
         super().setup()
         self.connection.settimeout(5)
     def send(self,status,body):
+        error='rate_limit' if status==429 else body.get('error')
+        if self.server.release is not None and error in self.server.monitor_counts:
+            self.server.monitor_counts[error]+=1
         raw=json.dumps(body,ensure_ascii=False,separators=(',',':')).encode()
         self.send_response(status)
         self.send_header('Content-Type','application/json; charset=utf-8')
@@ -193,6 +199,20 @@ class Handler(BaseHTTPRequestHandler):
         self.server.rates[key]=(start,count+1)
         return count<RATE_LIMIT
     def do_GET(self):
+        if self.path=='/v1/status' and self.server.release is not None and not self.server.release.rehearsal:
+            if self.server.release.peer(self.client_address[0],self.headers) is None:
+                return self.send(403,{'checked_utc':None,'ok':False})
+            status=heartbeat(int(time.time()))
+            return self.send(200 if status['ok'] else 503,status)
+        if (self.path=='/internal/release-health' and self.client_address[0]=='127.0.0.1'
+                and self.server.release is not None and not self.server.release.rehearsal):
+            try:
+                intake_open=(live_can_grow(self.server.db,self.server.database_dir,8192)
+                             and self.server.db.execute('SELECT COUNT(*) FROM events').fetchone()[0]<MAX_EVENTS)
+            except sqlite3.Error:
+                return self.send(503,{'error':'storage_unavailable'})
+            return self.send(200,{'epoch':self.server.monitor_epoch,'counts':self.server.monitor_counts,
+                                  'intake_open':intake_open})
         if self.path in ('/health','/v1/health'):
             release=self.server.release
             if release is not None and self.path=='/v1/health' and release.peer(self.client_address[0],self.headers) is None:

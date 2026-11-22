@@ -22,15 +22,20 @@ EDGE_FIXTURE = "f" * 64
 CLIENT = "synthetic-client-001"
 
 
-def python_with_synthetic_capacity(script):
+def python_with_synthetic_capacity(script, *, heartbeat=None):
     bootstrap = """import runpy, sys
+from contextlib import nullcontext
+from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0, sys.argv.pop(1))
+heartbeat = sys.argv.pop(1)
 sys.argv = sys.argv[1:]
-with patch('release_ingress.available_bytes', return_value=8 * 1024**3):
+status = patch('release_ingress.HEARTBEAT', Path(heartbeat)) if heartbeat else nullcontext()
+with patch('release_ingress.available_bytes', return_value=8 * 1024**3), status:
     runpy.run_path(sys.argv[0], run_name='__main__')
 """
-    return [sys.executable, "-B", "-c", bootstrap, str(Path(__file__).resolve().parent), str(script)]
+    return [sys.executable, "-B", "-c", bootstrap, str(Path(__file__).resolve().parent),
+            str(heartbeat) if heartbeat is not None else "", str(script)]
 
 
 class ReleaseIngressTests(unittest.TestCase):
@@ -43,9 +48,9 @@ class ReleaseIngressTests(unittest.TestCase):
         self.addCleanup(space.stop)
 
     @contextmanager
-    def receiver(self, path=None, *, legacy=False, rehearsal=False):
+    def receiver(self, path=None, *, legacy=False, rehearsal=False, builds=None):
         build = dict(BUILD, test_batch="vnb-rehearsal-test") if rehearsal else BUILD
-        admission = None if legacy else ReleaseIngress([build] if rehearsal else [BUILD, OLD_BUILD],
+        admission = None if legacy else ReleaseIngress(builds or ([build] if rehearsal else [BUILD, OLD_BUILD]),
                                                        EDGE_FIXTURE, rehearsal=rehearsal)
         server = Receiver(("127.0.0.1", 0), path or self.folder / "live.sqlite", "", release=admission)
         server.timeout = 3
@@ -212,6 +217,37 @@ class ReleaseIngressTests(unittest.TestCase):
             self.assertEqual(server.db.execute("SELECT COUNT(*) FROM events").fetchone(), (0,))
             space.return_value = 8 * 1024**3
             self.assertEqual(self.request(server, "POST", "/v1/events", second)[0], 200)
+
+    def test_game_test_admissions_have_disjoint_consent_batches(self):
+        test = dict(BUILD, mode="test", test_batch="public-test-1")
+        with self.assertRaisesRegex(ValueError, "must be distinct"):
+            ReleaseIngress([BUILD, dict(BUILD, mode="test")], EDGE_FIXTURE)
+        with self.receiver(builds=[BUILD, OLD_BUILD, test]) as server:
+            test_fields = dict(test, source_batch=test["test_batch"])
+            self.assertEqual(self.request(server, "POST", "/v1/events", self.envelope(**test_fields))[0], 200)
+            crossed = self.envelope(**dict(test_fields, source_batch=OLD_BUILD["test_batch"]))
+            self.assertEqual(self.request(server, "POST", "/v1/events", crossed)[0], 403)
+            game = self.envelope(event="release-test-event-002")
+            self.assertEqual(self.request(server, "POST", "/v1/events", game)[0], 200)
+            crossed = self.envelope(**{"source_batch": test["test_batch"]})
+            self.assertEqual(self.request(server, "POST", "/v1/events", crossed)[0], 403)
+
+    def test_internal_release_health_is_aggregate_only_and_counts_refusals(self):
+        with self.receiver() as server, patch("feedback_server.MAX_EVENTS", 0):
+            self.assertEqual(self.request(server, "POST", "/v1/events", self.envelope())[0], 503)
+            with patch.dict("release_ingress.LIMITS", {"upload": (0, 0)}):
+                self.assertEqual(self.request(server, "POST", "/v1/events", self.envelope())[0], 429)
+            status, result = self.request(server, "GET", "/internal/release-health")
+            self.assertEqual(status, 200)
+            self.assertEqual(set(result), {"counts", "epoch", "intake_open"})
+            self.assertFalse(result["intake_open"])
+            self.assertEqual(result["counts"], {"rate_limit": 1, "retention_failed": 0,
+                                                "storage_limit": 1, "storage_unavailable": 0})
+            self.assertEqual(self.request(server, "GET", "/v1/status", credential=None),
+                             (403, {"checked_utc": None, "ok": False}))
+        for options in ({"legacy": True}, {"rehearsal": True}):
+            with self.receiver(self.folder / "nonproduction.sqlite", **options) as server:
+                self.assertEqual(self.request(server, "GET", "/internal/release-health")[0], 404)
 
     def test_failed_known_delete_keeps_event_and_returns_no_receipt(self):
         with self.receiver() as server:

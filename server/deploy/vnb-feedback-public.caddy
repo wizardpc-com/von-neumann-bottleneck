@@ -43,6 +43,10 @@ https://feedback.yanruiqing.com:8443 {
         method GET
         path /v1/health
     }
+    @status {
+        method GET
+        path /v1/status
+    }
     @events {
         method POST
         path /v1/events
@@ -61,6 +65,9 @@ https://feedback.yanruiqing.com:8443 {
         file_server
     }
     handle @health {
+        import vnb_feedback_upstream
+    }
+    handle @status {
         import vnb_feedback_upstream
     }
     handle @events {

@@ -223,6 +223,8 @@ func offline_feedback(offline: Node, previous: Dictionary) -> void:
 		await get_tree().process_frame
 		check(offline.backdrop.visible and not offline.current.is_empty(), "The actual offline panel recorded the unfinished task.")
 		if offline.current.is_empty(): return
+		check(offline.current.get("screenshot_status") == "headless" and offline.preview.texture == null,
+			"The headless capture records its context without attempting a screenshot.")
 		offline.note.text = NOTE
 		offline.note.text_changed.emit()
 		evidence["feedback_id"] = str(offline.current.id)

@@ -413,7 +413,11 @@ def phase_diagnostics(text):
     lines = []
     for line in text.splitlines():
         line = line.strip()
-        if not line.startswith(('Godot Engine v','VNB_WINDOWS_QA:','SCRIPT ERROR:','ERROR:','FAIL:','at:','[0]','[1]')):
+        milestone = line.startswith('Loading resource:') and any(
+            name in line for name in ('startup.tscn','startup.scn','prototype_hub.tscn','prototype_hub.scn'))
+        if not milestone and not line.startswith(('Godot Engine v','VNB_WINDOWS_QA:','SCRIPT ERROR:',
+                                                  'ERROR:','FAIL:','at:','[0]','[1]',
+                                                  'OpenGL ','Vulkan API','Direct3D')):
             continue
         line = re.sub(r'https?://[^\s"<>]+','[redacted URL]',line,flags=re.I)
         line = re.sub(r'\b(?:Bearer|Basic)\s+[A-Za-z0-9_.+/=-]+','[redacted authorization]',line,flags=re.I)
@@ -465,6 +469,18 @@ def verify_phase(binary, scene, profile_dir, work, expected, endpoint, phase, en
     return report
 
 
+def startup_process(launch, directory, env, timeout):
+    """Keep the child exit code and all captured output, including after a kill."""
+    with subprocess.Popen(launch,cwd=directory,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE) as process:
+        try:
+            stdout,stderr = process.communicate(timeout=timeout)
+            return process.returncode,stdout,stderr,False
+        except subprocess.TimeoutExpired as error:
+            process.kill()
+            stdout,stderr = process.communicate()
+            return process.returncode,stdout or error.stdout,stderr or error.stderr,True
+
+
 def verify_startup(binary, stage, profile, expected, env, *, windowed=False):
     """Run the packaged main scene, preserving its own startup and hub transition."""
     override = binary.parent/'override.cfg'
@@ -472,45 +488,52 @@ def verify_startup(binary, stage, profile, expected, env, *, windowed=False):
         raise ValueError('Unexpected executable override before startup')
     log = stage/'startup.engine.log'
     write_override(override, None, profile, stage, expected, '', 'startup')
+    mode = 'windowed' if windowed else 'headless'
+    timeout = 90 if windowed else 45
+    launch = [str(binary), '--verbose', '--quit-after', '180', '--log-file', str(log)]
+    if windowed:
+        launch.extend(('--audio-driver','Dummy'))
+    else:
+        launch.insert(1, '--headless')
     try:
-        try:
-            launch = [str(binary), '--verbose', '--quit-after', '180', '--log-file', str(log)]
-            if windowed:
-                launch.extend(('--audio-driver','Dummy'))
-            else:
-                launch.insert(1, '--headless')
-            process = subprocess.run(launch, cwd=binary.parent, env=env,
-                                     capture_output=True, text=True, encoding='utf-8',
-                                     errors='replace', timeout=45)
-        except subprocess.TimeoutExpired as error:
-            output = (error.stdout or b'').decode('utf-8', errors='replace')
-            output += (error.stderr or b'').decode('utf-8', errors='replace')
-            print(phase_diagnostics(output), flush=True)
-            raise RuntimeError(f'{expected["edition"]} shipped startup timed out') from None
+        returncode,stdout,stderr,timed_out = startup_process(launch,binary.parent,env,timeout)
     finally:
         override.unlink(missing_ok=True)
-    output = process.stdout + process.stderr
+    output = '\n'.join(value.decode('utf-8', errors='replace') if isinstance(value,bytes) else value or ''
+                       for value in (stdout,stderr))
     if log.exists():
         output += '\n' + log.read_text(encoding='utf-8', errors='replace')
     (stage/'startup.log').write_text(output, encoding='utf-8')
     def loaded(scene):
-        return re.search(r'Loading resource: res://(?:src/ui/'+scene+r'\.tscn\b|'
-                         r'\.godot/exported/\d+/export-[0-9a-f]+-'+scene+r'\.scn\b)',output)
+        return bool(re.search(r'Loading resource: res://(?:src/ui/'+scene+r'\.tscn\b|'
+                              r'\.godot/exported/\d+/export-[0-9a-f]+-'+scene+r'\.scn\b)', output))
 
-    if windowed and not loaded('startup') and re.search(
+    startup_loaded = loaded('startup')
+    hub_loaded = loaded('prototype_hub')
+    renderer = re.search(r'^(OpenGL (?:API|ES)|Vulkan API|Direct3D)\b',output,re.MULTILINE)
+    errors = [line for line in output.splitlines() if 'ERROR:' in line and 'root certificate store' not in line]
+    evidence = {'exit_code':returncode,'timed_out':timed_out,'startup_loaded':startup_loaded,
+                'hub_loaded':hub_loaded,'renderer':renderer.group(1) if renderer else None}
+    write_json(stage/'startup.json',evidence)
+    print(f'Windows QA {expected["edition"]}: {mode} startup ' + json.dumps(evidence),flush=True)
+    if timed_out:
+        print(phase_diagnostics(output),flush=True)
+        if windowed and not errors:
+            return f'windowed incomplete: hosted startup timed out after {timeout} seconds'
+        raise RuntimeError(f'{expected["edition"]} shipped {mode} startup timed out (exit {returncode})')
+
+    if windowed and not startup_loaded and re.search(
             r'OpenGL.*(?:not supported|does not support|could not|failed|require)|'
             r'(?:failed|unable|cannot|could not).*?(?:OpenGL|WGL|display driver|create window)|'
             r'Your video card driver does not support', output, re.IGNORECASE):
         print(phase_diagnostics(output), flush=True)
         return 'windowed unavailable: runner display or graphics initialization failed'
-    if (process.returncode or any('ERROR:' in line and 'root certificate store' not in line
-                                  for line in output.splitlines())
-            or not loaded('startup') or (not windowed and not loaded('prototype_hub'))):
+    if returncode != 0 or errors or not startup_loaded or (not windowed and not hub_loaded):
         print(phase_diagnostics(output), flush=True)
-        raise RuntimeError(f'{expected["edition"]} shipped startup did not reach the laboratory'
-                           if not windowed else f'{expected["edition"]} shipped windowed startup failed')
+        failure = 'startup did not reach the laboratory' if not windowed else 'windowed startup failed'
+        raise RuntimeError(f'{expected["edition"]} shipped {failure} (exit {returncode})')
     if windowed:
-        if not re.search(r'OpenGL (?:API|ES)|Vulkan API|Direct3D', output):
+        if not renderer:
             raise RuntimeError(f'{expected["edition"]} windowed startup did not identify a rendering backend')
         return 'windowed startup and renderer initialized'
     return 'shipped startup reached the laboratory (headless)'
@@ -668,6 +691,7 @@ def verify_offline_bundle(stage, case_id, manifest):
         index = json.loads(bundle.read('manifest.json'))
         build = index['build']
         case = json.loads(bundle.read(prefix+'case.json'))
+        context = json.loads(bundle.read(prefix+'context.json'))
         notes = bundle.read(prefix+'notes.jsonl').decode('utf-8').splitlines()
         if (not notes or json.loads(notes[-1])['note'] != NOTE or case.get('note') != NOTE
                 or case.get('task',{}).get('level_id') != 'tutorial'
@@ -675,6 +699,12 @@ def verify_offline_bundle(stage, case_id, manifest):
                 or build.get('source_commit') != manifest['source_commit']
                 or build.get('version') != manifest['display_version']):
             raise ValueError('Offline ZIP does not preserve the restarted note')
+        task = context.get('reported_task',context.get('task',{}))
+        if (case.get('screenshot_status') != 'headless' or not case.get('screenshot_error')
+                or prefix+'screenshot.png' in bundle.namelist()
+                or prefix+'screenshot-incomplete.bin' in bundle.namelist()
+                or task.get('chapter_id') != 'hardware_foundations' or task.get('level_id') != 'tutorial'):
+            raise ValueError('Offline ZIP must preserve the headless incident context without an image')
         inventory = {entry['path']:entry for entry in index['files']}
         member_names = bundle.namelist()
         if (len(index['files']) != len(inventory) or len(member_names) != len(inventory)+1

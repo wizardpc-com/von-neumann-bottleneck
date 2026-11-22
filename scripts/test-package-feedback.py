@@ -424,15 +424,16 @@ class WindowsReleaseTests(unittest.TestCase):
         launch=['Loading resource: res://src/ui/startup.tscn',
                 'Loading resource: res://.godot/exported/1234/export-d00dad-prototype_hub.scn']
 
-        def execute(command, **options):
+        def execute(command, directory, env, timeout):
             settings=override.read_text(encoding='utf-8')
             self.assertNotIn('run/main_scene',settings)
             self.assertIn('feedback_endpoint=""',settings)
             self.assertIn('--headless',command)
-            return SimpleNamespace(stdout='\n'.join(launch),stderr='',returncode=0)
+            return 0,'\n'.join(launch),b'',False
 
-        with mock.patch.object(WINDOWS.subprocess,'run',side_effect=execute):
+        with mock.patch.object(WINDOWS,'startup_process',side_effect=execute):
             WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{})
+            self.assertTrue(WINDOWS.read_json(self.work/'startup.json')['hub_loaded'])
             launch.pop()
             with self.assertRaisesRegex(RuntimeError,'did not reach the laboratory'):
                 WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{})
@@ -442,8 +443,11 @@ class WindowsReleaseTests(unittest.TestCase):
         case_id='c'*32
         manifest={'source_commit':self.commit,'display_version':WINDOWS.FINAL_TAG[1:]}
         prefix='cases/'+case_id+'/'
-        case={'note':WINDOWS.NOTE,'task':{'level_id':'tutorial'}}
-        files={prefix+'case.json':json.dumps(case).encode(),prefix+'notes.jsonl':json.dumps(case).encode()}
+        task={'chapter_id':'hardware_foundations','level_id':'tutorial'}
+        case={'note':WINDOWS.NOTE,'task':task,'screenshot_status':'headless',
+              'screenshot_error':'No rendered game viewport was available.'}
+        files={prefix+'case.json':json.dumps(case).encode(),prefix+'notes.jsonl':json.dumps(case).encode(),
+               prefix+'context.json':json.dumps({'reported_task':task}).encode()}
         inventory=[{'path':name,'size':len(data),'sha256':hashlib.sha256(data).hexdigest()}
                    for name,data in files.items()]
         index={'format':'vnb-offline-playtest','case_count':1,'files':inventory,
@@ -457,6 +461,13 @@ class WindowsReleaseTests(unittest.TestCase):
 
         bundle()
         WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+        files[prefix+'screenshot.png']=b''
+        inventory.append({'path':prefix+'screenshot.png','size':0,'sha256':hashlib.sha256(b'').hexdigest()})
+        bundle()
+        with self.assertRaisesRegex(ValueError,'headless incident context without an image'):
+            WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+        del files[prefix+'screenshot.png']
+        inventory.pop()
         inventory[0]['sha256']='d'*64
         bundle()
         with self.assertRaisesRegex(ValueError,'inventory hash mismatch'):
@@ -484,13 +495,48 @@ class WindowsReleaseTests(unittest.TestCase):
     def test_graphics_failure_only_falls_back_before_the_shipped_scene_load(self):
         binary=self.work/'candidate.exe'
         expected={'qa_dir':'qa','edition':'test'}
-        failure=SimpleNamespace(stdout='ERROR: Could not initialize OpenGL',stderr='',returncode=1)
-        with mock.patch.object(WINDOWS.subprocess,'run',return_value=failure):
+        failure='ERROR: Could not initialize OpenGL'
+        with mock.patch.object(WINDOWS,'startup_process',return_value=(1,failure,b'',False)) as execute:
             result=WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True)
             self.assertIn('graphics initialization failed',result)
-            failure.stdout+='\nLoading resource: res://src/ui/startup.tscn'
+            execute.return_value=(1,failure+'\nLoading resource: res://src/ui/startup.tscn',b'',False)
             with self.assertRaisesRegex(RuntimeError,'shipped windowed startup failed'):
                 WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True)
+
+    def test_startup_process_collects_real_exit_and_timeout_output(self):
+        code,out,err,killed=WINDOWS.startup_process(
+            [sys.executable,'-c','import sys; print("out"); print("err",file=sys.stderr); sys.exit(7)'],
+            self.work,os.environ,5)
+        self.assertEqual((code,out.strip(),err.strip(),killed),(7,b'out',b'err',False))
+        code,out,err,killed=WINDOWS.startup_process(
+            [sys.executable,'-c','import time; print("started",flush=True); time.sleep(10)'],
+            self.work,os.environ,1)
+        self.assertTrue(killed)
+        self.assertNotEqual(code,0)
+        self.assertEqual(out.strip(),b'started')
+
+    def test_startup_timeout_is_incomplete_even_after_renderer_and_hub_evidence(self):
+        binary=self.work/'candidate.exe'
+        expected={'qa_dir':'qa','edition':'test'}
+        output=('Godot Engine v4.7.1\nOpenGL API 3.3\nLoading resource: res://src/ui/startup.tscn\n'
+                'Loading resource: res://src/ui/prototype_hub.tscn')
+        with mock.patch.object(WINDOWS,'startup_process',return_value=(1,output,b'',True)) as execute:
+            result=WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True)
+            self.assertIn('windowed incomplete',result)
+            evidence=WINDOWS.read_json(self.work/'startup.json')
+            self.assertEqual(evidence,{'exit_code':1,'timed_out':True,'startup_loaded':True,
+                                       'hub_loaded':True,'renderer':'OpenGL API'})
+            with self.assertRaisesRegex(RuntimeError,'headless startup timed out'):
+                WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{})
+            execute.return_value=(1,output,'SCRIPT ERROR: application failure',True)
+            with self.assertRaisesRegex(RuntimeError,'windowed startup timed out'):
+                WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True)
+            execute.return_value=(7,output,b'',False)
+            with self.assertRaisesRegex(RuntimeError,'windowed startup failed \(exit 7\)'):
+                WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True)
+            execute.return_value=(0,output,b'',False)
+            self.assertEqual(WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True),
+                             'windowed startup and renderer initialized')
 
     def test_draft_binds_annotated_tag_or_exact_uncreated_tag(self):
         draft={'id':17,'draft':True,'tag_name':self.tag,'target_commitish':self.commit}

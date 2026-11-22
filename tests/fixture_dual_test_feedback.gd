@@ -50,6 +50,60 @@ func distance(left: Image, right: Image) -> float:
 			total += absf(a.r-b.r)+absf(a.g-b.g)+absf(a.b-b.b)
 	return total / (80*45*3)
 
+func check_results_consent(moments: Node, remote: Node) -> void:
+	var old_endpoint: String = remote.endpoint
+	var old_notice: Variant = ProjectSettings.get_setting("application/feedback_privacy_url")
+	var locale: Node = root.get_node("Localization")
+	var old_locale: String = locale.current_locale()
+	remote.endpoint = "https://feedback.yanruiqing.com:8443/v1"
+	ProjectSettings.set_setting("application/feedback_privacy_url","https://feedback.yanruiqing.com:8443/privacy-player.html")
+	var prompt: Node = load("res://src/playtest/sharing_first_choice.gd").new()
+	root.add_child(prompt)
+	await settle()
+	var accept := prompt.find_child("SharingBasic",true,false) as Button
+	var decline := prompt.find_child("SharingLocalOnly",true,false) as Button
+	var details := prompt.find_child("PrivacyNoticeLink",true,false) as LinkButton
+	if not check(accept!=null and decline!=null and details!=null,"Fresh dual Test offers both decisions and details"): return
+	for language: String in ["en","zh_CN"]:
+		locale.set_locale(language)
+		await settle()
+		var copy_key := "settings.sharing_recommendation"
+		var has_copy := false
+		for label: Label in prompt.overlay.find_children("*","Label",true,false):
+			if label.text==locale.text(StringName(copy_key)) and label.is_visible_in_tree(): has_copy=true
+		check(has_copy and accept.size==decline.size and root.get_visible_rect().encloses(accept.get_global_rect()) and root.get_visible_rect().encloses(decline.get_global_rect()) and details.is_visible_in_tree(),"Full recommendation, notice and equal choices fit at 1280×720 in "+language)
+		root.get_texture().get_image().save_png("user://consent-"+language+".png")
+	await click(accept)
+	check(not prompt.overlay.visible and remote.enabled and remote.sharing_mode=="basic" and not prompt.needs_choice(),"Pointer acceptance persists Basic and releases the player.")
+	moments.toggle()
+	await settle()
+	var opened: Array[bool] = []
+	var opener: Callable = moments._open_results_url
+	moments._open_results_url = func(url: String) -> void: opened.append(url==remote.my_results_url() and not url.is_empty())
+	check(moments.results_button.is_visible_in_tree() and moments.results_button.disabled and remote.my_results_url().is_empty(),"Consent alone displays a waiting action with no credentialed destination.")
+	await click(moments.results_button)
+	check(opened.is_empty(),"The waiting action does not open a browser.")
+	var actual_post: Callable = remote._post_events
+	var fixture_request := HTTPRequest.new()
+	remote.request=fixture_request
+	remote._post_events=func(_url: String,_body: String) -> Error: return OK
+	var id: String = remote.send_feedback({"session_id":"render-registration","sequence":1,"payload":{"note":"fixture"}})
+	remote._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),JSON.stringify({"ack":[id]}).to_utf8_buffer())
+	remote._post_events=actual_post
+	remote.request=null
+	fixture_request.free()
+	await settle()
+	await click(moments.results_button)
+	check(opened==[true],"Pointer reaches the actual results action and opens its private destination.")
+	moments._open_results_url = opener
+	moments.close()
+	remote.set_sharing_mode("local")
+	remote.endpoint=old_endpoint
+	ProjectSettings.set_setting("application/feedback_privacy_url",old_notice)
+	locale.set_locale(old_locale)
+	prompt.queue_free()
+	await settle()
+
 func run() -> void:
 	if not OS.get_user_data_dir().contains("/VonNeumannBottleneckChecks/") or DisplayServer.get_name()=="headless":
 		push_error("Rendered isolated profile required."); quit(1); return
@@ -64,6 +118,11 @@ func run() -> void:
 	root.size=Vector2i(1280,720)
 	root.content_scale_mode=Window.CONTENT_SCALE_MODE_DISABLED
 	root.gui_embed_subwindows=true
+	root.content_scale_size=Vector2i(1280,720)
+	root.content_scale_mode=Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+	await settle()
+	await check_results_consent(moments,remote)
+	root.content_scale_mode=Window.CONTENT_SCALE_MODE_DISABLED
 	# The creation exhibit also owns an F8 callback. Its dual-Test key must
 	# leave the exhibit in place while the one shared shortcut opens feedback.
 	var exhibit = preload("res://experiments/creation/work_focus.gd").new()

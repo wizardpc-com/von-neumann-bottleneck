@@ -240,6 +240,8 @@ for edition, network, pilot, release_round in [
                     if online_release:
                         assert approved_pilot_urls[1] in notes and approved_pilot_urls[3] in notes
                         assert 'enter your opinion, and choose Send' in notes
+                        assert ('first acknowledged upload' in notes)==(release_round==2)
+                        assert ('Declining leaves offline play available.' in notes)==(release_round==2)
                         if dual_test:
                             assert 'separate opt-in' in notes and 'Export All Feedback' in notes
                             assert packaged_manifest['public_test_feedback'] is True

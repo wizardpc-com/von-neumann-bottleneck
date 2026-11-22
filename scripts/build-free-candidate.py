@@ -146,7 +146,7 @@ def edition_notes(project, identity, details, filename, binary_name):
     return identity + text
 
 
-def online_player_notes(notes, filename, feedback, *, pilot):
+def online_player_notes(notes, filename, feedback, *, pilot, personal_results=False):
     dual_test = feedback.get('public_test_feedback', False)
     heading = ('Player feedback pilot / 真人试玩意见反馈' if pilot else
                'Test Edition player feedback / 测试版反馈' if dual_test else
@@ -159,6 +159,15 @@ def online_player_notes(notes, filename, feedback, *, pilot):
         if pilot:
             online += ('\n基础统计、详细统计及成绩分享沿用各自的同意选项，新存档默认关闭。\n'
                        'Basic statistics, detailed playtest data and score sharing retain their existing consent choices and start off on a fresh profile.')
+        if personal_results:
+            online += ('\n首次启动可选择「拒绝服务」或「接受服务」。接受后，首次上传收到确认才会启用个人成绩入口，'
+                       '可从游戏打开你的只读网页，'
+                       '联网查看已同步的部分关卡成绩；统计也用于改进游戏。拒绝后仍可离线游玩，稍后可在反馈设置中更改。\n'
+                       'On first launch, choose Decline service or Accept service for play statistics. If you accept, '
+                       'the game enables the personal results link after the first acknowledged upload. '
+                       'Open your private personal results from the game to view synced results for supported tasks online. '
+                       'Statistics also help improve the game. Declining leaves offline play available. '
+                       'You can change your choice later in Feedback Settings. Keep the personal results link private.')
         if dual_test:
             online += ('\n自动发送的统计须另行同意，新存档默认关闭。也可单独记录现场，离线保存截图、任务现场与备注；'
                        '通过「导出全部反馈」生成本地 ZIP，由你决定是否私下分享。\n'
@@ -172,6 +181,9 @@ def online_player_notes(notes, filename, feedback, *, pilot):
         online = ('离线游玩可用；发送试玩意见需要访问本批配置的接收端。\n'
                   '  Rankings and challenges remeasure locally under the existing rules. They are not an authenticated online leaderboard. '
                   f'{receiver_note} requires access to the configured receiver.')
+        if personal_results:
+            online += ('\n个人成绩网页需要联网，仅显示可同步任务的成绩。\n'
+                       '  The personal results website requires a connection and shows results for supported tasks.')
     else:
         return notes + '\n' + heading + '\n'
     if offline not in notes:
@@ -500,7 +512,8 @@ def main():
                     notes = notes.replace('没有联网依赖，也没有配置在线反馈接收端。', '联网反馈仅对获准测试来源开放。')
                     notes = notes.replace('No network is required and no feedback receiver is configured.', 'Online feedback is limited to approved test sources.')
                 if a.player_feedback_pilot or (a.player_release and a.edition == 'game') or dual_test:
-                    notes = online_player_notes(notes, name, edition_feedback, pilot=a.player_feedback_pilot)
+                    notes = online_player_notes(notes, name, edition_feedback, pilot=a.player_feedback_pilot,
+                                                personal_results=a.player_release and a.release_version == 'v0.6.1-playtest.2')
                 if a.player_release and a.edition == 'test' and not dual_test and name == 'README.txt':
                     notes = offline_capture_notes(notes)
                 (folder / name).write_text(notes, encoding='utf-8')

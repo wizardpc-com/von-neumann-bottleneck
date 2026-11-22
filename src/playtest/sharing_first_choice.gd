@@ -29,30 +29,51 @@ func _ready() -> void:
 	var theme := Theme.new(); theme.default_font_size=20; InstrumentTheme.apply_to(theme); panel.theme=theme
 	center.add_child(panel)
 	var box := VBoxContainer.new(); box.add_theme_constant_override("separation",16); panel.add_child(box)
-	label(box,"settings.sharing_title",26); label(box,"settings.sharing_intro")
-	var destination := Label.new(); destination.text=RemoteFeedback.endpoint; destination.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; box.add_child(destination)
-	var details := VBoxContainer.new(); details.hide()
-	var inventory := Button.new(); inventory.name="SharingInventory"; inventory.text=Localization.text(&"settings.inventory"); inventory.set_meta("locale_key","settings.inventory")
-	inventory.pressed.connect(func() -> void: details.visible=not details.visible); box.add_child(inventory)
-	box.add_child(details); label(details,"settings.inventory_detail")
-	var buttons: Array[Control] = [inventory]
+	label(box,"settings.sharing_title",26)
+	label(box,"settings.sharing_recommendation" if RemoteFeedback.supports_personal_results() else "settings.sharing_recommendation_stats")
+	label(box,"settings.sharing_decline_play",17)
+	var buttons: Array[Control] = []
+	var link := LinkButton.new()
+	link.focus_mode=Control.FOCUS_ALL
+	link.custom_minimum_size.y=36
+	link.text=Localization.text(&"settings.sharing_details")
+	link.set_meta("locale_key","settings.sharing_details")
+	box.add_child(link)
+	buttons.append(link)
 	var url: String = RemoteFeedback.privacy_url()
 	if not url.is_empty():
-		var privacy_link := LinkButton.new(); privacy_link.name="PrivacyNoticeLink"
-		privacy_link.focus_mode=Control.FOCUS_ALL; privacy_link.custom_minimum_size.y=36
-		privacy_link.text=Localization.text(&"sharing.view_privacy_notice"); privacy_link.set_meta("locale_key","sharing.view_privacy_notice")
-		privacy_link.pressed.connect(func() -> void: OS.shell_open(url))
-		box.add_child(privacy_link); buttons.append(privacy_link)
-	local_button=Button.new(); local_button.name="SharingLocalOnly"; local_button.text=Localization.text(&"sharing.local_only"); local_button.set_meta("locale_key","sharing.local_only"); local_button.custom_minimum_size.y=48
-	local_button.pressed.connect(choose.bind("local")); box.add_child(local_button)
-	var basic := Button.new(); basic.name="SharingBasic"; basic.text=Localization.text(&"sharing.share_basic_statistics_one_summary_per_visit"); basic.set_meta("locale_key","sharing.share_basic_statistics_one_summary_per_visit")
-	basic.custom_minimum_size.y=48; basic.pressed.connect(choose.bind("basic")); box.add_child(basic)
-	buttons.append(local_button); buttons.append(basic)
+		link.name="PrivacyNoticeLink"
+		link.pressed.connect(func() -> void: OS.shell_open(url))
+	else:
+		link.name="SharingInventory"
+		var details := VBoxContainer.new()
+		box.add_child(details)
+		label(details,"settings.inventory_detail",17)
+		details.hide()
+		link.pressed.connect(func() -> void: details.visible=not details.visible)
+	var choices := HBoxContainer.new()
+	choices.add_theme_constant_override("separation",12)
+	box.add_child(choices)
+	local_button=choice_button(choices,"SharingLocalOnly","settings.decline_service","local")
+	var basic := choice_button(choices,"SharingBasic","settings.accept_service","basic")
+	buttons.append(local_button)
+	buttons.append(basic)
 	for index: int in range(buttons.size()):
 		buttons[index].focus_next=buttons[index].get_path_to(buttons[(index+1)%buttons.size()])
 		buttons[index].focus_previous=buttons[index].get_path_to(buttons[(index+buttons.size()-1)%buttons.size()])
 	Localization.locale_changed.connect(func(_locale: String) -> void: _refresh_language())
 	call_deferred("_take_focus")
+
+func choice_button(parent: Control, control_name: String, key: String, mode: String) -> Button:
+	var button := Button.new()
+	button.name=control_name
+	button.text=Localization.text(StringName(key))
+	button.set_meta("locale_key",key)
+	button.custom_minimum_size.y=48
+	button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	button.pressed.connect(choose.bind(mode))
+	parent.add_child(button)
+	return button
 
 func _take_focus() -> void:
 	previous_focus=get_viewport().gui_get_focus_owner()

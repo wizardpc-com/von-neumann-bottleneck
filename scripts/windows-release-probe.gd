@@ -6,6 +6,7 @@ const BENCH := "Synthetic hosted restart"
 const UPGRADE_BENCH := "Synthetic previous build"
 const CHAPTER := &"hardware_foundations"
 const LEVEL := &"tutorial"
+const RESULTS_ORIGIN := "https://feedback.yanruiqing.com:8443"
 var failures: Array[String] = []
 var config: Dictionary
 var evidence: Dictionary = {}
@@ -49,16 +50,18 @@ func run() -> void:
 	var offline: Node = get_node("/root/OfflineFeedback")
 	var user_dir: String = absolute(OS.get_user_data_dir())
 	var endpoint: String = config.endpoint
-	var port: String = endpoint.trim_prefix("http://127.0.0.1:")
 	var save_check: bool = config.phase in ["seed", "upgrade"]
+	var private_view: bool = config.phase == "private_view"
 	var final_candidate: bool = identity.display_version == "0.6.1-playtest.2"
 	var offline_capture: bool = test and (not final_candidate or config.phase in ["capture", "export"])
 	var isolated: bool = (OS.get_name() == "Windows" and OS.has_feature("free_candidate")
-		and config.phase in ["write", "restart", "capture", "export", "seed", "upgrade"]
+		and config.phase in ["write", "restart", "decline", "private_view", "capture", "export", "seed", "upgrade"]
 		and user_dir.nocasecmp_to(absolute(config.user_dir)) == 0
 		and user_dir.ends_with("/HostedWindowsReleaseQA/VonNeumannBottleneckCandidates/representation/" + identity.save_profile))
-	var correct_endpoint: bool = endpoint.is_empty() if save_check or (test and not final_candidate) else (
-		endpoint.begins_with("http://127.0.0.1:") and port.is_valid_int() and int(port) in range(1, 65536))
+	var correct_endpoint: bool = endpoint.is_empty() if save_check or (test and not final_candidate) else is_loopback(endpoint)
+	if private_view:
+		correct_endpoint = (final_candidate and endpoint == RESULTS_ORIGIN + "/v1"
+			and is_loopback(str(config.get("transport_endpoint", ""))))
 	if (not isolated or not correct_endpoint or remote.endpoint != endpoint or remote.privacy_url() != ""
 			or store.source_kind != "automated" or remote.enabled or remote.scores_enabled):
 		push_error("Refusing feedback or saves without the exact isolated Windows profile and loopback-only settings.")
@@ -95,6 +98,25 @@ func run() -> void:
 		finish(user_dir)
 		return
 	print("VNB_WINDOWS_QA: isolated profile, identity and edition policy verified")
+	if private_view:
+		await verify_private_view(remote, store)
+		finish(user_dir)
+		return
+	if config.phase == "decline":
+		if choose_first_consent(false):
+			check(not remote.enabled and remote.sharing_mode == "local" and not remote.scores_enabled,
+				"Declining the service leaves sharing disabled.")
+			check(store.start_session() and store.level_started(CHAPTER, LEVEL)
+				and store.level_completed(CHAPTER, LEVEL) and store.level_exited(CHAPTER, LEVEL),
+				"Local play records a completed visit after declining.")
+			await get_tree().process_frame
+			check(remote.queue.is_empty() and remote.inflight.is_empty(), "Declining sends no visit data.")
+			var moments: Node = get_node("/root/PlaytestMoments")
+			moments.open_for_task(str(CHAPTER), str(LEVEL))
+			check_loopback_results(moments, remote)
+			moments.close()
+		finish(user_dir)
+		return
 
 	var save: Node = get_node("/root/GlobalSave")
 	var workbench_path: String = absolute(save.workbench_storage_path)
@@ -254,6 +276,8 @@ func online_feedback(remote: Node, store: Node, previous: Dictionary, final_cand
 	if not moments.panel.visible or not moments.send_opinion.is_visible_in_tree() or moments.send_opinion.disabled:
 		check(false, "The actual configured player form must expose an enabled Send action.")
 		return
+	if final_candidate:
+		check_loopback_results(moments, remote)
 	if config.phase == "write":
 		check(remote.queue.is_empty(), "The new isolated outbox starts empty.")
 		moments.opinion.text = NOTE
@@ -292,35 +316,123 @@ func online_feedback(remote: Node, store: Node, previous: Dictionary, final_cand
 
 
 func automatic_feedback(remote: Node, store: Node, moments: Node) -> void:
-	print("VNB_WINDOWS_QA: checking explicit Basic consent and a new task visit")
-	for child: Node in moments.panel.find_children("*", "CheckButton", true, false):
-		if child.get_meta("locale_field", []) == ["text", "sharing.optional_sharing_and_data_settings"]:
-			(child as CheckButton).button_pressed = true
-			break
-	if not moments.remote_toggle.is_visible_in_tree() or moments.remote_toggle.disabled:
-		check(false, "The actual sharing control offers a visible, explicit online choice.")
+	print("VNB_WINDOWS_QA: checking explicit service acceptance and automatic completion delivery")
+	if not choose_first_consent(true):
 		return
-	moments.remote_toggle.select(1)
-	moments.remote_toggle.item_selected.emit(1)
 	check(remote.enabled and remote.sharing_mode == "basic" and remote.consented_endpoint == config.endpoint
 		and not remote.scores_enabled, "Basic consent authorizes automatic events for loopback only.")
+	check_loopback_results(moments, remote)
+	await send_completed_visit(remote, store)
+	check_loopback_results(moments, remote)
+
+
+func send_completed_visit(remote: Node, store: Node) -> void:
 	check(store.level_started(CHAPTER, LEVEL), "A new visit starts after consent.")
 	var visit_id: String = store.current_visit_id
-	check(store.level_exited(CHAPTER, LEVEL) and not visit_id.is_empty(), "The consented visit ends.")
-	if remote.queue.size() != 1:
-		check(false, "Basic sharing queues exactly one consented visit summary.")
+	check(store.level_completed(CHAPTER, LEVEL) and store.level_exited(CHAPTER, LEVEL)
+		and not visit_id.is_empty(), "The synthetic local task completes and the consented visit ends.")
+	var ids := {}
+	for item: Dictionary in remote.queue:
+		var record: Dictionary = item.record
+		if record.kind == "event" and record.payload.get("visit_id") == visit_id:
+			ids[record.payload.get("event", "")] = record.event_id
+	if remote.queue.size() != 2 or not ids.has_all(["level_complete", "visit_summary"]):
+		check(false, "Basic sharing queues exactly the completion and summary for the new visit.")
 		return
-	var record: Dictionary = remote.queue[0].record
-	var id: String = record.event_id
-	check(record.kind == "event" and record.payload.get("event") == "visit_summary"
-		and record.payload.get("visit_id") == visit_id, "Basic sharing queues the new visit only.")
-	remote.flush()
+	var started := {"ids": {}}
+	var observe := func() -> void:
+		for id: String in remote.inflight:
+			started.ids[id] = true
+	remote.status_changed.connect(observe)
+	# The packaged scheduler must send before the periodic 45-second flush.
 	var deadline: int = Time.get_ticks_msec() + ceili((remote.request.timeout + 3.0) * 1000.0)
-	while not remote.receipts.has(id) and Time.get_ticks_msec() < deadline:
+	while remote.status in ["pending", "sending"] and Time.get_ticks_msec() < deadline:
 		await get_tree().create_timer(0.1).timeout
-	check(remote.receipts.has(id) and remote.queue.is_empty(), "The real receiver acknowledged the automatic event.")
-	evidence["automatic_id"] = id
+	remote.status_changed.disconnect(observe)
+	# An exact ACK drains automatic events without persisting an opinion receipt.
+	# The Python verifier also checks both exact IDs against the receiver database.
+	print("VNB_WINDOWS_QA: automatic transport status=%s queue_count=%d inflight_count=%d" %
+		[remote.status, remote.queue.size(), remote.inflight.size()])
+	check(started.ids.has_all(ids.values()) and remote.status == "sent"
+		and remote.queue.is_empty() and remote.inflight.is_empty(),
+		"The packaged scheduler sent both records and the receiver acknowledged them.")
+	evidence["automatic_ids"] = ids
 	evidence["automatic_visit_id"] = visit_id
+
+
+func is_loopback(endpoint: String) -> bool:
+	var port: String = endpoint.trim_prefix("http://127.0.0.1:")
+	return endpoint.begins_with("http://127.0.0.1:") and port.is_valid_int() and int(port) in range(1, 65536)
+
+
+func verify_private_view(remote: Node, store: Node) -> void:
+	# The EXE firewall is active. Only the event transport is redirected; the
+	# packaged client still evaluates consent and registration for its real origin.
+	var isolated_url: String = str(config.transport_endpoint) + "/v1/events"
+	remote._post_events = func(logical_url: String, body: String) -> Error:
+		if logical_url != RESULTS_ORIGIN + "/v1/events":
+			check(false, "Unexpected logical destination in the private-view phase.")
+			return ERR_INVALID_PARAMETER
+		return remote.request.request(isolated_url, ["Content-Type: application/json"], HTTPClient.METHOD_POST, body)
+	if not choose_first_consent(true):
+		return
+	check(remote.enabled and remote.consented_endpoint == RESULTS_ORIGIN + "/v1" and remote.sharing_mode == "basic",
+		"Accepting applies Basic to the canonical service.")
+	var moments: Node = get_node("/root/PlaytestMoments")
+	moments.open_for_task(str(CHAPTER), str(LEVEL))
+	var button: Button = moments.panel.find_child("ViewMyResults", true, false) as Button
+	if button == null:
+		check(false, "The actual feedback form exposes the personal results control.")
+		moments.close()
+		return
+	check(button.is_visible_in_tree() and button.disabled and not remote.has_registered_upload()
+		and remote.my_results_url().is_empty(), "Before the first ACK, results are visible but disabled and have no URL.")
+	if not failures.is_empty():
+		moments.close()
+		return
+	check(store.start_session(), "The isolated private-view scenario starts its local session.")
+	await send_completed_visit(remote, store)
+	var link: String = remote.my_results_url()
+	var prefix: String = RESULTS_ORIGIN + "/my-results.html#"
+	var fragment := RegEx.new()
+	var valid: bool = (fragment.compile("^client_id=[0-9a-f]{32}&key=[0-9a-f]{64}$") == OK
+		and link.begins_with(prefix) and fragment.search(link.trim_prefix(prefix)) != null)
+	check(button.is_visible_in_tree() and not button.disabled and remote.has_registered_upload() and valid,
+		"After the matching ACK, the results control is enabled with a private read link.")
+	moments.close()
+	print("VNB_WINDOWS_QA: private results authorization checked without opening or recording the URL")
+
+
+func check_loopback_results(moments: Node, remote: Node) -> void:
+	var button: Button = moments.panel.find_child("ViewMyResults", true, false) as Button
+	check(button != null and not button.is_visible_in_tree() and remote.my_results_url().is_empty(),
+		"Loopback never exposes the personal results link or its credentials.")
+
+
+func choose_first_consent(accept: bool) -> bool:
+	var prompt: CanvasLayer = load("res://src/playtest/sharing_first_choice.gd").new()
+	add_child(prompt)
+	var decline: Button = prompt.find_child("SharingLocalOnly", true, false) as Button
+	var allow: Button = prompt.find_child("SharingBasic", true, false) as Button
+	var details: LinkButton = prompt.find_child("SharingInventory", true, false) as LinkButton
+	var valid: bool = (decline != null and allow != null and details != null
+		and decline.is_visible_in_tree() and allow.is_visible_in_tree() and details.is_visible_in_tree()
+		and not decline.disabled and not allow.disabled
+		and decline.get_meta("locale_key", "") == "settings.decline_service"
+		and allow.get_meta("locale_key", "") == "settings.accept_service"
+		and decline.size_flags_horizontal == allow.size_flags_horizontal
+		and decline.custom_minimum_size == allow.custom_minimum_size)
+	check(valid, "Both explicit consent choices and local details are visible with equal sizing rules.")
+	if valid:
+		var button: Button = allow if accept else decline
+		button.pressed.emit()
+		var saved := ConfigFile.new()
+		valid = (not button.is_visible_in_tree() and saved.load("user://sharing_prompt.cfg") == OK
+			and saved.get_value("choice", "endpoint", "") == config.endpoint)
+		check(valid, "The actual consent action closed the prompt and persisted the loopback choice.")
+		evidence["consent_control"] = "SharingBasic" if accept else "SharingLocalOnly"
+	prompt.queue_free()
+	return valid
 
 
 func finish(user_dir: String) -> void:

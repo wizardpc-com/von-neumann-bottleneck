@@ -24,6 +24,8 @@ var source_selector: OptionButton
 var previous_focus: Control
 var target: Dictionary = {}
 var target_label: Label
+var _open_results_url: Callable = OS.shell_open
+var results_button: Button
 var general_button: Button
 var public_issues: LinkButton
 var task_form: VBoxContainer
@@ -117,6 +119,10 @@ func _ready() -> void:
 		_prepare_target()
 		opinion.grab_focus())
 	general_button.name = "GeneralFeedback"
+	results_button = _button(context,"my_results",func() -> void:
+		var url: String = RemoteFeedback.my_results_url()
+		if not url.is_empty(): _open_results_url.call(url))
+	results_button.name = "ViewMyResults"
 	context_label=Label.new(); context_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	context_label.add_theme_font_size_override("font_size",13)
 	var diagnostics := Button.new()
@@ -569,6 +575,9 @@ func _remote_updated() -> void:
 	if commit not in ["development","unknown"]: commit=commit.left(8)
 	context_label.text=Localization.text(&"sharing.attached_context")+" · "+str(metadata.get("build_version","development"))+" · "+commit+(" · "+str(metadata.get("task_version","")) if not str(target.get("level_id","")).is_empty() else "")+" · "+source
 	var configured: bool = RemoteFeedback.endpoint_allowed()
+	results_button.visible = RemoteFeedback.personal_results_consented()
+	results_button.disabled = RemoteFeedback.my_results_url().is_empty()
+	results_button.text = _t("my_results_waiting" if results_button.disabled else "my_results")
 	general_button.visible = RemoteFeedback.is_public_release() and not str(target.get("level_id","")).is_empty()
 	public_issues.visible = RemoteFeedback.is_public_release() and str(target.get("level_id","")).is_empty()
 	send_opinion.disabled=not configured

@@ -6503,7 +6503,7 @@ msgid "settings.reset_hint"
 msgstr "Restore Chinese, 60 FPS, normal motion and default volume. Progress, designs and privacy choices stay unchanged."
 
 msgid "settings.sharing_title"
-msgstr "Share play statistics?"
+msgstr "Play statistics"
 
 msgid "settings.sharing_intro"
 msgstr "Local-only play includes the full game. Sharing starts with your next task visit, not old records. Receiver events and VPS-local backups follow a 30-day retention schedule; cleanup may wait until the next maintenance cycle. Deletion records stop old backups restoring removed data. You can change this later."
@@ -7347,3 +7347,27 @@ msgstr "Save local diagnostic ZIP…"
 
 msgid "moments.opinion_required"
 msgstr "Add an opinion, category or rating."
+
+msgid "settings.sharing_recommendation"
+msgstr "Recommended. When online, the game automatically uploads play statistics. You can view results for some levels on the web and help the developer improve the game."
+
+msgid "settings.sharing_recommendation_stats"
+msgstr "Recommended. When online, the game automatically uploads play statistics to help the developer improve the game."
+
+msgid "settings.sharing_decline_play"
+msgstr "You can decline and play normally."
+
+msgid "settings.sharing_details"
+msgstr "View details"
+
+msgid "settings.decline_service"
+msgstr "Decline service"
+
+msgid "settings.accept_service"
+msgstr "Accept service"
+
+msgid "moments.my_results"
+msgstr "View my results"
+
+msgid "moments.my_results_waiting"
+msgstr "View my results · waiting for first sync"

@@ -39,15 +39,19 @@ func run() -> void:
 	var basic_choice: Button = linked_prompt.find_child("SharingBasic",true,false)
 	check(first_link!=null and first_link.get_signal_connection_list("pressed").size()==1,"Configured HTTPS notice has an explicit clickable first-choice link.")
 	if first_link!=null:
-		check(inventory.get_node(inventory.focus_next)==first_link and first_link.get_node(first_link.focus_next)==local_choice and local_choice.get_node(local_choice.focus_next)==basic_choice and basic_choice.get_node(basic_choice.focus_next)==inventory,"Privacy link joins the first-choice keyboard loop.")
-		check(inventory.get_node(inventory.focus_previous)==basic_choice and local_choice.get_node(local_choice.focus_previous)==first_link,"The first-choice keyboard loop also works backwards.")
+		check(inventory==null and first_link.get_node(first_link.focus_next)==local_choice and local_choice.get_node(local_choice.focus_next)==basic_choice and basic_choice.get_node(basic_choice.focus_next)==first_link,"The visible details link and two choices form a keyboard loop.")
+		check(first_link.get_node(first_link.focus_previous)==basic_choice and local_choice.get_node(local_choice.focus_previous)==first_link,"The first-choice keyboard loop also works backwards.")
+		check(local_choice.size==basic_choice.size and local_choice.get_parent()==basic_choice.get_parent() and local_choice.has_focus(),"Decline and Accept have equal dimensions, with initial focus on Decline.")
 	var linked_moments: Node = Moments.new(); root.add_child(linked_moments); await process_frame
 	var feedback_link: LinkButton = linked_moments.find_child("PrivacyNoticeLink",true,false)
 	check(feedback_link!=null and feedback_link.get_signal_connection_list("pressed").size()==1,"Feedback settings offer the same explicit HTTPS notice link.")
 	for locale: String in ["zh_CN","en"]:
 		localization.set_locale(locale)
-		if first_link!=null: check(first_link.text==localization.text(&"sharing.view_privacy_notice"),"First-choice notice link follows "+locale)
+		if first_link!=null: check(first_link.text==localization.text(&"settings.sharing_details"),"First-choice notice link follows "+locale)
+		check(local_choice.text==("拒绝服务" if locale=="zh_CN" else "Decline service") and basic_choice.text==("接受服务" if locale=="zh_CN" else "Accept service"),"Both decision labels follow "+locale)
 		if feedback_link!=null: check(feedback_link.text==localization.text(&"sharing.view_privacy_notice"),"Feedback notice link follows "+locale)
+	local_choice.pressed.emit()
+	check(not linked_prompt.overlay.visible and not prompt.needs_choice() and not remote.enabled and remote.queue.is_empty(),"Decline closes the prompt, persists refusal and leaves play available without uploads.")
 	linked_moments.queue_free(); linked_prompt.queue_free(); await process_frame
 	ProjectSettings.set_setting("application/feedback_privacy_url","")
 	var old_choice := ConfigFile.new(); old_choice.set_value("choice","endpoint",remote.endpoint); old_choice.set_value("choice","notice","2026-09-11"); old_choice.save("user://sharing_prompt.cfg")

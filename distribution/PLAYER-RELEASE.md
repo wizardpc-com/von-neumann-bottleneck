@@ -5,6 +5,8 @@ separate admission batch for each edition and the same batch on both platforms
 within an edition. Use Godot 4.7.1 and its matching Windows x64 and macOS
 Universal templates.
 
+`v0.6.1-playtest.2` is the unpublished Release2 draft identity.
+
 ```bash
 version=v0.6.1-playtest.2
 game_batch=Players061-Release2
@@ -29,6 +31,14 @@ Game is the player download for ordinary progress. It retains the existing
 opinions. F8 or the in-task feedback button opens the form. The player chooses
 Send for an opinion. The build sets `external_player` as the default source and
 leaves consent state to the existing runtime.
+
+Both Release2 editions ask players to **Decline service** or **Accept service**
+on first launch. Accept enables Basic play statistics to support game
+improvements and a private read-only website for synced results on supported
+tasks. The in-game personal results control waits for the first acknowledged
+upload, then opens the player's results.
+Declining keeps offline play available. Explicit opinion Send remains a
+separate action, and players can revisit their choice in Feedback Settings.
 
 Release2 Test retains the independent `EditionTest` save directories and opens
 all task entrances. F8 opens the opinion form. Send shares the opinion alone
@@ -82,7 +92,7 @@ with the exact asset names, frozen commit, and ZIP digests.
 
 On macOS, launch each verified app through its bundled entry in a fresh,
 disposable macOS account or VM with networking denied. Observe the initial
-window and first sharing choice, choose Local Only, and quit normally. In Test,
+window and two equally sized service choices, choose Decline service, and quit normally. In Test,
 also open the in-task opinion form with F8 and use local capture and ZIP export.
 Record strict signature verification, local Apple execution and distribution
 assessments, and the existing quarantine attributes. These results apply to the
@@ -98,6 +108,25 @@ or rejected assessment.
 
 The Release2 rendered and localhost harness under `.godot/release2-qa/` is
 operator-local, alongside the Release1 harness under `.godot/mac-release-qa/`.
+In a separate profile restricted to localhost, verify Accept service shows
+the disabled waiting control with no results URL. Keep the baked logical
+receiver and direct its HTTP transport to the fixture. A mismatched
+acknowledgement must leave the control disabled and the record pending. A
+matching response from the fixture enables the control. The destination uses
+`https://feedback.yanruiqing.com:8443/my-results.html` with an installation
+credential in the fragment. Verify the destination shape without opening a
+browser or retaining the generated link. Decline and loopback profiles must
+hide the personal-results control. The notice link continues to point to
+`/privacy-player.html` on the approved 8443 origin.
+
+For the website itself, use an isolated receiver and two synthetic
+installations. Verify empty results, synced results, separation between the
+two installations, and cleared results after deletion through the same-origin
+`POST /v1/my-results` read API. Record those separately from the Mac destination
+check. An external smoke may check the public landing page and privacy notice
+as static reads. Keep credentialed reads and all test writes on the isolated
+receiver.
+
 For Release2, retain evidence of Basic structured delivery without Send,
 explicit opinion receipt after restart, one SQLite row per record on exact
 retry, and confirmed deletion with local work preserved. Use synthetic

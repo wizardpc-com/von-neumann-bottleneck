@@ -367,7 +367,8 @@ class WindowsReleaseTests(unittest.TestCase):
                 folder=self.work/role
                 folder.mkdir()
                 database=folder/'synthetic.sqlite'
-                receipt={'feedback_id':'a'*64,'automatic_id':'b'*64,'automatic_visit_id':'consented-visit'}
+                receipt={'feedback_id':'a'*64,'automatic_ids':{'level_complete':'b'*64,'visit_summary':'c'*64},
+                         'automatic_visit_id':'consented-visit','consent_control':'SharingBasic'}
                 manifest={'edition':role,'display_version':WINDOWS.FINAL_TAG[1:],'source_commit':self.commit,
                           'test_batch':WINDOWS.FINAL_BATCHES[role]}
                 common={'chapter_id':'hardware_foundations','level_id':'tutorial','mode':role,'source':'automated',
@@ -375,21 +376,46 @@ class WindowsReleaseTests(unittest.TestCase):
                         'source_commit':self.commit,'test_batch':WINDOWS.FINAL_BATCHES[role],'session_id':'synthetic',
                         'consent_version':'sharing-2','privacy_notice_version':'2026-10-17',
                         'consent_timestamp':'2026-11-22T15:00:00Z'}
-                auto=common | {'event':'visit_summary','visit_id':receipt['automatic_visit_id'],'sharing_mode':'basic'}
+                auto=common | {'visit_id':receipt['automatic_visit_id'],'sharing_mode':'basic'}
+                completion=auto | {'event':'level_complete'}
+                summary=auto | {'event':'visit_summary','completed':True,'completed_during_visit':True}
                 feedback=common | {'note':WINDOWS.NOTE,'sharing_mode':'opinion'}
                 with closing(sqlite3.connect(database)) as db, db:
                     migrate(db)
-                    for key,kind,payload in (('feedback_id','feedback',feedback),('automatic_id','event',auto)):
-                        event_id=receipt[key]
+                    for event_id,kind,payload in (
+                        (receipt['feedback_id'],'feedback',feedback),
+                        (receipt['automatic_ids']['level_complete'],'event',completion),
+                        (receipt['automatic_ids']['visit_summary'],'event',summary),
+                    ):
                         body=json.dumps({'event_id':event_id,'kind':kind,'payload':payload})
                         db.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',
                                    (event_id,'synthetic-client',1,kind,body,hashlib.sha256(body.encode()).hexdigest()))
                 self.assertEqual(WINDOWS.verify_delivery(database,receipt,manifest,automatic=True),
-                                 {'opinions':1,'automatic_events':1})
+                                 {'opinions':1,'automatic_events':2})
+                with self.assertRaisesRegex(ValueError,'explicit consent'):
+                    WINDOWS.verify_delivery(database,receipt | {'consent_control':'SharingLocalOnly'},manifest,automatic=True)
                 with self.assertRaisesRegex(ValueError,'incorrect attribution'):
                     WINDOWS.verify_delivery(database,receipt | {'automatic_visit_id':'before-consent'},manifest,automatic=True)
                 with self.assertRaisesRegex(ValueError,'Unexpected or duplicate'):
                     WINDOWS.verify_delivery(database,receipt,manifest)
+                with closing(sqlite3.connect(database)) as db, db:
+                    db.execute("DELETE FROM events WHERE kind='feedback'")
+                self.assertEqual(WINDOWS.verify_delivery(database,receipt,manifest,automatic=True,opinion=False),
+                                 {'opinions':0,'automatic_events':2})
+
+    def test_receiver_failure_diagnostics_show_only_synthetic_counts(self):
+        database=self.work/'synthetic.sqlite'
+        with closing(sqlite3.connect(database)) as connection, connection:
+            migrate(connection)
+            connection.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',
+                               ('private-id','private-client',1,'event','private-body','private-hash'))
+        output=io.StringIO()
+        with redirect_stdout(output):
+            WINDOWS.print_receiver_counts(database)
+        diagnostic=output.getvalue()
+        self.assertIn('"event": 1',diagnostic)
+        self.assertIn('"feedback": 0',diagnostic)
+        self.assertNotIn('private-',diagnostic)
 
     def test_startup_uses_shipped_main_scene_and_fails_without_hub(self):
         binary=self.work/'candidate.exe'
@@ -548,6 +574,21 @@ class WindowsReleaseTests(unittest.TestCase):
         self.assertIn('feedback_privacy_url=""',override)
         self.assertIn('feedback_source_batch="HostedWindowsReleaseQA"',override)
         self.assertNotIn('[candidate]',override)
+
+    def test_private_view_override_preserves_logical_service_and_requires_loopback_transport(self):
+        path=self.work/'override.cfg'
+        identity={'qa_dir':'qa','display_version':WINDOWS.FINAL_TAG[1:]}
+        args=(path,self.work/'probe.tscn',self.work/'profile',self.work,identity)
+        for endpoint in ('',WINDOWS.PUBLIC_ORIGIN):
+            with self.assertRaises(ValueError):
+                WINDOWS.write_override(*args,endpoint,'private_view')
+            self.assertFalse(path.exists())
+        WINDOWS.write_override(*args,'http://127.0.0.1:12345','private_view')
+        override=path.read_text(encoding='utf-8')
+        expected=f'feedback_endpoint="{WINDOWS.PUBLIC_ORIGIN}/v1"'
+        self.assertIn(expected,override)
+        self.assertIn('transport_endpoint',override)
+        self.assertIn('http://127.0.0.1:12345',override)
 
     def test_release_process_gets_disposable_paths_and_no_runner_credentials(self):
         with mock.patch.dict(os.environ, {'SYSTEMROOT':'system','GITHUB_TOKEN':'fixture','GH_TOKEN':'fixture',

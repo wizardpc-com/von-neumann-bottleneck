@@ -287,6 +287,7 @@ func _check_unfinished_workbench_opinion() -> void:
 	ProjectSettings.set_setting("application/public_test_feedback", previous_test)
 	ProjectSettings.set_setting("playtest/offline_feedback", previous_capture)
 	ProjectSettings.set_setting("application/public_game_feedback", true)
+	_check_results_action(remote)
 	_check_community_capabilities(remote)
 	remote.endpoint = previous_endpoint
 	remote.request = previous_request
@@ -296,6 +297,51 @@ func _check_unfinished_workbench_opinion() -> void:
 	ProjectSettings.set_setting("application/feedback_privacy_url", previous_notice)
 	localization.set_locale(previous_locale)
 
+
+func _check_results_action(remote: Node) -> void:
+	var form: Node = load("res://src/playtest/playtest_moments.gd").new()
+	var opened: Array[String] = []
+	form._open_results_url = func(url: String) -> void: opened.append(url)
+	root.add_child(form)
+	var endpoint: String = remote.endpoint
+	var consented_endpoint: String = remote.consented_endpoint
+	remote.endpoint = "https://feedback.yanruiqing.com:8443/v1"
+	form.toggle()
+	_assert(not form.results_button.is_visible_in_tree(), "The private results action requires a statistics choice.")
+	remote.set_sharing_mode("basic")
+	_assert(form.results_button.is_visible_in_tree() and form.results_button.disabled and form.results_button.text==root.get_node("Localization").text(&"moments.my_results_waiting"),"Basic shows why the results action is waiting.")
+	form.results_button.pressed.emit()
+	_assert(opened.is_empty() and remote.my_results_url().is_empty(),"A waiting button cannot hand the browser a private URL.")
+	var actual_request: HTTPRequest = remote.request
+	var post: Callable = remote._post_events
+	var fixture_request := HTTPRequest.new()
+	remote.request=fixture_request
+	remote._post_events=func(_url: String,_body: String) -> Error: return OK
+	var id: String = remote.send_feedback({"session_id":"ui-registration","sequence":1,"payload":{"note":"test opinion"}})
+	remote._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),JSON.stringify({"ack":[id]}).to_utf8_buffer())
+	remote.request=actual_request
+	remote._post_events=post
+	fixture_request.free()
+	_assert(not form.results_button.disabled and form.results_button.focus_mode==Control.FOCUS_ALL,"A matching receipt enables the results action without separate score submission.")
+	form.results_button.pressed.emit()
+	var expected_key := ("vnb-results-v1:"+str(remote.client_id)+":"+str(remote.deletion_token).sha256_text()).sha256_text()
+	var expected := "https://feedback.yanruiqing.com:8443/my-results.html#client_id="+str(remote.client_id)+"&key="+expected_key
+	_assert(opened.size()==1 and opened[0]==expected and not expected.contains(remote.deletion_token) and not expected.contains(str(remote.deletion_token).sha256_text()),"Pressing the action opens only the agreed private-read fragment.")
+	for wrong: String in ["https://feedback.yanruiqing.com:8443/v10","https://feedback.yanruiqing.com:8443.example.org/v1","https://other.example/v1","http://127.0.0.1:1/v1"]:
+		remote.endpoint=wrong
+		remote.status_changed.emit()
+		form.results_button.pressed.emit()
+		_assert(not form.results_button.visible and opened.size()==1,"A changed receiver cannot open a results URL.")
+	remote.endpoint="https://feedback.yanruiqing.com:8443/v1"
+	remote.set_sharing_mode("detailed")
+	_assert(form.results_button.is_visible_in_tree(),"Previous detailed consent also supports private results.")
+	remote.set_sharing_mode("local")
+	form.results_button.pressed.emit()
+	_assert(not form.results_button.visible and opened.size()==1,"Withdrawal removes the action and invalidates a stale click.")
+	form.close()
+	form.free()
+	remote.endpoint=endpoint
+	remote.consented_endpoint=consented_endpoint
 
 func _check_community_capabilities(remote: Node) -> void:
 	remote.endpoint = "https://receiver.example.test/v1"

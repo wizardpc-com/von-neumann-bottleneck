@@ -13,9 +13,11 @@ class AutostartStore extends Store:
 var failures: Array[String] = []
 func _init() -> void: call_deferred("run")
 func run() -> void:
+	await check_completion_flush()
 	check_autostart_and_visit_consent()
 	check_outbox_restart()
 	check_withdrawal_restart()
+	check_registered_upload()
 	var transport := Transport.new()
 	transport.state_path="user://remote_contract_"+str(Time.get_ticks_usec())+".json"
 	root.add_child(transport)
@@ -90,6 +92,38 @@ func run() -> void:
 	else:
 		for error: String in failures: push_error(error)
 	quit(0 if failures.is_empty() else 1)
+
+func check_completion_flush() -> void:
+	var probe := OfflineRetryProbe.new()
+	probe.endpoint="http://127.0.0.1:1/v1"
+	probe.state_path="user://completion_flush_"+str(Time.get_ticks_usec())+".json"
+	probe._load_state()
+	var event := {"session_id":"fixture","sequence":1,"visit_id":"fixture-visit","event":"level_start","payload":{}}
+	probe._on_event(event)
+	probe.set_sharing_mode("basic")
+	event.event="level_complete"
+	probe._on_event(event)
+	await process_frame
+	check(probe.flushes==0 and probe.queue.is_empty(),"A visit begun before consent cannot cause an immediate upload or backfill.")
+	event.event="level_start"
+	probe._on_event(event)
+	event.event="player_action"
+	probe._on_event(event)
+	await process_frame
+	check(probe.flushes==0,"Routine actions do not trigger urgent requests.")
+	event.event="level_complete"
+	event.sequence=2
+	probe._on_event(event)
+	check(probe.flushes==0,"Completion does not start a request on the gameplay call stack.")
+	await process_frame
+	check(probe.flushes==1 and probe.queue.size()==1,"A consented completed result schedules a flush on the next frame.")
+	event.event="visit_summary"
+	event.sequence=3
+	event.payload={"completed":true,"completed_during_visit":true}
+	probe._on_event(event)
+	await process_frame
+	check(probe.flushes==2,"A closed, completed visit schedules delivery of the final visit metrics.")
+	probe.free()
 
 func check_autostart_and_visit_consent() -> void:
 	var dir := "user://feedback_autostart_"+str(Time.get_ticks_usec())
@@ -183,6 +217,74 @@ func check_outbox_restart() -> void:
 		root.remove_child(blocked)
 		blocked.free()
 		check(FileAccess.get_file_as_bytes(path)==before,"Tree exit preserves the queued opinion, identity and all recoverable bytes.")
+
+func check_registered_upload() -> void:
+	var marker: Variant = ProjectSettings.get_setting("application/public_game_feedback")
+	ProjectSettings.set_setting("application/public_game_feedback",true)
+	var canonical := Transport.RESULTS_ORIGIN+"/v1"
+	var writer := Transport.new()
+	writer.endpoint=canonical
+	writer.state_path="user://registration_"+str(Time.get_ticks_usec())+".json"
+	writer._load_state()
+	writer.request=HTTPRequest.new()
+	writer.add_child(writer.request)
+	var posts: Array[String] = []
+	writer._post_events = func(url: String, _body: String) -> Error:
+		posts.append(url)
+		return OK
+	writer.set_sharing_mode("basic")
+	check(writer.personal_results_consented() and writer.my_results_url().is_empty() and posts.is_empty(),"Consent leaves results waiting without sending a registration request.")
+	var id := writer.send_feedback({"session_id":"registration","sequence":1,"payload":{"note":"fixture"}})
+	var ack := JSON.stringify({"ack":[id]}).to_utf8_buffer()
+	var cases := [
+		[HTTPRequest.RESULT_CANT_CONNECT,0,PackedByteArray()],
+		[HTTPRequest.RESULT_SUCCESS,403,ack],
+		[HTTPRequest.RESULT_SUCCESS,200,'{"ack":["wrong"]}'.to_utf8_buffer()],
+		[HTTPRequest.RESULT_SUCCESS,200,JSON.stringify({"ack":[id,"unrequested"]}).to_utf8_buffer()]]
+	for response: Array in cases:
+		check(writer.inflight==[id] and posts.back()==canonical+"/events","Registration is tested against an outstanding authorized POST.")
+		writer._response(response[0],response[1],PackedStringArray(),response[2])
+		check(not writer.has_registered_upload() and writer.my_results_url().is_empty() and writer.queue.size()==1,"Offline, rejected or mismatched replies keep the link waiting.")
+		writer.retry_pending()
+	var path := writer.state_path
+	var offline := Transport.new()
+	offline.endpoint=canonical; offline.state_path=path; offline._load_state()
+	check(offline.queue.size()==1 and offline.my_results_url().is_empty(),"Restart with a queued opinion before ACK remains unregistered.")
+	offline.free()
+	writer.endpoint="https://other.invalid/v1"
+	writer._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),ack)
+	check(not writer.has_registered_upload(),"ACK for the old destination cannot register the new receiver.")
+	writer.endpoint=canonical
+	var second := writer.send_feedback({"session_id":"registration","sequence":2,"payload":{"note":"second"}})
+	var token := writer.deletion_token
+	writer.deletion_token="different-token".sha256_text()
+	writer._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),JSON.stringify({"ack":[second]}).to_utf8_buffer())
+	check(not writer.has_registered_upload(),"A reply to another authenticated identity cannot register the current one.")
+	writer.deletion_token=token
+	var third := writer.send_feedback({"session_id":"registration","sequence":3,"payload":{"note":"third"}})
+	writer._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),JSON.stringify({"ack":[third]}).to_utf8_buffer())
+	check(writer.has_registered_upload() and not writer.my_results_url().is_empty(),"A complete matching receipt for the sent credentials unlocks results.")
+	writer.free()
+
+	var reader := Transport.new()
+	reader.endpoint=canonical; reader.state_path=path; reader._load_state()
+	check(reader.has_registered_upload() and not reader.my_results_url().is_empty(),"Same installation, token and receiver retain registration on restart.")
+	reader.set_sharing_mode("local")
+	check(reader.my_results_url().is_empty(),"A registered identity still needs active statistics consent.")
+	reader.set_sharing_mode("basic")
+	var old_client := reader.client_id
+	reader.delete_uploaded_data()
+	check(reader.deletion_pending and not reader.has_registered_upload() and reader.my_results_url().is_empty(),"Deletion intent clears registration before network confirmation.")
+	reader.free()
+	var rotated := Transport.new()
+	rotated.endpoint=canonical; rotated.state_path=path; rotated._load_state()
+	check(not rotated.has_registered_upload() and rotated.deletion_pending,"Pending deletion remains unregistered after restart.")
+	rotated.deleting=true
+	rotated._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),'{"deleted":true}'.to_utf8_buffer())
+	rotated.set_sharing_mode("basic")
+	check(rotated.client_id!=old_client and rotated.personal_results_consented() and rotated.my_results_url().is_empty(),"Fresh consent rotates the deleted identity and requires its own first ACK.")
+	rotated.free()
+	ProjectSettings.set_setting("application/public_game_feedback",marker)
 
 func check_withdrawal_restart() -> void:
 	var writer := Transport.new()

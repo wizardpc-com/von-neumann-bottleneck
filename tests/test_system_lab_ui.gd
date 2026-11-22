@@ -363,11 +363,35 @@ func _run() -> void:
 		await process_frame
 	_assert(_paths_equal(overlay.get("path"), moved_path), "Dragging a device while paused must immediately relocate the displayed Trace to its actual ports.")
 
+	# Observe the ordinary controlled comparison while the transport is offline.
+	var playtest: Node = root.get_node("PlaytestData")
+	playtest.set_local_recording(true)
+	_assert(playtest.start_session(),"The headless fixture starts the same local session as ordinary play.")
+	var transport := preload("res://src/playtest/remote_feedback.gd").new()
+	transport.state_path = "user://cpu_completion_"+str(Time.get_ticks_usec())+".json"
+	transport.endpoint = "http://127.0.0.1:1/v1"
+	transport._load_state()
+	_assert(transport.set_sharing_mode("basic"),"The isolated receiver records the Basic choice.")
+	playtest.event_appended.connect(transport._on_event)
 	await _complete_comparison(main, chapter, &"cpu_speed", &"cpu")
 	var cpu_receipts: Array = chapter.call("receipts_for", &"cpu_speed")
 	_assert(cpu_receipts.size() == 2, "The CPU investigation must retain exactly one Before and one After receipt.")
 	var cpu_before = cpu_receipts[0]
 	var cpu_after = cpu_receipts[1]
+	var outbox_path := transport.state_path
+	transport.free()
+	transport = preload("res://src/playtest/remote_feedback.gd").new()
+	transport.state_path=outbox_path
+	transport.endpoint="http://127.0.0.1:1/v1"
+	transport._load_state()
+	var completions := transport.queue.filter(func(row: Dictionary) -> bool:
+		return row.record.payload.event=="level_complete" and row.record.payload.get("level_id")=="cpu_speed")
+	_assert(completions.size()==1,"Restart retains exactly one Basic completion for the ordinary CPU investigation.")
+	if completions.size()==1:
+		var metrics: Dictionary = completions[0].record.payload
+		_assert(metrics.get("chapter_id")=="chapter_1" and metrics.get("sharing_mode")=="basic" and metrics.get("cycles")==cpu_after.metrics.total_cycles and metrics.get("cost")==cpu_after.metrics.hardware_cost and metrics.cycles>0 and metrics.cost>0,"Offline Basic carries the authoritative completion's cycles and hardware cost.")
+		_assert(not metrics.has("final_config") and not metrics.has("program_source"),"The personal result excludes the workbench and program.")
+	transport.free()
 	var comparison_chart: Control = main.get("history_chart")
 	_assert(comparison_chart.visible and comparison_chart.samples.size() == 2, "Controlled history exposes two measured cycle bars")
 	_assert(comparison_chart.samples[0] == cpu_before.metrics and comparison_chart.samples[1] == cpu_after.metrics, "Cycle bars preserve exact receipt metrics")

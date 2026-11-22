@@ -6502,7 +6502,7 @@ msgid "settings.reset_hint"
 msgstr "恢复中文、60 帧、普通动效和默认音量。进度、方案和隐私授权保持不变。"
 
 msgid "settings.sharing_title"
-msgstr "是否分享游玩统计？"
+msgstr "游玩统计"
 
 msgid "settings.sharing_intro"
 msgstr "仅本地也能完整游玩；回传从下一次进入关卡开始，不发送旧记录。接收事件与 VPS 本地备份按 30 天保留期清理，过期清理可能到下一维护周期；删除记录防止旧备份恢复已删数据。稍后可在反馈设置中更改。"
@@ -7346,3 +7346,27 @@ msgstr "另存本机诊断 ZIP…"
 
 msgid "moments.opinion_required"
 msgstr "请填写意见、选择类别或评分。"
+
+msgid "settings.sharing_recommendation"
+msgstr "推荐开启。联网时自动上传游玩统计，可在网页查看部分关卡成绩，也能帮助作者改进游戏。"
+
+msgid "settings.sharing_recommendation_stats"
+msgstr "推荐开启。联网时自动上传游玩统计，帮助作者改进游戏。"
+
+msgid "settings.sharing_decline_play"
+msgstr "拒绝也可正常游玩。"
+
+msgid "settings.sharing_details"
+msgstr "查看详情"
+
+msgid "settings.decline_service"
+msgstr "拒绝服务"
+
+msgid "settings.accept_service"
+msgstr "接受服务"
+
+msgid "moments.my_results"
+msgstr "查看我的成绩"
+
+msgid "moments.my_results_waiting"
+msgstr "查看我的成绩 · 等待首次同步"

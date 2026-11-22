@@ -1,6 +1,7 @@
 extends Node
 ## Optional upload transport; never participates in game or simulation state.
 signal status_changed
+const RESULTS_ORIGIN := "https://feedback.yanruiqing.com:8443"
 const STATE_PATH: String = "user://feedback_outbox_v1.json"
 const NOTICE_VERSION: String = "2026-10-17"
 const CONSENT_VERSION: String = "sharing-2"
@@ -38,6 +39,9 @@ var inflight: Array[String] = []
 var state_path: String = STATE_PATH
 var _outbox_read_only: bool = false
 var _withdrawal_unsaved: bool = false
+var _registered_scope := ""
+var _inflight_scope := ""
+var _post_events: Callable = _request_events
 
 func _ready() -> void:
 	endpoint=str(ProjectSettings.get_setting("application/feedback_endpoint",""))
@@ -62,6 +66,26 @@ func is_public_release() -> bool:
 
 func community_available() -> bool:
 	return endpoint_allowed() and ProjectSettings.get_setting("application/community_feedback_enabled", not is_public_release()) == true
+
+func supports_personal_results() -> bool:
+	return is_public_release() and endpoint == RESULTS_ORIGIN+"/v1"
+
+func personal_results_consented() -> bool:
+	return supports_personal_results() and enabled and sharing_mode in ["basic","detailed"] and consented_endpoint==endpoint and not (_outbox_read_only or _withdrawal_unsaved or deletion_pending or identity_deleted)
+
+func _upload_scope() -> String:
+	return ("vnb-upload-ack-v1\n%s\n%s\n%s" % [endpoint,client_id,deletion_token]).sha256_text()
+
+func has_registered_upload() -> bool:
+	return not _registered_scope.is_empty() and _registered_scope==_upload_scope()
+
+func my_results_url() -> String:
+	if not personal_results_consented() or not has_registered_upload(): return ""
+	if client_id.length()!=32 or deletion_token.length()!=64: return ""
+	for ch: String in client_id+deletion_token:
+		if ch not in "0123456789abcdef": return ""
+	var key := ("vnb-results-v1:"+client_id+":"+deletion_token.sha256_text()).sha256_text()
+	return RESULTS_ORIGIN+"/my-results.html#client_id="+client_id+"&key="+key
 
 func privacy_url() -> String:
 	var url: String = str(ProjectSettings.get_setting("application/feedback_privacy_url",""))
@@ -103,6 +127,7 @@ func set_sharing_mode(value: String) -> bool:
 	return saved
 func _consent() -> void:
 	if identity_deleted:
+		_registered_scope=""
 		client_id=Crypto.new().generate_random_bytes(16).hex_encode()
 		deletion_token=Crypto.new().generate_random_bytes(32).hex_encode()
 		identity_deleted=false
@@ -152,8 +177,16 @@ func _on_event(event: Dictionary) -> void:
 		if kind not in ["map_action","hint_used","tool_opened","level_start","level_exit","level_complete","visit_time","official_run","case_outcome","modification","player_action","hint_action","trace_action","visit_summary","moment"]: return
 	var payload: Dictionary = minimal_context(event)
 	_attach_consent(payload)
-	_enqueue({"event_id":(str(event.get("session_id",""))+":"+str(event.get("sequence",0))).sha256_text(),"kind":"event","payload":payload})
+	var record := {"event_id":(str(event.get("session_id",""))+":"+str(event.get("sequence",0))).sha256_text(),"kind":"event","payload":payload}
+	if _enqueue(record) and _is_completed_result(record):
+		call_deferred("flush")
 	if kind == "visit_summary": eligible_visits.erase(visit)
+
+func _is_completed_result(record: Dictionary) -> bool:
+	if record.get("kind")!="event": return false
+	var payload: Dictionary = record.payload
+	return payload.get("event")=="level_complete" or (payload.get("event")=="visit_summary" and payload.get("completed_during_visit")==true)
+
 static func minimal_context(event: Dictionary) -> Dictionary:
 	var merged: Dictionary = event.duplicate(true)
 	merged.merge(event.get("payload",{}),true)
@@ -239,9 +272,15 @@ func flush() -> void:
 	if records.is_empty(): return
 	var body: String = JSON.stringify({"client_id":client_id,"deletion_token":deletion_token,"records":records})
 	if body.to_utf8_buffer().size()>131072: _retry(true,"body_limit"); return
-	var error: Error = request.request(api_url("events"),["Content-Type: application/json"],HTTPClient.METHOD_POST,body)
+	_inflight_scope=_upload_scope()
+	var error: Error = _post_events.call(api_url("events"),body)
 	if error!=OK: _retry(false,"request_error")
 	else: status="sending"; status_changed.emit()
+func _request_events(url: String, body: String) -> Error:
+	# A redirected origin cannot attest registration at the private results receiver.
+	if supports_personal_results(): request.max_redirects=0
+	return request.request(url,["Content-Type: application/json"],HTTPClient.METHOD_POST,body)
+
 func _response(result: int, code: int, _headers: PackedStringArray, bytes: PackedByteArray) -> void:
 	if deleting:
 		deleting=false
@@ -258,7 +297,12 @@ func _response(result: int, code: int, _headers: PackedStringArray, bytes: Packe
 				deletion_pending=true
 		status_changed.emit(); return
 	if inflight.is_empty(): return
+	if not _inflight_scope.is_empty() and _inflight_scope!=_upload_scope():
+		_retry(false,"upload_context_changed")
+		return
 	if result!=HTTPRequest.RESULT_SUCCESS or code!=200:
+		if result==HTTPRequest.RESULT_SUCCESS and code==410 and _inflight_scope==_registered_scope:
+			_registered_scope="" # The receiver has tombstoned this installation.
 		_retry(code in [400,401,403,404,409,410,413,422],"http_"+str(code) if result==HTTPRequest.RESULT_SUCCESS else "offline")
 		return
 	var body: Variant = JSON.parse_string(bytes.get_string_from_utf8())
@@ -266,6 +310,11 @@ func _response(result: int, code: int, _headers: PackedStringArray, bytes: Packe
 		_retry(false,"invalid_ack"); return
 	for id: String in inflight:
 		if not body.ack.has(id): _retry(false,"incomplete_ack"); return
+	for id: Variant in body.ack:
+		if not id is String or not inflight.has(id): _retry(false,"invalid_ack"); return
+	if not _inflight_scope.is_empty():
+		_registered_scope=_inflight_scope
+	_inflight_scope=""
 	var retained: Array[Dictionary] = []
 	for item: Dictionary in queue:
 		if inflight.has(str(item.record.event_id)):
@@ -274,7 +323,15 @@ func _response(result: int, code: int, _headers: PackedStringArray, bytes: Packe
 	queue=retained; inflight.clear()
 	while receipts.size()>64: receipts.erase(receipts.keys()[0])
 	status="sent"; last_error=""; _save_state(); status_changed.emit()
+	# A completion can arrive while another batch is in flight. Drain toward it
+	# after an ACK using the existing destination, pause and backoff checks.
+	for item: Dictionary in queue:
+		if _is_completed_result(item.record) and not item.paused and int(item.next_at)<=Time.get_unix_time_from_system() and _can_send_item(item):
+			call_deferred("flush")
+			break
+
 func _retry(permanent: bool, reason: String) -> void:
+	_inflight_scope=""
 	var split_batch: bool = permanent and inflight.size()>1
 	for item: Dictionary in queue:
 		if inflight.has(str(item.record.event_id)):
@@ -325,7 +382,7 @@ func retry_pending() -> void:
 	flush()
 func _save_state() -> bool:
 	if _outbox_read_only: return false
-	var body: String = JSON.stringify({"schema_version":2,"notice_version":NOTICE_VERSION,"sharing_mode":sharing_mode,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"scores_enabled":scores_enabled,"identity_deleted":identity_deleted,"deletion_pending":deletion_pending or _withdrawal_unsaved,"eligible_visits":eligible_visits,"enabled":enabled,"consented_endpoint":consented_endpoint,"client_id":client_id,"deletion_token":deletion_token,"queue":[] if _withdrawal_unsaved else queue,"receipts":{} if _withdrawal_unsaved else receipts,"evicted_records":evicted_records,"rejected_records":rejected_records})
+	var body: String = JSON.stringify({"schema_version":2,"registered_scope":_registered_scope,"notice_version":NOTICE_VERSION,"sharing_mode":sharing_mode,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"scores_enabled":scores_enabled,"identity_deleted":identity_deleted,"deletion_pending":deletion_pending or _withdrawal_unsaved,"eligible_visits":eligible_visits,"enabled":enabled,"consented_endpoint":consented_endpoint,"client_id":client_id,"deletion_token":deletion_token,"queue":[] if _withdrawal_unsaved else queue,"receipts":{} if _withdrawal_unsaved else receipts,"evicted_records":evicted_records,"rejected_records":rejected_records})
 	var bytes := body.to_utf8_buffer()
 	if bytes.size()>MAX_DISK_BYTES: status="queue_full"; return false
 	var file: FileAccess = FileAccess.open(state_path+".tmp",FileAccess.WRITE)
@@ -344,6 +401,8 @@ func _save_state() -> bool:
 		_withdrawal_unsaved=false
 	return true
 func _load_state() -> void:
+	_registered_scope=""
+	_inflight_scope=""
 	if not FileAccess.file_exists(state_path):
 		client_id=Crypto.new().generate_random_bytes(16).hex_encode()
 		deletion_token=Crypto.new().generate_random_bytes(32).hex_encode()
@@ -384,6 +443,7 @@ func _load_state() -> void:
 		status="delete_failed" if deletion_pending else "deleted"
 		_outbox_read_only=false
 		return
+	if state.get("registered_scope","")==_upload_scope(): _registered_scope=state.registered_scope
 	if same_consent and state.get("eligible_visits") is Dictionary: eligible_visits=state.eligible_visits
 	if state.get("receipts") is Dictionary and state.receipts.size()<=64: receipts=state.receipts
 	if state.get("queue") is Array and state.queue.size()<=MAX_QUEUE:
@@ -411,6 +471,8 @@ func delete_uploaded_data() -> void:
 	if not deletion_pending and not _withdrawal_unsaved:
 		if request != null: request.cancel_request()
 		inflight.clear()
+		_inflight_scope=""
+		_registered_scope=""
 		enabled=false
 		sharing_mode="local"
 		scores_enabled=false

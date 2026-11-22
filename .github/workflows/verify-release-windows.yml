@@ -84,6 +84,21 @@ jobs:
         run: python scripts/verify-release-windows.py fetch-baseline
       - name: Run the frozen Windows packages with isolated profiles
         run: python scripts/verify-release-windows.py verify
+  verify-private-results:
+    if: ${{ inputs.release_tag == 'v0.6.1-playtest.2' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Validate the frozen product pin
+        env:
+          VNB_RELEASE_COMMIT: ${{ inputs.source_commit }}
+        run: python3 -c 'import os, re, sys; sys.exit(not re.fullmatch(r"[0-9a-f]{40}", os.environ["VNB_RELEASE_COMMIT"]))'
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_commit }}
+          persist-credentials: false
+      - name: Check private results and read keys against an isolated loopback receiver
+        run: python3 -B server/test_my_results.py
   verify-public-edge:
     if: ${{ inputs.verify_public_edge }}
     runs-on: ubuntu-24.04

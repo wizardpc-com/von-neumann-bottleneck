@@ -392,12 +392,19 @@ def runner_environment(runtime):
 def write_override(path, scene, profile_dir, output, expected, endpoint, phase):
     if endpoint:
         PACKAGE.loopback_port(endpoint)
+    logical_endpoint = endpoint
+    if phase == 'private_view':
+        if expected.get('display_version') != FINAL_TAG[1:] or not endpoint:
+            raise ValueError('The private-view phase requires the final edition and an isolated transport')
+        logical_endpoint = PUBLIC_ORIGIN+'/v1'
     data = {'phase':phase,'output':output.as_posix(),'user_dir':profile_dir.as_posix(),
-            'endpoint':endpoint,'identity':expected}
+            'endpoint':logical_endpoint,'identity':expected}
+    if phase == 'private_view':
+        data['transport_endpoint'] = endpoint
     main_scene = '' if scene is None else '\nrun/main_scene='+json.dumps(scene.as_posix(),ensure_ascii=False)
     config = ('[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name='
               +json.dumps(expected['qa_dir'],ensure_ascii=False)+main_scene
-              +'\nfeedback_endpoint='+json.dumps(endpoint)+'\nfeedback_privacy_url=""\nfeedback_source_batch="HostedWindowsReleaseQA"'
+              +'\nfeedback_endpoint='+json.dumps(logical_endpoint)+'\nfeedback_privacy_url=""\nfeedback_source_batch="HostedWindowsReleaseQA"'
               +'\n\n[windows_release_qa]\nconfiguration='+json.dumps(json.dumps(data,ensure_ascii=False),ensure_ascii=False)+'\n')
     path.write_text(config,encoding='utf-8')
 
@@ -551,6 +558,18 @@ def verify_fresh_startup(binary, stage, expected):
             'headless':headless, 'windowed':windowed}
 
 
+def print_receiver_counts(database):
+    try:
+        with closing(sqlite3.connect(database.resolve().as_uri()+'?mode=ro', uri=True)) as connection:
+            counts = dict(connection.execute('SELECT kind,COUNT(*) FROM events GROUP BY kind'))
+    except sqlite3.Error:
+        print('Windows QA: loopback SQLite counts unavailable', flush=True)
+        return
+    print('Windows QA: loopback SQLite on failure ' + json.dumps({
+        kind:counts.get(kind, 0) for kind in ('feedback','event','score')
+    }), flush=True)
+
+
 @contextmanager
 def receiver(work, port):
     database = work/'synthetic.sqlite'
@@ -574,7 +593,11 @@ def receiver(work, port):
                     client.close()
             else:
                 raise RuntimeError('Loopback receiver did not become ready')
-            yield database
+            try:
+                yield database
+            except (OSError, RuntimeError, ValueError, sqlite3.Error, subprocess.SubprocessError):
+                print_receiver_counts(database)
+                raise
         finally:
             child.terminate()
             try:
@@ -584,17 +607,24 @@ def receiver(work, port):
                 child.wait()
 
 
-def verify_delivery(database, receipt, manifest, *, automatic=False):
+def verify_delivery(database, receipt, manifest, *, automatic=False, opinion=True):
     with closing(sqlite3.connect(database)) as data:
         rows = data.execute('SELECT id,kind,body,client_id FROM events').fetchall()
-    event_id = pinned(receipt['feedback_id'], r'[0-9a-f]{64}', 'opinion receipt ID')
-    pins = {event_id: ('feedback', {'note': NOTE,'sharing_mode': 'opinion'})}
+    event_id = pinned(receipt['feedback_id'], r'[0-9a-f]{64}', 'opinion receipt ID') if opinion else None
+    pins = {event_id: ('feedback', {'note': NOTE,'sharing_mode': 'opinion'})} if opinion else {}
     if automatic:
-        auto_id = pinned(receipt['automatic_id'], r'[0-9a-f]{64}', 'automatic event receipt ID')
-        if auto_id == event_id or not receipt.get('automatic_visit_id'):
-            raise ValueError('Manual and automatic delivery require separate attributed events')
-        pins[auto_id] = ('event', {'event':'visit_summary', 'visit_id':receipt['automatic_visit_id'],
-                                   'sharing_mode':'basic'})
+        automatic_ids = receipt['automatic_ids']
+        if (set(automatic_ids) != {'level_complete','visit_summary'} or not receipt.get('automatic_visit_id')
+                or receipt.get('consent_control') != 'SharingBasic'):
+            raise ValueError('Automatic delivery requires both completion records and explicit consent')
+        for event, auto_id in automatic_ids.items():
+            auto_id = pinned(auto_id, r'[0-9a-f]{64}', 'automatic event ID')
+            if auto_id in pins:
+                raise ValueError('Manual, completion and summary records must have distinct IDs')
+            details = {'event':event, 'visit_id':receipt['automatic_visit_id'], 'sharing_mode':'basic'}
+            if event == 'visit_summary':
+                details.update(completed=True, completed_during_visit=True)
+            pins[auto_id] = ('event', details)
     if (len(rows) != len(pins) or {row[0]:row[1] for row in rows} != {key:pin[0] for key,pin in pins.items()}
             or len({row[3] for row in rows}) != 1):
         raise ValueError('Unexpected or duplicate synthetic records in the loopback receiver')
@@ -615,11 +645,12 @@ def verify_delivery(database, receipt, manifest, *, automatic=False):
                         '--output',str(report_dir)], check=True, timeout=30)
         report = read_json(report_dir/'report.json')
         opinions = report['received_feedback']
-        if (report['deduplicated_events'] != len(rows) or report['quarantined_records'] or len(opinions) != 1
-                or opinions[0]['event_id'] != event_id or opinions[0]['note'] != NOTE
-                or opinions[0]['mode'] != manifest['edition']):
+        if (report['deduplicated_events'] != len(rows) or report['quarantined_records']
+                or len(opinions) != int(opinion) or (opinion and
+                    (opinions[0]['event_id'] != event_id or opinions[0]['note'] != NOTE
+                     or opinions[0]['mode'] != manifest['edition']))):
             raise ValueError('Private report disagrees with the synthetic native receiver')
-    return {'opinions':1, 'automatic_events':int(automatic)}
+    return {'opinions':int(opinion), 'automatic_events':len(pins)-int(opinion)}
 
 
 def phase_pair(first, second, *preserved):
@@ -696,6 +727,20 @@ def verify_upgrade(binary, expected, baseline, scene, stage):
             'seed':first,'upgrade':second}
 
 
+def verify_private_view(binary, scene, expected, manifest, stage):
+    stage.mkdir()
+    environment = runner_environment(stage/'runtime')
+    profile = Path(environment['APPDATA'])/expected['qa_dir']
+    with disconnected_endpoint() as (port, endpoint):
+        # Release the port so the isolated receiver can bind it.
+        pass
+    with receiver(stage,port) as database:
+        result = verify_phase(binary,scene,profile,stage,expected,endpoint,'private_view',environment)
+        delivery = verify_delivery(database,result,manifest,automatic=True,opinion=False)
+    print(f'Windows QA {expected["edition"]}: first-ACK private view and isolated record counts {delivery}', flush=True)
+    return {'probe':result, 'delivery':delivery}
+
+
 def verify(work):
     for key in ('APPDATA','LOCALAPPDATA','USERPROFILE'):
         if not os.environ.get(key):
@@ -739,6 +784,14 @@ def verify(work):
                 if final:
                     details['fresh_startup'] = verify_fresh_startup(binary,stage/'first-launch',expected)
                     details['compatibility'] = verify_upgrade(binary,expected,baseline[role],scene,stage/'upgrade')
+                    declined_env = runner_environment(stage/'declined-runtime')
+                    declined_profile = Path(declined_env['APPDATA'])/qa_dir
+                    with disconnected_endpoint() as (_, endpoint):
+                        declined = verify_phase(binary,scene,declined_profile,stage,expected,endpoint,'decline',declined_env)
+                    if declined.get('consent_control') != 'SharingLocalOnly':
+                        raise ValueError('The isolated decline phase did not use the first-consent control')
+                    details['declined'] = declined
+                    details['private_view'] = verify_private_view(binary,scene,expected,manifest,stage/'private-view')
                 if role == 'game' or final:
                     with disconnected_endpoint() as (port, endpoint):
                         first=verify_phase(binary,scene,profile_dir,stage,expected,endpoint,'write',env)

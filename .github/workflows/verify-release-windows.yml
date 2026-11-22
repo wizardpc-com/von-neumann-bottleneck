@@ -1,0 +1,59 @@
+name: Verify Windows draft release archives
+on:
+  workflow_dispatch:
+    inputs:
+      release_id:
+        description: GitHub draft Release numeric ID
+        required: true
+        type: string
+      release_tag:
+        description: Exact draft tag
+        required: true
+        type: string
+      source_commit:
+        description: Full frozen product commit SHA
+        required: true
+        type: string
+      game_asset:
+        description: Exact online Game Windows ZIP asset name
+        required: true
+        type: string
+      game_sha256:
+        description: Online Game Windows ZIP SHA-256
+        required: true
+        type: string
+      test_asset:
+        description: Exact offline Test Windows ZIP asset name
+        required: true
+        type: string
+      test_sha256:
+        description: Offline Test Windows ZIP SHA-256
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  verify-windows:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Read and verify the exact draft release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VNB_RELEASE_ID: ${{ inputs.release_id }}
+          VNB_RELEASE_TAG: ${{ inputs.release_tag }}
+          VNB_RELEASE_COMMIT: ${{ inputs.source_commit }}
+          VNB_GAME_ASSET: ${{ inputs.game_asset }}
+          VNB_GAME_SHA256: ${{ inputs.game_sha256 }}
+          VNB_TEST_ASSET: ${{ inputs.test_asset }}
+          VNB_TEST_SHA256: ${{ inputs.test_sha256 }}
+        run: python scripts/verify-release-windows.py fetch
+      - name: Run the frozen Windows packages with isolated profiles
+        run: python scripts/verify-release-windows.py verify

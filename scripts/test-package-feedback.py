@@ -4,6 +4,7 @@ from contextlib import closing
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import plistlib
 import sqlite3
@@ -13,12 +14,16 @@ import tempfile
 from types import SimpleNamespace
 import unittest
 from unittest import mock
+import zipfile
 
 
 ROOT=Path(__file__).resolve().parents[1]
 SPEC=importlib.util.spec_from_file_location('package_feedback',ROOT/'scripts/verify-package-feedback.py')
 VERIFIER=importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(VERIFIER)
+WINDOWS_SPEC=importlib.util.spec_from_file_location('windows_release',ROOT/'scripts/verify-release-windows.py')
+WINDOWS=importlib.util.module_from_spec(WINDOWS_SPEC)
+WINDOWS_SPEC.loader.exec_module(WINDOWS)
 sys.path.insert(0,str(ROOT/'server'))
 from storage import migrate
 
@@ -227,6 +232,130 @@ class PackageFeedbackTests(unittest.TestCase):
         subprocess.run(command+['--output',str(output)],check=True,capture_output=True)
         self.assertEqual(json.loads((output/'report.json').read_text())['received_feedback'][0]['event_id'],event_id)
         self.assertTrue((output/'report.html').is_file())
+
+
+class WindowsReleaseTests(unittest.TestCase):
+    def setUp(self):
+        folder=tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        self.work=Path(folder.name)
+        self.commit='a'*40
+        self.tag='v0.6.1-playtest.1'
+
+    def archive(self, role, *, changes=None, extra=None):
+        profile='Edition'+role.title()
+        batch='PlayersRelease1'
+        build=f'vnb-{role}-release-{self.tag}-{batch}-{self.commit[:12]}'
+        name=f'Von-Neumann-Bottleneck-{role.title()}.exe'
+        binary=b'MZfixture executable'
+        manifest={'source_commit':self.commit,'release_version':self.tag,'display_version':self.tag[1:],
+                  'edition':role,'edition_name':role.title()+' Edition','build_id':build,
+                  'save_profile':profile,'platform':'Windows',
+                  'content_count':60,'content_version':'tasks-20261013-journey-v1','mode_locked':True,
+                  'player_release':True,'save_migration':False,'engine':'4.7.1.stable.official.a13da4feb',
+                  'save_directories':[f'VonNeumannBottleneckCandidates/{d}/{profile}'
+                                      for d in ('representation','service')],
+                  'access_policy':'earned' if role=='game' else 'all-task-entrances',
+                  'test_batch':batch,'files_sha256':{name:hashlib.sha256(binary).hexdigest()}}
+        if role=='game':
+            manifest.update(public_game_feedback=True,community_feedback_enabled=False,
+                            feedback_default_source='external_player',feedback_source_batch=batch,
+                            feedback_endpoint=WINDOWS.PUBLIC_ORIGIN+'/v1',
+                            privacy_url=WINDOWS.PUBLIC_ORIGIN+'/privacy-player.html')
+        manifest.update(changes or {})
+        path=self.work/(role+'.zip')
+        with zipfile.ZipFile(path,'w') as archive:
+            archive.writestr('Windows/'+name,binary)
+            archive.writestr('Windows/BUILD-MANIFEST.json',json.dumps(manifest))
+            if extra: archive.writestr(extra,'unexpected')
+        identity={'tag':self.tag,'source_commit':self.commit,'assets':{role:{
+            'name':f'Von-Neumann-Bottleneck-Windows-{build}.zip','bytes':path.stat().st_size,
+            'sha256':WINDOWS.sha256(path)}}}
+        return path, identity
+
+    def test_pinned_windows_archives_preserve_two_distinct_player_profiles(self):
+        for role in ('game','test'):
+            with self.subTest(role=role):
+                path,identity=self.archive(role)
+                binary,manifest=WINDOWS.unpack(path,self.work/role,role,identity)
+                self.assertEqual(binary.read_bytes(),b'MZfixture executable')
+                self.assertEqual(manifest['save_profile'],'Edition'+role.title())
+        self.assertNotEqual(WINDOWS.sha256(self.work/'game.zip'),WINDOWS.sha256(self.work/'test.zip'))
+
+    def test_archive_rejects_traversal_preexisting_config_and_digest_drift(self):
+        for index, member in enumerate(('Windows/../escaped.txt','Windows/override.cfg',
+                                        'Windows/Von-Neumann-Bottleneck-Game.EXE')):
+            path,identity=self.archive('game',extra=member)
+            with self.subTest(member=member), self.assertRaisesRegex(ValueError,'ZIP'):
+                WINDOWS.unpack(path,self.work/str(index),'game',identity)
+        path,identity=self.archive('game')
+        path.write_bytes(path.read_bytes()+b'changed')
+        with self.assertRaisesRegex(ValueError,'changed after download'):
+            WINDOWS.unpack(path,self.work/'altered','game',identity)
+
+    def test_identity_rejects_repurposed_profile_and_online_test(self):
+        for index,(role,changes) in enumerate((
+            ('game',{'save_profile':'EditionTestPilot'}),
+            ('game',{'community_feedback_enabled':True}),
+            ('test',{'feedback_endpoint':'http://127.0.0.1:5555'}),
+        )):
+            with self.subTest(role=role,changes=changes):
+                path,identity=self.archive(role,changes=changes)
+                with self.assertRaises(ValueError):
+                    WINDOWS.unpack(path,self.work/str(index),role,identity)
+
+    def test_draft_binds_annotated_tag_or_exact_uncreated_tag(self):
+        draft={'id':17,'draft':True,'tag_name':self.tag,'target_commitish':self.commit}
+        annotated={'object':{'type':'tag','sha':'b'*40}}
+        commit={'object':{'type':'commit','sha':self.commit}}
+        with mock.patch.object(WINDOWS,'gh_get',side_effect=[annotated,commit]):
+            WINDOWS.verify_draft('owner/repo',draft,'17',self.tag,self.commit)
+        with mock.patch.object(WINDOWS,'gh_get',return_value=None):
+            WINDOWS.verify_draft('owner/repo',draft,'17',self.tag,self.commit)
+            with self.assertRaisesRegex(ValueError,'full frozen commit'):
+                WINDOWS.verify_draft('owner/repo',dict(draft,target_commitish='main'),'17',self.tag,self.commit)
+        with self.assertRaisesRegex(ValueError,'exact draft'):
+            WINDOWS.verify_draft('owner/repo',dict(draft,draft=False),'17',self.tag,self.commit)
+
+    def test_firewall_failure_prevents_launch_and_still_removes_rule(self):
+        commands=[]
+
+        def record(command, **options):
+            commands.append(command)
+            if 'Install' in command:
+                raise subprocess.CalledProcessError(1,command)
+
+        with mock.patch.object(WINDOWS.subprocess,'run',side_effect=record):
+            with self.assertRaises(subprocess.CalledProcessError):
+                with WINDOWS.guarded_binary(self.work/'candidate.exe'):
+                    self.fail('A binary cannot launch after failed firewall verification')
+        self.assertIn('Install',commands[0])
+        self.assertIn('Remove',commands[1])
+        self.assertEqual(commands[0][-3],commands[1][-3])
+
+    def test_game_override_uses_only_localhost_without_changing_edition_profile(self):
+        path=self.work/'override.cfg'
+        identity={'qa_dir':'qa/VonNeumannBottleneckCandidates/representation/EditionGame'}
+        with self.assertRaises(ValueError):
+            WINDOWS.write_override(path,self.work/'probe.tscn',self.work/'profile',self.work,
+                                   identity,'https://feedback.example.test/v1','write')
+        self.assertFalse(path.exists())
+        WINDOWS.write_override(path,self.work/'probe.tscn',self.work/'profile',self.work,
+                               identity,'http://127.0.0.1:12345','write')
+        override=path.read_text(encoding='utf-8')
+        self.assertIn('feedback_endpoint="http://127.0.0.1:12345"',override)
+        self.assertIn('feedback_privacy_url=""',override)
+        self.assertIn('feedback_source_batch="HostedWindowsReleaseQA"',override)
+        self.assertNotIn('[candidate]',override)
+
+    def test_release_process_gets_disposable_paths_and_no_runner_credentials(self):
+        with mock.patch.dict(os.environ, {'SYSTEMROOT':'system','GITHUB_TOKEN':'fixture','GH_TOKEN':'fixture',
+                                         'APPDATA':'real-player-data','HTTPS_PROXY':'fixture'}, clear=True):
+            env=WINDOWS.runner_environment(self.work/'runtime')
+        self.assertEqual(env['SYSTEMROOT'],'system')
+        for key in ('APPDATA','LOCALAPPDATA','USERPROFILE','TMP','TEMP'):
+            self.assertTrue(Path(env[key]).is_relative_to(self.work/'runtime'))
+        self.assertFalse({'GITHUB_TOKEN','GH_TOKEN','HTTPS_PROXY'} & env.keys())
 
 
 if __name__=='__main__': unittest.main(verbosity=2)

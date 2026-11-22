@@ -85,6 +85,9 @@ func _run() -> void:
 	check(ui.input_a_button.button_pressed and not ui.current_trace.outputs[&"LAMP"], "Connected A=1 produces LAMP=0 in the actual simulation trace.")
 	await capture("not-result")
 	await press(ui.input_a_button)
+	check(not ui.input_a_button.button_pressed and ui.debug_result_label.text == text(&"hardware.practice.lamp_empty"),
+		"Changing A clears the previous measured lamp result until the next run.")
+	await capture("not-input-changed")
 	await press(named_button(ui.desktop_windows[&"test_bench"], text(&"hardware.practice.run")))
 	await wait_playback()
 	check(not ui.input_a_button.button_pressed and ui.current_trace.outputs[&"LAMP"], "Changing to A=0 and running produces LAMP=1, without granting the remaining actions.")
@@ -93,6 +96,8 @@ func _run() -> void:
 	var midpoint: Vector2 = curve_point(&"LAMP")
 	await drag(midpoint - Vector2(0, 22), midpoint + Vector2(0, 22), MOUSE_BUTTON_RIGHT)
 	check(ui.tutorial_removed_wire and not ui.graph.is_node_connected(&"NOT_1", 0, &"LAMP", 0), "The instructed right-button sweep actually removes the lamp wire.")
+	check(ui.current_trace == null and ui.debug_result_label.text == text(&"hardware.practice.lamp_empty"),
+		"Removing the lamp wire restores the tutorial's empty lamp result.")
 	check(not ui.completed_levels.get(&"tutorial", false), "Four actions do not earn completion.")
 	await capture("not-removed")
 	await wire(&"NOT_1", &"LAMP")

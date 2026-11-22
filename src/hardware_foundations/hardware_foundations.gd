@@ -5369,9 +5369,7 @@ func _reset_current_simulation() -> void:
 	_clear_signal_states()
 	_schedule_live_refresh()
 	animate_next_live_refresh = false
-	if is_instance_valid(debug_result_label):
-		debug_result_label.text = _t(&"hardware.prologue.outputs_empty")
-		debug_result_label.add_theme_color_override("font_color", MUTED)
+	_clear_debug_result()
 	trace_caption_label.text = _t(&"hardware.trace.empty")
 	pause_button.text = _t(&"hardware.trace.resume")
 	_update_storage_monitor()
@@ -6589,9 +6587,8 @@ func _topology_changed(message: String, created: bool = true, removed: bool = fa
 
 
 func _mark_trace_stale() -> void:
-	if board_has_explicit_run and is_instance_valid(debug_result_label):
-		debug_result_label.text = _t(&"hardware.cases.actual_empty" if current_phase == &"half_adder" else &"hardware.prologue.outputs_empty")
-		debug_result_label.add_theme_color_override("font_color", MUTED)
+	if board_has_explicit_run:
+		_clear_debug_result()
 	trace_caption_label.text = _t(&"hardware.trace.topology_changed" if board_has_explicit_run else &"hardware.trace.empty")
 	diagnostics_label.text = _t(&"hardware.diagnostics.awaiting_run" if board_has_explicit_run else &"hardware.diagnostics.empty")
 	_schedule_live_refresh()
@@ -6652,8 +6649,10 @@ func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
 		return
 	_stop_playback()
 	current_trace = null
+	if current_phase in [&"tutorial", &"half_adder"]:
+		_clear_debug_result()
+		trace_caption_label.text = _t(&"hardware.trace.empty")
 	if current_phase == &"half_adder":
-		_reset_half_adder_case_result()
 		_clear_mismatch_markers()
 	_update_input_button_text()
 	live_state_key = ""
@@ -6737,14 +6736,21 @@ func _show_debug_result(trace: CircuitTrace, prefix: String) -> void:
 	status_label.add_theme_color_override("font_color", status_color)
 
 
-func _reset_half_adder_case_result() -> void:
-	debug_result_label.text = _t(&"hardware.cases.actual_empty")
+func _clear_debug_result() -> void:
+	if not is_instance_valid(debug_result_label):
+		return
+	var label_key: StringName = &"hardware.prologue.outputs_empty"
+	match current_phase:
+		&"tutorial": label_key = &"hardware.practice.lamp_empty"
+		&"half_adder": label_key = &"hardware.cases.actual_empty"
+		&"sealed": label_key = &"hardware.sealed.result_empty"
+	debug_result_label.text = _t(label_key)
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 
 
 func _show_half_adder_case_result(trace: CircuitTrace, index: int) -> bool:
 	if not trace.is_valid() or not trace.outputs.has(&"SUM") or not trace.outputs.has(&"CARRY"):
-		_reset_half_adder_case_result()
+		_clear_debug_result()
 		return false
 	var expected: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
 	var actual_sum: bool = trace.outputs[&"SUM"]
@@ -6801,7 +6807,7 @@ func _begin_official_sequence(kind: StringName, circuit: LogicCircuit) -> void:
 	if kind == &"half_adder":
 		input_a_button.disabled = true
 		input_b_button.disabled = true
-		_reset_half_adder_case_result()
+		_clear_debug_result()
 	_reset_official_case_rows()
 	_start_next_official_case()
 

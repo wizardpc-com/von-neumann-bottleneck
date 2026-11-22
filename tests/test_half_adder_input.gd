@@ -88,6 +88,11 @@ func half_adder_flow() -> void:
 		and ui.debug_result_label.text.contains(text(&"outcome.pass")) and not ui.debug_result_label.text.contains(expected_11)
 		and ui.input_a_button.button_pressed and ui.input_b_button.button_pressed and ui.seal_button.disabled,
 		"Rerunning the same input confirms the correction before any official pass or seal.")
+	await key(KEY_F4)
+	check(ui.current_trace == null and ui.debug_result_label.text == text(&"hardware.cases.actual_empty")
+		and ui.input_a_button.button_pressed and ui.input_b_button.button_pressed,
+		"Reset clears the Half Adder comparison and keeps the selected input bits.")
+	await capture("half-adder-reset")
 	await press(bench.find_child("TryCase0", true, false) as Button)
 	await wait_playback()
 	check(not ui.input_a_button.button_pressed and not ui.input_b_button.button_pressed,

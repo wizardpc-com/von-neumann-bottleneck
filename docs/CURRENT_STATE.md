@@ -1,8 +1,8 @@
-## 2026-11-22 · VPS staging 私有 HTTPS
+## 2026-11-22 · 反馈接入
 
 macOS Test Edition 已经由 SSH 转发完成合成意见的 HTTPS 提交、游戏回执、
 同 ID SQLite 读回与在线删除。staging 采用独立数据库和 systemd 单元。
-公开入口和 MyAgent 跨项目任务验收仍待完成。
+独立公网 8443 的代理文件和 macOS 联网 Test 包已备妥，公网 TLS、入站与反馈验收等待所有者侧配置。
 [交接与部署](distribution/feedback-connectivity.md) · [实测证据](verification/20261122-feedback-connectivity/README.md)。
 
 ## 2026-11-16 · v0.6.0 双版本交付完成

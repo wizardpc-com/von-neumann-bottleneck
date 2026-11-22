@@ -30,3 +30,27 @@ Caddy 2.6.2 上关闭了内部证书自动加载，改为禁用自动重定向�
 首次无头包探针也因本地问卷默认关闭失败，启用探针的本地问卷后通过。
 
 部署、复测和公网放行边界见[运维交接](../../distribution/feedback-connectivity.md)。
+
+## 独立 8443 公网准备记录
+
+后续指令将公网验收收敛到 `feedback.yanruiqing.com:8443`，通过独立
+Caddy 转发既有回环 18081。配置、隐私页和 systemd 单元已安装，Caddy
+实际解析只声明指定 IPv4 的 8443、关闭自动 HTTPS 与 Admin API。
+配置预置前后 MyAgent 三单元、天机三单元、原 Caddy 和 VNB 私有服务
+的状态、PID、调用 ID、单元文件摘要及相关监听摘要逐字节一致，MyAgent
+现有外部 HTTPS 两次均为 200、TLS 校验正常。Windows 工作流由用户明确排除。
+
+Ubuntu 发布包索引的 SHA-256 校验通过，从包中解出 lego 单二进制到 VNB
+专用目录；未通过包管理器安装系统服务。Let's Encrypt 生产 DNS-01 已
+生成 TXT 挑战。先后直查两台 DNSPod 权威服务器，A 和 TXT 尚未生效。
+等待所有者完成 A、TXT 和仅测试源 TCP 8443 云规则。证书尚未签发，8443
+没有监听，公网 TLS、上传、重复投递及路由拒绝尚未验收。
+
+macOS 联网 Test 包以 `dd22cd0eb71cb73dd48255c6764778e2e7456606`
+为冻结源码，build ID 为 `vnb-test-feedback-v0.6.0-FeedbackQA20261122-dd22cd0eb71c`，
+ZIP SHA-256 为 `a8d521e258245c60019cc11901d2551a7cc9a41bc54f9b314e44275a2d73ac65`。
+通过构建、ZIP 逐文件哈希、Godot 实包运行、60 任务和默认关闭统计检查，
+本机 ad-hoc 签名结构验证通过。此前导出因调度实验室未识别网络 Test 档
+被实包门禁拦截，修复后新冻包通过。精确重发和数据库单行检查已在原离线
+Test 包的隔离 staging 预演通过。实际公网包未用测试覆写改变服务器端点或
+证书信任。本地原交付包保持各自版本与隔离存档。

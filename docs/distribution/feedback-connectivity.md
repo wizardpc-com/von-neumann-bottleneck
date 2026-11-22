@@ -38,7 +38,7 @@ ssh -o BatchMode=yes ray-vps \
 ssh -fNM -S "$qa/ssh" -o ExitOnForwardFailure=yes -o BatchMode=yes \
   -L 127.0.0.1:28444:127.0.0.1:28444 ray-vps
 python3 -B scripts/verify-feedback-stage.py \
-  --app build/vnb-test*/macOS/Von-Neumann-Bottleneck-Test.app \
+  --app 'build/OFFLINE_TEST_BUILD_ID/macOS/Von-Neumann-Bottleneck-Test.app' \
   --endpoint https://localhost:28444/v1 --ca-file "$qa/ca.pem"
 ssh -S "$qa/ssh" -O exit ray-vps
 rm -f "$qa/ca.pem"

@@ -1,6 +1,6 @@
 # Execution queue
 
-2026-11-22：[Mac、GitHub 与 VPS 反馈链路](feedback-connectivity-20261122.md)已通过私有 HTTPS；公网入口与 Windows 工作者联验待完成。
+2026-11-22：[Mac、GitHub 与 VPS 反馈链路](feedback-connectivity-20261122.md)已通过私有 HTTPS；专用 8443 的证书、DNS 及公网实包验收待完成。
 
 2026-11-13：[全章节基本交互计划](../completed/chapter-interaction-simplicity-20261113.md)已完成。
 代表操作链、任务差异回归与已知限制见[验收矩阵](../../development/BASIC_INTERACTION_ACCEPTANCE_20261113.md)；

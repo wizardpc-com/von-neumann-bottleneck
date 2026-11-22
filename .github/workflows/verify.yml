@@ -20,6 +20,7 @@ jobs:
       - run: python server/test_release_ingress.py
       - run: python server/test_release_io.py
       - run: python server/test_release_ops.py
+      - run: python server/test_my_results.py
       - name: Verify the release feedback edge over local TLS
         shell: bash
         run: |

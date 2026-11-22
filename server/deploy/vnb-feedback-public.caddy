@@ -39,6 +39,14 @@ https://feedback.yanruiqing.com:8443 {
         method GET
         path /privacy-player.html
     }
+    @my_results_page {
+        method GET
+        path /my-results.html
+    }
+    @my_results_api {
+        method POST
+        path /v1/my-results
+    }
     @health {
         method GET
         path /v1/health
@@ -63,6 +71,27 @@ https://feedback.yanruiqing.com:8443 {
     handle @player_privacy {
         root * /etc/vnb-feedback-public/www
         file_server
+    }
+    handle @my_results_page {
+        header {
+            Cache-Control no-store
+            Referrer-Policy no-referrer
+            X-Content-Type-Options nosniff
+            X-Robots-Tag "noindex, nofollow"
+            Content-Security-Policy "default-src 'none'; script-src 'sha256-n1Dyx4EFcPRbpraMLChCuheRSPIvGCA3y3BA3FT9XYI='; style-src 'sha256-Xv1hMoiOkj6AYKOVj14vZCR+czYwn++VyC6F+s0ovXo='; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+        }
+        root * /etc/vnb-feedback-public/www
+        file_server
+    }
+    handle @my_results_api {
+        header {
+            >Cache-Control no-store
+            Referrer-Policy no-referrer
+        }
+        request_body {
+            max_size 256
+        }
+        import vnb_feedback_upstream
     }
     handle @health {
         import vnb_feedback_upstream

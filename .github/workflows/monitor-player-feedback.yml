@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           for attempt in 1 2 3; do
-            if python3 -B server/deploy/check-release-feedback.py --public --heartbeat; then exit 0; fi
+            if python3 -B server/deploy/check-release-feedback.py --public --heartbeat --results; then exit 0; fi
             if [ "$attempt" -lt 3 ]; then sleep 5; fi
           done
           echo "::error::The dedicated VNB feedback edge failed three public checks. See the release feedback runbook."

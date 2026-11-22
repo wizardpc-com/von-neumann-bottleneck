@@ -18,7 +18,7 @@ REHEARSAL_BUILD = {
 }
 
 
-def call(connection, method, path, status, *, public=False, payload=None, headers=None):
+def call(connection, method, path, status, *, public=False, payload=None, headers=None, expected_headers=None):
     headers = dict(headers or {})
     body = None
     if payload is not None:
@@ -30,6 +30,9 @@ def call(connection, method, path, status, *, public=False, payload=None, header
             raise ValueError(f"{method} {path}: expected HTTP {status}, got {response.status}")
         if public and response.getheader("X-VNB-Environment") != "public-feedback":
             raise ValueError("unexpected TLS edge")
+        for name, expected in (expected_headers or {}).items():
+            if response.getheader(name) != expected:
+                raise ValueError("unexpected header for " + path)
         value = response.read(131073)
         if len(value) > 131072:
             raise ValueError("unexpected response size")
@@ -70,6 +73,16 @@ def check_heartbeat(connection):
             or value["ok"] is not True or type(value["checked_utc"]) is not int
             or not 0 <= int(time.time()) - value["checked_utc"] <= HEARTBEAT_MAX_AGE):
         raise ValueError("heartbeat unavailable, stale or invalid")
+
+
+def check_results_routes(connection):
+    page = call(connection, "GET", "/my-results.html", 200, public=True,
+                expected_headers={"Cache-Control": "no-store", "Referrer-Policy": "no-referrer",
+                                  "X-Robots-Tag": "noindex, nofollow"})
+    if b"data-vnb-results" not in page:
+        raise ValueError("personal results page missing")
+    call(connection, "HEAD", "/my-results.html", 404, public=True)
+    call(connection, "GET", "/v1/my-results", 404, public=True)
 
 
 def rehearse(connection):
@@ -119,9 +132,12 @@ def main():
     parser.add_argument("--rehearsal", action="store_true")
     parser.add_argument("--synthetic-write", action="store_true")
     parser.add_argument("--heartbeat", action="store_true", help="require a fresh healthy production heartbeat")
+    parser.add_argument("--results", action="store_true", help="check the personal results page and private API method")
     args = parser.parse_args()
     if args.heartbeat and (not args.public or args.rehearsal):
         parser.error("--heartbeat requires production --public")
+    if args.results and (not args.public or args.rehearsal):
+        parser.error("--results requires production --public")
     if (args.rehearsal and args.public_historical) or (args.synthetic_write and not (args.public and args.rehearsal)):
         parser.error("synthetic writes require --public --rehearsal")
     public = args.public or args.public_historical
@@ -132,6 +148,8 @@ def main():
                 check_read_routes(connection, public=True, rehearsal=args.rehearsal, historical=args.public_historical)
                 if args.heartbeat:
                     check_heartbeat(connection)
+                if args.results:
+                    check_results_routes(connection)
                 if args.synthetic_write:
                     rehearse(connection)
             finally:

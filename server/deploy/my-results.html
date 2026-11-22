@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en" data-vnb-results>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <title>VNB · My results / 我的成绩</title>
+  <style>
+    :root { color-scheme: light; background: #f3f2ec; color: #202d2b; font-family: system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+    h1 { margin: .35rem 0; font-size: clamp(1.9rem, 5vw, 2.65rem); }
+    p { line-height: 1.55; }
+    button { font: inherit; padding: .5rem .8rem; background: #fff; color: #173b32; border: 1px solid #547368; border-radius: .35rem; }
+    button:focus-visible { outline: 3px solid #287461; outline-offset: 3px; }
+    #status { font-weight: 600; padding: 1rem; background: #e2ece7; border-left: .25rem solid #287461; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    li { padding: 1rem; margin-top: .7rem; background: #fff; border: 1px solid #ced9d0; border-radius: .4rem; }
+    h2 { margin: 0; font-size: 1.12rem; }
+    li p { margin: .35rem 0 0; }
+    dl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .3rem .8rem; margin: .7rem 0 0; }
+    dd { margin: 0; font-variant-numeric: tabular-nums; }
+    small { display: block; line-height: 1.5; margin-top: 1.2rem; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1 id="heading">My results / 我的成绩</h1>
+    <button type="button" id="language" lang="zh-CN">中文</button>
+  </header>
+  <p id="intro">Completed tasks from the optional statistics shared by this game installation.</p>
+  <p id="status" role="status" aria-live="polite">Open this page from the game. / 请从游戏打开此页。</p>
+  <ul id="results"></ul>
+  <small id="privacy">Keep this link private. It grants read-only access to these results.</small>
+  <noscript>This page requires JavaScript. / 此页需要启用 JavaScript。</noscript>
+</main>
+<script>
+(() => {
+  "use strict";
+
+  let credentials = null;
+  {
+    const fragment = new URLSearchParams(location.hash.slice(1));
+    if (location.hash || location.search) {
+      try {
+        history.replaceState(null, "", location.pathname);
+      } catch {
+        location.replace(location.pathname);
+        return;
+      }
+    }
+    const client = fragment.get("client_id");
+    const key = fragment.get("key");
+    if ([...fragment].length === 2 && /^[0-9a-f]{32}$/.test(client || "") && /^[0-9a-f]{64}$/.test(key || "")) {
+      credentials = {client_id: client, key};
+    }
+  }
+
+  const strings = {
+    en: {
+      heading: "My results", toggle: "中文", intro: "Completed tasks from the optional statistics shared by this game installation.",
+      privacy: "Keep the original link private. Anyone with it can view these results. Reopen the page from the game after reloading or navigating away.",
+      missing: "Open My results from the game to view this installation’s results.",
+      loading: "Checking for shared results…",
+      empty: "No completed tasks in the shared statistics yet.",
+      unavailable: "Results are unavailable for this link. Open My results from the game after sharing statistics.",
+      busy: "The results service is busy. This page will retry.",
+      error: "Results could not be loaded. This page will retry.",
+      live: "Showing completions from the last {days} days of shared statistics.",
+      limited: "Showing a limited set of recent shared completions.",
+      game: "Game", test: "Test", cycles: "Cycles at completion", total_cycles: "Total cycles at completion",
+      cost: "Cost at completion", foreground_ms: "Active time in the completion visit",
+      official_runs: "Official runs in the completion visit", debug_runs: "Debug runs in the completion visit",
+      max_hint_stage: "Highest hint stage in the completion visit",
+    },
+    zh: {
+      heading: "我的成绩", toggle: "English", intro: "查看此游戏安装从可选统计中分享的已完成任务。",
+      privacy: "请保护原始链接。任何持有链接的人都可以查看这些结果。刷新或离开此页后，请从游戏重新打开。",
+      missing: "请从游戏中的「我的成绩」打开本页。",
+      loading: "正在检查已分享的结果…",
+      empty: "已分享的统计中还没有完成记录。",
+      unavailable: "此链接暂无可查看的结果。分享统计后，请从游戏重新打开「我的成绩」。",
+      busy: "结果服务繁忙，本页会重试。",
+      error: "暂时无法加载结果，本页会重试。",
+      live: "显示最近 {days} 天内分享的完成记录。",
+      limited: "仅显示近期分享的部分完成记录。",
+      game: "游戏版", test: "测试版", cycles: "完成时的周期数", total_cycles: "完成时的总周期数",
+      cost: "完成时的成本", foreground_ms: "完成该次访问时的前台用时",
+      official_runs: "完成该次访问中的正式运行次数", debug_runs: "完成该次访问中的调试运行次数",
+      max_hint_stage: "完成该次访问中的最高提示阶段",
+    },
+  };
+  const chapters = {
+    hardware_foundations: ["Hardware foundations", "硬件基础"], chapter_1: ["Chapter 1", "第一章"],
+    chapter_2: ["Chapter 2", "第二章"], chapter_3: ["Chapter 3", "第三章"], chapter_4: ["Chapter 4", "第四章"],
+    representation: ["Representation", "表示"], service: ["Service", "服务"], prediction: ["Prediction", "预测"],
+    creation: ["Creation", "创造"],
+  };
+  // BEGIN GENERATED TASK TITLES
+  const taskTitles = {
+    "chapter_1/assembly": ["Three Parts, One Machine", "三器相连"],
+    "chapter_1/bottleneck": ["Follow the Delay", "循时寻因"],
+    "chapter_1/bus_width": ["Room to Pass", "宽窄之间"],
+    "chapter_1/cpu_speed": ["The Waiting Remains", "快慢之间"],
+    "chapter_1/ram_wait": ["Time on the Road", "等待的来处"],
+    "chapter_1/read_once": ["Once Is Enough", "一取再用"],
+    "chapter_1/two_orders": ["One budget, two orders", "一笔预算，两张订单"],
+    "chapter_2/access_order": ["A Change of Order", "先后有序"],
+    "chapter_2/blocking": ["A Little at a Time", "分而复用"],
+    "chapter_2/cache_failure": ["Here, Then Gone", "留不住的数据"],
+    "chapter_2/capstone": ["Follow the Clues", "循迹而行"],
+    "chapter_2/distant_reads": ["The Long Way Round", "远取之累"],
+    "chapter_2/nearby_storage": ["Keep It Handy", "留待再用"],
+    "chapter_2/working_set": ["Only So Much Room", "容量有界"],
+    "chapter_3/arrival": ["Still on the Way", "尚在途中"],
+    "chapter_3/backpressure": ["Give and Take", "进退有度"],
+    "chapter_3/buffers": ["Taking Turns", "交替接力"],
+    "chapter_3/distance": ["Too Far Ahead", "过犹不及"],
+    "chapter_3/prefetch": ["One Step Ahead", "先行一步"],
+    "chapter_3/synthesis": ["All in Good Time", "各行其时"],
+    "chapter_4/batches": ["Piece by Piece", "化整为零"],
+    "chapter_4/fields": ["Just What We Need", "只取所需"],
+    "chapter_4/hot_cold": ["Separate Ways", "冷热有别"],
+    "chapter_4/mixed": ["Common Ground", "两全之策"],
+    "chapter_4/records": ["The Whole Picture", "一窥全貌"],
+    "chapter_4/relocation": ["The Price of Moving", "搬迁有价"],
+    "creation/C1_restore": ["Carry the exceptions", "让例外抵达"],
+    "creation/C2_cost": ["Rules take space", "规则也占位置"],
+    "creation/C3_conditions": ["Is this worth moving?", "值不值得这样搬"],
+    "creation/G1_feedback": ["Feed output back", "让输出接回输入"],
+    "creation/G2_intent": ["Change with intent", "按自己的意图改变"],
+    "creation/G3_keep": ["Keep your next passage", "留下你的下一段"],
+    "creation/P1_commit": ["The next cell is sealed", "下一格尚未抵达"],
+    "creation/P2_memory": ["How much history?", "需要记住多少"],
+    "creation/P3_check": ["A frozen check", "带着不确定检查"],
+    "hardware_foundations/alarm": ["A Moment Remembered", "留住一瞬"],
+    "hardware_foundations/alu": ["One-bit ALU", "一位 ALU"],
+    "hardware_foundations/cpu": ["Four-bit Accumulator CPU", "四位累加器 CPU"],
+    "hardware_foundations/delay": ["One accepted sample later", "晚一拍"],
+    "hardware_foundations/full_adder": ["Full Adder", "全加器"],
+    "hardware_foundations/half_adder": ["Prologue · Build a 1-bit Half Adder", "序章·搭建 1 位半加器"],
+    "hardware_foundations/latch": ["SR Latch", "SR 锁存器"],
+    "hardware_foundations/load_store": ["LOAD/STORE Bridge", "LOAD/STORE 桥接实验"],
+    "hardware_foundations/parity": ["One bit went wrong", "错了一位"],
+    "hardware_foundations/ram": ["2×4 RAM", "2×4 RAM"],
+    "hardware_foundations/register": ["One-bit Register", "一位寄存器"],
+    "hardware_foundations/selector": ["Who gets through?", "谁能通过？"],
+    "hardware_foundations/selector4": ["One of four", "四路择一"],
+    "hardware_foundations/tutorial": ["Prologue · Wiring Tutorial", "序章·接线教程"],
+    "prediction/alternating": ["Alternating hotspots", "交替热点"],
+    "prediction/changed": ["Pattern changes", "规律改变"],
+    "prediction/regular": ["Regular stream", "规律流"],
+    "representation/cross_assets": ["5 · Two assets, one plan", "5 · 两份资产，一个方案"],
+    "representation/dense_sparse": ["3 · Dense and sparse", "3 · 密集与稀疏"],
+    "representation/interior_hotspots": ["2 · Interior hotspots", "2 · 内部热点"],
+    "representation/mixed_scan": ["1 · Mixed scan", "1 · 混合扫描"],
+    "representation/prepare_once": ["4 · Prepare once, serve", "4 · 准备一次，再服务"],
+    "service/move_state": ["Move less state", "少搬状态"],
+    "service/one_plan": ["One service plan", "同一服务方案"],
+    "service/prompt_response": ["Prompt service", "及时服务"]
+  };
+  // END GENERATED TASK TITLES
+  const metricNames = ["cycles", "total_cycles", "cost", "foreground_ms", "official_runs", "debug_runs", "max_hint_stage"];
+  let language = /^zh/i.test(navigator.language) ? "zh" : "en";
+  const list = document.getElementById("results");
+  const status = document.getElementById("status");
+  let message = credentials ? "loading" : "missing";
+  let data = null;
+  let timer = null;
+  let pending = null;
+
+  function render() {
+    const t = strings[language];
+    document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+    document.title = "VNB · " + t.heading;
+    document.getElementById("heading").textContent = t.heading;
+    document.getElementById("intro").textContent = t.intro;
+    document.getElementById("privacy").textContent = t.privacy;
+    const button = document.getElementById("language");
+    button.textContent = t.toggle;
+    button.lang = language === "zh" ? "en" : "zh-CN";
+    const text = t[message].replace("{days}", data ? String(data.retention_days) : "");
+    if (status.textContent !== text) status.textContent = text;
+    list.replaceChildren();
+    if (!data) return;
+    const number = new Intl.NumberFormat(document.documentElement.lang, {maximumFractionDigits: 1});
+    for (const entry of data.levels) {
+      if (!entry || (entry.mode !== "game" && entry.mode !== "test")
+          || typeof entry.chapter_id !== "string" || !Object.prototype.hasOwnProperty.call(chapters, entry.chapter_id)
+          || typeof entry.level_id !== "string" || !/^[A-Za-z0-9_-]{1,64}$/.test(entry.level_id)) continue;
+      const row = document.createElement("li");
+      const title = document.createElement("h2");
+      const taskKey = entry.chapter_id + "/" + entry.level_id;
+      const localized = taskTitles[taskKey];
+      title.textContent = localized && localized[language === "zh" ? 1 : 0] || taskKey;
+      const context = document.createElement("p");
+      context.textContent = t[entry.mode] + " · " + chapters[entry.chapter_id][language === "zh" ? 1 : 0];
+      row.append(title, context);
+      const metrics = document.createElement("dl");
+      for (const name of metricNames) {
+        const actual = (entry.completion_metrics || {})[name] ?? (entry.visit_metrics || {})[name];
+        if (!Number.isSafeInteger(actual) || actual < 0) continue;
+        const label = document.createElement("dt");
+        label.textContent = t[name];
+        const value = document.createElement("dd");
+        value.textContent = name === "foreground_ms" ? number.format(actual / 1000) + (language === "zh" ? " 秒" : " s") : number.format(actual);
+        metrics.append(label, value);
+      }
+      if (metrics.childElementCount) row.append(metrics);
+      list.append(row);
+    }
+  }
+
+  function stop() {
+    clearTimeout(timer);
+    if (pending) {
+      pending.abort();
+      pending = null;
+    }
+  }
+
+  async function refresh() {
+    if (!credentials || pending || document.hidden) return;
+    const request = new AbortController();
+    pending = request;
+    const timeout = setTimeout(() => request.abort(), 8000);
+    try {
+      const response = await fetch("/v1/my-results", {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(credentials), signal: request.signal,
+        credentials: "omit", cache: "no-store", redirect: "error", referrerPolicy: "no-referrer",
+      });
+      if (response.ok) {
+        const result = await response.json();
+        if (!result || !Array.isArray(result.levels) || result.levels.length > 120
+            || typeof result.limited !== "boolean" || !Number.isSafeInteger(result.retention_days)) throw new Error();
+        if (pending !== request) return;
+        data = result;
+        message = result.limited ? "limited" : result.levels.length ? "live" : "empty";
+      } else {
+        if (pending !== request) return;
+        data = null;
+        message = response.status === 401 ? "unavailable" : response.status === 429 ? "busy" : "error";
+      }
+    } catch {
+      if (pending !== request) return;
+      data = null;
+      message = "error";
+    } finally {
+      clearTimeout(timeout);
+      if (pending === request) {
+        pending = null;
+        render();
+        if (credentials && !document.hidden) timer = setTimeout(refresh, 15000);
+      }
+    }
+  }
+
+  document.getElementById("language").addEventListener("click", () => {
+    language = language === "zh" ? "en" : "zh";
+    render();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stop();
+      data = null;
+      message = credentials ? "loading" : "missing";
+      render();
+    } else {
+      refresh();
+    }
+  });
+  window.addEventListener("pagehide", () => {
+    stop();
+    credentials = null;
+    data = null;
+    message = "missing";
+    render();
+  });
+  render();
+  refresh();
+})();
+</script>
+</body>
+</html>

@@ -334,6 +334,74 @@ fixture to verify triage, refresh and deletion behavior. Refresh invalidates
 the previous report before rebuilding and purges triage when its receipt
 is removed. A fetch failure means the local copy may be incomplete.
 
+### Deploy the personal results page on 8443
+
+The game opens `/my-results.html#client_id=<32 lowercase hex>&key=<64 lowercase hex>`.
+The credential remains in the browser fragment until the page removes it
+from the address before its first request. The page keeps credentials only
+in memory, polls the same HTTPS origin approximately every 15 seconds while
+visible, clears displayed results when hidden, and drops credentials when
+the page is left. The page sends exact JSON `{"client_id":"…","key":"…"}`
+in `POST /v1/my-results`. The key is lowercase
+`SHA256("vnb-results-v1:" + client_id + ":" + deletion_hash)`, where the
+existing `deletion_hash` is lowercase SHA-256 of the UTF-8 hexadecimal
+token string. The raw token and deletion hash never enter the link.
+
+The trusted release edge guards the API. Unknown, deleted, and wrong-key
+installations use the same 401 response. An authenticated installation
+with no qualifying stats receives 200 with an empty level list. Only
+retained Basic/Detailed stats passing configured source, mode, build and
+task-version admissions contribute. The service reads up to 512
+owner-indexed rows plus one truncation probe, and caps the view at 120
+levels. Completed-on-entry visits alone do not count as completions.
+Visit timings and counts are presented only when present. Cycle and cost
+metrics come from completion records rather than a subsequent official
+attempt. These results are shared by the client and carry no leaderboard
+standing. The view excludes opinions, scores, all internal receipt and visit
+IDs, and the private report and its notes. Results requests do not write
+or clean the database and use independent request budgets. Request bodies
+are capped at 256 bytes. Results have separate limits of 30/minute per
+connection address, 8/minute per authenticated installation, and
+120/minute globally. Confirmed deletion revokes the view.
+
+Before freezing source, regenerate the embedded canonical titles and CSP
+hashes with `python3 -B server/deploy/refresh-results-titles.py` if needed.
+`python3 -B server/test_my_results.py` verifies the generated files against
+all supported catalog entries and exercises the API on isolated SQLite.
+The self-contained page has strict CSP hashes, no external assets,
+no referrer, no indexing and no-store headers. API paths and static files
+must remain under the dedicated Caddy instance's existing no-access-log
+configuration. No SQLite schema upgrade is needed.
+
+After the approved SHA and GO, use the dedicated update sequence above.
+Checkpoint the prior VNB units, Caddyfile, existing privacy HTML and source
+target, and stop the monitor timer while updating. Stage the complete frozen
+server and keep the current release volume and admissions. In addition to
+installing the frozen Caddyfile and restarting only the existing VNB
+receiver and 8443 edge, install these exact assets and the monitor unit:
+
+```sh
+code=/srv/ray/apps/vnb/current-release/server
+install -m 0644 "$code/deploy/my-results.html" /etc/vnb-feedback-public/www/my-results.html
+install -m 0644 "$code/deploy/privacy-player.html" /etc/vnb-feedback-public/www/privacy-player.html
+install -m 0644 "$code/deploy/vnb-release-monitor.service" /etc/systemd/system/vnb-release-monitor.service
+systemctl daemon-reload
+```
+
+After the dedicated edge is healthy, run the monitor once, resume its timer,
+and verify from an independent network with
+`python3 -B server/deploy/check-release-feedback.py --public --heartbeat --results`.
+These checks use read-only TLS requests to verify the page and the API's
+method boundary. Use disposable local or isolated QA installations for
+two-player authentication, empty-state and deletion proofs. Never send
+synthetic credentials to the public API.
+
+On rollback, restore the checkpointed dedicated receiver version, Caddyfile,
+prior privacy notice and monitor unit, restart only VNB, and remove the
+results page from the dedicated document root. Disarm any external
+`--results` check until the route is active again. Preserve the current
+release database, admissions and tombstones.
+
 Before approving a larger playtest, scale the two mounts and the matching
 watermarks together. Budget operations for **31 × snapshot cap + one staged
 snapshot + two staged report files + filesystem, triage and temp margin**.

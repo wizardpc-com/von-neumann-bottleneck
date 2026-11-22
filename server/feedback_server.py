@@ -16,6 +16,7 @@ from storage import migrate, SCHEMA_VERSION
 from community import RULES, SCORE_NUMBERS, validate_score, validate_task_context, aggregate, leaderboard
 from urllib.parse import urlsplit, parse_qs
 from release_ingress import ReleaseIngress, UNKNOWN_DELETE_CEILING, heartbeat, live_can_grow
+import my_results
 
 TEXT = {'kind':64,'phase':80,'target':80,'case_id':80,'tool_id':80,'origin':80,'program_digest':80,'chapter_id':64,'level_id':64,'visit_id':100,'session_id':100,'source':24,'mode':16,
         'build_version':80,'task_version':80,'case_set_version':80,'model_version':80,'event':48,
@@ -149,13 +150,14 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('X-Content-Type-Options','nosniff')
         self.end_headers()
         self.wfile.write(raw)
-    def body(self):
+    def body(self, *, limit=None):
         # Python 3.9 socket.timeout is distinct from built-in TimeoutError.
         length=int(self.headers.get('Content-Length','0'))
         if length<=0: raise ValueError('body_size')
-        if length>MAX_BODY:
+        max_size=MAX_BODY if limit is None else min(MAX_BODY,limit)
+        if length>max_size:
             # Drain only a near-limit body so Windows can deliver the 400 response.
-            if length<=MAX_BODY*2:
+            if length<=max_size*2:
                 remaining=length
                 deadline=time.monotonic()+1
                 original_timeout=self.connection.gettimeout()
@@ -247,6 +249,8 @@ class Handler(BaseHTTPRequestHandler):
         return self.send(200,{'counts':dict(rows),'retention_days':RETENTION_DAYS,'rejections':self.server.rejections,
             'rejections_scope':'since_process_start','started_at':self.server.started_at})
     def do_POST(self):
+        if self.path == '/v1/my-results':
+            return self.post_my_results()
         if self.path != '/v1/events': return self.send(404,{'error':'not_found'})
         release=self.server.release
         if release is None:
@@ -312,6 +316,28 @@ class Handler(BaseHTTPRequestHandler):
             self.server.rejections[reason]=self.server.rejections.get(reason,0)+1
             self.send(400,{'error':'invalid_request','reason':reason})
         except sqlite3.Error: self.send(503,{'error':'storage_unavailable'})
+    def post_my_results(self):
+        release=self.server.release
+        if release is None or release.rehearsal:
+            return self.send(404,{'error':'not_found'})
+        peer=release.peer(self.client_address[0],self.headers)
+        if peer is None:
+            return self.send(403,{'error':'unavailable'})
+        if not release.take('results_peer',peer):
+            return self.send(429,{'error':'rate_limit'})
+        try:
+            client,key=my_results.credentials(self.body(limit=my_results.REQUEST_BYTES))
+        except (ValueError,TypeError,RecursionError,TimeoutError,socket.timeout):
+            return self.send(400,{'error':'invalid_request'})
+        try:
+            db=self.server.db
+            if not my_results.authorized(db,client,key):
+                return self.send(401,{'error':'unavailable'})
+            if not release.take('results_install',client):
+                return self.send(429,{'error':'rate_limit'})
+            return self.send(200,my_results.view(db,release,client,int(time.time()),RETENTION_DAYS))
+        except sqlite3.Error:
+            return self.send(503,{'error':'storage_unavailable'})
     def do_DELETE(self):
         if self.path != '/v1/data': return self.send(404,{'error':'not_found'})
         release=self.server.release

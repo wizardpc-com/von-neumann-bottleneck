@@ -9,6 +9,7 @@ Group=vnb-feedback-read
 SupplementaryGroups=vnb-feedback-maint
 EnvironmentFile=/etc/vnb-feedback-public/listener.env
 Environment=VNB_RELEASE_HOST_FILESYSTEM=/srv/ray/vnb_release
+Environment=VNB_MONITOR_RESULTS=1
 StateDirectory=vnb-release-monitor
 StateDirectoryMode=0700
 RuntimeDirectory=vnb-release-status

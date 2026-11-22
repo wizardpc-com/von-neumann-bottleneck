@@ -135,7 +135,7 @@ class ReleaseEdgeTests(unittest.TestCase):
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
             site = root / "www"
             site.mkdir()
-            for notice in ("privacy-public.html", "privacy-player.html"):
+            for notice in ("privacy-public.html", "privacy-player.html", "my-results.html"):
                 target = "privacy.html" if notice == "privacy-public.html" else notice
                 shutil.copyfile(DEPLOY / notice, site / target)
             historical, release, edge = (free_port() for _ in range(3))
@@ -166,6 +166,7 @@ class ReleaseEdgeTests(unittest.TestCase):
                     try:
                         check.check_read_routes(connection, public=True, rehearsal=False, historical=True)
                         check.call(connection, "GET", "/v1/status", 404, public=True)
+                        check.call(connection, "POST", "/v1/my-results", 404, public=True, payload={})
                     finally:
                         connection.close()
                 held_fragment.rename(fragment)
@@ -179,6 +180,7 @@ class ReleaseEdgeTests(unittest.TestCase):
                         try:
                             check.check_read_routes(connection, public=True, rehearsal=True)
                             check.call(connection, "GET", "/v1/status", 404, public=True)
+                            check.call(connection, "POST", "/v1/my-results", 404, public=True, payload={})
                             check.rehearse(connection)
                         finally:
                             connection.close()
@@ -202,12 +204,27 @@ class ReleaseEdgeTests(unittest.TestCase):
                         with patch.object(monitor, "LocalEdge", side_effect=bind_test_edge), \
                                 patch.object(monitor.check, "HOSTNAME", "127.0.0.1"), \
                                 patch.object(monitor.ssl, "create_default_context", return_value=context):
-                            expiry, leaf = monitor.probe_edge("127.0.0.1")
+                            expiry, leaf = monitor.probe_edge("127.0.0.1", results=True)
                         self.assertGreater(expiry, time.time())
                         self.assertEqual(leaf, ssl.PEM_cert_to_DER_cert((certs / "fullchain.pem").read_text()))
                         connection = http.client.HTTPSConnection("127.0.0.1", edge, context=context, timeout=5)
                         try:
                             check.check_read_routes(connection, public=True, rehearsal=False)
+                            check.check_results_routes(connection)
+                            check.call(connection, "POST", "/my-results.html", 404, public=True)
+                            unavailable = check.call(connection, "POST", "/v1/my-results", 401, public=True,
+                                payload={"client_id": "a" * 32, "key": "b" * 64},
+                                expected_headers={"Cache-Control": "no-store", "Referrer-Policy": "no-referrer"})
+                            self.assertEqual(json.loads(unavailable), {"error": "unavailable"})
+                            connection.request("GET", "/my-results.html")
+                            with connection.getresponse() as page:
+                                self.assertEqual(page.status, 200)
+                                csp = page.getheader("Content-Security-Policy")
+                                self.assertIn("default-src 'none'", csp)
+                                self.assertIn("connect-src 'self'", csp)
+                                self.assertIn("frame-ancestors 'none'", csp)
+                                self.assertNotIn("'unsafe-inline'", csp)
+                                self.assertIn("我的成绩".encode(), page.read())
                             self.assertEqual(json.loads(check.call(connection, "GET", "/v1/status", 503, public=True)),
                                              {"checked_utc": None, "ok": False})
                             now = int(time.time())

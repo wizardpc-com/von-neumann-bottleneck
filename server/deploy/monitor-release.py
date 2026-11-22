@@ -36,13 +36,15 @@ class LocalEdge(http.client.HTTPSConnection):
             self.sock = self._context.wrap_socket(raw, server_hostname=self.host)
 
 
-def probe_edge(bind):
+def probe_edge(bind, *, results=False):
     connection = LocalEdge(bind)
     try:
         connection.connect()
         peer = connection.sock.getpeercert()
         certificate = connection.sock.getpeercert(binary_form=True)
         check.check_read_routes(connection, public=True, rehearsal=False)
+        if results:
+            check.check_results_routes(connection)
         return ssl.cert_time_to_seconds(peer["notAfter"]), certificate
     finally:
         connection.close()
@@ -159,7 +161,7 @@ def main():
     except (OSError, ValueError, KeyError, TypeError, http.client.HTTPException):
         issues.add("receiver_probe_failed")
     try:
-        expiry, _ = probe_edge(os.environ["VNB_PUBLIC_BIND"])
+        expiry, _ = probe_edge(os.environ["VNB_PUBLIC_BIND"], results=os.environ.get("VNB_MONITOR_RESULTS") == "1")
         if expiry - now <= 30 * 86400:
             issues.add("certificate_due_within_30d")
     except (OSError, ValueError, KeyError, http.client.HTTPException):

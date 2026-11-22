@@ -14,7 +14,8 @@ BATCH = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,63}")
 COMMIT = re.compile(r"[0-9a-f]{40}")
 # Requests per minute: (per address, total). Keep deletion budgets independent
 # of uploads, and known installations independent of unclaimed identities.
-LIMITS = {"upload": (30, 120), "known_delete": (30, 120), "unknown_delete": (4, 12)}
+LIMITS = {"upload": (30, 120), "known_delete": (30, 120), "unknown_delete": (4, 12),
+          "results_peer": (30, 120), "results_install": (8, 120)}
 MAX_PEERS_PER_LANE = 1024
 UNKNOWN_DELETE_CEILING = 10000
 REHEARSAL_PREFIX = "vnb-rehearsal-"

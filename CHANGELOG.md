@@ -4,6 +4,12 @@
 
 ## 简体中文
 
+### v0.6.1-playtest.2 · 公开试玩版
+
+- 教程和半加器改电路后清除旧运行结果，可重新调试查看当前输出。
+- Game 和 Test 首次启动可接受或拒绝服务。接受后首次同步成功，即可从「反馈 → 查看我的成绩」打开个人只读网页；此前不会提供链接。网页可见时每 15 秒刷新。Test 仍可离线记录现场并导出 ZIP。
+- 四包沿用各自存档位置。[下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2) · [校验与验收范围](docs/verification/20261122-final-playtest/README.md)。
+
 ### v0.6.1-playtest.1 · 2026-11-22 · 公开预发行版
 
 - Game 按正常进度解锁。任务尚未完成也可点「反馈」或按 F8，选择保存到本机或主动发送。自动统计单独选择，意见送达后显示回执。
@@ -168,6 +174,12 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### v0.6.1-playtest.2 · Public playtest release
+
+- Editing the tutorial or half-adder circuit clears stale run results. Debug again to see the current output.
+- Both editions offer **Accept service** or **Decline service**. After accepting, the first acknowledged upload enables **Feedback → View my results**; the game provides no link before then. The private page refreshes every 15 seconds while visible. Test retains offline incident capture and ZIP export.
+- All four archives keep their respective save locations. [Download](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2) · [Checksums and verification](docs/verification/20261122-final-playtest/README.md).
 
 ### v0.6.1-playtest.1 · 2026-11-22 · Public prerelease
 

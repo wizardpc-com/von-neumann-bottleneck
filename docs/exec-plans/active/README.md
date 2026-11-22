@@ -1,5 +1,7 @@
 # Execution queue
 
+2026-11-22：[最终 Playtest 交付](../completed/20261122-final-playtest.md)已完成，进入真实玩家试玩。
+
 2026-11-22：[Mac、GitHub 与 VPS 反馈链路](../completed/feedback-connectivity-20261122.md)已完成私有 HTTPS 与单一来源的公网实包验收。
 
 2026-11-13：[全章节基本交互计划](../completed/chapter-interaction-simplicity-20261113.md)已完成。

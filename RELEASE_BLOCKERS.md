@@ -1,4 +1,12 @@
-## 当前分发判断 · 2026-11-22
+## 当前分发判断
+
+`v0.6.1-playtest.2` 于 2026-11-22T17:12:38Z 作为 GitHub 公开试玩版发布。GitHub 已将本版本标为 Latest。四个 ZIP 均冻结于 `38538b66474591d5cae4db4d07ac1dfc452af1c4`。Game 按正常进度解锁，Test 采用独立存档并开放任务入口。两版均可拒绝或接受服务，首次同步后可从反馈打开自己的成绩。Test 另可离线记录和导出。[公开下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2)。
+
+尚未验证 Intel Mac、另一台 Mac 或实体 Windows 电脑下载后首次打开，以及玩家在真实网络上的长期使用。
+
+[冻结 CI、平台实包、反馈与公开下载的验收记录](docs/verification/20261122-final-playtest/README.md)。
+
+## 2026-11-22 · Playtest.1 历史门禁
 
 `v0.6.1-playtest.1` 已于 2026-11-22 15:21:01 UTC 发布为公开预发行版。发布标签指向 `c4a09364748410370d605e55e610943b5c69a72b`，线上独立 VNB 接收器已加固至 `a9e8cae1cce98e349d60ae623e8205ed8d902c00`。用户已授权并完成 Ray VPS 现有 VNB TCP 8443 对全部 IPv4 的放行，其他 4 条规则保持原样。[公开发布](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)。
 

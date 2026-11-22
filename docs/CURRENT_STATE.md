@@ -1,6 +1,14 @@
 ## 当前分发判断
 
-`v0.6.1-playtest.1` 于 2026-11-22 15:21:01 UTC 发布为 GitHub 公开预发行版，提供 Windows x64／macOS Universal 的 Game 和 Test 四包及校验文件。标签指向 `c4a09364748410370d605e55e610943b5c69a72b`，批次 `Players061-Release1`。Game 使用正常进度，可从未完成任务保存本机意见或主动发送，自动统计单独选择。Test 独立存档，开放任务入口并提供离线现场历史与 ZIP 导出。随包更新说明中的「离线反馈历史」适用于 Test，Game 可恢复本机意见草稿。Alpha4 为历史公开试玩。[当前公开下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)。
+`v0.6.1-playtest.2` 于 2026-11-22T17:12:38Z 作为 GitHub 公开试玩版发布。GitHub 已将本版本标为 Latest。四个 ZIP 均冻结于 `38538b66474591d5cae4db4d07ac1dfc452af1c4`。Game 按正常进度解锁，Test 采用独立存档并开放任务入口。两版均可拒绝或接受服务，首次同步后可从反馈打开自己的成绩。Test 另可离线记录和导出。[公开下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2)。
+
+尚未验证 Intel Mac、另一台 Mac 或实体 Windows 电脑下载后首次打开，以及玩家在真实网络上的长期使用。
+
+[四包校验、平台验收与反馈外网证据](verification/20261122-final-playtest/README.md)。
+
+## 2026-11-22 · Playtest.1 历史发布基线
+
+`v0.6.1-playtest.1` 于 2026-11-22 15:21:01 UTC 发布为 GitHub 公开预发行版，提供 Windows x64／macOS Universal 的 Game 和 Test 四包及校验文件。标签指向 `c4a09364748410370d605e55e610943b5c69a72b`，批次 `Players061-Release1`。Game 使用正常进度，可从未完成任务保存本机意见或主动发送，自动统计单独选择。Test 独立存档，开放任务入口并提供离线现场历史与 ZIP 导出。随包更新说明中的「离线反馈历史」适用于 Test，Game 可恢复本机意见草稿。Alpha4 为历史公开试玩。[Playtest.1 历史下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)。
 
 源码定向与双语图形检查通过。四个冻结包均通过平台实包验收。Mac 两版使用隔离窗口运行，Game 另走通回环发送、重启回执和删除，日志保留退出前 `data.tree` 与退出时 GLES3 诊断。Windows 两版在 GitHub 托管机通过自动化无头启动、重启及反馈持久化验证。
 

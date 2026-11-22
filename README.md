@@ -8,11 +8,11 @@
 
 **实验室旅程 · 60 项任务 · 中英文界面**
 
-**最新公开试玩（2026-11-22）：** [v0.6.1-playtest.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) 已作为预发行版提供 Windows x64 和 macOS Universal 的 Game／Test 四包。首次游玩请选择 **Game**，按正常进度解锁，可离线游玩并自行选择是否发送反馈。**Test** 使用独立存档，支持离线现场记录。[校验值与验收范围](docs/verification/20261122-public-release/README.md)。
+**最新公开试玩：** [v0.6.1-playtest.2](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2) 提供 Windows x64 和 macOS Universal 的 Game／Test 四包。首次游玩请选择 **Game**。两版可离线游玩并各自选择是否分享反馈，**Test** 另有独立存档和离线现场导出。[校验值与验收范围](docs/verification/20261122-final-playtest/README.md) · [Playtest.1 历史记录](docs/verification/20261122-public-release/README.md)。
 
 **历史版本：** [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) 为 10 月 24 日公开离线试玩。更早版本见 [10 月 17 日 Windows 离线试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1)和 [Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1)。[11 月 16 日 v0.6.0 四包交付](docs/verification/20261116-final-product/README.md)另有独立验收记录。
 
-**[⬇️ 下载 Windows / macOS 试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)** · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ 下载 Windows / macOS 试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2)** · [全部 Releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **关键词：** 计算机体系结构 · 数据搬运 · 缓存与局部性 · 缓冲与预取 · 内存布局 · 教育解谜
 
@@ -24,7 +24,7 @@
 
 **历史旅程候选（2026-10-18）：** PR #10 已合并至 `main`（`bf8f616`）。当时独立分支 `codex/journey-final-candidate-20261018` 的产品固定于 `5bd3792b022e`：60 项任务、双语语境、互动规则、成长档案、可选 3D 观察站和只读原作品回顾；第二章呈现同次实际周期、目标差值及取数证据入口，首次成果接入可替换的临时场景图。普通进度与全关测试采用独立存档，测试访问不授予成果。该历史候选的 Windows 双包未独立公开发布。[新版包、变化截图与验证范围](docs/verification/20261018-journey-final/README.md) · [次日试玩与交接](docs/development/night-handoff-20261018.md) · [当前状态](docs/CURRENT_STATE.md)。
 
-[下载试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+[下载试玩](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2) · [更新说明](CHANGELOG.md#简体中文) · [当前版本与验证记录](docs/CURRENT_STATE.md) · [运行方法](#开始游玩) · [问题反馈](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 早期固定7c夜间候选的工程交接已完成，包括其Windows实包与限定原生接线／重启观察；该历史范围见[7c验收记录](docs/verification/20261018-night-experience/README.md)。真人理解、最终美术／叙事与更广平台验收仍开放。
 
@@ -84,7 +84,7 @@
 
 ## 开始游玩
 
-**Windows / macOS：** 前往 [v0.6.1-playtest.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)，下载对应平台的 **Game** ZIP 并完整解压。Windows 运行包内 `.exe`，Mac 打开包内 `.app`。包内已有运行时，无需安装 Godot。需要自由选关或记录离线现场时，请下载独立的 **Test** 包。
+**Windows / macOS：** 前往 [v0.6.1-playtest.2](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2)，下载对应平台的 **Game** ZIP 并完整解压。Windows 运行包内 `.exe`，Mac 打开包内 `.app`。包内已有运行时，无需安装 Godot。需要自由选关或记录离线现场时，请下载独立的 **Test** 包。
 
 [Claude开发交接与未满足需求](docs/development/CLAUDE_HANDOFF_20261018.md)
 
@@ -105,7 +105,7 @@ godot --path .
 
 四段 CG 分别接在首次启动、序章最终 LOAD/STORE 正式通过、第五章五份表示方案全部正式达标，以及第十章 10-3 成功保存作品之后。均支持 Esc／跳过；观看记录独立保存，重新开始游戏不会重复播放。
 
-唤醒实验室终端后，可在“开始 / 继续”右侧直接选择**游戏模式**或**测试模式**，并查看两种模式的说明。游戏模式按前置推进，保留玩家成果；测试模式可直接查看各关，临时元件与进度隔离，切回游戏模式不会授予测试成果。每次启动默认游戏模式。设置中的模式入口及硬件和第一／二章顶部的选择仍可使用；其他工作台先保存并返回终端再切换。
+下载版的 Game 与 Test 各自锁定模式，需更换模式时请打开对应的包。从源码运行时，实验室终端可切换模式。Game 保留按前置推进的成果，Test 开放任务入口且进度独立。
 
 游戏默认简体中文，可在唤醒后的**终端标题栏**点 EN／中文，也可使用 **设置 → 语言**；选择会保存。也可指定启动语言：
 
@@ -115,9 +115,9 @@ godot --path . -- --locale=en
 
 ### 公开试玩与平台
 
-[当前公开预发行版](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)提供四个 ZIP 和 `SHA256SUMS.txt`，Game 与 Test 存档独立。使用历史 CloudPlaytest 存档的玩家仍可下载[旧版 Alpha4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4)。[当前发布与验收范围](docs/verification/20261122-public-release/README.md)。
+[当前公开试玩版](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2)提供四个 ZIP 和 `SHA256SUMS.txt`，Game 与 Test 存档独立。使用历史 CloudPlaytest 存档的玩家仍可下载[旧版 Alpha4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4)。[当前发布与验收范围](docs/verification/20261122-final-playtest/README.md)。
 
-macOS 包为 ad-hoc 签名、未经 Apple 公证，Windows EXE 未签名。双平台自动化实包检查已通过。Windows 桌面鼠标操作、Intel Mac 运行及异机下载首启仍待验。
+两平台的签名状态、实包启动方式和异机验收边界见[发布证据](docs/verification/20261122-final-playtest/README.md)。
 
 自行生成同一提交的 Mac／Windows 候选包，请使用[统一构建流程](docs/distribution/free-alpha.md)，不要把不同提交的包混用同一个版本号。
 
@@ -137,7 +137,7 @@ macOS 包为 ad-hoc 签名、未经 Apple 公证，Windows EXE 未签名。双�
 
 进度和命名方案保存在本机。更新或回退版本前，请完整备份存档目录；不要通过清档准备试玩。具体位置和兼容性见[随包说明](distribution/PLAYTEST-README.txt)。
 
-设置包含语言、音效音量、显示、减少动效和本地诊断。当前已发布 Alpha 与已冻结的完整旅程候选包均未配置远程反馈入口；反馈可留在本机。自动统计分享、主动意见和实验成绩分别授权，拒绝上传不影响完整游玩。个人任务板可以离线查看总完成数和各区域进度。
+设置包含语言、音效音量、显示、减少动效和本地诊断。首次启动可选「接受服务」或「拒绝服务」，「查看详情」打开隐私说明。拒绝后仍可完整离线游玩或单次发送意见。接受后，收到首次上传回执才可从「反馈 → 查看我的成绩」打开私人成绩页；此前不会提供链接。网页可见时每 15 秒刷新。Test 的现场与 ZIP 可留在本机。
 
 发现问题可提交 [GitHub Issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)，附上构建编号、系统、任务和复现步骤。游戏内导出不会自动发布到 GitHub，是否分享文件由你决定。
 

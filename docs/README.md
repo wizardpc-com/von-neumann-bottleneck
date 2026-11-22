@@ -18,6 +18,9 @@
 
 ## 最近验收
 
+- [v0.6.1-playtest.2 四包与验收](verification/20261122-final-playtest/README.md)
+- [v0.6.1-playtest.1 历史发布记录](verification/20261122-public-release/README.md)
+
 - [独立 8443 限源反馈](verification/20261122-feedback-connectivity/README.md)
 - [v0.6.0 Game / Test 四包](verification/20261116-final-product/README.md) · [最终视觉](development/FINAL_VISUAL_20261116.md)
 - [全章节基本操作验收矩阵](development/BASIC_INTERACTION_ACCEPTANCE_20261113.md)

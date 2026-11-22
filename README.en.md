@@ -8,11 +8,11 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Laboratory journey · 60 tasks · Chinese and English**
 
-**Latest public playtest (2026-11-22):** [v0.6.1-playtest.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) is a prerelease with Game and Test ZIPs for Windows x64 and macOS Universal. Choose **Game** for normal progression. You can play offline and choose whether to send feedback. **Test** uses a separate save and captures screenshots and context offline. [Checksums and verification scope](docs/verification/20261122-public-release/README.md).
+**Latest public playtest:** [v0.6.1-playtest.2](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2) ships Game and Test for Windows x64 and macOS Universal. Choose **Game** for normal progression. Both editions work offline and make sharing optional. **Test** keeps its own saves and can export offline incident captures. [Checksums and verification](docs/verification/20261122-final-playtest/README.md) · [Playtest.1 evidence](docs/verification/20261122-public-release/README.md).
 
 **Historical builds:** [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) was the October 24 offline playtest. Earlier downloads include the [October 17 offline Windows build](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) and [Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1). The [November 16 v0.6.0 delivery](docs/verification/20261116-final-product/README.md) has its own verification record.
 
-**[⬇️ Download the Windows / macOS playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)** · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ Download the Windows / macOS playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2)** · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **Topics:** computer architecture · data movement · cache and locality · buffering and prefetching · memory layout · educational puzzle
 
@@ -24,7 +24,7 @@ A construction and optimization puzzle about computers and the data they move. S
 
 **Historical journey candidate (2026-10-18):** PR #10 is merged into `main` (`bf8f616`). Product source `5bd3792b022e` on `codex/journey-final-candidate-20261018` retains all60 tasks, bilingual context, interactive rules, the earned-record journal, optional3D observatory and read-only original-work review. Chapter2 now shows the actual run's cycles, target margin and fetch-evidence entry; the first earned result has a replaceable temporary scene image. Ordinary progression and all-entrance testing use separate profiles; access grants no completion. This historical Windows pair was not independently published. [New packages, change images and verification scope](docs/verification/20261018-journey-final/README.md) · [Next-day playtest and handoff](docs/development/night-handoff-20261018.md) · [Current status](docs/CURRENT_STATE.md).
 
-[Download playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+[Download playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 The earlier fixed7c night candidate's engineering handoff includes its Windows packages and scoped native wiring/restart observations; see the [historical7c record](docs/verification/20261018-night-experience/README.md). Newcomer understanding, final art/narrative judgement and broader platform acceptance remain open.
 
@@ -90,7 +90,7 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 
 ## Getting started
 
-**Windows / macOS:** Open [v0.6.1-playtest.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1), download the **Game** ZIP for your platform and extract it in full. Run the included `.exe` on Windows or open the `.app` on Mac. Godot is bundled. Choose the separate **Test** ZIP for task access and offline capture.
+**Windows / macOS:** Open [v0.6.1-playtest.2](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2), download the **Game** ZIP for your platform and extract it in full. Run the included `.exe` on Windows or open the `.app` on Mac. Godot is bundled. Choose the separate **Test** ZIP for task access and offline capture.
 
 [Claude development handoff and unmet requirements](docs/development/CLAUDE_HANDOFF_20261018.md)
 
@@ -112,7 +112,7 @@ Alternatively, import `project.godot` in the Godot editor, wait for resource imp
 
 Four cinematics accompany first launch, the official final LOAD/STORE pass in the prologue, all five officially accepted Representation plans, and a successful saved work in task 10-3. Each supports Esc/Skip; viewing history is stored separately and survives New Game.
 
-After waking the terminal, choose **Game** or **Test** beside Start/Continue. Game follows prerequisites and retains earned work; Test provides direct task access with temporary reference components and separate progress. Each launch defaults to Game, and switching back grants no Test rewards. Settings and the hardware/Chapter 1/Chapter 2 headers retain their mode controls; leave other workbenches through their save prompts before switching at the terminal.
+The downloaded Game and Test packages each lock their edition. Open the other package to switch editions. In a source launch, the laboratory terminal can switch modes. Game keeps earned progression and Test provides separate task access.
 
 The default interface language is Simplified Chinese. Use **EN / 中文 in the awakened terminal's title bar**, or **Settings → Language**; your choice is saved. You can also choose it at launch:
 
@@ -122,9 +122,9 @@ godot --path . -- --locale=en
 
 ### Public playtest and platforms
 
-The [current public prerelease](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) includes four ZIPs and `SHA256SUMS.txt`. Game and Test keep separate saves. The [Alpha4 release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) remains available for players using its historical CloudPlaytest profile. [Current release verification and limits](docs/verification/20261122-public-release/README.md).
+The [current public playtest release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.2) includes four ZIPs and `SHA256SUMS.txt`. Game and Test keep separate saves. The [Alpha4 release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) remains available for players using its historical CloudPlaytest profile. [Current release verification and limits](docs/verification/20261122-final-playtest/README.md).
 
-The macOS app is ad-hoc signed and unnotarized. The Windows EXE is unsigned. Automated package checks passed on both platforms. Windows desktop interaction, Intel Mac execution, and first launch after downloading on another machine remain unverified.
+See the [release evidence](docs/verification/20261122-final-playtest/README.md) for signing status, native startup results, and platform limits.
 
 To build Mac and Windows candidates from one commit, follow the [candidate build guide](docs/distribution/free-alpha.md). Each frozen commit receives its own build identity.
 
@@ -145,7 +145,7 @@ Mac also supports **⌘,** for Settings and **⌃⌘F** for fullscreen. Drag a t
 
 Progress and named designs stay on your computer. Back up the entire save directory before updating or reverting; do not erase player data to prepare a test. See the [package instructions](distribution/PLAYTEST-README.txt) for locations and compatibility notes.
 
-Settings include language, sound volume, display controls, reduced motion and local diagnostics. Neither the published Alpha nor the frozen full-journey candidate packages have a remote feedback receiver configured; feedback can stay on your computer. Statistics, written feedback and experimental scores have separate sharing controls. Declining uploads does not restrict the game. Your personal task board works offline and shows total and regional completion.
+Settings include language, sound volume, display controls, reduced motion and local diagnostics. At first launch, choose **Accept service** or **Decline service**. **View details** opens the privacy notice. Declining still lets you play offline and send individual opinions. After accepting, the first acknowledged upload enables **Feedback → View my results**. The game provides no link before then. The private page refreshes every 15 seconds while visible. Test can keep its captures and ZIPs locally.
 
 To report a bug, open a [GitHub Issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues) with the build ID, operating system, task and steps to reproduce it. Exporting feedback in the game does not automatically post it to GitHub; you decide whether to share the file.
 

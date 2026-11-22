@@ -29,3 +29,7 @@
 
 - **实机操作**：在 Windows 干净账户从 Explorer 首启，检查系统提示、真实鼠标和 F8 输入、保存后重开；另验 macOS 异机下载首启、Intel Mac 和不同 DPI。真人首关理解与长时试玩仍需观察。[源码回归与操作证据](README.md)
 - **小范围联网试玩**：先确认获准的参与者、来源网络及玩家隐私说明，再从该网络用 Wave1 显式发送意见，按同一回执核对私有报表中的任务、批次和来源，并验证删除。既有 8443 限源记录属于合成验收。[历史限源验收](../20261122-feedback-connectivity/README.md) · [玩家反馈接入条件](../../development/PLAYER_FEEDBACK_ROLLOUT.md)
+
+## Mac 联网试玩包实包复验
+
+同一 Wave1 ZIP 在 Apple Silicon 上解包，核对应用和 PCK 的 SHA-256 后，在禁止联网的环境读取内嵌 8443 地址与 Test 身份。实际发送阶段仅允许连接本机临时接收器，测试来源为 `automated`。意见在接收器离线时入队，重开后取回同一 ID 的回执。重发后 SQLite 中有 1 条意见，删除后有 0 条意见和 1 条删除墓碑，旧意见再次发送返回 HTTP 410。合成作品跨进程字节一致，配方重放通过。详细记录位于本地 `.godot/mac-test-pilot-qa/ef970d9c85c0/receipt.json` 和同目录的 `runtime/`。

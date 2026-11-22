@@ -68,7 +68,12 @@ def purge_triage(database,path):
     return len(stale)
 
 
-def content_status(payload):
+def content_status(payload, *, general=False):
+    if general:
+        if any(payload.get(field) for field in ('chapter_id','level_id','task_key','visit_id','run_id',
+                                                'task_version','model_version','case_set_version')):
+            return 'general_context_mismatch'
+        return 'general'
     version=payload.get('task_version')
     if not version: return 'legacy_unknown'
     manifest=CONTENT_MANIFESTS.get(version)
@@ -102,8 +107,8 @@ def render_opinions(feedback):
             opinion+=f'<small>Category · {esc(row["category"])}</small>'
 
         content=row['content_status']
-        task=esc(row['task'] if row['task'].strip('/') else 'Unknown task')
-        if content not in ('supported','legacy_unknown'):
+        task='General feedback' if content=='general' else esc(row['task'] if row['task'].strip('/') else 'Unknown task')
+        if content not in ('supported','legacy_unknown','general'):
             task+=f'<br><strong>Quarantined</strong> · {esc(content)}'
         elif content=='legacy_unknown':
             task+='<br><small>Legacy version unknown</small>'
@@ -184,20 +189,24 @@ def build_report(database,triage=None):
     for sequence,(event_id,client,received,body) in enumerate(read_rows(database),1):
         record=json.loads(body); payload=record['payload']; session=client+':'+payload.get('session_id','unknown')
         visit=client+':'+payload['visit_id'] if payload.get('visit_id') else ''
-        status=content_status(payload)
-        item={'event_id':event_id,'received':received,'task':payload.get('chapter_id','')+'/'+payload.get('level_id',''),
+        opinion=record['kind']=='feedback'
+        event=payload.get('event','unknown')
+        general=opinion and event=='general_feedback'
+        status=content_status(payload,general=general)
+        task='' if status=='general' else payload.get('chapter_id','')+'/'+payload.get('level_id','')
+        item={'event_id':event_id,'received':received,'task':task,
               'source':payload.get('source','unknown'),'mode':payload.get('mode','unknown'),'visit_id':visit,'content_status':status,
               **{key:payload.get(key,'unknown') for key in IDENTITY_FIELDS}}
-        if record['kind']=='feedback':
+        if opinion:
             feedback.append(item|{'category':payload.get('category',''),'note':payload.get('note',''),
                 'ratings':{key:payload.get(key) for key in ('fun','clarity','want_to_continue')},
                 'triage':actions.get(event_id,{'status':'needs_review'})})
-        if status not in ('supported','legacy_unknown'):
+        if status not in ('supported','legacy_unknown','general'):
             quarantined.append(item); continue
         # Stable database IDs decide event identity, not client-carried sequence reuse.
         events.append(payload|{'schema_version':2,'session_id':session,'sequence':sequence,'event_id':event_id,
             'visit_id':visit,'source':payload.get('source','unknown'),'mode':payload.get('mode','unknown'),
-            'event':'level_feedback' if record['kind']=='feedback' else payload.get('event','unknown'),'payload':payload|{'visit_id':visit}})
+            'event':'level_feedback' if opinion and not general else event,'payload':payload|{'visit_id':visit}})
     result=report.summarize([{'events':events}])
     result.update(received_feedback=feedback,quarantined_records=quarantined,
                   rejection_counts=None,rejection_counts_scope='unknown: validation rejections are not stored in SQLite; private /admin/report has process-lifetime counters only')

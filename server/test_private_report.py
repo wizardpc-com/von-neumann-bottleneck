@@ -59,6 +59,9 @@ class PrivateReportTests(unittest.TestCase):
             'visit_id':'synthetic-visit','sequence':1,'category':'confusion','note':note}
         payload.update(CONTENT_MANIFESTS.get(version,{}).get('identities',{}).get('creation/G2_intent',{}))
         payload.update(context)
+        self.store_feedback(path,event_id,payload)
+
+    def store_feedback(self,path,event_id,payload):
         body=json.dumps({'event_id':event_id,'kind':'feedback','payload':payload},sort_keys=True,separators=(',',':'))
         with closing(sqlite3.connect(path)) as db, db:
             migrate(db); db.execute('INSERT OR IGNORE INTO clients VALUES (?,?)',('synthetic-client','synthetic-hash'))
@@ -102,6 +105,41 @@ class PrivateReportTests(unittest.TestCase):
             self.assertNotIn('<script>synthetic()',rendered); self.assertIn('&lt;script&gt;',rendered)
             self.assertIsNone(report['rejection_counts'])
             with self.assertRaises(ValueError): update_triage(db,side,'nonexistent-id','fixed')
+
+    def test_general_feedback_keeps_triage_and_stays_out_of_task_metrics(self):
+        with tempfile.TemporaryDirectory() as folder:
+            db=Path(folder)/'events.sqlite'; side=Path(folder)/'review.sqlite'
+            self.store_feedback(db,'general-opinion',{'event':'general_feedback','mode':'test',
+                'source':'external_player','test_batch':'Players061-Release2-Test','source_batch':'Players061-Release2-Test',
+                'build_version':'0.6.1-playtest.2','visit_id':'','note':'Synthetic general opinion','clarity':4})
+            self.seed(db,'task-opinion',mode='game')
+            update_triage(db,side,'general-opinion','needs_retest',note='Keep the receipt linked')
+            report,rendered=build_report(db,side)
+
+            general=next(row for row in report['received_feedback'] if row['event_id']=='general-opinion')
+            self.assertEqual((general['content_status'],general['task'],general['visit_id']),('general','',''))
+            self.assertEqual((general['source'],general['mode'],general['test_batch']),
+                             ('external_player','test','Players061-Release2-Test'))
+            self.assertEqual(general['ratings']['clarity'],4)
+            self.assertEqual(general['triage']['status'],'needs_retest')
+            self.assertEqual(general['triage']['note'],'Keep the receipt linked')
+            self.assertEqual(report['deduplicated_events'],2)
+            self.assertEqual(report['quarantined_records'],[])
+            self.assertEqual([(row['task'],row['mode']) for row in report['tasks']],[('creation/G2_intent','game')])
+            self.assertEqual([(row['event'],row['task']) for row in report['moments']],
+                             [('level_feedback','creation/G2_intent')])
+            self.assertIn('<td>General feedback</td>',rendered)
+            self.assertNotIn('Legacy version unknown',rendered)
+
+    def test_general_marker_with_task_context_is_quarantined(self):
+        with tempfile.TemporaryDirectory() as folder:
+            db=Path(folder)/'events.sqlite'
+            self.seed(db,'conflicting-scope',event='general_feedback')
+            report,rendered=build_report(db)
+            self.assertEqual(report['received_feedback'][0]['content_status'],'general_context_mismatch')
+            self.assertEqual([row['event_id'] for row in report['quarantined_records']],['conflicting-scope'])
+            self.assertEqual((report['tasks'],report['moments']),([],[]))
+            self.assertIn('<strong>Quarantined</strong> · general_context_mismatch',rendered)
 
     def test_unknown_and_mismatched_historical_rows_quarantined(self):
         with tempfile.TemporaryDirectory() as folder:

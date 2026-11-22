@@ -1,0 +1,52 @@
+name: Player feedback service health
+
+on:
+  schedule:
+    - cron: '47 * * * *'
+    - cron: '17 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-feedback-health
+  cancel-in-progress: false
+
+jobs:
+  public-health:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Check live intake health and privacy routes
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            if python3 -B server/deploy/check-release-feedback.py --public; then exit 0; fi
+            if [ "$attempt" -lt 3 ]; then sleep 5; fi
+          done
+          echo "::error::The dedicated VNB feedback edge failed three public checks. See the release feedback runbook."
+          exit 1
+
+      - name: Check certificate renewal window
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '17 9 * * *'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import socket
+          import ssl
+          import time
+
+          hostname = "feedback.yanruiqing.com"
+          with socket.create_connection((hostname, 8443), timeout=10) as connection:
+              with ssl.create_default_context().wrap_socket(connection, server_hostname=hostname) as tls:
+                  expiry = tls.getpeercert()["notAfter"]
+          days_left = (ssl.cert_time_to_seconds(expiry) - time.time()) / 86400
+          print(f"VNB certificate expires {expiry} ({days_left:.1f} days remaining)")
+          if days_left <= 30:
+              raise SystemExit("VNB certificate renewal is due. Follow the dedicated 8443 renewal procedure.")
+          PY

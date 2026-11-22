@@ -13,6 +13,9 @@ import time
 import uuid
 
 
+NARRATIVE_TASK_MAPPING = 'docs/verification/20261021-narrative/task-mapping.csv'
+
+
 def run_logged_process(command, env, log, timeout):
     """Stop this child promptly on an unrecoverable script error, retaining its log.
 
@@ -67,6 +70,8 @@ def main():
         ['git', 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], cwd=root
     ).decode('utf-8').split('\0')
     for filename in sorted(set(filenames) - {''}):
+        if filename.startswith('docs/verification/') and filename != NARRATIVE_TASK_MAPPING:
+            continue
         source = root / filename
         if source.is_symlink():
             raise RuntimeError('Review symbolic link before copying: ' + filename)

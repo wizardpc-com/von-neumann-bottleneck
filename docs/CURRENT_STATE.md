@@ -1,3 +1,7 @@
+## 2026-11-22 · 玩家试玩包
+
+从既有提交 `66e1bf0` 导出了 v0.6.0 Game/Test 的 Windows 和 macOS 四包，批次 Players20261122。重度试玩使用 Test，可跨会话记录现场并一次导出反馈。当前工作区改进将在后续集成后进入新包。文件名、校验值、验收范围和反馈导入步骤见[受控试玩交付](verification/20261122-player-release/README.md)。
+
 ## 2026-11-22 · 反馈接入
 
 macOS Test Edition 已经由 SSH 转发完成合成意见的 HTTPS 提交、游戏回执、

@@ -1204,14 +1204,16 @@ func _record_guided_case(a: bool, b: bool, sum_value: bool, carry_value: bool, f
 
 
 ## NOT: point at the place the current step happens (first-time actions only).
-func _point_tutorial_guide(states: Array[bool]) -> void:
+func _point_tutorial_guide(states: Array[bool], reopen_bench: bool) -> void:
 	var next: int = states.find(false)
 	var target: Variant = null
 	match next:
 		0: target = null if _tutorial_needs_reconnection_practice() else component_nodes.get(&"A_IN")
 		1: target = input_a_button
 		2: target = bench_debug_button
-	_point_guide("tutorial:%d:%s" % [next, _tutorial_needs_reconnection_practice()], target)
+	if reopen_bench:
+		target = desktop_window_buttons.get(&"test_bench")
+	_point_guide("tutorial:%d:%s:%s" % [next, _tutorial_needs_reconnection_practice(), reopen_bench], target)
 
 
 func _point_guide(key: String, target: Variant) -> void:
@@ -2188,6 +2190,8 @@ func _show_desktop_window(id: StringName) -> void:
 	var button: Button = desktop_window_buttons.get(id)
 	if button != null:
 		button.set_pressed_no_signal(true)
+	if id == &"test_bench":
+		_update_tutorial_goal()
 
 
 func _close_desktop_window(id: StringName) -> void:
@@ -2200,6 +2204,8 @@ func _close_desktop_window(id: StringName) -> void:
 	if button != null:
 		button.text = _desktop_window_name(id)
 		button.set_pressed_no_signal(false)
+	if id == &"test_bench":
+		_update_tutorial_goal()
 	_focus_graph_for_keyboard()
 
 
@@ -9228,13 +9234,19 @@ func _update_tutorial_goal() -> void:
 	if bool(completed_levels.get(&"tutorial", false)):
 		states.fill(true)
 	if tutorial_coach != null and tutorial_coach.visible:
+		var bench: Control = desktop_windows.get(&"test_bench")
+		var reopen_bench: bool = states.find(false) in [1, 2] and bench != null and not bench.is_visible_in_tree()
 		if _tutorial_needs_reconnection_practice():
 			var english: bool = Localization.current_locale() == "en"
 			tutorial_coach.show_guidance(states, "Resume" if english else "继续接线练习",
 				"Your circuit is already wired. Hold the right mouse button across a wire to remove it, then reconnect it to continue practicing." if english else "电路已经接好了。按住右键划过一条线，把它拆掉，再接回去，继续练习。")
+		elif reopen_bench:
+			var english: bool = Localization.current_locale() == "en"
+			var instruction: String = ("Click %s at the bottom to reopen it." if english else "点击底部的「%s」重新打开面板。") % _desktop_window_name(&"test_bench")
+			tutorial_coach.update_states(states, instruction)
 		else:
 			tutorial_coach.update_states(states)
-		_point_tutorial_guide(states)
+		_point_tutorial_guide(states, reopen_bench)
 	var steps: Array[StringName] = [&"wire", &"input", &"run", &"remove", &"reconnect"]
 	var completed: int = 0
 	var next: StringName = &""

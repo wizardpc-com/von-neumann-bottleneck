@@ -70,11 +70,16 @@ def make_backup(database, directory, source_commit):
     if os.path.lexists(snapshot): raise ValueError('backup name already exists')
     fd = os.open(metadata, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     with os.fdopen(fd, 'w', encoding='utf-8') as output:
-        summary = backup(database, snapshot)
-        with closing(sqlite3.connect(snapshot)) as db:
-            if db.execute('PRAGMA journal_mode=DELETE').fetchone()[0] != 'delete':
-                raise ValueError('backup journal mode could not be finalized')
-        snapshot.chmod(0o600)
+        # SQLite may leave transient WAL sidecars beside the destination on macOS.
+        # Publish only the closed, finalized database into the audited directory.
+        with tempfile.TemporaryDirectory(prefix='.snapshot-', dir=directory) as folder:
+            staged = Path(folder) / 'feedback.sqlite'
+            summary = backup(database, staged)
+            with closing(sqlite3.connect(staged)) as db:
+                if db.execute('PRAGMA journal_mode=DELETE').fetchone()[0] != 'delete':
+                    raise ValueError('backup journal mode could not be finalized')
+            staged.chmod(0o600)
+            os.link(staged, snapshot)
         info = {'format': FORMAT, 'snapshot': snapshot.name, 'created_utc': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'source_commit': source_commit, 'schema_version': summary['schema_version'],
                 'counts': summary, 'sha256': sha256(snapshot)}

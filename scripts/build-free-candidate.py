@@ -6,6 +6,7 @@ from pathlib import Path
 
 
 NETWORK_FEEDBACK_ORIGIN = "https://feedback.yanruiqing.com:8443"
+OFFLINE_SCREENSHOT_DIRECTORY = 'docs/verification/20261019-team-closeout/screenshots'
 
 
 def package_files(folder):
@@ -48,7 +49,7 @@ def offline_readme(source,profile):
 
 
 def package_offline_screenshots(project, folder):
-    source=project/'docs/verification/20261019-team-closeout/screenshots'
+    source=project/OFFLINE_SCREENSHOT_DIRECTORY
     destination=folder/'screenshots';destination.mkdir()
     for name in ['lab-home.png','task-map.png','hardware.png','feedback.png']:
         shutil.copy2(source/name,destination/name)
@@ -195,10 +196,15 @@ def main():
     work=root/'.godot/candidates'/stamp;project=work/'project';project.mkdir(parents=True)
     archive=subprocess.check_output(['git','archive',commit],cwd=root)
     with tarfile.open(fileobj=io.BytesIO(archive)) as source:
+        selected = []
         for member in source.getmembers():
             dest=(project/member.name).resolve()
             if not dest.is_relative_to(project.resolve()) or not (member.isfile() or member.isdir()):raise ValueError('Unsupported archive member: '+member.name)
-        source.extractall(project)
+            if member.name.startswith('docs/verification/'):
+                if not (a.offline_tester and member.name.startswith(OFFLINE_SCREENSHOT_DIRECTORY + '/')):
+                    continue
+            selected.append(member)
+        source.extractall(project, members=selected)
     build_id=edition['build_id'] if edition else ('playtest-'+a.test_batch+'-' if a.test_batch else 'free-alpha-')+commit[:12]
     output=root/'build'/build_id
     if output.exists(): raise ValueError('Candidate already exists; never overwrite a frozen identity: '+build_id)

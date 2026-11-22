@@ -1,3 +1,11 @@
+## 隔离验证与构建副本
+
+`scripts/verify-project.py` 只带入回归使用的历史资料
+`docs/verification/20261021-narrative/task-mapping.csv`。新回归若读取其他历史资料，
+应把必要输入放入测试夹具或在脚本中列出明确路径。
+`scripts/build-free-candidate.py` 的导出副本跳过历史验证目录，离线同伴试玩
+仍带入随包分发的截图。验证和构建日志保存在各自 `.godot` 运行目录。
+
 ## Product edition and final presentation checks · 2026-11-16
 
 Run `test_product_editions`, `test_final_product_presentation` and

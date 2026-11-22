@@ -325,14 +325,23 @@ def published_bundles(library):
         yield folder, manifest
 
 
-def library_records(library):
+def review_inventory(library):
     records = []
     bundle_count = 0
+    recovery_files = {}
     for folder, manifest in published_bundles(library):
         bundle_count += 1
+        count = sum(item['path'].startswith('recovery/') for item in manifest['files'])
+        if count:
+            recovery_files[folder] = count
         for case_file in sorted((folder / 'files' / 'cases').glob('*/case.json')) if (folder / 'files' / 'cases').exists() else []:
             case = validate_case('cases/' + case_file.parent.name, folder / 'files')
             records.append({'case': case, 'manifest': manifest, 'folder': folder})
+    return records, bundle_count, recovery_files
+
+
+def library_records(library):
+    records, bundle_count, _ = review_inventory(library)
     return records, bundle_count
 
 
@@ -464,7 +473,7 @@ def render_report(library, output):
     output = Path(output).absolute()
     if output.resolve().is_relative_to((Path(library) / 'bundles').resolve()):
         raise ValueError('report output must be outside archived bundles')
-    records, bundles_count = library_records(library)
+    records, bundles_count, recovery_files = review_inventory(library)
     output.parent.mkdir(parents=True, exist_ok=True)
     analysis = write_session_analysis(library, output.parent / 'analysis')
     grouped = defaultdict(list)
@@ -484,6 +493,15 @@ def render_report(library, output):
         capture_errors += bool(current['case']['screenshot_error']) or current['case']['screenshot_status'] == 'failed'
         current_records.append(current)
     h = lambda value: html.escape(str(value), quote=True)
+    recovery_section = ''
+    if recovery_files:
+        rows = ''.join(
+            '<li><a href="' + link(output.parent, folder / 'original.zip') + '">' + h(folder.name)
+            + '</a> · ' + str(count) + ' 个文件 / files</li>' for folder, count in recovery_files.items())
+        recovery_section = ('<section><h2>待检查的现场文件 / Incomplete captures</h2>'
+                            '<p>打开原始 ZIP，查看 recovery/ 中保留的文件。'
+                            ' Open the original ZIP and inspect the files in recovery/.</p>'
+                            '<ul>' + rows + '</ul></section>')
     def selector(key, values, prompt):
         return '<label>' + h(prompt) + ' <select id="' + key + '"><option value="">全部 / All</option>' + ''.join(
             '<option value="' + h(value) + '">' + h(value) + '</option>' for value in sorted(values)) + '</select></label>'
@@ -524,7 +542,7 @@ def render_report(library, output):
             + ' · Ignored lines: ' + str(analysis['offline_archive']['ignored_lines_total']) + '</p><p>Bundles: ' + str(bundles_count) + ' · Cases: ' + str(len(grouped))
             + ' · Revisions: ' + str(len(records)) + ' · Screenshot status: ' + h(label(dict(status_counts)))
             + ' · Capture errors: ' + str(capture_errors) + '</p><p>Category counts: ' + h(label(dict(category_counts))) + '</p>'
-            '<div><label>搜索 / Search <input id="search" type="search"></label>'
+            + recovery_section + '<div><label>搜索 / Search <input id="search" type="search"></label>'
             + selector('category', category_counts, '类别 / Category')
             + selector('task', {task_label(record['case']['task']) for record in current_records}, '任务 / Task')
             + selector('build', {build_label(record['case'].get('build', record['manifest']['build'])) for record in current_records}, '版本 / Build')
@@ -538,7 +556,8 @@ def render_report(library, output):
             '</body></html>')
     write_private_report(output, page)
     return {'bundles': bundles_count, 'cases': len(grouped), 'revisions': len(records),
-            'capture_errors': capture_errors, 'sessions': analysis['input_sessions'],
+            'capture_errors': capture_errors, 'recovery_files': sum(recovery_files.values()),
+            'sessions': analysis['input_sessions'],
             'ignored_session_lines': analysis['offline_archive']['ignored_lines_total']}
 
 

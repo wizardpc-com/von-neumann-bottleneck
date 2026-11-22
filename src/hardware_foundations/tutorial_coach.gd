@@ -267,7 +267,7 @@ func set_case_evidence(evidence: Dictionary, selected_index: int) -> void:
 	case_table.set_evidence(evidence, selected_index)
 
 
-func update_states(states: Array[bool]) -> void:
+func update_states(states: Array[bool], instruction_override: String = "") -> void:
 	var newly: int = _mark_states(states)
 	var next: int = states.find(false)
 	if next < 0:
@@ -280,7 +280,8 @@ func update_states(states: Array[bool]) -> void:
 	else:
 		var step: Dictionary = steps[next]
 		step_label.text = _step_title(next, str(step.en_title if english else step.zh_title))
-		_say(str(step.en if english else step.zh))
+		var default_instruction: String = str(step.en if english else step.zh)
+		_say(default_instruction if instruction_override.is_empty() else instruction_override)
 	_after_change(newly)
 
 

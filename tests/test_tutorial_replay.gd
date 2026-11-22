@@ -22,7 +22,9 @@ func run() -> void:
 		check(label.text.begins_with("○"), "Fresh tutorial checklist is incomplete")
 	main._on_connection_request(&"A_IN", 0, &"NOT_1", 0)
 	main._on_connection_request(&"NOT_1", 0, &"LAMP", 0)
+	check_bench_recovery(main, 1, main.input_a_button)
 	main.input_a_button.button_pressed = true
+	check_bench_recovery(main, 2, main.bench_debug_button)
 	main._run_debug()
 	main._on_disconnection_request(&"NOT_1", 0, &"LAMP", 0)
 	check(not main.completed_levels.get(&"tutorial", false) and main.tutorial_next_button.disabled
@@ -74,6 +76,26 @@ func run() -> void:
 		await process_frame
 	print("PASS: tutorial earned-completion replay" if failures.is_empty() else "FAIL: tutorial earned-completion replay")
 	quit(0 if failures.is_empty() else 1)
+
+func check_bench_recovery(main: Control, step: int, target: Button) -> void:
+	var bench: Control = main.desktop_windows[&"test_bench"]
+	var dock: Button = main.desktop_window_buttons[&"test_bench"]
+	var signature: String = main._circuit_from_graph().canonical_signature()
+	var states: Array[bool] = main.tutorial_coach.last_states.duplicate()
+	var instruction: String = main.tutorial_coach.instruction.text
+	check(states.find(false) == step, "Test Bench recovery starts at the expected lesson step")
+	(bench.find_child("CloseButton", true, false) as Button).pressed.emit()
+	check(not bench.visible and dock.is_visible_in_tree() and main.guide_highlight.target == dock
+		and main.tutorial_coach.instruction.text.contains(dock.text),
+		"Closing Test Bench points the player to its visible dock button")
+	dock.pressed.emit()
+	check(bench.visible and main.guide_highlight.target == target
+		and main.tutorial_coach.instruction.text == instruction,
+		"Reopening Test Bench restores the current instruction and visible action")
+	check(main.tutorial_coach.last_states == states and not main.tutorial_valid_run
+		and main._circuit_from_graph().canonical_signature() == signature,
+		"Recalling Test Bench preserves the circuit and earned tutorial actions")
+
 
 func open_tutorial() -> Control:
 	var main: Control = load(SCENE_PATH).instantiate()

@@ -37,9 +37,11 @@ def fixture(path, bundle_id='a' * 32, case_id='1' * 32, note='中文 note', revi
             'status': 'reported', 'revision': revision}
     if case_edit:
         case_edit(case)
-    prefix = 'cases/' + case_id + '/'
-    files = {prefix + 'case.json': encoded(case), prefix + 'context.json': encoded({'scene': '工作台'}),
-             prefix + 'screenshot.png': PNG}
+    files = {}
+    if case_id is not None:
+        prefix = 'cases/' + case_id + '/'
+        files = {prefix + 'case.json': encoded(case), prefix + 'context.json': encoded({'scene': '工作台'}),
+                 prefix + 'screenshot.png': PNG}
     files.update(extra or {})
     manifest = {'format': 'vnb-offline-playtest', 'version': 1, 'bundle_id': bundle_id,
                 'created_at_utc': '2026-10-17T12:00:00Z',
@@ -61,6 +63,35 @@ def fixture(path, bundle_id='a' * 32, case_id='1' * 32, note='中文 note', revi
 
 
 class OfflinePlaytestsTests(unittest.TestCase):
+    def test_report_surfaces_recovery_only_and_mixed_exports(self):
+        with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
+            root = Path(folder)
+            library = root / 'library'
+            output = library / 'review.html'
+            one, two = root / 'one.zip', root / 'two.zip'
+            raw = b'incomplete private note fragment'
+            fixture(one, case_id=None, extra={'recovery/' + '1' * 32 + '/notes.jsonl': raw})
+            offline.import_bundles([one], library)
+            result = offline.render_report(library, output)
+            page = output.read_text(encoding='utf-8')
+            self.assertEqual(result['cases'], 0)
+            self.assertEqual(result['recovery_files'], 1)
+            self.assertIn('recovery/', page)
+            self.assertIn('href="bundles/' + 'a' * 32 + '/original.zip"', page)
+            self.assertNotIn(raw.decode(), page)
+
+            prefix = 'recovery/cases/' + '2' * 32 + '/'
+            fixture(two, bundle_id='b' * 32, extra={prefix + 'case.json': raw, prefix + 'screenshot.png': PNG})
+            offline.import_bundles([one, two], library)
+            result = offline.render_report(library, output)
+            page = output.read_text(encoding='utf-8')
+            self.assertEqual((result['cases'], result['revisions']), (1, 1))
+            self.assertEqual(result['recovery_files'], 3)
+            self.assertIn('中文 note', page)
+            self.assertIn('2 个文件 / files', page)
+            self.assertEqual((library / 'bundles' / ('b' * 32) / 'files' / prefix / 'case.json').read_bytes(), raw)
+            self.assertNotIn(raw.decode(), page)
+
     def test_exclusive_file_publication_follows_verified_copies(self):
         with tempfile.TemporaryDirectory(dir=TEST_TMP) as folder:
             root = Path(folder); library = root / 'library'; source = root / 'source.zip'
@@ -283,7 +314,8 @@ class OfflinePlaytestsTests(unittest.TestCase):
             result = offline.render_report(library, report)
             page = report.read_text(encoding='utf-8')
             self.assertEqual(result, {'bundles': 3, 'cases': 2, 'revisions': 3, 'capture_errors': 0,
-                                      'sessions': 0, 'ignored_session_lines': 0})
+                                      'sessions': 0, 'ignored_session_lines': 0, 'recovery_files': 0})
+            self.assertNotIn('Incomplete captures', page)
             self.assertIn('second &amp; final', page)
             self.assertIn('first &lt;script&gt;alert(1)&lt;/script&gt;', page)
             self.assertNotIn('<script>alert(1)</script>', page)

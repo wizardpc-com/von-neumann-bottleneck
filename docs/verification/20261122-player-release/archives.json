@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "source_commit": "66e1bf0a1ee7e4f99a48b847401dfdab2ff6eddd",
+  "release_version": "v0.6.0",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "content_version": "tasks-20261013-journey-v1",
+  "content_count": 60,
+  "editions": {
+    "game": {
+      "directory": "build/vnb-game-v0.6.0-Players20261122-game-66e1bf0a1ee7",
+      "build_id": "vnb-game-v0.6.0-Players20261122-game-66e1bf0a1ee7",
+      "profile": "EditionGame",
+      "archives": {
+        "macOS": {
+          "zip": "Von-Neumann-Bottleneck-macOS-vnb-game-v0.6.0-Players20261122-game-66e1bf0a1ee7.zip",
+          "bytes": 234396184,
+          "sha256": "4c0aa0e4e29411e58749ff3fc2bd6a324635781c29207c6d33a764899ed70a2a"
+        },
+        "Windows": {
+          "zip": "Von-Neumann-Bottleneck-Windows-vnb-game-v0.6.0-Players20261122-game-66e1bf0a1ee7.zip",
+          "bytes": 211960575,
+          "sha256": "849e5b596cf716e76fedfaf204cbee2b89fe7e86d908116bebc1fc5abc944dd9"
+        }
+      }
+    },
+    "test": {
+      "directory": "build/vnb-test-v0.6.0-Players20261122-test-66e1bf0a1ee7",
+      "build_id": "vnb-test-v0.6.0-Players20261122-test-66e1bf0a1ee7",
+      "profile": "EditionTest",
+      "archives": {
+        "macOS": {
+          "zip": "Von-Neumann-Bottleneck-macOS-vnb-test-v0.6.0-Players20261122-test-66e1bf0a1ee7.zip",
+          "bytes": 234396244,
+          "sha256": "a8354a7089cf27f62cd92b06c1578a978cba8494b5a35eb17cb74c78758147cc"
+        },
+        "Windows": {
+          "zip": "Von-Neumann-Bottleneck-Windows-vnb-test-v0.6.0-Players20261122-test-66e1bf0a1ee7.zip",
+          "bytes": 211960629,
+          "sha256": "27b55db4c9e1e1a2ce456f20fb11b9ad35ae2e303bba57f8df960f29ceece2a9"
+        }
+      }
+    }
+  },
+  "scope": "Source/content/profile identity and all archive hashes; not native platform acceptance"
+}

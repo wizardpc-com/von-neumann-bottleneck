@@ -1,0 +1,29 @@
+[Unit]
+Description=Von Neumann Bottleneck staging feedback receiver
+After=network.target
+RequiresMountsFor=/srv/ray/apps/vnb/current-staging
+
+[Service]
+Type=exec
+DynamicUser=true
+StateDirectory=vnb-feedback-staging
+StateDirectoryMode=0700
+WorkingDirectory=/srv/ray/apps/vnb/current-staging/server
+Environment=VNB_FEEDBACK_ADMIN_TOKEN=
+ExecStart=/usr/bin/python3 -B feedback_server.py --host 127.0.0.1 --port 28081 --database /var/lib/vnb-feedback-staging/feedback.sqlite
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+CapabilityBoundingSet=
+MemoryMax=128M
+CPUQuota=25%
+TasksMax=32
+LimitNOFILE=256
+
+[Install]
+WantedBy=multi-user.target

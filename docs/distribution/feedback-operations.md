@@ -1,5 +1,9 @@
 # Feedback receiver operations — localhost phase
 
+A separate synthetic staging receiver is covered in the [feedback connectivity
+runbook](feedback-connectivity.md). This page continues to cover the original
+private instance and its backup state.
+
 Operator: yanruiqing · contact: yanruiqing@agent.qq.com. This page describes the
 separate localhost-only VPS receiver installed from
 `347e4262602e05e67520b69f85451ade6a9c2297`. It is not a public player endpoint.

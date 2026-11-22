@@ -70,6 +70,8 @@ removed; recover historical task books from Git when needed.
 
 ## Development and distribution
 
+- [Mac、GitHub 与 VPS 反馈连接及验收](distribution/feedback-connectivity.md)
+
 - **[操作流程、设置输入与未提交文字保护（2026-10-23）](verification/20261023-player-flow/README.md)**
 - [空间与文字收尾](verification/20261023-codex-closeout/README.md) · [第五章结束 CG（2026-10-23）](verification/20261023-chapter5-cinematic/README.md)
 - [Claude 最终打磨交接：已有改动与验证（2026-10-23）](development/CLAUDE_FINAL_POLISH_HANDOFF_20261023.md)

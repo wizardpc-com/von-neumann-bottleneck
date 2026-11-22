@@ -1,0 +1,31 @@
+[Unit]
+Description=Von Neumann Bottleneck staging TLS proxy
+After=network.target vnb-feedback-staging.service
+Wants=vnb-feedback-staging.service
+RequiresMountsFor=/srv/ray/apps/vnb/current-staging
+
+[Service]
+Type=exec
+DynamicUser=true
+StateDirectory=vnb-feedback-staging-proxy
+StateDirectoryMode=0700
+Environment=HOME=/var/lib/vnb-feedback-staging-proxy
+Environment=XDG_DATA_HOME=/var/lib/vnb-feedback-staging-proxy/data
+Environment=XDG_CONFIG_HOME=/var/lib/vnb-feedback-staging-proxy/config
+ExecStart=/usr/bin/caddy run --config /etc/vnb-feedback-staging/Caddyfile --adapter caddyfile
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+CapabilityBoundingSet=
+MemoryMax=128M
+CPUQuota=25%
+TasksMax=64
+LimitNOFILE=512
+
+[Install]
+WantedBy=multi-user.target

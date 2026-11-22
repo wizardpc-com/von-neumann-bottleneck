@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "scope": "private HTTPS",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "build_id": "vnb-test-v0.6.0-Final20261116Test-63584487c1af",
+  "source_commit": "63584487c1af190a05d294bb758b7ab3fc610063",
+  "test_batch": "Final20261116Test",
+  "feedback_id": "9c21b77666c87047fa48a0521838a937671639fcc7a06289751ab2e3d5dc46e6",
+  "routes": {
+    "GET /v1/health": 200,
+    "GET /privacy.html": 200,
+    "GET /admin/report": 404,
+    "GET /v1/community/tasks": 404,
+    "GET /v1/leaderboards": 404,
+    "GET /v1/events": 404,
+    "POST /v1/health": 404,
+    "GET /": 404
+  },
+  "sqlite_row_verified": true,
+  "sqlite_row_removed": true,
+  "test_edition_hashes": {
+    "Contents/MacOS/Von Neumann Bottleneck \u2014 Test Edition": "ffc3812d30da3ab36e101cbaf6e6576d4c249eeba5968a43ef08dee81a6caa1b",
+    "Contents/Resources/Von Neumann Bottleneck \u2014 Test Edition.pck": "06254ae0daf94f2f9c656c40480634a040d454f22009462b237d73f88d470c18"
+  },
+  "private_ca_rejected_by_default_trust": true
+}

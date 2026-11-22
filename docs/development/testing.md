@@ -1947,3 +1947,11 @@ The window fixture earns a valid bounded work through the real candidate APIs;
 it does not claim an end-user playthrough. Native acceptance must separately
 open the physical works wall, inspect both locales and popups, close/reopen the
 viewer, check focus and bounded memory, and verify unchanged saved-work bytes.
+
+## VPS staging HTTPS
+
+Use the [feedback connectivity runbook](../distribution/feedback-connectivity.md)
+to verify the exported macOS Test Edition against the isolated VPS staging receiver.
+The probe requires a matching visible receipt, an SSH read-only SQLite query, and
+verified deletion of that synthetic row. Loopback CI and private SSH-forwarded
+HTTPS evidence have separate acceptance scopes.

@@ -18,6 +18,7 @@ jobs:
       - run: python server/test_storage.py
       - run: python server/test_receiver.py
       - run: python server/test_release_ingress.py
+      - run: python server/test_release_io.py
       - name: Verify the release feedback edge over local TLS
         shell: bash
         run: |

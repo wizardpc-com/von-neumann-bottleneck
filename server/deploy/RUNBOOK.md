@@ -189,17 +189,36 @@ configured historical localhost receiver, proxy and maintenance ceilings
 add 1.75 CPU and 1,408 MiB if they all run. Leave their settings alone
 and check actual concurrent use.
 
-Each release unit explicitly accounts CPU, memory and I/O and applies
-`io.max` through systemd on `/dev/vda`: receiver 8 MB/s read and 4 MB/s
-write, maintenance 8/4, and edge 1/1. The sum is **17 MB/s read and
-9 MB/s write** for attributable block I/O. The two filesystems still share
-the physical device and queue, and loop-backed writeback attribution must
-be verified. Check effective `io.max` for `253:0` and matching `io.stat`
-during a normal receipt and maintenance run after migration. A property
-shown in the unit alone does not prove attribution. If resulting I/O
-escapes the scoped cgroups, use a separately attached VNB block device
-before claiming I/O isolation. The existing system journal and TLS edge
-state remain on root, with bounded unit logging and no access log.
+The staging receipt measured a 64 KiB write on each release volume. The
+live unit's `io.stat` charged `7:0` and the operations unit's charged
+`7:1`, while both reported zero delta on the backing device `253:0`.
+Those loop numbers are specific to that mount lifecycle.
+
+| Unit | Live loop read/write | Ops loop read/write | Backing `/dev/vda` read/write |
+| --- | --- | --- | --- |
+| Receiver | 8/4 MB/s | — | 8/4 MB/s |
+| Maintenance | 4/1 MB/s | 4/3 MB/s | 8/4 MB/s |
+| Public edge | — | — | 1/1 MB/s |
+
+Before the receiver binds or maintenance opens SQLite, a short privileged
+startup command obtains each mounted filesystem's actual major/minor,
+confirms the matching VNB backing image through sysfs, and writes the loop
+limits directly to that process's own cgroup v2 `io.max`. It first checks
+the existing systemd backing cap, then reads back every required row from
+the kernel. A missing mount, wrong image, missing I/O controller or failed
+read-back fails the unit's startup. The receiver and maintenance workloads
+retain their unprivileged IDs and have read-only access to cgroup controls.
+The units follow the mounts they use, and each new start resolves the loop
+numbers again. No persistent rule relies on `7:0` or `7:1`.
+
+Count limits on the layer where the kernel attributes the workload. The
+combined loop limits are **16 MB/s read and 8 MB/s write** across the two
+workers, with the edge's separate 1/1 backing cap. The worker backing caps
+also cover traffic that the kernel attributes directly to `/dev/vda`.
+The filesystems still share the host device and queue. The loop caps do
+not establish physical-device isolation or a cap for I/O outside these
+cgroups. The existing system journal and TLS edge state remain on root,
+with bounded unit logging and no access log.
 
 Release maintenance has a separate unprivileged UID and an empty
 capability set. The receiver owns live SQLite; a dedicated read group
@@ -211,7 +230,7 @@ the maintenance job with the real running receiver on Linux.
 ### Prepare the two bounded volumes
 
 Run only after approval, on this host with `/dev/vda` as the measured
-accounting device. This allocates exactly 4,294,967,296 bytes of image
+backing device and the cgroup v2 I/O controller enabled. This allocates exactly 4,294,967,296 bytes of image
 capacity and must be scheduled as separate
 maintenance work. Do not remount root or change quotas for other users.
 For a first deployment, create `vnb-feedback-release` as below before this
@@ -280,8 +299,9 @@ for controlled operator rollback and retention. Leave the parent
 
 Install only the new release receiver, maintenance and mount units plus
 the release edge drop-in, and repoint `current-release` to the verified
-source before restarting. After a normal local check and the first
-maintenance job, verify while the receiver is active:
+source before restarting. Keep the public edge paused until the Linux
+I/O gate passes. During a normal local check and the first private
+maintenance run, verify while both workers are active:
 
 ```sh
 stat -c '%U:%G %a %n' "$vol/live/data"/feedback.sqlite*
@@ -290,18 +310,41 @@ sudo -u vnb-feedback-maint -g vnb-feedback-read test -r "$vol/live/data/feedback
 sudo -u vnb-feedback-maint -g vnb-feedback-read test ! -w "$vol/live/data/feedback.sqlite"
 sudo -u vnb-feedback-release test ! -w "$vol/ops/backups"
 sudo -u vnb-feedback-release test ! -x "$vol/ops"
-for unit in vnb-feedback-public.service vnb-release-receiver.service vnb-release-maintenance.service; do
+live_dev=$(findmnt --noheadings --output MAJ:MIN --mountpoint "$vol/live")
+ops_dev=$(findmnt --noheadings --output MAJ:MIN --mountpoint "$vol/ops")
+test -n "$live_dev" && test -n "$ops_dev" && test "$live_dev" != "$ops_dev"
+printf 'Expected current loop devices: live=%s ops=%s\n' "$live_dev" "$ops_dev"
+for unit in vnb-release-receiver.service vnb-release-maintenance.service; do
   cg=$(systemctl show -P ControlGroup "$unit")
   test -n "$cg"
   cat "/sys/fs/cgroup${cg}/io.max" "/sys/fs/cgroup${cg}/io.stat"
 done
 ```
 
-Run the cgroup check while the maintenance oneshot is active; its cgroup
-can disappear when the job ends. Confirm `253:0` limits of 1,000,000/1,000,000
-bytes/s for edge and 8,000,000/4,000,000 for each worker. Check a real
-maintenance snapshot digest and mode, and verify protected service state
-from the existing host receipt. Roll back by pausing release and retaining
+Check the exact live and operations device rows and rates from the table.
+Both worker cgroups must also show the backing `253:0` row at
+8,000,000/4,000,000 bytes/s. The maintenance cgroup can disappear when its
+oneshot ends. Use the operator's bounded pre-exec probe if needed. The
+proof must run as each workload UID, in the same mount namespace and
+cgroup as the workload, and show a positive `wbytes` delta on the limited
+live or ops loop for a small fsynced scratch write. The maintenance UID
+writes its scratch file only on ops. Verify that its live loop read cap
+is installed even if the read falls in page cache. No shared cache drop
+or throughput stress is needed. For a standalone pre-cutover check, the
+startup helper also accepts its own exact cgroup under transient
+`vnb-release-io-probe-receiver.service` or
+`vnb-release-io-probe-maintenance.service`, with the same worker backing
+cap configured. Always check again inside the real production units.
+
+Test a restart after a disposable remount that changes loop assignments.
+Recheck after production remounts and reboots. Do not promote if a workload
+registers I/O on a device without the expected effective cap, even if the
+backing row is present. If staging cannot prove the capped path, keep
+public intake paused or keep the existing deployment and resolve device
+attribution before switching. After the I/O gate passes, check the real
+maintenance snapshot digest and mode. After enabling the edge, confirm
+its backing row at 1,000,000/1,000,000 bytes/s and verify protected service
+state from the existing host receipt. Roll back by pausing release and retaining
 the new bounded volumes and newest deletion state while selecting compatible
 code. Do not restore unbounded writable paths or start the old SQLite as an
 alternative writer. The prior version's root maintenance is not a safe

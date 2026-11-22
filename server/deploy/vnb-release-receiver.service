@@ -15,6 +15,7 @@ LoadCredential=edge.token:/etc/vnb-feedback-release/edge.token
 Environment=PYTHONDONTWRITEBYTECODE=1
 Environment=VNB_FEEDBACK_ADMIN_TOKEN=
 Environment=VNB_RELEASE_HOST_FILESYSTEM=/srv/ray/vnb_release
+ExecStartPre=+/usr/bin/python3 -I -B /srv/ray/apps/vnb/current-release/server/deploy/limit-release-io.py receiver
 ExecStart=/usr/bin/python3 -B /srv/ray/apps/vnb/current-release/server/feedback_server.py --host 127.0.0.1 --port 18082 --database /srv/ray/vnb_release/live/data/feedback.sqlite --release-admissions /etc/vnb-feedback-release/admissions.json --release-edge-token-file ${CREDENTIALS_DIRECTORY}/edge.token
 Restart=on-failure
 RestartSec=5s

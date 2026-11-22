@@ -70,7 +70,13 @@ class ReleaseReadinessTests(unittest.TestCase):
                             for path in maint["Service"]["ReadWritePaths"].split()))
         for service, lane in ((receiver, "live"), (maint, "ops")):
             self.assertIn(f"vnb-release-volume@{lane}.service", service["Unit"]["Requires"].split())
-            self.assertEqual(service["Unit"]["BindsTo"], f"srv-ray-vnb_release-{lane}.mount")
+            self.assertIn(f"srv-ray-vnb_release-{lane}.mount", service["Unit"]["BindsTo"].split())
+        self.assertIn("srv-ray-vnb_release-live.mount", maint["Unit"]["BindsTo"].split())
+        for role in ("receiver", "maintenance"):
+            lines = (DEPLOY / f"vnb-release-{role}.service").read_text().splitlines()
+            first_preflight = next(line for line in lines if line.startswith("ExecStartPre="))
+            self.assertEqual(first_preflight, "ExecStartPre=+/usr/bin/python3 -I -B "
+                             f"/srv/ray/apps/vnb/current-release/server/deploy/limit-release-io.py {role}")
         for service, limits in ((receiver, ("8M", "4M")), (maint, ("8M", "4M")), (edge, ("1M", "1M"))):
             self.assertEqual(service["Service"]["IOAccounting"], "true")
             self.assertEqual(service["Service"]["IOReadBandwidthMax"], "/dev/vda " + limits[0])

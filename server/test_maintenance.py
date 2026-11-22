@@ -38,15 +38,18 @@ class MaintenanceTests(unittest.TestCase):
     def seed(self, path):
         with closing(sqlite3.connect(path)) as db:
             migrate(db)
-            record = {'kind': 'feedback', 'payload': {'chapter_id': 'hardware_foundations', 'level_id': 'selector_4',
-                      'source': 'automated', 'mode': 'test', 'note': 'Synthetic private opinion'}}
-            body = json.dumps(record)
-            with db:
-                db.execute('INSERT INTO clients VALUES (?,?)',
-                           ('synthetic-client', hashlib.sha256(('a' * 64).encode()).hexdigest()))
-                db.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',
-                           ('synthetic-feedback-id', 'synthetic-client', int(time.time()), 'feedback', body,
-                            hashlib.sha256(body.encode()).hexdigest()))
+            self.insert_opinion(db)
+
+    def insert_opinion(self, db):
+        record = {'kind': 'feedback', 'payload': {'chapter_id': 'hardware_foundations', 'level_id': 'selector_4',
+                  'source': 'automated', 'mode': 'test', 'note': 'Synthetic private opinion'}}
+        body = json.dumps(record)
+        with db:
+            db.execute('INSERT INTO clients VALUES (?,?)',
+                       ('synthetic-client', hashlib.sha256(('a' * 64).encode()).hexdigest()))
+            db.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',
+                       ('synthetic-feedback-id', 'synthetic-client', int(time.time()), 'feedback', body,
+                        hashlib.sha256(body.encode()).hexdigest()))
 
     def delete_via_http(self, path):
         server = Receiver(('127.0.0.1', 0), path, '')
@@ -212,10 +215,16 @@ class MaintenanceTests(unittest.TestCase):
             mask = os.umask(0o027)
             try:
                 with closing(sqlite3.connect(database)) as writer:
-                    writer.execute('PRAGMA journal_mode=WAL')
+                    migrate(writer)
+                    self.assertEqual(writer.execute('PRAGMA journal_mode=WAL').fetchone(), ('wal',))
                     writer.execute('PRAGMA wal_autocheckpoint=0')
-                    self.seed(database)
+                    main_before_opinion = database.read_bytes()
+                    # Commit on the connection that remains open. On Linux a connection
+                    # that only sets PRAGMAs may not keep another writer's sidecars alive.
+                    self.insert_opinion(writer)
                     sidecars = [database, Path(str(database) + '-wal'), Path(str(database) + '-shm')]
+                    self.assertGreater(sidecars[1].stat().st_size, 32, 'The WAL contains committed frames')
+                    self.assertEqual(database.read_bytes(), main_before_opinion, 'The opinion is only in the WAL')
                     for path in sidecars:
                         self.assertEqual(path.stat().st_uid, os.getuid())
                         self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o640)

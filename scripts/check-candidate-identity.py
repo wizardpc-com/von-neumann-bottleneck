@@ -93,7 +93,10 @@ root=a.directory.resolve();manifest=json.loads((root/'manifest.json').read_text(
 identity=manifest['build_id'];commit=manifest['source_commit']
 batch=manifest.get('test_batch','unspecified')
 edition=manifest.get('edition')
-expected=('vnb-'+edition+'-'+manifest['release_version']+'-'+batch+'-'+commit[:12] if edition else
+network_feedback=manifest.get('network_feedback_test',False)
+assert type(network_feedback) is bool and (not network_feedback or edition=='test')
+edition_lane='test-feedback' if network_feedback else edition
+expected=('vnb-'+edition_lane+'-'+manifest['release_version']+'-'+batch+'-'+commit[:12] if edition else
           ('playtest-'+batch+'-' if batch!='unspecified' else 'free-alpha-')+commit[:12])
 assert identity==expected and root.name==identity
 assert batch=='unspecified' or re.fullmatch(r'[A-Za-z0-9-]{1,40}',batch)
@@ -104,6 +107,7 @@ if edition:
     version=manifest['release_version']
     assert re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?',version)
     profile='EditionGame' if edition=='game' else 'EditionTest'
+    if network_feedback:profile='EditionTestFeedback'
     assert manifest['edition_name']==edition.title()+' Edition' and manifest['display_version']==version[1:]
     assert manifest['save_profile']==profile and manifest['save_directories']==[
         'VonNeumannBottleneckCandidates/'+domain+'/'+profile for domain in ('representation','service')]
@@ -111,7 +115,13 @@ if edition:
     assert manifest['access_policy']==('earned' if edition=='game' else 'all-task-entrances')
     assert manifest['content_count']==60 and len(set(manifest['content_tasks']))==60
     assert manifest['content_version']=='tasks-20261013-journey-v1'
-    assert manifest['feedback_endpoint']=='' and not manifest['public_release'] and not manifest['local_acceptance_only']
+    assert not manifest['public_release'] and not manifest['local_acceptance_only']
+    if network_feedback:
+        origin='https://feedback.yanruiqing.com:8443'
+        assert set(manifest['platforms'])=={'macOS'}
+        assert manifest['feedback_endpoint']==origin+'/v1' and manifest['privacy_url']==origin+'/privacy.html'
+    else:
+        assert manifest['feedback_endpoint']==''
     assert not manifest.get('offline_tester',False) and batch!='unspecified'
     assert manifest['candidate_journey']=={'primary_domain':'representation','profile':profile,'isolated':True,'production_migration':False,'creation_enabled':True}
     sums=(root/'SHA256SUMS.txt').read_text()
@@ -136,7 +146,7 @@ if manifest['public_release']:
     assert len(set(manifest['content_tasks']))==60
     assert public_https_url(manifest['feedback_endpoint'],api_root=True) and public_https_url(manifest['privacy_url'])
 else:
-    assert (edition or 'release_version' not in manifest) and 'privacy_url' not in manifest
+    assert (edition or 'release_version' not in manifest) and (network_feedback or 'privacy_url' not in manifest)
 if manifest.get('candidate_journey',{}).get('creation_enabled'):
     assert manifest['content_version'] in {'tasks-20261010-journey-v1','tasks-20261012-journey-v1','tasks-20261013-journey-v1'} and len(manifest['content_tasks'])==60
     assert manifest['candidate_journey']['isolated'] is True and manifest['candidate_journey']['production_migration'] is False
@@ -153,6 +163,9 @@ for platform,entry in manifest['platforms'].items():
         if edition:
             for key in ['edition','edition_name','release_version','display_version','source_commit','test_batch',
                         'save_profile','save_directories','content_version','content_count','access_policy','mode_locked','save_migration']:
+                assert metadata[key]==manifest[key],key
+        if network_feedback:
+            for key in ['network_feedback_test','feedback_endpoint','privacy_url']:
                 assert metadata[key]==manifest[key],key
         required={'README.txt','CHANGELOG.txt','KNOWN-ISSUES.txt','LICENSE.txt','FONT-LICENSE.txt','ENGINE-LICENSES.txt'}
         assert required <= set(metadata['files_sha256'])
@@ -178,6 +191,8 @@ for platform,entry in manifest['platforms'].items():
                     for directory in manifest['save_directories']:
                         assert '~/Library/Application Support/'+directory+'/' in body
                         assert '%APPDATA%/'+directory+'/' in body
+            if network_feedback and filename=='README.txt':
+                assert manifest['privacy_url'] in body
             if manifest['public_release'] and filename!='CHANGELOG.txt':
                 assert manifest['release_version'] in body and manifest['feedback_endpoint'] in body and manifest['privacy_url'] in body
             if manifest.get('offline_tester',False) and filename=='README.txt':

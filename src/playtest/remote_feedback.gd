@@ -50,6 +50,7 @@ func endpoint_allowed() -> bool:
 	return endpoint.begins_with("http://127.0.0.1:") or endpoint.begins_with("http://localhost:")
 func privacy_url() -> String:
 	var url: String = str(ProjectSettings.get_setting("application/feedback_privacy_url",""))
+	if url == "https://feedback.yanruiqing.com:8443/privacy.html": return url
 	if url.length() > 2048: return ""
 	var pattern := RegEx.new()
 	if pattern.compile("^https://[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+(?::443)?(?:/[A-Za-z0-9._~/-]*)?$") != OK: return ""

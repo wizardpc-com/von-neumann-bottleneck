@@ -5,6 +5,9 @@ from urllib.parse import urlsplit
 from pathlib import Path
 
 
+NETWORK_FEEDBACK_ORIGIN = "https://feedback.yanruiqing.com:8443"
+
+
 def package_files(folder):
     return [path for path in sorted(folder.rglob('*')) if path.is_file() or path.is_symlink()]
 
@@ -86,16 +89,21 @@ def write_zip_entry(package, path, relative):
         with path.open('rb') as source, package.open(entry,'w') as destination:
             shutil.copyfileobj(source,destination)
 
-def edition_identity(edition, version, commit, batch):
+def edition_identity(edition, version, commit, batch, network_feedback=False):
     """One source identity, two fixed access policies and disjoint stable profiles."""
     if edition not in ('game', 'test') or not re.fullmatch(r'v[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?', version):
         raise ValueError('Edition needs game/test and a semantic release version')
     if not re.fullmatch(r'[0-9a-f]{40}', commit) or not re.fullmatch(r'[A-Za-z0-9-]{1,40}', batch or ''):
         raise ValueError('Edition needs a full commit SHA and an explicit immutable batch')
+    if network_feedback and edition != 'test':
+        raise ValueError('Network feedback acceptance requires Test Edition')
     profile = 'EditionGame' if edition == 'game' else 'EditionTest'
+    if network_feedback:
+        profile = 'EditionTestFeedback'
+    build_lane = 'test-feedback' if network_feedback else edition
     return {'edition': edition, 'edition_name': edition.title() + ' Edition',
             'release_version': version, 'display_version': version[1:],
-            'build_id': 'vnb-' + edition + '-' + version + '-' + batch + '-' + commit[:12],
+            'build_id': 'vnb-' + build_lane + '-' + version + '-' + batch + '-' + commit[:12],
             'source_commit': commit, 'test_batch': batch, 'save_profile': profile,
             'save_directories': ['VonNeumannBottleneckCandidates/' + domain + '/' + profile
                                  for domain in ('representation', 'service')],
@@ -136,12 +144,20 @@ def main():
     p.add_argument('--release-version',default='',help='Public prerelease tag or edition semantic version, e.g. v0.6.0')
     p.add_argument('--edition',choices=['game','test'],help='Locked offline Game/Test edition with sixty tasks and its own stable save profile')
     p.add_argument('--privacy-url',default='',help='Published HTTPS privacy notice URL for the public prerelease')
+    p.add_argument('--network-feedback-test', action='store_true',
+                   help='Build a separate macOS Test Edition for restricted HTTPS acceptance')
     a=p.parse_args()
+    if a.network_feedback_test:
+        if (a.edition != 'test' or a.platform != 'macOS' or a.feedback_endpoint or a.privacy_url
+                or a.public_playtest or a.offline_tester or a.local_feedback_test):
+            p.error('--network-feedback-test requires --edition test --platform macOS and its fixed VNB endpoint')
+        a.feedback_endpoint = NETWORK_FEEDBACK_ORIGIN + '/v1'
+        a.privacy_url = NETWORK_FEEDBACK_ORIGIN + '/privacy.html'
     edition = None
     if a.edition:
-        if a.public_playtest or a.offline_tester or a.local_feedback_test or a.feedback_endpoint or a.privacy_url:
+        if not a.network_feedback_test and (a.public_playtest or a.offline_tester or a.local_feedback_test or a.feedback_endpoint or a.privacy_url):
             p.error('--edition is an offline product build, incompatible with legacy public/offline tester switches')
-        try: edition = edition_identity(a.edition, a.release_version, a.commit, a.test_batch)
+        try: edition = edition_identity(a.edition, a.release_version, a.commit, a.test_batch, a.network_feedback_test)
         except ValueError as error: p.error(str(error))
         if a.second_act_profile and a.second_act_profile != edition['save_profile']:
             p.error('Edition profile is fixed: ' + edition['save_profile'])
@@ -162,7 +178,7 @@ def main():
         if a.release_version!='v0.5.0-alpha.2' or not a.test_batch or not re.fullmatch(r'[0-9a-f]{40}',a.commit):p.error('public playtest requires v0.5.0-alpha.2, a batch and a full fixed commit SHA')
         if not a.windows_template:p.error('public playtest requires a matching Windows template')
         if not public_https_url(a.feedback_endpoint,api_root=True) or not public_https_url(a.privacy_url):p.error('public playtest requires public HTTPS API-root and privacy-page URLs')
-    elif (a.release_version and not a.edition) or a.privacy_url:p.error('release version and privacy URL require --public-playtest')
+    elif (a.release_version and not a.edition) or (a.privacy_url and not a.network_feedback_test):p.error('release version and privacy URL require --public-playtest')
     if a.offline_tester:
         if a.platform!='Windows' or a.public_playtest or a.local_feedback_test or a.feedback_endpoint or a.mac_template:
             p.error('offline tester requires Windows only, with no receiver or public mode')
@@ -196,7 +212,8 @@ def main():
     presets=presets.replace('exclude_filter="', 'exclude_filter="assets/branding/brand-review.*,' )
     if edition:
         presets=presets.replace('custom_features="free_candidate"', 'custom_features="free_candidate,'+a.edition+'_edition"')
-        presets=re.sub(r'application/bundle_identifier="[^"]*"', 'application/bundle_identifier="com.wizardpc.von-neumann-bottleneck.'+a.edition+'"', presets)
+        bundle_suffix = 'test.feedback' if a.network_feedback_test else a.edition
+        presets=re.sub(r'application/bundle_identifier="[^"]*"', 'application/bundle_identifier="com.wizardpc.von-neumann-bottleneck.'+bundle_suffix+'"', presets)
         presets=re.sub(r'application/short_version="[^"]*"', 'application/short_version="'+edition['display_version'].split('-')[0]+'"', presets)
 
     # Native numeric versions identify the frozen Git content without reusing a date label.
@@ -224,7 +241,7 @@ def main():
 
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))
     if a.public_playtest or a.offline_tester:original=original.replace('[application]','[application]\nfeedback_default_source="external_player"',1)
-    if a.public_playtest:original=original.replace('[application]','[application]\nfeedback_privacy_url='+json.dumps(a.privacy_url),1)
+    if a.public_playtest or a.network_feedback_test:original=original.replace('[application]','[application]\nfeedback_privacy_url='+json.dumps(a.privacy_url),1)
     # Bind binary-exported scripts to the same workspace model fingerprints as source.
     workspace_versions={}
     for state in ['src/system_lab/system_chapter_state.gd','src/locality_chapter/locality_chapter_state.gd']:
@@ -239,7 +256,7 @@ def main():
         original+='\n[candidate]\nprimary_domain="representation"\nprofile='+json.dumps(a.second_act_profile)+'\njourney_enabled=true\n'
         if a.creation_journey:original+='creation_enabled=true\n'
     if a.offline_tester:original+='\n[playtest]\noffline_tester=true\n'
-    if a.edition == 'test':original+='\n[playtest]\noffline_feedback=true\n'
+    if a.edition == 'test' and not a.network_feedback_test:original+='\n[playtest]\noffline_feedback=true\n'
     (project/'project.godot').write_text(original,encoding='utf-8')
     identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n'
     if edition:
@@ -296,6 +313,7 @@ def main():
     # Exporters themselves do not start the game. Native QA uses a separate override.
     manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'created_utc':stamp,'public_release':a.public_playtest,'upload_default':False,'workspace_versions':workspace_versions,'feedback_endpoint':a.feedback_endpoint,'test_batch':a.test_batch or 'unspecified','external_ready':False,'local_acceptance_only':a.local_feedback_test,'content_version':'tasks-20261013-journey-v1' if a.second_act_profile or a.creation_journey else 'tasks-20260910-v1','branding':brand,'native_versions':{'windows':numeric,'macos':mac_version},'platforms':{}}
     if edition:manifest.update(edition)
+    if a.network_feedback_test:manifest.update(network_feedback_test=True, privacy_url=a.privacy_url)
     if a.public_playtest:manifest.update(release_version=a.release_version,privacy_url=a.privacy_url,feedback_default_source='external_player')
     if a.offline_tester:manifest['offline_tester']=True
     rules=json.loads((project/'server/community_rules.json').read_text(encoding='utf-8'))
@@ -346,12 +364,24 @@ def main():
                 shutil.copy2(project/'scripts'/name,tools/name)
             shutil.copy2(project/'distribution/OFFLINE-MAINTAINER.txt',tools/'README.txt')
         if edition:
-            (folder/'README.txt').write_text(edition_notes(project, identity, edition, 'EDITION-README.txt'), encoding='utf-8')
-            (folder/'KNOWN-ISSUES.txt').write_text(edition_notes(project, identity, edition, 'EDITION-KNOWN-ISSUES.txt'), encoding='utf-8')
-            (folder/'CHANGELOG.txt').write_text(edition_notes(project, identity, edition, 'EDITION-CHANGELOG.txt'), encoding='utf-8')
+            for name in ('README.txt', 'KNOWN-ISSUES.txt', 'CHANGELOG.txt'):
+                notes = edition_notes(project, identity, edition, 'EDITION-' + name)
+                if a.network_feedback_test and name == 'README.txt':
+                    notes = notes.replace(
+                        '反馈保存在本机；可通过界面导出，只有你主动分享才会交给维护者。未配置在线接收端。\n'
+                        'Feedback remains local and can be exported. Share it deliberately with the maintainer; no receiver is configured.',
+                        '联网反馈验收版。F8 打开反馈表单，选定任务后可显式发送合成意见。自动统计默认关闭。\n'
+                        'Network feedback acceptance build. Press F8, select a task, and explicitly send a synthetic opinion. Automatic statistics are off by default.\n'
+                        f'Privacy / 隐私：{a.privacy_url}')
+                if a.network_feedback_test and name == 'KNOWN-ISSUES.txt':
+                    notes = notes.replace('没有联网依赖，也没有配置在线反馈接收端。', '联网反馈仅对获准测试来源开放。')
+                    notes = notes.replace('No network is required and no feedback receiver is configured.', 'Online feedback is limited to approved test sources.')
+                (folder / name).write_text(notes, encoding='utf-8')
         files={f.relative_to(folder).as_posix():hashlib.sha256(packaged_bytes(f)).hexdigest() for f in package_files(folder)}
         platform_manifest={'build_id':build_id,'source_commit':commit,'engine':engine,'platform':platform,'native_validation':'See verification record; export is not native acceptance','files_sha256':files}
         if edition:platform_manifest.update(edition)
+        if a.network_feedback_test:
+            platform_manifest.update(network_feedback_test=True, feedback_endpoint=a.feedback_endpoint, privacy_url=a.privacy_url)
         (folder/'BUILD-MANIFEST.json').write_text(json.dumps(platform_manifest,indent=2)+'\n',encoding='utf-8')
         zip_path=output/('Von-Neumann-Bottleneck-'+platform+'-'+build_id+'.zip')
         if platform=='macOS' and sys.platform=='darwin':subprocess.run(['/usr/bin/ditto','-c','-k','--sequesterRsrc','--keepParent',str(folder),str(zip_path)],check=True)

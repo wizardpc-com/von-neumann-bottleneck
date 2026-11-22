@@ -1,0 +1,35 @@
+[Unit]
+Description=Von Neumann Bottleneck public TLS proxy on TCP 8443
+After=network-online.target vnb-local-receiver.service
+Wants=network-online.target
+RequiresMountsFor=/etc/vnb-feedback-public
+
+[Service]
+Type=exec
+DynamicUser=true
+StateDirectory=vnb-feedback-public
+StateDirectoryMode=0700
+Environment=HOME=/var/lib/vnb-feedback-public
+Environment=XDG_DATA_HOME=/var/lib/vnb-feedback-public/data
+Environment=XDG_CONFIG_HOME=/var/lib/vnb-feedback-public/config
+EnvironmentFile=/etc/vnb-feedback-public/listener.env
+LoadCredential=fullchain.pem:/etc/vnb-feedback-public/tls/fullchain.pem
+LoadCredential=key.pem:/etc/vnb-feedback-public/tls/key.pem
+ExecStartPre=/usr/bin/caddy validate --config /etc/vnb-feedback-public/Caddyfile --adapter caddyfile
+ExecStart=/usr/bin/caddy run --config /etc/vnb-feedback-public/Caddyfile --adapter caddyfile
+Restart=on-failure
+RestartSec=5s
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+CapabilityBoundingSet=
+MemoryMax=128M
+CPUQuota=25%
+TasksMax=64
+LimitNOFILE=512
+
+[Install]
+WantedBy=multi-user.target

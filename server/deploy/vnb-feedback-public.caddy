@@ -1,0 +1,60 @@
+{
+    admin off
+    auto_https off
+    skip_install_trust
+    log {
+        output discard
+    }
+    servers {
+        protocols h1 h2
+        timeouts {
+            read_header 5s
+            read_body 6s
+            idle 30s
+        }
+    }
+}
+
+https://feedback.yanruiqing.com:8443 {
+    bind {$VNB_PUBLIC_BIND}
+    tls {$CREDENTIALS_DIRECTORY}/fullchain.pem {$CREDENTIALS_DIRECTORY}/key.pem
+    header X-VNB-Environment public-feedback
+
+    request_body {
+        max_size 131072
+    }
+
+    @privacy {
+        method GET
+        path /privacy.html
+    }
+    @health {
+        method GET
+        path /v1/health
+    }
+    @events {
+        method POST
+        path /v1/events
+    }
+    @erase {
+        method DELETE
+        path /v1/data
+    }
+
+    handle @privacy {
+        root * /etc/vnb-feedback-public/www
+        file_server
+    }
+    handle @health {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle @events {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle @erase {
+        reverse_proxy 127.0.0.1:18081
+    }
+    handle {
+        respond 404
+    }
+}

@@ -1,5 +1,5 @@
 extends Node
-## Synthetic UI input in an isolated copy of the macOS Test Edition.
+## Synthetic UI input and one exact retry in a copy of the macOS Test Edition.
 
 func _ready() -> void:
 	call_deferred("run")
@@ -10,6 +10,13 @@ func run() -> void:
 		fail("isolated Test Edition required")
 		return
 	var remote: Node = get_node("/root/RemoteFeedback")
+	var expected_endpoint: String = str(ProjectSettings.get_setting("qa_feedback/expected_endpoint", ""))
+	if remote.endpoint != expected_endpoint:
+		fail("client endpoint does not match the requested environment")
+		return
+	if ProjectSettings.get_setting("qa_feedback/public_receiver", false) and remote.privacy_url() != expected_endpoint.trim_suffix("/v1") + "/privacy.html":
+		fail("the packaged privacy link is unavailable")
+		return
 	var phase: String = str(ProjectSettings.get_setting("qa_feedback/phase", ""))
 	if phase == "delete":
 		if remote.consented_endpoint != remote.endpoint:
@@ -36,10 +43,11 @@ func run() -> void:
 		return
 	moments.opinion.text = "SYNTHETIC VNB staging connectivity"
 	send.pressed.emit()
-	if moments.saved_opinion.is_empty():
-		fail("opinion was not saved")
+	if moments.saved_opinion.is_empty() or remote.queue.size() != 1:
+		fail("the opinion did not enter the outbox")
 		return
 	var id: String = remote.feedback_id(moments.saved_opinion)
+	var original: Dictionary = remote.queue[0].record.duplicate(true)
 	print("STAGING_ID ", id)
 	for attempt: int in 120:
 		if remote.feedback_state(id) == "sent":
@@ -47,10 +55,24 @@ func run() -> void:
 				fail("opinion receipt or sharing state does not match")
 				return
 			print("STAGING_RECEIVED ", id)
-			get_tree().quit()
+			retry_exact_record(remote, original)
 			return
 		await get_tree().create_timer(0.1).timeout
 	fail("opinion was not acknowledged (" + remote.status + ")")
+
+func retry_exact_record(remote: Node, original: Dictionary) -> void:
+	# Reproduce an outbox retry after a lost response, preserving the original ID and body.
+	if not remote._enqueue(original):
+		fail("could not queue the exact retry")
+		return
+	remote.flush()
+	for attempt: int in 120:
+		if remote.status == "sent" and remote.queue.is_empty():
+			print("STAGING_RETRIED ", original.event_id)
+			get_tree().quit()
+			return
+		await get_tree().create_timer(0.1).timeout
+	fail("exact retry was not acknowledged (" + remote.status + ")")
 
 func fail(message: String) -> void:
 	push_error(message)

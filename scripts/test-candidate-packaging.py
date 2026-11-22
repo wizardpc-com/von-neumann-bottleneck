@@ -162,28 +162,31 @@ for case, scope_flags, expected_count in [
 # Both product editions use exactly the same archived source and task manifest,
 # yet differ in fixed mode/profile, native bundle ID and immutable build identity.
 edition_manifests=[]
-for edition in ['game','test']:
+for edition, network in [('game',False),('test',False),('test',True)]:
     with tempfile.TemporaryDirectory(dir=test_root) as temporary:
         fixture=Path(temporary)/'builder';(fixture/'scripts').mkdir(parents=True)
+        platforms=['macOS'] if network else ['Windows','macOS']
         arguments=['build-free-candidate.py','--godot','mock-godot','--commit',frozen,
-                   '--platform','both','--edition',edition,'--release-version','v0.6.0','--test-batch','Dual'+edition.title()]
+                   '--platform','macOS' if network else 'both','--edition',edition,
+                   '--release-version','v0.6.0','--test-batch','Dual'+edition.title()]
+        if network:arguments.append('--network-feedback-test')
         with mock.patch.object(builder,'__file__',str(fixture/'scripts/build-free-candidate.py')), \
                 mock.patch.object(sys,'argv',arguments),mock.patch.object(sys,'platform','fixture'), \
                 mock.patch.object(subprocess,'check_output',side_effect=frozen_output), \
                 mock.patch.object(subprocess,'run',side_effect=engine_run),contextlib.redirect_stdout(io.StringIO()):
             builder.main()
-        details=builder.edition_identity(edition,'v0.6.0',frozen,'Dual'+edition.title())
+        details=builder.edition_identity(edition,'v0.6.0',frozen,'Dual'+edition.title(),network)
         packaged=fixture/'build'/details['build_id']
         checked=subprocess.run([sys.executable,str(root/'scripts/check-candidate-identity.py'),str(packaged)],capture_output=True)
         assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
         manifest=json.loads((packaged/'manifest.json').read_text())
-        edition_manifests.append(manifest)
+        if not network:edition_manifests.append(manifest)
         binary_name='Von-Neumann-Bottleneck-'+edition.title()
-        assert (packaged/'Windows'/(binary_name+'.exe')).is_file()
+        assert (packaged/'Windows'/(binary_name+'.exe')).is_file()==(not network)
         assert (packaged/'macOS'/(binary_name+'.app')).is_dir()
         assert not (packaged/'Windows/Von-Neumann-Bottleneck.exe').exists()
         assert not (packaged/'macOS/Von-Neumann-Bottleneck.app').exists()
-        for platform in ['Windows','macOS']:
+        for platform in platforms:
             notes=(packaged/platform/'README.txt').read_text(encoding='utf-8')
             assert binary_name+'.exe' in notes and binary_name+'.app' in notes
             with zipfile.ZipFile(packaged/manifest['platforms'][platform]['zip']) as package:
@@ -195,7 +198,12 @@ for edition in ['game','test']:
         assert json.loads(config.get('game','edition'))==edition
         assert config.getboolean('game','full_journey') and config.getboolean('candidate','creation_enabled')
         assert not config.getboolean('playtest','offline_tester',fallback=False)
-        assert config.getboolean('playtest','offline_feedback',fallback=False)==(edition=='test')
+        assert config.getboolean('playtest','offline_feedback',fallback=False)==(edition=='test' and not network)
+        if network:
+            assert manifest['network_feedback_test'] and manifest['save_profile']=='EditionTestFeedback'
+            assert json.loads(config.get('application','feedback_endpoint'))==builder.NETWORK_FEEDBACK_ORIGIN+'/v1'
+            assert json.loads(config.get('application','feedback_privacy_url'))==builder.NETWORK_FEEDBACK_ORIGIN+'/privacy.html'
+            assert not manifest['public_release'] and not manifest['upload_default']
         assert json.loads(config.get('application','config/version'))=='0.6.0'
         assert json.loads(config.get('application','config/build_id'))==details['build_id']
         assert json.loads(config.get('application','config/build_commit'))==frozen

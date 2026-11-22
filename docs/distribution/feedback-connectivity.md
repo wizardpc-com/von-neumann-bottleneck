@@ -7,7 +7,7 @@
 | 开发 / CI | Mac Apple Silicon、Godot 4.7.1、GitHub Actions Ubuntu 24.04；默认离线，测试可起临时接收器 | QA 使用唯一用户目录及临时 SQLite；GitHub Actions 只读仓库，无 VPS 权限 |
 | VPS staging | 独立 Caddy `127.0.0.1:28444` → Python `127.0.0.1:28081`；走 SSH 转发；只收合成数据 | `/var/lib/vnb-feedback-staging/feedback.sqlite`；systemd 动态用户，TLS 与接收器各有私有状态目录；只读核验由批准的 SSH 操作员执行 |
 | VPS 现有私有接收器 | 独立 Caddy `127.0.0.1:28443` → Python `127.0.0.1:18081` | 原库、私有报告、备份及每日维护保持原有边界。参见[私有运维](feedback-operations.md) |
-| 公网测试 / 生产 | 独立 TCP 8443 为候选。公开 Game/Test 均沿用离线构建 | staging 公网尚未启用，生产域名、入站与对玩家发布均未启用 |
+| 限定公网验收 | `https://feedback.yanruiqing.com:8443/v1` → 现有 `127.0.0.1:18081`。测试包采用独立 `EditionTestFeedback` 存档 | TCP 8443 仅允许已授权测试出口。只提交合成反馈，普通 Game/Test 交付包继续离线。实际开通证据另见本轮验收记录 |
 
 客户端使用现有 `/v1` API。接收端 `GET /v1/health` 返回
 `ok=true`、`api_version=1`、`schema_version=2` 和保留天数，staging
@@ -49,7 +49,7 @@ rmdir "$qa"
 唯一用户目录和外部 QA 控制器触发真实意见表单。设置覆盖只作用于副本，
 打开意见发送界面并绑定 staging；自动统计与分数分享保持关闭。客户端显示
 回执后，SSH 用只读连接按同一 ID 查 staging SQLite，再由客户端发出删除请求
-并核验该行消失。受信证书的公网 staging 使用同一命令并省略 `--ca-file`。
+并核验该行消失。限定公网入口使用下文单独的构建与验收命令。
 原始安装包维持分发时的离线行为。控制器验证程序交互与回执，不提供原生鼠标输入
 或公网发布证据。私有证据和 QA 用户目录含客户端删除能力，应留在本机；可公开
 转交的内容只取汇总和合成回执 ID。失败时保留 QA 用户目录供同一身份重试删除，
@@ -95,31 +95,69 @@ SHA。两者都保留同一库，禁止用旧 DB 覆盖现状。改 schema 前�
 `sudo systemctl stop vnb-feedback-staging-proxy.service`，按需再停 staging 接收器。
 两单元目前按需启动。故障从 `systemctl status` 和该单元的私有 journal 检查。
 
-## 独立公网入口与 MyAgent P0
+## 独立公网入口
 
-优先在 staging 的独立 Caddy 上用 TCP 8443 和专用域名，保留 `admin off`
-和独立账号。需要确认域名适用于腾讯云当前接入，在受控位置提供独立、完整受信的
-证书链和私钥，配置自动续期并实测；可以评估由有权限的 DNS 运维者签发 DNS-01
-证书。在 Caddy 候选文件把 site 改为 `https://专用域名:8443`，使用已经审核
-且主机拥有的 bind 地址，使用显式 TLS 证书文件，将 `auto_https` 改为
-`off`，停用对 80/443 的隐式重定向或 ACME 绑定。TLS 私钥由私有路径交付给
-staging 专用服务身份，以最小读权限挂载或使用 systemd 凭证，避免共享 MyAgent
-证书目录。公网测试采用云规则限定测试来源，仅 staging 合成数据。域名、证书、
-网络规则、适用备案和隐私页须验明后再开放。8443 还需从实际测试网络确认可达。
-若将来需要普通玩家运行的网络构建，另做发行入口和隐私链接验收。
+域名由所有者在 DNSPod 配置，Lighthouse 防火墙只允许指定测试源的 TCP
+8443。独立 `vnb-feedback-public.service` 使用该主机实际公网接口的 IPv4
+绑定地址。Caddy 显式加载独立证书，关闭自动 HTTPS 和 Admin API，
+仅在 8443 提供四条精确的方法／路径。该单元通过 systemd 凭证读取私钥；
+无需读取 MyAgent 证书、改防火墙、重启原接收器或接触原数据库目录。
+
+- 配置采用仓库 `server/deploy/vnb-feedback-public.caddy`，安装为
+  `/etc/vnb-feedback-public/Caddyfile`。在该目录的 `www/privacy.html`
+  安装 `privacy-public.html`。在 `listener.env` 写入实际
+  `VNB_PUBLIC_BIND` IPv4（腾讯云使用实例私网接口做公网映射）。
+- 将公开受信的完整链与匹配私钥放入同目录下 `tls/fullchain.pem` 和
+  `tls/key.pem`。目录为 root 0700、文件为 root 0600。使用
+  `openssl verify -verify_hostname feedback.yanruiqing.com -untrusted fullchain.pem fullchain.pem`
+  及证书／私钥公钥摘要比对预检。不要回显私钥或把其写入 Git。
+- 以 `VNB_PUBLIC_BIND` 和 `CREDENTIALS_DIRECTORY=/etc/vnb-feedback-public/tls`
+  两个环境变量执行 `caddy adapt --validate --adapter caddyfile --config /etc/vnb-feedback-public/Caddyfile`。
+  `systemd-analyze verify` 成功后安装独立单元到 `/etc/systemd/system/`，
+  运行 `systemctl daemon-reload`，只启动 `vnb-feedback-public.service`。
+  监听和路由验收后才设开机启动。
+- 紧急回退用 `sudo systemctl disable --now vnb-feedback-public.service` 并验证
+  8443 已释放。保留证书与配置用于复盘，原接收器、TLS 及维护照常。由云
+  防火墙所有者撤回专属 8443 入站规则。
+
+本次证书使用 Let's Encrypt、Ubuntu 包索引校验的独立 lego 二进制及手动
+DNS-01。VNB 私有路径为 `/srv/ray/apps/vnb/acme-public`，证书账户材料
+和私钥均在 VPS。手动 TXT 需要人参与，每次续期创建新的 TXT 验证值。
+在到期前 30 天由运营者检查 `openssl x509 -in /etc/vnb-feedback-public/tls/fullchain.pem -noout -dates`。
+使用同一 lego 路径、现有 ACME 账户邮箱、`--dns manual` 及现有
+`--path .../state` 执行 `renew --days 30`，等待权威 DNS 验证。
+使用经过核验的证书／私钥对替换路径，并仅重启 VNB 公网代理；复测公网 TLS
+和拒绝路由。证书验证失败应恢复旧证书对或停用新入口。
+[lego 人工 DNS-01](https://go-acme.github.io/lego/dns/manual/) ·
 [腾讯云备案规则](https://cloud.tencent.com/document/product/243/19630)。
 
-MyAgent 的 80/443、Caddyfile 和运行进程无需参与独立方案。其 Windows 工作者
-经现有 WSS 使用反向映射。独立方案在上线前后用现有所有者的
-`node scripts/windows-worker.mjs verify` 获取认证就绪证据，并观察同一个
-无外部副作用任务的进度、终态和执行次数，保留相同任务 ID 的对照记录。VPS
-端的进程/调用 ID、配置哈希、监听、持续 WSS 套接字及现有转发的
-`/readyz` 证明主机隔离与可达性，Windows 任务验收仍需所有者证据。
-[MyAgent 腾讯云操作说明](https://github.com/wizardpc-com/my-agent/blob/main/deploy/tencent/README.md)。
+公网试验使用单独的真实导出包。以下命令以完整源码 SHA 和新批次生成包，
+现有包和存档保持各自渠道。
 
-共享代理仅在用户确认必须采用且人工批准的维护窗口内实施。由 Windows 所有者
-先确认空闲和任务状态，私下完整备份共享配置，保留权限、哈希、进程及状态基线。
-校验候选后才操作。主动验证真实 WSS 重连、同一工作者恢复、任务状态一致及无
-重复执行。任何验收失败立即恢复备份并重新验证原连接和任务。
-`stream_close_delay` 适用于配置卸载时延迟关闭流，进程重启依然必须按可能断线处理。
+```sh
+python3 scripts/build-free-candidate.py --godot "$HOME/Applications/Godot-4.7.1.app/Contents/MacOS/Godot" \
+  --commit FULL_SHA --platform macOS --edition test --release-version v0.6.0 \
+  --test-batch FeedbackQA20261122 --network-feedback-test
+python3 scripts/verify-feedback-stage.py --public-receiver \
+  --app 'build/BUILD_ID/macOS/Von-Neumann-Bottleneck-Test.app' \
+  --endpoint https://feedback.yanruiqing.com:8443/v1
+```
+
+公网模式用系统默认 TLS 验证。游戏包内置端点及隐私页，探针只覆写 QA
+场景和隔离目录。通过正常意见表单发送合成记录，再按原 ID 和内容重发，
+用 SSH 对现有库只读核验恰好一行。最后用游戏自身删除操作清理合成数据。
+试验包不属于 GitHub Release。请从授权出口测试，并保留同 ID 回执、
+SQLite 读回和服务隔离记录。
+
+## 现有服务保护
+
+独立 8443 方案只读对比 MyAgent 代理、Gateway、WSS 服务，以及天机和
+VNB 私有服务的进程、运行状态、配置文件摘要与相关监听。验收前后校验原有
+MyAgent HTTPS 基础健康。HTTPS 健康不覆盖 Windows WSS 重连或任务状态。
+本次不访问 Windows 所有者会话，也不重启、重载或升级共享代理。
+如未来确实需要变更共享代理，应另经用户批准并确认 Windows 工作者空闲，
+保存配置和任务基线，在维护窗口实测 WSS 重连、工作者恢复、任务一致性及
+重复执行保护。失败须立即回滚并核实原服务。Caddy
+`stream_close_delay` 只延迟配置卸载时关闭流，不能保护进程重启。
+[MyAgent 腾讯云操作说明](https://github.com/wizardpc-com/my-agent/blob/main/deploy/tencent/README.md) ·
 [Caddy Streaming](https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#streaming)。

@@ -49,6 +49,13 @@ func endpoint_allowed() -> bool:
 	if endpoint.begins_with("https://"): return true
 	# Cleartext is only for this approved local integration path.
 	return endpoint.begins_with("http://127.0.0.1:") or endpoint.begins_with("http://localhost:")
+
+func is_public_game() -> bool:
+	return ProjectSettings.get_setting("application/public_game_feedback", false) == true
+
+func community_available() -> bool:
+	return endpoint_allowed() and ProjectSettings.get_setting("application/community_feedback_enabled", not is_public_game()) == true
+
 func privacy_url() -> String:
 	var url: String = str(ProjectSettings.get_setting("application/feedback_privacy_url",""))
 	if url == "https://feedback.yanruiqing.com:8443/privacy.html": return url
@@ -99,7 +106,7 @@ func set_scores_enabled(value: bool) -> bool:
 	if _outbox_read_only:
 		status_changed.emit()
 		return false
-	if value and (deletion_pending or not endpoint_allowed()): return false
+	if value and (deletion_pending or not community_available()): return false
 	scores_enabled=value
 	if value: _consent()
 	else:
@@ -193,7 +200,7 @@ func _can_send_item(item: Dictionary) -> bool:
 	if item.get("destination","")!=endpoint: return false
 	match item.record.kind:
 		"event": return enabled and consented_endpoint==endpoint
-		"score": return scores_enabled and consented_endpoint==endpoint
+		"score": return scores_enabled and consented_endpoint==endpoint and community_available()
 		"feedback": return true # Explicit Send is independent of automatic sharing.
 	return false
 
@@ -375,7 +382,7 @@ func _exit_tree() -> void:
 	_save_state()
 
 func send_score(payload: Dictionary) -> String:
-	if not scores_enabled or deletion_pending or consented_endpoint!=endpoint or not endpoint_allowed(): return ""
+	if not scores_enabled or deletion_pending or consented_endpoint!=endpoint or not community_available(): return ""
 	var safe: Dictionary = minimal_context(payload)
 	for prefix: String in ["a","b"]:
 		for key: String in ["total_cycles","prepare_cycles","query_cycles","output_cycles","ram_read_bytes","ram_write_bytes","peak_extra_bytes"]:

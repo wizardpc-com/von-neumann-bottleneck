@@ -4398,13 +4398,13 @@ msgid "playtest.feedback.skip"
 msgstr "Skip"
 
 msgid "playtest.feedback.submit"
-msgstr "Save feedback"
+msgstr "Save on this device"
 
 msgid "playtest.level_feedback.title"
 msgstr "Quick playtest check-in"
 
 msgid "playtest.level_feedback.hint"
-msgstr "Three taps, then continue. The optional note can stay blank."
+msgstr "Continue saves any ratings or note on this device. You can leave everything blank."
 
 msgid "playtest.level_feedback.fun"
 msgstr "Fun · 1–5"
@@ -4485,13 +4485,13 @@ msgid "playtest.export.failed"
 msgstr "Export failed: %s"
 
 msgid "playtest.export.handoff.title"
-msgstr "Your Playtest Data Is Ready"
+msgstr "Export this session"
 
 msgid "playtest.export.handoff.subtitle"
-msgstr "Thanks for finishing the Demo. Export the anonymous local JSON before you leave."
+msgstr "You can export a local JSON file or return to the map."
 
 msgid "playtest.export.handoff.note"
-msgstr "The file contains this session's actions and optional feedback only. There is no upload, account, or identity data."
+msgstr "The file includes recorded actions and feedback saved during this session. Export creates a file on this device."
 
 msgid "playtest.export.open_folder"
 msgstr "Open Export Folder"
@@ -6348,6 +6348,9 @@ msgstr "Mark a specific moment (optional)"
 
 msgid "sharing.feedback_for"
 msgstr "Feedback for: "
+
+msgid "sharing.report_public_issue"
+msgstr "Report an issue on GitHub (public)"
 
 msgid "sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree"
 msgstr "Enter a task to rate it, or select one in the task tree."

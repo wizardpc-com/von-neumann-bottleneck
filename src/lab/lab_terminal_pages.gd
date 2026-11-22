@@ -102,9 +102,15 @@ static func style_header(row: HBoxContainer, title: Label, back: Button) -> void
 	preload("res://src/ui/instrument_theme.gd").nav(back)
 
 static func fit_page_margin(margin: MarginContainer) -> void:
-	var fit := func() -> void:
-		var side: int = int(maxf(32, (margin.size.x - 1120) * 0.5))
-		for edge: String in ["left", "right"]: margin.add_theme_constant_override("margin_"+edge, side)
-		for edge: String in ["top", "bottom"]: margin.add_theme_constant_override("margin_"+edge, 30)
+	# A page can leave the tree before its initial deferred layout runs.
+	var fit: Callable = _apply_page_margin.bind(margin.get_instance_id())
 	margin.resized.connect(fit)
 	fit.call_deferred()
+
+static func _apply_page_margin(margin_id: int) -> void:
+	var margin := instance_from_id(margin_id) as MarginContainer
+	if margin == null:
+		return
+	var side: int = int(maxf(32, (margin.size.x - 1120) * 0.5))
+	for edge: String in ["left", "right"]: margin.add_theme_constant_override("margin_"+edge, side)
+	for edge: String in ["top", "bottom"]: margin.add_theme_constant_override("margin_"+edge, 30)

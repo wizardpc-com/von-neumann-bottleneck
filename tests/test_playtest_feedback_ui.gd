@@ -85,6 +85,7 @@ func _run() -> void:
 		{"id": &"bottleneck", "label": "Bottleneck"},
 	]
 	_assert(feedback_overlay.present_chapter(&"chapter_1", levels), "Chapter completion must open the concise chapter feedback surface when enabled.")
+	_assert(feedback_overlay.submit_button.text == root.get_node("Localization").text(&"sharing.keep_locally"), "The completion questionnaire labels its action as a save on this device.")
 	feedback_overlay.best_level_selector.select(2)
 	feedback_overlay.worst_level_selector.select(1)
 	feedback_overlay.chapter_pace_selector.select(3)
@@ -171,6 +172,9 @@ func _check_unfinished_workbench_opinion() -> void:
 	var previous_locale: String = localization.current_locale()
 	var previous_endpoint: String = remote.endpoint
 	var previous_request: HTTPRequest = remote.request
+	var previous_source: String = store.source_kind
+	var previous_public: Variant = ProjectSettings.get_setting("application/public_game_feedback")
+	var previous_community: Variant = ProjectSettings.get_setting("application/community_feedback_enabled")
 	var previous_notice: Variant = ProjectSettings.get_setting("application/feedback_privacy_url", "")
 	var notice := "https://privacy.example.test/privacy.html"
 	ProjectSettings.set_setting("application/feedback_privacy_url", notice)
@@ -178,9 +182,11 @@ func _check_unfinished_workbench_opinion() -> void:
 	# Let the real Send handler queue the opinion, then drive response callbacks
 	# explicitly. The fixture never opens a socket or a browser.
 	remote.request = null
+	ProjectSettings.set_setting("application/public_game_feedback", true)
+	ProjectSettings.set_setting("application/community_feedback_enabled", false)
 	store.questionnaire_enabled = true
 	_assert(store.start_session(), "The isolated fixture can save opinions locally.")
-	store.level_started(&"hardware_foundations", &"half_adder")
+	store.source_kind = "agent_native"
 	var moments: Node = load("res://src/playtest/playtest_moments.gd").new()
 	root.add_child(moments)
 	var entry: Button = moments.make_workbench_button()
@@ -188,7 +194,14 @@ func _check_unfinished_workbench_opinion() -> void:
 	_assert(entry.is_visible_in_tree(), "A configured receiver exposes the workbench feedback button.")
 	entry.pressed.emit()
 	await process_frame
+	_assert(moments.public_issues.is_visible_in_tree() and moments.public_issues.uri == "https://github.com/wizardpc-com/von-neumann-bottleneck/issues", "Before the first task, Game exposes the project's public issue tracker.")
+	_assert(not moments.opinion.is_visible_in_tree() and not moments.send_opinion.is_visible_in_tree() and not moments.source_selector.visible, "A fresh public Game hides task-only inputs and the technical source selector.")
+	_assert(remote.queue.is_empty() and not remote.enabled and not moments.score_toggle.visible, "Opening feedback neither opts into sharing nor offers unavailable score submission.")
+	moments.close()
+	store.level_started(&"hardware_foundations", &"half_adder")
+	entry.pressed.emit()
 	_assert(moments.panel.visible and moments.target.get("chapter_id") == "hardware_foundations" and moments.target.get("level_id") == "half_adder", "The workbench button opens feedback for the active unfinished task.")
+	_assert(not moments.public_issues.visible and moments.opinion.is_visible_in_tree(), "The active task offers the targeted form.")
 	var send: Button = moments.send_opinion
 	var keep: Button = moments.panel.find_child("KeepFeedbackLocally", true, false)
 	var disclosure: Control = moments.panel.find_child("OpinionSendDisclosure", true, false)
@@ -204,9 +217,15 @@ func _check_unfinished_workbench_opinion() -> void:
 	moments.opinion.text = "Synthetic unfinished-task opinion"
 	keep.pressed.emit()
 	_assert(remote.queue.is_empty() and moments.opinion_status.text == localization.text(&"sharing.state.local"), "Save on this device leaves the queue empty and shows a local save.")
+	moments.close()
+	store.source_kind = "external_player"
+	entry.pressed.emit()
+	_assert(moments.context_label.text.ends_with("agent_native"), "Reopening a QA opinion preserves the saved attribution in diagnostics.")
 	send.pressed.emit()
 	var id: String = remote.feedback_id(moments.saved_opinion)
 	_assert(remote.queue.size() == 1 and moments.opinion_status.text == localization.text(&"sharing.state.pending") and not remote.enabled and not remote.scores_enabled, "Send queues only this opinion with no receipt or automatic sharing.")
+	if remote.queue.size() == 1:
+		_assert(remote.queue[0].record.payload.source == "agent_native", "Explicit Send retains the source of the saved opinion after a source change.")
 	remote.inflight.assign([id])
 	remote._response(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), '{"ack":["different-id"]}'.to_utf8_buffer())
 	_assert(moments.opinion_status.text == localization.text(&"sharing.state.failed_retryable"), "An HTTP success without this opinion's acknowledgement remains pending retry.")
@@ -214,6 +233,9 @@ func _check_unfinished_workbench_opinion() -> void:
 	var ack: PackedByteArray = JSON.stringify({"ack": [id]}).to_utf8_buffer()
 	remote._response(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), ack)
 	_assert(remote.queue.is_empty() and moments.opinion_status.text.begins_with(localization.text(&"sharing.state.sent")) and id in moments.opinion_status.text, "Only a matching acknowledgement shows a receipt for this opinion.")
+	moments.saved_opinion.erase("source")
+	moments._remote_updated()
+	_assert(moments.context_label.text.ends_with("unknown"), "A legacy opinion without a source displays the receiver's unknown attribution.")
 	remote.endpoint = ""
 	remote.status_changed.emit()
 	var offline_entry: Button = moments.make_workbench_button()
@@ -221,16 +243,57 @@ func _check_unfinished_workbench_opinion() -> void:
 	offline_entry.free()
 	moments.opinion.text = "Synthetic local-only revision"
 	keep.pressed.emit()
+	_assert(moments.saved_opinion.get("source") == "external_player" and moments.context_label.text.ends_with("external_player"), "A newly saved revision records its actual current source.")
 	_assert(remote.queue.is_empty() and moments.opinion_status.text.begins_with(localization.text(&"sharing.state.local")) and id not in moments.opinion_status.text, "A local edit after a successful send does not inherit the earlier receipt.")
 	moments.close()
 	entry.queue_free()
 	moments.queue_free()
 	await process_frame
 	store.level_exited(&"hardware_foundations", &"half_adder")
+	_check_community_capabilities(remote)
 	remote.endpoint = previous_endpoint
 	remote.request = previous_request
+	store.source_kind = previous_source
+	ProjectSettings.set_setting("application/public_game_feedback", previous_public)
+	ProjectSettings.set_setting("application/community_feedback_enabled", previous_community)
 	ProjectSettings.set_setting("application/feedback_privacy_url", previous_notice)
 	localization.set_locale(previous_locale)
+
+
+func _check_community_capabilities(remote: Node) -> void:
+	remote.endpoint = "https://receiver.example.test/v1"
+	var records_scene: PackedScene = load("res://src/playtest/personal_records_view.tscn")
+	var records: Control = records_scene.instantiate()
+	root.add_child(records)
+	_assert(records.find_child("CommunityToggle",true,false) == null and records.online == null and records.find_child("CompletionTotal",true,false) != null, "Public Game keeps personal records without creating community read or score controls.")
+	records._fetch("community/tasks")
+	_assert(records.request_kind.is_empty() and not remote.set_scores_enabled(true), "Unsupported community reads and score opt-in cannot start.")
+	var retained_score := {"record":{"kind":"score"}, "destination":remote.endpoint}
+	remote.scores_enabled = true
+	_assert(remote.consented_endpoint == remote.endpoint and not remote._can_send_item(retained_score) and remote.send_score({}).is_empty(), "Even previously consented scores cannot be sent on the feedback-only lane.")
+	remote.scores_enabled = false
+	records.free()
+
+	ProjectSettings.set_setting("application/community_feedback_enabled", null)
+	_assert(not remote.community_available(), "A public Game with an omitted community flag still needs an explicit community capability.")
+	ProjectSettings.set_setting("application/public_game_feedback", null)
+	var legacy: Control = records_scene.instantiate()
+	root.add_child(legacy)
+	_assert(legacy.find_child("CommunityToggle",true,false) != null and legacy.online != null and legacy.fetch_buttons.size() == 2, "Existing configured lanes retain their community reads and score controls.")
+	legacy.free()
+	var diagnostic: Node = load("res://src/playtest/playtest_moments.gd").new()
+	root.add_child(diagnostic)
+	_assert(diagnostic.score_toggle.visible and diagnostic.source_selector.visible, "A configured diagnostic build retains score opt-in and source selection.")
+	var developer_index: int = 2
+	diagnostic.source_selector.select(developer_index)
+	diagnostic.source_selector.item_selected.emit(developer_index)
+	_assert(root.get_node("PlaytestData").source_kind == "developer" and diagnostic.context_label.text.ends_with("developer"), "Changing the diagnostic source updates the attribution displayed for new feedback.")
+	diagnostic.free()
+	ProjectSettings.set_setting("application/public_game_feedback", true)
+	ProjectSettings.set_setting("application/community_feedback_enabled", true)
+	_assert(remote.community_available(), "An explicitly enabled Game can use a configured community service.")
+	remote.endpoint = ""
+	_assert(not remote.community_available(), "An enabled flag alone cannot create a community destination.")
 
 
 func _assert(condition: bool, message: String) -> void:

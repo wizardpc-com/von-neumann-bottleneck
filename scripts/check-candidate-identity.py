@@ -6,11 +6,11 @@ from urllib.parse import urlsplit
 
 
 NETWORK_FEEDBACK_ORIGIN = 'https://feedback.yanruiqing.com:8443'
-PLAYER_PILOT_PRIVACY_URL = NETWORK_FEEDBACK_ORIGIN + '/privacy-player.html'
+PLAYER_PRIVACY_URL = NETWORK_FEEDBACK_ORIGIN + '/privacy-player.html'
 PLAYER_PILOT_PROFILE = 'EditionTestPilot'
 PLAYER_PILOT_BATCH = 'PlayerFeedbackPilot'
-PLAYER_PILOT_FIELDS = ('player_feedback_pilot', 'feedback_endpoint', 'privacy_url',
-                       'feedback_default_source', 'feedback_source_batch')
+ONLINE_EDITION_FIELDS = ('feedback_endpoint', 'privacy_url', 'feedback_default_source', 'feedback_source_batch')
+PUBLIC_GAME_FIELDS = ('public_game_feedback', 'community_feedback_enabled')
 
 
 def archive_index(package, platform):
@@ -103,12 +103,17 @@ batch=manifest.get('test_batch','unspecified')
 edition=manifest.get('edition')
 network_feedback=manifest.get('network_feedback_test',False)
 player_pilot=manifest.get('player_feedback_pilot',False)
+player_release=manifest.get('player_release',False)
+release_game=player_release and edition=='game'
 assert type(network_feedback) is bool and (not network_feedback or edition=='test')
 assert type(player_pilot) is bool and (not player_pilot or (edition=='test' and not network_feedback))
+assert type(player_release) is bool and (not player_release or (edition in {'game','test'} and not (network_feedback or player_pilot)))
 if not player_pilot:
     assert batch.casefold().partition('-')[0]!=PLAYER_PILOT_BATCH.casefold()
     assert manifest.get('candidate_journey',{}).get('profile','').casefold()!=PLAYER_PILOT_PROFILE.casefold()
 edition_lane='test-pilot' if player_pilot else 'test-feedback' if network_feedback else edition
+if player_release:
+    edition_lane=edition+'-release'
 expected=('vnb-'+edition_lane+'-'+manifest['release_version']+'-'+batch+'-'+commit[:12] if edition else
           ('playtest-'+batch+'-' if batch!='unspecified' else 'free-alpha-')+commit[:12])
 assert identity==expected and root.name==identity
@@ -140,11 +145,18 @@ if edition:
         assert manifest['feedback_default_source']=='external_player'
         receiver_base=manifest['feedback_endpoint'].removesuffix('/v1')
         assert receiver_base==NETWORK_FEEDBACK_ORIGIN or public_https_url(receiver_base,api_root=True)
-        assert manifest['privacy_url']==PLAYER_PILOT_PRIVACY_URL or public_https_url(manifest['privacy_url'])
+        assert manifest['privacy_url']==PLAYER_PRIVACY_URL or public_https_url(manifest['privacy_url'])
+    elif release_game:
+        assert manifest['feedback_endpoint']==NETWORK_FEEDBACK_ORIGIN+'/v1'
+        assert manifest['privacy_url']==PLAYER_PRIVACY_URL
+        assert manifest['feedback_default_source']=='external_player' and manifest['feedback_source_batch']==batch
+        assert manifest['public_game_feedback'] is True and manifest['community_feedback_enabled'] is False
     else:
         assert manifest['feedback_endpoint']==''
-    if not player_pilot:
+    if not (player_pilot or release_game):
         assert 'feedback_default_source' not in manifest and 'feedback_source_batch' not in manifest
+    if not release_game:
+        assert not set(PUBLIC_GAME_FIELDS) & manifest.keys()
     assert not manifest.get('offline_tester',False) and batch!='unspecified'
     assert manifest['candidate_journey']=={'primary_domain':'representation','profile':profile,'isolated':True,'production_migration':False,'creation_enabled':True}
     sums=(root/'SHA256SUMS.txt').read_text()
@@ -169,7 +181,7 @@ if manifest['public_release']:
     assert len(set(manifest['content_tasks']))==60
     assert public_https_url(manifest['feedback_endpoint'],api_root=True) and public_https_url(manifest['privacy_url'])
 else:
-    assert (edition or 'release_version' not in manifest) and (network_feedback or player_pilot or 'privacy_url' not in manifest)
+    assert (edition or 'release_version' not in manifest) and (network_feedback or player_pilot or release_game or 'privacy_url' not in manifest)
 if manifest.get('candidate_journey',{}).get('creation_enabled'):
     assert manifest['content_version'] in {'tasks-20261010-journey-v1','tasks-20261012-journey-v1','tasks-20261013-journey-v1'} and len(manifest['content_tasks'])==60
     assert manifest['candidate_journey']['isolated'] is True and manifest['candidate_journey']['production_migration'] is False
@@ -191,18 +203,28 @@ for platform,entry in manifest['platforms'].items():
             for key in ['network_feedback_test','feedback_endpoint','privacy_url']:
                 assert metadata[key]==manifest[key],key
         if player_pilot:
-            for key in PLAYER_PILOT_FIELDS:
+            for key in ('player_feedback_pilot', *ONLINE_EDITION_FIELDS):
                 assert metadata[key]==manifest[key],key
             assert 'network_feedback_test' not in metadata
+        elif player_release:
+            assert metadata['player_release'] is True
+            assert not {'player_feedback_pilot','network_feedback_test'} & metadata.keys()
+            for key in (*ONLINE_EDITION_FIELDS, *PUBLIC_GAME_FIELDS):
+                if release_game:
+                    assert metadata[key]==manifest[key],key
+                    if key in PUBLIC_GAME_FIELDS:
+                        assert metadata[key] is manifest[key],key
+                else:
+                    assert key not in metadata,key
         elif edition:
-            assert not {'player_feedback_pilot','feedback_source_batch','feedback_default_source'} & metadata.keys()
+            assert not {'player_release','player_feedback_pilot','feedback_source_batch','feedback_default_source'} & metadata.keys()
         required={'README.txt','CHANGELOG.txt','KNOWN-ISSUES.txt','LICENSE.txt','FONT-LICENSE.txt','ENGINE-LICENSES.txt'}
         assert required <= set(metadata['files_sha256'])
         expected_files={platform+'/'+filename for filename in metadata['files_sha256']}
         expected_files.add(platform+'/BUILD-MANIFEST.json')
         verify_inventory(package,entries,expected_files,platform)
-        if player_pilot:
-            binary='Von-Neumann-Bottleneck-Test-Pilot'
+        if player_pilot or player_release:
+            binary='Von-Neumann-Bottleneck-Test-Pilot' if player_pilot else 'Von-Neumann-Bottleneck-'+edition.title()
             if platform=='Windows':
                 assert f'Windows/{binary}.exe' in expected_files
             else:
@@ -228,13 +250,17 @@ for platform,entry in manifest['platforms'].items():
                         assert '%APPDATA%/'+directory+'/' in body
             if network_feedback and filename=='README.txt':
                 assert manifest['privacy_url'] in body
-            if player_pilot:
-                assert 'Player feedback pilot / 真人试玩意见反馈' in body
+            if player_pilot or release_game:
+                heading='Player feedback pilot / 真人试玩意见反馈' if player_pilot else 'Game Edition player feedback / 游戏版意见反馈'
+                assert heading in body
                 if filename!='CHANGELOG.txt':
                     assert f"Feedback receiver / 反馈接收端: {manifest['feedback_endpoint']}\n" in body
                     assert f"Privacy notice / 隐私说明: {manifest['privacy_url']}\n" in body
                     assert 'no feedback receiver is configured' not in body and 'no receiver is configured' not in body
                     assert NETWORK_FEEDBACK_ORIGIN+'/privacy.html' not in body
+            if player_release and edition=='test' and filename=='README.txt':
+                assert 'Export All Feedback' in body and 'No receiver is configured.' in body
+                assert NETWORK_FEEDBACK_ORIGIN not in body
             if manifest['public_release'] and filename!='CHANGELOG.txt':
                 assert manifest['release_version'] in body and manifest['feedback_endpoint'] in body and manifest['privacy_url'] in body
             if manifest.get('offline_tester',False) and filename=='README.txt':

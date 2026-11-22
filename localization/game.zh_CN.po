@@ -4398,13 +4398,13 @@ msgid "playtest.feedback.skip"
 msgstr "跳过"
 
 msgid "playtest.feedback.submit"
-msgstr "保存反馈"
+msgstr "保存到本机"
 
 msgid "playtest.level_feedback.title"
 msgstr "快速游玩反馈"
 
 msgid "playtest.level_feedback.hint"
-msgstr "点选三项即可继续；短备注完全可留空。"
+msgstr "点击继续会将填写的评分或备注保存到本机，也可全部留空。"
 
 msgid "playtest.level_feedback.fun"
 msgstr "有趣程度 · 1–5"
@@ -4485,13 +4485,13 @@ msgid "playtest.export.failed"
 msgstr "导出失败：%s"
 
 msgid "playtest.export.handoff.title"
-msgstr "试玩数据已可交付"
+msgstr "导出本次试玩记录"
 
 msgid "playtest.export.handoff.subtitle"
-msgstr "感谢完成 Demo。离开前请导出这次试玩的匿名本地 JSON。"
+msgstr "可以导出本地 JSON 文件，也可直接返回章节地图。"
 
 msgid "playtest.export.handoff.note"
-msgstr "文件只包含本次 session 的操作与可选反馈；不会上传，不含账号或身份信息。"
+msgstr "文件包含本次试玩中已记录的操作和已保存的反馈。导出文件会保存在本机。"
 
 msgid "playtest.export.open_folder"
 msgstr "打开导出文件夹"
@@ -6347,6 +6347,9 @@ msgstr "记录一个具体时刻（可选）"
 
 msgid "sharing.feedback_for"
 msgstr "评价对象："
+
+msgid "sharing.report_public_issue"
+msgstr "前往 GitHub 公开反馈问题"
 
 msgid "sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree"
 msgstr "进入一关后可评分；也可在任务树选中关卡后留下意见。"

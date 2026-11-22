@@ -42,7 +42,7 @@ func _ready() -> void:
 	record_storage_label.name="RecordsStorageNotice"
 	record_storage_label.mouse_filter=Control.MOUSE_FILTER_PASS
 	_refresh_record_notice()
-	if not RemoteFeedback.endpoint_allowed(): return
+	if not RemoteFeedback.community_available(): return
 	var fold := CheckButton.new(); fold.name="CommunityToggle"; fold.text=Localization.text(&"records.optional_community_connects_only_when_requested"); box.add_child(fold)
 	var community := VBoxContainer.new(); community.hide(); box.add_child(community); fold.toggled.connect(func(value: bool) -> void: community.visible=value)
 	_label(community,Localization.text(&"records.alpha_experimental_community_board_not_replay_verified_by_a_server_n"))
@@ -55,7 +55,7 @@ func _ready() -> void:
 		elif score.is_empty(): online_status.text=Localization.text(&"records.first_complete_the_chapter_4_capstone_in_game")
 		else: online_status.text=Localization.text(&"records.result_queued_locally") if not RemoteFeedback.send_score(score).is_empty() else Localization.text(&"records.could_not_queue_check_feedback_settings"))
 	var online_scroll := ScrollContainer.new(); online_scroll.custom_minimum_size.y=140; online_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED; community.add_child(online_scroll)
-	online_status=_label(online_scroll,Localization.text(&"records.no_service_configured_in_this_build_personal_records_always_work_off"))
+	online_status=_label(online_scroll,"")
 	online_status.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	online=HTTPRequest.new(); online.timeout=8; online.body_size_limit=131072; add_child(online); online.request_completed.connect(_received)
 func _fit_columns() -> void:
@@ -101,7 +101,9 @@ func _region_card(region: Dictionary) -> void:
 
 func _fetch(kind: String) -> void:
 	if not request_kind.is_empty(): return
-	if not RemoteFeedback.endpoint_allowed(): online_status.text=Localization.text(&"records.community_service_not_configured_offline_play_is_complete"); return
+	if not RemoteFeedback.community_available():
+		if online_status != null: online_status.text=Localization.text(&"records.community_service_not_configured_offline_play_is_complete")
+		return
 	if kind not in ["community/tasks","leaderboards"]: return
 	var url: String = RemoteFeedback.api_url(kind)
 	if kind=="leaderboards":

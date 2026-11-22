@@ -1090,6 +1090,11 @@ func _build_guidance(states: Array[bool]) -> Dictionary:
 				("、" if not en else ", ").join(PackedStringArray(wired)), ("、" if not en else ", ").join(PackedStringArray(missing))]
 		return {"title": titles[0], "text": text, "target": target, "key": "wire:%s" % ",".join(PackedStringArray(missing))}
 	if next == 1:
+		if half_adder and not desktop_windows[&"test_bench"].is_visible_in_tree():
+			var dock_button: Button = desktop_window_buttons[&"test_bench"]
+			return {"title": titles[1], "target": dock_button, "key": "debug:reopen",
+				"text": ("Click %s to reopen the bench and try an input." if en
+					else "点击「%s」重新打开测试台，试一组输入。") % dock_button.text}
 		return {"title": titles[1], "target": bench_debug_button, "key": "debug",
 			"text": ("Both outputs are wired. Pick an input case (click a column, or A and B on the test bench), then run it and compare expected with actual." if en
 				else "两个输出都接上了。点规格表的一列（或测试台的 A、B）选一组输入，运行后对照期望与实际。") if half_adder
@@ -2191,7 +2196,7 @@ func _show_desktop_window(id: StringName) -> void:
 	if button != null:
 		button.set_pressed_no_signal(true)
 	if id == &"test_bench":
-		_update_tutorial_goal()
+		_update_bench_guidance()
 
 
 func _close_desktop_window(id: StringName) -> void:
@@ -2205,8 +2210,15 @@ func _close_desktop_window(id: StringName) -> void:
 		button.text = _desktop_window_name(id)
 		button.set_pressed_no_signal(false)
 	if id == &"test_bench":
-		_update_tutorial_goal()
+		_update_bench_guidance()
 	_focus_graph_for_keyboard()
+
+
+func _update_bench_guidance() -> void:
+	if current_phase == &"half_adder":
+		_push_build_guidance()
+	else:
+		_update_tutorial_goal()
 
 
 func _focus_desktop_window(id: StringName) -> void:
@@ -4281,6 +4293,7 @@ func _build_half_adder_side() -> void:
 	_add_bench_action(debug_button)
 	debug_result_label = Label.new()
 	debug_result_label.text = _t(&"hardware.cases.actual_empty")
+	debug_result_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	debug_result_label.add_theme_color_override("font_color", MUTED)
 	side_box.add_child(debug_result_label)
 	_add_signal_guide_toggle()
@@ -6577,7 +6590,7 @@ func _topology_changed(message: String, created: bool = true, removed: bool = fa
 
 func _mark_trace_stale() -> void:
 	if board_has_explicit_run and is_instance_valid(debug_result_label):
-		debug_result_label.text = _t(&"hardware.prologue.outputs_empty")
+		debug_result_label.text = _t(&"hardware.cases.actual_empty" if current_phase == &"half_adder" else &"hardware.prologue.outputs_empty")
 		debug_result_label.add_theme_color_override("font_color", MUTED)
 	trace_caption_label.text = _t(&"hardware.trace.topology_changed" if board_has_explicit_run else &"hardware.trace.empty")
 	diagnostics_label.text = _t(&"hardware.diagnostics.awaiting_run" if board_has_explicit_run else &"hardware.diagnostics.empty")
@@ -6639,6 +6652,9 @@ func _on_test_input_toggled(_pressed: bool, _input_name: StringName) -> void:
 		return
 	_stop_playback()
 	current_trace = null
+	if current_phase == &"half_adder":
+		_reset_half_adder_case_result()
+		_clear_mismatch_markers()
 	_update_input_button_text()
 	live_state_key = ""
 	animate_next_live_refresh = true
@@ -6687,6 +6703,8 @@ func _run_debug() -> void:
 	var trace: CircuitTrace = HalfAdderTestBenchType.new().run_debug(circuit, a, b)
 	_show_debug_result(trace, _t(&"hardware.result.lamp") if current_phase == &"tutorial" else _t(&"hardware.result.actual"))
 	_play_trace(trace)
+	if current_phase == &"half_adder":
+		call_deferred("_ensure_bench_control_visible", debug_result_label)
 	if current_phase == &"tutorial" and trace.is_valid() and trace.outputs.has(&"LAMP"):
 		tutorial_valid_run = true
 		_update_tutorial_checklist()
@@ -6700,19 +6718,46 @@ func _show_debug_result(trace: CircuitTrace, prefix: String) -> void:
 		status_label.text = _t(&"hardware.status.circuit_incomplete", [_trace_errors_text(trace)])
 		status_label.add_theme_color_override("font_color", BAD)
 		return
+	var status_color: Color = GOOD
 	if current_phase == &"tutorial":
 		var lamp_value: bool = trace.outputs.get(&"LAMP", false)
 		debug_result_label.text = _t(&"hardware.result.single", [prefix, int(lamp_value)])
 		debug_result_label.add_theme_color_override("font_color", SIGNAL_HIGH if lamp_value else SIGNAL_LOW)
+	elif current_phase == &"half_adder":
+		status_color = GOOD if _show_half_adder_case_result(trace, _selected_case_index()) else BAD
+		if trace.outputs.has(&"SUM") and trace.outputs.has(&"CARRY"):
+			_record_guided_case(input_a_button.button_pressed, input_b_button.button_pressed,
+				trace.outputs[&"SUM"], trace.outputs[&"CARRY"], true)
 	else:
 		var sum_value: bool = trace.outputs.get(&"SUM", false)
 		var carry_value: bool = trace.outputs.get(&"CARRY", false)
-		if current_phase == &"half_adder":
-			_record_guided_case(input_a_button.button_pressed, input_b_button.button_pressed, sum_value, carry_value, true)
 		debug_result_label.text = _t(&"hardware.result.half_adder", [prefix, int(sum_value), int(carry_value)])
 		debug_result_label.add_theme_color_override("font_color", GOOD)
 	status_label.text = _t(&"hardware.status.debug_complete")
-	status_label.add_theme_color_override("font_color", GOOD)
+	status_label.add_theme_color_override("font_color", status_color)
+
+
+func _reset_half_adder_case_result() -> void:
+	debug_result_label.text = _t(&"hardware.cases.actual_empty")
+	debug_result_label.add_theme_color_override("font_color", MUTED)
+
+
+func _show_half_adder_case_result(trace: CircuitTrace, index: int) -> bool:
+	if not trace.is_valid() or not trace.outputs.has(&"SUM") or not trace.outputs.has(&"CARRY"):
+		_reset_half_adder_case_result()
+		return false
+	var expected: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[index]
+	var actual_sum: bool = trace.outputs[&"SUM"]
+	var actual_carry: bool = trace.outputs[&"CARRY"]
+	var passed: bool = actual_sum == bool(expected.SUM) and actual_carry == bool(expected.CARRY)
+	var actual_text: String = _t(&"hardware.result.half_adder", [
+		_t(&"hardware.result.actual"), int(actual_sum), int(actual_carry),
+	])
+	debug_result_label.text = "%s · %s" % [actual_text, _t(&"outcome.pass" if passed else &"outcome.fail")]
+	if not passed:
+		debug_result_label.text += "\n" + _t(&"hardware.cases.expected_outputs", [int(expected.SUM), int(expected.CARRY)])
+	debug_result_label.add_theme_color_override("font_color", GOOD if passed else BAD)
+	return passed
 
 
 func _run_official() -> void:
@@ -6753,6 +6798,10 @@ func _begin_official_sequence(kind: StringName, circuit: LogicCircuit) -> void:
 		if kind == &"prologue" and _is_storage_level() else ""
 	if seal_button != null:
 		seal_button.disabled = true
+	if kind == &"half_adder":
+		input_a_button.disabled = true
+		input_b_button.disabled = true
+		_reset_half_adder_case_result()
 	_reset_official_case_rows()
 	_start_next_official_case()
 
@@ -6795,10 +6844,11 @@ func _finish_official_playback() -> void:
 
 func _start_half_adder_official_case() -> void:
 	var official_case: Dictionary = HalfAdderTestBenchType.OFFICIAL_CASES[official_sequence_index]
+	_display_half_adder_inputs(official_case)
 	var label: Label = official_case_labels[official_sequence_index]
 	label.text = _t(&"hardware.cases.row_running")
 	label.add_theme_color_override("font_color", ACCENT)
-	call_deferred("_ensure_official_case_visible", label)
+	call_deferred("_ensure_bench_control_visible", label)
 	var trace: CircuitTrace = HalfAdderTestBenchType.new().run_debug(
 		official_sequence_circuit,
 		bool(official_case["A"]), bool(official_case["B"])
@@ -6836,7 +6886,7 @@ func _start_prologue_official_case() -> void:
 			_storage_action_text(authored_step.get("inputs", {}))
 		])
 	label.add_theme_color_override("font_color", ACCENT)
-	call_deferred("_ensure_official_case_visible", label)
+	call_deferred("_ensure_bench_control_visible", label)
 	var case_report: Dictionary = prologue_simulator.run_sequence(
 		official_sequence_circuit,
 		[authored_step],
@@ -6905,7 +6955,7 @@ func _reveal_half_adder_official_case() -> void:
 		label.text += "\n" + _t(&"hardware.cases.expected_outputs", [
 			int(result["expected_sum"]), int(result["expected_carry"]),
 		])
-		call_deferred("_ensure_official_case_visible", label)
+		call_deferred("_ensure_bench_control_visible", label)
 	label.add_theme_color_override("font_color", GOOD if bool(result["passed"]) else BAD)
 	if actual_sum != null and actual_carry != null:
 		_record_guided_case(bool(result["A"]), bool(result["B"]), bool(actual_sum), bool(actual_carry), false)
@@ -7025,10 +7075,9 @@ func _show_recorded_case(index: int) -> void:
 	selected_result_case = index
 	var result: Dictionary = cases[index]
 	if half:
-		input_a_button.set_pressed_no_signal(bool(result.A))
-		input_b_button.set_pressed_no_signal(bool(result.B))
+		_display_half_adder_inputs(result)
 		current_trace = result.trace
-		debug_result_label.text = _t(&"hardware.result.half_adder", [_t(&"hardware.result.actual"), int(result.actual_sum) if result.actual_sum != null else 0, int(result.actual_carry) if result.actual_carry != null else 0]) if current_trace.is_valid() and result.actual_sum != null and result.actual_carry != null else _t(&"hardware.cases.actual_empty")
+		_show_half_adder_case_result(current_trace, index)
 		_apply_trace_signal_states(current_trace)
 		_mark_output_mismatch(&"SUM_OUT", result.actual_sum, result.expected_sum)
 		_mark_output_mismatch(&"CARRY_OUT", result.actual_carry, result.expected_carry)
@@ -7048,7 +7097,13 @@ func _show_recorded_case(index: int) -> void:
 		var style := StyleBoxFlat.new()
 		style.bg_color = Color(0.5, 0.8, 0.9, 0.16) if row == index else Color.TRANSPARENT
 		labels[row].add_theme_stylebox_override("normal", style)
-	call_deferred("_ensure_official_case_visible", labels[index])
+	call_deferred("_ensure_bench_control_visible", labels[index])
+
+
+func _display_half_adder_inputs(input_case: Dictionary) -> void:
+	input_a_button.set_pressed_no_signal(bool(input_case.A))
+	input_b_button.set_pressed_no_signal(bool(input_case.B))
+	_update_input_button_text()
 
 
 func _mark_output_mismatch(id: StringName, actual: Variant, expected: Variant) -> void:
@@ -7075,6 +7130,9 @@ func _mark_output_mismatch(id: StringName, actual: Variant, expected: Variant) -
 
 
 func _cancel_official_sequence() -> void:
+	if official_sequence_kind == &"half_adder":
+		input_a_button.disabled = false
+		input_b_button.disabled = false
 	official_sequence_generation += 1
 	official_sequence_active = false
 	official_finish_requested = false
@@ -7131,7 +7189,7 @@ func _official_step_inputs_text(step: Dictionary) -> String:
 	return case_inputs
 
 
-func _ensure_official_case_visible(label: Label) -> void:
+func _ensure_bench_control_visible(label: Label) -> void:
 	# Result text can add a line; scroll using the container's updated height.
 	await get_tree().process_frame
 	if not is_instance_valid(label) or not is_instance_valid(side_box) or not side_box.is_ancestor_of(label):
@@ -7325,6 +7383,8 @@ func _circuit_from_graph() -> LogicCircuit:
 
 func _invalidate_official_evidence(message: String, first_build_edit: bool = false) -> void:
 	_cancel_official_sequence()
+	if current_phase == &"half_adder":
+		guided_debug_ran = false
 	guided_case_evidence.clear()
 	guided_last_debug_index = -1
 	if tutorial_coach != null and tutorial_coach.visible: call_deferred("_push_build_guidance")

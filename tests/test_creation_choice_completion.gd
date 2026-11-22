@@ -97,11 +97,147 @@ func run() -> void:
 		check(scene.session.data.works.size() == 1 and scene.session.data.works[0].output == first and scene.session.data.supports.has("G2_intent") and scene.session.data.supports.has("G3_keep"),"Actual Keep click closes G2 with one legal chosen work")
 		await capture("g2-chosen-"+locale)
 		scene.session.data.supports.erase("G2_intent") # Independent regression of the old automatic UI condition.
-		scene.session.data.draft.seed += 891; scene.edit_draft(); await press(scene,"Generate")
+		var seed := control(scene,"Seed") as SpinBox
+		seed.value += 891
+		await press(scene,"Generate")
 		check(scene.comparison.size() == 2 and scene.comparison[0].output != scene.comparison[1].output,"Seed-only variation creates two actually different outputs")
 		check(not scene.session.data.supports.has("G2_intent"),"Seed-only different outputs cannot create an unconfirmed G2 mark")
-		scene.name_input.text = "Chosen variation · "+locale; await press(scene,"KeepCurrent")
-		check(scene.session.data.supports.G2_intent.output == scene.session.data.works[-1].output,"Chosen variation is legitimate when actually selected")
+		var earlier: Dictionary = scene.session.generated.duplicate(true)
+		scene.session.data.draft.examples.append([3,1,3,1])
+		scene.session.data.draft.order = (int(earlier.recipe.model.order)+1)%3
+		scene.edit_draft()
+		var initial := control(scene,"Initial") as LineEdit
+		initial.text = "3, 2"
+		initial.text_changed.emit(initial.text)
+		seed.value += 1
+		await press(scene,"Generate")
+		var later: Dictionary = scene.session.generated.duplicate(true)
+		var live_draft: Dictionary = scene.session.data.draft.duplicate(true)
+		var expected_recipe: Dictionary = earlier.recipe.duplicate(true)
+		expected_recipe.seed += 1
+		expected_recipe.initial = [3,2]
+		check(scene.pinned_creation.is_empty() and later.recipe == expected_recipe
+			and scene.signal_view.lanes[0] == earlier.output and scene.signal_view.lanes[2] == later.output
+			and scene.session.data.works.size() == 1,
+			"Two actual runs use the frozen model while newer examples and history await learning")
+		var title := "Chosen earlier variation · "+locale
+		var initial_title := title if locale == "en" else ""
+		scene.name_input.text = initial_title
+		var custom := control(scene,"CustomExample") as LineEdit
+		custom.text = "B D"
+		var before_choice: PackedByteArray = FileAccess.get_file_as_bytes(scene.session.path)
+		await press(scene,"KeepCreationA")
+		check(scene.task == 8 and scene.latest.recipe == earlier.recipe and scene.signal_view.lanes[2] == earlier.output
+			and scene.signal_view.lanes[0] == later.output and scene.session.data.works.size() == 1
+			and scene.name_input.has_focus() and scene.name_input.text == initial_title and not scene.session.data.supports.has("G2_intent"),
+			"Choosing the earlier run for naming brings it forward, retains the later run and awards nothing")
+		custom = control(scene,"CustomExample") as LineEdit
+		check(custom.text == "B D" and (control(scene,"Initial") as LineEdit).text == "3, 2"
+			and scene.session.generated == earlier and scene.session.data.draft == live_draft
+			and scene.signal_view.lanes[1] == earlier.recipe.initial,
+			"Naming preserves editor text and later controls while the signal shows the earlier frozen input")
+		custom.text = ""
+		scene.request_saved_draft_leave()
+		check(scene.leave_dialog.visible,"Leaving while naming offers a return to editing")
+		scene.leave_dialog.get_cancel_button().pressed.emit()
+		scene.leave_dialog.hide()
+		await settle()
+		check(FileAccess.get_file_as_bytes(scene.session.path) == before_choice and scene.session.data.draft == live_draft,
+			"Selection and cancel leave the previous save bytes and editable draft intact")
+		await press(scene,"SaveDraft")
+		var reader = Session.new()
+		var reopened: Dictionary = reader.open(scene.session.path)
+		check(reopened.get("ok",false) and reader.data.works.size() == 1 and not reader.data.supports.has("G2_intent")
+			and reader.data.draft == live_draft and reader.data.model == later.recipe.model and reader.generated.is_empty(),
+			"A fresh reader sees the later draft and unlearned edits without a kept selection")
+		reader.close()
+		await capture("g3-earlier-selected-"+locale)
+		scene.name_input.text = title
+		await press(scene,"KeepCurrent")
+		var protected_work: Dictionary = scene.session.data.works[-1].duplicate(true)
+		check(protected_work.output == earlier.output and protected_work.recipe == earlier.recipe
+			and protected_work.training == earlier.training and protected_work.parent == earlier.parent_work and protected_work.name == title
+			and scene.session.data.draft == live_draft
+			and scene.session.data.supports.G2_intent.recipe == earlier.recipe
+			and not scene.session.data.supports.G2_intent.has("comparison"),
+			"Keeping the earlier run saves its exact recipe and output as a free choice without a controlled receipt")
+		reopened = reader.open(scene.session.path)
+		check(reopened.get("ok",false) and reader.data.works.size() == 2 and reader.data.works[1] == protected_work
+			and reader.data.draft == live_draft and reader.replay_work(1).get("matches",false),
+			"Keep writes the selected frozen work and later editable draft together in the same save")
+		reader.close()
+		scene.name_input.text = "Chosen later variation · "+locale
+		await press(scene,"KeepCreationB")
+		check(scene.latest.recipe == later.recipe and scene.session.data.works.size() == 2,
+			"Choosing the later run also waits for explicit Keep even with a title present")
+		await press(scene,"KeepCurrent")
+		check(scene.session.data.works.size() == 3 and scene.session.data.works[-1].recipe == later.recipe
+			and scene.session.data.works[1] == protected_work,
+			"The later run can still be kept without rerunning or overwriting the earlier work")
+		(control(scene,"Works") as ItemList).select(1)
+		await press(scene,"ReplayWork")
+		check(scene.latest.get("matches",false) and scene.latest.output == earlier.output
+			and scene.session.data.works[1] == protected_work,
+			"Replaying the selected earlier work reproduces its protected output")
+		var path: String = scene.session.path
+		scene.queue_free(); await settle()
+		scene = packed.instantiate(); root.add_child(scene); await settle()
+		scene.writable = scene.session.open(path).get("writable",false)
+		scene._clear_replaced_exploration(); scene.build(); await settle()
+		check(scene.writable and scene.latest.is_empty() and scene.session.data.draft == live_draft
+			and scene.session.data.works[1] == protected_work and scene.session.replay_work(1).get("matches",false),
+			"Reopened workbench resumes pending edits even when a saved work matches the later generation recipe")
+		await check_fork_and_retraining(scene,protected_work)
 		scene.queue_free(); await settle()
 	print("PASS: creation choice completion checks=",checks) if failures==0 else print("FAIL: choice completion failures=",failures," / ",checks)
 	quit(0 if failures==0 else 1)
+
+func check_fork_and_retraining(scene: Control, parent: Dictionary) -> void:
+	scene.works.select(1)
+	scene.fork_work()
+	await press(scene,"SaveDraft")
+	var path: String = scene.session.path
+	scene.writable = scene.session.open(path).get("writable",false)
+	scene._clear_replaced_exploration(); scene.build(); await settle()
+	check(scene.writable and scene.latest.is_empty() and scene.comparison.is_empty()
+		and scene.session.data.parent_work == parent.id and scene.next_step().action == "generate",
+		"Reopening the unkept fork restores its parent and asks for a fresh generation")
+	scene.generate_work()
+	var child: Dictionary = scene.session.generated.duplicate(true)
+	check(child.recipe == parent.recipe and child.output == parent.output and child.parent_work == parent.id
+		and not scene.visible_generation_saved(),"A fork that reproduces its protected parent still needs its own Keep")
+	(control(scene,"Seed") as SpinBox).value += 1
+	scene.generate_work()
+	var later: Dictionary = scene.session.generated.duplicate(true)
+	var draft: Dictionary = scene.session.data.draft.duplicate(true)
+	scene.name_input.text = "Child of earlier work"
+	await press(scene,"KeepCreationA")
+	check(scene.session.data.parent_work == parent.id and scene.session.data.works.size() == 3
+		and scene.next_step().action == "keep","Selecting the identical child cannot finish on the parent's saved work")
+	await press(scene,"KeepCurrent")
+	var saved: Dictionary = scene.session.data.works[-1]
+	check(saved.parent == parent.id and saved.recipe == child.recipe and saved.training == child.training
+		and saved.output == child.output and scene.session.data.draft == draft and scene.session.data.works[1] == parent,
+		"Explicit Keep saves the earlier child's frozen run under the fork and retains its later draft")
+	var reader = Session.new()
+	var opened: Dictionary = reader.open(scene.session.path)
+	check(opened.get("ok",false) and reader.data.works.size() == 4 and reader.data.works[-1] == saved and reader.data.draft == draft
+		and reader.data.parent_work == parent.id and reader.replay_work(3).get("matches",false),
+		"An independent reopen replays the confirmed child and restores the later fork draft")
+	reader.close()
+	# Learn Y and return to X without generating Y. X has the original rule ID
+	# but its full frozen model now records Y as its training parent.
+	var order: int = later.recipe.model.order
+	scene.session.data.draft.order = (order+1)%3
+	scene.edit_draft(); scene.train_model()
+	scene.session.data.draft.order = order
+	scene.edit_draft(); scene.train_model(); scene.generate_work()
+	var replacement: Dictionary = scene.session.generated.duplicate(true)
+	check(scene.comparison[0] == later and replacement.recipe.model_id == later.recipe.model_id
+		and replacement.recipe.model != later.recipe.model and replacement.parent_work == later.parent_work,
+		"Retraining produces two adjacent real runs with equal rule IDs and different frozen models")
+	var before: Dictionary = scene.session.data.duplicate(true)
+	scene.choose_creation_result(false)
+	check((control(scene,"KeepCreationA") as Button).disabled and (control(scene,"KeepCreationB") as Button).disabled
+		and scene.session.generated == replacement and scene.latest.recipe == replacement.recipe and scene.session.data == before,
+		"Recent selection cannot replace the current run with another model sharing its ID")

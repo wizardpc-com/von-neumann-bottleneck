@@ -558,11 +558,20 @@ func _playtest_exit() -> void:
 		get_node("/root/PlaytestData").level_exited(&"prediction",_playtest_id(),&"departure")
 
 func refresh_request_strip() -> void:
-	timeline_summary.text = text2("请求时间线 · 关闭猜测", "Request timeline · prediction Off") if active_policy.get("rule",policy.rule) == "off" else text2("请求时间线 · 仅显示已揭示请求", "Request timeline · revealed demands only")
-	if active_trace == null and revealed == 0: timeline_summary.text = first_experiment_text()
-	if active_trace != null and revealed == active_trace.metrics.accesses.size():
-		var m: Dictionary = active_trace.metrics
-		timeline_summary.text = text2("关闭猜测 %d 周期 / %d B → 本轮 %d 周期 / %d B", "Off %d cycles / %d B → this run %d cycles / %d B") % [m.baseline_cycles,m.baseline_traffic_bytes,m.total_cycles,m.traffic_bytes]
+	if active_trace == null:
+		timeline_summary.text = first_experiment_text()
+	elif selected_run >= 0:
+		var record: Dictionary = history[selected_run]
+		var measured_trace: Trace = record.trace
+		var m: Dictionary = measured_trace.metrics
+		timeline_summary.text = text2(
+			"7-%d · 记录 #%d · 关闭猜测 %d 周期 / %d B → %d 周期 / %d B",
+			"7-%d · Record #%d · Off %d cycles / %d B → %d cycles / %d B"
+		) % [int(record.task)+1,selected_run+1,m.baseline_cycles,m.baseline_traffic_bytes,m.total_cycles,m.traffic_bytes]
+	else:
+		var live_caption: String = text2("7-%d · 正在观察 · 关闭猜测", "7-%d · Live observation · prediction Off") \
+			if active_policy.rule == "off" else text2("7-%d · 正在观察 · 仅显示已揭示请求", "7-%d · Live observation · revealed demands only")
+		timeline_summary.text = live_caption % (task+1)
 	for child: Node in request_strip.get_children():
 		request_strip.remove_child(child)
 		child.queue_free()

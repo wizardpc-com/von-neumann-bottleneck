@@ -166,7 +166,18 @@ func _run() -> void:
 		check(ui.policy.lookahead == 2 and ui.active_trace == null,"An explicit policy edit invalidates only its own prefix without later resurrection")
 		await press(handle("Run"))
 		check(ui.history.size() == 1 and ui.selected_run == 0,"Only completing the explicit run records measured evidence")
-		var record_signature: String = ui.history[0].trace.canonical_signature()
+		if ui.history.size() != 1:
+			ui.queue_free(); await settle()
+			continue
+		var record_trace: RefCounted = ui.history[0].trace
+		var record_signature: String = record_trace.canonical_signature()
+		var recorded_metrics: Dictionary = record_trace.get("metrics")
+		var recorded_caption: String = (
+			"7-1 · Record #1 · Off %d cycles / %d B → %d cycles / %d B" if locale == "en"
+			else "7-1 · 记录 #1 · 关闭猜测 %d 周期 / %d B → %d 周期 / %d B"
+		) % [recorded_metrics.baseline_cycles, recorded_metrics.baseline_traffic_bytes,
+			recorded_metrics.total_cycles, recorded_metrics.traffic_bytes]
+		check(ui.timeline_summary.text == recorded_caption,"Completed timeline identifies its own measured record in " + locale)
 		await switch_to(1)
 		await tab("PredictionEvidenceTabs",2)
 		await item_row(ui.history_list,0)
@@ -176,8 +187,22 @@ func _run() -> void:
 		check(ui.active_trace == null and ui.revealed == 0,"First visit never inherits viewed foreign measurement")
 		await switch_to(1)
 		check(ui.public_observation() == foreign_public and ui.recorded_source.text.contains("differs" if ui.english else "不同"),"Returning to old-record review preserves full already-seen evidence and honest source caption")
+		check(ui.timeline_summary.text == recorded_caption and ui.active_trace == record_trace,
+			"Foreign timeline identifies the measured 7-1 record beside the unrun 7-2 draft in " + locale)
 		await shot(locale+"-foreign-record")
 		check(ui.history.size() == 1 and ui.history[0].trace.canonical_signature() == record_signature,"All navigation and review preserve immutable receipts without duplicates")
+		await press(handle("Step"))
+		prefix_is(1)
+		var live_public: Dictionary = ui.public_observation()
+		var live_caption: String = "7-2 · Live observation · prediction Off" if locale == "en" else "7-2 · 正在观察 · 关闭猜测"
+		check(ui.timeline_summary.text == live_caption
+			and ui.active_trace != null and ui.active_trace != record_trace and ui.active_trace.test_name == "changed"
+			and live_public.evidence_source.get("task") == 1 and live_public.evidence_source.get("run_index") == -1
+			and live_public.evidence_source.get("policy") == foreign_public.policy,
+			"One Reveal starts the current 7-2 Off draft and replaces the record caption in " + locale)
+		check(ui.history.size() == 1 and ui.history[0].trace == record_trace and record_trace.canonical_signature() == record_signature,
+			"Leaving review by revealing one request preserves the 7-1 record and creates no new receipt")
+		await shot(locale+"-live-after-foreign-record")
 		ui.queue_free(); await settle()
 		# A separate history-free fixture covers an inactive unrun draft alone.
 		await new_scene(); await choose(ui.rule,1); await switch_to(1); await choose(ui.rule,0)

@@ -819,11 +819,11 @@ func opening_guidance(index: int) -> String:
 	var message: String = OPENING_GUIDANCE[index][1 if english else 0]
 	return message % session.data.draft.examples.size() if index == 1 else message
 
-func change_task(index: int) -> void:
+func change_task(index: int, preserve_initial_text: bool = false) -> void:
 	var editor_state: Dictionary = _capture_editor_state()
 	# Valid recipe values rebuild from the authoritative draft. Only unsubmitted
 	# text survives navigation; each task still chooses its intended initial tab.
-	if valid_initial_input(): editor_state.inputs.erase("Initial")
+	if not preserve_initial_text and valid_initial_input(): editor_state.inputs.erase("Initial")
 	editor_state.tabs.clear()
 	if editor_state.get("focus","") not in ["Unit","Previous","Next"]: editor_state.erase("focus")
 	evidence_expanded = false
@@ -903,6 +903,8 @@ func next_step() -> Dictionary:
 func _active_creation_draft() -> bool:
 	if session.data.mode != "generate" or latest.get("kind","") in ["snapshot","replay"] or visible_generation_saved(): return false
 	if suppress_snapshot_fallback: return true
+	if session.data.draft.examples != session.data.model.get("examples",[]) or session.data.draft.order != session.data.model.get("order",-1):
+		return true
 	# Reopening can identify a changed recipe or a newly forked parent from the
 	# existing save fields. An identical already-kept recipe needs no new flag.
 	for work: Dictionary in session.data.works:
@@ -918,9 +920,10 @@ func _active_creation_draft() -> bool:
 	return true
 
 func visible_generation_saved() -> bool:
-	if latest.get("kind","") != "generation": return false
+	if latest.get("kind","") != "generation" or not latest.has("parent_work") or not latest.has("training"): return false
 	for work: Dictionary in session.data.works:
-		if work.get("output",[]) == latest.get("output",[]) and work.get("recipe",{}) == latest.get("recipe",{}): return true
+		if work.parent == latest.parent_work and work.training == latest.training and work.output == latest.output and work.recipe == latest.recipe:
+			return true
 	return false
 
 func advance_step() -> void:
@@ -1138,13 +1141,15 @@ func generate_work() -> void:
 		compared_creation = session.generated.duplicate(true)
 		creation_report = CreationComparison.compare(pinned_creation,compared_creation)
 	event_page = 0
-	comparison.append(result.duplicate(true))
+	comparison.append(session.generated.duplicate(true))
 	if comparison.size() > 2: comparison.pop_front()
 	session.complete("G1_feedback",{"model_id":result.get("model_id",""),"length":result.output.size(),"feedback":"generated","cost":result.cost.duplicate(true)})
 	_playtest_completion()
 	set_status(text2("这份输出来自你的学得模型和回灌。可以比较、命名，再选择留下。","This output came from your learned model and feedback. Compare, name, and choose what to keep."))
 	if not pinned_creation.is_empty():
 		set_status(text2("B 已生成，A 保持原样。实测页列出配方变化；创作配方页可定位首次分歧、保留 A/B 或继续改。", "B generated; A stays fixed. Measurements lists recipe changes; Creation recipe lets you locate the first difference, keep A/B or edit again."))
+	elif _can_choose_recent_generation():
+		set_status(text2("最近两份输出都可以保留。在「创作配方」中选择较早或较晚的一份。", "You can keep either of the last two outputs. Choose the earlier or later run in Creation recipe."))
 	refresh()
 	refresh_tracks()
 
@@ -1155,7 +1160,9 @@ func selected_work() -> int:
 func can_keep_visible_work() -> bool:
 	if not valid_initial_input(): return false
 	if task >= 3 and task < 6 and not session.prediction.is_empty(): return false
-	return writable and latest.get("kind", "") == "generation" and not session.generated.is_empty() and latest.get("output", []) == session.generated.get("output", []) and latest.get("recipe", {}) == session.generated.get("recipe", {})
+	if not writable or latest.get("kind","") != "generation" or session.generated.is_empty(): return false
+	return latest.recipe == session.generated.recipe and latest.output == session.generated.output \
+		and latest.parent_work == session.generated.parent_work and latest.training == session.generated.training
 
 func refresh_keep_actions() -> void:
 	for id: String in ["KeepWork", "KeepCurrent"]:
@@ -1547,8 +1554,11 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 	elif kind in ["generation","snapshot","replay"]:
 		var output: Array = latest.get("output",[])
 		var initial: Array = [] if _unsupported_saved_recipe() else latest.get("recipe",latest.get("work",{}).get("recipe",{})).get("initial",[])
-		tracks = [comparison[0].get("output",[]) if comparison.size() == 2 and kind == "generation" else [],initial.duplicate(),output]
+		var reference: Array = displayed_generation(0).get("output",[]) if comparison.size() == 2 and kind == "generation" else []
+		tracks = [reference,initial.duplicate(),output]
 		captions = [text2("前一份实测草稿（若有）","Previous measured draft (if any)"),text2("起始片段 · 不存在标准下一段","Initial passage · no standard continuation"),text2("你的实际光纹 · 可以留下","Your actual signal · yours to keep")]
+		if kind == "generation" and _reference_is_later():
+			captions[0] = text2("较晚生成的实测草稿", "Later measured draft")
 		if _unsupported_saved_recipe(): captions[1] = text2("配方暂不可解释 · 起始片段未展示","Recipe cannot be interpreted · initial passage not shown")
 		if kind == "generation" and not pinned_creation.is_empty():
 			tracks = [pinned_creation.output,initial.duplicate(),output]
@@ -1587,8 +1597,12 @@ func refresh_tracks(preserve_focus: bool = false) -> void:
 func displayed_generation(lane: int) -> Dictionary:
 	if latest.get("kind","") == "generation" and lane == 0:
 		if not pinned_creation.is_empty(): return pinned_creation
-		if comparison.size() == 2: return comparison[0]
+		if comparison.size() == 2: return comparison[1 if _reference_is_later() else 0]
 	return latest
+
+func _reference_is_later() -> bool:
+	return comparison.size() == 2 and comparison[0].recipe != comparison[1].recipe \
+		and latest.get("recipe",{}) == comparison[0].recipe
 
 func observation_identity(lane: int = 2) -> Dictionary:
 	var kind: String = str(latest.get("kind",""))
@@ -1656,14 +1670,12 @@ func inspect_cell(index: int, lane: int = 2) -> void:
 		if not identity.is_empty(): observation_anchor = {"cell":index,"lane":lane,"page":signal_view.page,"identity":identity.duplicate(true)}
 	focused_lane = lane
 	focused_source = text2("当前输出", "Current output")
-	var visible: Dictionary = latest
+	var visible: Dictionary = displayed_generation(lane)
 	if latest.get("kind","") == "generation" and lane == 0:
 		if not pinned_creation.is_empty():
-			visible = pinned_creation
 			focused_source = "A"
 		elif comparison.size() == 2:
-			visible = comparison[0]
-			focused_source = text2("前一份草稿", "Previous draft")
+			focused_source = text2("较晚生成的草稿", "Later draft") if _reference_is_later() else text2("前一份草稿", "Previous draft")
 	elif latest.get("kind","") == "transport":
 		focused_source = text2("接收端解码", "Receiver decode") if lane == 2 else text2("发送端编码", "Sender encode")
 	if latest.get("kind","") == "prediction":
@@ -2150,8 +2162,10 @@ func _build_creation_comparison(parent: Node) -> void:
 
 func _refresh_creation_comparison() -> void:
 	var pinned: bool = not pinned_creation.is_empty()
+	var recent: bool = _can_choose_recent_generation()
 	if is_instance_valid(creation_caption):
 		creation_caption.text = CreationComparison.caption(creation_report,english) if pinned else text2("还没有钉住 A。", "No A pinned yet.")
+		if recent: creation_caption.text = text2("选择保留最近两次生成中的任一份。", "Choose either of the last two generated works.")
 		if not creation_intent.strip_edges().is_empty(): creation_caption.text += "\n"+text2("你的目标（未判定）：", "Your goal (not judged): ")+creation_intent
 		if pinned and not compared_creation.is_empty():
 			var visible: String = "A" if latest.get("recipe",{}) == pinned_creation.recipe and latest.get("output",[]) == pinned_creation.output else "B" if latest.get("recipe",{}) == compared_creation.recipe and latest.get("output",[]) == compared_creation.output else text2("其他视图","another view")
@@ -2160,10 +2174,25 @@ func _refresh_creation_comparison() -> void:
 		var control := find_child(id,true,false)
 		if control is LineEdit: control.editable = not pinned
 		elif control is SpinBox: control.editable = not pinned
-	var available: Dictionary = {"PinCreationA":can_keep_visible_work() and not pinned,"PinCreationAQuick":can_keep_visible_work() and not pinned,"ClearCreationComparison":pinned,"KeepCreationA":pinned and writable,"KeepCreationB":not compared_creation.is_empty() and writable,"CreationFirstDifference":int(creation_report.get("first_difference",-1)) >= 0,"ShowCreationComparison":not compared_creation.is_empty(),"EditCreationB":pinned}
+	var available: Dictionary = {"PinCreationA":can_keep_visible_work() and not pinned,"PinCreationAQuick":can_keep_visible_work() and not pinned,"ClearCreationComparison":pinned,"KeepCreationA":recent or (pinned and writable),"KeepCreationB":recent or (not compared_creation.is_empty() and writable),"CreationFirstDifference":int(creation_report.get("first_difference",-1)) >= 0,"ShowCreationComparison":not compared_creation.is_empty(),"EditCreationB":pinned}
 	for id: String in available:
 		var action := find_child(id,true,false) as Button
 		if action != null: action.disabled = not available[id]
+	var keep_a := find_child("KeepCreationA",true,false) as Button
+	var keep_b := find_child("KeepCreationB",true,false) as Button
+	if keep_a != null:
+		keep_a.text = text2("保留较早一份…", "Keep earlier…") if recent else text2("保留 A…", "Keep A…")
+	if keep_b != null:
+		keep_b.text = text2("保留较晚一份…", "Keep later…") if recent else text2("保留 B…", "Keep B…")
+
+func _can_choose_recent_generation() -> bool:
+	if task < 6 or not pinned_creation.is_empty() or comparison.size() != 2 or not can_keep_visible_work():
+		return false
+	var earlier: Dictionary = comparison[0]
+	var later: Dictionary = comparison[1]
+	return earlier.recipe != later.recipe and earlier.recipe.model == later.recipe.model \
+		and later.recipe.model == session.data.model and earlier.parent_work == later.parent_work \
+		and later.parent_work == session.data.parent_work and session.generated in comparison
 
 func pin_creation_a() -> void:
 	if not pinned_creation.is_empty():
@@ -2215,23 +2244,30 @@ func show_creation_comparison() -> void:
 
 func choose_creation_result(use_b: bool) -> void:
 	var chosen: Dictionary = compared_creation if use_b else pinned_creation
+	var recent: bool = _can_choose_recent_generation()
+	if recent:
+		chosen = comparison[1 if use_b else 0]
 	if chosen.is_empty() or not writable: return
-	# Selecting an actual run restores its complete recipe, never relabels the
-	# other run's output with the current controls. Saved works are untouched.
-	var title: String = name_input.text
-	var recipe: Dictionary = chosen.recipe
-	session.data.model = recipe.model.duplicate(true)
-	session.data.draft = {"machine":recipe.machine.duplicate(true),"examples":recipe.model.examples.duplicate(true),"order":int(recipe.model.order),"initial":recipe.initial.duplicate(),"length":int(recipe.length),"seed":int(recipe.seed),"sampler":recipe.sampler}
-	session.data.training = chosen.training.duplicate(true)
-	session.data.parent_work = chosen.parent_work
-	session.data.mode = "generate"
-	session.mark_dirty()
+	if not recent:
+		# Controlled A/B comparisons resume the chosen model and its preparation.
+		var recipe: Dictionary = chosen.recipe
+		session.data.model = recipe.model.duplicate(true)
+		session.data.draft = {"machine":recipe.machine.duplicate(true),"examples":recipe.model.examples.duplicate(true),"order":int(recipe.model.order),"initial":recipe.initial.duplicate(),"length":int(recipe.length),"seed":int(recipe.seed),"sampler":recipe.sampler}
+		session.data.training = chosen.training.duplicate(true)
+		session.data.parent_work = chosen.parent_work
+		session.data.mode = "generate"
+		session.mark_dirty()
+	# For a recent run only the transient save_work input changes. Save Draft
+	# retains the editable controls and any examples waiting to be learned.
 	session.generated = chosen.duplicate(true)
 	latest = chosen.duplicate(true)
 	latest.kind = "generation"
-	_remember_connection("generation")
-	change_task(8)
-	name_input.text = title
+	if not recent: _remember_connection("generation")
+	change_task(8,recent)
+	if recent:
+		set_status(text2("已选中这次生成。确认名称后，点击「保存这份作品」。", "Run selected. Confirm its name, then click Keep this work."))
+		name_input.grab_focus()
+		return
 	keep_work()
 
 func focus_work() -> void:

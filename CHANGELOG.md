@@ -4,6 +4,12 @@
 
 ## 简体中文
 
+### 2026-11-22 · 内部试玩改进
+
+- 半加器现在并列显示实际与期望输出；正式用例播放时，测试台显示该用例的 A/B。改线后可重新调试，再决定是否运行全套测试。
+- 第一章解释自定义工作负载为什么只算调试。第二章的取数检查会定位到同一缓存行的重复未命中，便于改动访问次序后对比等待时间。
+- 创作时可在最近两份不同配方的结果中选择，命名保留作品。查看历史预测时，时间线标明记录所属任务。
+
 ### v0.6.0 · 2026-11-16 · 双版本交付
 
 - 定稿明亮实验室／深色终端，接入可替换的中英文VNB标志及双平台图标。
@@ -154,6 +160,12 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### 2026-11-22 · Internal playtest improvements
+
+- The Half Adder bench shows actual and expected outputs together. During an official run its input switches show the case in progress. Rewiring clears the previous debug result.
+- Chapter 1 explains when a custom workload counts as a debug run. In Chapter 2, inspecting a repeated cache miss shows the two measured cycles so you can change access order and compare CPU wait.
+- In Creation you can choose between the last two distinct recipes before naming and keeping a work. Prediction history identifies the task that produced the displayed record.
 
 ### v0.6.0 · 2026-11-16 · Dual-edition delivery
 

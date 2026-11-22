@@ -53,14 +53,18 @@ func prediction_key(popup: PopupMenu, code: Key) -> void:
 		event.window_id = popup.get_window_id(); event.keycode = code; event.physical_keycode = code; event.pressed = down
 		Input.parse_input_event(event); await process_frame
 
-func run_and_finish(system: bool) -> void:
+func run_and_finish(system: bool, inspect_profiler: bool = true) -> void:
 	if system and ui.locked_prediction_id.is_empty(): await prediction()
 	await tool(&"test_bench")
 	check(not ui.official_run_button.disabled,"Explicit Run is enabled; status="+ui.status_label.text)
 	await press(ui.official_run_button); await settle()
 	check(ui.current_trace != null,"Explicit Run produces an actual trace")
 	if ui.current_trace == null: return
-	await tool(&"profiler")
+	if inspect_profiler:
+		await tool(&"profiler")
+	else:
+		check(ui.official_run_button.has_focus() and not ui.instrument_windows[&"profiler"].visible,
+			"Debug-only comparison leaves focus on Run and keeps Profiler closed until requested")
 	if not ui.finish_playback_button.disabled: await press(ui.finish_playback_button)
 	await settle()
 	check(not ui.playback_running,"Visible Finish completes presentation without replacing its trace")
@@ -86,13 +90,26 @@ func chapter_one(locale: String) -> void:
 	check(ui.draft_dirty,"Typing leaves an unapplied draft")
 	await press(ui.apply_program_button)
 	check(ui.applied_program_source == wrong and not ui.draft_dirty,"Apply adopts exactly the typed experiment")
-	await run_and_finish(true)
+	await run_and_finish(true, false)
 	check(ui.latest_receipt != null and not ui.latest_receipt.all_passed,"Wrong computation yields a real failed receipt")
-	check(ui.instrument_windows[&"profiler"].visible and not ui.profiler_labels[&"total_cycles"].text.is_empty(),"Failure remains inspectable in Profiler")
+	var verdict: Label = ui.status_label
+	var expected_verdict: String = "Changed workload: debug only.\nRestore starter. Apply, predict, run." \
+		if locale == "en" else "已改工作负载，仅作调试。\n恢复起始程序，应用、确认预测后重跑。"
+	check(verdict.text == expected_verdict and verdict.is_visible_in_tree()
+		and root.get_visible_rect().encloses(verdict.get_global_rect())
+		and verdict.get_line_count() == 2 and verdict.get_visible_line_count() == 2,
+		"Final debug-only verdict and recovery steps both fit the rendered two-line header in " + locale)
+	check(ui.instrument_windows[&"test_bench"].visible
+		and root.get_node("SystemChapter").receipts_for(&"cpu_speed").is_empty(),
+		"Debug-only run keeps Test Bench open without recording comparison evidence")
 	await operation_capture("ch1-failure-"+locale)
+	await tool(&"profiler")
+	check(ui.instrument_windows[&"profiler"].visible and not ui.profiler_labels[&"total_cycles"].text.is_empty(),"Failure remains inspectable in Profiler")
 	await program(correct); await press(ui.apply_program_button)
 	await run_and_finish(true)
 	check(ui.latest_receipt != null and ui.latest_receipt.all_passed,"Correcting and rerunning passes actual cases")
+	check(not root.get_node("SystemChapter").receipts_for(&"cpu_speed").is_empty(),
+		"Restoring, applying and reconfirming the starter workload resumes official comparison evidence")
 	var draft: String = correct+"\n# unfinished "+locale+"\nacc = ???"
 	await program(draft)
 	check(ui.draft_dirty and ui.applied_program_source == correct,"New invalid draft leaves the last applied source intact")
@@ -126,12 +143,52 @@ func chapter_two(locale: String) -> void:
 	check(ui.chapter_map_host.visible,"Completion returns to the actual chapter map")
 	await press(ui.chapter_map.level_buttons[&"access_order"]); await settle(12)
 	check(ui.current_level_id == &"access_order","Map enters the paired implementation")
+	await tool(&"test_bench")
+	await press(ui.official_run_button)
+	var baseline: SimulationTrace = ui.current_trace
+	check(baseline != null and baseline.test_name == "Official Test Set" and baseline.passed
+		and int(baseline.metrics.total_cycles) == 321 and not ui.current_goal_met
+		and ui.applied_program_source == Templates.COLUMN_FIRST,
+		"Access Order starter produces a correct 321-cycle run above the target")
+	if baseline == null:
+		await clear_host()
+		return
+	var baseline_signature: String = baseline.canonical_signature()
+	await press(ui.result_trace_button)
+	var row: TreeItem = ui.profiler_tree.get_selected()
+	var event_index: int = ui.playback_index
+	check(row != null and row.get_metadata(0) == event_index and ui.selected_profiler_event_index == event_index
+		and not ui.inspect_event_button.disabled and not ui.playback_running and not ui.playback_completed,
+		"Clicking Test Bench inspection pauses playback on the selected Profiler row")
+	var first_miss_cycle: int = -1
+	for event in baseline.events:
+		if event.kind == &"cache_miss" and event.cache_line == 0:
+			first_miss_cycle = event.cycle
+			break
+	var repeated = baseline.events[event_index] if event_index >= 0 and event_index < baseline.events.size() else null
+	check(repeated != null and repeated.kind == &"cache_miss" and repeated.cache_line == 0 and repeated.address == 1
+		and first_miss_cycle >= 0 and repeated.cycle > first_miss_cycle
+		and ui.highlighted_source_line == repeated.source_line
+		and ui.current_trace == baseline and baseline.canonical_signature() == baseline_signature,
+		"The selected row and source highlight point to the first repeat fetch in the original 321-cycle run")
+	var detail: Label = ui.profiler_detail_label
+	var detail_scroll := detail.get_parent().get_parent() as ScrollContainer
+	check(repeated != null and detail.is_visible_in_tree()
+		and detail_scroll.get_global_rect().encloses(detail.get_global_rect())
+		and root.get_visible_rect().encloses(detail.get_global_rect())
+		and str(first_miss_cycle) in detail.text and str(repeated.cycle) in detail.text
+		and ui.apply_program_button.text in detail.text,
+		"The visible diagnosis shows both measured miss cycles and the next action in " + locale)
+	await operation_capture("ch2-diagnosis-"+locale)
 	await program(Templates.ROW_FIRST)
 	check(ui.program_dirty,"Implementation remains pending before Apply")
 	await press(ui.apply_program_button)
 	check(ui.applied_program_source == Templates.ROW_FIRST and not ui.program_dirty,"Apply adopts the typed row-first program")
 	await run_and_finish(false)
 	check(ui.current_trace != null and int(ui.current_trace.metrics.total_cycles) == 105,"Implementation measures 105 cycles with unchanged hardware")
+	check(ui.current_goal_met and ui.run_comparison_label.visible
+		and "321 → 105" in ui.run_comparison_label.text and "16 → 4" in ui.run_comparison_label.text,
+		"Rerunning the applied edit compares both measured cycle counts and miss counts")
 	await operation_capture("ch2-implementation-"+locale)
 	await tool(&"mission"); await press(ui.mission_review_button); await settle()
 	check(root.get_node("LocalityChapter").completed_levels().get(&"access_order",false),"Explicit review completes the actual paired implementation")

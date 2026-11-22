@@ -2399,10 +2399,57 @@ func _inspect_result_trace() -> void:
 	var index: int = _result_trace_event_index()
 	if index < 0:
 		return
+	# In the access-order task, an initial miss can also occur in a fast run.
+	# Start with a repeated miss to show the extra fetch the player can investigate.
+	var earlier_fetches: Dictionary[int, SimulationEventType] = {}
+	var earlier: SimulationEventType
+	if current_level_id == &"access_order":
+		for event_index: int in range(index, current_trace.events.size()):
+			var event: SimulationEventType = current_trace.events[event_index]
+			if event.kind != &"cache_miss":
+				continue
+			earlier = earlier_fetches.get(event.cache_line)
+			if earlier != null:
+				index = event_index
+				break
+			earlier_fetches[event.cache_line] = event
 	# Inspect one recorded event; finishing playback would also advance observation.
-	selected_profiler_event_index = index
 	_open_instrument(&"profiler", true)
+	_select_result_profiler_event(index)
 	_inspect_profiler_event()
+	if earlier != null:
+		var repeated: SimulationEventType = current_trace.events[index]
+		var english: bool = Localization.current_locale() == "en"
+		profiler_detail_label.text = (
+			("Cache line %d missed at cycles %d and %d, so RAM had to supply it twice. In Program, try reading nearby addresses consecutively. Click Apply Program, rerun, and compare misses and CPU wait."
+			if english else
+			"缓存行 %d 在第 %d 和 %d 周期未命中，两次都要从 RAM 取回。试着在程序中连续读取相邻地址，点「应用程序」后重跑，对比未命中次数和 CPU 等待。")
+			% [repeated.cache_line, earlier.cycle, repeated.cycle]
+		)
+		profiler_detail_label.add_theme_color_override("font_color", WARNING)
+		var profiler_scroll := profiler_detail_label.get_parent().get_parent() as ScrollContainer
+		profiler_scroll.ensure_control_visible.call_deferred(profiler_detail_label)
+
+
+func _select_result_profiler_event(index: int) -> void:
+	var item := profiler_tree.get_root()
+	while item != null and item.get_metadata(0) != index:
+		item = item.get_next_in_tree()
+	# Some profiler tiers expose the trace shortcut without an individual event row.
+	if item == null:
+		profiler_tree.deselect_all()
+		selected_profiler_event_index = index
+		inspect_event_button.disabled = true
+		return
+	var ancestor := item.get_parent()
+	while ancestor != null:
+		ancestor.collapsed = false
+		ancestor = ancestor.get_parent()
+	profiler_tree.set_block_signals(true)
+	item.select(0)
+	profiler_tree.set_block_signals(false)
+	profiler_tree.scroll_to_item(item)
+	_on_profiler_item_selected(false)
 
 
 func _record_run(program: DSLProgramType, data: Array[int]) -> void:
@@ -2829,14 +2876,15 @@ func _add_tree_value(parent: TreeItem, label_text: String, value: int) -> TreeIt
 	return item
 
 
-func _on_profiler_item_selected() -> void:
+func _on_profiler_item_selected(user_initiated: bool = true) -> void:
 	var item: TreeItem = profiler_tree.get_selected()
 	if item == null or item.get_metadata(0) == null:
 		selected_profiler_event_index = -1
 		inspect_event_button.disabled = true
 		return
 	selected_profiler_event_index = int(item.get_metadata(0))
-	PlaytestData.record_action(&"chapter_2", current_level_id, &"profiler_event_selected")
+	if user_initiated:
+		PlaytestData.record_action(&"chapter_2", current_level_id, &"profiler_event_selected")
 	if current_trace == null or selected_profiler_event_index < 0 or selected_profiler_event_index >= current_trace.events.size():
 		inspect_event_button.disabled = true
 		return

@@ -20,11 +20,52 @@ func run() -> void:
 	main._start_level(&"access_order")
 	await process_frame
 	main._open_instrument(&"test_bench")
-	main._run_simulation("Official Test Set")
-	main.playback_running = false
+	main.official_run_button.pressed.emit()
 	var trace = main.current_trace
 	var signature: String = trace.canonical_signature()
 	check(main.instrument_windows[&"test_bench"].visible, "The official result and evidence controls remain open.")
+	check(main.result_trace_button.is_visible_in_tree() and trace.passed and not main.current_goal_met,
+		"Access Order: the correct over-target result offers trace inspection.")
+	main._open_instrument(&"profiler")
+	var tree: Tree = main.profiler_tree
+	var first_miss: TreeItem = tree.get_root()
+	while first_miss != null and first_miss.get_metadata(0) == null:
+		first_miss = first_miss.get_next_in_tree()
+	if first_miss == null:
+		check(false, "Access Order: the Profiler must expose an earlier miss to select.")
+		quit(1)
+		return
+	first_miss.select(0)
+	check(tree.get_selected() == first_miss and trace.events[int(first_miss.get_metadata(0))].kind == &"cache_miss",
+		"Access Order: an earlier miss is selected in the actual Profiler tree.")
+	main._open_instrument(&"test_bench")
+	main.result_trace_button.pressed.emit()
+	var inspected = trace.events[main.playback_index]
+	var first_miss_cycle: int = -1
+	for event in trace.events:
+		if event.kind == &"cache_miss":
+			first_miss_cycle = event.cycle
+			break
+	check(inspected.kind == &"cache_miss" and inspected.cache_line == 0 and inspected.address == 1
+		and inspected.cycle > first_miss_cycle and main.highlighted_source_line == inspected.source_line,
+		"Access Order: result inspection lands on the first repeated line fetch and highlights its source.")
+	var selected: TreeItem = tree.get_selected()
+	var inspected_index: int = main.playback_index
+	check(selected != null and selected != first_miss and selected.get_metadata(0) == inspected_index
+		and main.selected_profiler_event_index == inspected_index and not main.inspect_event_button.disabled,
+		"Access Order: the highlighted Profiler row, Inspect action and playback identify the same repeated miss.")
+	check(main.instrument_windows[&"profiler"].visible and not main.playback_running and not main.playback_completed
+		and main.profiler_detail_label.text.contains(str(first_miss_cycle))
+		and main.profiler_detail_label.text.contains(str(inspected.cycle))
+		and main.profiler_detail_label.text.contains("RAM")
+		and main.profiler_detail_label.text.contains(main.apply_program_button.text)
+		and trace.canonical_signature() == signature,
+		"Access Order: the Profiler cites both measured cycles and guides the next experiment without completing the trace.")
+	main.step_button.pressed.emit()
+	check(main.playback_index != inspected_index, "Stepping moves the trace cursor away from the selected miss.")
+	main.inspect_event_button.pressed.emit()
+	check(tree.get_selected() == selected and main.playback_index == inspected_index,
+		"Inspect returns playback to the row actually selected by the result shortcut.")
 	check(main.hierarchy_ram_labels.size() == preload("res://src/simulation/simulation_core.gd").OFFICIAL_DATA.size(), "The RAM display follows the modeled data size.")
 	main._open_instrument(&"program")
 	main._open_instrument(&"profiler")
@@ -42,12 +83,20 @@ func run() -> void:
 			check(main.hierarchy_cache_labels[0].text.begins_with("A[%d]" % (block * preload("res://src/simulation/simulation_core.gd").CACHE_LINE_INTS / preload("res://src/simulation/simulation_core.gd").ARRAY_WIDTH)), "Displayed cache must match the real trace prefix.")
 	check(duration < 30.0, "Default access-order replay should take under thirty seconds.")
 	check(not main.run_comparison_label.visible, "One run cannot show a comparison.")
-	main._load_strategy(preload("res://src/simulation/program_templates.gd").ROW_FIRST, "row-first")
-	main._apply_program()
-	main._run_simulation("Official Test Set")
+	main.row_strategy_button.pressed.emit()
+	check(main.current_trace == null and not main.result_trace_button.visible and main.official_run_button.disabled,
+		"Access Order: loading a draft clears the old diagnosis and waits for Apply.")
+	main.apply_program_button.pressed.emit()
+	check(not main.official_run_button.disabled, "Access Order: applying the draft enables Run.")
+	main.official_run_button.pressed.emit()
 	main.playback_running = false
 	check(main.run_comparison_label.visible, "Two correct formal runs expose a comparison.")
 	check("321" in main.run_comparison_label.text and "105" in main.run_comparison_label.text, "Comparison must retain measured cycles.")
+	var wait_comparison := "%d → %d" % [trace.metrics.wait_cycles, main.current_trace.metrics.wait_cycles]
+	check(main.current_goal_met and not main.result_trace_button.visible
+		and "16 → 4" in main.run_comparison_label.text
+		and wait_comparison in main.run_comparison_label.text,
+		"Access Order: the rerun meets the goal and compares measured misses and CPU wait.")
 	check("→" in main.run_comparison_label.text and "[color=" in main.run_comparison_label.text, "Comparison uses arrows and signed colored deltas.")
 	check(main.session_previous_runs.size() == 1, "Session comparison is keyed by task.")
 	for event in main.current_trace.events:

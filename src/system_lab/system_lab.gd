@@ -2424,6 +2424,7 @@ func _run_official() -> void:
 	var is_progression_evidence: bool = catalog.is_official_program_signature(
 		current_level_id, latest_receipt.program_signature
 	)
+	var custom_comparison: bool = not is_progression_evidence and _is_part_comparison()
 	if is_progression_evidence:
 		SystemChapter.record_receipt(current_level_id, latest_receipt, {"source":applied_program_source,"parts":selected_part_ids.duplicate()})
 		SystemChapter.retain_application(current_level_id,applied_program_source,selected_part_ids,latest_receipt)
@@ -2442,12 +2443,14 @@ func _run_official() -> void:
 	status_label.text = test_status_label.text
 	status_label.add_theme_color_override("font_color", test_status_label.get_theme_color("font_color"))
 	pending_history_after_playback = is_progression_evidence and _comparison_kind() != &"none"
-	_close_instrument(&"history")
+	if not custom_comparison:
+		_close_instrument(&"history")
 	if not latest_official_traces.is_empty():
 		_play_trace(latest_official_traces[0])
 	_refresh_profiler(latest_receipt.metrics)
-	_close_instrument(&"mission")
-	_open_instrument(&"profiler")
+	if not custom_comparison:
+		_close_instrument(&"mission")
+		_open_instrument(&"profiler")
 	_refresh_history()
 	if pending_history_after_playback and not playback_running:
 		pending_history_after_playback = false
@@ -2458,7 +2461,11 @@ func _run_official() -> void:
 		else:
 			_evaluate_completion(&"")
 	else:
-		status_label.text = _t(&"system.status.official_program_required")
+		if custom_comparison:
+			status_label.text = "Changed workload: debug only.\nRestore starter. Apply, predict, run." \
+				if Localization.current_locale() == "en" else "已改工作负载，仅作调试。\n恢复起始程序，应用、确认预测后重跑。"
+		else:
+			status_label.text = _t(&"system.status.official_program_required")
 		status_label.add_theme_color_override("font_color", WARNING)
 		_refresh_mission_progress()
 

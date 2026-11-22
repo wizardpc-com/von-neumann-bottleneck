@@ -2,8 +2,9 @@
 """Read exact draft assets and test frozen Windows binaries on a disposable runner."""
 import argparse
 from contextlib import closing, contextmanager
+from datetime import datetime, timedelta, timezone
 import hashlib
-from http.client import HTTPConnection
+from http.client import HTTPConnection, HTTPSConnection, HTTPException
 import importlib.util
 import json
 import os
@@ -16,6 +17,7 @@ import stat
 import subprocess
 import sys
 import time
+from urllib.parse import parse_qs, urlsplit
 import uuid
 import zipfile
 
@@ -28,6 +30,9 @@ SPEC.loader.exec_module(PACKAGE)
 LIMIT = 1 << 30
 NOTE = 'SYNTHETIC hosted Windows release check'
 PUBLIC_ORIGIN = 'https://feedback.yanruiqing.com:8443'
+ASSET_HOSTS = {'release-assets.githubusercontent.com', 'objects.githubusercontent.com'}
+ASSET_PATTERN = r'Von-Neumann-Bottleneck-Windows-[A-Za-z0-9.-]+\.zip'
+CAPABILITY_SECRETS = {'game':'VNB_WINDOWS_DRAFT_GAME_URL','test':'VNB_WINDOWS_DRAFT_TEST_URL'}
 
 
 def sha256(path):
@@ -100,30 +105,82 @@ def asset_identity(release, name, digest):
     return {'id':asset['id'], 'name':name, 'bytes':asset['size'], 'sha256':digest}
 
 
-def fetch(work):
+def validate_capability(value, *, minimum_seconds=30):
+    """Accept only the HTTPS, expiring, read-only GitHub single-blob redirect."""
+    try:
+        url = urlsplit(value)
+        query = parse_qs(url.query,max_num_fields=40)
+        expiration = datetime.fromisoformat(query['se'][0].replace('Z','+00:00'))
+        duration = expiration - datetime.now(timezone.utc)
+        if (url.scheme!='https' or url.hostname not in ASSET_HOSTS or url.port not in (None,443)
+                or url.username is not None or url.password is not None or url.fragment
+                or not url.path.startswith('/github-production-release-asset')
+                or query.get('sp')!=['r'] or query.get('sr')!=['b'] or not query.get('sig')
+                or len(query['se'])!=1 or not timedelta(seconds=minimum_seconds)<duration<timedelta(hours=2)):
+            raise ValueError
+    except (KeyError, IndexError, TypeError, ValueError, OverflowError):
+        raise ValueError('Expected a valid, short-lived GitHub read-only asset capability') from None
+    return url, expiration
+
+
+def download_capability(value, destination):
+    url, _ = validate_capability(value)
+    try:
+        with closing(HTTPSConnection(url.hostname,timeout=20)) as client:
+            client.request('GET',url.path+'?'+url.query)
+            with client.getresponse() as response:
+                if response.status!=200:
+                    raise ValueError(f'GitHub capability download returned HTTP {response.status}')
+                length=response.getheader('Content-Length','')
+                if not length.isdecimal() or not 0<int(length)<=LIMIT:
+                    raise ValueError('Unexpected GitHub capability asset size')
+                copied=0
+                with destination.open('xb') as output:
+                    for block in iter(lambda: response.read(1024*1024),b''):
+                        copied+=len(block)
+                        if copied>int(length):
+                            raise ValueError('GitHub capability response exceeded its declared size')
+                        output.write(block)
+                if copied!=int(length):
+                    raise ValueError('GitHub capability asset was truncated')
+                return copied
+    except (OSError, HTTPException):
+        raise RuntimeError('GitHub capability download failed; check expiry and runner connectivity') from None
+
+
+def fetch(work, *, capabilities=False):
     repository = pinned(os.environ['GITHUB_REPOSITORY'], r'[\w.-]+/[\w.-]+', 'repository')
     release_id = pinned(os.environ['VNB_RELEASE_ID'], r'[1-9][0-9]*', 'draft ID')
     tag = pinned(os.environ['VNB_RELEASE_TAG'], r'v[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?', 'release tag')
     commit = pinned(os.environ['VNB_RELEASE_COMMIT'], r'[0-9a-f]{40}', 'source commit')
-    if not os.environ.get('GH_TOKEN'):
-        raise RuntimeError('The built-in GitHub runner token is required in the download step')
-    release = gh_get(f'repos/{repository}/releases/{release_id}')
-    verify_draft(repository, release, release_id, tag, commit)
-    work.mkdir()
     records = {}
     for role in ('game', 'test'):
-        name = pinned(os.environ[f'VNB_{role.upper()}_ASSET'], r'Von-Neumann-Bottleneck-Windows-[A-Za-z0-9.-]+\.zip', 'asset name')
+        name = pinned(os.environ[f'VNB_{role.upper()}_ASSET'], ASSET_PATTERN, 'asset name')
         digest = pinned(os.environ[f'VNB_{role.upper()}_SHA256'].lower(), r'[0-9a-f]{64}', 'asset digest')
-        records[role] = asset_identity(release, name, digest)
-    if records['game']['id'] == records['test']['id']:
+        records[role] = {'name':name, 'sha256':digest}
+    if records['game']['name']==records['test']['name'] or records['game']['sha256']==records['test']['sha256']:
         raise ValueError('Game and Test require distinct assets')
+    if not capabilities:
+        if not os.environ.get('GH_TOKEN'):
+            raise RuntimeError('The built-in GitHub runner token is required in the download step')
+        release = gh_get(f'repos/{repository}/releases/{release_id}')
+        verify_draft(repository, release, release_id, tag, commit)
+        records={role:asset_identity(release, asset['name'], asset['sha256']) for role,asset in records.items()}
+        if records['game']['id']==records['test']['id']:
+            raise ValueError('Game and Test require distinct draft asset IDs')
+    work.mkdir()
     for role, asset in records.items():
         destination = work / (role + '.zip')
-        gh_get(f'repos/{repository}/releases/assets/{asset["id"]}', 'application/octet-stream', destination)
+        if capabilities:
+            value=os.environ.pop(f'VNB_{role.upper()}_ASSET_CAPABILITY','')
+            asset['bytes']=download_capability(value,destination)
+        else:
+            gh_get(f'repos/{repository}/releases/assets/{asset["id"]}', 'application/octet-stream', destination)
         if destination.stat().st_size != asset['bytes'] or sha256(destination) != asset['sha256']:
             raise ValueError(f'Downloaded {role} asset differs from the pinned bytes')
     write_json(work/'downloads.json', {'repository':repository,'release_id':release_id,'tag':tag,
-                                      'source_commit':commit,'assets':records})
+                                      'source_commit':commit,'assets':records,
+                                      'download_identity':'operator-resolved capabilities' if capabilities else 'runner draft API'})
 
 
 def verify_manifest(manifest, role, tag, commit, asset_name):
@@ -378,13 +435,19 @@ def verify(work):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('phase',choices=('fetch','verify'))
+    parser.add_argument('--capabilities',action='store_true',help='Use only the dedicated short-lived GitHub asset secrets')
     args=parser.parse_args()
     if sys.platform!='win32' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
         parser.error('Requires the disposable GitHub-hosted Windows runner')
     run=pinned(os.environ['GITHUB_RUN_ID'],r'[1-9][0-9]*','workflow run')
     attempt=pinned(os.environ['GITHUB_RUN_ATTEMPT'],r'[1-9][0-9]*','workflow attempt')
     work=Path(os.environ['RUNNER_TEMP']).resolve()/f'vnb-release-qa-{run}-{attempt}'
-    (fetch if args.phase=='fetch' else verify)(work)
+    if args.phase=='fetch':
+        fetch(work,capabilities=args.capabilities)
+    elif args.capabilities:
+        parser.error('--capabilities is only valid for fetch')
+    else:
+        verify(work)
 
 
 if __name__=='__main__':

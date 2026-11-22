@@ -30,6 +30,14 @@ on:
         description: Offline Test Windows ZIP SHA-256
         required: true
         type: string
+      verify_public_edge:
+        description: Check the public HTTPS health, notices, and denied read routes
+        default: false
+        type: boolean
+      use_draft_asset_capabilities:
+        description: Read the two exact draft assets using operator-provisioned ephemeral capabilities
+        default: false
+        type: boolean
 permissions:
   contents: read
 jobs:
@@ -45,6 +53,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Read and verify the exact draft release assets
+        if: ${{ !inputs.use_draft_asset_capabilities }}
         env:
           GH_TOKEN: ${{ github.token }}
           VNB_RELEASE_ID: ${{ inputs.release_id }}
@@ -55,5 +64,60 @@ jobs:
           VNB_TEST_ASSET: ${{ inputs.test_asset }}
           VNB_TEST_SHA256: ${{ inputs.test_sha256 }}
         run: python scripts/verify-release-windows.py fetch
+      - name: Read and verify the two pinned draft assets using ephemeral capabilities
+        if: ${{ inputs.use_draft_asset_capabilities }}
+        env:
+          VNB_RELEASE_ID: ${{ inputs.release_id }}
+          VNB_RELEASE_TAG: ${{ inputs.release_tag }}
+          VNB_RELEASE_COMMIT: ${{ inputs.source_commit }}
+          VNB_GAME_ASSET: ${{ inputs.game_asset }}
+          VNB_GAME_SHA256: ${{ inputs.game_sha256 }}
+          VNB_GAME_ASSET_CAPABILITY: ${{ secrets.VNB_WINDOWS_DRAFT_GAME_URL }}
+          VNB_TEST_ASSET: ${{ inputs.test_asset }}
+          VNB_TEST_SHA256: ${{ inputs.test_sha256 }}
+          VNB_TEST_ASSET_CAPABILITY: ${{ secrets.VNB_WINDOWS_DRAFT_TEST_URL }}
+        run: python scripts/verify-release-windows.py fetch --capabilities
       - name: Run the frozen Windows packages with isolated profiles
         run: python scripts/verify-release-windows.py verify
+  verify-public-edge:
+    if: ${{ inputs.verify_public_edge }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Validate the frozen notice source pin
+        env:
+          VNB_RELEASE_COMMIT: ${{ inputs.source_commit }}
+        run: python3 -c 'import os, re, sys; sys.exit(not re.fullmatch(r"[0-9a-f]{40}", os.environ["VNB_RELEASE_COMMIT"]))'
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_commit }}
+          path: frozen-notices
+          persist-credentials: false
+      - name: Check public HTTPS and compare the two notices with the frozen source
+        run: |
+          python3 -B server/deploy/check-release-feedback.py --public
+          python3 -B - <<'PY'
+          import hashlib
+          from http.client import HTTPSConnection
+          from pathlib import Path
+          import runpy
+          import ssl
+
+          checker = runpy.run_path('server/deploy/check-release-feedback.py')
+          notices = {'/privacy.html': 'privacy-public.html', '/privacy-player.html': 'privacy-player.html'}
+          client = HTTPSConnection(checker['HOSTNAME'], 8443, timeout=5, context=ssl.create_default_context())
+          try:
+              for route, name in notices.items():
+                  local = Path('frozen-notices/server/deploy') / name
+                  expected = hashlib.sha256(local.read_bytes()).hexdigest()
+                  actual = hashlib.sha256(checker['call'](client, 'GET', route, 200, public=True)).hexdigest()
+                  if actual != expected:
+                      raise SystemExit(f'{route}: notice SHA-256 mismatch ({actual} != {expected})')
+                  print(f'{route}: SHA-256 {actual}')
+          finally:
+              client.close()
+          PY

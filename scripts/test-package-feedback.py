@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Portable package-layout and private-report smoke checks; no Godot process."""
 from contextlib import closing
+from datetime import datetime, timedelta, timezone
 import hashlib
 import importlib.util
 import json
@@ -14,6 +15,7 @@ import tempfile
 from types import SimpleNamespace
 import unittest
 from unittest import mock
+from urllib.parse import urlencode
 import zipfile
 
 
@@ -24,6 +26,9 @@ SPEC.loader.exec_module(VERIFIER)
 WINDOWS_SPEC=importlib.util.spec_from_file_location('windows_release',ROOT/'scripts/verify-release-windows.py')
 WINDOWS=importlib.util.module_from_spec(WINDOWS_SPEC)
 WINDOWS_SPEC.loader.exec_module(WINDOWS)
+PROVISION_SPEC=importlib.util.spec_from_file_location('provision_windows',ROOT/'scripts/provision-windows-draft-assets.py')
+PROVISION=importlib.util.module_from_spec(PROVISION_SPEC)
+PROVISION_SPEC.loader.exec_module(PROVISION)
 sys.path.insert(0,str(ROOT/'server'))
 from storage import migrate
 
@@ -356,6 +361,63 @@ class WindowsReleaseTests(unittest.TestCase):
         for key in ('APPDATA','LOCALAPPDATA','USERPROFILE','TMP','TEMP'):
             self.assertTrue(Path(env[key]).is_relative_to(self.work/'runtime'))
         self.assertFalse({'GITHUB_TOKEN','GH_TOKEN','HTTPS_PROXY'} & env.keys())
+
+    def test_capability_requires_a_read_only_unexpired_github_release_blob(self):
+        expiration=(datetime.now(timezone.utc)+timedelta(minutes=15)).isoformat()
+        query={'sp':'r','sr':'b','sig':'fake-opaque-secret','se':expiration}
+        base='https://release-assets.githubusercontent.com/github-production-release-asset/fixture'
+        valid=base+'?'+urlencode(query)
+        self.assertEqual(WINDOWS.validate_capability(valid)[0].hostname,'release-assets.githubusercontent.com')
+        bad=[
+            valid.replace('https:','http:'),
+            valid.replace('githubusercontent.com','example.com'),
+            base+'?'+urlencode(dict(query,sp='rw')),
+            base+'?'+urlencode(dict(query,se='2000-01-01T00:00:00Z')),
+            base+'?'+urlencode(dict(query,se=(datetime.now(timezone.utc)+timedelta(days=1)).isoformat())),
+        ]
+        for value in bad:
+            with self.assertRaisesRegex(ValueError,'short-lived GitHub') as failure:
+                WINDOWS.validate_capability(value)
+            self.assertNotIn('opaque-secret',str(failure.exception))
+
+    def test_capability_fetch_binds_each_pinned_digest_without_recording_secrets(self):
+        env={'GITHUB_REPOSITORY':'owner/repo','VNB_RELEASE_ID':'17','VNB_RELEASE_TAG':self.tag,
+             'VNB_RELEASE_COMMIT':self.commit}
+        bodies={'game':b'synthetic game archive','test':b'synthetic test archive'}
+        for role,body in bodies.items():
+            prefix='VNB_'+role.upper()+'_'
+            env[prefix+'ASSET']=f'Von-Neumann-Bottleneck-Windows-{role}.zip'
+            env[prefix+'SHA256']=hashlib.sha256(body).hexdigest()
+            env[prefix+'ASSET_CAPABILITY']='fixture-opaque-'+role
+
+        def download(value,destination):
+            body=bodies[value.removeprefix('fixture-opaque-')]
+            destination.write_bytes(body)
+            return len(body)
+
+        with mock.patch.dict(os.environ,env,clear=True), mock.patch.object(WINDOWS,'gh_get') as api, \
+                mock.patch.object(WINDOWS,'download_capability',side_effect=download):
+            WINDOWS.fetch(self.work/'receipt',capabilities=True)
+        api.assert_not_called()
+        receipt=(self.work/'receipt/downloads.json').read_text()
+        self.assertNotIn('fixture-opaque',receipt)
+        self.assertEqual(json.loads(receipt)['download_identity'],'operator-resolved capabilities')
+
+    def test_operator_provisions_using_stdin_and_rolls_back_an_interrupted_pair(self):
+        operations=[]
+        def run(args, *, data=None, operation):
+            operations.append((args,data))
+            if args[1]=='list': return '[]'
+            if args[1]=='set' and args[2]==WINDOWS.CAPABILITY_SECRETS['test']:
+                raise RuntimeError('second secret interrupted')
+            return ''
+        with mock.patch.object(PROVISION,'gh',side_effect=run), self.assertRaises(RuntimeError):
+            PROVISION.provision('owner/repo',{'game':'opaque-one','test':'opaque-two'})
+        self.assertEqual([(args[1],args[2]) for args,_ in operations[1:]],
+            [('set',WINDOWS.CAPABILITY_SECRETS['game']),('set',WINDOWS.CAPABILITY_SECRETS['test']),
+             ('delete',WINDOWS.CAPABILITY_SECRETS['game']),('delete',WINDOWS.CAPABILITY_SECRETS['test'])])
+        self.assertEqual([data for _,data in operations[1:3]],['opaque-one','opaque-two'])
+        self.assertNotIn('opaque',str([args for args,_ in operations]))
 
 
 if __name__=='__main__': unittest.main(verbosity=2)

@@ -24,8 +24,6 @@ def verify_pair(game, test, *, player_release=False):
             raise ValueError('Each edition must include both Windows and macOS')
         manifests.append(manifest)
     game_manifest, test_manifest = manifests
-    if player_release and game_manifest['test_batch'] != test_manifest['test_batch']:
-        raise ValueError('Player release editions must use the same explicit batch')
     for key in ['source_commit', 'engine', 'release_version', 'display_version',
                 'content_version', 'content_tasks', 'workspace_versions', 'branding',
                 'native_versions']:
@@ -36,6 +34,16 @@ def verify_pair(game, test, *, player_release=False):
             raise ValueError('Edition export templates disagree: ' + key)
     if not set(game_manifest['save_directories']).isdisjoint(test_manifest['save_directories']):
         raise ValueError('Edition save directories overlap')
+    dual_test = player_release and game_manifest['release_version'] == 'v0.6.1-playtest.2'
+    same_batch = game_manifest['test_batch'] == test_manifest['test_batch']
+    if dual_test and same_batch:
+        raise ValueError('Release2 Game and Test require separate admission batches')
+    if player_release and not dual_test and not same_batch:
+        raise ValueError('Previous player release editions must use the same explicit batch')
+    if dual_test and (test_manifest.get('public_test_feedback') is not True
+                      or test_manifest.get('offline_feedback') is not True
+                      or any(game_manifest[key] != test_manifest.get(key) for key in ('feedback_endpoint', 'privacy_url'))):
+        raise ValueError('Release2 Test requires local capture and the same approved receiver and notice as Game')
     result = {'passed': True, 'source_commit': game_manifest['source_commit'],
             'release_version': game_manifest['release_version'], 'engine': game_manifest['engine'],
             'content_version': game_manifest['content_version'], 'content_count': 60,
@@ -45,6 +53,8 @@ def verify_pair(game, test, *, player_release=False):
             'scope': 'Source/content/profile identity and all archive hashes; not native platform acceptance'}
     if player_release:
         result.update(player_release=True, test_batch=game_manifest['test_batch'])
+    if dual_test:
+        result.update(public_test_feedback=True, test_edition_batch=test_manifest['test_batch'])
     return result
 
 
@@ -52,7 +62,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('game', type=Path)
     parser.add_argument('test', type=Path)
-    parser.add_argument('--player-release', action='store_true', help='Require the public Game and offline capture Test pair')
+    parser.add_argument('--player-release', action='store_true', help='Require matching public Game and Test release lanes')
     args = parser.parse_args()
     print(json.dumps(verify_pair(args.game, args.test, player_release=args.player_release), ensure_ascii=False, indent=2))
 

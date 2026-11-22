@@ -3,6 +3,7 @@ extends Node
 
 const NOTE := "SYNTHETIC hosted Windows release check"
 const BENCH := "Synthetic hosted restart"
+const UPGRADE_BENCH := "Synthetic previous build"
 const CHAPTER := &"hardware_foundations"
 const LEVEL := &"tutorial"
 var failures: Array[String] = []
@@ -49,17 +50,21 @@ func run() -> void:
 	var user_dir: String = absolute(OS.get_user_data_dir())
 	var endpoint: String = config.endpoint
 	var port: String = endpoint.trim_prefix("http://127.0.0.1:")
+	var save_check: bool = config.phase in ["seed", "upgrade"]
+	var final_candidate: bool = identity.display_version == "0.6.1-playtest.2"
+	var offline_capture: bool = test and (not final_candidate or config.phase in ["capture", "export"])
 	var isolated: bool = (OS.get_name() == "Windows" and OS.has_feature("free_candidate")
-		and config.phase in ["write", "restart"] and user_dir.nocasecmp_to(absolute(config.user_dir)) == 0
+		and config.phase in ["write", "restart", "capture", "export", "seed", "upgrade"]
+		and user_dir.nocasecmp_to(absolute(config.user_dir)) == 0
 		and user_dir.ends_with("/HostedWindowsReleaseQA/VonNeumannBottleneckCandidates/representation/" + identity.save_profile))
-	var correct_endpoint: bool = endpoint.is_empty() if test else (
+	var correct_endpoint: bool = endpoint.is_empty() if save_check or (test and not final_candidate) else (
 		endpoint.begins_with("http://127.0.0.1:") and port.is_valid_int() and int(port) in range(1, 65536))
 	if (not isolated or not correct_endpoint or remote.endpoint != endpoint or remote.privacy_url() != ""
 			or store.source_kind != "automated" or remote.enabled or remote.scores_enabled):
 		push_error("Refusing feedback or saves without the exact isolated Windows profile and loopback-only settings.")
 		get_tree().quit(2)
 		return
-	if not test:
+	if not endpoint.is_empty():
 		remote.request.max_redirects = 0
 	var expected_settings := {"config/build_commit":identity.source_commit, "config/build_id":identity.build_id,
 		"config/version":identity.display_version, "test_batch":identity.test_batch}
@@ -71,16 +76,19 @@ func run() -> void:
 		and OS.has_feature(str(identity.edition) + "_edition") and not mode.set_mode(&"game" if test else &"test"),
 		"Exported edition must remain locked.")
 	check(offline.enabled() == test, "Offline capture must be enabled only for the Test package.")
-	if not test:
-		check(remote.is_public_game() and not remote.community_available()
+	if final_candidate:
+		check(remote.is_public_test() == test and remote.is_public_game() != test,
+			"Only the final Test package enables the dual feedback surface.")
+	if not test or final_candidate:
+		check((test or remote.is_public_game()) and not remote.community_available()
 			and ProjectSettings.get_setting("application/community_feedback_enabled", true) == false
 			and not remote.set_scores_enabled(true),
-			"Public Game must keep its opinion-only player policy.")
+			"Player releases keep community scores disabled.")
 	var unlocked: int = 0
 	var tasks: Array = get_node("/root/TaskNavigation").journey_tasks()
 	for task: Dictionary in tasks:
 		if task.unlocked: unlocked += 1
-		check(not task.completed, "The synthetic setup must not grant campaign completion.")
+		check(not task.completed, "The isolated probe starts before loading the upgrade fixture.")
 	check(tasks.size() == 60 and (unlocked == 60 if test else unlocked > 0 and unlocked < 60),
 		"The locked edition has the expected actual task access.")
 	if not failures.is_empty():
@@ -90,19 +98,25 @@ func run() -> void:
 
 	var save: Node = get_node("/root/GlobalSave")
 	var workbench_path: String = absolute(save.workbench_storage_path)
-	if not workbench_path.to_lower().begins_with(user_dir.to_lower() + "/"):
+	if (not workbench_path.to_lower().begins_with(user_dir.to_lower() + "/")
+			or not absolute(save.storage_path).to_lower().begins_with(user_dir.to_lower() + "/")):
 		push_error("Refusing to write an unisolated workbench.")
 		get_tree().quit(2)
 		return
 	var repo: Variant = load("res://src/hardware_foundations/circuit_workbench_store.gd").new(save.workbench_storage_path)
 	var namespace_id: StringName = &"test" if test else &"game"
 	var board := {"components":[], "wires":[]}
+	if save_check:
+		check_upgrade(save, repo, namespace_id, workbench_path)
+		finish(user_dir)
+		return
 	var previous: Dictionary = {}
-	if config.phase == "write":
+	if config.phase in ["write", "capture"]:
 		check(not FileAccess.file_exists(workbench_path), "The first process opens a fresh workbench store.")
 		check(repo.create_workbench(namespace_id, LEVEL, BENCH, board) == &"", "The real workbench store saved the synthetic board.")
 	else:
-		var source: Variant = JSON.parse_string(FileAccess.get_file_as_string(str(config.output).path_join("write.json")))
+		var first_phase: String = "capture" if config.phase == "export" else "write"
+		var source: Variant = JSON.parse_string(FileAccess.get_file_as_string(str(config.output).path_join(first_phase + ".json")))
 		if not source is Dictionary:
 			push_error("Missing first-process receipt.")
 			get_tree().quit(2)
@@ -120,19 +134,70 @@ func run() -> void:
 		finish(user_dir)
 		return
 	print("VNB_WINDOWS_QA: workbench file and local feedback session verified")
-	if test:
+	if offline_capture:
 		await offline_feedback(offline, previous)
+		check(remote.queue.is_empty() and not remote.enabled and not remote.scores_enabled,
+			"Offline capture and export do not enqueue or enable online sharing.")
 	else:
-		await online_feedback(remote, previous)
+		await online_feedback(remote, store, previous, final_candidate)
 	check(FileAccess.get_sha256(workbench_path) == evidence.workbench_sha256, "Feedback leaves the workbench bytes unchanged.")
 	finish(user_dir)
 
 
+func check_upgrade(save: Node, repo: Variant, namespace_id: StringName, workbench_path: String) -> void:
+	var component: Variant = load("res://src/circuit/logic_component.gd").new(&"qa_not", &"not", "QA NOT")
+	var board: Dictionary = JSON.parse_string(JSON.stringify({
+		"schema_version":1, "components":[component.to_dictionary()],
+		"layout":{"qa_not":{"x":120,"y":80}}, "wires":[],
+	}))
+	var game: bool = namespace_id == &"game"
+	var opposite: StringName = &"test" if game else &"game"
+	var save_path: String = absolute(save.storage_path)
+	if config.phase == "seed":
+		check(not FileAccess.file_exists(workbench_path) and not FileAccess.file_exists(save_path),
+			"The predecessor opens a new isolated profile.")
+		check(repo.create_workbench(namespace_id, LEVEL, UPGRADE_BENCH, board) == &"",
+			"The predecessor writes a named workbench using its shipped store.")
+		if game:
+			save.load_game()
+			save.game_player_content.mark_completed(LEVEL)
+			check(save.save_game(true), "The predecessor writes synthetic tutorial progress with its own save writer.")
+	else:
+		save.load_game()
+		check(save.disk_write_allowed and save.last_error.is_empty() and save.loaded_save == game
+			and bool(save.game_player_content.completed_levels.get(LEVEL, false)) == game
+			and save.has_resume_progress() == game,
+			"The new package reads previous Game progress, and the Test profile has no Game progress.")
+		check(repo.active_name(namespace_id, LEVEL) == UPGRADE_BENCH
+			and repo.active_snapshot(namespace_id, LEVEL) == board,
+			"The new package restores the predecessor's named workbench and exact contents.")
+	check(repo.active_name(opposite, LEVEL).is_empty(), "The opposite edition namespace stays empty.")
+	evidence["workbench_sha256"] = FileAccess.get_sha256(workbench_path)
+	evidence["save_sha256"] = FileAccess.get_sha256(save_path) if FileAccess.file_exists(save_path) else ""
+	check(str(evidence.workbench_sha256).length() == 64
+		and str(evidence.save_sha256).length() == (64 if game else 0),
+		"The representative prior-build saves exist only in their expected edition.")
+	# Quit must not rewrite the saved timestamp after recording the fixture hash.
+	save.disk_write_allowed = false
+
+
 func offline_feedback(offline: Node, previous: Dictionary) -> void:
 	print("VNB_WINDOWS_QA: checking offline capture and local bundle")
-	if config.phase == "write":
+	if config.phase in ["write", "capture"]:
 		check(offline.store.cases().is_empty(), "The offline case store starts empty.")
-		offline.open_for_task(str(CHAPTER), str(LEVEL))
+		if config.phase == "capture":
+			var moments: Node = get_node("/root/PlaytestMoments")
+			moments.open_for_task(str(CHAPTER), str(LEVEL))
+			var capture: Button = moments.panel.find_child("OpenLocalDiagnosticCapture", true, false) as Button
+			var export_button: Button = moments.panel.find_child("ExportLocalDiagnosticZip", true, false) as Button
+			if capture == null or not capture.is_visible_in_tree() or capture.disabled:
+				check(false, "The actual Test feedback form exposes a usable local capture action.")
+				return
+			check(export_button != null and export_button.is_visible_in_tree() and not export_button.disabled,
+				"The actual Test feedback form exposes a separate local ZIP action.")
+			capture.pressed.emit()
+		else:
+			offline.open_for_task(str(CHAPTER), str(LEVEL))
 		await get_tree().process_frame
 		check(offline.backdrop.visible and not offline.current.is_empty(), "The actual offline panel recorded the unfinished task.")
 		if offline.current.is_empty(): return
@@ -153,6 +218,7 @@ func offline_feedback(offline: Node, previous: Dictionary) -> void:
 			and build.get("version") == config.identity.display_version
 			and case_data.get("screenshot_status") == "headless",
 			"The case keeps its frozen build identity and accurately records the headless capture.")
+		# Use the shipped ZIP store without launching Explorer on the hosted runner.
 		var destination: String = str(config.output).path_join("offline-feedback.zip")
 		check(offline.store.export_bundle(destination) == destination, "The restarted offline store exports a local bundle.")
 
@@ -180,13 +246,13 @@ func wait_for_feedback(remote: Node, id: String, expected: String) -> String:
 	return state
 
 
-func online_feedback(remote: Node, previous: Dictionary) -> void:
+func online_feedback(remote: Node, store: Node, previous: Dictionary, final_candidate: bool) -> void:
 	print("VNB_WINDOWS_QA: checking unfinished task opinion with loopback fixture")
 	var moments: Node = get_node("/root/PlaytestMoments")
 	moments.open_for_task(str(CHAPTER), str(LEVEL))
 	await get_tree().process_frame
-	if not moments.panel.visible or moments.send_opinion.disabled:
-		check(false, "The actual configured Game form must expose an enabled Send action.")
+	if not moments.panel.visible or not moments.send_opinion.is_visible_in_tree() or moments.send_opinion.disabled:
+		check(false, "The actual configured player form must expose an enabled Send action.")
 		return
 	if config.phase == "write":
 		check(remote.queue.is_empty(), "The new isolated outbox starts empty.")
@@ -215,7 +281,46 @@ func online_feedback(remote: Node, previous: Dictionary) -> void:
 		check(state == "sent" and remote.queue.is_empty() and id in moments.opinion_status.text,
 			"The loopback receiver acknowledged the same ID after restart.")
 	check(not remote.enabled and not remote.scores_enabled, "Explicit opinion did not enable automatic sharing.")
+	if final_candidate:
+		check(store.telemetry_enabled and store.level_exited(CHAPTER, LEVEL),
+			"The client records a real task visit locally before automatic consent.")
+		check(remote.queue.is_empty() if config.phase == "restart" else has_durable_opinion(remote, evidence.feedback_id),
+			"No automatic events were queued before consent.")
+		if config.phase == "restart" and failures.is_empty():
+			await automatic_feedback(remote, store, moments)
 	moments.close()
+
+
+func automatic_feedback(remote: Node, store: Node, moments: Node) -> void:
+	print("VNB_WINDOWS_QA: checking explicit Basic consent and a new task visit")
+	for child: Node in moments.panel.find_children("*", "CheckButton", true, false):
+		if child.get_meta("locale_field", []) == ["text", "sharing.optional_sharing_and_data_settings"]:
+			(child as CheckButton).button_pressed = true
+			break
+	if not moments.remote_toggle.is_visible_in_tree() or moments.remote_toggle.disabled:
+		check(false, "The actual sharing control offers a visible, explicit online choice.")
+		return
+	moments.remote_toggle.select(1)
+	moments.remote_toggle.item_selected.emit(1)
+	check(remote.enabled and remote.sharing_mode == "basic" and remote.consented_endpoint == config.endpoint
+		and not remote.scores_enabled, "Basic consent authorizes automatic events for loopback only.")
+	check(store.level_started(CHAPTER, LEVEL), "A new visit starts after consent.")
+	var visit_id: String = store.current_visit_id
+	check(store.level_exited(CHAPTER, LEVEL) and not visit_id.is_empty(), "The consented visit ends.")
+	if remote.queue.size() != 1:
+		check(false, "Basic sharing queues exactly one consented visit summary.")
+		return
+	var record: Dictionary = remote.queue[0].record
+	var id: String = record.event_id
+	check(record.kind == "event" and record.payload.get("event") == "visit_summary"
+		and record.payload.get("visit_id") == visit_id, "Basic sharing queues the new visit only.")
+	remote.flush()
+	var deadline: int = Time.get_ticks_msec() + ceili((remote.request.timeout + 3.0) * 1000.0)
+	while not remote.receipts.has(id) and Time.get_ticks_msec() < deadline:
+		await get_tree().create_timer(0.1).timeout
+	check(remote.receipts.has(id) and remote.queue.is_empty(), "The real receiver acknowledged the automatic event.")
+	evidence["automatic_id"] = id
+	evidence["automatic_visit_id"] = visit_id
 
 
 func finish(user_dir: String) -> void:

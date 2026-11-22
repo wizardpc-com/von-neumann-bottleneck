@@ -57,13 +57,7 @@ func _ready() -> void:
 				reset_result.get("errors", []) as Array
 			))
 	_configure_from_command_line(arguments, DisplayServer.get_name() == "headless")
-	if ProjectSettings.get_setting("application/feedback_default_source", "") == "external_player":
-		source_kind = "external_player"
-	for argument: String in arguments:
-		if argument.begins_with("--playtest-source="):
-			var value: String = argument.get_slice("=",1)
-			if value in ["external_player","developer","agent_native","automated","unknown"]: source_kind = value
-	if "--script" in arguments or DisplayServer.get_name() == "headless": source_kind = "automated"
+	source_kind = _launch_source(arguments, DisplayServer.get_name() == "headless")
 	_foreground = get_window().has_focus()
 	get_window().focus_entered.connect(func() -> void: _change_focus(true))
 	get_window().focus_exited.connect(func() -> void: _change_focus(false))
@@ -306,6 +300,21 @@ func submit_level_feedback(
 	})
 
 
+func submit_general_feedback(note: String, category: String, ratings: Array[int]) -> Dictionary:
+	if ratings.size() != 3 or (not category.is_empty() and category not in Identity.CATEGORIES): return {}
+	for rating: int in ratings:
+		if rating not in range(0,6): return {}
+	if note.strip_edges().is_empty() and category.is_empty() and ratings.max() == 0: return {}
+	var payload := {"note":_bounded_text(note), "category":category, "visit_id":"", "revision":1}
+	var keys := ["fun","clarity","want_to_continue"]
+	for index: int in ratings.size():
+		payload[keys[index]] = ratings[index] if ratings[index] > 0 else null
+	for previous: Dictionary in _events:
+		if previous.get("event") == "general_feedback": payload.revision += 1
+	if not _append_event(&"general_feedback",payload): return {}
+	return _events.back().duplicate(true)
+
+
 func submit_chapter_feedback(
 		chapter_id: StringName,
 		best_level_id: StringName,
@@ -462,15 +471,39 @@ func _command_line_arguments() -> PackedStringArray:
 	return arguments
 
 
+func _launch_source(arguments: PackedStringArray, headless: bool) -> String:
+	var source := "external_player" if ProjectSettings.get_setting("application/feedback_default_source","") == "external_player" else "unknown"
+	for argument: String in arguments:
+		if argument.begins_with("--playtest-source="):
+			var value := argument.trim_prefix("--playtest-source=")
+			if value in ["external_player","developer","agent_native","automated","unknown"]: source = value
+	if _scripted_launch(arguments,headless): return "automated"
+	if _capture_launch(arguments) and source not in ["agent_native","developer"]: return "automated"
+	return source
+
+
+func _scripted_launch(arguments: PackedStringArray, headless: bool) -> bool:
+	if headless or "--script" in arguments or "-s" in arguments: return true
+	for argument: String in arguments:
+		if argument.begins_with("--script="): return true
+	return false
+
+
+func _capture_launch(arguments: PackedStringArray) -> bool:
+	for argument: String in arguments:
+		if argument.begins_with("--capture"): return true
+	return false
+
+
+func _automated_launch(arguments: PackedStringArray, headless: bool) -> bool:
+	return _scripted_launch(arguments,headless) or _capture_launch(arguments)
+
+
 func _configure_from_command_line(
 		arguments: PackedStringArray, headless: bool, preferences_path: String = RECORDING_PREFERENCES_PATH
 ) -> void:
 	var explicitly_enable_feedback: bool = "--enable-playtest-feedback" in arguments
-	var automated: bool = headless or "--script" in arguments
-	for argument: String in arguments:
-		if argument.begins_with("--capture"):
-			automated = true
-			break
+	var automated: bool = _automated_launch(arguments, headless)
 	telemetry_enabled = not automated
 	if not automated:
 		var preferences := ConfigFile.new()
@@ -608,7 +641,7 @@ func _finish_active_level(event_name: StringName, details: Dictionary) -> bool:
 
 
 func _append_event(event_name: StringName, payload: Dictionary) -> bool:
-	var feedback: bool = event_name in [&"level_feedback",&"chapter_feedback",&"demo_feedback",&"feedback_skipped",&"moment",&"moment_note",&"exit_reason"]
+	var feedback: bool = event_name in [&"general_feedback",&"level_feedback",&"chapter_feedback",&"demo_feedback",&"feedback_skipped",&"moment",&"moment_note",&"exit_reason"]
 	var session_event: bool = event_name in [&"session_start",&"session_end",&"session_resumed"]
 	if (feedback and not questionnaire_enabled) or (not feedback and not session_event and not telemetry_enabled) or not _initialized or _ended:
 		return false
@@ -623,6 +656,7 @@ func _append_event(event_name: StringName, payload: Dictionary) -> bool:
 		"process_token": _process_token,
 		"visit_id": payload.get("visit_id",current_visit_id),
 		"source": source_kind,
+		"source_batch": str(ProjectSettings.get_setting("application/feedback_source_batch","free-alpha")).left(64),
 		"build_version": str(ProjectSettings.get_setting("application/config/version","development")),
 		"task_version": identity.task_version,
 		"source_commit": identity.source_commit,
@@ -633,6 +667,8 @@ func _append_event(event_name: StringName, payload: Dictionary) -> bool:
 		"event": String(event_name),
 		"payload": _json_safe(payload),
 	}
+	if event_name == &"general_feedback":
+		for field: String in ["task_version","case_set_version","model_version"]: event.erase(field)
 	var file: FileAccess = null
 	if FileAccess.file_exists(_events_path):
 		file = FileAccess.open(_events_path, FileAccess.READ_WRITE)
@@ -645,9 +681,13 @@ func _append_event(event_name: StringName, payload: Dictionary) -> bool:
 	if file == null:
 		last_error = "Could not append playtest event: %s" % error_string(FileAccess.get_open_error())
 		return false
-	file.store_line(JSON.stringify(event, "", false))
+	var written: bool = file.store_buffer((JSON.stringify(event, "", false)+"\n").to_utf8_buffer())
 	file.flush()
+	var complete: bool = written and file.get_error() == OK
 	file.close()
+	if not complete:
+		last_error = "Could not persist playtest event."
+		return false
 	_sequence += 1
 	_events.append(event)
 	_update_state_from_event(event)

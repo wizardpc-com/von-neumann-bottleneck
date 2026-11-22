@@ -44,7 +44,7 @@ func _ready() -> void:
 		InputMap.action_add_event("vnb_offline_feedback",logical_shortcut)
 	layer=CanvasLayer.new(); layer.layer=2000; layer.process_mode=Node.PROCESS_MODE_ALWAYS; add_child(layer)
 	toolbar=HBoxContainer.new(); toolbar.name="OfflineTesterToolbar"; layer.add_child(toolbar)
-	_button(toolbar,"现场反馈 · F8","Feedback · F8",open_panel)
+	_button(toolbar,"反馈 · F8","Feedback · F8",_open_primary)
 	_button(toolbar,"导出全部反馈","Export all feedback",export_all)
 	toolbar.visible=enabled()
 	backdrop=ColorRect.new(); backdrop.color=Color(0,0,0,0.78)
@@ -119,7 +119,7 @@ func _ready() -> void:
 	footer_block=VBoxContainer.new(); footer_block.add_theme_constant_override("separation",12); body.add_child(footer_block)
 	var rule := HSeparator.new(); footer_block.add_child(rule)
 	var footer := HFlowContainer.new(); footer_block.add_child(footer)
-	_button(footer,"导出全部反馈（一个 ZIP）","Export all feedback (one ZIP)",export_all)
+	_button(footer,"导出全部反馈（一个 ZIP）","Export all feedback (one ZIP)",export_all).name = "ExportLocalCaptureZip"
 	_button(footer,"另存到…","Save ZIP as…",choose_export_path)
 	_button(footer,"打开文件夹","Open folder",func() -> void:
 		OS.shell_show_in_file_manager(last_export if not last_export.is_empty() else ProjectSettings.globalize_path(store.root)))
@@ -147,9 +147,13 @@ func _local_feedback_available(window: Window) -> bool:
 		if bounds.has_area() and available.encloses(bounds): return true
 	return false
 
+func _open_primary() -> void:
+	if RemoteFeedback.is_public_test(): PlaytestMoments.toggle()
+	else: open_panel()
+
 func _refresh_toolbar() -> void:
 	# Existing host entries open this same panel; its export actions stay available.
-	toolbar.visible=get_tree().get_first_node_in_group("laboratory")==null and enabled() and not busy and not backdrop.visible and not _local_feedback_available(_focused_window(get_tree().root))
+	toolbar.visible=get_tree().get_first_node_in_group("laboratory")==null and enabled() and not busy and not backdrop.visible and not PlaytestMoments.panel.visible and not _local_feedback_available(_focused_window(get_tree().root))
 
 func _process(_delta: float) -> void:
 	_refresh_toolbar()
@@ -162,7 +166,7 @@ func _process(_delta: float) -> void:
 	var choosing_file: bool = is_instance_valid(export_dialog) and export_dialog.visible
 	if Input.is_action_just_pressed("vnb_offline_feedback") and not choosing_file:
 		if backdrop.visible: close_panel()
-		else: open_panel()
+		else: _open_primary()
 	var escape: bool = Input.is_physical_key_pressed(KEY_ESCAPE)
 	if escape and not esc_down and backdrop.visible and not choosing_file and _focused_window(get_tree().root)==panel.get_viewport(): close_panel()
 	esc_down=escape

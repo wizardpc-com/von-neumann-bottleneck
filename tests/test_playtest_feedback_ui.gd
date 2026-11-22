@@ -195,8 +195,20 @@ func _check_unfinished_workbench_opinion() -> void:
 	entry.pressed.emit()
 	await process_frame
 	_assert(moments.public_issues.is_visible_in_tree() and moments.public_issues.uri == "https://github.com/wizardpc-com/von-neumann-bottleneck/issues", "Before the first task, Game exposes the project's public issue tracker.")
-	_assert(not moments.opinion.is_visible_in_tree() and not moments.send_opinion.is_visible_in_tree() and not moments.source_selector.visible, "A fresh public Game hides task-only inputs and the technical source selector.")
+	_assert(moments.opinion.is_visible_in_tree() and moments.send_opinion.is_visible_in_tree() and not moments.source_selector.visible, "A fresh public Game offers a general opinion with the technical source selector hidden.")
 	_assert(remote.queue.is_empty() and not remote.enabled and not moments.score_toggle.visible, "Opening feedback neither opts into sharing nor offers unavailable score submission.")
+	moments.opinion.text = "Synthetic first-session feedback"
+	moments.send_opinion.pressed.emit()
+	var general_id: String = remote.feedback_id(moments.saved_opinion)
+	_assert(remote.queue.size() == 1 and not remote.enabled, "Explicit general feedback does not enable statistics.")
+	if remote.queue.size() == 1:
+		var general: Dictionary = remote.queue[0].record.payload
+		_assert(general.event == "general_feedback" and general.visit_id == "" and not general.has("task_version") and not general.has("level_id"), "A first-session opinion carries no invented task, visit or task contract.")
+	remote.inflight.assign([general_id])
+	remote._response(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), JSON.stringify({"ack":[general_id]}).to_utf8_buffer())
+	moments.close()
+	entry.pressed.emit()
+	_assert(moments.opinion.text == "Synthetic first-session feedback" and general_id in moments.opinion_status.text, "The general draft reopens with its own acknowledged receipt.")
 	moments.close()
 	store.level_started(&"hardware_foundations", &"half_adder")
 	entry.pressed.emit()
@@ -250,6 +262,31 @@ func _check_unfinished_workbench_opinion() -> void:
 	moments.queue_free()
 	await process_frame
 	store.level_exited(&"hardware_foundations", &"half_adder")
+	var previous_test: Variant = ProjectSettings.get_setting("application/public_test_feedback")
+	var previous_capture: Variant = ProjectSettings.get_setting("playtest/offline_feedback")
+	ProjectSettings.set_setting("application/public_game_feedback", null)
+	ProjectSettings.set_setting("application/public_test_feedback", true)
+	ProjectSettings.set_setting("playtest/offline_feedback", true)
+	remote.endpoint = "https://receiver.example.test/v1"
+	var dual: Node = load("res://src/playtest/playtest_moments.gd").new()
+	root.add_child(dual)
+	dual.toggle()
+	_assert(not store.last_exit_context.is_empty() and dual.target.get("level_id") == "" and dual.saved_opinion.get("event") == "general_feedback", "Public Test opens the general opinion after leaving a task, even with a last-exit context.")
+	dual.close()
+	dual.open_for_task("hardware_foundations","half_adder")
+	var capture: Button = dual.panel.find_child("OpenLocalDiagnosticCapture",true,false)
+	var export_zip: Button = dual.panel.find_child("ExportLocalDiagnosticZip",true,false)
+	_assert(dual.panel.visible and not root.get_node("OfflineFeedback").backdrop.visible and dual.send_opinion.is_visible_in_tree(), "A task in public Test opens the private opinion form before any local capture.")
+	_assert(capture != null and capture.is_visible_in_tree() and export_zip != null and export_zip.is_visible_in_tree() and not dual.source_selector.visible and not remote.community_available(), "Public Test exposes independent local capture and ZIP actions with its release capabilities.")
+	if export_zip != null:
+		export_zip.pressed.emit()
+		var dialog: FileDialog = root.get_node("OfflineFeedback").export_dialog
+		_assert(not dual.panel.visible and dialog != null and dialog.visible and dialog.file_mode == FileDialog.FILE_MODE_SAVE_FILE and remote.queue.is_empty(), "ZIP opens a local destination chooser without transmitting anything.")
+		if dialog != null: dialog.hide()
+	dual.free()
+	ProjectSettings.set_setting("application/public_test_feedback", previous_test)
+	ProjectSettings.set_setting("playtest/offline_feedback", previous_capture)
+	ProjectSettings.set_setting("application/public_game_feedback", true)
 	_check_community_capabilities(remote)
 	remote.endpoint = previous_endpoint
 	remote.request = previous_request

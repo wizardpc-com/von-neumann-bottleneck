@@ -6275,7 +6275,7 @@ msgid "sharing.5"
 msgstr " / 5"
 
 msgid "sharing.opinion_even_before_passing_240_characters"
-msgstr "Opinion, even before passing (240 characters)"
+msgstr "Your feedback (240 characters)"
 
 msgid "sharing.save_task_feedback_locally"
 msgstr "Save task feedback locally"
@@ -6834,7 +6834,7 @@ msgid "sharing.send_feedback"
 msgstr "Send feedback"
 
 msgid "sharing.opinion_send_disclosure"
-msgstr "Send shares this opinion, task and build details, and a random installation ID. Statistics are a separate choice."
+msgstr "Send shares this opinion, build details, a random installation ID and, for a task opinion, task details. Statistics are a separate choice."
 
 msgid "sharing.keep_locally"
 msgstr "Save on this device"
@@ -7335,3 +7335,15 @@ msgstr "This fastest design is already loaded."
 
 msgid "chapter2.history.change.program"
 msgstr "source program"
+
+msgid "moments.general"
+msgstr "General feedback"
+
+msgid "moments.local_capture"
+msgstr "Capture this scene locally"
+
+msgid "moments.local_zip"
+msgstr "Save local diagnostic ZIP…"
+
+msgid "moments.opinion_required"
+msgstr "Add an opinion, category or rating."

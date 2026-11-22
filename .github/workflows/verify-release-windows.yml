@@ -1,13 +1,13 @@
-name: Verify Windows draft release archives
+name: Verify Windows release archives
 on:
   workflow_dispatch:
     inputs:
       release_id:
-        description: GitHub draft Release numeric ID
+        description: GitHub draft Release numeric ID (or the pinned published predecessor)
         required: true
         type: string
       release_tag:
-        description: Exact draft tag
+        description: Exact release tag
         required: true
         type: string
       source_commit:
@@ -23,11 +23,11 @@ on:
         required: true
         type: string
       test_asset:
-        description: Exact offline Test Windows ZIP asset name
+        description: Exact Test Windows ZIP asset name
         required: true
         type: string
       test_sha256:
-        description: Offline Test Windows ZIP SHA-256
+        description: Test Windows ZIP SHA-256
         required: true
         type: string
       verify_public_edge:
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Read and verify the exact draft release assets
+      - name: Read and verify the exact release assets
         if: ${{ !inputs.use_draft_asset_capabilities }}
         env:
           GH_TOKEN: ${{ github.token }}
@@ -77,6 +77,11 @@ jobs:
           VNB_TEST_SHA256: ${{ inputs.test_sha256 }}
           VNB_TEST_ASSET_CAPABILITY: ${{ secrets.VNB_WINDOWS_DRAFT_TEST_URL }}
         run: python scripts/verify-release-windows.py fetch --capabilities
+      - name: Fetch the pinned public predecessor for synthetic save upgrade
+        if: ${{ inputs.release_tag == 'v0.6.1-playtest.2' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/verify-release-windows.py fetch-baseline
       - name: Run the frozen Windows packages with isolated profiles
         run: python scripts/verify-release-windows.py verify
   verify-public-edge:

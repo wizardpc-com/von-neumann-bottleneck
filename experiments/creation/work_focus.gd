@@ -336,7 +336,13 @@ func _input(event: InputEvent) -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F8:
-		get_viewport().set_input_as_handled(); request_feedback.emit(); return
+		get_viewport().set_input_as_handled()
+		if get_node("/root/RemoteFeedback").is_public_test() and get_node("/root/OfflineFeedback").enabled():
+			# The shared Test shortcut opens the form in this focused window.
+			pause_playback()
+		else:
+			request_feedback.emit()
+		return
 	var playtest: Variant = get_node_or_null("/root/PlaytestData")
 	if playtest != null and bool(playtest.get("_feedback_visible")): return
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:

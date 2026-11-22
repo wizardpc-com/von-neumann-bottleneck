@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read exact draft assets and test frozen Windows binaries on a disposable runner."""
+"""Read exact release assets and test frozen Windows binaries on a disposable runner."""
 import argparse
 from contextlib import closing, contextmanager
 from datetime import datetime, timedelta, timezone
@@ -34,6 +34,26 @@ PUBLIC_ORIGIN = 'https://feedback.yanruiqing.com:8443'
 ASSET_HOSTS = {'release-assets.githubusercontent.com', 'objects.githubusercontent.com'}
 ASSET_PATTERN = r'Von-Neumann-Bottleneck-Windows-[A-Za-z0-9.-]+\.zip'
 CAPABILITY_SECRETS = {'game':'VNB_WINDOWS_DRAFT_GAME_URL','test':'VNB_WINDOWS_DRAFT_TEST_URL'}
+FINAL_TAG = 'v0.6.1-playtest.2'
+FINAL_BATCH = 'Players061-Release2'
+BASELINE = {
+    'repository': 'wizardpc-com/von-neumann-bottleneck',
+    'release_id': '454479788',
+    'tag': 'v0.6.1-playtest.1',
+    'source_commit': 'c4a09364748410370d605e55e610943b5c69a72b',
+    'assets': {
+        'game': {
+            'name': 'Von-Neumann-Bottleneck-Windows-vnb-game-release-v0.6.1-playtest.1-Players061-Release1-c4a093647484.zip',
+            'bytes': 211972635,
+            'sha256': 'b56c56913bccfc948af7a715686429c118e61fe87a008d06ee138bc94b9323b8',
+        },
+        'test': {
+            'name': 'Von-Neumann-Bottleneck-Windows-vnb-test-release-v0.6.1-playtest.1-Players061-Release1-c4a093647484.zip',
+            'bytes': 211972258,
+            'sha256': 'a88871d53304a99238295bed1d3a33da8ec3431a823116b44f4f744f3f797319',
+        },
+    },
+}
 BLOCKED_PREFIXES = {
     'IPv4': tuple(str(prefix) for prefix in ipaddress.ip_network('0.0.0.0/0').address_exclude(
         ipaddress.ip_network('127.0.0.0/8'))),
@@ -86,9 +106,24 @@ def gh_get(path, accept='application/vnd.github+json', destination=None, missing
 def verify_draft(repository, release, release_id, tag, commit):
     if release.get('id') != int(release_id) or release.get('tag_name') != tag or release.get('draft') is not True:
         raise ValueError('Release ID/tag must identify the exact draft')
+    verify_tag(repository, tag, commit, untagged_target=release.get('target_commitish'))
+
+
+def verify_published_baseline(release):
+    if (release.get('id') != int(BASELINE['release_id']) or release.get('tag_name') != BASELINE['tag']
+            or release.get('draft') is not False):
+        raise ValueError('Expected the exact published upgrade predecessor')
+    verify_tag(BASELINE['repository'], BASELINE['tag'], BASELINE['source_commit'])
+    for pin in BASELINE['assets'].values():
+        asset = asset_identity(release, pin['name'], pin['sha256'])
+        if asset['bytes'] != pin['bytes']:
+            raise ValueError('Unexpected pinned published archive size')
+
+
+def verify_tag(repository, tag, commit, *, untagged_target=None):
     reference = gh_get(f'repos/{repository}/git/ref/tags/{tag}', missing_ok=True)
     if reference is None:
-        if release.get('target_commitish') != commit:
+        if untagged_target != commit:
             raise ValueError('An untagged draft must name the full frozen commit as target_commitish')
         return
     target = reference['object']
@@ -98,7 +133,7 @@ def verify_draft(repository, release, release_id, tag, commit):
         oid = pinned(target['sha'], r'[0-9a-f]{40}', 'annotated tag SHA')
         target = gh_get(f'repos/{repository}/git/tags/{oid}')['object']
     if target['type'] != 'commit' or target['sha'] != commit:
-        raise ValueError('Draft tag does not resolve to the pinned commit')
+        raise ValueError('Release tag does not resolve to the pinned commit')
 
 
 def asset_identity(release, name, digest):
@@ -172,7 +207,16 @@ def fetch(work, *, capabilities=False):
         if not os.environ.get('GH_TOKEN'):
             raise RuntimeError('The built-in GitHub runner token is required in the download step')
         release = gh_get(f'repos/{repository}/releases/{release_id}')
-        verify_draft(repository, release, release_id, tag, commit)
+        if release.get('draft') is False and all(
+            value == BASELINE[key] for key,value in (('repository',repository),('release_id',release_id),
+                                                      ('tag',tag),('source_commit',commit))
+        ):
+            verify_published_baseline(release)
+            if any(pin['name'] != BASELINE['assets'][role]['name']
+                   or pin['sha256'] != BASELINE['assets'][role]['sha256'] for role,pin in records.items()):
+                raise ValueError('Published predecessor requires the fixed Windows archive pins')
+        else:
+            verify_draft(repository, release, release_id, tag, commit)
         records={role:asset_identity(release, asset['name'], asset['sha256']) for role,asset in records.items()}
         if records['game']['id']==records['test']['id']:
             raise ValueError('Game and Test require distinct draft asset IDs')
@@ -188,11 +232,32 @@ def fetch(work, *, capabilities=False):
             raise ValueError(f'Downloaded {role} asset differs from the pinned bytes')
     write_json(work/'downloads.json', {'repository':repository,'release_id':release_id,'tag':tag,
                                       'source_commit':commit,'assets':records,
-                                      'download_identity':'operator-resolved capabilities' if capabilities else 'runner draft API'})
+                                      'download_identity':'operator-resolved capabilities' if capabilities else 'runner release API'})
+
+
+def fetch_baseline(work):
+    candidate = read_json(work/'downloads.json')
+    repository = BASELINE['repository']
+    if (candidate['tag'] != FINAL_TAG or candidate['repository'] != repository
+            or candidate['source_commit'] == BASELINE['source_commit']
+            or not os.environ.get('GH_TOKEN')):
+        raise ValueError('Baseline fetch requires the final candidate and built-in runner token')
+    release_id, tag = BASELINE['release_id'], BASELINE['tag']
+    release = gh_get(f'repos/{repository}/releases/{release_id}')
+    verify_published_baseline(release)
+    for role, pin in BASELINE['assets'].items():
+        asset = asset_identity(release, pin['name'], pin['sha256'])
+        archive = work/f'baseline-{role}.zip'
+        gh_get(f'repos/{repository}/releases/assets/{asset["id"]}', 'application/octet-stream', archive)
+        if archive.stat().st_size != pin['bytes'] or sha256(archive) != pin['sha256']:
+            raise ValueError(f'Published {role} archive differs from its fixed pin')
+    print(f'Pinned public predecessor {tag} ({BASELINE["source_commit"]}) verified', flush=True)
 
 
 def verify_manifest(manifest, role, tag, commit, asset_name):
     batch = pinned(manifest.get('test_batch',''), r'[A-Za-z0-9-]{1,40}', 'package batch')
+    if tag == FINAL_TAG and batch != FINAL_BATCH:
+        raise ValueError('Final package must use the frozen release batch')
     profile = 'Edition' + role.title()
     build = f'vnb-{role}-release-{tag}-{batch}-{commit[:12]}'
     expected = {'source_commit':commit,'release_version':tag,'display_version':tag[1:],
@@ -209,14 +274,21 @@ def verify_manifest(manifest, role, tag, commit, asset_name):
             or not re.fullmatch(r'4\.7\.1\.stable\.official\.[0-9a-f]{9,40}',manifest.get('engine',''))
             or any(manifest.get(key) for key in ('player_feedback_pilot','network_feedback_test','local_acceptance_only'))):
         raise ValueError(f'{role} package manifest does not match the pinned release identity')
-    if role == 'game':
-        if (manifest.get('public_game_feedback') is not True or manifest.get('community_feedback_enabled') is not False
+    if role == 'game' or tag == FINAL_TAG:
+        if ((role == 'game' and manifest.get('public_game_feedback') is not True)
+                or manifest.get('community_feedback_enabled') is not False
                 or manifest.get('feedback_default_source') != 'external_player' or manifest.get('feedback_source_batch') != batch
                 or manifest.get('feedback_endpoint') != PUBLIC_ORIGIN+'/v1'
                 or manifest.get('privacy_url') != PUBLIC_ORIGIN+'/privacy-player.html'):
-            raise ValueError('Game package lacks the online player feedback identity')
+            raise ValueError(f'{role} package lacks the online player feedback identity')
+        if role == 'test':
+            if (manifest.get('public_test_feedback') is not True or manifest.get('offline_feedback') is not True
+                    or 'public_game_feedback' in manifest):
+                raise ValueError('Final Test must declare online player feedback and offline capture')
+        elif manifest.get('public_test_feedback') or manifest.get('offline_feedback'):
+            raise ValueError('Game must retain the Game feedback and save profile')
     elif set(manifest) & {'feedback_endpoint','privacy_url','feedback_default_source','feedback_source_batch',
-                          'public_game_feedback','community_feedback_enabled'}:
+                          'public_game_feedback','community_feedback_enabled','public_test_feedback'}:
         raise ValueError('Test package must be offline')
     return profile
 
@@ -322,8 +394,9 @@ def write_override(path, scene, profile_dir, output, expected, endpoint, phase):
         PACKAGE.loopback_port(endpoint)
     data = {'phase':phase,'output':output.as_posix(),'user_dir':profile_dir.as_posix(),
             'endpoint':endpoint,'identity':expected}
+    main_scene = '' if scene is None else '\nrun/main_scene='+json.dumps(scene.as_posix(),ensure_ascii=False)
     config = ('[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name='
-              +json.dumps(expected['qa_dir'],ensure_ascii=False)+'\nrun/main_scene='+json.dumps(scene.as_posix(),ensure_ascii=False)
+              +json.dumps(expected['qa_dir'],ensure_ascii=False)+main_scene
               +'\nfeedback_endpoint='+json.dumps(endpoint)+'\nfeedback_privacy_url=""\nfeedback_source_batch="HostedWindowsReleaseQA"'
               +'\n\n[windows_release_qa]\nconfiguration='+json.dumps(json.dumps(data,ensure_ascii=False),ensure_ascii=False)+'\n')
     path.write_text(config,encoding='utf-8')
@@ -361,8 +434,11 @@ def verify_phase(binary, scene, profile_dir, work, expected, endpoint, phase, en
     try:
         print(f'Windows QA {expected["edition"]}: starting {phase} in the isolated profile',flush=True)
         try:
-            process=subprocess.run([str(binary),'--headless','--log-file',str(log),'--',
-                                    '--enable-playtest-feedback','--playtest-source=automated'],
+            arguments = [str(binary),'--headless','--log-file',str(log),'--',
+                         '--enable-playtest-feedback','--playtest-source=automated']
+            if expected.get('display_version') == FINAL_TAG[1:]:
+                arguments.append('--enable-playtest-telemetry')
+            process=subprocess.run(arguments,
                                    cwd=binary.parent,env=env,capture_output=True,text=True,encoding='utf-8',
                                    errors='replace',timeout=90)
         except subprocess.TimeoutExpired as error:
@@ -380,6 +456,99 @@ def verify_phase(binary, scene, profile_dir, work, expected, endpoint, phase, en
             or Path(report['user_dir']).resolve()!=profile_dir.resolve()):
         raise ValueError('Runtime receipt does not match the isolated package and phase')
     return report
+
+
+def verify_startup(binary, stage, profile, expected, env, *, windowed=False):
+    """Run the packaged main scene, preserving its own startup and hub transition."""
+    override = binary.parent/'override.cfg'
+    if override.exists():
+        raise ValueError('Unexpected executable override before startup')
+    log = stage/'startup.engine.log'
+    write_override(override, None, profile, stage, expected, '', 'startup')
+    try:
+        try:
+            launch = [str(binary), '--verbose', '--quit-after', '180', '--log-file', str(log)]
+            if windowed:
+                launch.extend(('--audio-driver','Dummy'))
+            else:
+                launch.insert(1, '--headless')
+            process = subprocess.run(launch, cwd=binary.parent, env=env,
+                                     capture_output=True, text=True, encoding='utf-8',
+                                     errors='replace', timeout=45)
+        except subprocess.TimeoutExpired as error:
+            output = (error.stdout or b'').decode('utf-8', errors='replace')
+            output += (error.stderr or b'').decode('utf-8', errors='replace')
+            print(phase_diagnostics(output), flush=True)
+            raise RuntimeError(f'{expected["edition"]} shipped startup timed out') from None
+    finally:
+        override.unlink(missing_ok=True)
+    output = process.stdout + process.stderr
+    if log.exists():
+        output += '\n' + log.read_text(encoding='utf-8', errors='replace')
+    (stage/'startup.log').write_text(output, encoding='utf-8')
+    def loaded(scene):
+        return re.search(r'Loading resource: res://(?:src/ui/'+scene+r'\.tscn\b|'
+                         r'\.godot/exported/\d+/export-[0-9a-f]+-'+scene+r'\.scn\b)',output)
+
+    if windowed and not loaded('startup') and re.search(
+            r'OpenGL.*(?:not supported|does not support|could not|failed|require)|'
+            r'(?:failed|unable|cannot|could not).*?(?:OpenGL|WGL|display driver|create window)|'
+            r'Your video card driver does not support', output, re.IGNORECASE):
+        print(phase_diagnostics(output), flush=True)
+        return 'windowed unavailable: runner display or graphics initialization failed'
+    if (process.returncode or any('ERROR:' in line and 'root certificate store' not in line
+                                  for line in output.splitlines())
+            or not loaded('startup') or (not windowed and not loaded('prototype_hub'))):
+        print(phase_diagnostics(output), flush=True)
+        raise RuntimeError(f'{expected["edition"]} shipped startup did not reach the laboratory'
+                           if not windowed else f'{expected["edition"]} shipped windowed startup failed')
+    if windowed:
+        if not re.search(r'OpenGL (?:API|ES)|Vulkan API|Direct3D', output):
+            raise RuntimeError(f'{expected["edition"]} windowed startup did not identify a rendering backend')
+        return 'windowed startup and renderer initialized'
+    return 'shipped startup reached the laboratory (headless)'
+
+
+def windows_host_facts(binary, env):
+    command = (
+        "$ErrorActionPreference='Stop'; "
+        "$s=Get-AuthenticodeSignature -LiteralPath $env:VNB_QA_EXE; "
+        "$id=[System.Diagnostics.Process]::GetCurrentProcess().SessionId; "
+        "[pscustomobject]@{status=$s.Status.ToString(); signer_present=($null -ne $s.SignerCertificate); "
+        "interactive=([Environment]::UserInteractive -and $id -ne 0)} | ConvertTo-Json -Compress"
+    )
+    result = subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-Command',command],
+                            check=True, timeout=45, capture_output=True, text=True, encoding='utf-8',
+                            env=env | {'VNB_QA_EXE':str(binary)})
+    facts = json.loads(result.stdout)
+    pinned(facts['status'], r'[A-Za-z]+', 'Authenticode status')
+    if any(type(facts[key]) is not bool for key in ('signer_present','interactive')):
+        raise ValueError('Missing Windows runner or Authenticode evidence')
+    return facts
+
+
+def verify_fresh_startup(binary, stage, expected):
+    stage.mkdir()
+    env = runner_environment(stage/'runtime')
+    facts = windows_host_facts(binary, env)
+    profile = Path(env['APPDATA'])/expected['qa_dir']
+    if profile.exists():
+        raise ValueError('Fresh Windows startup requires an unused profile')
+    role = expected['edition']
+    print(f'Windows QA {role}: Authenticode {facts["status"]}, signer present: {facts["signer_present"]}', flush=True)
+    headless = verify_startup(binary,stage,profile,expected,env)
+    windowed = 'windowed skipped: Windows runner session has no interactive desktop'
+    if facts['interactive']:
+        window_stage = stage/'windowed'
+        window_stage.mkdir()
+        window_env = runner_environment(window_stage/'runtime')
+        window_profile = Path(window_env['APPDATA'])/expected['qa_dir']
+        if window_profile.exists():
+            raise ValueError('Fresh Windows windowed startup requires an unused profile')
+        windowed = verify_startup(binary,window_stage,window_profile,expected,window_env,windowed=True)
+    print(f'Windows QA {role}: fresh profile {headless}. {windowed}.', flush=True)
+    return {'authenticode_status':facts['status'], 'signer_present':facts['signer_present'],
+            'headless':headless, 'windowed':windowed}
 
 
 @contextmanager
@@ -415,17 +584,116 @@ def receiver(work, port):
                 child.wait()
 
 
-def verify_opinion(database, event_id, manifest):
+def verify_delivery(database, receipt, manifest, *, automatic=False):
     with closing(sqlite3.connect(database)) as data:
-        rows = data.execute('SELECT id,kind,body FROM events').fetchall()
-    if len(rows)!=1 or rows[0][:2]!=(event_id,'feedback'):
-        raise ValueError('Expected exactly one matching synthetic opinion in the loopback receiver')
-    payload=json.loads(rows[0][2])['payload']
-    expected={'chapter_id':'hardware_foundations','level_id':'tutorial','mode':'game','source':'automated',
-              'source_batch':'HostedWindowsReleaseQA','note':NOTE,'build_version':manifest['display_version'],
-              'source_commit':manifest['source_commit'],'test_batch':manifest['test_batch'],'sharing_mode':'opinion'}
-    if any(payload.get(k)!=v for k,v in expected.items()) or {'program_source','examples','output','intent','work'} & payload.keys():
-        raise ValueError('Synthetic loopback opinion has incorrect attribution or contains protected work')
+        rows = data.execute('SELECT id,kind,body,client_id FROM events').fetchall()
+    event_id = pinned(receipt['feedback_id'], r'[0-9a-f]{64}', 'opinion receipt ID')
+    pins = {event_id: ('feedback', {'note': NOTE,'sharing_mode': 'opinion'})}
+    if automatic:
+        auto_id = pinned(receipt['automatic_id'], r'[0-9a-f]{64}', 'automatic event receipt ID')
+        if auto_id == event_id or not receipt.get('automatic_visit_id'):
+            raise ValueError('Manual and automatic delivery require separate attributed events')
+        pins[auto_id] = ('event', {'event':'visit_summary', 'visit_id':receipt['automatic_visit_id'],
+                                   'sharing_mode':'basic'})
+    if (len(rows) != len(pins) or {row[0]:row[1] for row in rows} != {key:pin[0] for key,pin in pins.items()}
+            or len({row[3] for row in rows}) != 1):
+        raise ValueError('Unexpected or duplicate synthetic records in the loopback receiver')
+    expected={'chapter_id':'hardware_foundations','level_id':'tutorial','mode':manifest['edition'],'source':'automated',
+              'source_batch':'HostedWindowsReleaseQA','build_version':manifest['display_version'],
+              'source_commit':manifest['source_commit'],'test_batch':manifest['test_batch']}
+    forbidden = {'program_source','examples','output','intent','work','client_id','deletion_token'}
+    for row_id, kind, body, _ in rows:
+        payload = json.loads(body)['payload']
+        required = expected | pins[row_id][1]
+        if (any(payload.get(key) != value for key,value in required.items())
+                or forbidden & payload.keys() or (kind == 'event' and 'note' in payload)
+                or not all(payload.get(key) for key in ('consent_version','privacy_notice_version','consent_timestamp'))):
+            raise ValueError('Synthetic loopback record has incorrect attribution, missing consent, or protected work')
+    if automatic:
+        report_dir = database.parent/'private-report'
+        subprocess.run([sys.executable,str(ROOT/'server/private_report.py'),'--database',str(database),
+                        '--output',str(report_dir)], check=True, timeout=30)
+        report = read_json(report_dir/'report.json')
+        opinions = report['received_feedback']
+        if (report['deduplicated_events'] != len(rows) or report['quarantined_records'] or len(opinions) != 1
+                or opinions[0]['event_id'] != event_id or opinions[0]['note'] != NOTE
+                or opinions[0]['mode'] != manifest['edition']):
+            raise ValueError('Private report disagrees with the synthetic native receiver')
+    return {'opinions':1, 'automatic_events':int(automatic)}
+
+
+def phase_pair(first, second, *preserved):
+    if first['pid'] == second['pid'] or any(first[key] != second[key] for key in preserved):
+        raise ValueError('Independent Windows process did not preserve the synthetic state')
+
+
+def verify_offline_bundle(stage, case_id, manifest):
+    with zipfile.ZipFile(stage/'offline-feedback.zip') as bundle:
+        prefix = f'cases/{pinned(case_id, r"[0-9a-f]{32}", "offline case ID")}/'
+        index = json.loads(bundle.read('manifest.json'))
+        build = index['build']
+        case = json.loads(bundle.read(prefix+'case.json'))
+        notes = bundle.read(prefix+'notes.jsonl').decode('utf-8').splitlines()
+        if (not notes or json.loads(notes[-1])['note'] != NOTE or case.get('note') != NOTE
+                or case.get('task',{}).get('level_id') != 'tutorial'
+                or index.get('format') != 'vnb-offline-playtest' or index.get('case_count') != 1
+                or build.get('source_commit') != manifest['source_commit']
+                or build.get('version') != manifest['display_version']):
+            raise ValueError('Offline ZIP does not preserve the restarted note')
+        inventory = {entry['path']:entry for entry in index['files']}
+        member_names = bundle.namelist()
+        if (len(index['files']) != len(inventory) or len(member_names) != len(inventory)+1
+                or set(member_names) != inventory.keys() | {'manifest.json'}
+                or any(Path(name).name == 'feedback_outbox_v1.json' for name in inventory)):
+            raise ValueError('Offline ZIP inventory contains unexpected content')
+        for name, entry in inventory.items():
+            data = bundle.read(name)
+            if len(data) != entry['size'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                raise ValueError('Offline ZIP inventory hash mismatch')
+
+
+@contextmanager
+def disconnected_endpoint():
+    with socket.socket() as reservation:
+        reservation.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        reservation.bind(('127.0.0.1', 0))
+        port = reservation.getsockname()[1]
+        yield port, f'http://127.0.0.1:{port}'
+
+
+def phase_identity(manifest, qa_dir):
+    expected = {key:manifest[key] for key in ('edition','display_version','source_commit','test_batch',
+                                             'build_id','save_profile','engine')}
+    return expected | {'qa_dir':qa_dir}
+
+
+def verify_unchanged(binary, manifest, archive, digest):
+    if (any(sha256(binary.parent/name)!=value for name,value in manifest['files_sha256'].items())
+            or read_json(binary.parent/'BUILD-MANIFEST.json') != manifest
+            or sha256(archive)!=digest or (binary.parent/'override.cfg').exists()):
+        raise ValueError('Frozen archive or extracted package changed during Windows QA')
+
+
+def verify_upgrade(binary, expected, baseline, scene, stage):
+    stage.mkdir()
+    old_binary, old_manifest = baseline
+    role = expected['edition']
+    if old_manifest['save_profile'] != expected['save_profile']:
+        raise ValueError('The predecessor and candidate must use the same edition save profile')
+    if not old_binary.with_suffix('.pck').exists():
+        PACKAGE.embedded_pck_sha256(old_binary)
+    env = runner_environment(stage/'runtime')
+    profile = Path(env['APPDATA'])/expected['qa_dir']
+    with guarded_binary(old_binary, role):
+        first = verify_phase(old_binary,scene,profile,stage,phase_identity(old_manifest,expected['qa_dir']),'','seed',env)
+    # The candidate firewall is already active. The shipped main scene and the
+    # headless save loader both see the same old-build profile before any rewrite.
+    startup = verify_startup(binary, stage, profile, expected, env)
+    second = verify_phase(binary,scene,profile,stage,expected,'','upgrade',env)
+    phase_pair(first, second, 'workbench_sha256', 'save_sha256')
+    print(f'Windows QA {role}: previous-build saves reopened with matching hashes', flush=True)
+    return {'previous_build':old_manifest['build_id'],'startup':startup,
+            'seed':first,'upgrade':second}
 
 
 def verify(work):
@@ -439,11 +707,15 @@ def verify(work):
     if any(path.exists() for path in protected):
         raise RuntimeError('Runner has existing Godot player paths. No binary was launched.')
     identity=read_json(work/'downloads.json')
+    final = identity['tag'] == FINAL_TAG
     prepared = {}
+    baseline = {}
     for role in ('game','test'):
         stage=work/role
         stage.mkdir()
         prepared[role]=unpack(work/(role+'.zip'),stage/'copy',role,identity)
+        if final:
+            baseline[role]=unpack(work/f'baseline-{role}.zip',stage/'baseline-package',role,BASELINE)
     for key in ('engine','test_batch','content_version'):
         if prepared['game'][1].get(key) != prepared['test'][1].get(key):
             raise ValueError(f'Game and Test release manifests disagree on {key}')
@@ -459,39 +731,45 @@ def verify(work):
         env=runner_environment(stage/'runtime')
         qa_dir='HostedWindowsReleaseQA/VonNeumannBottleneckCandidates/representation/'+manifest['save_profile']
         profile_dir=Path(env['APPDATA'])/qa_dir
-        expected={k:manifest[k] for k in ('edition','display_version','source_commit','test_batch',
-                                         'build_id','save_profile','engine')}
-        expected['qa_dir']=qa_dir
+        expected=phase_identity(manifest,qa_dir)
+        details = {}
         try:
             with guarded_binary(binary,role):
-                if role == 'game':
-                    with socket.socket() as reservation:
-                        reservation.setsockopt(socket.SOL_SOCKET,socket.SO_EXCLUSIVEADDRUSE,1)
-                        reservation.bind(('127.0.0.1',0))
-                        port=reservation.getsockname()[1]
-                        endpoint=f'http://127.0.0.1:{port}'
+                if final:
+                    details['fresh_startup'] = verify_fresh_startup(binary,stage/'first-launch',expected)
+                    details['compatibility'] = verify_upgrade(binary,expected,baseline[role],scene,stage/'upgrade')
+                if role == 'game' or final:
+                    with disconnected_endpoint() as (port, endpoint):
                         first=verify_phase(binary,scene,profile_dir,stage,expected,endpoint,'write',env)
                     with receiver(stage,port) as database:
                         second=verify_phase(binary,scene,profile_dir,stage,expected,endpoint,'restart',env)
-                        verify_opinion(database,first['feedback_id'],manifest)
+                        details['delivery'] = verify_delivery(database,second,manifest,automatic=final)
+                    print(f'Windows QA {role}: verified SQLite counts {details["delivery"]}', flush=True)
                 else:
                     first=verify_phase(binary,scene,profile_dir,stage,expected,'','write',env)
                     second=verify_phase(binary,scene,profile_dir,stage,expected,'','restart',env)
-                    with zipfile.ZipFile(stage/'offline-feedback.zip') as bundle:
-                        case_id=first['feedback_id']
-                        notes=bundle.read(f'cases/{case_id}/notes.jsonl').decode('utf-8').splitlines()
-                        if json.loads(notes[-1])['note']!=NOTE:
-                            raise ValueError('Offline ZIP does not preserve the restarted note')
+                    verify_offline_bundle(stage,first['feedback_id'],manifest)
+                if final and role == 'test':
+                    offline = stage/'disconnected'
+                    offline.mkdir()
+                    offline_env = runner_environment(offline/'runtime')
+                    offline_profile = Path(offline_env['APPDATA'])/qa_dir
+                    with disconnected_endpoint() as (_, endpoint):
+                        capture = verify_phase(binary,scene,offline_profile,offline,expected,endpoint,'capture',offline_env)
+                        export = verify_phase(binary,scene,offline_profile,offline,expected,endpoint,'export',offline_env)
+                    phase_pair(capture, export, 'workbench_sha256', 'feedback_id')
+                    verify_offline_bundle(offline,capture['feedback_id'],manifest)
+                    details['disconnected'] = {'capture':capture,'export':export}
+                    print('Windows QA test: disconnected capture and restarted offline ZIP verified', flush=True)
         finally:
             if any(path.exists() for path in protected):
                 raise RuntimeError('A package created files in an unisolated Godot player path')
-        if (first['pid']==second['pid'] or first['workbench_sha256']!=second['workbench_sha256']
-                or first['feedback_id']!=second['feedback_id']
-                or any(sha256(binary.parent/name)!=digest for name,digest in manifest['files_sha256'].items())
-                or sha256(work/(role+'.zip'))!=identity['assets'][role]['sha256']):
-            raise ValueError(f'{role} restart/preservation did not match')
+        phase_pair(first, second, 'workbench_sha256', 'feedback_id')
+        verify_unchanged(binary,manifest,work/(role+'.zip'),identity['assets'][role]['sha256'])
+        if final:
+            verify_unchanged(*baseline[role],work/f'baseline-{role}.zip',BASELINE['assets'][role]['sha256'])
         write_json(stage/'result.json',{'passed':True,'asset':identity['assets'][role],
-                   'build_id':manifest['build_id'],'edition':role,'write':first,'restart':second})
+                   'build_id':manifest['build_id'],'edition':role,'write':first,'restart':second,**details})
         print(f'PASS: {role} frozen Windows executable, isolated save/restart and synthetic feedback '
               f'(ZIP SHA-256 {identity["assets"][role]["sha256"]})',flush=True)
     write_json(work/'result.json',{'passed':True, **identity,'scope':'Windows hosted headless binary; synthetic local feedback only'})
@@ -499,7 +777,7 @@ def verify(work):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('phase',choices=('fetch','verify'))
+    parser.add_argument('phase',choices=('fetch','fetch-baseline','verify'))
     parser.add_argument('--capabilities',action='store_true',help='Use only the dedicated short-lived GitHub asset secrets')
     args=parser.parse_args()
     if sys.platform!='win32' or os.environ.get('RUNNER_ENVIRONMENT')!='github-hosted':
@@ -511,6 +789,8 @@ def main():
         fetch(work,capabilities=args.capabilities)
     elif args.capabilities:
         parser.error('--capabilities is only valid for fetch')
+    elif args.phase=='fetch-baseline':
+        fetch_baseline(work)
     else:
         verify(work)
 

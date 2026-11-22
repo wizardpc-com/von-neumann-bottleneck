@@ -6274,7 +6274,7 @@ msgid "sharing.5"
 msgstr " / 5"
 
 msgid "sharing.opinion_even_before_passing_240_characters"
-msgstr "本关意见（未通关也能写，最多 240 字）"
+msgstr "写下你的意见（最多 240 字）"
 
 msgid "sharing.save_task_feedback_locally"
 msgstr "保存本关评价到本机"
@@ -6833,7 +6833,7 @@ msgid "sharing.send_feedback"
 msgstr "发送反馈"
 
 msgid "sharing.opinion_send_disclosure"
-msgstr "发送会分享这条意见、任务和版本信息，以及随机安装标识。统计分享由你另行选择。"
+msgstr "发送会分享这条意见、版本信息和随机安装标识。针对任务的意见还会附上任务信息。统计分享由你另行选择。"
 
 msgid "sharing.keep_locally"
 msgstr "保存到本机"
@@ -7334,3 +7334,15 @@ msgstr "当前已是这份最快方案。"
 
 msgid "chapter2.history.change.program"
 msgstr "源程序"
+
+msgid "moments.general"
+msgstr "整体反馈"
+
+msgid "moments.local_capture"
+msgstr "在本机记录当前现场"
+
+msgid "moments.local_zip"
+msgstr "另存本机诊断 ZIP…"
+
+msgid "moments.opinion_required"
+msgstr "请填写意见、选择类别或评分。"

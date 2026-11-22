@@ -251,7 +251,7 @@ class WindowsReleaseTests(unittest.TestCase):
 
     def archive(self, role, *, changes=None, extra=None):
         profile='Edition'+role.title()
-        batch='PlayersRelease1'
+        batch=WINDOWS.FINAL_BATCH if self.tag == WINDOWS.FINAL_TAG else 'PlayersRelease1'
         build=f'vnb-{role}-release-{self.tag}-{batch}-{self.commit[:12]}'
         name=f'Von-Neumann-Bottleneck-{role.title()}.exe'
         binary=b'MZfixture executable'
@@ -264,11 +264,14 @@ class WindowsReleaseTests(unittest.TestCase):
                                       for d in ('representation','service')],
                   'access_policy':'earned' if role=='game' else 'all-task-entrances',
                   'test_batch':batch,'files_sha256':{name:hashlib.sha256(binary).hexdigest()}}
-        if role=='game':
-            manifest.update(public_game_feedback=True,community_feedback_enabled=False,
-                            feedback_default_source='external_player',feedback_source_batch=batch,
+        if role=='game' or self.tag == WINDOWS.FINAL_TAG:
+            manifest.update(community_feedback_enabled=False,feedback_default_source='external_player',feedback_source_batch=batch,
                             feedback_endpoint=WINDOWS.PUBLIC_ORIGIN+'/v1',
                             privacy_url=WINDOWS.PUBLIC_ORIGIN+'/privacy-player.html')
+            if role=='game':
+                manifest['public_game_feedback']=True
+            else:
+                manifest.update(public_test_feedback=True,offline_feedback=True)
         manifest.update(changes or {})
         path=self.work/(role+'.zip')
         with zipfile.ZipFile(path,'w') as archive:
@@ -310,6 +313,158 @@ class WindowsReleaseTests(unittest.TestCase):
                 path,identity=self.archive(role,changes=changes)
                 with self.assertRaises(ValueError):
                     WINDOWS.unpack(path,self.work/str(index),role,identity)
+
+    def test_final_windows_archives_require_game_and_dual_test_contracts(self):
+        self.tag=WINDOWS.FINAL_TAG
+        for role in ('game','test'):
+            path,identity=self.archive(role)
+            _,manifest=WINDOWS.unpack(path,self.work/role,role,identity)
+            self.assertEqual(manifest['test_batch'],WINDOWS.FINAL_BATCH)
+            self.assertEqual(manifest['save_profile'],'Edition'+role.title())
+        for index, changes in enumerate((
+            {'test_batch':'OtherBatch'}, {'offline_feedback':False}, {'public_test_feedback':False},
+            {'public_game_feedback':False}, {'community_feedback_enabled':True},
+            {'feedback_endpoint':'https://unexpected.example/v1'}, {'save_migration':True},
+        )):
+            with self.subTest(changes=changes):
+                path,identity=self.archive('test',changes=changes)
+                with self.assertRaises(ValueError):
+                    WINDOWS.unpack(path,self.work/str(index),'test',identity)
+
+    def test_published_baseline_fetch_checks_tag_and_both_download_pins(self):
+        bodies={'game':b'game predecessor','test':b'test predecessor'}
+        pins={role:{'name':role+'.zip','bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}
+              for role,body in bodies.items()}
+        baseline=WINDOWS.BASELINE | {'assets':pins}
+        assets=[{'name':pin['name'],'id':index,'state':'uploaded','size':pin['bytes'],'digest':'sha256:'+pin['sha256']}
+                for index,pin in enumerate(pins.values(), 1)]
+        release={'id':int(baseline['release_id']),'draft':False,'tag_name':baseline['tag'],'assets':assets}
+        WINDOWS.write_json(self.work/'downloads.json',{'tag':WINDOWS.FINAL_TAG,'repository':baseline['repository'],
+                                                       'source_commit':self.commit})
+
+        def api(path, accept=None, destination=None, missing_ok=False):
+            if '/git/ref/' in path:
+                return {'object':{'type':'commit','sha':baseline['source_commit']}}
+            if destination is None:
+                return release
+            self.assertEqual(accept,'application/octet-stream')
+            destination.write_bytes(bodies[list(pins)[int(path.rsplit('/',1)[1])-1]])
+
+        with mock.patch.dict(os.environ,{'GH_TOKEN':'mock-runner-token'}), \
+                mock.patch.object(WINDOWS,'BASELINE',baseline), mock.patch.object(WINDOWS,'gh_get',side_effect=api):
+            WINDOWS.fetch_baseline(self.work)
+            self.assertEqual((self.work/'baseline-test.zip').read_bytes(),bodies['test'])
+            bodies['test']=b'x'*len(bodies['test'])
+            with self.assertRaisesRegex(ValueError,'fixed pin'):
+                WINDOWS.fetch_baseline(self.work)
+            release['draft']=True
+            with self.assertRaisesRegex(ValueError,'published upgrade predecessor'):
+                WINDOWS.fetch_baseline(self.work)
+
+    def test_final_feedback_delivery_checks_separate_consents_and_private_report(self):
+        for role in ('game','test'):
+            with self.subTest(role=role):
+                folder=self.work/role
+                folder.mkdir()
+                database=folder/'synthetic.sqlite'
+                receipt={'feedback_id':'a'*64,'automatic_id':'b'*64,'automatic_visit_id':'consented-visit'}
+                manifest={'edition':role,'display_version':WINDOWS.FINAL_TAG[1:],'source_commit':self.commit,
+                          'test_batch':WINDOWS.FINAL_BATCH}
+                common={'chapter_id':'hardware_foundations','level_id':'tutorial','mode':role,'source':'automated',
+                        'source_batch':'HostedWindowsReleaseQA','build_version':manifest['display_version'],
+                        'source_commit':self.commit,'test_batch':WINDOWS.FINAL_BATCH,'session_id':'synthetic',
+                        'consent_version':'sharing-2','privacy_notice_version':'2026-10-17',
+                        'consent_timestamp':'2026-11-22T15:00:00Z'}
+                auto=common | {'event':'visit_summary','visit_id':receipt['automatic_visit_id'],'sharing_mode':'basic'}
+                feedback=common | {'note':WINDOWS.NOTE,'sharing_mode':'opinion'}
+                with closing(sqlite3.connect(database)) as db, db:
+                    migrate(db)
+                    for key,kind,payload in (('feedback_id','feedback',feedback),('automatic_id','event',auto)):
+                        event_id=receipt[key]
+                        body=json.dumps({'event_id':event_id,'kind':kind,'payload':payload})
+                        db.execute('INSERT INTO events VALUES (?,?,?,?,?,?)',
+                                   (event_id,'synthetic-client',1,kind,body,hashlib.sha256(body.encode()).hexdigest()))
+                self.assertEqual(WINDOWS.verify_delivery(database,receipt,manifest,automatic=True),
+                                 {'opinions':1,'automatic_events':1})
+                with self.assertRaisesRegex(ValueError,'incorrect attribution'):
+                    WINDOWS.verify_delivery(database,receipt | {'automatic_visit_id':'before-consent'},manifest,automatic=True)
+                with self.assertRaisesRegex(ValueError,'Unexpected or duplicate'):
+                    WINDOWS.verify_delivery(database,receipt,manifest)
+
+    def test_startup_uses_shipped_main_scene_and_fails_without_hub(self):
+        binary=self.work/'candidate.exe'
+        override=self.work/'override.cfg'
+        expected={'qa_dir':'qa','edition':'game'}
+        launch=['Loading resource: res://src/ui/startup.tscn',
+                'Loading resource: res://.godot/exported/1234/export-d00dad-prototype_hub.scn']
+
+        def execute(command, **options):
+            settings=override.read_text(encoding='utf-8')
+            self.assertNotIn('run/main_scene',settings)
+            self.assertIn('feedback_endpoint=""',settings)
+            self.assertIn('--headless',command)
+            return SimpleNamespace(stdout='\n'.join(launch),stderr='',returncode=0)
+
+        with mock.patch.object(WINDOWS.subprocess,'run',side_effect=execute):
+            WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{})
+            launch.pop()
+            with self.assertRaisesRegex(RuntimeError,'did not reach the laboratory'):
+                WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{})
+        self.assertFalse(override.exists())
+
+    def test_disconnected_bundle_requires_attributed_case_and_inventory_bytes(self):
+        case_id='c'*32
+        manifest={'source_commit':self.commit,'display_version':WINDOWS.FINAL_TAG[1:]}
+        prefix='cases/'+case_id+'/'
+        case={'note':WINDOWS.NOTE,'task':{'level_id':'tutorial'}}
+        files={prefix+'case.json':json.dumps(case).encode(),prefix+'notes.jsonl':json.dumps(case).encode()}
+        inventory=[{'path':name,'size':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+                   for name,data in files.items()]
+        index={'format':'vnb-offline-playtest','case_count':1,'files':inventory,
+               'build':{'source_commit':self.commit,'version':WINDOWS.FINAL_TAG[1:]}}
+
+        def bundle():
+            with zipfile.ZipFile(self.work/'offline-feedback.zip','w') as archive:
+                archive.writestr('manifest.json',json.dumps(index))
+                for name,data in files.items():
+                    archive.writestr(name,data)
+
+        bundle()
+        WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+        inventory[0]['sha256']='d'*64
+        bundle()
+        with self.assertRaisesRegex(ValueError,'inventory hash mismatch'):
+            WINDOWS.verify_offline_bundle(self.work,case_id,manifest)
+
+    def test_fresh_startup_uses_independent_profile_and_reports_runner_fallback(self):
+        binary=self.work/'candidate.exe'
+        expected={'qa_dir':'qa','edition':'test'}
+        facts={'status':'NotSigned','signer_present':False,'interactive':True}
+        launch=[]
+
+        def start(binary, stage, profile, expected, env, *, windowed=False):
+            self.assertFalse(profile.exists())
+            launch.append((profile,windowed))
+            return 'windowed unavailable' if windowed else 'headless reached lab'
+
+        with mock.patch.object(WINDOWS,'windows_host_facts',return_value=facts), \
+                mock.patch.object(WINDOWS,'verify_startup',side_effect=start):
+            receipt=WINDOWS.verify_fresh_startup(binary,self.work/'fresh',expected)
+        self.assertEqual(receipt,{'authenticode_status':'NotSigned','signer_present':False,
+                                  'headless':'headless reached lab','windowed':'windowed unavailable'})
+        self.assertEqual([windowed for _,windowed in launch],[False,True])
+        self.assertNotEqual(launch[0][0],launch[1][0])
+
+    def test_graphics_failure_only_falls_back_before_the_shipped_scene_load(self):
+        binary=self.work/'candidate.exe'
+        expected={'qa_dir':'qa','edition':'test'}
+        failure=SimpleNamespace(stdout='ERROR: Could not initialize OpenGL',stderr='',returncode=1)
+        with mock.patch.object(WINDOWS.subprocess,'run',return_value=failure):
+            result=WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True)
+            self.assertIn('graphics initialization failed',result)
+            failure.stdout+='\nLoading resource: res://src/ui/startup.tscn'
+            with self.assertRaisesRegex(RuntimeError,'shipped windowed startup failed'):
+                WINDOWS.verify_startup(binary,self.work,self.work/'profile',expected,{},windowed=True)
 
     def test_draft_binds_annotated_tag_or_exact_uncreated_tag(self):
         draft={'id':17,'draft':True,'tag_name':self.tag,'target_commitish':self.commit}

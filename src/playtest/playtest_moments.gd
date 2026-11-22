@@ -24,6 +24,7 @@ var source_selector: OptionButton
 var previous_focus: Control
 var target: Dictionary = {}
 var target_label: Label
+var general_button: Button
 var public_issues: LinkButton
 var task_form: VBoxContainer
 var receiver_label: Label
@@ -110,6 +111,12 @@ func _ready() -> void:
 	target_label=Label.new(); target_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	target_label.add_theme_font_size_override("font_size",17)
 	identity.add_child(target_label)
+	general_button = _button(context,"general",func() -> void:
+		_store_draft()
+		target = PlaytestData.task_feedback_context("","")
+		_prepare_target()
+		opinion.grab_focus())
+	general_button.name = "GeneralFeedback"
 	context_label=Label.new(); context_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	context_label.add_theme_font_size_override("font_size",13)
 	var diagnostics := Button.new()
@@ -208,6 +215,16 @@ func _ready() -> void:
 	box.add_child(recovery)
 	recovery.pressed.connect(func() -> void:
 		if _recover_drafts(): recovery.hide(); _store_draft(); _remote_updated())
+	if RemoteFeedback.is_public_test():
+		var capture := _button(box, "local_capture", func() -> void:
+			var task := target.duplicate(true)
+			close()
+			OfflineFeedback.open_panel(task if not str(task.get("level_id","")).is_empty() else {}))
+		capture.name = "OpenLocalDiagnosticCapture"
+		var export_zip := _button(box, "local_zip", func() -> void:
+			close()
+			OfflineFeedback.choose_export_path())
+		export_zip.name = "ExportLocalDiagnosticZip"
 	var remote_fold := CheckButton.new(); remote_fold.text=Localization.text(&"sharing.optional_sharing_and_data_settings"); remote_fold.set_meta("locale_field",["text","sharing.optional_sharing_and_data_settings"])
 	box.add_child(remote_fold)
 	var remote_box := VBoxContainer.new(); remote_box.hide(); box.add_child(remote_box)
@@ -293,7 +310,7 @@ func _ready() -> void:
 		source.add_item(_t("source."+kind))
 		source.set_item_metadata(source.item_count-1,kind)
 	source.disabled = PlaytestData.source_kind in ["automated","agent_native"]
-	source.visible = not RemoteFeedback.is_public_game()
+	source.visible = not RemoteFeedback.is_public_release()
 	for index: int in range(source.item_count):
 		if source.get_item_metadata(index) == PlaytestData.source_kind: source.select(index)
 	source.item_selected.connect(func(index: int) -> void:
@@ -380,9 +397,10 @@ func make_workbench_button() -> Button:
 
 
 func toggle() -> void:
-	if OfflineFeedback.enabled(): OfflineFeedback.open_panel(); return
+	if OfflineFeedback.enabled() and not RemoteFeedback.is_public_test(): OfflineFeedback.open_panel(); return
 	if panel.visible: close(); return
-	var actual: Dictionary = PlaytestData.current_task_context if not PlaytestData.current_task_context.is_empty() else PlaytestData.last_exit_context
+	var actual: Dictionary = PlaytestData.current_task_context
+	if actual.is_empty() and not RemoteFeedback.is_public_release(): actual = PlaytestData.last_exit_context
 	target=PlaytestData.task_feedback_context(str(actual.get("chapter_id","")),str(actual.get("level_id","")))
 	_prepare_target()
 	var window: Window = OfflineFeedback._focused_window(get_tree().root)
@@ -394,7 +412,7 @@ func toggle() -> void:
 		if not window.tree_exiting.is_connected(release): window.tree_exiting.connect(release, CONNECT_ONE_SHOT)
 	panel.show()
 	preload("res://src/ui/ui_motion.gd").reveal(panel.get_child(0))
-	if RemoteFeedback.endpoint_allowed() and not str(target.get("level_id","")).is_empty():
+	if RemoteFeedback.endpoint_allowed() and (RemoteFeedback.is_public_release() or not str(target.get("level_id","")).is_empty()):
 		opinion.grab_focus()
 	elif public_issues.visible:
 		public_issues.grab_focus()
@@ -428,10 +446,10 @@ func _release_window(window: Window) -> void:
 	if is_instance_valid(layer) and layer.get_parent() == window: close()
 
 func _input(event: InputEvent) -> void:
-	if OfflineFeedback.enabled(): return
+	if OfflineFeedback.enabled() and not RemoteFeedback.is_public_test(): return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if OfflineFeedback._focused_window(get_tree().root) != get_viewport(): return
-		if event.keycode == KEY_F8:
+		if event.keycode == KEY_F8 and not OfflineFeedback.enabled():
 			toggle(); get_viewport().set_input_as_handled()
 		elif event.keycode == KEY_ESCAPE and panel.visible and (panel.get_viewport() == get_viewport() or panel.get_viewport() is SubViewport):
 			close(); get_viewport().set_input_as_handled()
@@ -483,19 +501,19 @@ func _translate(node: Node) -> void:
 	for child: Node in node.get_children(): _translate(child)
 
 func open_for_task(chapter: String, level: String) -> void:
-	if OfflineFeedback.enabled(): OfflineFeedback.open_for_task(chapter,level); return
+	if OfflineFeedback.enabled() and not RemoteFeedback.is_public_test(): OfflineFeedback.open_for_task(chapter,level); return
 	_store_draft()
 	if panel.visible: close()
 	toggle()
 	target=PlaytestData.task_feedback_context(chapter,level)
 	_prepare_target()
-	if RemoteFeedback.is_public_game() and not level.is_empty(): opinion.grab_focus()
+	if RemoteFeedback.is_public_release() and not level.is_empty(): opinion.grab_focus()
 func _refresh_target_label() -> void:
 	var key: String = str(target.get("chapter_id",""))+"/"+str(target.get("level_id",""))
 	var title: String = key
 	for task: Dictionary in TaskNavigation.journey_tasks():
 		if task.key==key: title=task.title; break
-	target_label.text=Localization.text(&"sharing.feedback_for")+title if not target.get("level_id","").is_empty() else Localization.text(&"sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree")
+	target_label.text=Localization.text(&"sharing.feedback_for")+title if not target.get("level_id","").is_empty() else _t("general") if RemoteFeedback.is_public_release() else Localization.text(&"sharing.enter_a_task_to_rate_it_or_select_one_in_the_task_tree")
 
 func _prepare_target() -> void:
 	_refresh_target_label()
@@ -520,9 +538,18 @@ func _save_opinion() -> bool:
 	var chapter: String = str(target.get("chapter_id",""))
 	var level: String = str(target.get("level_id",""))
 	var same: bool = _matches_saved_opinion()
-	var saved: bool = same or PlaytestData.submit_level_feedback(StringName(chapter),StringName(level),ratings[0].selected,ratings[1].selected,ratings[2].selected,opinion.text,CATEGORIES[category.selected],target)
-	status.text="" if saved else Localization.text(&"sharing.choose_a_task_and_provide_a_rating_or_opinion")
-	if saved and not same: saved_opinion=PlaytestData.latest_level_feedback(chapter,level)
+	var saved: bool = same
+	if not same and level.is_empty() and chapter.is_empty() and RemoteFeedback.is_public_release():
+		var values: Array[int] = []
+		for rating: OptionButton in ratings: values.append(rating.selected)
+		var general := PlaytestData.submit_general_feedback(opinion.text,CATEGORIES[category.selected],values)
+		if not general.is_empty():
+			saved_opinion = general
+			saved = true
+	elif not same and PlaytestData.submit_level_feedback(StringName(chapter),StringName(level),ratings[0].selected,ratings[1].selected,ratings[2].selected,opinion.text,CATEGORIES[category.selected],target):
+		saved_opinion = PlaytestData.latest_level_feedback(chapter,level)
+		saved = true
+	status.text="" if saved else _t("opinion_required")
 	_store_draft(); _remote_updated()
 	return saved
 
@@ -540,10 +567,10 @@ func _remote_updated() -> void:
 	var source: String = str(metadata.get("source","unknown")) if matches_saved else PlaytestData.source_kind
 	var commit: String = str(metadata.get("source_commit","unknown"))
 	if commit not in ["development","unknown"]: commit=commit.left(8)
-	context_label.text=Localization.text(&"sharing.attached_context")+" · "+str(metadata.get("build_version","development"))+" · "+commit+" · "+str(metadata.get("task_version",""))+" · "+source
+	context_label.text=Localization.text(&"sharing.attached_context")+" · "+str(metadata.get("build_version","development"))+" · "+commit+(" · "+str(metadata.get("task_version","")) if not str(target.get("level_id","")).is_empty() else "")+" · "+source
 	var configured: bool = RemoteFeedback.endpoint_allowed()
-	public_issues.visible = RemoteFeedback.is_public_game() and str(target.get("level_id","")).is_empty()
-	task_form.visible = not public_issues.visible
+	general_button.visible = RemoteFeedback.is_public_release() and not str(target.get("level_id","")).is_empty()
+	public_issues.visible = RemoteFeedback.is_public_release() and str(target.get("level_id","")).is_empty()
 	send_opinion.disabled=not configured
 	local_privacy.visible = not configured
 	send_disclosure.visible = configured
@@ -567,7 +594,8 @@ func _target_key() -> String:
 	return str(target.get("chapter_id",""))+"/"+str(target.get("level_id",""))
 
 func _store_draft() -> void:
-	if restoring_draft or not is_instance_valid(opinion) or str(target.get("level_id","")).is_empty(): return
+	if restoring_draft or not is_instance_valid(opinion) or target.is_empty(): return
+	if str(target.get("level_id","")).is_empty() and not RemoteFeedback.is_public_release(): return
 	var key: String = _target_key()
 	if not drafts.has(key) and drafts.size() >= 64: drafts_blocked=true; return
 	var values: Array[int] = []
@@ -595,7 +623,7 @@ func _load_drafts() -> void:
 		for rating: Variant in entry.ratings:
 			if not (rating is int or rating is float) or int(rating) != rating or rating < 0 or rating > 5: drafts_blocked=true; return
 		var event: Dictionary = entry.saved_event
-		if not event.is_empty() and (event.get("event") != "level_feedback" or not event.get("session_id") is String or not event.get("sequence") is float and not event.get("sequence") is int or not event.get("payload") is Dictionary or event.payload.get("chapter_id","")+"/"+event.payload.get("level_id","") != key):
+		if not event.is_empty() and (event.get("event") != ("general_feedback" if key == "/" else "level_feedback") or not event.get("session_id") is String or not event.get("sequence") is float and not event.get("sequence") is int or not event.get("payload") is Dictionary or event.payload.get("chapter_id","")+"/"+event.payload.get("level_id","") != key):
 			drafts_blocked=true; return
 	drafts=data.drafts.duplicate(true)
 

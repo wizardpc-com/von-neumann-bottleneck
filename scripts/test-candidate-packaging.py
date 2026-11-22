@@ -6,6 +6,7 @@ import hashlib
 import io
 import importlib.util
 import json
+import runpy
 import stat
 import struct
 import subprocess
@@ -165,6 +166,8 @@ edition_manifests=[]
 feedback_manifests=[]
 release_manifests=[]
 release_batch='Players061-Release1'
+release2_batch='Players061-Release2'
+release2_test_batch='Players061-Release2-Test'
 release_builds=tempfile.TemporaryDirectory(dir=test_root)
 release_paths=[]
 standard_pilot_urls=['--feedback-endpoint','https://feedback.play.example.org/v1',
@@ -177,16 +180,23 @@ pilot_cases={
                         'PlayerFeedbackPilot-Wave2'),
     'standard-https': (standard_pilot_urls, 'PlayerFeedbackPilot-Wave3'),
 }
-for edition, network, pilot, player_release in [
+for edition, network, pilot, release_round in [
         ('game',False,None,False),('test',False,None,False),('test',True,None,False),
         *(('test',False,case,False) for case in pilot_cases),
-        ('game',False,None,True),('test',False,None,True)]:
+        ('game',False,None,1),('test',False,None,1),
+        ('game',False,None,2),('test',False,None,2)]:
+    player_release = bool(release_round)
+    dual_test = release_round == 2 and edition == 'test'
+    online_release = player_release and (edition == 'game' or dual_test)
     with tempfile.TemporaryDirectory(dir=test_root) as temporary:
         fixture=Path(temporary)/'builder';(fixture/'scripts').mkdir(parents=True)
         platforms=['macOS'] if network else ['Windows','macOS']
-        version='v0.6.1-playtest.1' if player_release else 'v0.6.0'
+        version=f'v0.6.1-playtest.{release_round}' if player_release else 'v0.6.0'
         pilot_urls, wave=pilot_cases.get(pilot, ([],None))
-        batch=release_batch if player_release else (wave or builder.PLAYER_PILOT_BATCH) if pilot else 'Dual'+edition.title()
+        if player_release:
+            batch = release2_test_batch if dual_test else release2_batch if release_round == 2 else release_batch
+        else:
+            batch = (wave or builder.PLAYER_PILOT_BATCH) if pilot else 'Dual'+edition.title()
         arguments=['build-free-candidate.py','--godot','mock-godot','--commit',frozen,
                    '--platform','macOS' if network else 'both','--edition',edition,
                    '--release-version',version]
@@ -195,7 +205,7 @@ for edition, network, pilot, player_release in [
         if pilot:arguments.extend(['--player-feedback-pilot',*pilot_urls])
         if player_release:
             arguments.append('--player-release')
-            if edition=='game':arguments.extend(approved_pilot_urls)
+            if online_release:arguments.extend(approved_pilot_urls)
         with mock.patch.object(builder,'__file__',str(fixture/'scripts/build-free-candidate.py')), \
                 mock.patch.object(sys,'argv',arguments),mock.patch.object(sys,'platform','fixture'), \
                 mock.patch.object(subprocess,'check_output',side_effect=frozen_output), \
@@ -227,9 +237,13 @@ for edition, network, pilot, player_release in [
                     assert packaged_manifest['player_release'] is True
                     assert not {'player_feedback_pilot','network_feedback_test'} & packaged_manifest.keys()
                     assert not any(name.endswith('privacy-public.html') for name in package.namelist())
-                    if edition=='game':
+                    if online_release:
                         assert approved_pilot_urls[1] in notes and approved_pilot_urls[3] in notes
                         assert 'enter your opinion, and choose Send' in notes
+                        if dual_test:
+                            assert 'separate opt-in' in notes and 'Export All Feedback' in notes
+                            assert packaged_manifest['public_test_feedback'] is True
+                            assert packaged_manifest['offline_feedback'] is True
                     else:
                         assert 'Export All Feedback' in notes and 'No receiver is configured.' in notes
                         assert builder.NETWORK_FEEDBACK_ORIGIN not in notes
@@ -255,16 +269,19 @@ for edition, network, pilot, player_release in [
             assert json.loads(config.get('application','feedback_privacy_url'))==pilot_urls[3]
             assert 'network_feedback_test' not in manifest
             assert not any(manifest[key] for key in ['public_release','upload_default','external_ready','local_acceptance_only'])
-        elif player_release and edition=='game':
-            assert manifest['player_release'] is True and manifest['save_profile']=='EditionGame'
+        elif online_release:
+            assert manifest['player_release'] is True and manifest['save_profile']=='Edition'+edition.title()
             assert manifest['feedback_endpoint']==approved_pilot_urls[1] and manifest['privacy_url']==approved_pilot_urls[3]
             assert manifest['feedback_default_source']=='external_player'
-            assert manifest['test_batch']==manifest['feedback_source_batch']==release_batch
+            assert manifest['test_batch']==manifest['feedback_source_batch']==batch
             for key in ['feedback_endpoint','test_batch','feedback_source_batch','feedback_default_source']:
                 assert json.loads(config.get('application',key))==manifest[key],key
             assert json.loads(config.get('application','feedback_privacy_url'))==manifest['privacy_url']
-            assert manifest['public_game_feedback'] is True and config.getboolean('application','public_game_feedback')
+            marker = 'public_test_feedback' if dual_test else 'public_game_feedback'
+            assert manifest[marker] is True and config.getboolean('application',marker)
             assert manifest['community_feedback_enabled'] is False and not config.getboolean('application','community_feedback_enabled')
+            if dual_test:
+                assert manifest['offline_feedback'] is True
             assert not any(manifest[key] for key in ['public_release','upload_default','external_ready','local_acceptance_only'])
         else:
             assert manifest['feedback_endpoint']==json.loads(config.get('application','feedback_endpoint'))==''
@@ -274,6 +291,9 @@ for edition, network, pilot, player_release in [
             assert 'no receiver is configured' in notes.lower()
         if not (player_release and edition=='game'):
             assert not config.has_option('application','public_game_feedback')
+        if not dual_test:
+            assert not config.has_option('application','public_test_feedback')
+        if not online_release:
             assert not config.has_option('application','community_feedback_enabled')
         assert json.loads(config.get('application','config/version'))==version[1:]
         assert json.loads(config.get('application','config/build_id'))==details['build_id']
@@ -296,20 +316,49 @@ for edition, network, pilot, player_release in [
             ])
         if player_release:
             invalid_manifest.extend([('player_release',False),('player_feedback_pilot',True),('network_feedback_test',True)])
-            if edition=='game':
+            if online_release:
                 invalid_manifest.extend([
                     ('feedback_endpoint',builder.NETWORK_FEEDBACK_ORIGIN),
                     ('privacy_url',builder.NETWORK_FEEDBACK_ORIGIN+'/privacy.html'),
                     ('feedback_source_batch','OtherBatch'),('feedback_default_source','automated'),
-                    ('public_game_feedback',False),('community_feedback_enabled',True),('upload_default',True),
+                    ('community_feedback_enabled',True),('upload_default',True),
                 ])
+                if dual_test:
+                    invalid_manifest.extend([('public_test_feedback',False),('offline_feedback',False),
+                                             ('public_game_feedback',True)])
+                else:
+                    invalid_manifest.extend([('public_game_feedback',False),('public_test_feedback',True),
+                                             ('offline_feedback',True)])
             else:
                 invalid_manifest.extend([('privacy_url',approved_pilot_urls[3]),('feedback_default_source','external_player'),
-                                         ('public_game_feedback',True)])
+                                         ('public_game_feedback',True),('public_test_feedback',True)])
         for key,value in invalid_manifest:
             changed={**manifest,key:value}
             (packaged/'manifest.json').write_text(json.dumps(changed))
             assert subprocess.run([sys.executable,str(root/'scripts/check-candidate-identity.py'),str(packaged)],capture_output=True).returncode!=0,key
+        if dual_test:
+            archive_path=packaged/manifest['platforms']['Windows']['zip']
+            original_zip=archive_path.read_bytes()
+            sums_path=packaged/'SHA256SUMS.txt'
+            original_sums=sums_path.read_text()
+            inner_name='Windows/BUILD-MANIFEST.json'
+            with zipfile.ZipFile(io.BytesIO(original_zip)) as package:
+                template=json.loads(package.read(inner_name))
+            for key,value in [('public_test_feedback',False),('offline_feedback',1),
+                              ('feedback_source_batch','OtherBatch'),('public_game_feedback',True)]:
+                with zipfile.ZipFile(io.BytesIO(original_zip)) as source, zipfile.ZipFile(archive_path,'w') as package:
+                    for entry in source.infolist():
+                        body=json.dumps({**template,key:value}) if entry.filename==inner_name else source.read(entry)
+                        package.writestr(entry,body)
+                changed_digest=hashlib.sha256(archive_path.read_bytes()).hexdigest()
+                windows={**manifest['platforms']['Windows'],'bytes':archive_path.stat().st_size,'sha256':changed_digest}
+                changed={**manifest,'platforms':{**manifest['platforms'],'Windows':windows}}
+                sums_path.write_text(original_sums.replace(manifest['platforms']['Windows']['sha256'],changed_digest))
+                (packaged/'manifest.json').write_text(json.dumps(changed))
+                assert subprocess.run([sys.executable,str(root/'scripts/check-candidate-identity.py'),str(packaged)],
+                                      capture_output=True).returncode!=0,key
+            archive_path.write_bytes(original_zip)
+            sums_path.write_text(original_sums)
         (packaged/'manifest.json').write_text(json.dumps(manifest))
         if player_release:
             release_paths.append(packaged.rename(Path(release_builds.name)/details['build_id']))
@@ -320,9 +369,18 @@ all_editions=edition_manifests+feedback_manifests+release_manifests
 assert len({directory for manifest in all_editions for directory in manifest['save_directories']})==8
 assert len({manifest['build_id'] for manifest in all_editions})==len(all_editions)
 assert all(manifest['content_tasks']==edition_manifests[0]['content_tasks'] for manifest in all_editions)
-checked=subprocess.run([sys.executable,str(root/'scripts/check-edition-delivery.py'),'--player-release',
-                        *map(str,release_paths)],capture_output=True)
-assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
+for version_index, pair in enumerate((release_paths[:2],release_paths[2:]), start=1):
+    checked=subprocess.run([sys.executable,str(root/'scripts/check-edition-delivery.py'),'--player-release',
+                            *map(str,pair)],capture_output=True)
+    assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
+    trailer=json.loads(checked.stdout.decode().split('\n',2)[2])
+    assert trailer.get('public_test_feedback', False)==(version_index==2)
+    if version_index == 2:
+        assert trailer['test_batch']==release2_batch and trailer['test_edition_batch']==release2_test_batch
+for mismatched in ((release_paths[2],release_paths[1]),(release_paths[0],release_paths[3])):
+    checked=subprocess.run([sys.executable,str(root/'scripts/check-edition-delivery.py'),'--player-release',
+                            *map(str,mismatched)],capture_output=True)
+    assert checked.returncode!=0
 release_builds.cleanup()
 
 pair_spec=importlib.util.spec_from_file_location('edition_checker',root/'scripts/check-edition-delivery.py')
@@ -343,7 +401,7 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
             try:pair_checker.verify_pair(*pair_dirs)
             except ValueError:pass
             else:raise AssertionError('Mixed delivery accepted: '+key)
-        for folder,manifest in zip(pair_dirs,release_manifests):
+        for folder,manifest in zip(pair_dirs,release_manifests[:2]):
             (folder/'manifest.json').write_text(json.dumps(manifest))
         release_pair=pair_checker.verify_pair(*pair_dirs,player_release=True)
         assert release_pair['passed'] and release_pair['test_batch']==release_batch
@@ -355,6 +413,28 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
             try:pair_checker.verify_pair(*pair_dirs,player_release=True)
             except ValueError:pass
             else:raise AssertionError('Mixed or different-batch player release accepted')
+        release2_game, release2_test = release_manifests[2:]
+        for folder,manifest in zip(pair_dirs, (release2_game, release2_test)):
+            (folder/'manifest.json').write_text(json.dumps(manifest))
+        assert pair_checker.verify_pair(*pair_dirs,player_release=True)['test_edition_batch']==release2_test_batch
+        for key,value in [('test_batch', release2_batch),('offline_feedback', False),('public_test_feedback', False),
+                          ('privacy_url', 'https://example.org/privacy')]:
+            (pair_dirs[1]/'manifest.json').write_text(json.dumps({**release2_test,key:value}))
+            try:pair_checker.verify_pair(*pair_dirs,player_release=True)
+            except ValueError:pass
+            else:raise AssertionError('Invalid Release2 pair accepted: '+key)
+
+ingress = runpy.run_path(str(root/'server/release_ingress.py'))['ReleaseIngress']
+admissions = [{'build_version': m['display_version'],'source_commit':m['source_commit'],
+               'test_batch':m['test_batch'],'mode':m['edition']} for m in (release_manifests[0],*release_manifests[2:])]
+local_policy = ingress(admissions, '0'*64)
+for admission in admissions:
+    payload={**admission,'source':'external_player','source_batch':admission['test_batch']}
+    assert local_policy.admits([{'payload':payload}])
+    crossed=release2_test_batch if admission['mode']=='game' else release2_batch
+    assert not local_policy.admits([{'payload':{**payload,'source_batch':crossed}}])
+upgraded_game={**admissions[1],'source':'external_player','source_batch':release_batch}
+assert local_policy.admits([{'payload':upgraded_game}])
 
 release_args=['--player-release','--release-version','v0.6.0','--commit',frozen,'--test-batch',release_batch]
 for flags in [
@@ -369,6 +449,19 @@ for flags in [
         [*release_args,'--edition','game',*approved_pilot_urls,'--second-act-profile','EditionTestPilot'],
         *([*release_args,'--edition','test',mode] for mode in [
             '--player-feedback-pilot','--network-feedback-test','--public-playtest','--offline-tester','--local-feedback-test']),
+]:
+    rejected=subprocess.run([sys.executable,str(root/'scripts/build-free-candidate.py'),'--godot','unused',*flags],capture_output=True)
+    assert rejected.returncode==2 and b'error:' in rejected.stderr,flags
+
+dual_test_args=['--player-release','--edition','test','--release-version','v0.6.1-playtest.2',
+                '--commit',frozen,'--test-batch',release2_test_batch]
+for flags in [
+        dual_test_args,
+        [*dual_test_args,*approved_pilot_urls,'--privacy-url',builder.NETWORK_FEEDBACK_ORIGIN+'/privacy.html'],
+        [*dual_test_args,*approved_pilot_urls,'--feedback-endpoint','https://example.org/v1'],
+        [*dual_test_args,*approved_pilot_urls,'--player-feedback-pilot'],
+        [*dual_test_args,*approved_pilot_urls,'--second-act-profile','EditionTestPilot'],
+        [*dual_test_args,*approved_pilot_urls,'--release-version','v0.6.1-playtest.1'],
 ]:
     rejected=subprocess.run([sys.executable,str(root/'scripts/build-free-candidate.py'),'--godot','unused',*flags],capture_output=True)
     assert rejected.returncode==2 and b'error:' in rejected.stderr,flags
@@ -595,4 +688,4 @@ with tempfile.TemporaryDirectory(dir=test_root) as temporary:
     (offline_output/'manifest.json').write_text(json.dumps(offline_manifest))
     checked=subprocess.run(offline_checker,capture_output=True)
     assert checked.returncode==0,(checked.stdout+checked.stderr).decode(errors='replace')
-print('PASS: four-archive player release pair, offline editions, Mac QA, Pilot waves, URL gates, packaged notes, ZIP inventory and hashes')
+print('PASS: both four-archive public release pairs, disjoint Release2 admissions, offline editions, Mac QA, Pilot waves, URL gates, packaged notes, ZIP inventory and hashes')

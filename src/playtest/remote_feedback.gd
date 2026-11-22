@@ -53,8 +53,14 @@ func endpoint_allowed() -> bool:
 func is_public_game() -> bool:
 	return ProjectSettings.get_setting("application/public_game_feedback", false) == true
 
+func is_public_test() -> bool:
+	return ProjectSettings.get_setting("application/public_test_feedback", false) == true
+
+func is_public_release() -> bool:
+	return is_public_game() or is_public_test()
+
 func community_available() -> bool:
-	return endpoint_allowed() and ProjectSettings.get_setting("application/community_feedback_enabled", not is_public_game()) == true
+	return endpoint_allowed() and ProjectSettings.get_setting("application/community_feedback_enabled", not is_public_release()) == true
 
 func privacy_url() -> String:
 	var url: String = str(ProjectSettings.get_setting("application/feedback_privacy_url",""))
@@ -121,11 +127,22 @@ func set_scores_enabled(value: bool) -> bool:
 	return saved
 func consent_metadata() -> Dictionary:
 	return {"privacy_notice_version":NOTICE_VERSION,"consent_version":CONSENT_VERSION,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"sharing_mode":sharing_mode}
+func _attach_consent(payload: Dictionary) -> void:
+	var batch: String = str(payload.get("source_batch", source_batch))
+	# Earlier public builds used the package test_batch as their source batch.
+	if not payload.has("source_batch") and is_public_release() and payload.has("test_batch"):
+		batch = str(payload.test_batch)
+	payload.merge(consent_metadata(),true)
+	payload.source_batch = batch
+
 func _on_event(event: Dictionary) -> void:
 	if not enabled or consented_endpoint!=endpoint or not endpoint_allowed(): return
 	var kind: String = str(event.get("event",""))
 	var visit: String = str(event.get("visit_id",""))
 	if kind == "level_start": eligible_visits[visit]=true
+	# These span a time interval or reduce earlier actions. A mid-visit opt-in
+	# permits future detailed actions, but cannot authorize the preceding interval.
+	if kind in ["visit_time","visit_summary"] and not eligible_visits.has(visit): return
 	if sharing_mode == "basic":
 		if kind not in ["visit_summary","level_complete","moment"]: return
 		# Starting mid-visit never backfills pre-consent actions in a later summary.
@@ -133,7 +150,7 @@ func _on_event(event: Dictionary) -> void:
 	else:
 		if kind not in ["map_action","hint_used","tool_opened","level_start","level_exit","level_complete","visit_time","official_run","case_outcome","modification","player_action","hint_action","trace_action","visit_summary","moment"]: return
 	var payload: Dictionary = minimal_context(event)
-	payload.merge(consent_metadata(),true)
+	_attach_consent(payload)
 	_enqueue({"event_id":(str(event.get("session_id",""))+":"+str(event.get("sequence",0))).sha256_text(),"kind":"event","payload":payload})
 	if kind == "visit_summary": eligible_visits.erase(visit)
 static func minimal_context(event: Dictionary) -> Dictionary:
@@ -154,7 +171,7 @@ func send_feedback(event: Dictionary) -> String:
 	if deletion_pending or not endpoint_allowed(): status="not_configured"; status_changed.emit(); return ""
 	_consent() # This individual Send is opinion consent, independent of statistics.
 	var payload: Dictionary = minimal_context(event)
-	payload.merge(consent_metadata(),true)
+	_attach_consent(payload)
 	payload.sharing_mode="opinion"
 	var original: Dictionary = event.get("payload",{})
 	payload["note"]=str(original.get("note","")).left(240)
@@ -241,7 +258,8 @@ func _response(result: int, code: int, _headers: PackedStringArray, bytes: Packe
 		if not body.ack.has(id): _retry(false,"incomplete_ack"); return
 	var retained: Array[Dictionary] = []
 	for item: Dictionary in queue:
-		if inflight.has(str(item.record.event_id)): receipts[item.record.event_id]=int(Time.get_unix_time_from_system())
+		if inflight.has(str(item.record.event_id)):
+			if item.record.kind != "event": receipts[item.record.event_id]=int(Time.get_unix_time_from_system())
 		else: retained.append(item)
 	queue=retained; inflight.clear()
 	while receipts.size()>64: receipts.erase(receipts.keys()[0])

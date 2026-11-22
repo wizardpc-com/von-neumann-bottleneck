@@ -1,25 +1,27 @@
 # Player release packages
 
-Build both editions from the same full frozen commit SHA and use the same
-explicit batch in all four archives. The commands use the existing Godot 4.7.1
-engine and its matching Windows x64 and macOS Universal templates.
+Build all four archives from the same full frozen commit SHA. Release2 uses a
+separate admission batch for each edition and the same batch on both platforms
+within an edition. Use Godot 4.7.1 and its matching Windows x64 and macOS
+Universal templates.
 
 ```bash
-version=v0.6.1-playtest.1
-batch=Players061-Release1
+version=v0.6.1-playtest.2
+game_batch=Players061-Release2
+test_batch=Players061-Release2-Test
 common=(--godot "$GODOT_BIN" --commit "$FROZEN_SHA" --platform both
         --mac-template "$MAC_TEMPLATE" --windows-template "$WINDOWS_TEMPLATE"
-        --release-version "$version" --test-batch "$batch" --player-release)
+        --release-version "$version" --player-release)
+online=(--feedback-endpoint 'https://feedback.yanruiqing.com:8443/v1'
+        --privacy-url 'https://feedback.yanruiqing.com:8443/privacy-player.html')
 
-python3 scripts/build-free-candidate.py "${common[@]}" --edition game \
-  --feedback-endpoint 'https://feedback.yanruiqing.com:8443/v1' \
-  --privacy-url 'https://feedback.yanruiqing.com:8443/privacy-player.html'
-python3 scripts/build-free-candidate.py "${common[@]}" --edition test
+python3 scripts/build-free-candidate.py "${common[@]}" --edition game --test-batch "$game_batch" "${online[@]}"
+python3 scripts/build-free-candidate.py "${common[@]}" --edition test --test-batch "$test_batch" "${online[@]}"
 
 short=${FROZEN_SHA:0:12}
-python3 scripts/check-edition-delivery.py --player-release \
-  "build/vnb-game-release-$version-$batch-$short" \
-  "build/vnb-test-release-$version-$batch-$short"
+game_dir="build/vnb-game-release-$version-$game_batch-$short"
+test_dir="build/vnb-test-release-$version-$test_batch-$short"
+python3 scripts/check-edition-delivery.py --player-release "$game_dir" "$test_dir"
 ```
 
 Game is the player download for ordinary progress. It retains the existing
@@ -28,9 +30,16 @@ opinions. F8 or the in-task feedback button opens the form. The player chooses
 Send for an opinion. The build sets `external_player` as the default source and
 leaves consent state to the existing runtime.
 
-Test retains the independent `EditionTest` save directories and opens all task
-entrances. F8 records a local incident. The player can export a ZIP and share it
-privately with the maintainer. The build has no online feedback receiver.
+Release2 Test retains the independent `EditionTest` save directories and opens
+all task entrances. F8 opens the opinion form. Send shares the opinion alone
+unless the player separately opts in to automatic statistics. The form also
+opens local incident capture and ZIP export. The ZIP stays local until the player
+chooses to share it. Game and Test keep their existing save identities.
+
+The published `v0.6.1-playtest.1` package contract remains online Game and
+offline capture Test with the shared `Players061-Release1` batch. Reproducing
+that release uses its original frozen SHA and passes the two online flags to
+Game only.
 
 For the GitHub Release, attach these four ZIPs and their SHA-256 list. Label
 each by OS and edition and list Game first. Include the frozen commit, exact
@@ -40,30 +49,57 @@ identity checks establish the frozen inputs and archive contents. Native startup
 the published player privacy notice and feedback reachability need their own
 acceptance before publication.
 
-## Mac Game prerelease QA
+## Verification from a fresh checkout
 
-Preflight the Mac Game ZIP using the full approved commit and SHA-256 from the
-build receipt.
+The tracked mocked exporter exercises the package lanes. For real build output,
+check the ZIP hashes and native structure from the directories above. Run the
+native checks on macOS.
 
 ```bash
-python3 .godot/mac-release-qa/verify-mac-player-release.py \
-  --release-dir "$GAME_BUILD_DIRECTORY" --commit "$FROZEN_SHA" --sha256 "$MAC_GAME_ZIP_SHA256"
+python3 scripts/test-candidate-packaging.py
+(cd "$game_dir" && shasum -a 256 -c SHA256SUMS.txt)
+(cd "$test_dir" && shasum -a 256 -c SHA256SUMS.txt)
+
+game_app="$game_dir/macOS/Von-Neumann-Bottleneck-Game.app"
+test_app="$test_dir/macOS/Von-Neumann-Bottleneck-Test.app"
+python3 scripts/check-native-package.py --mac-app "$game_app" \
+  --windows "$game_dir/Windows/Von-Neumann-Bottleneck-Game.exe"
+python3 scripts/check-native-package.py --mac-app "$test_app" \
+  --windows "$test_dir/Windows/Von-Neumann-Bottleneck-Test.exe"
+
+python3 scripts/verify-mac-candidate.py --app "$game_app"
+python3 scripts/verify-mac-candidate.py --app "$test_app"
 ```
 
-The default action only reads the archive. Add `--execute` after GO to run the
-local Mac harness if it is present in the working checkout. It keeps the
-original ZIP and packaged executable/PCK unchanged across both tracks.
+The tracked Mac smoke uses a disposable app copy and a headless probe. It checks
+the baked identity, locked edition and task access, repeated workbench saves,
+and default-disabled sharing. It covers a different path from the rendered
+first-launch and feedback acceptance below. For hosted native Windows checks,
+use the [Windows release verification workflow](../.github/workflows/verify-release-windows.yml)
+with the exact asset names, frozen commit, and ZIP digests.
 
-- **Local Only.** Two windowed processes use an isolated `EditionGame` under
-  a no-network sandbox. The probe chooses Local Only, earns the tutorial,
-  saves a synthetic opinion through Keep Locally, and verifies the decline,
-  progress and local opinion after restart.
-- **Localhost Send.** A second isolated profile uses the same frozen bytes.
-  The real Send control queues a synthetic opinion with networking denied.
-  A restart allows only the fixture socket and checks the displayed receipt.
-  An exact retry leaves one SQLite row. A third process confirms deletion and
-  preserves Game progress and the local opinion. A stale retry is rejected.
+## Native acceptance and operator evidence
 
-Use `--track local-only` or `--track loopback` to rerun one track. Both receipts
-cover synthetic QA. Browser download first launch and external delivery have
-separate acceptance.
+On macOS, launch each verified app through its bundled entry in a fresh,
+disposable macOS account or VM with networking denied. Observe the initial
+window and first sharing choice, choose Local Only, and quit normally. In Test,
+also open the in-task opinion form with F8 and use local capture and ZIP export.
+Record strict signature verification, local Apple execution and distribution
+assessments, and the existing quarantine attributes. These results apply to the
+OS and the copy being tested. A download-first-launch check needs a copy
+downloaded through the intended distribution path.
+
+For each verified app, use `codesign --display --verbose=4` for signer
+details, `spctl --assess --type execute --verbose=4 --ignore-cache --no-cache`
+for local Gatekeeper assessment, and `syspolicy_check distribution` where
+available. Read quarantine with `xattr -p com.apple.quarantine` on the ZIP and
+app. Preserve command output and exit status, including an absent attribute
+or rejected assessment.
+
+The Release2 rendered and localhost harness under `.godot/release2-qa/` is
+operator-local, alongside the Release1 harness under `.godot/mac-release-qa/`.
+For Release2, retain evidence of Basic structured delivery without Send,
+explicit opinion receipt after restart, one SQLite row per record on exact
+retry, and confirmed deletion with local work preserved. Use synthetic
+profiles and a loopback-only receiver. For published Release1 evidence, see
+the [frozen release receipt](../docs/verification/20261122-public-release/README.md).

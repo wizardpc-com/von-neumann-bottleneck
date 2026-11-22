@@ -147,7 +147,10 @@ def edition_notes(project, identity, details, filename, binary_name):
 
 
 def online_player_notes(notes, filename, feedback, *, pilot):
-    heading = 'Player feedback pilot / 真人试玩意见反馈' if pilot else 'Game Edition player feedback / 游戏版意见反馈'
+    dual_test = feedback.get('public_test_feedback', False)
+    heading = ('Player feedback pilot / 真人试玩意见反馈' if pilot else
+               'Test Edition player feedback / 测试版反馈' if dual_test else
+               'Game Edition player feedback / 游戏版意见反馈')
     if filename == 'README.txt':
         offline = ('反馈保存在本机；可通过界面导出，只有你主动分享才会交给维护者。未配置在线接收端。\n'
                    'Feedback remains local and can be exported. Share it deliberately with the maintainer; no receiver is configured.')
@@ -156,6 +159,12 @@ def online_player_notes(notes, filename, feedback, *, pilot):
         if pilot:
             online += ('\n基础统计、详细统计及成绩分享沿用各自的同意选项，新存档默认关闭。\n'
                        'Basic statistics, detailed playtest data and score sharing retain their existing consent choices and start off on a fresh profile.')
+        if dual_test:
+            online += ('\n自动发送的统计须另行同意，新存档默认关闭。也可单独记录现场，离线保存截图、任务现场与备注；'
+                       '通过「导出全部反馈」生成本地 ZIP，由你决定是否私下分享。\n'
+                       'Automatic statistics require a separate opt-in and start off on a fresh profile. '
+                       'You can also capture a local incident with a screenshot, task context, and a note. '
+                       'Use Export All Feedback to create a local ZIP and share it privately if you choose.')
     elif filename == 'KNOWN-ISSUES.txt':
         offline = ('没有联网依赖，也没有配置在线反馈接收端。\n'
                    '  Rankings and challenges remeasure locally under the existing rules. They are not an authenticated online leaderboard. No network is required and no feedback receiver is configured.')
@@ -205,7 +214,7 @@ def main():
     feedback_lane.add_argument('--player-feedback-pilot', action='store_true',
                                help='Build an isolated Test Edition for invited players with explicit receiver and privacy URLs')
     feedback_lane.add_argument('--player-release', action='store_true',
-                               help='Prepare public Game and offline capture Test editions for separate release approval')
+                               help='Prepare public Game and Test editions for separate release approval')
     a=p.parse_args()
     if a.network_feedback_test:
         if (a.edition != 'test' or a.platform != 'macOS' or a.feedback_endpoint or a.privacy_url
@@ -236,15 +245,20 @@ def main():
         edition_feedback = {'player_feedback_pilot': True, 'feedback_endpoint': a.feedback_endpoint,
                             'privacy_url': a.privacy_url, 'feedback_default_source': 'external_player',
                             'feedback_source_batch': a.test_batch}
+    dual_test = a.player_release and a.edition == 'test' and a.release_version == 'v0.6.1-playtest.2'
     if a.player_release:
         if a.edition not in ('game', 'test') or a.public_playtest or a.offline_tester or a.local_feedback_test:
             p.error('--player-release requires --edition game or test and cannot use a legacy feedback lane')
-        if a.edition == 'game':
+        if a.edition == 'game' or dual_test:
             if (a.feedback_endpoint, a.privacy_url) != (NETWORK_FEEDBACK_ORIGIN + '/v1', PLAYER_PRIVACY_URL):
-                p.error('Player release Game requires the exact VNB /v1 receiver and /privacy-player.html notice on HTTPS port 8443')
+                p.error('Online player releases require the exact VNB /v1 receiver and /privacy-player.html notice on HTTPS port 8443')
             edition_feedback = {'feedback_endpoint': a.feedback_endpoint, 'privacy_url': a.privacy_url,
                                 'feedback_default_source': 'external_player', 'feedback_source_batch': a.test_batch,
-                                'public_game_feedback': True, 'community_feedback_enabled': False}
+                                'community_feedback_enabled': False}
+            if dual_test:
+                edition_feedback.update(public_test_feedback=True, offline_feedback=True)
+            else:
+                edition_feedback['public_game_feedback'] = True
         elif a.feedback_endpoint or a.privacy_url:
             p.error('Player release Test uses offline capture and accepts no receiver or privacy URL')
     edition = None
@@ -344,8 +358,10 @@ def main():
     original=original.replace('[application]','[application]\nconfig/build_commit="'+commit+'"\nfeedback_endpoint='+json.dumps(a.feedback_endpoint)+'\ntest_batch='+json.dumps(a.test_batch or 'unspecified')+'\nfeedback_source_batch='+json.dumps(a.test_batch or 'free-alpha'))
     if a.public_playtest or a.offline_tester or 'feedback_default_source' in edition_feedback:original=original.replace('[application]','[application]\nfeedback_default_source="external_player"',1)
     if a.public_playtest or edition_feedback:original=original.replace('[application]','[application]\nfeedback_privacy_url='+json.dumps(a.privacy_url),1)
-    if a.player_release and a.edition == 'game':
-        for key in ('public_game_feedback', 'community_feedback_enabled'):
+    if a.player_release:
+        for key in ('public_game_feedback', 'public_test_feedback', 'community_feedback_enabled'):
+            if key not in edition_feedback:
+                continue
             original=original.replace('[application]', '[application]\n'+key+'='+json.dumps(edition_feedback[key]), 1)
     # Bind binary-exported scripts to the same workspace model fingerprints as source.
     workspace_versions={}
@@ -361,7 +377,7 @@ def main():
         original+='\n[candidate]\nprimary_domain="representation"\nprofile='+json.dumps(a.second_act_profile)+'\njourney_enabled=true\n'
         if a.creation_journey:original+='creation_enabled=true\n'
     if a.offline_tester:original+='\n[playtest]\noffline_tester=true\n'
-    if a.edition == 'test' and not edition_feedback:original+='\n[playtest]\noffline_feedback=true\n'
+    if a.edition == 'test' and (dual_test or not edition_feedback):original+='\n[playtest]\noffline_feedback=true\n'
     (project/'project.godot').write_text(original,encoding='utf-8')
     identity='Build: '+build_id+'\nSource commit: '+commit+'\nGodot: '+engine+'\n'
     if edition:
@@ -483,9 +499,9 @@ def main():
                 if a.network_feedback_test and name == 'KNOWN-ISSUES.txt':
                     notes = notes.replace('没有联网依赖，也没有配置在线反馈接收端。', '联网反馈仅对获准测试来源开放。')
                     notes = notes.replace('No network is required and no feedback receiver is configured.', 'Online feedback is limited to approved test sources.')
-                if a.player_feedback_pilot or (a.player_release and a.edition == 'game'):
+                if a.player_feedback_pilot or (a.player_release and a.edition == 'game') or dual_test:
                     notes = online_player_notes(notes, name, edition_feedback, pilot=a.player_feedback_pilot)
-                if a.player_release and a.edition == 'test' and name == 'README.txt':
+                if a.player_release and a.edition == 'test' and not dual_test and name == 'README.txt':
                     notes = offline_capture_notes(notes)
                 (folder / name).write_text(notes, encoding='utf-8')
         files={f.relative_to(folder).as_posix():hashlib.sha256(packaged_bytes(f)).hexdigest() for f in package_files(folder)}

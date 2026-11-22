@@ -6,9 +6,14 @@ class OfflineRetryProbe extends Transport:
 	func flush() -> void:
 		flushes+=1
 
+class AutostartStore extends Store:
+	func _command_line_arguments() -> PackedStringArray:
+		return PackedStringArray(["--capture-fixture","--enable-playtest-telemetry","--enable-playtest-feedback"])
+
 var failures: Array[String] = []
 func _init() -> void: call_deferred("run")
 func run() -> void:
+	check_autostart_and_visit_consent()
 	check_outbox_restart()
 	var transport := Transport.new()
 	transport.state_path="user://remote_contract_"+str(Time.get_ticks_usec())+".json"
@@ -83,6 +88,48 @@ func run() -> void:
 	else:
 		for error: String in failures: push_error(error)
 	quit(0 if failures.is_empty() else 1)
+
+func check_autostart_and_visit_consent() -> void:
+	var dir := "user://feedback_autostart_"+str(Time.get_ticks_usec())
+	var original_batch: Variant = ProjectSettings.get_setting("application/feedback_source_batch")
+	ProjectSettings.set_setting("application/feedback_source_batch","new-test-batch")
+	var capture := AutostartStore.new()
+	capture.configure_for_storage(dir,&"test")
+	var remote := OfflineRetryProbe.new()
+	remote.state_path = dir.path_join("outbox.json")
+	remote.endpoint = "https://receiver.invalid"
+	remote._load_state()
+	capture.event_appended.connect(remote._on_event)
+	root.add_child(capture)
+	check(not capture.session_id().is_empty() and capture._events.front().event == "session_start", "The actual ready path creates a session without a manual start.")
+	check(capture._automated_launch(PackedStringArray(["--capture-fixture"]),false) and not capture._automated_launch(PackedStringArray(),false), "A rendered capture cannot be attributed to an external player.")
+	check(capture._launch_source(PackedStringArray(["--capture-fixture","--playtest-source=agent_native"]),false)=="agent_native" and capture._launch_source(PackedStringArray(["--capture-fixture","--playtest-source=external_player"]),false)=="automated","Rendered capture keeps explicit native QA attribution and cannot claim external player.")
+	capture.level_started(&"chapter_4",&"fields")
+	capture.record_hint(&"chapter_4",&"fields",3)
+	check(remote.queue.is_empty(),"Startup and the first visit before consent stay local.")
+	remote.source_batch = "old-test-batch"
+	check(remote.set_sharing_mode("detailed"),"A mid-visit detailed choice can be persisted.")
+	capture.record_hint(&"chapter_4",&"fields",1)
+	capture.level_exited(&"chapter_4",&"fields")
+	var detailed: Array = remote.queue.map(func(item: Dictionary) -> String: return item.record.payload.event)
+	check("hint_used" in detailed and "visit_summary" not in detailed and "visit_time" not in detailed,"Detailed opt-in sends new actions without the existing visit's pre-consent aggregates or intervals.")
+	check(remote.set_sharing_mode("basic"),"Basic starts a fresh observation boundary.")
+	capture.level_started(&"chapter_4",&"fields")
+	capture.record_hint(&"chapter_4",&"fields",2)
+	capture.level_exited(&"chapter_4",&"fields")
+	check(remote.queue.size()==1,"An eligible basic visit automatically queues one reduced summary.")
+	if remote.queue.size()==1:
+		var record: Dictionary = remote.queue.front().record
+		check(record.payload.event=="visit_summary" and record.payload.max_hint_stage==2 and record.payload.mode=="test" and record.payload.source=="automated" and record.payload.source_batch=="new-test-batch","Autostart retains separate source, edition, current build batch and real counters.")
+		var receipt_id := "existing-opinion".sha256_text()
+		remote.receipts[receipt_id]=1
+		remote.inflight.assign([str(record.event_id)])
+		remote._response(HTTPRequest.RESULT_SUCCESS,200,PackedStringArray(),JSON.stringify({"ack":[record.event_id]}).to_utf8_buffer())
+		check(remote.feedback_state(receipt_id)=="sent" and not remote.receipts.has(record.event_id),"Background statistics never consume opinion receipt history.")
+	capture.end_session()
+	capture.free()
+	remote.free()
+	ProjectSettings.set_setting("application/feedback_source_batch",original_batch)
 
 func check_outbox_restart() -> void:
 	# Outside the tree these transports have no HTTPRequest. Stop before any ACK.

@@ -17,8 +17,8 @@ func _run() -> void:
 		push_error("Use an isolated verification profile."); quit(1); return
 	await settle()
 	var game_before: Dictionary = root.get_node("LayoutChapter").game_snapshot().duplicate(true)
-	for edition: String in ["game", "test"]:
-		var profile: String = "EditionGame" if edition == "game" else "EditionTest"
+	for profile: String in ["EditionGame", "EditionTest", "EditionTestFeedback"]:
+		var edition: String = "game" if profile == "EditionGame" else "test"
 		var path: String = "/qa/VonNeumannBottleneckCandidates/representation/"+profile
 		check(Lab.edition_profile(path,edition,"representation",profile),"Exact product profile accepted "+edition)
 		check(Lab.edition_profile(path.replace("/","\\"),edition,"representation",profile),"Windows separators accepted "+edition)

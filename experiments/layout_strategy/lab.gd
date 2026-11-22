@@ -129,7 +129,8 @@ static func isolated_profile(path: String) -> bool:
 static func edition_profile(path: String, edition: String, primary: String, profile: String) -> bool:
 	if edition not in ["game", "test"] or primary != "representation": return false
 	var expected: String = "EditionGame" if edition == "game" else "EditionTest"
-	return profile == expected and CandidateContext.configured_journey_for(true, primary, profile, path)
+	var matches_edition: bool = profile == expected or (edition == "test" and profile == "EditionTestFeedback")
+	return matches_edition and CandidateContext.configured_journey_for(true, primary, profile, path)
 
 func product_profile() -> bool:
 	var mode: Node = get_node_or_null("/root/GameMode")

@@ -17,17 +17,19 @@ func _run() -> void:
 		push_error("Use an isolated verification profile."); quit(1); return
 	await settle()
 	var game_before: Dictionary = root.get_node("LayoutChapter").game_snapshot().duplicate(true)
-	for profile: String in ["EditionGame", "EditionTest", "EditionTestFeedback"]:
+	for profile: String in ["EditionGame", "EditionTest", "EditionTestFeedback", "EditionTestPilot"]:
 		var edition: String = "game" if profile == "EditionGame" else "test"
 		var path: String = "/qa/VonNeumannBottleneckCandidates/representation/"+profile
-		check(Lab.edition_profile(path,edition,"representation",profile),"Exact product profile accepted "+edition)
-		check(Lab.edition_profile(path.replace("/","\\"),edition,"representation",profile),"Windows separators accepted "+edition)
-		check(not Lab.edition_profile(path,edition,"service",profile),"Wrong primary rejected "+edition)
-		check(not Lab.edition_profile(path,"test" if edition == "game" else "game","representation",profile),"Other edition rejected "+edition)
-		check(not Lab.edition_profile(path,"","representation",profile),"Unbound source profile rejected "+edition)
-		check(not Lab.edition_profile(path+"-other",edition,"representation",profile),"Similar profile suffix rejected "+edition)
-		check(not Lab.edition_profile(path+"/..",edition,"representation",profile),"Traversal out of profile rejected "+edition)
-		check(not Lab.edition_profile("/ordinary/player",edition,"representation",profile),"Ordinary player directory rejected "+edition)
+		check(Lab.edition_profile(path,edition,"representation",profile),"Exact product profile accepted "+profile)
+		check(Lab.edition_profile(path.replace("/","\\"),edition,"representation",profile),"Windows separators accepted "+profile)
+		check(not Lab.edition_profile(path,edition,"service",profile),"Wrong primary rejected "+profile)
+		check(not Lab.edition_profile(path,"test" if edition == "game" else "game","representation",profile),"Other edition rejected "+profile)
+		check(not Lab.edition_profile(path,"","representation",profile),"Unbound source profile rejected "+profile)
+		check(not Lab.edition_profile(path+"-other",edition,"representation",profile),"Similar profile suffix rejected "+profile)
+		check(not Lab.edition_profile(path+"/..",edition,"representation",profile),"Traversal out of profile rejected "+profile)
+		check(not Lab.edition_profile("/ordinary/player",edition,"representation",profile),"Ordinary player directory rejected "+profile)
+	check(not Lab.edition_profile("/qa/VonNeumannBottleneckCandidates/representation/EditionTest", "test",
+		"representation", "EditionTestPilot"), "Pilot cannot use the ordinary Test save path")
 	for locale: String in ["zh_CN","en"]:
 		root.get_node("Localization").set_locale(locale)
 		await departure_loop(locale)

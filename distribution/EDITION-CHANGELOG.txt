@@ -1,12 +1,26 @@
 @VERSION@ · @EDITION@
 
-本阶段交付 / This delivery
+游玩更新 / Gameplay changes
+- 半加器：调试时可核对 SUM、CARRY 的实际值与期望值。改线会清除旧结果，引导你重新调试。正式测试逐组显示正在测量的 A、B，四组通过后可手动封装。
+  Half adder: Compare the measured SUM and CARRY with the expected outputs. Rewiring clears the old results and prompts a fresh debug run. The official test shows A and B for each case. Once all four pass, you can seal the part.
+- 第一章：比较部件时，修改工作负载后的运行会标为“仅作调试”。要继续正式比较，请恢复起始程序，点击应用，重新确认预测，再运行。
+  Chapter 1: When comparing parts, runs with a changed workload are marked as debug only. To resume the official comparison, restore the starter program, apply it, confirm your prediction, and run again.
+- 第二章“访问顺序”：结果正确但超出周期目标时，可从测试台跳到分析器，查看同一缓存行首次被重复调入的事件及对应源码行。改变循环顺序、应用并重跑后，可比较周期数、缓存未命中次数和 CPU 等待时间。
+  Chapter 2, Access Order: If your result is correct but over the cycle target, open the Profiler from the Test Bench to see the first repeated fetch of a cache line and its source line. Change the loop order, apply it, and rerun to compare cycles, cache misses, and CPU wait.
+- 创造工作台：同一模型、同一分叉下，最近两次生成使用不同配方时，可选其中一份命名。点击保存作品才会留下它的输出和配方，较新的草稿仍可继续编辑。
+  Creation: When the last two runs use different recipes with the same model and fork parent, you can choose either result to name. Keep saves its output and recipe for replay. The newer draft stays editable.
+- 第七章预测历史：回看记录时，时间线显示原任务和记录编号。从当前草稿揭示下一条请求，时间线就切回本次观察。
+  Chapter 7 prediction history: Reviewing a run shows its original task and record number on the timeline. Revealing a request from the current draft switches the timeline back to live observation.
+- 离线反馈历史：重新打开一条现场记录，可查看当时的意见、任务和构建版本。切换中英文会保留选中的记录。
+  Offline feedback history: Reopen a capture to see its note, task, and original build version. Switching languages keeps that capture selected.
+
+内容与外观 / Content and presentation
 - 统一明亮温润的实验室与深色计算终端，接入可替换的 VNB 品牌标志及平台图标。
   Unified bright laboratory and dark computing terminal, with replaceable VNB branding and native platform icons.
 - 保留 60 项任务、确定性计算、真实判定，以及本轮之前已完成的输入、窗口、草稿与作品保护修复。
   Preserves sixty tasks, deterministic computation, real verdicts and the existing input/window/draft/work protection fixes.
-- 同一冻结源码分别构建 Game 与 Test，独立稳定 Profile，清楚标注版本与完整来源。
-  Game and Test are built from one frozen source with separate stable profiles and explicit version/source identity.
+- Game 与 Test 使用各自的稳定存档，构建信息标明版本与源码来源。
+  Game and Test use separate stable profiles. Build information identifies the version and source revision.
 - 离线运行、本地反馈导出；保留既有存档格式，不自动迁移历史渠道。
   Offline play and local feedback export. Existing save formats remain; historical channels are not migrated automatically.
 

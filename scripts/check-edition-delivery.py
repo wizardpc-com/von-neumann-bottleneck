@@ -16,6 +16,8 @@ def verify_pair(game, test):
         manifest = json.loads((folder / 'manifest.json').read_text(encoding='utf-8'))
         if manifest.get('edition') != expected:
             raise ValueError('Expected ' + expected + ' edition: ' + str(folder))
+        if manifest.get('network_feedback_test') or manifest.get('player_feedback_pilot'):
+            raise ValueError('The ordinary Game/Test delivery requires offline editions: ' + str(folder))
         if set(manifest['platforms']) != {'Windows', 'macOS'}:
             raise ValueError('Each edition must include both Windows and macOS')
         manifests.append(manifest)

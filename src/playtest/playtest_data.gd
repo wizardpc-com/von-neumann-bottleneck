@@ -11,6 +11,7 @@ const MAX_SHORT_TEXT_LENGTH: int = 240
 const DEFAULT_STORAGE_DIRECTORY: String = "user://playtest_data"
 const ACTIVE_SESSION_FILE: String = "active_session.json"
 const WORKBENCH_STORAGE_PATH: String = "user://hardware_workbenches_v1.json"
+const RECORDING_PREFERENCES_PATH: String = "user://feedback_preferences.cfg"
 
 var telemetry_enabled: bool = true
 var questionnaire_enabled: bool = true
@@ -55,9 +56,7 @@ func _ready() -> void:
 			push_error("Local playtest state reset failed: %s" % ", ".join(
 				reset_result.get("errors", []) as Array
 			))
-	var preferences := ConfigFile.new()
-	if preferences.load("user://feedback_preferences.cfg")==OK: telemetry_enabled=bool(preferences.get_value("privacy","local_actions",true))
-	_configure_from_command_line(arguments)
+	_configure_from_command_line(arguments, DisplayServer.get_name() == "headless")
 	if ProjectSettings.get_setting("application/feedback_default_source", "") == "external_player":
 		source_kind = "external_player"
 	for argument: String in arguments:
@@ -463,17 +462,27 @@ func _command_line_arguments() -> PackedStringArray:
 	return arguments
 
 
-func _configure_from_command_line(arguments: PackedStringArray) -> void:
-	var explicitly_enable_telemetry: bool = "--enable-playtest-telemetry" in arguments
+func _configure_from_command_line(
+		arguments: PackedStringArray, headless: bool, preferences_path: String = RECORDING_PREFERENCES_PATH
+) -> void:
 	var explicitly_enable_feedback: bool = "--enable-playtest-feedback" in arguments
-	var automated: bool = "--script" in arguments or DisplayServer.get_name() == "headless"
+	var automated: bool = headless or "--script" in arguments
 	for argument: String in arguments:
 		if argument.begins_with("--capture"):
 			automated = true
 			break
-	telemetry_enabled = explicitly_enable_telemetry or (
-		not automated and "--disable-playtest-telemetry" not in arguments
-	)
+	telemetry_enabled = not automated
+	if not automated:
+		var preferences := ConfigFile.new()
+		if preferences.load(preferences_path) == OK:
+			telemetry_enabled = bool(preferences.get_value("privacy", "local_actions", true))
+	# The last explicit recording flag controls this launch only.
+	for argument: String in arguments:
+		match argument:
+			"--enable-playtest-telemetry":
+				telemetry_enabled = true
+			"--disable-playtest-telemetry":
+				telemetry_enabled = false
 	questionnaire_enabled = explicitly_enable_feedback or (
 		not automated and "--disable-playtest-feedback" not in arguments
 	)

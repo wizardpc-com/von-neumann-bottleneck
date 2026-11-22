@@ -36,6 +36,7 @@ var elapsed: float = 0
 var request: HTTPRequest
 var inflight: Array[String] = []
 var state_path: String = STATE_PATH
+var _outbox_read_only: bool = false
 
 func _ready() -> void:
 	endpoint=str(ProjectSettings.get_setting("application/feedback_endpoint",""))
@@ -51,6 +52,7 @@ func endpoint_allowed() -> bool:
 func privacy_url() -> String:
 	var url: String = str(ProjectSettings.get_setting("application/feedback_privacy_url",""))
 	if url == "https://feedback.yanruiqing.com:8443/privacy.html": return url
+	if url == "https://feedback.yanruiqing.com:8443/privacy-player.html": return url
 	if url.length() > 2048: return ""
 	var pattern := RegEx.new()
 	if pattern.compile("^https://[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+(?::443)?(?:/[A-Za-z0-9._~/-]*)?$") != OK: return ""
@@ -66,6 +68,9 @@ func set_enabled(value: bool) -> bool:
 	# Compatibility for internal callers: explicit old detailed choice remains detailed.
 	return set_sharing_mode("detailed" if value else "local")
 func set_sharing_mode(value: String) -> bool:
+	if _outbox_read_only:
+		status_changed.emit()
+		return false
 	if value not in ["local","basic","detailed"]: return false
 	if value==sharing_mode and consented_endpoint==endpoint and not deletion_pending: return _save_state()
 	if value != "local" and (deletion_pending or not endpoint_allowed()): status="not_configured"; status_changed.emit(); return false
@@ -91,6 +96,9 @@ func _consent() -> void:
 	consent_timestamp=Time.get_datetime_string_from_system(true)+"Z"
 	if source_batch.is_empty(): source_batch=str(ProjectSettings.get_setting("application/feedback_source_batch","free-alpha")).left(64)
 func set_scores_enabled(value: bool) -> bool:
+	if _outbox_read_only:
+		status_changed.emit()
+		return false
 	if value and (deletion_pending or not endpoint_allowed()): return false
 	scores_enabled=value
 	if value: _consent()
@@ -100,7 +108,10 @@ func set_scores_enabled(value: bool) -> bool:
 		for item: Dictionary in queue:
 			if item.record.kind != "score": retained.append(item)
 		queue=retained
-	return _save_state()
+	var saved := _save_state()
+	if not saved: scores_enabled=false
+	status_changed.emit()
+	return saved
 func consent_metadata() -> Dictionary:
 	return {"privacy_notice_version":NOTICE_VERSION,"consent_version":CONSENT_VERSION,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"sharing_mode":sharing_mode}
 func _on_event(event: Dictionary) -> void:
@@ -132,6 +143,7 @@ static func minimal_context(event: Dictionary) -> Dictionary:
 		if merged.get(key) is bool: result[key]=merged[key]
 	return result
 func send_feedback(event: Dictionary) -> String:
+	if _outbox_read_only: return ""
 	if deletion_pending or not endpoint_allowed(): status="not_configured"; status_changed.emit(); return ""
 	_consent() # This individual Send is opinion consent, independent of statistics.
 	var payload: Dictionary = minimal_context(event)
@@ -177,16 +189,23 @@ func _enqueue(record: Dictionary) -> bool:
 	status="pending"; status_changed.emit()
 	if queue.size()%MAX_BATCH==0: call_deferred("flush")
 	return true
+func _can_send_item(item: Dictionary) -> bool:
+	if item.get("destination","")!=endpoint: return false
+	match item.record.kind:
+		"event": return enabled and consented_endpoint==endpoint
+		"score": return scores_enabled and consented_endpoint==endpoint
+		"feedback": return true # Explicit Send is independent of automatic sharing.
+	return false
+
 func flush() -> void:
+	if _outbox_read_only: return
 	if deletion_pending and not deleting and request != null:
 		delete_uploaded_data(); return
 	if request == null or deleting or not inflight.is_empty() or not endpoint_allowed(): return
 	var records: Array[Dictionary] = []
 	var now: int = int(Time.get_unix_time_from_system())
 	for item: Dictionary in queue:
-		if str(item.get("destination",""))!=endpoint: continue
-		if item.record.kind == "event" and (not enabled or consented_endpoint!=endpoint): continue
-		if item.record.kind == "score" and (not scores_enabled or consented_endpoint!=endpoint): continue
+		if not _can_send_item(item): continue
 		if item.paused or int(item.next_at)>now: continue
 		if item.get("isolate",false) and not records.is_empty(): continue
 		records.append(item.record); inflight.append(item.record.event_id)
@@ -232,27 +251,72 @@ func _retry(permanent: bool, reason: String) -> void:
 			# Bounded exponential delay plus jitter continues across long outages.
 			var delay: int = mini(900,int(pow(2,mini(10,int(item.attempts)))))
 			item.next_at=int(Time.get_unix_time_from_system())+delay+randi_range(0,maxi(1,delay/5))
-	inflight.clear(); status="rejected" if permanent else "failed_retryable"; last_error=reason
+	inflight.clear(); status="rejected" if permanent and not split_batch else "failed_retryable"; last_error=reason
 	_save_state(); status_changed.emit()
 func retry_pending() -> void:
-	for item: Dictionary in queue: item.paused=false; item.next_at=0; item.attempts=0
-	_save_state(); flush()
+	if _outbox_read_only:
+		status_changed.emit()
+		return
+	if not endpoint_allowed():
+		status="not_configured"
+		status_changed.emit()
+		return
+	if deletion_pending or deleting:
+		flush()
+		return
+	var resumed_queue: Array[Dictionary] = queue.duplicate()
+	var changed := false
+	for index: int in range(queue.size()):
+		var item := queue[index]
+		if not _can_send_item(item) or inflight.has(item.record.event_id): continue
+		if not item.paused and int(item.attempts)==0 and int(item.next_at)==0: continue
+		var resumed := item.duplicate()
+		resumed.paused=false
+		resumed["permanent"]=false
+		resumed.next_at=0
+		resumed.attempts=0
+		resumed_queue[index]=resumed
+		changed=true
+	if changed:
+		var previous: Array[Dictionary] = queue
+		queue=resumed_queue
+		if not _save_state():
+			queue=previous
+			status_changed.emit()
+			return
+		status="pending" if inflight.is_empty() else "sending"
+		last_error=""
+		status_changed.emit()
+	flush()
 func _save_state() -> bool:
+	if _outbox_read_only: return false
 	var body: String = JSON.stringify({"schema_version":2,"notice_version":NOTICE_VERSION,"sharing_mode":sharing_mode,"consent_timestamp":consent_timestamp,"source_batch":source_batch,"background_cohort":background_cohort,"scores_enabled":scores_enabled,"identity_deleted":identity_deleted,"deletion_pending":deletion_pending,"eligible_visits":eligible_visits,"enabled":enabled,"consented_endpoint":consented_endpoint,"client_id":client_id,"deletion_token":deletion_token,"queue":queue,"receipts":receipts,"evicted_records":evicted_records,"rejected_records":rejected_records})
-	if body.to_utf8_buffer().size()>MAX_DISK_BYTES: status="queue_full"; return false
+	var bytes := body.to_utf8_buffer()
+	if bytes.size()>MAX_DISK_BYTES: status="queue_full"; return false
 	var file: FileAccess = FileAccess.open(state_path+".tmp",FileAccess.WRITE)
 	if file == null: status="storage_error"; return false
-	file.store_string(body); file.flush(); file.close()
+	var written := file.store_buffer(bytes)
+	file.flush()
+	var complete := written and file.get_error()==OK and file.get_length()==bytes.size()
+	file.close()
+	if not complete: status="storage_error"; return false
 	var err: Error = DirAccess.rename_absolute(ProjectSettings.globalize_path(state_path+".tmp"),ProjectSettings.globalize_path(state_path))
 	if err!=OK: status="storage_error"; return false
 	return true
 func _load_state() -> void:
-	client_id=Crypto.new().generate_random_bytes(16).hex_encode()
-	deletion_token=Crypto.new().generate_random_bytes(32).hex_encode()
-	if not FileAccess.file_exists(state_path): return
+	if not FileAccess.file_exists(state_path):
+		client_id=Crypto.new().generate_random_bytes(16).hex_encode()
+		deletion_token=Crypto.new().generate_random_bytes(32).hex_encode()
+		return
+	# Until this existing identity can be loaded, even shutdown must preserve the file.
+	_outbox_read_only=true
 	var file: FileAccess = FileAccess.open(state_path,FileAccess.READ)
 	if file == null or file.get_length()>MAX_DISK_BYTES: status="storage_error"; return
-	var state: Variant = JSON.parse_string(file.get_as_text()); file.close()
+	var parser := JSON.new()
+	var parse_error := parser.parse(file.get_as_text())
+	file.close()
+	if parse_error!=OK: status="storage_error"; return
+	var state: Variant = parser.data
 	if not state is Dictionary or int(state.get("schema_version",0)) not in [1,2]: status="storage_error"; return
 	if not state.get("client_id") is String or state.client_id.length()!=32 or not state.get("deletion_token") is String or state.deletion_token.length()!=64: status="storage_error"; return
 	evicted_records=maxi(0,int(state.get("evicted_records",0)))
@@ -278,10 +342,19 @@ func _load_state() -> void:
 			var record: Dictionary = raw.record
 			if not record.get("event_id") is String or record.event_id.length()!=64 or record.get("kind") not in ["event","feedback","score"] or not record.get("payload") is Dictionary: continue
 			if str(raw.get("destination",""))!=endpoint or not same_consent: continue
-			queue.append({"record":record,"attempts":int(raw.get("attempts",0)),"next_at":int(raw.get("next_at",0)),"paused":bool(raw.get("permanent",bool(raw.get("paused",false)) and int(raw.get("attempts",0))<8)),"permanent":bool(raw.get("permanent",false)),"isolate":bool(raw.get("isolate",false)),"destination":str(raw.get("destination",""))})
+			var attempts := int(raw.get("attempts",0))
+			var next_at := int(raw.get("next_at",0))
+			var paused := bool(raw.get("permanent",bool(raw.get("paused",false)) and attempts<8))
+			# Older manual retries reset these three fields but left permanent set.
+			if raw.get("paused")==false and raw.get("attempts")==0 and raw.get("next_at")==0: paused=false
+			queue.append({"record":record,"attempts":attempts,"next_at":next_at,"paused":paused,"permanent":paused,"isolate":bool(raw.get("isolate",false)),"destination":str(raw.get("destination",""))})
 	status="pending" if not queue.is_empty() else "ready" if enabled else "local_only"
+	if not queue.is_empty() and queue.all(func(item: Dictionary) -> bool: return item.paused):
+		status="rejected"
+	_outbox_read_only=false
 
 func delete_uploaded_data() -> void:
+	if _outbox_read_only: return
 	if not endpoint_allowed(): status="not_configured"; status_changed.emit(); return
 	set_enabled(false)
 	scores_enabled=false
@@ -325,6 +398,7 @@ static func feedback_id(event: Dictionary) -> String:
 
 func feedback_state(id: String) -> String:
 	if id.is_empty(): return "local"
+	if _outbox_read_only: return "storage_error"
 	if receipts.has(id): return "sent"
 	if inflight.has(id): return "sending"
 	for item: Dictionary in queue:

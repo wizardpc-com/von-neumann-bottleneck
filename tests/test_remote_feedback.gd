@@ -1,9 +1,15 @@
 extends SceneTree
 const Transport = preload("res://src/playtest/remote_feedback.gd")
 const Store = preload("res://src/playtest/playtest_data.gd")
+class OfflineRetryProbe extends Transport:
+	var flushes := 0
+	func flush() -> void:
+		flushes+=1
+
 var failures: Array[String] = []
 func _init() -> void: call_deferred("run")
 func run() -> void:
+	check_outbox_restart()
 	var transport := Transport.new()
 	transport.state_path="user://remote_contract_"+str(Time.get_ticks_usec())+".json"
 	root.add_child(transport)
@@ -77,5 +83,123 @@ func run() -> void:
 	else:
 		for error: String in failures: push_error(error)
 	quit(0 if failures.is_empty() else 1)
+
+func check_outbox_restart() -> void:
+	# Outside the tree these transports have no HTTPRequest. Stop before any ACK.
+	var writer := Transport.new()
+	writer.state_path="user://remote_restart_contract_"+str(Time.get_ticks_usec())+".json"
+	writer.endpoint="https://receiver.invalid"
+	writer._load_state()
+	var event := {"session_id":"restart-contract","sequence":7,"payload":{"note":"synthetic opinion"}}
+	var id := writer.send_feedback(event)
+	var original_client := writer.client_id
+	var original_token := writer.deletion_token
+	var path := writer.state_path
+	writer.free()
+
+	var reader := Transport.new()
+	reader.state_path=path
+	reader.endpoint="https://receiver.invalid"
+	reader._load_state()
+	check(not id.is_empty() and reader.feedback_state(id)=="pending","An unacknowledged opinion survives restart with its original ID.")
+	check(reader.client_id==original_client and reader.deletion_token==original_token,"Restart keeps the deletion identity for the pending opinion.")
+	check(reader.send_feedback(event)==id and reader.queue.size()==1 and not reader.enabled and not reader.scores_enabled,"Repeated explicit Send reuses the pending opinion without enabling other sharing.")
+	reader.free()
+	check_manual_retry(path,id)
+
+	var saved := FileAccess.get_file_as_string(path)
+	var future: Variant = JSON.parse_string(saved)
+	if not future is Dictionary:
+		check(false,"The queued opinion fixture must have a readable outbox before interruption.")
+		return
+	future.schema_version=3
+	for contents: String in [saved.left(saved.length()-1), JSON.stringify(future)]:
+		var file := FileAccess.open(path,FileAccess.WRITE)
+		file.store_string(contents)
+		file.close()
+		var before := FileAccess.get_file_as_bytes(path)
+		var blocked := Transport.new()
+		blocked.state_path=path
+		root.add_child(blocked)
+		blocked.set_process(false)
+		check(blocked.status=="storage_error" and blocked.client_id.is_empty() and blocked.deletion_token.is_empty(),"An unreadable or future outbox cannot acquire a replacement identity.")
+		var updates: Array[String] = []
+		blocked.status_changed.connect(func() -> void: updates.append(blocked.status))
+		check(not blocked.set_enabled(true) and not blocked.set_scores_enabled(true),"Read-only settings decline both consent changes.")
+		blocked.endpoint="" # Keep the retry path offline even if the guard regresses.
+		blocked.retry_pending()
+		check(updates==["storage_error","storage_error","storage_error"] and blocked.feedback_state(id)=="storage_error","Read-only choices and Retry refresh the UI with the storage error.")
+		check(not blocked._save_state() and FileAccess.get_file_as_bytes(path)==before,"Retry and explicit save preserve every original outbox byte.")
+		root.remove_child(blocked)
+		blocked.free()
+		check(FileAccess.get_file_as_bytes(path)==before,"Tree exit preserves the queued opinion, identity and all recoverable bytes.")
+
+func check_manual_retry(path: String, id: String) -> void:
+	var probe := OfflineRetryProbe.new()
+	probe.endpoint="https://receiver.invalid"
+	probe.state_path=path
+	probe._load_state()
+	if probe.queue.size()!=1:
+		check(false,"Manual Retry requires one persisted explicit opinion.")
+		probe.free()
+		return
+	probe.queue[0]["isolate"]=true
+	probe.inflight.assign([id])
+	probe._retry(true,"http_422")
+	var rejected: Array[Dictionary] = probe.queue.duplicate(true)
+	var before := FileAccess.get_file_as_bytes(path)
+	var updates: Array[String] = []
+	probe.status_changed.connect(func() -> void: updates.append(probe.status+"/"+probe.feedback_state(id)))
+
+	probe.endpoint=""
+	probe.retry_pending()
+	check(updates==["not_configured/rejected"] and probe.flushes==0 and probe.queue==rejected,"An unconfigured receiver leaves the rejection intact.")
+	probe.endpoint="https://receiver.invalid"
+	probe.state_path=path.path_join("unwritable.json") # The parent is the existing outbox file.
+	probe.retry_pending()
+	check(updates.back()=="storage_error/rejected" and probe.flushes==0 and probe.queue==rejected,"A failed Retry save restores the rejection before notifying the UI and never flushes.")
+	check(not probe.set_scores_enabled(true) and not probe.scores_enabled and FileAccess.get_file_as_bytes(path)==before,"A failed score opt-in stays off and preserves the saved outbox.")
+	probe.state_path=path
+	probe.retry_pending()
+	check(updates.back()=="pending/pending" and probe.flushes==1 and probe.last_error.is_empty(),"A saved manual retry publishes pending and releases the opinion for sending.")
+	var persisted: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
+	check(persisted.queue.size()==1 and persisted.queue[0].get("permanent")==false and persisted.queue[0].get("paused")==false,"Both flags are released in the saved outbox before restart.")
+	probe.free()
+
+	var restarted := Transport.new()
+	restarted.endpoint="https://receiver.invalid"
+	restarted.state_path=path
+	restarted._load_state()
+	check(restarted.queue.size()==1 and restarted.feedback_state(id)=="pending" and not restarted.enabled and not restarted.scores_enabled,"Restart before ACK retains the same pending opinion with automatic sharing off.")
+	if restarted.queue.size()==1:
+		var row := restarted.queue[0]
+		check(not row.paused and not row.permanent and row.attempts==0 and row.next_at==0 and row.isolate and restarted.rejected_records==1,"Retry clears both rejection flags and backoff while retaining batch isolation and rejection history.")
+	restarted.free()
+
+	# Reconstruct the previous writer's exact reset alongside a genuine rejection.
+	var legacy: Dictionary = JSON.parse_string(before.get_string_from_utf8())
+	var reset: Dictionary = legacy.queue[0].duplicate(true)
+	reset.paused=false
+	reset.next_at=0
+	reset.attempts=0
+	reset.record.event_id="legacy-retry".sha256_text()
+	legacy.queue.append(reset)
+	var fixture := FileAccess.open(path,FileAccess.WRITE)
+	fixture.store_string(JSON.stringify(legacy))
+	fixture.close()
+	var migrated := Transport.new()
+	migrated.endpoint="https://receiver.invalid"
+	migrated.state_path=path
+	migrated._load_state()
+	check(migrated.queue.size()==2 and migrated.feedback_state(reset.record.event_id)=="pending" and not migrated.queue[1].paused and migrated.queue[1].isolate and migrated.feedback_state(id)=="rejected" and migrated.queue[0].paused,"Old manual retry intent resumes while an independently rejected opinion stays paused.")
+	for kind: String in ["event","score"]:
+		var disabled: Dictionary = rejected[0].duplicate(true)
+		disabled.record.kind=kind
+		disabled.record.event_id=kind.sha256_text()
+		migrated.queue.append(disabled)
+	migrated.retry_pending()
+	check(migrated.feedback_state(id)=="pending" and migrated.feedback_state("event".sha256_text())=="rejected" and migrated.feedback_state("score".sha256_text())=="rejected","Retry in local-only mode releases the explicit opinion and leaves disabled channels paused.")
+	migrated.free()
+
 func check(condition: bool, message: String) -> void:
 	if not condition: failures.append(message)

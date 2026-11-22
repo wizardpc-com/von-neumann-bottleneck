@@ -2,7 +2,12 @@ extends SceneTree
 const Creation = preload("res://experiments/creation/session.gd")
 const Files = preload("res://experiments/candidate_session/files.gd")
 const Lease = preload("res://experiments/candidate_session/writer_lease.gd")
+const CAPTURE_SIZE := Vector2i(1280,720)
+const HISTORICAL_NOTE := "这里不清楚\n希望保留完整现场，不截断为短意见。"
+const HISTORICAL_VERSION := "captured-build"
+const HISTORICAL_COMMIT := "1234567890abcdef"
 var failures: int = 0
+var historical_case_id: String
 
 func _init() -> void: call_deferred("run")
 func check(value: bool, message: String) -> void:
@@ -13,54 +18,73 @@ func run() -> void:
 	preload("res://src/lab/lab_features.gd").core_journey = true
 	var old_tester: Variant = ProjectSettings.get_setting("playtest/offline_tester",false)
 	var old_toolbar_visible: bool = root.get_node("OfflineFeedback").toolbar.visible
-	root.size=Vector2i(1280,720)
-	root.content_scale_size=Vector2i(1280,720)
+	root.get_node("Localization").set_locale("zh_CN")
 	ProjectSettings.set_setting("playtest/offline_tester",true)
 	var navigation: Node = root.get_node("TaskNavigation")
 	var feedback: Node = root.get_node("OfflineFeedback")
 	check(navigation.enter("hardware_foundations/tutorial"),"ordinary task opens for offline tester")
-	for index: int in 6: await process_frame
+	await settle_capture_viewport()
+	var old_version: Variant = ProjectSettings.get_setting("application/config/version")
+	var old_commit: Variant = ProjectSettings.get_setting("application/config/build_commit")
+	ProjectSettings.set_setting("application/config/version",HISTORICAL_VERSION)
+	ProjectSettings.set_setting("application/config/build_commit",HISTORICAL_COMMIT)
 	var key := InputEventKey.new(); key.physical_keycode=KEY_F8; key.keycode=KEY_F8; key.pressed=true
 	Input.parse_input_event(key)
 	var released := InputEventKey.new(); released.physical_keycode=KEY_F8; released.keycode=KEY_F8; released.pressed=false
 	Input.parse_input_event(released)
-	for index: int in 3: await process_frame
-	check(feedback.backdrop.visible and paused,"fast F8 press/release opens feedback and pauses game")
-	check(feedback.panel.position.x>=0 and feedback.panel.position.y>=0 and feedback.panel.get_global_rect().end.x<=1280 and feedback.panel.get_global_rect().end.y<=720,"feedback fits 720p: "+str(feedback.panel.get_global_rect()))
-	feedback.note.text="这里不清楚\n希望保留完整现场，不截断为短意见。"
+	var opened: bool = await feedback_ready(feedback)
+	ProjectSettings.set_setting("application/config/version",old_version)
+	ProjectSettings.set_setting("application/config/build_commit",old_commit)
+	check(opened and paused,"fast F8 press/release finishes capture, opens feedback and pauses game")
+	if not opened: quit(1); return
+	check_panel_bounds(feedback,"first capture")
+	feedback.note.text=HISTORICAL_NOTE
 	feedback.note.text_changed.emit()
-	check(feedback.store.read_case(feedback.current.id).note==feedback.note.text,"typing autosaves without submit")
 	var id: String = feedback.current.id
+	historical_case_id=id
+	var captured: Dictionary = feedback.store.read_case(id)
+	check(captured.get("note","")==HISTORICAL_NOTE,"typing autosaves the exact multiline note without submit")
+	check(captured.get("build",{}).get("version")==HISTORICAL_VERSION and captured.get("build",{}).get("source_commit")==HISTORICAL_COMMIT,"capture records the fixture build in the stored case")
+	var folder: String = feedback.store.root.path_join("cases").path_join(id)
+	var case_hash: String = FileAccess.get_sha256(folder.path_join("case.json"))
+	var note_hash: String = FileAccess.get_sha256(folder.path_join("notes.jsonl"))
+	var image_hash: String = ""
+	if DisplayServer.get_name()!="headless":
+		check(captured.get("screenshot_status")=="captured","renderer saves the game screenshot for the historical case")
+		image_hash=FileAccess.get_sha256(folder.path_join("screenshot.png"))
+		check(not image_hash.is_empty(),"historical game screenshot has readable bytes")
 	feedback.close_panel()
 	check(not paused and not feedback.backdrop.visible,"close restores game pause state")
 	var logical := InputEventKey.new(); logical.keycode=KEY_F8; logical.pressed=true
 	Input.parse_input_event(logical)
 	logical=InputEventKey.new(); logical.keycode=KEY_F8; logical.pressed=false
 	Input.parse_input_event(logical)
-	for index: int in 3: await process_frame
-	check(feedback.backdrop.visible,"logical F8 without a physical scan code opens feedback")
+	check(await feedback_ready(feedback),"logical F8 without a physical scan code finishes opening feedback")
 	feedback.close_panel()
-	feedback.open_panel(); feedback._load_case(id)
-	check(feedback.note.text.contains("保留完整现场"),"history restores previous note")
-	feedback.current.build={"version":"captured-build","source_commit":"1234567890abcdef"}
-	feedback._refresh_info()
+	await feedback.open_panel()
+	opened=await feedback_ready(feedback)
+	check(opened and feedback.current.get("id")!=id,"reopen finishes a distinct capture before history selection")
+	if not opened: quit(1); return
+	var selected: bool = select_history(feedback,id)
+	check(selected,"history contains the original captured case")
+	if not selected: quit(1); return
+	check(feedback.current.get("id")==id and feedback.note.text==HISTORICAL_NOTE,"history restores the exact previous case and note")
 	check(not feedback.diagnostics_info.visible and not feedback.info.text.contains("captured-build"),"Internal identity is collapsed by default")
 	check(feedback.diagnostics_info.text.contains("captured-build") and feedback.diagnostics_info.text.contains("12345678") and feedback.diagnostics_info.text.contains("hardware_foundations/tutorial"),"Historical diagnostics retain captured version and task")
-	if "--offline-feedback-capture" in OS.get_cmdline_user_args():
-		await RenderingServer.frame_post_draw
-		check(root.get_texture().get_image().save_png("user://offline-panel-zh.png")==OK,"Chinese panel screenshot")
+	await capture_history_panel(feedback,"zh")
 	root.get_node("Localization").set_locale("en")
-	for index: int in 3: await process_frame
+	await settle()
 	check(feedback.toolbar.get_child(0).text=="Feedback · F8","global entry follows language")
-	check(feedback.diagnostics_info.text.contains("captured-build") and feedback.diagnostics_info.text.contains("12345678") and feedback.note.text.contains("保留完整现场"),"Language changes preserve historical identity and note")
-	if "--offline-feedback-capture" in OS.get_cmdline_user_args():
-		await RenderingServer.frame_post_draw
-		check(root.get_texture().get_image().save_png("user://offline-panel-en.png")==OK,"English panel screenshot")
+	check(feedback.current.get("id")==id and feedback.current.get("build",{})==captured.get("build",{}) and feedback.note.text==HISTORICAL_NOTE,"Language changes preserve historical identity and exact note")
+	check(feedback.diagnostics_info.text.contains("captured-build") and feedback.diagnostics_info.text.contains("12345678") and feedback.status.text.begins_with("Opened a previous scene"),"English history status and original diagnostics agree with the selected case")
+	await capture_history_panel(feedback,"en")
 	feedback.close_panel()
 	check(not paused,"pause is restored after history review")
+	check(FileAccess.get_sha256(folder.path_join("case.json"))==case_hash and FileAccess.get_sha256(folder.path_join("notes.jsonl"))==note_hash,"history and locale switch preserve stored case and note bytes")
+	if not image_hash.is_empty(): check(FileAccess.get_sha256(folder.path_join("screenshot.png"))==image_hash,"history and locale switch preserve stored screenshot bytes")
 	feedback.open_for_task("chapter_4","mixed")
-	for index: int in 3: await process_frame
-	check(feedback.current.task.chapter_id=="chapter_4" and feedback.current.task.level_id=="mixed","task tree feedback retains explicit target")
+	check(await feedback_ready(feedback),"task tree capture finishes before reading its target")
+	check(feedback.current.get("task",{}).get("chapter_id")=="chapter_4" and feedback.current.get("task",{}).get("level_id")=="mixed","task tree feedback retains explicit target")
 	feedback.close_panel()
 	await local_entry_policy()
 	ProjectSettings.set_setting("playtest/offline_tester",old_tester)
@@ -71,6 +95,70 @@ func run() -> void:
 
 func settle() -> void:
 	for frame: int in 8: await process_frame
+
+func settle_capture_viewport() -> void:
+	root.mode=Window.MODE_WINDOWED
+	root.size=CAPTURE_SIZE
+	root.content_scale_size=CAPTURE_SIZE
+	await settle()
+	var rendered: bool = DisplayServer.get_name()!="headless"
+	if rendered:
+		var stable: int = 0
+		for attempt: int in 60:
+			if root.mode!=Window.MODE_WINDOWED: root.mode=Window.MODE_WINDOWED
+			if root.size!=CAPTURE_SIZE: DisplayServer.window_set_size(CAPTURE_SIZE)
+			await create_timer(0.1).timeout
+			RenderingServer.force_draw(false)
+			var texture_fits: bool = root.get_texture().get_size()==Vector2(CAPTURE_SIZE)
+			var viewport_fits: bool = root.get_visible_rect().size==Vector2(CAPTURE_SIZE)
+			stable=stable+1 if texture_fits and viewport_fits else 0
+			if stable>=5: break
+		check(stable>=5,"Native rendered size did not settle at 1280×720: "+str(root.get_texture().get_size()))
+	check(root.get_visible_rect().size==Vector2(CAPTURE_SIZE),"Logical viewport is 1280×720: "+str(root.get_visible_rect()))
+	print("OFFLINE_VIEWPORT: ",JSON.stringify({"mode":root.mode,"window":str(root.size),"logical":str(root.get_visible_rect()),
+		"texture":str(root.get_texture().get_size()) if rendered else "headless",
+		"display_scale":DisplayServer.screen_get_scale(DisplayServer.window_get_current_screen()) if rendered else 1.0}))
+
+func feedback_ready(feedback: Node) -> bool:
+	for frame: int in 120:
+		if feedback.backdrop.visible and not feedback.busy:
+			await settle()
+			return feedback.backdrop.visible and not feedback.busy and not feedback.current.is_empty()
+		await process_frame
+	return false
+
+func check_panel_bounds(feedback: Node, label: String) -> void:
+	var panel: Control = feedback.panel
+	var visible: Rect2 = panel.get_viewport().get_visible_rect()
+	var bounds: Rect2 = panel.get_global_rect()
+	var margin := Vector2(8,12)
+	var available := Rect2(visible.position+margin,visible.size-margin*2.0)
+	check(fully_visible(panel) and available.encloses(bounds),label+": feedback panel "+str(bounds)+" fits inset viewport "+str(available))
+	check(bounds.get_center().is_equal_approx(visible.get_center()),label+": actual final panel is centered")
+	check(bounds.size.x<=minf(960.0,available.size.x),label+": content preserves the panel width cap")
+	print("OFFLINE_PANEL_BOUNDS ",label," viewport=",visible," panel=",bounds," minimum=",panel.get_combined_minimum_size())
+
+func select_history(feedback: Node, id: String) -> bool:
+	for index: int in feedback.history.item_count:
+		if feedback.history.get_item_metadata(index)!=id: continue
+		feedback.history.select(index)
+		feedback.history.item_selected.emit(index)
+		return true
+	return false
+
+func panel_export_button(feedback: Node) -> Button:
+	for child: Node in feedback.panel.find_children("*","Button",true,false):
+		if child.get_meta("locale_pair",[]).has("Export all feedback (one ZIP)"): return child as Button
+	return null
+
+func capture_history_panel(feedback: Node, locale: String) -> void:
+	await settle()
+	check_panel_bounds(feedback,locale+" historical capture")
+	if DisplayServer.get_name()=="headless" or "--offline-feedback-capture" not in OS.get_cmdline_user_args(): return
+	await RenderingServer.frame_post_draw
+	var frame: Image = root.get_texture().get_image()
+	check(frame!=null and frame.get_size()==CAPTURE_SIZE,locale+" unmodified raw feedback image is 1280×720")
+	if frame!=null: check(frame.save_png("user://offline-panel-"+locale+".png")==OK,locale+" historical panel screenshot")
 
 func stroke(code: Key) -> void:
 	for down: bool in [true,false]:
@@ -168,9 +256,7 @@ func host_entry(host: Control, scope: String) -> void:
 	check(feedback.backdrop.visible and feedback.panel.is_visible_in_tree() and feedback.panel.get_viewport()==root and paused,"Actual local mouse entry opens the same offline panel and pause contract: "+scope)
 	check(not feedback.toolbar.visible and not feedback.current.is_empty(),"Real local feedback captures the original host without duplicate toolbar: "+scope)
 	if DisplayServer.get_name()!="headless": check(feedback.current.get("screenshot_status","")=="captured","Local entry keeps actual pre-overlay screenshot: "+scope)
-	var export_button: Button
-	for child: Node in feedback.panel.find_children("*","Button",true,false):
-		if child.get_meta("locale_pair",[]).has("Export all feedback (one ZIP)"): export_button=child
+	var export_button: Button = panel_export_button(feedback)
 	check(export_button!=null and fully_visible(export_button),"Original panel export remains a visible action: "+scope)
 	if export_button!=null:
 		var wired: bool = false
@@ -218,6 +304,21 @@ func window_entry_policy(host: Control) -> void:
 	button=root.get_node("PlaytestMoments").make_button(); clip.add_child(button); button.position=Vector2(12,12); button.size=Vector2(180,44)
 	button.grab_focus(); await settle(); await stroke(KEY_F8)
 	check(feedback.backdrop.visible and feedback.layer.get_parent()==window and not feedback.toolbar.visible,"F8 in the focused Window owns the original panel layer")
+	check(window.get_visible_rect().size==Vector2(480,260),"Compact check uses the actual 480×260 viewport")
+	check(await feedback_ready(feedback),"Compact capture has finished before selecting history")
+	check(select_history(feedback,historical_case_id),"Compact history can select the original case with the long summary")
+	await settle()
+	check(feedback.current.get("id")==historical_case_id and feedback.note.text==HISTORICAL_NOTE,"Compact history retains the original case and exact note")
+	check_panel_bounds(feedback,"compact embedded Window")
+	var export_button: Button = panel_export_button(feedback)
+	check(export_button!=null,"Compact panel retains its export action")
+	if export_button!=null:
+		export_button.grab_focus()
+		await settle()
+		var scroll: ScrollContainer = feedback.workspace.get_parent().get_parent() as ScrollContainer
+		check(window.gui_get_focus_owner()==export_button and fully_visible(export_button),
+			"Compact export stays reachable through the panel scroll: scroll="+str(scroll.scroll_vertical)+
+			" export="+str(export_button.get_global_rect())+" clip="+str(scroll.get_global_rect()))
 	window.queue_free(); await settle(); root.grab_focus(); await settle()
 	check(not is_instance_valid(window) and feedback.layer.get_parent()==feedback and not feedback.backdrop.visible and not paused,"Closing a Window returns the feedback layer and pause state safely")
 	check(local_button(host).is_visible_in_tree() and not feedback.toolbar.visible,"Returning to the real host re-evaluates its live local entry")

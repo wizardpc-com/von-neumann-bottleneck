@@ -22,14 +22,38 @@ func run() -> void:
 	var phase: String = str(ProjectSettings.get_setting("qa_feedback/phase",""))
 	var output: String = str(ProjectSettings.get_setting("qa_feedback/output",""))
 	var profile: String = str(ProjectSettings.get_setting("candidate/profile",""))
-	if not profile.begins_with("PackageFeedback-") or output.is_empty() or phase not in ["offline","online","delete"]:
-		get_tree().quit(2); return
+	var expected_endpoint: String = str(ProjectSettings.get_setting("qa_feedback/expected_endpoint",""))
+	var fixture_port: String = expected_endpoint.trim_prefix("http://127.0.0.1:").trim_suffix("/v1")
+	var expected_user_dir: String = str(ProjectSettings.get_setting("qa_feedback/expected_user_dir",""))
+	var user_dir: String = OS.get_user_data_dir().replace("\\", "/").simplify_path()
+	var locked_test: bool = bool(ProjectSettings.get_setting("qa_feedback/locked_test",false))
+	var mode: Node = get_node("/root/GameMode")
 	var store: Node = get_node("/root/PlaytestData")
 	var remote: Node = get_node("/root/RemoteFeedback")
+	# Fail before any synthetic input if the copied executable ignored the override.
+	if (not profile.begins_with("PackageFeedback-") or output.is_empty()
+			or phase not in ["offline","online","delete"] or not user_dir.ends_with("/" + profile)
+			or (expected_user_dir != "" and user_dir.nocasecmp_to(expected_user_dir.simplify_path()) != 0)
+			or not expected_endpoint.begins_with("http://127.0.0.1:") or not fixture_port.is_valid_int()
+			or remote.endpoint != expected_endpoint
+			or store.source_kind != "automated" or remote.enabled or remote.scores_enabled):
+		push_error("Synthetic probe requires isolated userdata and the exact loopback fixture with sharing off.")
+		get_tree().quit(2)
+		return
+	if locked_test and (expected_user_dir.is_empty() or not OS.has_feature("test_edition")
+			or not mode.edition_locked() or not mode.is_test_mode() or remote.privacy_url() != ""):
+		push_error("Synthetic pilot probe requires locked Test mode and its localhost-only override.")
+		get_tree().quit(2)
+		return
+	remote.request.max_redirects = 0
 	var moments: Node = get_node("/root/PlaytestMoments")
 	check(OS.has_feature("free_candidate"),"actual exported candidate feature")
 	check(get_node("/root/TaskNavigation").journey_tasks().size()==60,"actual exported journey contains60 tasks")
-	check(not get_node("/root/GameMode").is_test_mode(),"ordinary Game mode")
+	if locked_test:
+		check(not mode.set_mode(&"game") and mode.is_test_mode(),"Pilot remains locked in Test mode")
+	else:
+		check(not mode.is_test_mode(),"ordinary Game mode")
+	evidence["user_data_dir"] = user_dir
 	check(store.start_session(),"local observer initialized")
 	host=load("res://experiments/creation/workbench.tscn").instantiate()
 	add_child(host); await settle()

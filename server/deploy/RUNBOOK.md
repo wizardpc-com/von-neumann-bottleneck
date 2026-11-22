@@ -20,9 +20,9 @@ Compose staging/prod paths and ports; its 2026-10-04 `NOT_RUN` result describes 
 historical check, not the current host state. The separate localhost deployment
 templates use `vnb-feedback` on loopback port 18081, an independent Caddy instance
 at `https://localhost:28443`, the `/srv/ray/apps/vnb/current-local` source symlink,
-and a daily maintenance timer. They do not change the older staging instance or other Caddy
-sites. Treat the templates as prepared until host installation, isolation and
-end-to-end results are recorded separately. No public feedback domain is configured.
+and a daily maintenance timer. The independent `8443` ingress has a recorded
+limited-source synthetic acceptance. See the [connectivity runbook](../../docs/distribution/feedback-connectivity.md#独立公网入口)
+for the dedicated proxy and its rollback. General player access needs separate acceptance.
 
 ## Local installation / later host installation
 
@@ -40,6 +40,45 @@ Behind a proxy its IP limit is an aggregate safety limit, not per-player capacit
 set an appropriate measured global budget and edge rate limits before public traffic.
 No raw request access logs. Process/service logs and private counts can reveal
 availability without retaining player IP, note, token or query strings.
+
+## Install the player privacy page
+
+The candidate [player notice](privacy-player.html) is staged in source. The
+operator must review both languages against the intended build and the actual
+service before publishing it. Confirm the contact mailbox, explicit opinion
+send behavior, optional statistics and scores, consent version, retention,
+private report and annotation handling, and deletion. The QA page at
+`/privacy.html` continues to describe the synthetic QA lane.
+
+1. Save a copy of the active dedicated Caddyfile outside the web root. Install
+   `privacy-player.html` as `/etc/vnb-feedback-public/www/privacy-player.html`,
+   root-owned and readable by the dedicated service. Keep the existing
+   `www/privacy.html` in place.
+2. Validate the repository's `vnb-feedback-public.caddy` with the production
+   `VNB_PUBLIC_BIND` and a protected `CREDENTIALS_DIRECTORY` that has the matching
+   `fullchain.pem` and `key.pem`. Use `caddy adapt --validate --adapter caddyfile`
+   with the candidate file while logged in as the operator. Install the validated
+   file at `/etc/vnb-feedback-public/Caddyfile` and restart only
+   `vnb-feedback-public.service`. The dedicated instance has its admin API off.
+3. From an approved external test network, using normal TLS validation, check
+   `GET /privacy-player.html` returns 200 and the approved player text, and that
+   `GET /privacy.html` returns 200 with the QA text. Check `GET /v1/health` still
+   returns 200 with the expected VNB environment. Verify 404 for `HEAD` and
+   `POST /privacy-player.html`, `GET /privacy-player.html/`, and `GET /admin/report`.
+   Check the notice link in the exact Windows and macOS builds intended for
+   distribution. Real-player distribution also requires approval of target
+   ingress sources. From the supported platforms and representative authorized
+   networks, use a synthetic opinion to verify the matching client receipt,
+   one row in the private report, and removal after confirmed deletion and
+   report refresh. A working static notice leaves the firewall, ingestion
+   policy and database unchanged.
+
+If validation or smoke checks fail, restore the saved dedicated Caddyfile and
+restart only the dedicated unit. Verify the previous QA page and health route,
+then remove the staged player file if rolling back installation. If a player
+build already links to this URL, pause distribution and preserve or restore the
+approved notice for those installs as soon as possible. Keep the receiver and
+its database, reports, and backups in place during a notice rollback.
 
 ## Backups and restore
 

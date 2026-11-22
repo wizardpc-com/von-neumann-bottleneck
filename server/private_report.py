@@ -13,6 +13,8 @@ from community import CONTENT_MANIFESTS
 
 STATUSES={'needs_review','reproduced','needs_information','fixed','needs_retest','deferred'}
 IDENTITY_FIELDS=('task_version','model_version','case_set_version','build_version','source_commit','test_batch','source_batch','background_cohort')
+OPINION_EVIDENCE_FIELDS=('received','mode','visit_id','content_status','ratings',
+                         *(key for key in IDENTITY_FIELDS if key!='test_batch'))
 
 
 def read_rows(database):
@@ -78,6 +80,97 @@ def content_status(payload):
     return 'supported'
 
 
+def evidence_details(label, values):
+    evidence=html.escape(json.dumps(values, ensure_ascii=False, indent=2))
+    return f'<details><summary>{label}</summary><pre>{evidence}</pre></details>'
+
+
+def render_opinions(feedback):
+    esc=html.escape
+    batches=set()
+    statuses={}
+    rows=[]
+    for row in feedback:
+        batch=row['test_batch'] or 'unknown'
+        status=row['triage']['status']
+        status_label=status.replace('_',' ').capitalize()
+        batches.add(batch)
+        statuses[status]=status_label
+
+        opinion=f'<pre>{esc(row["note"] or "No written opinion")}</pre>'
+        if row['category']:
+            opinion+=f'<small>Category · {esc(row["category"])}</small>'
+
+        content=row['content_status']
+        task=esc(row['task'] if row['task'].strip('/') else 'Unknown task')
+        if content not in ('supported','legacy_unknown'):
+            task+=f'<br><strong>Quarantined</strong> · {esc(content)}'
+        elif content=='legacy_unknown':
+            task+='<br><small>Legacy version unknown</small>'
+
+        review={key:value for key,value in row['triage'].items() if key!='status' and value not in ('', None)}
+        triage=esc(status_label)
+        if review:
+            triage+=evidence_details('Review details',review)
+
+        evidence={key:row[key] for key in OPINION_EVIDENCE_FIELDS}
+        if row['test_batch']!=batch:
+            evidence['test_batch']=row['test_batch']
+        batch_cell=f'{esc(batch)}<br><small>{esc(row["source"])}</small>'
+        cells=(opinion,task,triage,batch_cell,f'<pre>{esc(row["event_id"])}</pre>',evidence_details('Technical details',evidence))
+        rows.append(f'<tr data-source="{esc(row["source"])}" data-batch="{esc(batch)}" data-triage="{esc(status)}">'
+                    + ''.join(f'<td>{cell}</td>' for cell in cells) + '</tr>')
+
+    batches={batch:('Unknown batch' if batch=='unknown' else batch) for batch in batches}
+    controls=[]
+    for field,label,options in (('batch','Build batch',batches),('triage','Triage status',statuses)):
+        choices=''.join(f'<option value="{esc(value)}">{esc(options[value])}</option>' for value in sorted(options))
+        controls.append(f'<label for="opinion-{field}">{label}</label> '
+                        f'<select id="opinion-{field}"><option value="">All</option>{choices}</select> ')
+
+    columns=('Opinion','Task','Triage','Build batch','Receipt ID','Evidence')
+    headings=''.join(f'<th scope="col">{column}</th>' for column in columns)
+    total=len(rows)
+    return ('<section aria-labelledby="received-opinions-heading">'
+            '<h2 id="received-opinions-heading">Received opinions / private review</h2>'
+            '<fieldset id="opinion-filters" hidden><legend>Filter received opinions</legend>'
+            + ''.join(controls)
+            + '<p>These filters also use the report’s <a href="#source">Source</a> selection.</p></fieldset>'
+            + f'<p id="opinion-count" role="status">Showing {total} of {total} opinions.</p>'
+            + '<div class="scroll"><table id="received-opinions" aria-labelledby="received-opinions-heading" style="overflow-wrap:anywhere">'
+            + f'<thead><tr>{headings}</tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>'
+            + '<p>Persistent rejection counts: unknown. Historical unsupported records are quarantined and do not enter task metrics.</p>'
+            + '''</section><script>
+{
+  const source = document.querySelector("#source");
+  const batch = document.querySelector("#opinion-batch");
+  const triage = document.querySelector("#opinion-triage");
+  const rows = document.querySelectorAll("#received-opinions tbody tr");
+  const count = document.querySelector("#opinion-count");
+  function filterOpinions() {
+    let shown = 0;
+    rows.forEach(row => {
+      const {source: rowSource, batch: rowBatch, triage: rowTriage} = row.dataset;
+      const matches = (!source.value || source.value === rowSource)
+        && (!batch.value || batch.value === rowBatch)
+        && (!triage.value || triage.value === rowTriage);
+      row.hidden = !matches;
+      if (matches) shown++;
+    });
+    count.textContent = `Showing ${shown} of ${rows.length} opinions.`;
+  }
+  const filterBySource = source.onchange;
+  source.onchange = event => {
+    filterBySource(event);
+    filterOpinions();
+  };
+  batch.onchange = triage.onchange = filterOpinions;
+  document.querySelector("#opinion-filters").hidden = false;
+  filterOpinions();
+}
+</script>''')
+
+
 def build_report(database,triage=None):
     require_separate_sidecar(database,triage)
     spec=importlib.util.spec_from_file_location('report',Path(__file__).resolve().parents[1]/'scripts/report-playtests.py')
@@ -106,12 +199,7 @@ def build_report(database,triage=None):
     result.update(received_feedback=feedback,quarantined_records=quarantined,
                   rejection_counts=None,rejection_counts_scope='unknown: validation rejections are not stored in SQLite; private /admin/report has process-lifetime counters only')
     result['limitations'].append('Feedback IDs link review notes only while their feedback exists in the current database. Restore must merge newest tombstones before reporting; purge the private triage sidecar after deletion/retention.')
-    columns=['event_id','received','task','content_status','source','mode',*IDENTITY_FIELDS,'category','note','ratings','triage']
-    table='<h2>Received opinions / private review</h2><div class="scroll"><table><thead><tr>'+''.join('<th>'+html.escape(c)+'</th>' for c in columns)+'</tr></thead><tbody>'
-    for row in feedback:
-        table+='<tr data-source="'+html.escape(row['source'],quote=True)+'">'+''.join('<td><pre>'+html.escape(json.dumps(row.get(c),ensure_ascii=False) if isinstance(row.get(c),(dict,list)) else str(row.get(c)))+'</pre></td>' for c in columns)+'</tr>'
-    table+='</tbody></table></div><p>Persistent rejection counts: unknown. Historical unsupported records are quarantined and do not enter task metrics.</p>'
-    return result,report.render(result)+table
+    return result,report.render(result)+render_opinions(feedback)
 
 
 def main():

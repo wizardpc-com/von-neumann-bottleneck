@@ -7,6 +7,8 @@ var drafts: Dictionary = {}
 var drafts_blocked: bool = false
 var category: OptionButton
 var opinion_status: Label
+var local_privacy: HBoxContainer
+var send_disclosure: HBoxContainer
 var context_label: Label
 var restoring_draft: bool = false
 ## Voluntary local feedback available during a run and after an unfinished exit.
@@ -119,17 +121,17 @@ func _ready() -> void:
 	identity.add_child(diagnostics)
 	context.add_child(diagnostic_details)
 	diagnostic_details.add_child(context_label)
-	var privacy_row := HBoxContainer.new()
-	privacy_row.add_theme_constant_override("separation",10)
-	outer.add_child(privacy_row)
-	privacy_row.add_child(_feedback_icon("feedback_privacy",24))
+	local_privacy = HBoxContainer.new()
+	local_privacy.add_theme_constant_override("separation",10)
+	outer.add_child(local_privacy)
+	local_privacy.add_child(_feedback_icon("feedback_privacy",24))
 	var privacy := Label.new(); privacy.name="FeedbackPrivacy"
 	privacy.text = _t("privacy")
 	privacy.set_meta("translation","privacy")
 	privacy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	privacy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	privacy.add_theme_font_size_override("font_size",13)
-	privacy_row.add_child(privacy)
+	local_privacy.add_child(privacy)
 	var opinion_heading := HBoxContainer.new()
 	opinion_heading.add_theme_constant_override("separation",12)
 	box.add_child(opinion_heading)
@@ -162,6 +164,28 @@ func _ready() -> void:
 	send_opinion.text=Localization.text(&"sharing.send_feedback"); send_opinion.set_meta("locale_field",["text","sharing.send_feedback"])
 	send_opinion.custom_minimum_size.y=40; send_opinion.size_flags_horizontal=Control.SIZE_EXPAND_FILL; opinion_actions.add_child(send_opinion); send_opinion.pressed.connect(_send_opinion)
 	save_opinion.add_theme_stylebox_override("normal",preload("res://src/ui/instrument_theme.gd").panel(Color("203644"),Color("8fd3dc")))
+	send_disclosure = HBoxContainer.new()
+	send_disclosure.name = "OpinionSendDisclosure"
+	send_disclosure.add_theme_constant_override("separation",10)
+	box.add_child(send_disclosure)
+	var disclosure := Label.new()
+	disclosure.text = Localization.text(&"sharing.opinion_send_disclosure")
+	disclosure.set_meta("locale_field",["text","sharing.opinion_send_disclosure"])
+	disclosure.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	disclosure.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	disclosure.add_theme_font_size_override("font_size",13)
+	send_disclosure.add_child(disclosure)
+	var privacy_url: String = RemoteFeedback.privacy_url()
+	if not privacy_url.is_empty():
+		var privacy_link := LinkButton.new()
+		privacy_link.name = "PrivacyNoticeLink"
+		privacy_link.focus_mode = Control.FOCUS_ALL
+		privacy_link.custom_minimum_size.y = 36
+		privacy_link.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		privacy_link.text = Localization.text(&"sharing.view_privacy_notice")
+		privacy_link.set_meta("locale_field",["text","sharing.view_privacy_notice"])
+		privacy_link.pressed.connect(func() -> void: OS.shell_open(privacy_url))
+		send_disclosure.add_child(privacy_link)
 	opinion_status=Label.new(); opinion_status.name="OpinionDeliveryStatus"; opinion_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART; box.add_child(opinion_status)
 	var rating_fold := CheckButton.new(); rating_fold.name="OptionalRatings"; rating_fold.text=Localization.text(&"sharing.optional_ratings"); rating_fold.set_meta("locale_field",["text","sharing.optional_ratings"])
 	box.add_child(rating_fold); box.add_child(rating_box)
@@ -181,13 +205,6 @@ func _ready() -> void:
 	var destination := Label.new(); receiver_label=destination; destination.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	destination.text=Localization.text(&"sharing.receiver")+(RemoteFeedback.endpoint if RemoteFeedback.endpoint_allowed() else Localization.text(&"sharing.not_configured_in_this_build_save_and_export_still_work"))
 	remote_box.add_child(destination)
-	var privacy_url: String = RemoteFeedback.privacy_url()
-	if not privacy_url.is_empty():
-		var privacy_link := LinkButton.new(); privacy_link.name="PrivacyNoticeLink"
-		privacy_link.focus_mode=Control.FOCUS_ALL; privacy_link.custom_minimum_size.y=36
-		privacy_link.text=Localization.text(&"sharing.view_privacy_notice"); privacy_link.set_meta("locale_field",["text","sharing.view_privacy_notice"])
-		privacy_link.pressed.connect(func() -> void: OS.shell_open(privacy_url))
-		remote_box.add_child(privacy_link)
 	var local_toggle := CheckButton.new(); local_toggle.text=Localization.text(&"sharing.record_local_play_actions_no_opinion_text"); local_toggle.set_meta("locale_field",["text","sharing.record_local_play_actions_no_opinion_text"]); local_toggle.button_pressed=PlaytestData.telemetry_enabled
 	local_toggle.toggled.connect(func(value: bool) -> void: PlaytestData.set_local_recording(value); _save_preferences(value))
 	remote_box.add_child(local_toggle)
@@ -340,14 +357,10 @@ func make_button() -> Button:
 	return button
 
 
-## Workbench entry: ordinary players reach feedback from the completion card,
-## Settings or F8, so the workbench shows no standing Feedback button. Offline
-## tester builds keep it visible (otherwise their floating fallback toolbar
-## would cover the workbench's bottom controls).
+## A visible entry for online opinions and offline scene capture.
 func make_workbench_button() -> Button:
 	var button: Button = make_button()
-	var offline: Node = get_node_or_null("/root/OfflineFeedback")
-	button.visible = offline != null and bool(offline.enabled())
+	button.visible = OfflineFeedback.enabled() or RemoteFeedback.endpoint_allowed()
 	return button
 
 
@@ -366,8 +379,11 @@ func toggle() -> void:
 		if not window.tree_exiting.is_connected(release): window.tree_exiting.connect(release, CONNECT_ONE_SHOT)
 	panel.show()
 	preload("res://src/ui/ui_motion.gd").reveal(panel.get_child(0))
-	var choices: Array[Node] = panel.find_children("*","Button",true,false)
-	if not choices.is_empty(): (choices[0] as Button).grab_focus()
+	if RemoteFeedback.endpoint_allowed() and not str(target.get("level_id","")).is_empty():
+		opinion.grab_focus()
+	else:
+		var choices: Array[Node] = panel.find_children("*","Button",true,false)
+		if not choices.is_empty(): (choices[0] as Button).grab_focus()
 	_update_context_controls()
 	var in_terminal: bool = panel.has_meta("terminal_page")
 	content_scroll.size_flags_vertical = Control.SIZE_FILL
@@ -487,7 +503,7 @@ func _save_opinion() -> bool:
 	var level: String = str(target.get("level_id",""))
 	var same: bool = _matches_saved_opinion()
 	var saved: bool = same or PlaytestData.submit_level_feedback(StringName(chapter),StringName(level),ratings[0].selected,ratings[1].selected,ratings[2].selected,opinion.text,CATEGORIES[category.selected],target)
-	status.text=Localization.text(&"sharing.saved_locally_revisions_are_retained_analysis_uses_the_latest_opinio") if saved else Localization.text(&"sharing.choose_a_task_and_provide_a_rating_or_opinion")
+	status.text="" if saved else Localization.text(&"sharing.choose_a_task_and_provide_a_rating_or_opinion")
 	if saved and not same: saved_opinion=PlaytestData.latest_level_feedback(chapter,level)
 	_store_draft(); _remote_updated()
 	return saved
@@ -496,7 +512,9 @@ func _send_opinion() -> void:
 	if not _save_opinion(): return
 	var id: String = RemoteFeedback.send_feedback(saved_opinion)
 	_remote_updated()
-	if id.is_empty(): opinion_status.text=Localization.text(StringName("sharing.state."+RemoteFeedback.status))
+	if id.is_empty():
+		var state: String = "delete_pending" if RemoteFeedback.deletion_pending else RemoteFeedback.status
+		opinion_status.text = Localization.text(StringName("sharing.state."+state))
 
 func _remote_updated() -> void:
 	var metadata: Dictionary = RemoteFeedback.minimal_context(saved_opinion) if _matches_saved_opinion() else target
@@ -505,11 +523,13 @@ func _remote_updated() -> void:
 	context_label.text=Localization.text(&"sharing.attached_context")+" · "+str(metadata.get("build_version","development"))+" · "+commit+" · "+str(metadata.get("task_version",""))+" · "+str(metadata.get("source",PlaytestData.source_kind))
 	var configured: bool = RemoteFeedback.endpoint_allowed()
 	send_opinion.disabled=not configured
+	local_privacy.visible = not configured
+	send_disclosure.visible = configured
 	if is_instance_valid(opinion_status):
 		var id: String = RemoteFeedback.feedback_id(saved_opinion) if _matches_saved_opinion() else ""
 		var state: String = RemoteFeedback.feedback_state(id) if not id.is_empty() else "draft"
 		opinion_status.text=Localization.text(StringName("sharing.state."+state))
-		if not id.is_empty(): opinion_status.text += " · "+Localization.text(&"sharing.feedback_id")+id
+		if state == "sent": opinion_status.text += " · "+Localization.text(&"sharing.feedback_id")+id
 		if drafts_blocked: opinion_status.text += "\n"+Localization.text(&"sharing.draft_unavailable")
 		if not configured: opinion_status.text += "\n"+Localization.text(&"sharing.not_configured_in_this_build_save_and_export_still_work")
 	remote_status.text=Localization.text(StringName("sharing.status."+RemoteFeedback.status))+" · %d " % RemoteFeedback.queue.size()+Localization.text(&"sharing.pending")

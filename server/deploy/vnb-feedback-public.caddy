@@ -28,6 +28,10 @@ https://feedback.yanruiqing.com:8443 {
         method GET
         path /privacy.html
     }
+    @player_privacy {
+        method GET
+        path /privacy-player.html
+    }
     @health {
         method GET
         path /v1/health
@@ -42,6 +46,10 @@ https://feedback.yanruiqing.com:8443 {
     }
 
     handle @privacy {
+        root * /etc/vnb-feedback-public/www
+        file_server
+    }
+    handle @player_privacy {
         root * /etc/vnb-feedback-public/www
         file_server
     }

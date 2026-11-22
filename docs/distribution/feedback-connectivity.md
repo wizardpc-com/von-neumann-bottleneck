@@ -149,6 +149,27 @@ python3 scripts/verify-feedback-stage.py --public-receiver \
 试验包不属于 GitHub Release。请从授权出口测试，并保留同 ID 回执、
 SQLite 读回和服务隔离记录。
 
+## 真人试玩意见包
+
+`--edition test --player-feedback-pilot` 可从同一冻结提交为 Windows 和 macOS
+构建独立 Test Pilot。默认 `--platform both`。固定存档名为 `EditionTestPilot`。
+`test_batch` 和 `source_batch` 默认均为 `PlayerFeedbackPilot`，分轮时可用
+`--test-batch PlayerFeedbackPilot-Wave2` 等批次名。普通玩家会话沿用
+`external_player` 来源。合成验收继续使用上面的 Mac QA 包和独立批次。
+
+构建时传入完整提交 SHA、`--release-version`、明确获准用于真人意见的
+`--feedback-endpoint` 及已审阅的 `--privacy-url`。支持标准公网 HTTPS，也可
+明确指定现有入口 `https://feedback.yanruiqing.com:8443/v1` 及真人说明
+`https://feedback.yanruiqing.com:8443/privacy-player.html`。接收地址可以省略
+`/v1`；同入口的 `/privacy.html` 仍仅供合成 QA。根清单、各平台清单和包内说明均记录这两条
+URL，可用 `check-candidate-identity.py` 核对。构建检查只校验 URL 格式和包内
+一致性；交付前由维护者核对隐私页正文和目标玩家到接收端的连通性。
+
+在任务内点反馈按钮或按 F8，填写意见后点「发送」。基础统计、
+详细统计和成绩分享仍按现有设置分别同意，新档默认关闭。按记录的 `test_batch`
+区分试玩轮次，再用 `source` 区分来源。升级沿用同一存档时，`source_batch`
+可能保留该安装首次同意时的批次。Test Pilot 不属于普通离线 Game/Test 四包。
+
 ## 现有服务保护
 
 独立 8443 方案只读对比 MyAgent 代理、Gateway、WSS 服务，以及天机和

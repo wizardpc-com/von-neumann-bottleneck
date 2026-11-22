@@ -6049,7 +6049,7 @@ msgid "moments.title"
 msgstr "评价与反馈 · 随时可用"
 
 msgid "moments.privacy"
-msgstr "评分与意见需点击保存，默认仅在本机。时刻标记会立即保存；任何文字都需要单独点击发送才会回传。"
+msgstr "反馈仅保留在本机，可在此保存或导出。"
 
 msgid "moments.close"
 msgstr "关闭"
@@ -6829,8 +6829,11 @@ msgstr "硬件成本 · %d → %d · Δ %s"
 msgid "sharing.send_feedback"
 msgstr "发送反馈"
 
+msgid "sharing.opinion_send_disclosure"
+msgstr "发送会分享这条意见、任务和版本信息，以及随机安装标识。统计分享由你另行选择。"
+
 msgid "sharing.keep_locally"
-msgstr "仅保留本机"
+msgstr "保存到本机"
 
 msgid "sharing.category"
 msgstr "问题类型（可选）"
@@ -6863,7 +6866,7 @@ msgid "sharing.state.local"
 msgstr "已保存本机"
 
 msgid "sharing.state.pending"
-msgstr "等待发送"
+msgstr "已保存到本机，等待发送。"
 
 msgid "sharing.state.sending"
 msgstr "发送中"
@@ -6875,7 +6878,7 @@ msgid "sharing.state.rejected"
 msgstr "接收器拒绝；本机仍保留"
 
 msgid "sharing.state.failed_retryable"
-msgstr "等待网络；可安全重试"
+msgstr "已保存到本机，等待重试。"
 
 msgid "sharing.state.not_configured"
 msgstr "接收器未配置；已保存本机"

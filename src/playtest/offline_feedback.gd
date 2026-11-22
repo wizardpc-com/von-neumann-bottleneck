@@ -3,6 +3,8 @@ extends Node
 const Store = preload("res://src/playtest/offline_store.gd")
 const Context = preload("res://src/playtest/offline_context.gd")
 const CATEGORIES := ["confusion","control","bug","audiovisual","discovery","other"]
+const PANEL_MARGIN := Vector2(8,12)
+const PANEL_MAX_WIDTH := 960.0
 var store = Store.new()
 var layer: CanvasLayer
 var backdrop: ColorRect
@@ -27,6 +29,7 @@ var emergency_context: Dictionary = {}
 var emergency_image: PackedByteArray = PackedByteArray()
 var rescue_exported: bool = false
 var workspace: BoxContainer
+var footer_block: VBoxContainer
 
 func enabled() -> bool:
 	return bool(ProjectSettings.get_setting("playtest/offline_tester",false)) or bool(ProjectSettings.get_setting("playtest/offline_feedback",false))
@@ -57,6 +60,7 @@ func _ready() -> void:
 	var title := Label.new(); title.text=_t("离线试玩反馈","Offline playtest feedback")
 	title.set_meta("locale_pair",["离线试玩反馈","Offline playtest feedback"])
 	title.add_theme_font_size_override("font_size",24)
+	title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	title.size_flags_horizontal=Control.SIZE_EXPAND_FILL; heading.add_child(title)
 	_button(heading,"返回游戏 · Esc","Back · Esc",close_panel)
 	var scroll := ScrollContainer.new(); scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL
@@ -86,6 +90,9 @@ func _ready() -> void:
 	preview.expand_mode=TextureRect.EXPAND_IGNORE_SIZE; preview.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	image_frame.add_child(preview)
 	history=OptionButton.new(); history.name="OfflineFeedbackHistory"; history.fit_to_longest_item=false; scene_column.add_child(history)
+	# The selected history summary must not set the width of the scene column.
+	history.clip_text=true
+	history.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 	history.item_selected.connect(func(index: int) -> void: _load_case(str(history.get_item_metadata(index))))
 	var note_column: VBoxContainer = _section(workspace,"记下你的反馈","Your feedback","res://assets/ui/feedback_note.svg")
 	category=OptionButton.new(); category.name="OfflineFeedbackCategory"
@@ -109,16 +116,17 @@ func _ready() -> void:
 		"Game screenshots, designs, run data and action history stay on this device. Notes save as you type. Send the exported ZIP to the maintainer yourself. It can contain your work and free text; do not enter passwords or private information.")
 	privacy.set_meta("locale_pair",["自动保留游戏截图、当前方案、运行数据和操作记录；文字输入会自动保存。仅在本机，导出后请把一个 ZIP 发给维护者。文件可能包含作品和自由文字，请勿填写密码或私人信息。","Game screenshots, designs, run data and action history stay on this device. Notes save as you type. Send the exported ZIP to the maintainer yourself. It can contain your work and free text; do not enter passwords or private information."])
 	privacy_row.add_child(privacy)
-	var rule := HSeparator.new(); body.add_child(rule)
-	var footer := HBoxContainer.new(); body.add_child(footer)
+	footer_block=VBoxContainer.new(); footer_block.add_theme_constant_override("separation",12); body.add_child(footer_block)
+	var rule := HSeparator.new(); footer_block.add_child(rule)
+	var footer := HFlowContainer.new(); footer_block.add_child(footer)
 	_button(footer,"导出全部反馈（一个 ZIP）","Export all feedback (one ZIP)",export_all)
 	_button(footer,"另存到…","Save ZIP as…",choose_export_path)
 	_button(footer,"打开文件夹","Open folder",func() -> void:
 		OS.shell_show_in_file_manager(last_export if not last_export.is_empty() else ProjectSettings.globalize_path(store.root)))
 	status=Label.new(); status.name="OfflineFeedbackStatus"; status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	status.add_theme_font_size_override("font_size",13)
-	body.add_child(status)
-	_connect_panel_input(backdrop)
+	footer_block.add_child(status)
+	_connect_panel_input(backdrop,scroll)
 	Localization.locale_changed.connect(func(_locale: String) -> void: _refresh_language(layer))
 	_refresh_toolbar()
 
@@ -148,14 +156,7 @@ func _process(_delta: float) -> void:
 	if not enabled(): return
 	var size: Vector2 = backdrop.get_viewport().get_visible_rect().size
 	toolbar.position=Vector2(maxf(8,size.x-toolbar.size.x-14),maxf(8,size.y-toolbar.size.y-10))
-	if backdrop.visible:
-		backdrop.size=size
-		panel.position=Vector2(maxf(8,(size.x-960)/2),12)
-		panel.size=Vector2(minf(960,size.x-16),maxf(250,size.y-24))
-		if backdrop.has_meta("terminal_page"):
-			panel.position=Vector2.ZERO
-			panel.size=size
-		workspace.vertical=panel.size.x<900
+	if backdrop.visible: _layout_panel(size)
 	# Polling also reaches embedded work/exhibition windows, whose input belongs to
 	# a different viewport. It never installs an OS-wide keyboard hook.
 	var choosing_file: bool = is_instance_valid(export_dialog) and export_dialog.visible
@@ -165,6 +166,20 @@ func _process(_delta: float) -> void:
 	var escape: bool = Input.is_physical_key_pressed(KEY_ESCAPE)
 	if escape and not esc_down and backdrop.visible and not choosing_file and _focused_window(get_tree().root)==panel.get_viewport(): close_panel()
 	esc_down=escape
+
+func _layout_panel(viewport_size: Vector2) -> void:
+	backdrop.size=viewport_size
+	var terminal: bool = backdrop.has_meta("terminal_page")
+	var available: Vector2 = viewport_size if terminal else (viewport_size-PANEL_MARGIN*2.0).max(Vector2.ZERO)
+	var preferred: Vector2 = available if terminal else Vector2(minf(PANEL_MAX_WIDTH,available.x),available.y)
+	workspace.vertical=preferred.x<900
+	var content: Control = workspace.get_parent() as Control
+	var body: Control = content.get_parent().get_parent() as Control
+	# In short windows the existing scroll area also carries export and status.
+	var footer_parent: Control = content if preferred.y<420.0 else body
+	if footer_block.get_parent()!=footer_parent: footer_block.reparent(footer_parent,false)
+	panel.size=preferred.max(panel.get_combined_minimum_size())
+	panel.position=Vector2.ZERO if terminal else (viewport_size-panel.size)*0.5
 
 func _input(event: InputEvent) -> void:
 	if enabled() and backdrop.visible and not (is_instance_valid(export_dialog) and export_dialog.visible) and event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:
@@ -205,9 +220,9 @@ func open_panel(feedback_task: Dictionary = {}) -> void:
 	PlaytestData.set_feedback_visible(true,&"offline")
 	_restore_fields()
 	_refresh_history()
-	if current.is_empty(): status.text=_t("现场保存失败，请保持面板打开并尝试另存 ZIP：","Capture could not be saved. Keep the panel open and try Save ZIP as: ")+store.last_error
-	elif current.screenshot_status!="captured": status.text=_t("现场已保存，但没有截图：","Scene saved without a screenshot: ")+str(current.screenshot_error)
-	else: status.text=_t("现场与截图已保存在本机。文字会自动保存。","Scene and screenshot saved locally. Notes save as you type.")
+	if current.is_empty(): _set_status("现场保存失败，请保持面板打开并尝试另存 ZIP：","Capture could not be saved. Keep the panel open and try Save ZIP as: ",store.last_error)
+	elif current.screenshot_status!="captured": _set_status("现场已保存，但没有截图：","Scene saved without a screenshot: ",str(current.screenshot_error))
+	else: _set_status("现场与截图已保存在本机。文字会自动保存。","Scene and screenshot saved locally. Notes save as you type.")
 	note.grab_focus(); busy=false
 
 func open_for_task(chapter: String, level: String) -> void:
@@ -242,14 +257,14 @@ func capture_another() -> void:
 func _save_note(reported: bool) -> bool:
 	if restoring: return true
 	if current.is_empty():
-		status.text=_t("没有可写入的现场；请另存 ZIP 保留当前文字。","No writable incident; use Save ZIP as to preserve the current note.")
+		_set_status("没有可写入的现场；请另存 ZIP 保留当前文字。","No writable incident; use Save ZIP as to preserve the current note.")
 		return false
 	var saved: Dictionary = store.save_note(current.id,note.text,CATEGORIES[category.selected],reported or current.get("status","")=="reported")
 	if saved.is_empty():
-		status.text=_t("保存失败，文字仍在面板中。请另存 ZIP：","Save failed; the note is still in this panel. Save ZIP as: ")+store.last_error
+		_set_status("保存失败，文字仍在面板中。请另存 ZIP：","Save failed; the note is still in this panel. Save ZIP as: ",store.last_error)
 		return false
 	current=saved
-	status.text=_t("已自动保存 · ","Saved automatically · ")+str(current.id).left(8)
+	_set_status("已自动保存 · ","Saved automatically · ",str(current.id).left(8))
 	if reported: _refresh_history()
 	return true
 
@@ -283,12 +298,13 @@ func _refresh_info() -> void:
 	diagnostics_info.text = key+"\n"+str(build.get("version","development"))+" · "+commit
 
 func _load_case(id: String) -> void:
+	if busy or not backdrop.visible: return
 	if not _save_note(false): return
 	current=store.read_case(id); _restore_fields(); _refresh_history()
 	emergency_context=Store._read_json(store.root.path_join("cases").path_join(id).path_join("context.json"))
 	var png: String = store.root.path_join("cases").path_join(id).path_join("screenshot.png")
 	emergency_image=FileAccess.get_file_as_bytes(png) if FileAccess.file_exists(png) else PackedByteArray()
-	status.text=_t("已打开历史现场；原始截图和数据保持不变。","Opened a previous scene; its original screenshot and data are retained.")
+	_set_status("已打开历史现场；原始截图和数据保持不变。","Opened a previous scene; its original screenshot and data are retained.")
 
 func _refresh_history() -> void:
 	if not is_instance_valid(history): return
@@ -341,10 +357,10 @@ func export_all(destination: String = "") -> void:
 		var failure: String = store.last_error
 		if not backdrop.visible:
 			busy=false; open_panel(); busy=true
-		status.text=_t("导出失败；本机记录未删除。可尝试另存到其他位置：","Export failed; local records were retained. Try Save ZIP as to another location: ")+failure
+		_set_status("导出失败；本机记录未删除。可尝试另存到其他位置：","Export failed; local records were retained. Try Save ZIP as to another location: ",failure)
 	else:
 		rescue_exported=true
-		if backdrop.visible: status.text=_t("已导出并核验。把这个 ZIP 发给维护者；本机原件仍保留：\n","Export verified. Send this ZIP to the maintainer; local originals remain:\n")+last_export
+		if backdrop.visible: _set_status("已导出并核验。把这个 ZIP 发给维护者；本机原件仍保留：\n","Export verified. Send this ZIP to the maintainer; local originals remain:\n",last_export)
 		OS.shell_show_in_file_manager(last_export)
 	busy=false
 
@@ -398,20 +414,29 @@ func _category_text(index: int) -> String:
 func _t(zh: String, en: String) -> String:
 	return en if Localization.current_locale()=="en" else zh
 
+func _set_status(zh: String, en: String, detail: String = "") -> void:
+	status.set_meta("locale_pair",[zh+detail,en+detail])
+	status.text=_t(zh,en)+detail
+
 func _refresh_language(node: Node) -> void:
 	if node.has_meta("locale_pair"):
 		var pair: Array = node.get_meta("locale_pair")
 		node.set("text",_t(str(pair[0]),str(pair[1])))
 	for child: Node in node.get_children(): _refresh_language(child)
 	if node==layer:
+		if not layer.is_ancestor_of(backdrop): _refresh_language(backdrop)
 		for index: int in CATEGORIES.size(): category.set_item_text(index,_category_text(index))
 		note.placeholder_text=_t("哪里卡住了？你想做什么、实际发生了什么？也可以只保存现场，稍后补充。","Where did you get stuck? What did you try, and what happened? You can also keep the scene now and add a note later.")
 		_refresh_info()
 
-func _connect_panel_input(node: Node) -> void:
+func _connect_panel_input(node: Node, scroll: ScrollContainer) -> void:
 	if node is Control:
+		if node.focus_mode!=Control.FOCUS_NONE:
+			node.focus_entered.connect(func() -> void:
+				if scroll.is_ancestor_of(footer_block) and scroll.is_ancestor_of(node):
+					scroll.ensure_control_visible.call_deferred(node))
 		node.gui_input.connect(func(event: InputEvent) -> void:
 			if event is InputEventKey and event.pressed and event.keycode==KEY_ESCAPE:
 				var viewport: Viewport = panel.get_viewport()
 				viewport.set_input_as_handled(); close_panel())
-	for child: Node in node.get_children(): _connect_panel_input(child)
+	for child: Node in node.get_children(): _connect_panel_input(child,scroll)

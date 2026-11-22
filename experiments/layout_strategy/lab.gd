@@ -129,7 +129,10 @@ static func isolated_profile(path: String) -> bool:
 static func edition_profile(path: String, edition: String, primary: String, profile: String) -> bool:
 	if edition not in ["game", "test"] or primary != "representation": return false
 	var expected: String = "EditionGame" if edition == "game" else "EditionTest"
-	var matches_edition: bool = profile == expected or (edition == "test" and profile == "EditionTestFeedback")
+	var matches_edition: bool = (
+		profile == expected
+		or (edition == "test" and profile in ["EditionTestFeedback", "EditionTestPilot"])
+	)
 	return matches_edition and CandidateContext.configured_journey_for(true, primary, profile, path)
 
 func product_profile() -> bool:

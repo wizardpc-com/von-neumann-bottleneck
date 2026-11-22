@@ -133,8 +133,64 @@ func _run_all() -> void:
 		"Clean reset must preserve exported playtest JSON and unrelated local files."
 	)
 
+	_test_recording_preferences(test_directory)
 	_remove_tree(ProjectSettings.globalize_path(test_directory).replace("\\", "/"))
 	_remove_tree(ProjectSettings.globalize_path(reset_directory).replace("\\", "/"))
+
+
+func _test_recording_preferences(directory: String) -> void:
+	var path: String = directory.path_join("feedback_preferences.cfg")
+	var store := PlaytestDataType.new()
+	store.configure_for_storage(directory, &"test")
+	store._configure_from_command_line(PackedStringArray(), false, path)
+	_assert(store.telemetry_enabled and store.questionnaires_enabled(),
+		"Recording preferences: ordinary launch without a preference keeps both historical defaults.")
+
+	var preferences := ConfigFile.new()
+	preferences.set_value("privacy", "local_actions", false)
+	_assert(preferences.save(path) == OK, "Recording preferences: save the disabled choice.")
+	var saved_hash: String = FileAccess.get_sha256(path)
+	store._configure_from_command_line(PackedStringArray(), false, path)
+	_assert(not store.telemetry_enabled and store.questionnaires_enabled() and store.start_session(),
+		"Recording preferences: ordinary launch respects stored off and still starts a questionnaire session.")
+	_assert(not store.record_map_action(&"select", "chapter_2/access_order")
+		and store.submit_level_feedback(&"chapter_2", &"access_order", 4, 3, 5, ""),
+		"Recording preferences: stored off blocks local actions while accepting explicit feedback.")
+	store.end_session()
+	store.free()
+
+	var next_launch := PlaytestDataType.new()
+	next_launch._configure_from_command_line(PackedStringArray(["--enable-playtest-telemetry"]), true, path)
+	_assert(next_launch.telemetry_enabled and not next_launch.questionnaires_enabled(),
+		"Recording preferences: an explicit QA opt-in overrides stored off independently of questionnaires.")
+	next_launch._configure_from_command_line(PackedStringArray(), false, path)
+	_assert(not next_launch.telemetry_enabled and FileAccess.get_sha256(path) == saved_hash,
+		"Recording preferences: QA opt-in leaves the stored choice intact for the next ordinary launch.")
+
+	preferences.set_value("privacy", "local_actions", true)
+	_assert(preferences.save(path) == OK, "Recording preferences: save the enabled choice.")
+	next_launch._configure_from_command_line(PackedStringArray(), false, path)
+	_assert(next_launch.telemetry_enabled,
+		"Recording preferences: ordinary launch respects stored on.")
+	next_launch._configure_from_command_line(PackedStringArray(["--disable-playtest-telemetry"]), false, path)
+	_assert(not next_launch.telemetry_enabled and next_launch.questionnaires_enabled(),
+		"Recording preferences: an explicit opt-out overrides stored on without suppressing questionnaires.")
+	for arguments: PackedStringArray in [
+		PackedStringArray(), PackedStringArray(["--script"]), PackedStringArray(["--capture-mainline"])
+	]:
+		next_launch._configure_from_command_line(arguments, arguments.is_empty(), path)
+		_assert(not next_launch.telemetry_enabled and not next_launch.questionnaires_enabled(),
+			"Recording preferences: headless, script and capture defaults suppress both features despite stored on.")
+	next_launch._configure_from_command_line(PackedStringArray([
+		"--enable-playtest-telemetry", "--disable-playtest-telemetry"
+	]), true, path)
+	_assert(not next_launch.telemetry_enabled, "Recording preferences: a later opt-out wins.")
+	next_launch._configure_from_command_line(PackedStringArray([
+		"--disable-playtest-telemetry", "--enable-playtest-telemetry", "--enable-playtest-feedback"
+	]), true, path)
+	_assert(next_launch.telemetry_enabled and next_launch.questionnaires_enabled(),
+		"Recording preferences: a later opt-in wins and combined QA opt-ins remain available.")
+	next_launch.free()
 
 
 func _write_text(path: String, text: String) -> void:

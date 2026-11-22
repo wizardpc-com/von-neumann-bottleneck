@@ -6049,7 +6049,7 @@ msgid "moments.title"
 msgstr "Feedback · Available anytime"
 
 msgid "moments.privacy"
-msgstr "Use Save for ratings and opinions; local by default. Moment markers save immediately. Text is shared only when you explicitly press Send."
+msgstr "Feedback stays on this device. You can save or export it here."
 
 msgid "moments.close"
 msgstr "Close"
@@ -6290,7 +6290,7 @@ msgid "sharing.receiver"
 msgstr "Receiver: "
 
 msgid "sharing.view_privacy_notice"
-msgstr "Read the feedback privacy notice ↗"
+msgstr "Privacy notice ↗"
 
 msgid "sharing.not_configured_in_this_build_save_and_export_still_work"
 msgstr "Not configured in this build; save and export still work."
@@ -6830,8 +6830,11 @@ msgstr "Hardware cost · %d → %d · Δ %s"
 msgid "sharing.send_feedback"
 msgstr "Send feedback"
 
+msgid "sharing.opinion_send_disclosure"
+msgstr "Send shares this opinion, task and build details, and a random installation ID. Statistics are a separate choice."
+
 msgid "sharing.keep_locally"
-msgstr "Keep on this device"
+msgstr "Save on this device"
 
 msgid "sharing.category"
 msgstr "Issue type (optional)"
@@ -6864,7 +6867,7 @@ msgid "sharing.state.local"
 msgstr "Saved on this device"
 
 msgid "sharing.state.pending"
-msgstr "Queued for sending"
+msgstr "Saved on this device. Waiting to send."
 
 msgid "sharing.state.sending"
 msgstr "Sending"
@@ -6876,7 +6879,7 @@ msgid "sharing.state.rejected"
 msgstr "Rejected by receiver; kept locally"
 
 msgid "sharing.state.failed_retryable"
-msgstr "Waiting for network; retry is safe"
+msgstr "Saved on this device. Waiting to retry."
 
 msgid "sharing.state.not_configured"
 msgstr "Receiver not configured; saved locally"

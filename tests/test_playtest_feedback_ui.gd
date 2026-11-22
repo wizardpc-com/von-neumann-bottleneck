@@ -150,14 +150,87 @@ func _run() -> void:
 	level_overlay.queue_free()
 	feedback_overlay.queue_free()
 	await process_frame
+	await _check_unfinished_workbench_opinion()
 	if failures.is_empty():
-		print("PASS: non-blocking localized level, chapter, Demo feedback, and final export handoff UI tests passed")
+		print("PASS: non-blocking localized feedback, final export, and unfinished workbench opinion UI tests passed")
 		quit(0)
 	else:
 		for failure: String in failures:
 			push_error(failure)
 		print("FAIL: %d test assertion(s) failed" % failures.size())
 		quit(1)
+
+
+func _check_unfinished_workbench_opinion() -> void:
+	if not OS.get_user_data_dir().replace("\\", "/").contains("/VonNeumannBottleneckChecks/"):
+		_assert(false, "Use the isolated verifier for the workbench opinion test. It writes a local session, draft and outbox.")
+		return
+	var remote: Node = root.get_node("RemoteFeedback")
+	var store: Node = root.get_node("PlaytestData")
+	var localization: Node = root.get_node("Localization")
+	var previous_locale: String = localization.current_locale()
+	var previous_endpoint: String = remote.endpoint
+	var previous_request: HTTPRequest = remote.request
+	var previous_notice: Variant = ProjectSettings.get_setting("application/feedback_privacy_url", "")
+	var notice := "https://privacy.example.test/privacy.html"
+	ProjectSettings.set_setting("application/feedback_privacy_url", notice)
+	remote.endpoint = "https://receiver.example.test/v1"
+	# Let the real Send handler queue the opinion, then drive response callbacks
+	# explicitly. The fixture never opens a socket or a browser.
+	remote.request = null
+	store.questionnaire_enabled = true
+	_assert(store.start_session(), "The isolated fixture can save opinions locally.")
+	store.level_started(&"hardware_foundations", &"half_adder")
+	var moments: Node = load("res://src/playtest/playtest_moments.gd").new()
+	root.add_child(moments)
+	var entry: Button = moments.make_workbench_button()
+	root.add_child(entry)
+	_assert(entry.is_visible_in_tree(), "A configured receiver exposes the workbench feedback button.")
+	entry.pressed.emit()
+	await process_frame
+	_assert(moments.panel.visible and moments.target.get("chapter_id") == "hardware_foundations" and moments.target.get("level_id") == "half_adder", "The workbench button opens feedback for the active unfinished task.")
+	var send: Button = moments.send_opinion
+	var keep: Button = moments.panel.find_child("KeepFeedbackLocally", true, false)
+	var disclosure: Control = moments.panel.find_child("OpinionSendDisclosure", true, false)
+	var privacy: LinkButton = moments.panel.find_child("PrivacyNoticeLink", true, false)
+	_assert(not send.disabled and disclosure.is_visible_in_tree() and disclosure.get_index() == send.get_parent().get_index() + 1, "Disclosure is adjacent to the enabled Send action and visible without opening the settings foldout.")
+	_assert(privacy != null and privacy.is_visible_in_tree() and privacy.get_parent() == disclosure, "The configured privacy link is available beside Send.")
+	var disclosure_text: Label = disclosure.get_child(0)
+	for locale: String in ["zh_CN", "en"]:
+		localization.set_locale(locale)
+		_assert(disclosure_text.text == localization.text(&"sharing.opinion_send_disclosure") and disclosure_text.text != "sharing.opinion_send_disclosure", "Send disclosure is translated in " + locale)
+		if privacy != null:
+			_assert(privacy.text == localization.text(&"sharing.view_privacy_notice"), "The inline privacy link follows " + locale)
+	moments.opinion.text = "Synthetic unfinished-task opinion"
+	keep.pressed.emit()
+	_assert(remote.queue.is_empty() and moments.opinion_status.text == localization.text(&"sharing.state.local"), "Save on this device leaves the queue empty and shows a local save.")
+	send.pressed.emit()
+	var id: String = remote.feedback_id(moments.saved_opinion)
+	_assert(remote.queue.size() == 1 and moments.opinion_status.text == localization.text(&"sharing.state.pending") and not remote.enabled and not remote.scores_enabled, "Send queues only this opinion with no receipt or automatic sharing.")
+	remote.inflight.assign([id])
+	remote._response(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), '{"ack":["different-id"]}'.to_utf8_buffer())
+	_assert(moments.opinion_status.text == localization.text(&"sharing.state.failed_retryable"), "An HTTP success without this opinion's acknowledgement remains pending retry.")
+	remote.inflight.assign([id])
+	var ack: PackedByteArray = JSON.stringify({"ack": [id]}).to_utf8_buffer()
+	remote._response(HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), ack)
+	_assert(remote.queue.is_empty() and moments.opinion_status.text.begins_with(localization.text(&"sharing.state.sent")) and id in moments.opinion_status.text, "Only a matching acknowledgement shows a receipt for this opinion.")
+	remote.endpoint = ""
+	remote.status_changed.emit()
+	var offline_entry: Button = moments.make_workbench_button()
+	_assert(not offline_entry.visible and send.disabled and not disclosure.visible and keep.is_visible_in_tree(), "Without a receiver the ordinary workbench keeps its existing entry policy and the form remains usable locally.")
+	offline_entry.free()
+	moments.opinion.text = "Synthetic local-only revision"
+	keep.pressed.emit()
+	_assert(remote.queue.is_empty() and moments.opinion_status.text.begins_with(localization.text(&"sharing.state.local")) and id not in moments.opinion_status.text, "A local edit after a successful send does not inherit the earlier receipt.")
+	moments.close()
+	entry.queue_free()
+	moments.queue_free()
+	await process_frame
+	store.level_exited(&"hardware_foundations", &"half_adder")
+	remote.endpoint = previous_endpoint
+	remote.request = previous_request
+	ProjectSettings.set_setting("application/feedback_privacy_url", previous_notice)
+	localization.set_locale(previous_locale)
 
 
 func _assert(condition: bool, message: String) -> void:

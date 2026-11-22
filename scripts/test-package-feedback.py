@@ -10,6 +10,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest import mock
 
@@ -111,7 +112,8 @@ class PackageFeedbackTests(unittest.TestCase):
         manifest=json.loads((self.output/'manifest.json').read_text())
         fake_socket=mock.MagicMock()
         fake_socket.socket.return_value.__enter__.return_value.getsockname.return_value=('127.0.0.1',28765)
-        with mock.patch.object(VERIFIER,'socket',fake_socket), mock.patch.object(sys,'platform','win32'):
+        with mock.patch.object(VERIFIER,'socket',fake_socket), \
+                mock.patch.object(VERIFIER,'sys',SimpleNamespace(platform='win32')):
             for platform, opt_in, candidate in [
                 ('Windows',False,manifest),('macOS',True,manifest),
                 ('Windows',True,dict(manifest,edition='game')),('Windows',True,dict(manifest,mode_locked=False)),
@@ -124,7 +126,7 @@ class PackageFeedbackTests(unittest.TestCase):
             fake_socket.socket.assert_not_called()
             self.assertEqual(VERIFIER.acceptance_endpoint(manifest,'Windows',True),'http://127.0.0.1:28765')
             fake_socket.socket.return_value.__enter__.return_value.bind.assert_called_once_with(('127.0.0.1',0))
-        with mock.patch.object(sys,'platform','darwin'), self.assertRaises(ValueError):
+        with mock.patch.object(VERIFIER,'sys',SimpleNamespace(platform='darwin')), self.assertRaises(ValueError):
             VERIFIER.acceptance_endpoint(manifest,'Windows',True)
 
     def test_loopback_guards_reject_remote_targets_and_preserve_legacy_localhost(self):
@@ -151,8 +153,10 @@ class PackageFeedbackTests(unittest.TestCase):
         connection.getsockname.return_value=('127.0.0.1',28765)
         connection.connect_ex.return_value=1
         launch_paths=[]
+        host_platform=sys.platform
 
         def fail_launch(command, **options):
+            self.assertEqual(sys.platform,host_platform)
             binary=Path(command[0])
             launch_paths.append(binary)
             self.assertNotEqual(binary,original)
@@ -172,7 +176,8 @@ class PackageFeedbackTests(unittest.TestCase):
             raise subprocess.TimeoutExpired(command, options['timeout'])
 
         with mock.patch.object(VERIFIER,'__file__',str(script_dir/'verify-package-feedback.py')), \
-                mock.patch.object(sys,'platform','win32'), mock.patch.object(VERIFIER,'socket',fake_socket), \
+                mock.patch.object(VERIFIER,'sys',SimpleNamespace(platform='win32',executable=sys.executable)), \
+                mock.patch.object(VERIFIER,'socket',fake_socket), \
                 mock.patch.object(sys,'argv',['verify-package-feedback.py','--exe',str(original),'--pilot-localhost']), \
                 mock.patch.object(subprocess,'run',side_effect=fail_launch), mock.patch.object(subprocess,'Popen') as receiver:
             with self.assertRaises(subprocess.TimeoutExpired):

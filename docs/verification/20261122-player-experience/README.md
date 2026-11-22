@@ -5,7 +5,7 @@
 当时本地与远端一致，纳入的运行时、脚本和回归与早期 313 阶段快照逐文件匹配。
 [同日冻结的四包](../20261122-player-release/README.md)仍来自
 `66e1bf0a1ee7e4f99a48b847401dfdab2ff6eddd`，只作内部回退和对照。
-当前改进轮次待最终验收，尚无本轮冻结实包、分发或部署。下述 Godot 记录来自
+本轮改进已冻结于 `2f20cef2`。Game、离线 Test 和 Wave1 Test Pilot 的 Windows、macOS 六个 ZIP 已逐个核对。[冻结包文件名、字节数与 SHA-256](packages.md)。下述 Godot 记录来自
 macOS 上的 `4.7.1.stable.official.a13da4feb`，使用隔离档和合成输入。
 
 ## 源码回归与重跑
@@ -78,7 +78,7 @@ Test Pilot 批次、明确的接收／隐私网址、旧离线及 Mac QA 路径�
 ## 尚需验收
 
 - 离线反馈已在 `20261122T131100Z-fd40a188` 通过无头与 GPU 复验。中英文历史面板在 1280×720 中居中，480×260 窗口可切换历史并通过焦点滚动到导出按钮。原始帧清单见同一快照的 `rendered-5211671d/results.json`。
-- 对同一未来冻结 Pilot 核对 Windows x64 与 macOS 实包哈希；在 Windows 运行
+- Windows x64 与 macOS 的 Pilot 归档哈希已列入冻结包清单。下一步在 Windows 运行
   `verify-package-feedback.py --exe <pilot.exe> --pilot-localhost`，并用干净账户从
   Explorer 首启、看系统提示、用真实鼠标和 F8 打开意见、保存并重开。另需 macOS
   下载首启、Intel Mac 及不同 DPI，核对锁定 Test、独立档和隐私说明入口。

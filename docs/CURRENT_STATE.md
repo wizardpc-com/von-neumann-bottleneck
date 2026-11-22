@@ -1237,3 +1237,9 @@ remaining external acceptance is consolidated in [RELEASE_BLOCKERS](../RELEASE_B
 Historical implementation and verification retain their build attribution; deleted
 instructions remain recoverable from Git. Runtime, model/save contracts, constitution,
 tests and frozen packages are unchanged by this documentation cleanup.
+
+## 2026-11-22 · 玩家体验改进版已冻结并完成本地导出
+
+`v0.6.1-playtest.1` 冻结于 `2f20cef2`。本轮纳入半加器改线后重新调试、第一章恢复正式比较、第二章定位重复取数、创造作品选择与草稿保护，以及预测和反馈历史的来源显示。Game、离线 Test、Test Pilot 各有 Windows 和 macOS 两个 ZIP，六份文件的字节数、SHA-256 与各自清单一致。[冻结包清单](verification/20261122-player-experience/packages.md) · [分阶段回归](verification/20261122-player-experience/README.md)
+
+当前用途为内部验证。Windows 原生操作、异机下载首启、真人试玩，以及从获准网络完成 Wave1 意见发送、查收与删除，仍需分别验收。

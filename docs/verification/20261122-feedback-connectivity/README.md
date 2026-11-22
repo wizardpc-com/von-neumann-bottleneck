@@ -54,3 +54,25 @@ ZIP SHA-256 为 `a8d521e258245c60019cc11901d2551a7cc9a41bc54f9b314e44275a2d73ac6
 被实包门禁拦截，修复后新冻包通过。精确重发和数据库单行检查已在原离线
 Test 包的隔离 staging 预演通过。实际公网包未用测试覆写改变服务器端点或
 证书信任。本地原交付包保持各自版本与隔离存档。
+
+## 独立 8443 公网验收完成
+
+2026-11-22，DNSPod 两台权威服务器均返回正确 A 与 DNS-01 TXT。
+Lighthouse Ray VPS 仅新增一条 TCP 8443 允许规则，来源为批准的单一 IPv4
+`/32`。原有 80、443、22 和 ICMP 四条规则仍在。独立 Caddy 只绑定主机
+IPv4 的 8443。两个初始启动探针在 Caddy 完成绑定前即检查监听，自行停止了
+新单元；给该单元有限的就绪等待后启动成功。
+
+| 验收项 | 实际证据 |
+| --- | --- |
+| Mac 外网 TLS | 正常域名访问和直连 VPS 公网 IPv4 均成功。直连保留域名 SNI 与系统证书校验，`/v1/health` 返回 HTTP/2 200、`ssl_verify_result=0`、API 1、SQLite schema 2、`X-VNB-Environment: public-feedback`。 |
+| 真实 Godot Test 包 | 用冻结的 macOS Test 包及其内置端点发送隔离合成意见。实包打印 `STAGING_RECEIVED` 与 `STAGING_RETRIED`，均为同一事件 ID。详见[公网回执 JSON](public-https-receipt.json)。 |
+| SQLite 去重与删除 | 重发完成后，以 SSH 和只读连接按该合成 ID 查询，匹配任务、批次及正文的意见恰好是一行。客户端收到 `STAGING_DELETED` 后按同一 ID 重查为零行。 |
+| 公网路由 | 健康和隐私页为 200。未授权 GET/POST 管理报表路径以及其他七个未允许的方法或路径均为 404。 |
+| 服务隔离 | MyAgent 代理、Gateway、wstunnel、天机与原 VNB 的前后只读快照逐字节一致，覆盖服务状态、PID、调用 ID、单元配置摘要及监听摘要。MyAgent 原 HTTPS 前后均 HTTP 200、TLS 校验正常。原 VNB 回环健康仍为 200。 |
+
+Let’s Encrypt YE2 证书有效期至 2027-02-20 09:03:06 UTC，首次及后续
+都需要手动 DNS-01。在到期前安排验证并只重启新单元。当前 8443 按需运行，
+尚未开机自启；Mac 测试出口变化会失去访问权限。公网开通仅限本次来源与
+合成反馈验收。跨网络、Windows 原生客户端及 WSS 任务回归不在本轮范围。
+停止独立单元并撤回专属规则的操作见[运维交接](../../distribution/feedback-connectivity.md)。

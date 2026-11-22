@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "scope": "restricted public HTTPS",
+  "engine": "4.7.1.stable.official.a13da4feb",
+  "build_id": "vnb-test-feedback-v0.6.0-FeedbackQA20261122-dd22cd0eb71c",
+  "source_commit": "dd22cd0eb71cb73dd48255c6764778e2e7456606",
+  "test_batch": "FeedbackQA20261122",
+  "feedback_id": "30513e32b2100fd37c7712e0a0d6c6df3a46f063eebb90bdc90d2c4f801efe9f",
+  "routes": {
+    "GET /v1/health": 200,
+    "GET /privacy.html": 200,
+    "GET /admin/report": 404,
+    "POST /admin/report": 404,
+    "GET /v1/report": 404,
+    "GET /v1/data": 404,
+    "GET /v1/community/tasks": 404,
+    "GET /v1/leaderboards": 404,
+    "GET /v1/events": 404,
+    "POST /v1/health": 404,
+    "GET /": 404
+  },
+  "sqlite_row_verified": true,
+  "duplicate_rows": 1,
+  "sqlite_row_removed": true,
+  "test_edition_hashes": {
+    "Contents/MacOS/Von Neumann Bottleneck \u2014 Test Edition": "8ea73af8225af81c2699a3d9034a8cf3ee3607e3523a615a897dfb627d1e3c65",
+    "Contents/Resources/Von Neumann Bottleneck \u2014 Test Edition.pck": "7d7767968b59636f0e98511548de82ecb7bea1b226a1198b473154c3c6b0e11b"
+  }
+}

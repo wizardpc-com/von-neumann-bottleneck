@@ -115,7 +115,7 @@ SHA。两者都保留同一库，禁止用旧 DB 覆盖现状。改 schema 前�
   两个环境变量执行 `caddy adapt --validate --adapter caddyfile --config /etc/vnb-feedback-public/Caddyfile`。
   `systemd-analyze verify` 成功后安装独立单元到 `/etc/systemd/system/`，
   运行 `systemctl daemon-reload`，只启动 `vnb-feedback-public.service`。
-  监听和路由验收后才设开机启动。
+  本次服务按需运行。受限验收成功后保留现有运行进程，服务仍未启用开机自启。
 - 紧急回退用 `sudo systemctl disable --now vnb-feedback-public.service` 并验证
   8443 已释放。保留证书与配置用于复盘，原接收器、TLS 及维护照常。由云
   防火墙所有者撤回专属 8443 入站规则。

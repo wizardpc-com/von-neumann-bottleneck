@@ -2,7 +2,7 @@
 
 macOS Test Edition 已经由 SSH 转发完成合成意见的 HTTPS 提交、游戏回执、
 同 ID SQLite 读回与在线删除。staging 采用独立数据库和 systemd 单元。
-独立公网 8443 的代理文件和 macOS 联网 Test 包已备妥，公网 TLS、入站与反馈验收等待所有者侧配置。
+独立公网 8443 已通过受限验收。macOS 联网 Test 包两次收到同一合成事件的回执，SQLite 只存一条；删除确认后已查不到该行。该入口仅允许验收来源的单一 IPv4。
 [交接与部署](distribution/feedback-connectivity.md) · [实测证据](verification/20261122-feedback-connectivity/README.md)。
 
 ## 2026-11-16 · v0.6.0 双版本交付完成

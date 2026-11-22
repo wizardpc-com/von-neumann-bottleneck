@@ -6,13 +6,13 @@
 
 A construction and optimization puzzle about computers and the data they move. Start with logic gates and registers, build a small computer, then explore caches, buffering, prefetching and memory layout. Wire it up, watch it run, compare the results and find your own solution.
 
-**Current source: laboratory journey · 60 tasks · Offline feedback · Chinese and English**
+**Laboratory journey · 60 tasks · Chinese and English**
 
-**Delivery (2026-11-16): v0.6.0 Game / Test Edition** provides four same-source Windows x86_64 / universal macOS archives, one bright laboratory and dark terminal, replaceable branding and isolated edition saves. [Package identities, SHA-256 and acceptance limits](docs/verification/20261116-final-product/README.md). No new public GitHub Release was created; the links below remain the earlier public playtest.
+**Latest public playtest (2026-11-22):** [v0.6.1-playtest.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) is a prerelease with Game and Test ZIPs for Windows x64 and macOS Universal. Choose **Game** for normal progression. You can play offline and choose whether to send feedback. **Test** uses a separate save and captures screenshots and context offline. [Checksums and verification scope](docs/verification/20261122-public-release/README.md).
 
-**Public playtest (2026-10-24):** [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) includes **Windows x86_64 and universal macOS (Intel / Apple Silicon)** packages, the complete sixty-task journey, laboratory, handbook, four cinematics and recent recovery/localization fixes. No Godot installation, account or network is required. Game is the default; Test results remain separate. Windows exported-binary checks passed; Mac structure/hashes were checked, with native Mac acceptance still open. The competition package remains frozen separately. [Build and verification](docs/verification/20261024-desktop-release/README.md).
+**Historical builds:** [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) was the October 24 offline playtest. Earlier downloads include the [October 17 offline Windows build](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) and [Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1). The [November 16 v0.6.0 delivery](docs/verification/20261116-final-product/README.md) has its own verification record.
 
-**[⬇️ Download the Windows / macOS offline playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4)** · [Historical Windows offline build (2026-10-17)](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.3-offline.1) · [Earlier Windows/macOS Alpha1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.1) · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
+**[⬇️ Download the Windows / macOS playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)** · [All releases](https://github.com/wizardpc-com/von-neumann-bottleneck/releases)
 
 **Topics:** computer architecture · data movement · cache and locality · buffering and prefetching · memory layout · educational puzzle
 
@@ -20,11 +20,11 @@ A construction and optimization puzzle about computers and the data they move. S
 
 *All four images show the Chinese UI, recorded during development on October 21–23, 2026 with isolated saves and unchanged pixels. They are not fresh Alpha4 binary captures or a complete newcomer playthrough. [Image sources and scope](docs/images/player-guide/README.md).*
 
-**Earlier Alpha (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The historical October 17 Windows build is `v0.5.0-alpha.3-offline.1`; current packages for both platforms are in Alpha4 above.
+**Earlier Alpha (2026-09-18):** `v0.5.0-alpha.1` contains five regions, 40 tasks, and Windows / macOS builds. The historical October 17 Windows build is `v0.5.0-alpha.3-offline.1`.
 
-**Historical journey candidate (2026-10-18):** PR #10 is merged into `main` (`bf8f616`). Product source `5bd3792b022e` on `codex/journey-final-candidate-20261018` retains all60 tasks, bilingual context, interactive rules, the earned-record journal, optional3D observatory and read-only original-work review. Chapter2 now shows the actual run's cycles, target margin and fetch-evidence entry; the first earned result has a replaceable temporary scene image. Ordinary progression and all-entrance testing use separate profiles; access grants no completion. This historical Windows pair was not independently published; the current dual-platform download is Alpha4 above. [New packages, change images and verification scope](docs/verification/20261018-journey-final/README.md) · [Next-day playtest and handoff](docs/development/night-handoff-20261018.md) · [Current status](docs/CURRENT_STATE.md).
+**Historical journey candidate (2026-10-18):** PR #10 is merged into `main` (`bf8f616`). Product source `5bd3792b022e` on `codex/journey-final-candidate-20261018` retains all60 tasks, bilingual context, interactive rules, the earned-record journal, optional3D observatory and read-only original-work review. Chapter2 now shows the actual run's cycles, target margin and fetch-evidence entry; the first earned result has a replaceable temporary scene image. Ordinary progression and all-entrance testing use separate profiles; access grants no completion. This historical Windows pair was not independently published. [New packages, change images and verification scope](docs/verification/20261018-journey-final/README.md) · [Next-day playtest and handoff](docs/development/night-handoff-20261018.md) · [Current status](docs/CURRENT_STATE.md).
 
-[Download playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
+[Download playtest](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) · [What's changed](CHANGELOG.md#english) · [Current build and verification](docs/CURRENT_STATE.md) · [Getting started](#getting-started) · [Report an issue](https://github.com/wizardpc-com/von-neumann-bottleneck/issues)
 
 The earlier fixed7c night candidate's engineering handoff includes its Windows packages and scoped native wiring/restart observations; see the [historical7c record](docs/verification/20261018-night-experience/README.md). Newcomer understanding, final art/narrative judgement and broader platform acceptance remain open.
 
@@ -90,7 +90,7 @@ See the [maintenance guide](docs/development/final-maintenance.md) for extending
 
 ## Getting started
 
-**Windows / macOS offline playtest:** open [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4), download the ZIP for your platform and fully extract it. Run `Windows/Von-Neumann-Bottleneck.exe` on Windows or `macOS/Von-Neumann-Bottleneck.app` on Mac. The runtime is included; Godot is not required.
+**Windows / macOS:** Open [v0.6.1-playtest.1](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1), download the **Game** ZIP for your platform and extract it in full. Run the included `.exe` on Windows or open the `.app` on Mac. Godot is bundled. Choose the separate **Test** ZIP for task access and offline capture.
 
 [Claude development handoff and unmet requirements](docs/development/CLAUDE_HANDOFF_20261018.md)
 
@@ -120,11 +120,11 @@ The default interface language is Simplified Chinese. Use **EN / 中文 in the a
 godot --path . -- --locale=en
 ```
 
-### Public Alpha and platforms
+### Public playtest and platforms
 
-The public dual-platform playtest is [v0.5.0-alpha.4](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4), fixed source `2c4a9d8bdf13`, with build metadata and SHA256 hashes. It uses the stable CloudPlaytest profile, separate from the October 17 OfflineTeammate profile, with no automatic migration. The Mac app is unnotarized and native Mac acceptance remains open. [Release verification and limits](docs/verification/20261024-desktop-release/README.md).
+The [current public prerelease](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) includes four ZIPs and `SHA256SUMS.txt`. Game and Test keep separate saves. The [Alpha4 release](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.5.0-alpha.4) remains available for players using its historical CloudPlaytest profile. [Current release verification and limits](docs/verification/20261122-public-release/README.md).
 
-Extract the Mac ZIP and open the `.app`, or extract the Windows ZIP and run the `.exe`; Godot is not required. The macOS build is ad-hoc signed and not notarized. The Windows build is published, but native Windows validation is still more limited. Alpha-stage platform compatibility issues may remain, so bug reports are welcome on GitHub Issues.
+The macOS app is ad-hoc signed and unnotarized. The Windows EXE is unsigned. Automated package checks passed on both platforms. Windows desktop interaction, Intel Mac execution, and first launch after downloading on another machine remain unverified.
 
 To build Mac and Windows candidates from one commit, follow the [candidate build guide](docs/distribution/free-alpha.md). Each frozen commit receives its own build identity.
 

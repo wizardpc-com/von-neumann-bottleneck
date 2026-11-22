@@ -4,6 +4,14 @@
 
 ## 简体中文
 
+### v0.6.1-playtest.1 · 2026-11-22 · 公开预发行版
+
+- Game 按正常进度解锁。任务尚未完成也可点「反馈」或按 F8，选择保存到本机或主动发送。自动统计单独选择，意见送达后显示回执。
+- Test 使用独立存档，开放任务入口，可用 F8 离线记录截图和现场，再导出 ZIP。
+- 随包说明勘误：「离线反馈历史」适用于 Test。Game 可恢复本机意见草稿。
+- 半加器显示实测与期望，缓存任务可定位同一行的重复取数，创造工作台可从最近两次不同配方的结果中选择并保存作品。
+- Windows x64 与 macOS Universal 各有 Game 和 Test 包。[下载预发行版](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) · [四包校验与验收范围](docs/verification/20261122-public-release/README.md)。
+
 ### 2026-11-22 · 内部试玩改进
 
 - 半加器现在并列显示实际与期望输出；正式用例播放时，测试台显示该用例的 A/B。改线后可重新调试，再决定是否运行全套测试。
@@ -160,6 +168,14 @@ Windows 实机、另一台 Mac 安装／公证、外部新手及长时间 DPI／
 README 改为中文首页与独立英文页，更新五区域介绍、运行方法、平台状态和反馈说明；用当前源码的中英文首页／任务树配图替换旧版配图。新增本页供玩家查看版本变化，开发证据继续由 [CURRENT_STATE](docs/CURRENT_STATE.md) 汇总。
 
 ## English
+
+### v0.6.1-playtest.1 · 2026-11-22 · Public prerelease
+
+- Game keeps normal progression. Open Feedback or press F8 during an unfinished task to keep a note locally or send it. Automatic statistics are optional. A receipt confirms delivery.
+- Test uses a separate save, opens task entrances, and captures screenshots and context offline with F8 for ZIP export.
+- Bundled changelog correction. Offline capture history applies to Test. Game can restore local opinion drafts.
+- Half Adder shows actual and expected outputs, the cache task locates repeated fetches of the same line, and the creation workbench lets players keep a result from either of two recent recipes.
+- Game and Test are available for Windows x64 and macOS Universal. [Download the prerelease](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1) · [Archive checksums and verification scope](docs/verification/20261122-public-release/README.md).
 
 ### 2026-11-22 · Internal playtest improvements
 

@@ -1,6 +1,6 @@
 # 玩家体验与反馈改进 · 2026-11-22
 
-本轮验收针对不同时间取得的隔离源码副本。[集成记录](../../exec-plans/active/20261122-player-experience.md)
+本轮验收针对不同时间取得的隔离源码副本。[集成记录](../../exec-plans/completed/20261122-player-experience.md)
 确认首轮内部基线已推送至 `main`，提交 `4f7aafc51c2db94588248a133d339af2c076091c`，
 当时本地与远端一致，纳入的运行时、脚本和回归与早期 313 阶段快照逐文件匹配。
 [同日冻结的四包](../20261122-player-release/README.md)仍来自

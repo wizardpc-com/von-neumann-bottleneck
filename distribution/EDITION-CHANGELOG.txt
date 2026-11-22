@@ -11,8 +11,8 @@
   Creation: When the last two runs use different recipes with the same model and fork parent, you can choose either result to name. Keep saves its output and recipe for replay. The newer draft stays editable.
 - 第七章预测历史：回看记录时，时间线显示原任务和记录编号。从当前草稿揭示下一条请求，时间线就切回本次观察。
   Chapter 7 prediction history: Reviewing a run shows its original task and record number on the timeline. Revealing a request from the current draft switches the timeline back to live observation.
-- 离线反馈历史：重新打开一条现场记录，可查看当时的意见、任务和构建版本。切换中英文会保留选中的记录。
-  Offline feedback history: Reopen a capture to see its note, task, and original build version. Switching languages keeps that capture selected.
+- Test 版离线反馈历史：重新打开一条现场记录，可查看当时的意见、任务和构建版本。切换中英文会保留选中的记录。
+  Test Edition offline feedback history: Reopen a capture to see its note, task, and original build version. Switching languages keeps that capture selected.
 
 内容与外观 / Content and presentation
 - 统一明亮温润的实验室与深色计算终端，接入可替换的 VNB 品牌标志及平台图标。

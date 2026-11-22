@@ -1,15 +1,20 @@
 ## 当前分发判断 · 2026-11-22
 
-用户已将 `66e1bf0` 的四个离线包定为内部回退基线。新版源码与线上反馈接入分别验收；本轮的工作区改进尚未形成可交付的新包。
+`v0.6.1-playtest.1` 已于 2026-11-22 15:21:01 UTC 发布为公开预发行版。发布标签指向 `c4a09364748410370d605e55e610943b5c69a72b`，线上独立 VNB 接收器已加固至 `a9e8cae1cce98e349d60ae623e8205ed8d902c00`。用户已授权并完成 Ray VPS 现有 VNB TCP 8443 对全部 IPv4 的放行，其他 4 条规则保持原样。[公开发布](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)。
 
 | 玩家或维护者需要完成的事 | 当前门禁 |
 | --- | --- |
-| 从教程进入独立谜题，读懂失败并修正，再用已做出的元件完成下一步 | 检查最新源码的半加器实测与期望、正式用例输入和改线后重新调试。首次玩家独立完成仍待观察。 |
-| 在章节里尝试不同策略，看到差别并保留自己的选择 | 核对第 1 章自定义工作负载的调试判词、第 2 章同一缓存行重复取数、第 7 章历史记录归属与创造作品选择。以对应路径的实际画面和测量结果为据。 |
-| 从未完成的任务提交意见，断网后继续游玩，重启后查到真实回执 | 工作区已有表单、队列和独立试用配置。新版本的隔离实测与最终平台实包需分别记录。已验收的公网入口只允许指定来源的合成测试；真人说明页目前只在仓库准备。 |
-| 在目标电脑下载并启动，跨会话保存与恢复 | 继续按 Game/Test 与真实玩家/合成 QA 各自隔离。需以实际新包核对 Windows 原生、macOS、首次下载提示及保存；签名、公证和其他机型按实际证据披露。 |
+| 从未完成任务保存或发送意见，断网后重启查看回执 | 源码定向与双语图形通过，Mac Game 实包分档完成纯本机重启和合成回环发送、回执、去重与删除。VPS 专用演练库通过闭环和回退，正式库起始为空。 |
+| 从一般玩家网络打开反馈说明和接收端 | **外网只读通过。** 首轮核对 TLS、健康、两份隐私页哈希与拒绝路径。加固切换后，GitHub 外网只读作业复跑通过。[首次外网作业](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45031785575/job/137236760014) · [加固后复验](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45031785575/attempts/2)。 |
+| 在目标系统启动实际候选包并恢复进度或现场 | **四包通过平台实包验收。** Mac 两版使用隔离窗口运行，Game 日志保留退出前 `data.tree` 和退出时 GLES3 诊断。Windows 两版由托管机自动化无头运行并验证重启和反馈记录。Windows 图形交互、Intel Mac 和下载异机首启待验。[Windows 作业](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45031785575/job/137236759576)。 |
+| 全量冻结 CI | **通过。** `c4a09364` 的 Godot 313/313 阶段和 Python 12/12 门禁均通过。[冻结工作流 45029324641](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45029324641/attempts/1)。 |
+| VNB 正式环境加固 | **主机验收通过。** 1 GiB 正式库、3 GiB 运维卷，实际 UID 验证最小权限、限额跟随重挂载及 I/O 归属。原数据库与备份保留，恢复逻辑一致，10 个受保护单元快照一致。私有主机收据见 `.godot/vps-release-execution/hardening/a9e8cae1/OUTCOME.md`。 |
+| 发布前 `main` 与维护测试 | **通过。** `82365914` 的 Godot 313/313 阶段、Python 13/13 门禁通过，含先前失败的 Ubuntu `server/test_maintenance.py`。[全量复验](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45034307120/attempts/1)。 |
+| 公开下载 | **已发布并核验。** 无认证 API 确认公开预发行状态，四个 ZIP 的匿名 Range 读取通过，校验文件字节与本地一致，GitHub 摘要匹配冻结清单。 |
 
-[当前验收计划](docs/exec-plans/active/20261122-player-experience.md) · [反馈上线边界](docs/development/PLAYER_FEEDBACK_ROLLOUT.md) · [内部基线](docs/verification/20261122-player-release/README.md)
+首次玩家独立理解和长时游玩留待真人试玩观察。内部回退包与历史验收仍按各自源码保留。
+
+[公开发布证据](docs/verification/20261122-public-release/README.md) · [已完成计划](docs/exec-plans/completed/20261122-player-experience.md) · [反馈上线边界](docs/development/PLAYER_FEEDBACK_ROLLOUT.md) · [内部基线](docs/verification/20261122-player-release/README.md)
 
 ## Product closeout · 2026-11-16
 

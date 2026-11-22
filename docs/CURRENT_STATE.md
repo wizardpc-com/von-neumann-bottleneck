@@ -1,16 +1,28 @@
 ## 当前分发判断
 
-用户在四包验证后明确指出当前版本尚不适合分发给玩家。下列 Players20261122 包作为内部稳定基线保留。下一版优先改善首个独立谜题、章节探索反馈、游戏内意见送达与恢复；以玩家路径的实际验证和后续集成判断分发时机。[推进计划](exec-plans/active/20261122-player-experience.md)。
+`v0.6.1-playtest.1` 于 2026-11-22 15:21:01 UTC 发布为 GitHub 公开预发行版，提供 Windows x64／macOS Universal 的 Game 和 Test 四包及校验文件。标签指向 `c4a09364748410370d605e55e610943b5c69a72b`，批次 `Players061-Release1`。Game 使用正常进度，可从未完成任务保存本机意见或主动发送，自动统计单独选择。Test 独立存档，开放任务入口并提供离线现场历史与 ZIP 导出。随包更新说明中的「离线反馈历史」适用于 Test，Game 可恢复本机意见草稿。Alpha4 为历史公开试玩。[当前公开下载](https://github.com/wizardpc-com/von-neumann-bottleneck/releases/tag/v0.6.1-playtest.1)。
 
-## 2026-11-22 · 玩家试玩包
+源码定向与双语图形检查通过。四个冻结包均通过平台实包验收。Mac 两版使用隔离窗口运行，Game 另走通回环发送、重启回执和删除，日志保留退出前 `data.tree` 与退出时 GLES3 诊断。Windows 两版在 GitHub 托管机通过自动化无头启动、重启及反馈持久化验证。
 
-从既有提交 `66e1bf0` 导出了 v0.6.0 Game/Test 的 Windows 和 macOS 四包，批次 Players20261122。重度试玩使用 Test，可跨会话记录现场并一次导出反馈。当前工作区改进将在后续集成后进入新包。文件名、校验值、验收范围和反馈导入步骤见[受控试玩交付](verification/20261122-player-release/README.md)。
+专用 VNB 反馈在既有 `/32` 完成演练并切换至空正式库。经用户授权，Ray VPS 只将现有 VNB TCP 8443 规则扩至全部 IPv4，其他 4 条规则保持原样。放行后主机只读复核为 0 客户端／0 事件／0 删除墓碑，10 个受保护单元快照与基线一致。GitHub 外网只读作业也已通过，包括两份隐私页哈希。Windows 作业用于下载草稿资产的两个临时 secrets 已删除，并重新确认均已不存在。[通过记录 45031785575](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45031785575/attempts/1)。
+
+冻结源码 `c4a09364` 全量 CI 通过，Godot 313/313 阶段与 Python 12/12 门禁均通过。[冻结工作流 45029324641](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45029324641/attempts/1)。
+
+VNB 加固版 `a9e8cae1cce98e349d60ae623e8205ed8d902c00` 已上线。专用卷为 1 GiB 正式库和 3 GiB 运维，切换后根文件系统可用 29.96 GiB。实际 UID 验证重挂载后 I/O 归属与设备限额、接收器无法访问备份、非 root 维护对 DB/WAL 的只读访问。原数据库和备份已保留，恢复逻辑状态一致，10 个受保护单元快照一致。主机收据见 `.godot/vps-release-execution/hardening/a9e8cae1/OUTCOME.md`。[外网复验 45031785575 第 2 次](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45031785575/attempts/2)已通过。
+
+发布前 `main` 的 `82365914` 全量 CI 通过，Godot 313/313 阶段与 Python 13/13 门禁均通过，含服务端 Ubuntu 维护测试复验。Windows 桌面交互、Intel Mac、异机下载首启及真人长时试玩仍待观察。[发布前工作流 45034307120](https://github.com/wizardpc-com/von-neumann-bottleneck/actions/runs/45034307120/attempts/1)。
+
+[四包校验与验收边界](verification/20261122-public-release/README.md) · [已完成计划](exec-plans/completed/20261122-player-experience.md)。
+
+## 2026-11-22 · 内部试玩基线
+
+从既有提交 `66e1bf0` 导出了 v0.6.0 Game/Test 的 Windows 和 macOS 四包，批次 Players20261122。重度试玩使用 Test，可跨会话记录现场并一次导出反馈。该批次与 `2f20cef2` 各批次均为内部基线。文件名、校验值、验收范围和反馈导入步骤见[受控试玩交付](verification/20261122-player-release/README.md)。
 
 ## 2026-11-22 · 反馈接入
 
 macOS Test Edition 已经由 SSH 转发完成合成意见的 HTTPS 提交、游戏回执、
 同 ID SQLite 读回与在线删除。staging 采用独立数据库和 systemd 单元。
-独立公网 8443 已通过受限验收。macOS 联网 Test 包两次收到同一合成事件的回执，SQLite 只存一条；删除确认后已查不到该行。该入口仅允许验收来源的单一 IPv4。
+独立公网 8443 完成当时的 `/32` 受限验收。macOS 联网 Test 包两次收到同一合成事件的回执，SQLite 只存一条；删除确认后已查不到该行。
 [交接与部署](distribution/feedback-connectivity.md) · [实测证据](verification/20261122-feedback-connectivity/README.md)。
 
 ## 2026-11-16 · v0.6.0 双版本交付完成
@@ -1238,8 +1250,8 @@ Historical implementation and verification retain their build attribution; delet
 instructions remain recoverable from Git. Runtime, model/save contracts, constitution,
 tests and frozen packages are unchanged by this documentation cleanup.
 
-## 2026-11-22 · 玩家体验改进版已冻结并完成本地导出
+## 2026-11-22 · 玩家体验改进的内部六包
 
-`v0.6.1-playtest.1` 冻结于 `2f20cef2`。本轮纳入半加器改线后重新调试、第一章恢复正式比较、第二章定位重复取数、创造作品选择与草稿保护，以及预测和反馈历史的来源显示。Game、离线 Test、Test Pilot 各有 Windows 和 macOS 两个 ZIP，六份文件的字节数、SHA-256 与各自清单一致。[冻结包清单](verification/20261122-player-experience/packages.md) · [分阶段回归](verification/20261122-player-experience/README.md)
+内部批次使用版本名 `v0.6.1-playtest.1`，冻结于 `2f20cef2`。本轮纳入半加器改线后重新调试、第一章恢复正式比较、第二章定位重复取数、创造作品选择与草稿保护，以及预测和反馈历史的来源显示。Game、离线 Test、Test Pilot 各有 Windows 和 macOS 两个 ZIP，六份文件的字节数、SHA-256 与各自清单一致。[冻结包清单](verification/20261122-player-experience/packages.md) · [分阶段回归](verification/20261122-player-experience/README.md)
 
 当前用途为内部验证。Windows 原生操作、异机下载首启、真人试玩，以及从获准网络完成 Wave1 意见发送、查收与删除，仍需分别验收。

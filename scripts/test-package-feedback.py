@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Portable package-layout and private-report smoke checks; no Godot process."""
-from contextlib import closing
+from contextlib import closing, redirect_stdout
 from datetime import datetime, timedelta, timezone
 import hashlib
 import importlib.util
+import ipaddress
+import io
 import json
 import os
 from pathlib import Path
@@ -327,16 +329,55 @@ class WindowsReleaseTests(unittest.TestCase):
 
         def record(command, **options):
             commands.append(command)
-            if 'Install' in command:
+            if 'Install' in command and 'IPv6' in command:
                 raise subprocess.CalledProcessError(1,command)
+            return SimpleNamespace(stdout=json.dumps(list(WINDOWS.BLOCKED_PREFIXES['IPv4'])))
 
         with mock.patch.object(WINDOWS.subprocess,'run',side_effect=record):
             with self.assertRaises(subprocess.CalledProcessError):
-                with WINDOWS.guarded_binary(self.work/'candidate.exe'):
+                with WINDOWS.guarded_binary(self.work/'candidate.exe','game'):
                     self.fail('A binary cannot launch after failed firewall verification')
-        self.assertIn('Install',commands[0])
-        self.assertIn('Remove',commands[1])
-        self.assertEqual(commands[0][-3],commands[1][-3])
+        self.assertEqual([(c[c.index('-Operation')+1],c[c.index('-Family')+1]) for c in commands],
+                         [('Install','IPv4'),('Install','IPv6'),('Remove','IPv6'),('Remove','IPv4')])
+        self.assertEqual(len({c[c.index('-Rule')+1] for c in commands}),1)
+
+    def test_firewall_filters_cover_every_nonloopback_ipv4_and_all_ipv6(self):
+        v4=tuple(map(ipaddress.ip_network,WINDOWS.BLOCKED_PREFIXES['IPv4']))
+        v6=tuple(map(ipaddress.ip_network,WINDOWS.BLOCKED_PREFIXES['IPv6']))
+        self.assertEqual(sum(item.num_addresses for item in v4),2**32-2**24)
+        self.assertTrue(all(not item.overlaps(ipaddress.ip_network('127.0.0.0/8')) for item in v4))
+        self.assertEqual(sum(item.num_addresses for item in v6),2**128)
+        WINDOWS.verify_firewall_coverage('IPv4',[item.with_netmask for item in v4])
+        WINDOWS.verify_firewall_coverage('IPv6',['::/0'])
+        with self.assertRaises(ValueError):
+            WINDOWS.verify_firewall_coverage('IPv4',[str(item) for item in v4[1:]])
+        with self.assertRaises(ValueError):
+            WINDOWS.verify_firewall_coverage('IPv6',['::/1'])
+        with self.assertRaises(ValueError):
+            WINDOWS.verify_firewall_coverage('IPv4',['0.0.0.0/0'])
+
+    def test_phase_diagnostics_keep_steps_and_errors_without_credentials(self):
+        value=WINDOWS.phase_diagnostics(
+            'VNB_WINDOWS_QA: fixture ready\nignored raw payload\n'
+            'ERROR: https://example.test/object?sig=opaque Bearer opaque\n'
+            'SCRIPT ERROR: deletion_token="opaque"')
+        self.assertIn('fixture ready',value)
+        self.assertIn('SCRIPT ERROR:',value)
+        self.assertNotIn('opaque',value)
+        self.assertNotIn('ignored raw payload',value)
+
+    def test_timed_out_phase_prints_only_redacted_diagnostics_and_removes_override(self):
+        binary=self.work/'candidate.exe'
+        output=io.StringIO()
+        sample=b'VNB_WINDOWS_QA: fixture entered\nERROR: https://example.test/object?sig=opaque\n'
+        error=subprocess.TimeoutExpired([str(binary)],90,output=sample)
+        with mock.patch.object(WINDOWS.subprocess,'run',side_effect=error), redirect_stdout(output):
+            with self.assertRaisesRegex(RuntimeError,'game write timed out'):
+                WINDOWS.verify_phase(binary,self.work/'probe.tscn',self.work/'profile',self.work,
+                    {'qa_dir':'qa','edition':'game'},'http://127.0.0.1:12345','write',{})
+        self.assertIn('fixture entered',output.getvalue())
+        self.assertNotIn('opaque',output.getvalue())
+        self.assertFalse((self.work/'override.cfg').exists())
 
     def test_game_override_uses_only_localhost_without_changing_edition_profile(self):
         path=self.work/'override.cfg'

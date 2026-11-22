@@ -33,6 +33,7 @@ func matches_engine(expected: String) -> bool:
 
 
 func run() -> void:
+	print("VNB_WINDOWS_QA: probe scene started")
 	var raw: Variant = JSON.parse_string(str(ProjectSettings.get_setting("windows_release_qa/configuration", "")))
 	if not raw is Dictionary:
 		push_error("Missing isolated hosted QA configuration.")
@@ -85,6 +86,7 @@ func run() -> void:
 	if not failures.is_empty():
 		finish(user_dir)
 		return
+	print("VNB_WINDOWS_QA: isolated profile, identity and edition policy verified")
 
 	var save: Node = get_node("/root/GlobalSave")
 	var workbench_path: String = absolute(save.workbench_storage_path)
@@ -117,6 +119,7 @@ func run() -> void:
 	if not failures.is_empty():
 		finish(user_dir)
 		return
+	print("VNB_WINDOWS_QA: workbench file and local feedback session verified")
 	if test:
 		await offline_feedback(offline, previous)
 	else:
@@ -126,6 +129,7 @@ func run() -> void:
 
 
 func offline_feedback(offline: Node, previous: Dictionary) -> void:
+	print("VNB_WINDOWS_QA: checking offline capture and local bundle")
 	if config.phase == "write":
 		check(offline.store.cases().is_empty(), "The offline case store starts empty.")
 		offline.open_for_task(str(CHAPTER), str(LEVEL))
@@ -154,6 +158,7 @@ func offline_feedback(offline: Node, previous: Dictionary) -> void:
 
 
 func online_feedback(remote: Node, previous: Dictionary) -> void:
+	print("VNB_WINDOWS_QA: checking unfinished task opinion with loopback fixture")
 	var moments: Node = get_node("/root/PlaytestMoments")
 	moments.open_for_task(str(CHAPTER), str(LEVEL))
 	await get_tree().process_frame

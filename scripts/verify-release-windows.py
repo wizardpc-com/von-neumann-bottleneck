@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 from http.client import HTTPConnection, HTTPSConnection, HTTPException
 import importlib.util
+import ipaddress
 import json
 import os
 from pathlib import Path
@@ -33,6 +34,11 @@ PUBLIC_ORIGIN = 'https://feedback.yanruiqing.com:8443'
 ASSET_HOSTS = {'release-assets.githubusercontent.com', 'objects.githubusercontent.com'}
 ASSET_PATTERN = r'Von-Neumann-Bottleneck-Windows-[A-Za-z0-9.-]+\.zip'
 CAPABILITY_SECRETS = {'game':'VNB_WINDOWS_DRAFT_GAME_URL','test':'VNB_WINDOWS_DRAFT_TEST_URL'}
+BLOCKED_PREFIXES = {
+    'IPv4': tuple(str(prefix) for prefix in ipaddress.ip_network('0.0.0.0/0').address_exclude(
+        ipaddress.ip_network('127.0.0.0/8'))),
+    'IPv6': ('::/1','8000::/1'),
+}
 
 
 def sha256(path):
@@ -60,12 +66,14 @@ def pinned(value, pattern, label):
 def gh_get(path, accept='application/vnd.github+json', destination=None, missing_ok=False):
     command = ['gh', 'api', '--method', 'GET', '--hostname', 'github.com',
                '-H', 'Accept: ' + accept, '-H', 'X-GitHub-Api-Version: 2022-11-28', path]
+    environment = {key:value for key,value in os.environ.items() if key!='GH_DEBUG'}
+    environment['GH_PROMPT_DISABLED']='1'
     if destination is not None:
         with destination.open('xb') as stream:
             result = subprocess.run(command + ['--allow-escape-sequences'], stdout=stream,
-                                    stderr=subprocess.PIPE, timeout=300)
+                                    stderr=subprocess.PIPE, timeout=300, env=environment)
     else:
-        result = subprocess.run(command, capture_output=True, timeout=45)
+        result = subprocess.run(command, capture_output=True, timeout=45, env=environment)
     if result.returncode:
         error = result.stderr.decode('utf-8', errors='replace').strip()
         if missing_ok and 'HTTP 404' in error:
@@ -255,15 +263,47 @@ def unpack(archive, destination, role, identity):
     return destination/leaf, manifest
 
 
+def verify_firewall_coverage(family, addresses):
+    version = 4 if family=='IPv4' else 6
+    networks = []
+    if not isinstance(addresses,list) or not addresses:
+        raise ValueError(f'Missing active {family} firewall address filter')
+    for address in addresses:
+        if not isinstance(address,str):
+            raise ValueError(f'Invalid active {family} firewall address filter')
+        if '-' in address:
+            first,last=map(str.strip,address.split('-',1))
+            networks.extend(ipaddress.summarize_address_range(ipaddress.ip_address(first),ipaddress.ip_address(last)))
+        else:
+            networks.append(ipaddress.ip_network(address.strip(),strict=False))
+    expected = ipaddress.collapse_addresses(map(ipaddress.ip_network,BLOCKED_PREFIXES[family]))
+    if any(network.version!=version for network in networks) or set(ipaddress.collapse_addresses(networks))!=set(expected):
+        raise ValueError(f'Active {family} firewall filter differs from the required address coverage')
+
+
 @contextmanager
-def guarded_binary(binary):
-    rule = 'VNBReleaseQA-' + uuid.uuid4().hex
+def guarded_binary(binary, role):
+    rule = f'VNBReleaseQA-{role}-' + uuid.uuid4().hex
     command = ['powershell.exe','-NoProfile','-NonInteractive','-File',str(SCRIPTS/'windows-release-firewall.ps1')]
+    rules=[]
     try:
-        subprocess.run(command+['-Operation','Install','-Rule',rule,'-Program',str(binary)],check=True,timeout=60)
+        for family, prefixes in BLOCKED_PREFIXES.items():
+            options=['-Rule',rule,'-Program',str(binary),'-Family',family,'-AddressCsv',','.join(prefixes)]
+            rules.append(options)
+            installed=subprocess.run(command+['-Operation','Install']+options,check=True,timeout=60,
+                                     stdout=subprocess.PIPE,text=True)
+            verify_firewall_coverage(family,json.loads(installed.stdout))
+        print(f'Windows QA {role}: active IPv4 non-loopback and all IPv6 outbound blocks verified',flush=True)
         yield
     finally:
-        subprocess.run(command+['-Operation','Remove','-Rule',rule,'-Program',str(binary)],check=True,timeout=60)
+        cleanup_failure=None
+        for options in reversed(rules):
+            try:
+                subprocess.run(command+['-Operation','Remove']+options,check=True,timeout=60)
+            except (subprocess.CalledProcessError,subprocess.TimeoutExpired) as error:
+                cleanup_failure=error
+        if cleanup_failure:
+            raise RuntimeError(f'Failed to remove a {role} firewall rule from the disposable runner') from cleanup_failure
 
 
 def runner_environment(runtime):
@@ -289,26 +329,51 @@ def write_override(path, scene, profile_dir, output, expected, endpoint, phase):
     path.write_text(config,encoding='utf-8')
 
 
+def phase_diagnostics(text):
+    lines = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line.startswith(('Godot Engine v','VNB_WINDOWS_QA:','SCRIPT ERROR:','ERROR:','FAIL:','at:','[0]','[1]')):
+            continue
+        line = re.sub(r'https?://[^\s"<>]+','[redacted URL]',line,flags=re.I)
+        line = re.sub(r'\b(?:Bearer|Basic)\s+[A-Za-z0-9_.+/=-]+','[redacted authorization]',line,flags=re.I)
+        line = re.sub(r'\b(?:client_id|deletion_token|gh_token|authorization|sig)\b["\']?\s*[:=]\s*["\']?[^\s,"\'}]+',
+                      '[redacted credential]',line,flags=re.I)
+        if line not in lines:
+            lines.append(line)
+    return '\n'.join(lines[-30:])
+
+
 def verify_phase(binary, scene, profile_dir, work, expected, endpoint, phase, env):
     override=binary.parent/'override.cfg'
     if override.exists():
         raise ValueError('Unexpected executable override before launch')
     log=work/(phase+'.engine.log')
     write_override(override,scene,profile_dir,work,expected,endpoint,phase)
+    def collect(stdout,stderr):
+        text=''.join(value.decode('utf-8',errors='replace') if isinstance(value,bytes) else value or ''
+                     for value in (stdout,stderr))
+        (work/(phase+'.log')).write_text(text,encoding='utf-8')
+        if log.exists():
+            text+='\n'+log.read_text(encoding='utf-8',errors='replace')
+        return text
+
     try:
-        process=subprocess.run([str(binary),'--headless','--log-file',str(log),'--',
-                                '--enable-playtest-feedback','--playtest-source=automated'],
-                               cwd=binary.parent,env=env,capture_output=True,text=True,encoding='utf-8',
-                               errors='replace',timeout=90)
+        print(f'Windows QA {expected["edition"]}: starting {phase} in the isolated profile',flush=True)
+        try:
+            process=subprocess.run([str(binary),'--headless','--log-file',str(log),'--',
+                                    '--enable-playtest-feedback','--playtest-source=automated'],
+                                   cwd=binary.parent,env=env,capture_output=True,text=True,encoding='utf-8',
+                                   errors='replace',timeout=90)
+        except subprocess.TimeoutExpired as error:
+            print(phase_diagnostics(collect(error.stdout,error.stderr)),flush=True)
+            raise RuntimeError(f'{expected["edition"]} {phase} timed out') from None
     finally:
         override.unlink(missing_ok=True)
-    stdout=process.stdout+process.stderr
-    (work/(phase+'.log')).write_text(stdout,encoding='utf-8')
-    if log.exists():
-        stdout+='\n'+log.read_text(encoding='utf-8',errors='replace')
+    stdout=collect(process.stdout,process.stderr)
     errors=[line for line in stdout.splitlines() if 'ERROR:' in line and 'root certificate store' not in line]
     if process.returncode or errors or f'PASS: Windows release {phase}' not in stdout:
-        print('\n'.join(errors[:12]),flush=True)
+        print(phase_diagnostics(stdout),flush=True)
         raise RuntimeError(f'{expected["edition"]} {phase} failed (exit {process.returncode})')
     report=read_json(work/(phase+'.json'))
     if (report.get('passed') is not True or report.get('phase')!=phase
@@ -398,7 +463,7 @@ def verify(work):
                                          'build_id','save_profile','engine')}
         expected['qa_dir']=qa_dir
         try:
-            with guarded_binary(binary):
+            with guarded_binary(binary,role):
                 if role == 'game':
                     with socket.socket() as reservation:
                         reservation.setsockopt(socket.SOL_SOCKET,socket.SO_EXCLUSIVEADDRUSE,1)
